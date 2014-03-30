@@ -50,6 +50,11 @@ _.each({one: 1, two: 2, three: 3}, alert);
 */
     @Test
     public void eachMap() {
+        _.<Map.Entry<String,Integer>>each(new LinkedHashMap<String, Integer>() {{ put("one", 1); put("two", 2); put("three", 3); }}.entrySet(),
+            new Block<Map.Entry<String,Integer>>() {
+            public void apply(Map.Entry<String,Integer> item) {
+                System.out.println(item.getKey());
+            }
+        });
     }
-
 }
