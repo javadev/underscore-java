@@ -25,6 +25,7 @@ package com.github.underscore;
 
 import java.util.*;
 import org.junit.Test;
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -41,7 +42,7 @@ _.each([1, 2, 3], alert);
     @Test
     public void each() {
         final List<Integer> result = new ArrayList<Integer>();
-        _.<Integer>each(Arrays.asList(1, 2, 3), new Block<Integer>() {
+        _.<Integer>each(asList(1, 2, 3), new Block<Integer>() {
             public void apply(Integer item) {
                 result.add(item);
             }
@@ -71,7 +72,7 @@ _.map([1, 2, 3], function(num){ return num * 3; });
 */
     @Test
     public void map() {
-        List<Integer> result = _.<Integer, Integer>map(Arrays.asList(1, 2, 3), new Function1<Integer, Integer>() {
+        List<Integer> result = _.<Integer, Integer>map(asList(1, 2, 3), new Function1<Integer, Integer>() {
             public Integer apply(Integer item) {
                 return item * 3;
             }
@@ -102,7 +103,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     @Test
     public void reduce() {
         final Integer result =
-        _.reduce(Arrays.asList(1, 2, 3),
+        _.reduce(asList(1, 2, 3),
             0,
             new Function2<Integer, Integer, Integer>() {
             public Integer apply(Integer item1, Integer item2) {
@@ -110,5 +111,25 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
             }
         });
         assertEquals("6", result.toString());
+    }
+
+/*
+var list = [[0, 1], [2, 3], [4, 5]];
+var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
+=> [4, 5, 2, 3, 0, 1]
+*/
+    @Test
+    public void foldl() {
+        final List<Integer> result =
+        _.foldl(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
+            Collections.<Integer>emptyList(),
+            new Function2<List<Integer>, List<Integer>, List<Integer>>() {
+            public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
+                List<Integer> list = new ArrayList<Integer>(item2);
+                list.addAll(item1);
+                return list;
+            }
+        });
+        assertEquals("[4, 5, 2, 3, 0, 1]", result.toString());
     }
 }
