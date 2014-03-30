@@ -23,15 +23,16 @@
  */
 package com.github.underscore;
 
+import java.util.*;
+
 /**
  * Underscore library in java.
  *
  * @author Valentyn Kolesnikov
  */
 public final class _ {
-    public static void each(Object ... objects) {
-        for (Object object : (int[]) objects[0]) {
-            System.out.println(object);
+    public static <T> void each(final Iterable<T> iterable, final Block<? super T> func) {
+        for (T element : iterable) {
+            func.apply(element);
         }
-    }
-}
+    }}

@@ -32,6 +32,10 @@ import org.junit.Test;
 public class _Test {
     @Test
     public void each() {
-        _.each(new int[] {1, 2, 3});
+        _.<Integer>each(java.util.Arrays.asList(1, 2, 3), new Block<Integer>() {
+            public void apply(Integer item) {
+                System.out.println(item);
+            }
+        });
     }
 }
