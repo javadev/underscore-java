@@ -306,4 +306,47 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
         });
         assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
     }
+
+/*
+_.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
+=> {1: [1.3], 2: [2.1, 2.4]}
+*/
+    @Test
+    public void groupBy() throws Exception {
+        final Map<Double, List<Double>> result =
+        _.groupBy(asList(1.3, 2.1, 2.4),
+            new Function1<Double, Double>() {
+            public Double apply(Double num) {
+                return Math.floor(num);
+            }
+        });
+        assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result.toString());
+    }
+
+/*
+var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+_.indexBy(stooges, 'age');
+=> {
+  "40": {name: 'moe', age: 40},
+  "50": {name: 'larry', age: 50},
+  "60": {name: 'curly', age: 60}
+}
+*/
+    @Test
+    public void indexBy() throws Exception {
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+            public String toString() {
+                return name + ", " + age;
+            }
+        };
+        final Map<String, List<Person>> result =
+        _.indexBy(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)), "age");
+        assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", result.toString());
+    }
 }

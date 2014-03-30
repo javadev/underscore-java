@@ -368,7 +368,7 @@ public final class _ {
     }
 
     public static <K, E> Map<K, List<E>> groupBy(final Iterable<E> iterable, final Function1<E, K> func) {
-        final Map<K, List<E>> retVal = new HashMap<K, List<E>>();
+        final Map<K, List<E>> retVal = new LinkedHashMap<K, List<E>>();
         for (E e : iterable) {
             final K key = func.apply(e);
             List<E> val;
@@ -401,7 +401,7 @@ public final class _ {
     }
 
     public static <K, E> Map<K, Integer> countBy(final Iterable<E> iterable, Function1<E, K> func) {
-        final Map<K, Integer> retVal = new HashMap<K, Integer>();
+        final Map<K, Integer> retVal = new LinkedHashMap<K, Integer>();
         for (E e : iterable) {
             final K key = func.apply(e);
             if (retVal.containsKey(key)) {
