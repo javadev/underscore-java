@@ -290,4 +290,20 @@ _.pluck(stooges, 'name');
         _.pluck(new ArrayList<Person>() {{ add(new Person("moe", 40)); add(new Person("larry", 50)); add(new Person("curly", 40));}}, "name");
         assertEquals("[moe, larry, curly]", result.toString());
     }
+
+/*
+_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
+=> [5, 4, 6, 3, 1, 2]
+*/
+    @Test
+    public void sortBy() throws Exception {
+        final List<Integer> result =
+        _.sortBy(asList(1, 2, 3, 4, 5, 6),
+            new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return Double.valueOf(Math.sin(item) * 1000).intValue();
+            }
+        });
+        assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
+    }
 }
