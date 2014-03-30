@@ -655,6 +655,10 @@ public final class _ {
                     @Override
                     public void apply(T elem) {
                         final List<T> nTuple = index >= zipped.size() ? new ArrayList<T>() : zipped.get(index);
+                        if (index >= zipped.size()) {
+                            zipped.add(nTuple);
+                        }
+                        index += 1;
                         nTuple.add(elem);
                     }
                 });

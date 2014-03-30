@@ -402,6 +402,16 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
     }
 
 /*
+_.difference([1, 2, 3, 4, 5], [5, 2, 10]);
+=> [1, 3, 4]
+*/
+    @Test
+    public void difference() throws Exception {
+        final List<Integer> result = _.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
+        assertEquals("[1, 3, 4]", result.toString());
+    }
+
+/*
 _.uniq([1, 2, 1, 3, 1, 4]);
 => [1, 2, 3, 4]
 */
@@ -409,6 +419,28 @@ _.uniq([1, 2, 1, 3, 1, 4]);
     public void uniq() throws Exception {
         final List<Integer> result = _.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
+    }
+
+/*
+_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
+=> [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
+*/
+    @Test
+    public void zip() throws Exception {
+        final List<List<String>> result = _.zip(
+            asList("moe", "larry", "curly"), asList("30", "40", "50"), asList("true", "false", "false"));
+        assertEquals("[[moe, 30, true], [larry, 40, false], [curly, 50, false]]", result.toString());
+    }
+
+/*
+_.object(['moe', 'larry', 'curly'], [30, 40, 50]);
+=> {moe: 30, larry: 40, curly: 50}
+*/
+    @Test
+    public void object() throws Exception {
+        final List<Tuple<String, String>> result = _.object(
+            asList("moe", "larry", "curly"), asList("30", "40", "50"));
+        assertEquals("[(moe, 30), (larry, 40), (curly, 50)]", result.toString());
     }
 
 /*
