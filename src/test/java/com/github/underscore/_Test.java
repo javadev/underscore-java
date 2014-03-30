@@ -173,4 +173,34 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         });
         assertEquals("[2, 4, 6]", result.toString());
     }
+
+/*
+_.first([5, 4, 3, 2, 1]);
+=> 5
+*/
+    @Test
+    public void first() {
+        final Integer result = _.first(asList(5, 4, 3, 2, 1));
+        assertEquals("5", result.toString());
+    }
+
+/*
+_.initial([5, 4, 3, 2, 1]);
+=> [5, 4, 3, 2]
+*/
+    @Test
+    public void initial() {
+        final List<Integer> result = _.initial(asList(5, 4, 3, 2, 1), 1);
+        assertEquals("[5, 4, 3, 2]", result.toString());
+    }
+
+/*
+_.last([5, 4, 3, 2, 1]);
+=> 1
+*/
+    @Test
+    public void last() {
+        final Integer result = _.last(asList(5, 4, 3, 2, 1));
+        assertEquals("1", result.toString());
+    }
 }
