@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Valentyn Kolesnikov" />
+  <meta name="description" content="Underscore-java is a java port of the popular Underscore.js library" />
+
+  <title>Underscore.php</title>
+
+  <style type="text/css">
+    body {
+      margin-top: 1.0em;
+      background-color: #f2f2f2;
+      font-family: Helvetica, Arial, FreeSans, san-serif;
+      font-size: 14px;
+      color: #222;
+      line-height: 1.4em;
+    }
+    #container {
+      margin: 0 0 0 50px;
+      width: 800px;
+    }
+    h1 { font-size: 32px; padding: 20px 0 5px 0; margin-left: -5px; }
+    h1 .small { font-size: 0.4em; }
+    h1 a { background: none; color: #222; }
+    h2 { font-size: 24px; font-weight: bold; color: #0d0d0d; margin: 30px 0 5px 0; border-top: 3px solid #ddd; padding-top: 30px; }
+    h3 { font-size: 16px; font-weight: bold; color: #0d0d0d; margin: 20px 0 5px 0; }
+    p { margin: 0 0 10px 0; }
+    a { background: #5A68A5; color: #fff; padding: 5px 5px 2px 5px; text-decoration: none; }
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+      a { padding: 2px 5px; }
+    }
+    a:hover { background: #384683; color: #fff; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    pre { color: #666; background: #ddd; padding: 15px; margin: 5px 0; border-left: 5px solid #5A68A5; font-family: Monaco, "Lucida Grande", monospace; }
+    code { font-family: Monaco, "Lucida Grande", monospace; color: #666; margin-left: 15px; }
+    p code, li code { margin: 0; }
+    hr { border: 0; width: 100%; border-bottom: 3px solid #ddd; margin: 20px 0; }
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+    .fade { color: #aaa; }
+    .function { font-size: 20px; }
+    .alias { float: right; color: #666; font-style: italic; }
+    .block { margin-top: 35px; margin-bottom: 2px; }
+    nav p { line-height: 1.8em; }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+
+    <h1><a href="http://github.com/javadev/underscore-java">Underscore-java</a>
+      <span class="small">by <a href="http://github.com/javadev">javadev</a></span></h1>
+
+    <nav>
+      <p><a href="http://github.com/javadev/underscore-java">Underscore-java</a> is a java port of the popular <a href="http://documentcloud.github.com/underscore/">Underscore.js</a> library. In addition to porting Underscore's functionality, Underscore.php includes <a href="https://github.com/brianhaveri/Underscore.php/tree/master/test">matching unit tests</a>. Underscore-java requires java 1.6 or greater.</p>
+      <p>Underscore-java is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a> and open sourced under the MIT license.</p>
+    </nav>
+      
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="http://github.com/javadev/underscore-java/zipball/master">zip</a> or
+      <a href="http://github.com/javadev/underscore-java/tarball/master">tar</a> formats.
+    </p>
+    
+    <nav>
+      <h2>Table of Contents</h2>
+      <p><a href="#styles">Object-Oriented and Static Styles</a></p>
+      
+      <h3>Collections</h3>
+      <p>
+        <a href="#each">each</a>,
+        <a href="#map">map</a>,
+        <a href="#reduce">reduce</a>,
+        <a href="#reduceRight">reduceRight</a>,
+        <a href="#find">find</a>,
+        <a href="#filter">filter</a>,
+        <a href="#reject">reject</a>,
+        <a href="#all">all</a>,
+        <a href="#any">any</a>,
+        <a href="#includ">includ</a>,
+        <a href="#invoke">invoke</a>,
+        <a href="#pluck">pluck</a>,
+        <a href="#max">max</a>,
+        <a href="#min">min</a>,
+        <a href="#groupBy">groupBy</a>,
+        <a href="#sortBy">sortBy</a>,
+        <a href="#sortedIndex">sortedIndex</a>,
+        <a href="#shuffle">shuffle</a>,
+        <a href="#toArray">toArray</a>,
+        <a href="#size">size</a>
+      </p>
+      
+      <h3>Arrays</h3>
+      <p>
+        <a href="#first">first</a>,
+        <a href="#initial">initial</a>,
+        <a href="#rest">rest</a>,
+        <a href="#last">last</a>,
+        <a href="#compact">compact</a>,
+        <a href="#flatten">flatten</a>,
+        <a href="#without">without</a>,
+        <a href="#uniq">uniq</a>,
+        <a href="#union">union</a>,
+        <a href="#intersection">intersection</a>,
+        <a href="#difference">difference</a>,
+        <a href="#zip">zip</a>,
+        <a href="#indexOf">indexOf</a>,
+        <a href="#lastIndexOf">lastIndexOf</a>,
+        <a href="#range">range</a></span>
+      </p>
+      
+      <h3>Functions</h3>
+      <p>
+        <span class="fade">bind</span>,
+        <span class="fade">bindAll</span>
+        <a href="#memoize">memoize</a>,
+        <span class="fade">delay</span>,
+        <span class="fade">defer</span>,
+        <a href="#throttle">throttle</a>,
+        <span class="fade">debounce</span>,
+        <a href="#once">once</a>,
+        <a href="#after">after</a>,
+        <a href="#wrap">wrap</a>,
+        <a href="#compose">compose</a>
+      </p>
+      
+      <h3>Objects</h3>
+      <p>
+        <a href="#keys">keys</a>,
+        <a href="#values">values</a>,
+        <a href="#functions">functions</a>,
+        <a href="#extend">extend</a>,
+        <a href="#defaults">defaults</a>,
+        <a href="#clon">clon</a>,
+        <a href="#tap">tap</a>,
+        <a href="#has">has</a>,
+        <a href="#isEqual">isEqual</a>,
+        <a href="#isEmpty">isEmpty</a>,
+        <span class="fade">isElement</span>,
+        <a href="#isObject">isObject</a>,
+        <a href="#isArray">isArray</a>,
+        <span class="fade">isArguments</span>,
+        <a href="#isFunction">isFunction</a>,
+        <a href="#isString">isString</a>,
+        <a href="#isNumber">isNumber</a>,
+        <a href="#isBoolean">isBoolean</a>,
+        <a href="#isDate">isDate</a>,
+        <span class="fade">isRegExp</span>,
+        <a href="#isNaN">isNaN</a>,
+        <a href="#isNull">isNull</a>,
+        <span class="fade">isUndefined</span>
+      </p>
+      
+      <h3>Utility</h3>
+      <p>
+        <span class="fade">noConflict</span>,
+        <a href="#identity">identity</a>,
+        <a href="#times">times</a>,
+        <a href="#mixin">mixin</a>,
+        <a href="#uniqueId">uniqueId</a>,
+        <a href="#escape">escape</a>,
+        <a href="#template">template</a>
+      </p>
+      
+      <h3>Chaining</h3>
+      <p>
+        <a href="#chain">chain</a>,
+        <a href="#value">value</a>
+      </p>
+      
+      <p class="fade"><i>Some functions were not ported from Underscore.js to Underscore-java for technical reasons or because they weren't applicable to java.</i></p>
+    </nav>
+</body>
+</html>
