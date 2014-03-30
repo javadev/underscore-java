@@ -270,5 +270,24 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
         final Set<Integer> resultList = _.sample(asList(1, 2, 3, 4, 5, 6), 3);
         assertEquals(3, resultList.size());
     }
-}
 
+/*
+var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+_.pluck(stooges, 'name');
+=> ["moe", "larry", "curly"]
+*/
+    @Test
+    public void pluck() throws Exception {
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+        };
+        final List<?> result =
+        _.pluck(new ArrayList<Person>() {{ add(new Person("moe", 40)); add(new Person("larry", 50)); add(new Person("curly", 40));}}, "name");
+        assertEquals("[moe, larry, curly]", result.toString());
+    }
+}
