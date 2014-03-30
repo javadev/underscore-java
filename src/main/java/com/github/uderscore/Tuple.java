@@ -24,8 +24,8 @@ public class Tuple<A, B> {
 
     @Override
     public int hashCode() {
-        int hashFirst = first != null ? first.hashCode() : 0;
-        int hashSecond = second != null ? second.hashCode() : 0;
+        int hashFirst = first == null ? 0 : first.hashCode();
+        int hashSecond = second == null ? 0 : second.hashCode();
 
         return (hashFirst + hashSecond) * hashSecond + hashFirst;
     }
