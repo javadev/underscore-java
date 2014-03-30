@@ -27,6 +27,7 @@ import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Underscore library unit test.
@@ -131,5 +132,15 @@ var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
             }
         });
         assertEquals("[4, 5, 2, 3, 0, 1]", result.toString());
+    }
+
+/*
+_.contains([1, 2, 3], 3);
+=> true
+*/
+    @Test
+    public void contains() {
+        final boolean result = _.contains(asList(1, 2, 3), 3);
+        assertTrue(result);
     }
 }
