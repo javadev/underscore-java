@@ -257,6 +257,16 @@ _.min(numbers);
     }
 
 /*
+_.shuffle([1, 2, 3, 4, 5, 6]);
+=> [4, 1, 6, 3, 5, 2]
+*/
+    @Test
+    public void shuffle() {
+        final List<Integer> result = _.shuffle(asList(1, 2, 3, 4, 5, 6));
+        assertEquals(6, result.size());
+    }
+
+/*
 _.sample([1, 2, 3, 4, 5, 6]);
 => 4
 

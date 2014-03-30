@@ -414,8 +414,7 @@ public final class _ {
     }
 
     public static <E> List<E> shuffle(final List<E> list) {
-        final List<E> shuffled = new ArrayList<E>(list.size());
-        Collections.copy(list, shuffled);
+        final List<E> shuffled = new ArrayList<E>(list);
         Collections.shuffle(shuffled);
         return shuffled;
     }
