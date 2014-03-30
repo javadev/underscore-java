@@ -203,4 +203,34 @@ _.last([5, 4, 3, 2, 1]);
         final Integer result = _.last(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
     }
+
+/*
+_.flatten([1, [2], [3, [[4]]]]);
+=> [1, 2, 3, 4];
+*/
+    @Test
+    public void flatten() {
+        final List<Integer> result = _.flatten(asList(1, asList(2, asList(3, asList(asList(4))))));
+        assertEquals("[1, 2, 3, 4]", result.toString());
+    }
+
+/*
+_.compact([0, 1, false, 2, '', 3]);
+=> [1, 2, 3]
+*/
+    @Test
+    public void compact() {
+        final List<?> result = _.compact(asList(0, 1, false, 2, "", 3));
+        assertEquals("[1, 2, 3]", result.toString());
+    }
+
+/*
+_.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
+=> [2, 3, 4]
+*/
+    @Test
+    public void without() {
+        final List<Integer> result = _.without(asList(1, 2, 1, 0, 3, 1, 4), 0, 1);
+        assertEquals("[2, 3, 4]", result.toString());
+    }
 }

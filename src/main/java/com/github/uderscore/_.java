@@ -537,6 +537,16 @@ public final class _ {
         return rest(array, n);
     }
 
+    public static <E> List<E> compact(final List<E> list) {
+        return filter(list, new Predicate<E>() {
+            @Override
+            public Boolean apply(E arg) {
+                return !String.valueOf(arg).equals("null") && !String.valueOf(arg).equals("0")
+                    && !String.valueOf(arg).equals("false") && !String.valueOf(arg).equals("");
+            }
+        });
+    }
+
     public static <E> List<E> compact(final List<E> list, final E falsyValue) {
         return filter(list, new Predicate<E>() {
             @Override
