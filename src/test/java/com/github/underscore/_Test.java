@@ -236,7 +236,7 @@ _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
 
 /*
 var numbers = [10, 5, 100, 2, 1000];
-_.min(numbers);
+_.max(numbers);
 => 1000
 */
     @Test
@@ -255,4 +255,20 @@ _.min(numbers);
         final Integer result = _.min(asList(10, 5, 100, 2, 1000));
         assertEquals("2", result.toString());
     }
+
+/*
+_.sample([1, 2, 3, 4, 5, 6]);
+=> 4
+
+_.sample([1, 2, 3, 4, 5, 6], 3);
+=> [1, 6, 2]
+*/
+    @Test
+    public void sample() {
+        final Integer result = _.sample(asList(1, 2, 3, 4, 5, 6));
+        assertTrue(result >= 1 && result <= 6);
+        final Set<Integer> resultList = _.sample(asList(1, 2, 3, 4, 5, 6), 3);
+        assertEquals(3, resultList.size());
+    }
 }
+
