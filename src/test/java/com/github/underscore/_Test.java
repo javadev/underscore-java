@@ -143,4 +143,34 @@ _.contains([1, 2, 3], 3);
         final boolean result = _.contains(asList(1, 2, 3), 3);
         assertTrue(result);
     }
+
+/*
+var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+=> 2
+*/
+    @Test
+    public void find() {
+        final Integer result = _.find(asList(1, 2, 3, 4, 5, 6), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("2", result.toString());
+    }
+
+/*
+var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+=> [2, 4, 6]
+*/
+    @Test
+    public void filter() {
+        final List<Integer> result = _.filter(asList(1, 2, 3, 4, 5, 6), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[2, 4, 6]", result.toString());
+    }
 }
