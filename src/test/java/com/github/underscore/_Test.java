@@ -26,6 +26,7 @@ package com.github.underscore;
 import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -379,4 +380,91 @@ _.size({one: 1, two: 2, three: 3});
         final int result = _.size(asList(1, 2, 3, 4));
         assertEquals(4, result);
     }
+
+/*
+_.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+=> [1, 2, 3, 101, 10]
+*/
+    @Test
+    public void union() throws Exception {
+        final List<Integer> result = _.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
+        assertEquals("[1, 2, 3, 101, 10]", result.toString());
+    }
+
+/*
+_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+=> [1, 2]
+*/
+    @Test
+    public void intersection() throws Exception {
+        final List<Integer> result = _.intersection(_.intersection(asList(1, 2, 3), asList(101, 2, 1, 10)), asList(2, 1));
+        assertEquals("[1, 2]", result.toString());
+    }
+
+/*
+_.uniq([1, 2, 1, 3, 1, 4]);
+=> [1, 2, 3, 4]
+*/
+    @Test
+    public void uniq() throws Exception {
+        final List<Integer> result = _.uniq(asList(1, 2, 1, 3, 1, 4));
+        assertEquals("[1, 2, 3, 4]", result.toString());
+    }
+
+/*
+_.indexOf([1, 2, 3], 2);
+=> 1
+*/
+    @Test
+    public void indexOf() throws Exception {
+        final Integer result = _.indexOf(asList(1, 2, 3), 2);
+        assertEquals(1, result);
+    }
+
+/*
+_.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
+=> 4
+*/
+    @Test
+    public void lastIndexOf() throws Exception {
+        final Integer result = _.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);
+        assertEquals(4, result);
+    }
+
+/*
+_.sortedIndex([10, 20, 30, 40, 50], 35);
+=> 3
+*/
+    @Test
+    public void sortedIndex() throws Exception {
+        final Integer result = _.sortedIndex(asList(10, 20, 30, 40, 50), 35);
+        assertEquals(3, result);
+    }
+
+/*
+_.range(10);
+=> [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+_.range(1, 11);
+=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+_.range(0, 30, 5);
+=> [0, 5, 10, 15, 20, 25]
+_.range(0, -10, -1);
+=> [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+_.range(0);
+=> []
+*/
+    @Test
+    public void range() throws Exception {
+        final int[] result = _.range(10);
+        assertArrayEquals(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, result);
+        final int[] result2 = _.range(1, 11);
+        assertArrayEquals(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, result2);
+        final int[] result3 = _.range(0, 30, 5);
+        assertArrayEquals(new int[] {0, 5, 10, 15, 20, 25}, result3);
+        final int[] result4 = _.range(0, -10, -1);
+        assertArrayEquals(new int[] {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}, result4);
+        final int[] result5 = _.range(0);
+        assertArrayEquals(new int[] {}, result5);
+    }
+
 }

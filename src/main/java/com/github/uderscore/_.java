@@ -598,10 +598,11 @@ public final class _ {
         return without(array, (E[]) Arrays.asList(value).toArray());
     }
 
-    public static <E> List<E> union(final List<E> list1, final List<E> list2) {
+    public static <E> List<E> union(final List<E> ... lists) {
         final Set<E> union = new LinkedHashSet<E>();
-        union.addAll(list1);
-        union.addAll(list2);
+        for (List<E> list : lists) {
+            union.addAll(list);
+        }
         return new ArrayList<E>(union);
     }
 
@@ -737,9 +738,16 @@ public final class _ {
     }
 
     public static int[] range(int start, int stop, int step) {
-        int[] array = new int[stop - start];
-        for (int index = 0; index < array.length; index += step) {
-            array[index] = start + index;
+        int[] array = new int[Math.abs(stop - start) / Math.abs(step)];
+        int index2 = 0;
+        if (start < stop) {
+            for (int index = start; index < stop; index += step, index2 += 1) {
+                array[index2] = index;
+            }
+        } else {
+            for (int index = start; index > stop; index += step, index2 += 1) {
+                array[index2] = index;
+            }
         }
         return array;
     }
