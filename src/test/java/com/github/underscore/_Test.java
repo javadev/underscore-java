@@ -94,4 +94,21 @@ _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
         });
         assertEquals("[3, 6, 9]", result.toString());
     }
+
+/*
+var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
+=> 6
+*/
+    @Test
+    public void reduce() {
+        final Integer result =
+        _.reduce(Arrays.asList(1, 2, 3),
+            0,
+            new Function2<Integer, Integer, Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        });
+        assertEquals("6", result.toString());
+    }
 }
