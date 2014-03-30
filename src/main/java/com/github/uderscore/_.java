@@ -129,7 +129,7 @@ public final class _ {
 
     public static <E> Set<E> filter(final Set<E> set,
                                     final Predicate<E> pred) {
-        final Set<E> filtered = new HashSet<E>();
+        final Set<E> filtered = new LinkedHashSet<E>();
         for (E element : set) {
             if (pred.apply(element)) {
                 filtered.add(element);
@@ -427,7 +427,7 @@ public final class _ {
 
     public static <E> Set<E> sample(final List<E> list, final int howMany) {
         final int size = Math.min(howMany, list.size());
-        final Set<E> samples = new HashSet<E>(size);
+        final Set<E> samples = new LinkedHashSet<E>(size);
         while (samples.size() < size) {
             E sample = sample(list);
             samples.add(sample);
@@ -599,7 +599,7 @@ public final class _ {
     }
 
     public static <E> List<E> union(final List<E> list1, final List<E> list2) {
-        final Set<E> union = new HashSet<E>();
+        final Set<E> union = new LinkedHashSet<E>();
         union.addAll(list1);
         union.addAll(list2);
         return new ArrayList<E>(union);
@@ -636,7 +636,7 @@ public final class _ {
     }
 
     public static <E> List<E> uniq(final List<E> list) {
-        return new ArrayList<E>(new HashSet<E>(list));
+        return new ArrayList<E>(new LinkedHashSet<E>(list));
     }
 
     public static <E> E[] uniq(final E[] array) {
