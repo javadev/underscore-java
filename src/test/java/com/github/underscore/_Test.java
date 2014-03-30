@@ -23,6 +23,7 @@
  */
 package com.github.underscore;
 
+import java.util.*;
 import org.junit.Test;
 /**
  * Underscore library unit test.
@@ -30,12 +31,25 @@ import org.junit.Test;
  * @author Valentyn Kolesnikov
  */
 public class _Test {
+
+/*
+_.each([1, 2, 3], alert);
+=> alerts each number in turn...
+*/
     @Test
     public void each() {
-        _.<Integer>each(java.util.Arrays.asList(1, 2, 3), new Block<Integer>() {
+        _.<Integer>each(Arrays.asList(1, 2, 3), new Block<Integer>() {
             public void apply(Integer item) {
                 System.out.println(item);
             }
         });
     }
+/*
+_.each({one: 1, two: 2, three: 3}, alert);
+=> alerts each number value in turn...
+*/
+    @Test
+    public void eachMap() {
+    }
+
 }
