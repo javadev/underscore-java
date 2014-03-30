@@ -447,7 +447,9 @@ public final class _ {
     public static int size(final Iterable<?> iterable) {
         int size;
         final Iterator<?> iterator = iterable.iterator();
-        for (size = 0; iterator.hasNext(); size += 1) ;
+        for (size = 0; iterator.hasNext(); size += 1) {
+            iterator.next();
+        }
         return size;
     }
 

@@ -359,4 +359,24 @@ _.indexBy(stooges, 'age');
         _.indexBy(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)), "age");
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", result.toString());
     }
+
+/*
+(function(){ return _.toArray(arguments).slice(1); })(1, 2, 3, 4);
+=> [2, 3, 4]
+*/
+    @Test
+    public void toArray() throws Exception {
+        final Object[] result = _.<Integer>toArray(asList(1, 2, 3, 4));
+        assertEquals("1", result[0].toString());
+    }
+
+/*
+_.size({one: 1, two: 2, three: 3});
+=> 3
+*/
+    @Test
+    public void size() throws Exception {
+        final int result = _.size(asList(1, 2, 3, 4));
+        assertEquals(4, result);
+    }
 }
