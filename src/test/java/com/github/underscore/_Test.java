@@ -233,4 +233,26 @@ _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
         final List<Integer> result = _.without(asList(1, 2, 1, 0, 3, 1, 4), 0, 1);
         assertEquals("[2, 3, 4]", result.toString());
     }
+
+/*
+var numbers = [10, 5, 100, 2, 1000];
+_.min(numbers);
+=> 1000
+*/
+    @Test
+    public void max() {
+        final Integer result = _.max(asList(10, 5, 100, 2, 1000));
+        assertEquals("1000", result.toString());
+    }
+
+/*
+var numbers = [10, 5, 100, 2, 1000];
+_.min(numbers);
+=> 2
+*/
+    @Test
+    public void min() {
+        final Integer result = _.min(asList(10, 5, 100, 2, 1000));
+        assertEquals("2", result.toString());
+    }
 }
