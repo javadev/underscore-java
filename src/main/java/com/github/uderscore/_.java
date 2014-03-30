@@ -54,7 +54,7 @@ public final class _ {
     }
 
     public static <T, E> Set<T> map(final Set<E> set, final Function1<? super E, T> func) {
-        final Set<T> transformed = new HashSet<T>(set.size());
+        final Set<T> transformed = new LinkedHashSet<T>(set.size());
         for (E element : set) {
             transformed.add(func.apply(element));
         }
