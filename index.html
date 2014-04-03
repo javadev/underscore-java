@@ -208,5 +208,28 @@ _.map(new LinkedHashMap<Integer, String>() {{ put(1, "one"); put(2, "two"); put(
 });
 // [3, 6, 9]
 </pre>
+<p class="block" id="reduce"><b class="function">reduce</b> <code>_.reduce(collection, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
+<p>Reduce the collection into a single value. Memo is the initial state of the reduction, updated by the return value of the iterator.</p>
+<pre>_.reduce(asList(1, 2, 3),
+    0,
+    new Function2<Integer, Integer, Integer>() {
+    public Integer apply(Integer item1, Integer item2) {
+        return item1 + item2;
+    }
+});
+// 6</pre>
+
+<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>_.reduceRight(collection, iterator, memo)</code><span class="alias">Alias: <b>foldr</b></span></p>
+<p>Right-associative version of reduce.</p>
+<pre>_.foldl(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
+    Collections.<Integer>emptyList(),
+    new Function2<List<Integer>, List<Integer>, List<Integer>>() {
+    public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
+        List<Integer> list = new ArrayList<Integer>(item2);
+        list.addAll(item1);
+        return list;
+    }
+});
+// [4, 5, 2, 3, 0, 1]</pre>
 </body>
 </html>
