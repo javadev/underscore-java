@@ -499,4 +499,36 @@ _.range(0);
         assertArrayEquals(new int[] {}, result5);
     }
 
+/*
+var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
+var youngest = _.chain(stooges)
+  .sortBy(function(stooge){ return stooge.age; })
+  .map(function(stooge){ return stooge.name + ' is ' + stooge.age; })
+  .first()
+  .value();
+=> "moe is 21"
+*/
+    @Test
+    public void chain() throws Exception {
+        final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() {{
+            add(new LinkedHashMap<String, Object>() {{ put("name", "curly"); put("age", 25); }});
+            add(new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 21); }});
+            add(new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("age", 23); }});
+        }};
+        final String youngest = _.chain(stooges)
+            .sortBy(
+                new Function1<Map<String, Object>, String>() {
+                public String apply(Map<String, Object> item) {
+                    return item.get("age").toString();
+                }
+            })
+            .map(
+                new Function1<Map<String, Object>, String>() {
+                public String apply(Map<String, Object> item) {
+                    return item.get("name") + " is " + item.get("age");
+                }
+            })
+            .first().value().toString();
+        assertEquals("[moe is 21]", youngest);
+    }
 }

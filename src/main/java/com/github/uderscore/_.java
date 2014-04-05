@@ -813,4 +813,32 @@ public final class _ {
         }
         return null;
     }
+
+    public static <T> Chain chain(final List<T> list) {
+        return new _.Chain<T>(list);
+    }
+
+    public static class Chain<T> {
+        private final List<T> list;
+        public Chain(final List<T> list) {
+            this.list = list;
+        }
+
+        public Chain<T> first() {
+            return new Chain<T>(Arrays.asList(_.first(list)));
+        }
+
+        public <F> Chain<F> map(final Function1<? super T, F> func) {
+            return new Chain<F>(_.map(list, func));
+        }
+
+        public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
+            return new Chain<T>(_.sortBy(list, func));
+        }
+
+        public String value() {
+            return list.toString();
+        }
+
+    }
 }
