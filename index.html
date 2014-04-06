@@ -174,35 +174,36 @@
 <h2>Collections (Arrays or Objects)</h2>
 <p class="block" id="each"><b class="function">each</b> <code>_.each(collection, iterator)</code></p>
 <p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection).</p>
-<pre>_.each(Arrays.asList(1, 2, 3), new Block<Integer>() {
+<pre>_.each(Arrays.asList(1, 2, 3), new Block&lt;Integer&gt;() {
     public void apply(Integer item) {
-        System.out.println(item + ",");
+        System.out.println(item + &quot;,&quot;);
     }
 });
 // 1,2,3,
 
 int multiplier = 2;
 int index = 0;
-_.each(Arrays.asList(1, 2, 3), new Block<Integer>() {
+_.each(Arrays.asList(1, 2, 3), new Block&lt;Integer&gt;() {
     public void apply(Integer item) {
-        System.out.println(index + "=" + (item * multiplier) + ",");
+        System.out.println(index + &quot;=&quot; + (item * multiplier) + &quot;,&quot;);
         index += 1;
     }
 });
-// 0=2,1=4,2=6,</pre>
+// 0=2,1=4,2=6,
+</pre>
 
 <p class="block" id="map"><b class="function">map</b> <code>_.map(collection, iterator)</code> <span class="alias">Alias: <b>collect</b></span></p>
 <p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection).</p>
-<pre> _.map(Arrays.asList(1, 2, 3), new Function1<Integer, Integer>() {
+<pre>_.map(Arrays.asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
             public Integer apply(Integer item) {
                 return item * 3;
             }
         });
 // [3, 6, 9]
 
-_.map(new LinkedHashMap<Integer, String>() {{ put(1, "one"); put(2, "two"); put(3, "three"); }}.entrySet(),
-    new Function1<Map.Entry<Integer, String>, Integer>() {
-    public Integer apply(Map.Entry<Integer, String> item) {
+_.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put(2, &quot;two&quot;); put(3, &quot;three&quot;); }}.entrySet(),
+    new Function1&lt;Map.Entry&lt;Integer, String&gt;, Integer&gt;() {
+    public Integer apply(Map.Entry&lt;Integer, String&gt; item) {
         return item.getKey() * 3;
     }
 });
@@ -212,7 +213,7 @@ _.map(new LinkedHashMap<Integer, String>() {{ put(1, "one"); put(2, "two"); put(
 <p>Reduce the collection into a single value. Memo is the initial state of the reduction, updated by the return value of the iterator.</p>
 <pre>_.reduce(asList(1, 2, 3),
     0,
-    new Function2<Integer, Integer, Integer>() {
+    new Function2&lt;Integer, Integer, Integer&gt;() {
     public Integer apply(Integer item1, Integer item2) {
         return item1 + item2;
     }
@@ -222,10 +223,10 @@ _.map(new LinkedHashMap<Integer, String>() {{ put(1, "one"); put(2, "two"); put(
 <p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>_.reduceRight(collection, iterator, memo)</code><span class="alias">Alias: <b>foldr</b></span></p>
 <p>Right-associative version of reduce.</p>
 <pre>_.foldl(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
-    Collections.<Integer>emptyList(),
-    new Function2<List<Integer>, List<Integer>, List<Integer>>() {
-    public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
-        List<Integer> list = new ArrayList<Integer>(item2);
+    Collections.&lt;Integer&gt;emptyList(),
+    new Function2&lt;List&lt;Integer&gt;, List&lt;Integer&gt;, List&lt;Integer&gt;&gt;() {
+    public List&lt;Integer&gt; apply(List&lt;Integer&gt; item1, List&lt;Integer&gt; item2) {
+        List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;(item2);
         list.addAll(item1);
         return list;
     }
