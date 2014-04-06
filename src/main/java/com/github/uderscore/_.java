@@ -619,6 +619,15 @@ public final class _ {
         });
     }
 
+    public static <E> List<E> intersection(final List<E> ... lists) {
+        final Stack<List<E>> stack = new Stack<List<E>>();
+        stack.push(lists[0]);
+        for (int index = 1; index < lists.length; index += 1) {
+          stack.push(intersection(stack.peek(), lists[index]));
+        }
+        return stack.peek();
+    }
+
     public static <E> E[] intersection(final E[] array1, final E[] array2) {
         return (E[]) intersection(Arrays.asList(array1), Arrays.asList(array2)).toArray();
     }
@@ -840,5 +849,12 @@ public final class _ {
             return list.toString();
         }
 
+    }
+
+    public static void main(String[] args) {
+        final String message = "Underscore-java is a java port of Underscore.js.\n\n"
+            + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"
+            + "For docs, license, tests, and downloads, see: http://javadev.github.com/underscore-java";
+        System.out.println(message);
     }
 }
