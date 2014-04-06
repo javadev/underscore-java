@@ -118,7 +118,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 /*
 var list = [[0, 1], [2, 3], [4, 5]];
 var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
-=> [4, 5, 2, 3, 0, 1]
+=> [ 0, 1, 2, 3, 4, 5 ]
 */
     @Test
     public void foldl() {
@@ -127,12 +127,12 @@ var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
             Collections.<Integer>emptyList(),
             new Function2<List<Integer>, List<Integer>, List<Integer>>() {
             public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
-                List<Integer> list = new ArrayList<Integer>(item2);
-                list.addAll(item1);
+                List<Integer> list = new ArrayList<Integer>(item1);
+                list.addAll(item2);
                 return list;
             }
         });
-        assertEquals("[4, 5, 2, 3, 0, 1]", result.toString());
+        assertEquals("[0, 1, 2, 3, 4, 5]", result.toString());
     }
 
 /*
