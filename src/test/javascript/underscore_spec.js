@@ -66,6 +66,16 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     });
 /*
 var list = [[0, 1], [2, 3], [4, 5]];
+var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
+=> [4, 5, 2, 3, 0, 1]
+*/
+    it("reduceRight",function(){
+        var list = [[0, 1], [2, 3], [4, 5]];
+        var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
+        expect(flat).toEqual([4, 5, 2, 3, 0, 1]);
+    });
+/*
+var list = [[0, 1], [2, 3], [4, 5]];
 var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
 => [0, 1, 2, 3, 4, 5]
 */
@@ -73,6 +83,16 @@ var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
         var list = [[0, 1], [2, 3], [4, 5]];
         var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
         expect(flat).toEqual([0, 1, 2, 3, 4, 5]);
+    });
+/*
+var list = [[0, 1], [2, 3], [4, 5]];
+var flat = _.foldr(list, function(a, b) { return a.concat(b); }, []);
+=> [4, 5, 2, 3, 0, 1]
+*/
+    it("foldr",function(){
+        var list = [[0, 1], [2, 3], [4, 5]];
+        var flat = _.foldr(list, function(a, b) { return a.concat(b); }, []);
+        expect(flat).toEqual([4, 5, 2, 3, 0, 1]);
     });
 /*
 _.contains([1, 2, 3], 3);

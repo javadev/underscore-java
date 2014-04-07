@@ -84,14 +84,26 @@ public final class _ {
         return reduce(iterable, zeroElem, func);
     }
 
-    public static <E> E reduceRight(final Iterable<E> iterable, final E zeroElem, final Function1<E, E> func) {
-        final Stack<E> stack = new Stack<E>();
+    public static <E> E reduceRight(final Iterable<E> iterable, final E zeroElem, final Function2<E, E, E> func) {
+        final List<E> list = new ArrayList<E>();
         for (E elem : iterable) {
-            stack.push(elem);
+            list.add(0, elem);
+        }
+        E accum = zeroElem;
+        for (E element : list) {
+            accum = func.apply(accum, element);
+        }
+        return accum;
+    }
+
+    public static <E> E reduceRight(final Iterable<E> iterable, final E zeroElem, final Function1<E, E> func) {
+        final List<E> list = new ArrayList<E>();
+        for (E elem : iterable) {
+            list.add(0, elem);
         }
         E accum = zeroElem;
         int index = 0;
-        for (E elem : stack) {
+        for (E elem : list) {
             accum = func.apply(accum);
             index += 1;
         }
@@ -99,6 +111,10 @@ public final class _ {
     }
 
     public static <E> E foldr(final Iterable<E> iterable, final E zeroElem, final Function1<E, E> func) {
+        return reduceRight(iterable, zeroElem, func);
+    }
+
+    public static <E> E foldr(final Iterable<E> iterable, final E zeroElem, final Function2<E, E, E> func) {
         return reduceRight(iterable, zeroElem, func);
     }
 
