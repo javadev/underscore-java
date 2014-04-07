@@ -201,7 +201,8 @@ _.each(Arrays.asList(1, 2, 3), new Block&lt;Integer&gt;() {
         });
 // [3, 6, 9]
 
-_.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put(2, &quot;two&quot;); put(3, &quot;three&quot;); }}.entrySet(),
+_.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put(2, &quot;two&quot;); put(3, &quot;three&quot;); }}
+    .entrySet(),
     new Function1&lt;Map.Entry&lt;Integer, String&gt;, Integer&gt;() {
     public Integer apply(Map.Entry&lt;Integer, String&gt; item) {
         return item.getKey() * 3;
@@ -220,14 +221,14 @@ _.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
 });
 // 6</pre>
 
-<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>_.reduceRight(collection, iterator, memo)</code><span class="alias">Alias: <b>foldr</b></span></p>
+<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>_.reduceRight(collection, memo, iterator)</code><span class="alias">Alias: <b>foldr</b></span></p>
 <p>Right-associative version of reduce.</p>
-<pre>_.foldl(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
+<pre>_.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
     Collections.&lt;Integer&gt;emptyList(),
     new Function2&lt;List&lt;Integer&gt;, List&lt;Integer&gt;, List&lt;Integer&gt;&gt;() {
     public List&lt;Integer&gt; apply(List&lt;Integer&gt; item1, List&lt;Integer&gt; item2) {
-        List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;(item2);
-        list.addAll(item1);
+        List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;(item1);
+        list.addAll(item2);
         return list;
     }
 });
