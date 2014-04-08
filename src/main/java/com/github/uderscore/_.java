@@ -33,7 +33,13 @@ import java.util.*;
  *
  * @author Valentyn Kolesnikov
  */
-public final class _ {
+public final class _<T> {
+    private final Iterable<T> iterable;
+
+    public _(final Iterable<T> iterable) {
+        this.iterable = iterable;
+    }
+
     public static <T> void each(final Iterable<T> iterable, final Block<? super T> func) {
         for (T element : iterable) {
             func.apply(element);
@@ -475,6 +481,14 @@ public final class _ {
 
     public static <E> E first(final E[] array) {
         return array[0];
+    }
+
+    public static <E> List<E> first(final List<E> list, final int n) {
+        return list.subList(0, n);
+    }
+
+    public T first() {
+        return iterable.iterator().next();
     }
 
     public static <E> List<E> initial(final List<E> list) {
