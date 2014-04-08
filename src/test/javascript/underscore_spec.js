@@ -162,11 +162,17 @@ var numbers = [10, 5, 100, 2, 1000];
 _.max(numbers);
 => 1000
 */
+    it("max",function(){
+        expect(_.max([10, 5, 100, 2, 1000])).toBe(1000);
+    });
 /*
 var numbers = [10, 5, 100, 2, 1000];
 _.min(numbers);
 => 2
 */
+    it("min",function(){
+        expect(_.min([10, 5, 100, 2, 1000])).toBe(2);
+    });
 /*
 _.shuffle([1, 2, 3, 4, 5, 6]);
 => [4, 1, 6, 3, 5, 2]
