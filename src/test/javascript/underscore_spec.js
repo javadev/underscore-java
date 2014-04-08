@@ -147,10 +147,16 @@ _.flatten([1, [2], [3, [[4]]]]);
 _.compact([0, 1, false, 2, '', 3]);
 => [1, 2, 3]
 */
+    it("compact",function(){
+        expect(_.compact([0, 1, false, 2, '', 3])).toEqual([1, 2, 3]);
+    });
 /*
 _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
 => [2, 3, 4]
 */
+    it("without",function(){
+        expect(_.without([1, 2, 1, 0, 3, 1, 4], 0, 1)).toEqual([2, 3, 4]);
+    });
 /*
 var numbers = [10, 5, 100, 2, 1000];
 _.max(numbers);
