@@ -58,7 +58,15 @@ public class ArraysTest {
     assertEquals("works well with _.map", array(1,1), result);
     assertEquals("works on an arguments object", 4, _.first(array(4, 3, 2, 1)));
 
+    // extra
     assertEquals("can pass an index of 1 to first", array(1), _.first(array(1,2,3), 1));
     assertEquals("can perform OO-style 'first()' with index passed", array(4,5), new _(array(4,5,6,7)).first(2));  
+
+    assertEquals("aliased as 'head'", 1, _.head(array(1,2,3)));
+    assertEquals("aliased as 'head'", array(), _.head(array(1,2,3), 0));
+
+    // docs
+    assertEquals(5, _.first(array(5, 4, 3, 2, 1)));
+    assertEquals(array(5, 4, 3), _.first(array(5, 4, 3, 2, 1), 3));
   }
 }

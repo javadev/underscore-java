@@ -495,6 +495,26 @@ public final class _<T> {
         return ((List) iterable).subList(0, n);
     }
 
+    public static <E> E head(final Iterable<E> iterable) {
+        return _.first(iterable);
+    }
+
+    public static <E> E head(final E[] array) {
+        return _.first(array);
+    }
+
+    public static <E> List<E> head(final List<E> list, final int n) {
+        return _.first(list, n);
+    }
+
+    public T head() {
+        return first();
+    }
+
+    public List<T> head(final int n) {
+        return first(n);
+    }
+
     public static <E> List<E> initial(final List<E> list) {
         return initial(list, 1);
     }
