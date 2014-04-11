@@ -56,7 +56,7 @@ public class ArraysTest {
         }
     });
     assertEquals("works well with _.map", array(1,1), result);
-    assertEquals("works on an arguments object", 4, _.first(array(4, 3, 2, 1)));
+    assertEquals("works on an arguments object", 4, _.first(new Integer[]{4, 3, 2, 1}));
 
     // extra
     assertEquals("can pass an index of 1 to first", array(1), _.first(array(1,2,3), 1));
@@ -69,4 +69,27 @@ public class ArraysTest {
     assertEquals(5, _.first(array(5, 4, 3, 2, 1)));
     assertEquals(array(5, 4, 3), _.first(array(5, 4, 3, 2, 1), 3));
   }
+
+  @Test
+  public void testRest() {
+    List<Integer> numbers = array(1,2,3,4);
+    
+    // from js
+    assertEquals("working rest()", array(2,3,4), _.rest(numbers));
+    assertEquals("working rest(0)", array(1,2,3,4), _.rest(numbers, 0));
+    assertEquals("rest can take an index", array(3,4), _.rest(numbers, 2));
+    
+    assertEquals("aliased as tail and works on arguments", array(2,3,4), new _(array(1,2,3,4)).tail());
+/*    
+    $result = __::map(array(array(1,2,3), array(1,2,3)), function($vals) { return __::rest($vals); });
+    $this->assertEquals('2,3,2,3', join(',', __::flatten($result)), 'works well with __::map');
+    
+    // extra
+    $this->assertEquals(array('b','c'), __::tail(array('a','b','c')));
+    
+    // docs
+    $this->assertEquals(array(4, 3, 2, 1), __::rest(array(5, 4, 3, 2, 1)));
+*/
+  }
+  
 }

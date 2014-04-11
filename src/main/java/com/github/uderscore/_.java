@@ -551,12 +551,28 @@ public final class _<T> {
         return list.subList(n, list.size());
     }
 
+    public <E> List<E> rest() {
+        return rest(1);
+    }
+
+    public <E> List<E> rest(int n) {
+        return ((List) iterable).subList(n, ((List) iterable).size());
+    }
+
     public static <E> List<E> tail(final List<E> list) {
         return rest(list);
     }
 
     public static <E> List<E> tail(final List<E> list, final int n) {
         return rest(list, n);
+    }
+
+    public <E> List<E> tail() {
+        return rest();
+    }
+
+    public <E> List<E> tail(final int n) {
+        return rest(n);
     }
 
     public static <E> List<E> drop(final List<E> list) {
