@@ -491,6 +491,10 @@ public final class _<T> {
         return iterable.iterator().next();
     }
 
+    public List<T> first(final int n) {
+        return ((List) iterable).subList(0, n);
+    }
+
     public static <E> List<E> initial(final List<E> list) {
         return initial(list, 1);
     }

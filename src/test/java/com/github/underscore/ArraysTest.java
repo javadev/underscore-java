@@ -56,5 +56,9 @@ public class ArraysTest {
         }
     });
     assertEquals("works well with _.map", array(1,1), result);
+    assertEquals("works on an arguments object", 4, _.first(array(4, 3, 2, 1)));
+
+    assertEquals("can pass an index of 1 to first", array(1), _.first(array(1,2,3), 1));
+    assertEquals("can perform OO-style 'first()' with index passed", array(4,5), new _(array(4,5,6,7)).first(2));  
   }
 }
