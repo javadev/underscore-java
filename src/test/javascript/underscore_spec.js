@@ -177,6 +177,10 @@ _.min(numbers);
 _.shuffle([1, 2, 3, 4, 5, 6]);
 => [4, 1, 6, 3, 5, 2]
 */
+    it("shuffle",function(){
+        expect(_.shuffle([1, 2, 3, 4, 5, 6]).length).toBe(6);
+        expect(_.shuffle([1, 2, 3, 4, 5, 6]).sort()).toEqual([1, 2, 3, 4, 5, 6]);
+    });
 /*
 _.sample([1, 2, 3, 4, 5, 6]);
 => 4
@@ -184,19 +188,32 @@ _.sample([1, 2, 3, 4, 5, 6]);
 _.sample([1, 2, 3, 4, 5, 6], 3);
 => [1, 6, 2]
 */
+    it("sample",function(){
+        expect(_.sample([1, 2, 3, 4, 5, 6], 3).length).toBe(3);
+    });
 /*
 var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
 _.pluck(stooges, 'name');
 => ["moe", "larry", "curly"]
 */
+    it("pluck",function(){
+        var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+        expect(_.pluck(stooges, 'name')).toEqual(["moe", "larry", "curly"]);
+    });
 /*
 _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 => [5, 4, 6, 3, 1, 2]
 */
+    it("sortBy",function(){
+        expect(_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); })).toEqual([5, 4, 6, 3, 1, 2]);
+    });
 /*
 _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
 => {1: [1.3], 2: [2.1, 2.4]}
 */
+    it("groupBy",function(){
+        expect(_.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); })).toEqual({1: [1.3], 2: [2.1, 2.4]});
+    });
 /*
 var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
 _.indexBy(stooges, 'age');
