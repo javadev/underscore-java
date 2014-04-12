@@ -174,7 +174,7 @@
 <h2>Collections (Arrays or Objects)</h2>
 <p class="block" id="each"><b class="function">each</b> <code>_.each(collection, iterator)</code></p>
 <p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection).</p>
-<pre>_.each(Arrays.asList(1, 2, 3), new Block&lt;Integer&gt;() {
+<pre>_.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
     public void apply(Integer item) {
         System.out.println(item + &quot;,&quot;);
     }
@@ -183,7 +183,7 @@
 
 int multiplier = 2;
 int index = 0;
-_.each(Arrays.asList(1, 2, 3), new Block&lt;Integer&gt;() {
+_.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
     public void apply(Integer item) {
         System.out.println(index + &quot;=&quot; + (item * multiplier) + &quot;,&quot;);
         index += 1;
@@ -194,7 +194,7 @@ _.each(Arrays.asList(1, 2, 3), new Block&lt;Integer&gt;() {
 
 <p class="block" id="map"><b class="function">map</b> <code>_.map(collection, iterator)</code> <span class="alias">Alias: <b>collect</b></span></p>
 <p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection).</p>
-<pre>_.map(Arrays.asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
+<pre>_.map(asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
             public Integer apply(Integer item) {
                 return item * 3;
             }
@@ -233,5 +233,26 @@ _.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
     }
 });
 // [4, 5, 2, 3, 0, 1]</pre>
+
+<p class="block" id="find"><b class="function">find</b> <code>_.find(collection, iterator)</code> <span class="alias">Alias: <b>detect</b></span></p>
+<p>Return the value of the first item in the collection that passes the truth test (<b>iterator</b>).</p>
+<pre>_.find(asList(1, 2, 3, 4, 5, 6), 
+    new Predicate&lt;Integer&gt;() {
+    public Boolean apply(Integer item) {
+        return item % 2 == 0;
+    }
+});
+// 2</pre>
+
+<p class="block" id="filter"><b class="function">filter</b> <code>_.filter(collection, iterator)</code> <span class="alias">Alias: <b>select</b></span></p>
+<p>Return the values in the collection that pass the truth test (<b>iterator</b>).</p>
+<pre>_.filter(asList(1, 2, 3, 4, 5, 6), 
+    new Predicate&lt;Integer&gt;() {
+    public Boolean apply(Integer item) {
+        return item % 2 == 0;
+    }
+});
+// [2, 4, 6]</pre>
+
 </body>
 </html>
