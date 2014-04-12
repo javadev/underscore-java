@@ -385,4 +385,45 @@ compiled({epithet: "stooge"});
         var compiled = _.template("<% print('Hello ' + epithet); %>");
         expect(compiled({epithet: "stooge"})).toBe("Hello stooge");
     });
+/*
+var lyrics = [
+  {line: 1, words: "I'm a lumberjack and I'm okay"},
+  {line: 2, words: "I sleep all night and I work all day"},
+  {line: 3, words: "He's a lumberjack and he's okay"},
+  {line: 4, words: "He sleeps all night and he works all day"}
+];
+
+_.chain(lyrics)
+  .map(function(line) { return line.words.split(' '); })
+  .flatten()
+  .reduce(function(counts, word) {
+    counts[word] = (counts[word] || 0) + 1;
+    return counts;
+  }, {})
+  .value();
+
+=> {lumberjack: 2, all: 4, night: 2 ... }
+*/
+    it("chain",function(){
+        var lyrics = [
+          {line: 1, words: "I'm a lumberjack and I'm okay"},
+          {line: 2, words: "I sleep all night and I work all day"},
+          {line: 3, words: "He's a lumberjack and he's okay"},
+          {line: 4, words: "He sleeps all night and he works all day"}
+        ];
+        
+        var result = _.chain(lyrics)
+          .map(function(line) { return line.words.split(' '); })
+          .flatten()
+          .reduce(function(counts, word) {
+            counts[word] = (counts[word] || 0) + 1;
+            return counts;
+          }, {})
+          .value();
+        expect(result).toEqual(
+            { "I'm" : 2, a : 2, lumberjack : 2, and : 4, okay : 2, I : 2, sleep : 1, all : 4,
+              night : 2, work : 1, day : 2, "He's" : 1, "he's" : 1, He : 1, sleeps : 1, he : 1,
+              works : 1 });
+    });
+
 });
