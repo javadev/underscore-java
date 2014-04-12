@@ -348,4 +348,41 @@ var youngest = _.chain(stooges)
           .value();
         expect(youngest).toBe("moe is 21");
     });
+/*
+var compiled = _.template("hello: <%= name %>");
+compiled({name: 'moe'});
+=> "hello: moe"
+*/
+    it("template",function(){
+        var compiled = _.template("hello: <%= name %>");
+        expect(compiled({name: 'moe'})).toBe("hello: moe");
+    });
+/*
+var list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
+_.template(list, {people: ['moe', 'curly', 'larry']});
+=> "<li>moe</li><li>curly</li><li>larry</li>"
+*/
+    it("template each",function(){
+        var list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
+        expect(_.template(list, {people: ['moe', 'curly', 'larry']})).toBe(
+            " <li>moe</li>  <li>curly</li>  <li>larry</li> ");
+    });
+/*
+var template = _.template("<b><%- value %></b>");
+template({value: '<script>'});
+=> "<b>&lt;script&gt;</b>"
+*/
+    it("template value",function(){
+        var template = _.template("<b><%- value %></b>");
+        expect(template({value: '<script>'})).toBe("<b>&lt;script&gt;</b>");
+    });
+/*
+var compiled = _.template("<% print('Hello ' + epithet); %>");
+compiled({epithet: "stooge"});
+=> "Hello stooge"
+*/
+    it("template print",function(){
+        var compiled = _.template("<% print('Hello ' + epithet); %>");
+        expect(compiled({epithet: "stooge"})).toBe("Hello stooge");
+    });
 });
