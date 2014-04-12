@@ -223,50 +223,94 @@ _.indexBy(stooges, 'age');
   "60": {name: 'curly', age: 60}
 }
 */
+    it("indexBy",function(){
+        var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+        expect(_.indexBy(stooges, 'age')).toEqual(
+        {
+          "40": {name: 'moe', age: 40},
+          "50": {name: 'larry', age: 50},
+          "60": {name: 'curly', age: 60}
+        });
+    });
 /*
 (function(){ return _.toArray(arguments).slice(1); })(1, 2, 3, 4);
 => [2, 3, 4]
 */
+    it("toArray",function(){
+        expect((function(){ return _.toArray(arguments).slice(1); })(1, 2, 3, 4)).toEqual([2, 3, 4]);
+    });
 /*
 _.size({one: 1, two: 2, three: 3});
 => 3
 */
+    it("size",function(){
+        expect(_.size({one: 1, two: 2, three: 3})).toBe(3);
+    });
 /*
 _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 => [1, 2, 3, 101, 10]
 */
+    it("union",function(){
+        expect(_.union([1, 2, 3], [101, 2, 1, 10], [2, 1])).toEqual([1, 2, 3, 101, 10]);
+    });
 /*
 _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 => [1, 2]
 */
+    it("intersection",function(){
+        expect(_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1])).toEqual([1, 2]);
+    });
 /*
 _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
 => [1, 3, 4]
 */
+    it("difference",function(){
+        expect(_.difference([1, 2, 3, 4, 5], [5, 2, 10])).toEqual([1, 3, 4]);
+    });
 /*
 _.uniq([1, 2, 1, 3, 1, 4]);
 => [1, 2, 3, 4]
 */
+    it("uniq",function(){
+        expect(_.uniq([1, 2, 1, 3, 1, 4])).toEqual([1, 2, 3, 4]);
+    });
 /*
 _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 => [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
 */
+    it("zip",function(){
+        expect(_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false])).toEqual(
+            [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]);
+    });
 /*
 _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
 => {moe: 30, larry: 40, curly: 50}
 */
+    it("object",function(){
+        expect(_.object(['moe', 'larry', 'curly'], [30, 40, 50])).toEqual(
+            {moe: 30, larry: 40, curly: 50});
+    });
 /*
 _.indexOf([1, 2, 3], 2);
 => 1
 */
+    it("indexOf",function(){
+        expect(_.indexOf([1, 2, 3], 2)).toBe(1);
+    });
 /*
 _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 => 4
 */
+    it("lastIndexOf",function(){
+        expect(_.lastIndexOf([1, 2, 3, 1, 2, 3], 2)).toBe(4);
+    });
 /*
 _.sortedIndex([10, 20, 30, 40, 50], 35);
 => 3
 */
+    it("sortedIndex",function(){
+        expect(_.sortedIndex([10, 20, 30, 40, 50], 35)).toBe(3);
+    });
 /*
 _.range(10);
 => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -279,6 +323,13 @@ _.range(0, -10, -1);
 _.range(0);
 => []
 */
+    it("range",function(){
+        expect(_.range(10)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        expect(_.range(1, 11)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        expect(_.range(0, 30, 5)).toEqual([0, 5, 10, 15, 20, 25]);
+        expect(_.range(0, -10, -1)).toEqual([0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
+        expect(_.range(0)).toEqual([]);
+    });
 /*
 var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
 var youngest = _.chain(stooges)
@@ -288,4 +339,13 @@ var youngest = _.chain(stooges)
   .value();
 => "moe is 21"
 */
+    it("chain",function(){
+        var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
+        var youngest = _.chain(stooges)
+          .sortBy(function(stooge){ return stooge.age; })
+          .map(function(stooge){ return stooge.name + ' is ' + stooge.age; })
+          .first()
+          .value();
+        expect(youngest).toBe("moe is 21");
+    });
 });
