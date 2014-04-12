@@ -898,13 +898,19 @@ public final class _<T> {
     }
 
     public static class Chain<T> {
+        private final T item;
         private final List<T> list;
+        public Chain(final T item) {
+            this.item = item;
+            this.list = null;
+        }
         public Chain(final List<T> list) {
+            this.item = null;
             this.list = list;
         }
 
         public Chain<T> first() {
-            return new Chain<T>(Arrays.asList(_.first(list)));
+            return new Chain<T>(_.first(list));
         }
 
         public <F> Chain<F> map(final Function1<? super T, F> func) {
@@ -916,7 +922,7 @@ public final class _<T> {
         }
 
         public String value() {
-            return list.toString();
+            return item == null ? list.toString() : item.toString();
         }
 
     }

@@ -569,6 +569,6 @@ var youngest = _.chain(stooges)
                 }
             })
             .first().value().toString();
-        assertEquals("[moe is 21]", youngest);
+        assertEquals("moe is 21", youngest);
     }
 }
