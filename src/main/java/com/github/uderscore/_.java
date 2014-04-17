@@ -74,7 +74,7 @@ public final class _<T> {
         return map(set, func);
     }
 
-    public static <E> E reduce(final Iterable<E> iterable, final E zeroElem, final Function2<E, E, E> func) {
+    public static <E> E reduce(final Iterable<E> iterable, final Function2<E, E, E> func, final E zeroElem) {
         E accum = zeroElem;
         for (E element : iterable) {
             accum = func.apply(accum, element);
@@ -82,15 +82,15 @@ public final class _<T> {
         return accum;
     }
 
-    public static <E> E inject(final Iterable<E> iterable, final E zeroElem, final Function2<E, E, E> func) {
-        return reduce(iterable, zeroElem, func);
+    public static <E> E inject(final Iterable<E> iterable, final Function2<E, E, E> func, final E zeroElem) {
+        return reduce(iterable, func, zeroElem);
     }
 
-    public static <E> E foldl(final Iterable<E> iterable, final E zeroElem, final Function2<E, E, E> func) {
-        return reduce(iterable, zeroElem, func);
+    public static <E> E foldl(final Iterable<E> iterable, final Function2<E, E, E> func, final E zeroElem) {
+        return reduce(iterable, func, zeroElem);
     }
 
-    public static <E> E reduceRight(final Iterable<E> iterable, final E zeroElem, final Function2<E, E, E> func) {
+    public static <E> E reduceRight(final Iterable<E> iterable, final Function2<E, E, E> func, final E zeroElem) {
         final List<E> list = new ArrayList<E>();
         for (E elem : iterable) {
             list.add(0, elem);
@@ -102,7 +102,7 @@ public final class _<T> {
         return accum;
     }
 
-    public static <E> E reduceRight(final Iterable<E> iterable, final E zeroElem, final Function1<E, E> func) {
+    public static <E> E reduceRight(final Iterable<E> iterable, final Function1<E, E> func, final E zeroElem) {
         final List<E> list = new ArrayList<E>();
         for (E elem : iterable) {
             list.add(0, elem);
@@ -116,12 +116,12 @@ public final class _<T> {
         return accum;
     }
 
-    public static <E> E foldr(final Iterable<E> iterable, final E zeroElem, final Function1<E, E> func) {
-        return reduceRight(iterable, zeroElem, func);
+    public static <E> E foldr(final Iterable<E> iterable, final Function1<E, E> func, final E zeroElem) {
+        return reduceRight(iterable, func, zeroElem);
     }
 
-    public static <E> E foldr(final Iterable<E> iterable, final E zeroElem, final Function2<E, E, E> func) {
-        return reduceRight(iterable, zeroElem, func);
+    public static <E> E foldr(final Iterable<E> iterable, final Function2<E, E, E> func, final E zeroElem) {
+        return reduceRight(iterable, func, zeroElem);
     }
 
     public static <E> E find(final Iterable<E> iterable, final Predicate<E> pred) {
