@@ -116,6 +116,20 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         expect(_.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; })).toEqual([2, 4, 6]);
     });
 /*
+_.where(listOfPlays, {author: "Shakespeare", year: 1611});
+=> [{title: "Cymbeline", author: "Shakespeare", year: 1611},
+    {title: "The Tempest", author: "Shakespeare", year: 1611}]
+*/
+    it("where",function(){
+        var listOfPlays = 
+            [{title: "Cymbeline2", author: "Shakespeare", year: 1614},
+             {title: "Cymbeline", author: "Shakespeare", year: 1611},
+             {title: "The Tempest", author: "Shakespeare", year: 1611}]
+        expect(_.where(listOfPlays, {author: "Shakespeare", year: 1611})).toEqual(
+        [{title: "Cymbeline", author: "Shakespeare", year: 1611},
+         {title: "The Tempest", author: "Shakespeare", year: 1611}]);
+    });
+/*
 _.first([5, 4, 3, 2, 1]);
 => 5
 */
