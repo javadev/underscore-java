@@ -586,6 +586,18 @@ compiled({name: 'moe'});
         assertEquals("hello: moe", compiled.apply(new LinkedHashMap<String, Object>() {{ put("name", "moe"); }}.entrySet()));
     }
 
+    @Test
+    public void template2() throws Exception {
+        Template<Set<Map.Entry<String,Object>>> compiled = _.template("hello: <%= name %>, hello2: <%= name %>");
+        assertEquals("hello: moe, hello2: moe", compiled.apply(new LinkedHashMap<String, Object>() {{ put("name", "moe"); }}.entrySet()));
+    }
+
+    @Test
+    public void template3() throws Exception {
+        Template<Set<Map.Entry<String,Object>>> compiled = _.template("hello: <%= name %>, hello2: <%= name2 %>");
+        assertEquals("hello: moe, hello2: moe2", compiled.apply(
+            new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("name2", "moe2"); }}.entrySet()));
+    }
 /*
 var list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
 _.template(list, {people: ['moe', 'curly', 'larry']});
@@ -611,6 +623,12 @@ template({value: '<script>'});
             template.apply(new LinkedHashMap<String, Object>() {{ put("value", "<script>"); }}.entrySet()));
     }
 
+    @Test
+    public void templateValue2() throws Exception {
+        Template<Set<Map.Entry<String,Object>>> template = _.template("hello: <%= name %>, <b><%- value %></b>");
+        assertEquals("hello: moe, <b>&lt;script&gt;</b>",
+            template.apply(new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("value", "<script>"); }}.entrySet()));
+    }
 /*
 var compiled = _.template("<% print('Hello ' + epithet); %>");
 compiled({epithet: "stooge"});
