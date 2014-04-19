@@ -927,6 +927,32 @@ public final class _<T> {
 
     }
 
+    public static <E> Template<Set<E>> template(final String template) {
+        return new Template<Set<E>>(template) {
+            @Override
+            public String apply(Set<E> value) {
+                String result = template;
+                for (E element : value) {
+                    result = java.util.regex.Pattern.compile("<%=\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
+                        template).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                    java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
+                        "<% _\\.each\\((\\w+), function\\((\\w+)\\) \\{ %>(.*?)<% \\}\\); %>").matcher(template);
+                    if (matcher.find()) {
+                      if (((Map.Entry) element).getKey().equals(matcher.group(1))) {
+                          String repeatResult = ""; 
+                          for (String item : ((List<String>) ((Map.Entry) element).getValue())) {
+                    repeatResult += java.util.regex.Pattern.compile("<%=\\s*\\Q" + matcher.group(2) + "\\E\\s*%>").matcher(
+                        matcher.group(3)).replaceAll(item);
+                          }
+                          result = matcher.replaceFirst(repeatResult);
+                      }
+                    };
+                }
+                return result;
+            }
+        };
+    }
+
     public static void main(String[] args) {
         final String message = "Underscore-java is a java port of Underscore.js.\n\n"
             + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"

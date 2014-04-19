@@ -574,4 +574,28 @@ var youngest = _.chain(stooges)
             .first().value().toString();
         assertEquals("moe is 21", youngest);
     }
+
+/*
+var compiled = _.template("hello: <%= name %>");
+compiled({name: 'moe'});
+=> "hello: moe"
+*/
+    @Test
+    public void template() throws Exception {
+        Template<Set<Map.Entry<String,Object>>> compiled = _.template("hello: <%= name %>");
+        assertEquals("hello: moe", compiled.apply(new LinkedHashMap<String, Object>() {{ put("name", "moe"); }}.entrySet()));
+    }
+
+/*
+var list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
+_.template(list, {people: ['moe', 'curly', 'larry']});
+=> "<li>moe</li><li>curly</li><li>larry</li>"
+*/
+    @Test
+    public void templateEach() throws Exception {
+        String list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
+        Template<Set<Map.Entry<String,Object>>> compiled = _.template(list);
+        assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
+            compiled.apply(new LinkedHashMap<String, Object>() {{ put("people", asList("moe", "curly", "larry")); }}.entrySet()));
+    }
 }
