@@ -927,14 +927,20 @@ public final class _<T> {
 
     }
 
+    public static String escapeHtml(String value) {
+        return value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    }
+
     public static <E> Template<Set<E>> template(final String template) {
         return new Template<Set<E>>(template) {
             @Override
             public String apply(Set<E> value) {
                 String result = template;
                 for (E element : value) {
-                    result = java.util.regex.Pattern.compile("<%=\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
-                        template).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                    result = java.util.regex.Pattern.compile("<%\\=\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
+                        result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                    result = java.util.regex.Pattern.compile("<%\\-\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
+                        result).replaceAll(escapeHtml(String.valueOf(((Map.Entry) element).getValue())));
                     java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
                         "<% _\\.each\\((\\w+), function\\((\\w+)\\) \\{ %>(.*?)<% \\}\\); %>").matcher(template);
                     if (matcher.find()) {

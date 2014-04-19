@@ -598,4 +598,16 @@ _.template(list, {people: ['moe', 'curly', 'larry']});
         assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
             compiled.apply(new LinkedHashMap<String, Object>() {{ put("people", asList("moe", "curly", "larry")); }}.entrySet()));
     }
+
+/*
+var template = _.template("<b><%- value %></b>");
+template({value: '<script>'});
+=> "<b>&lt;script&gt;</b>"
+*/
+    @Test
+    public void templateValue() throws Exception {
+        Template<Set<Map.Entry<String,Object>>> template = _.template("<b><%- value %></b>");
+        assertEquals("<b>&lt;script&gt;</b>",
+            template.apply(new LinkedHashMap<String, Object>() {{ put("value", "<script>"); }}.entrySet()));
+    }
 }
