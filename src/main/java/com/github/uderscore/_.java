@@ -913,6 +913,22 @@ public final class _<T> {
             return new Chain<T>(_.first(list));
         }
 
+        public Chain<T> flatten() {
+            List<T> flattened = new ArrayList<T>();
+            flatten(list, flattened);
+            return new Chain<T>(flattened);
+        }
+
+        private void flatten(final List<?> fromTreeList, final List<T> toFlatList) {
+            for (Object item : fromTreeList) {
+                if (item instanceof List<?>) {
+                    flatten((List<?>) item, toFlatList);
+                } else {
+                    toFlatList.add((T) item);
+                }
+            }
+        }
+
         public <F> Chain<F> map(final Function1<? super T, F> func) {
             return new Chain<F>(_.map(list, func));
         }

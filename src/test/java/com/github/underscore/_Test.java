@@ -576,6 +576,46 @@ var youngest = _.chain(stooges)
     }
 
 /*
+var lyrics = [
+  {line: 1, words: "I'm a lumberjack and I'm okay"},
+  {line: 2, words: "I sleep all night and I work all day"},
+  {line: 3, words: "He's a lumberjack and he's okay"},
+  {line: 4, words: "He sleeps all night and he works all day"}
+];
+
+_.chain(lyrics)
+  .map(function(line) { return line.words.split(' '); })
+  .flatten()
+  .reduce(function(counts, word) {
+    counts[word] = (counts[word] || 0) + 1;
+    return counts;
+  }, {})
+  .value();
+
+=> {lumberjack: 2, all: 4, night: 2 ... }
+*/
+    @Test
+    public void chain2() throws Exception {
+        final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() {{
+            add(new LinkedHashMap<String, Object>() {{ put("line", 1); put("words", "I'm a lumberjack and I'm okay"); }});
+            add(new LinkedHashMap<String, Object>() {{ put("line", 2); put("words", "I sleep all night and I work all day"); }});
+            add(new LinkedHashMap<String, Object>() {{ put("line", 3); put("words", "He's a lumberjack and he's okay"); }});
+            add(new LinkedHashMap<String, Object>() {{ put("line", 4); put("words", "He sleeps all night and he works all day"); }});
+        }};
+        final String result = _.chain(lyrics)
+            .map(
+                new Function1<Map<String, Object>, List<String>>() {
+                public List<String> apply(Map<String, Object> item) {
+                    return asList(String.valueOf(item.get("words")).split(" "));
+                }
+            })
+            .flatten()
+            .value().toString();
+        assertEquals("[I'm, a, lumberjack, and, I'm, okay, I, sleep, all, night, and, I, work, all, day, He's, a, lumber"
+            + "jack, and, he's, okay, He, sleeps, all, night, and, he, works, all, day]", result);
+    }
+
+/*
 var compiled = _.template("hello: <%= name %>");
 compiled({name: 'moe'});
 => "hello: moe"
