@@ -6,6 +6,6 @@ Underscore-java is a java port of [Underscore.js](http://documentcloud.github.co
 In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.
 
 For docs, license, tests, and downloads, see:
-http://javadev.github.com/underscore-java
+http://javadev.github.io/underscore-java
 
 Thanks to Jeremy Ashkenas and all contributors to Underscore.js.
