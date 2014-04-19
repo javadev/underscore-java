@@ -610,4 +610,16 @@ template({value: '<script>'});
         assertEquals("<b>&lt;script&gt;</b>",
             template.apply(new LinkedHashMap<String, Object>() {{ put("value", "<script>"); }}.entrySet()));
     }
+
+/*
+var compiled = _.template("<% print('Hello ' + epithet); %>");
+compiled({epithet: "stooge"});
+=> "Hello stooge"
+*/
+    @Test
+    public void templatePrint() throws Exception {
+        Template<Set<Map.Entry<String,Object>>> compiled = _.template("<% print('Hello ' + epithet); %>");
+        assertEquals("Hello stooge",
+            compiled.apply(new LinkedHashMap<String, Object>() {{ put("epithet", "stooge"); }}.entrySet()));
+    }
 }

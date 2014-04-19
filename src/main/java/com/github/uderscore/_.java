@@ -928,7 +928,7 @@ public final class _<T> {
     }
 
     public static String escapeHtml(String value) {
-        return value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;");
     }
 
     public static <E> Template<Set<E>> template(final String template) {
@@ -942,17 +942,24 @@ public final class _<T> {
                     result = java.util.regex.Pattern.compile("<%\\-\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
                         result).replaceAll(escapeHtml(String.valueOf(((Map.Entry) element).getValue())));
                     java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
-                        "<% _\\.each\\((\\w+), function\\((\\w+)\\) \\{ %>(.*?)<% \\}\\); %>").matcher(template);
+                        "<%\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*%>(.*?)<% \\}\\);\\s*%>").matcher(result);
                     if (matcher.find()) {
-                      if (((Map.Entry) element).getKey().equals(matcher.group(1))) {
-                          String repeatResult = ""; 
-                          for (String item : ((List<String>) ((Map.Entry) element).getValue())) {
-                    repeatResult += java.util.regex.Pattern.compile("<%=\\s*\\Q" + matcher.group(2) + "\\E\\s*%>").matcher(
-                        matcher.group(3)).replaceAll(item);
-                          }
-                          result = matcher.replaceFirst(repeatResult);
-                      }
+                        if (((Map.Entry) element).getKey().equals(matcher.group(1))) {
+                            String repeatResult = ""; 
+                            for (String item : ((List<String>) ((Map.Entry) element).getValue())) {
+                      repeatResult += java.util.regex.Pattern.compile("<%=\\s*\\Q" + matcher.group(2) + "\\E\\s*%>").matcher(
+                          matcher.group(3)).replaceAll(item);
+                            }
+                            result = matcher.replaceFirst(repeatResult);
+                        }
                     };
+                    java.util.regex.Matcher matcherPrint = java.util.regex.Pattern.compile(
+                        "<%\\s*print\\('([^']*)'\\s*\\+\\s*(\\w+)\\);\\s*%>").matcher(result);
+                    if (matcherPrint.find()) {
+                        if (((Map.Entry) element).getKey().equals(matcherPrint.group(2))) {
+                            result = matcherPrint.replaceFirst(matcherPrint.group(1) + ((Map.Entry) element).getValue());
+                        }
+                    }
                 }
                 return result;
             }
