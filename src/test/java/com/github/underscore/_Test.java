@@ -106,7 +106,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     public void reduce() {
         final Integer result =
         _.reduce(asList(1, 2, 3),
-            new FunctionAccum<Integer, Integer, Integer>() {
+            new FunctionAccum<Integer, Integer>() {
             public Integer apply(Integer item1, Integer item2) {
                 return item1 + item2;
             }
@@ -124,7 +124,7 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
     public void reduceRight() {
         final List<Integer> result =
         _.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
-            new FunctionAccum<List<Integer>, List<Integer>, List<Integer>>() {
+            new FunctionAccum<List<Integer>, List<Integer>>() {
             public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
                 List<Integer> list = new ArrayList<Integer>(item1);
                 list.addAll(item2);
@@ -145,7 +145,7 @@ var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
     public void foldl() {
         final List<Integer> result =
         _.foldl(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
-            new FunctionAccum<List<Integer>, List<Integer>, List<Integer>>() {
+            new FunctionAccum<List<Integer>, List<Integer>>() {
             public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
                 List<Integer> list = new ArrayList<Integer>(item1);
                 list.addAll(item2);
@@ -166,7 +166,7 @@ var flat = _.foldr(list, function(a, b) { return a.concat(b); }, []);
     public void foldr() {
         final List<Integer> result =
         _.foldr(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
-            new FunctionAccum<List<Integer>, List<Integer>, List<Integer>>() {
+            new FunctionAccum<List<Integer>, List<Integer>>() {
             public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
                 List<Integer> list = new ArrayList<Integer>(item1);
                 list.addAll(item2);
@@ -611,7 +611,7 @@ _.chain(lyrics)
             })
             .flatten()
             .reduce(
-                new FunctionAccum<Map<String, Object>, String, String>() {
+                new FunctionAccum<Map<String, Object>, String>() {
                 public Map<String, Object> apply(Map<String, Object> accum, String item) {
                     if (accum.get(item) == null) {
                         accum.put(item, 1);

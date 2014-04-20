@@ -74,7 +74,7 @@ public final class _<T> {
         return map(set, func);
     }
 
-    public static <T, E> E reduce(final Iterable<T> iterable, final FunctionAccum<E, T, E> func, final E zeroElem) {
+    public static <T, E> E reduce(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
         E accum = zeroElem;
         for (T element : iterable) {
             accum = func.apply(accum, element);
@@ -82,15 +82,15 @@ public final class _<T> {
         return accum;
     }
 
-    public static <T, E> E inject(final Iterable<T> iterable, final FunctionAccum<E, T, E> func, final E zeroElem) {
+    public static <T, E> E inject(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
         return reduce(iterable, func, zeroElem);
     }
 
-    public static <T, E> E foldl(final Iterable<T> iterable, final FunctionAccum<E, T, E> func, final E zeroElem) {
+    public static <T, E> E foldl(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
         return reduce(iterable, func, zeroElem);
     }
 
-    public static <T, E> E reduceRight(final Iterable<T> iterable, final FunctionAccum<E, T, E> func, final E zeroElem) {
+    public static <T, E> E reduceRight(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
         final List<T> list = new ArrayList<T>();
         for (T elem : iterable) {
             list.add(0, elem);
@@ -120,7 +120,7 @@ public final class _<T> {
         return reduceRight(iterable, func, zeroElem);
     }
 
-    public static <T, E> E foldr(final Iterable<T> iterable, final FunctionAccum<E, T, E> func, final E zeroElem) {
+    public static <T, E> E foldr(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
         return reduceRight(iterable, func, zeroElem);
     }
 
@@ -933,9 +933,21 @@ public final class _<T> {
             return new Chain<F>(_.map(list, func));
         }
 
-        public <F> Chain<F> reduce(final FunctionAccum<F, T, F> func, final F zeroElem) {
+        public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {
             F accum = zeroElem;
             for (T element : list) {
+                accum = func.apply(accum, element);
+            }
+            return new Chain<F>(accum);
+        }
+
+        public <F> Chain<F> reduceRight(final FunctionAccum<F, T> func, final F zeroElem) {
+            final List<T> localList = new ArrayList<T>();
+            for (T elem : list) {
+                localList.add(0, elem);
+            }
+            F accum = zeroElem;
+            for (T element : localList) {
                 accum = func.apply(accum, element);
             }
             return new Chain<F>(accum);
