@@ -169,12 +169,12 @@ public final class _<T> {
         return filter(set, pred);
     }
 
-    public static <E> List<E> where(final List<E> list,
-                                    final Iterable<Tuple<String, E>> properties) {
+    public static <T, E> List<E> where(final List<E> list,
+                                    final List<Tuple<String, T>> properties) {
         return filter(list, new Predicate<E>() {
             @Override
             public Boolean apply(final E elem) {
-                for (Tuple<String, E> prop : properties) {
+                for (Tuple<String, T> prop : properties) {
                     try {
                         if (!elem.getClass().getField(prop.fst()).get(elem)
                                 .equals(prop.snd())) {
