@@ -106,7 +106,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     public void reduce() {
         final Integer result =
         _.reduce(asList(1, 2, 3),
-            new Function2<Integer, Integer, Integer>() {
+            new FunctionAccum<Integer, Integer, Integer>() {
             public Integer apply(Integer item1, Integer item2) {
                 return item1 + item2;
             }
@@ -124,7 +124,7 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
     public void reduceRight() {
         final List<Integer> result =
         _.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
-            new Function2<List<Integer>, List<Integer>, List<Integer>>() {
+            new FunctionAccum<List<Integer>, List<Integer>, List<Integer>>() {
             public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
                 List<Integer> list = new ArrayList<Integer>(item1);
                 list.addAll(item2);
@@ -145,7 +145,7 @@ var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
     public void foldl() {
         final List<Integer> result =
         _.foldl(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
-            new Function2<List<Integer>, List<Integer>, List<Integer>>() {
+            new FunctionAccum<List<Integer>, List<Integer>, List<Integer>>() {
             public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
                 List<Integer> list = new ArrayList<Integer>(item1);
                 list.addAll(item2);
@@ -166,7 +166,7 @@ var flat = _.foldr(list, function(a, b) { return a.concat(b); }, []);
     public void foldr() {
         final List<Integer> result =
         _.foldr(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
-            new Function2<List<Integer>, List<Integer>, List<Integer>>() {
+            new FunctionAccum<List<Integer>, List<Integer>, List<Integer>>() {
             public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
                 List<Integer> list = new ArrayList<Integer>(item1);
                 list.addAll(item2);
@@ -610,9 +610,22 @@ _.chain(lyrics)
                 }
             })
             .flatten()
-            .value().toString();
-        assertEquals("[I'm, a, lumberjack, and, I'm, okay, I, sleep, all, night, and, I, work, all, day, He's, a, lumber"
-            + "jack, and, he's, okay, He, sleeps, all, night, and, he, works, all, day]", result);
+            .reduce(
+                new FunctionAccum<Map<String, Object>, String, String>() {
+                public Map<String, Object> apply(Map<String, Object> accum, String item) {
+                    if (accum.get(item) == null) {
+                        accum.put(item, 1);
+                    } else {
+                        accum.put(item, ((Integer) accum.get(item)) + 1);
+                    }
+                    return accum;
+                }
+            },
+            new LinkedHashMap<String, Object>()
+            )
+            .value();
+        assertEquals("{I'm=2, a=2, lumberjack=2, and=4, okay=2, I=2, sleep=1, all=4, night=2, work=1, day=2, He's=1,"
+            + " he's=1, He=1, sleeps=1, he=1, works=1}", result);
     }
 
 /*
