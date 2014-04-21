@@ -252,6 +252,37 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
     }
 
 /*
+_.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
+=> {title: "Cymbeline", author: "Shakespeare", year: 1611}
+*/
+    @Test
+    public void findWhere() {
+        class Book {
+            public final String title;
+            public final String author;
+            public final Integer year;
+            public Book(final String title, final String author, final Integer year) {
+                this.title = title;
+                this.author = author;
+                this.year = year;
+            }
+            public String toString() {
+                return "title: " + title + ", author: " + author + ", year: " + year;
+            }
+        };
+        List<Book> listOfPlays =
+            new ArrayList<Book>() {{
+              add(new Book("Cymbeline2", "Shakespeare", 1614));
+              add(new Book("Cymbeline", "Shakespeare", 1611));
+              add(new Book("The Tempest", "Shakespeare", 1611));
+            }};
+        assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
+            _.findWhere(listOfPlays, asList(
+            Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+    }
+
+/*
 _.first([5, 4, 3, 2, 1]);
 => 5
 */

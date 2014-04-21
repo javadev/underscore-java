@@ -35,63 +35,35 @@ import static org.junit.Assert.assertEquals;
  */
 public class ArraysTest {
   
-  public <T> List<T>array(T ... items) {
-    return asList(items);
-  }
+    public <T> List<T>array(T ... items) {
+        return asList(items);
+    }
 
-  public <T> List<T>array() {
-    return Collections.<T>emptyList();
-  }
+    public <T> List<T>array() {
+        return Collections.<T>emptyList();
+    }
 
-  @Test
-  public void testFirst() {
-    // from js
-    assertEquals("can pull out the first element of an array", 1, _.first(array(1,2,3)));
-    assertEquals("can pass an index to first", array(), _.first(array(1,2,3), 0));
-    assertEquals("can pass an index to first", array(1, 2), _.first(array(1,2,3), 2));
-    assertEquals("can perform OO-style 'first()'", 1, new _(array(1,2,3)).first());
-    List<?> result = _.map(array(array(1,2,3), array(1,2,3)), new Function1<List<Integer>, Integer>() {
-        public Integer apply(List<Integer> item) {
-            return _.first(item);
-        }
-    });
-    assertEquals("works well with _.map", array(1,1), result);
-    assertEquals("works on an arguments object", 4, _.first(new Integer[]{4, 3, 2, 1}));
+    @Test
+    public void test_first() {
+        Integer res = new _<Integer>(array(1, 2, 3, 4, 5)).first();
+        assertEquals("first one item did not work", 1, res);
+        List<Integer> resList = new _(array(1, 2, 3, 4, 5)).first(3);
+        assertEquals("first multi item did not wok", array(1, 2, 3), resList);
+    }
 
-    // extra
-    assertEquals("can pass an index of 1 to first", array(1), _.first(array(1,2,3), 1));
-    assertEquals("can perform OO-style 'first()' with index passed", array(4,5), new _(array(4,5,6,7)).first(2));  
+    @Test
+    public void test_initial() {
+        List<Integer> res = new _(array(1, 2, 3, 4, 5)).initial();
+        assertEquals("initial one item did not work", array(1, 2, 3, 4), res);
+        res = new _(array(1, 2, 3, 4, 5)).initial(3);
+        assertEquals("initial multi item did not wok", array(1, 2), res);
+    }
 
-    assertEquals("aliased as 'head'", 1, _.head(array(1,2,3)));
-    assertEquals("aliased as 'head'", array(), _.head(array(1,2,3), 0));
-
-    // docs
-    assertEquals(5, _.first(array(5, 4, 3, 2, 1)));
-    assertEquals(array(5, 4, 3), _.first(array(5, 4, 3, 2, 1), 3));
-  }
-
-  @Test
-  public void testRest() {
-    List<Integer> numbers = array(1,2,3,4);
-    
-    // from js
-    assertEquals("working rest()", array(2,3,4), _.rest(numbers));
-    assertEquals("working rest(0)", array(1,2,3,4), _.rest(numbers, 0));
-    assertEquals("rest can take an index", array(3,4), _.rest(numbers, 2));
-    
-    assertEquals("aliased as tail and works on arguments", array(2,3,4), new _(array(1,2,3,4)).tail());
-    List<List<Integer>> result = _.map(array(array(1,2,3), array(1,2,3)), new Function1<List<Integer>, List<Integer>>() {
-        public List<Integer> apply(List<Integer> vals) {
-            return _.rest(vals);
-        }
-    });
-    assertEquals("works well with _.map", array(2, 3, 2, 3), _.flatten(result));
-    
-    // extra
-    assertEquals(array('b','c'), _.tail(array('a','b','c')));
-    
-    // docs
-    assertEquals(array(4, 3, 2, 1), _.rest(array(5, 4, 3, 2, 1)));
-  }
-  
+    @Test
+    public void test_last() {
+        Integer res = new _<Integer>(array(1, 2, 3, 4, 5)).last();
+        assertEquals("last one item did not work", 5, res);
+        List<Integer> resList = new _(array(1, 2, 3, 4, 5)).last(3);
+        assertEquals("last multi item did not wok", array(3, 4, 5), resList);
+    }
 }

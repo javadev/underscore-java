@@ -191,12 +191,12 @@ public final class _<T> {
 
     }
 
-    public static <E> Set<E> where(final Set<E> list,
-                                   final Iterable<Tuple<String, E>> properties) {
+    public static <T, E> Set<E> where(final Set<E> list,
+                                   final List<Tuple<String, T>> properties) {
         return filter(list, new Predicate<E>() {
             @Override
             public Boolean apply(final E elem) {
-                for (Tuple<String, E> prop : properties) {
+                for (Tuple<String, T> prop : properties) {
                     try {
                         if (!elem.getClass().getField(prop.fst()).get(elem)
                                 .equals(prop.snd())) {
@@ -213,12 +213,12 @@ public final class _<T> {
 
     }
 
-    public static <E> E findWhere(final Iterable<E> iterable,
-                                  final Iterable<Tuple<String, E>> properties) {
+    public static <T, E> E findWhere(final Iterable<E> iterable,
+                                  final List<Tuple<String, T>> properties) {
         return find(iterable, new Predicate<E>() {
             @Override
             public Boolean apply(final E elem) {
-                for (Tuple<String, E> prop : properties) {
+                for (Tuple<String, T> prop : properties) {
                     try {
                         if (!elem.getClass().getField(prop.fst()).get(elem)
                                 .equals(prop.snd())) {
@@ -531,6 +531,14 @@ public final class _<T> {
         return Arrays.copyOf(array, array.length - n);
     }
 
+    public List<T> initial() {
+        return _.initial(((List) iterable), 1);
+    }
+
+    public List<T> initial(final int n) {
+        return _.initial(((List) iterable), n);
+    }
+
     public static <E> E last(final E[] array) {
         return array[array.length - 1];
     }
@@ -541,6 +549,14 @@ public final class _<T> {
 
     public static <E> List<E> last(final List<E> list, final int n) {
         return list.subList(list.size() - n, list.size());
+    }
+
+    public T last() {
+        return _.last(((List<T>) iterable));
+    }
+
+    public List<T> last(final int n) {
+        return _.last(((List) iterable), n);
     }
 
     public static <E> List<E> rest(final List<E> list) {
