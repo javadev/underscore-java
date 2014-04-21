@@ -86,8 +86,8 @@ public class ArraysTest {
         List<?> llist = array(1, array(2), array(3, array(array(array(4)))));
         assertEquals("can flatten nested arrays", _.flatten(llist),
                          array(1, 2, 3, 4));
-//        assertEquals("can shallowly flatten nested arrays", _.flatten(llist, true),
-//                         array(1, 2, 3, array(array(array(4)))));
+        assertEquals("can shallowly flatten nested arrays", _.flatten(llist, true),
+                         array(1, 2, 3, array(array(array(4)))));
     }
 
 /*

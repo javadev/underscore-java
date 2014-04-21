@@ -656,14 +656,20 @@ public final class _<T> {
 
     public static <E> List<E> flatten(final List<?> list) {
         List<E> flattened = new ArrayList<E>();
-        flatten(list, flattened);
+        flatten(list, flattened, -1);
         return flattened;
     }
 
-    private static <E> void flatten(final List<?> fromTreeList, final List<E> toFlatList) {
+    public static <E> List<E> flatten(final List<?> list, final boolean shallow) {
+        List<E> flattened = new ArrayList<E>();
+        flatten(list, flattened, shallow ? 1 : -1);
+        return flattened;
+    }
+
+    private static <E> void flatten(final List<?> fromTreeList, final List<E> toFlatList, final int shallowLevel) {
         for (Object item : fromTreeList) {
-            if (item instanceof List<?>) {
-                flatten((List<?>) item, toFlatList);
+            if (item instanceof List<?> && shallowLevel != 0) {
+                flatten((List<?>) item, toFlatList, shallowLevel - 1);
             } else {
                 toFlatList.add((E) item);
             }
@@ -672,6 +678,10 @@ public final class _<T> {
 
     public List<T> flatten() {
         return _.flatten(((List) iterable));
+    }
+
+    public List<T> flatten(final boolean shallow) {
+        return _.flatten(((List) iterable), shallow);
     }
 
     public static <E> List<E> without(final List<E> list, E... values) {
