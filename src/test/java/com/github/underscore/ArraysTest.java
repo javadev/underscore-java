@@ -67,25 +67,30 @@ public class ArraysTest {
         assertEquals("last multi item did not wok", array(3, 4, 5), resList);
     }
 
+    @Test
+    public void test_rest() {
+        List<Integer> res = new _(array(1, 2, 3, 4, 5)).rest();
+        assertEquals("rest one item did not work", array(2, 3, 4, 5), res);
+        res = new _(array(1, 2, 3, 4, 5)).rest(3);
+        assertEquals("rest multi item did not wok", array(4, 5), res);
+    }
+
+    @Test
+    public void test_compact() {
+        List<Integer> res = new _(array(false, 1, 0, "foo", null, -1)).compact();
+        assertEquals("compact did not work", array(1, "foo", -1), res);
+    }
+
+    @Test
+    public void test_flatten() {
+        List<?> llist = array(1, array(2), array(3, array(array(array(4)))));
+        assertEquals("can flatten nested arrays", _.flatten(llist),
+                         array(1, 2, 3, 4));
+//        assertEquals("can shallowly flatten nested arrays", _.flatten(llist, true),
+//                         array(1, 2, 3, array(array(array(4)))));
+    }
+
 /*
-    def test_rest(self):
-        res = _([1, 2, 3, 4, 5]).rest()
-        self.assertEqual([2, 3, 4, 5], res, "rest one item did not work")
-        res = _([1, 2, 3, 4, 5]).rest(3)
-        self.assertEqual([4, 5], res, "rest multi item did not wok")
-
-    def test_compact(self):
-        res = _([False, 1, 0, "foo", None, -1]).compact()
-        self.assertEqual([1, "foo", -1], res, "compact did not work")
-
-    def test_flatten(self):
-        llist = [1, [2], [3, [[[4]]]]]
-        self.assertEqual(_.flatten(llist),
-                         [1, 2, 3, 4], 'can flatten nested arrays')
-        self.assertEqual(_.flatten(llist, True),
-                         [1, 2, 3, [[[4]]]], 'can shallowly'
-                         ' flatten nested arrays')
-
     def test_uniq(self):
         tlist = [1, 2, 1, 3, 1, 4]
         self.assertEqual([1, 2, 3, 4], _.uniq(tlist),

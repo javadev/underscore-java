@@ -646,6 +646,14 @@ public final class _<T> {
         return (E[]) compact(Arrays.asList(array), falsyValue).toArray();
     }
 
+    public List<T> compact() {
+        return _.compact(((List) iterable));
+    }
+
+    public List<T> compact(final T falsyValue) {
+        return _.compact(((List) iterable), falsyValue);
+    }
+
     public static <E> List<E> flatten(final List<?> list) {
         List<E> flattened = new ArrayList<E>();
         flatten(list, flattened);
@@ -660,6 +668,10 @@ public final class _<T> {
                 toFlatList.add((E) item);
             }
         }
+    }
+
+    public List<T> flatten() {
+        return _.flatten(((List) iterable));
     }
 
     public static <E> List<E> without(final List<E> list, E... values) {
