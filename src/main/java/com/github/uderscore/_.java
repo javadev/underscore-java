@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * Underscore library in java.
+ * Underscore-java is a java port of Underscore.js.
  *
  * @author Valentyn Kolesnikov
  */
@@ -567,12 +567,12 @@ public final class _<T> {
         return list.subList(n, list.size());
     }
 
-    public <E> List<E> rest() {
-        return rest(1);
+    public List<T> rest() {
+        return _.rest((List) iterable);
     }
 
-    public <E> List<E> rest(int n) {
-        return ((List) iterable).subList(n, ((List) iterable).size());
+    public List<T> rest(int n) {
+        return _.rest((List) iterable, n);
     }
 
     public static <E> List<E> tail(final List<E> list) {
@@ -583,11 +583,11 @@ public final class _<T> {
         return rest(list, n);
     }
 
-    public <E> List<E> tail() {
+    public List<T> tail() {
         return rest();
     }
 
-    public <E> List<E> tail(final int n) {
+    public List<T> tail(final int n) {
         return rest(n);
     }
 
