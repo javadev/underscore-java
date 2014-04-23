@@ -757,4 +757,22 @@ compiled({epithet: "stooge"});
         assertEquals("Hello stooge",
             compiled.apply(new LinkedHashMap<String, Object>() {{ put("epithet", "stooge"); }}.entrySet()));
     }
+
+/*
+_.escape('Curly, Larry & Moe');
+=> "Curly, Larry &amp; Moe"
+*/
+    @Test
+    public void escape() throws Exception {
+        assertEquals("Curly, Larry &amp; Moe", _.escape("Curly, Larry & Moe"));
+    }
+
+/*
+_.unescape('Curly, Larry &amp; Moe');
+=> "Curly, Larry & Moe"
+*/
+    @Test
+    public void unescape() throws Exception {
+        assertEquals("Curly, Larry & Moe", _.unescape("Curly, Larry &amp; Moe"));
+    }
 }

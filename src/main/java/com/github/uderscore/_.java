@@ -1001,8 +1001,12 @@ public final class _<T> {
 
     }
 
-    public static String escapeHtml(String value) {
+    public static String escape(String value) {
         return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;");
+    }
+
+    public static String unescape(String value) {
+        return value.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&amp;", "&");
     }
 
     public static <E> Template<Set<E>> template(final String template) {
@@ -1014,7 +1018,7 @@ public final class _<T> {
                     result = java.util.regex.Pattern.compile("<%\\=\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
                         result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
                     result = java.util.regex.Pattern.compile("<%\\-\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
-                        result).replaceAll(escapeHtml(String.valueOf(((Map.Entry) element).getValue())));
+                        result).replaceAll(escape(String.valueOf(((Map.Entry) element).getValue())));
                     java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
                         "<%\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*%>(.*?)<% \\}\\);\\s*%>").matcher(result);
                     if (matcher.find()) {
