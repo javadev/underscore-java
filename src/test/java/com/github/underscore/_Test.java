@@ -775,4 +775,20 @@ _.unescape('Curly, Larry &amp; Moe');
     public void unescape() throws Exception {
         assertEquals("Curly, Larry & Moe", _.unescape("Curly, Larry &amp; Moe"));
     }
+
+/*
+var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
+_.result(object, 'cheese');
+=> "crumpets"
+_.result(object, 'stuff');
+=> "nonsense"
+*/
+    @Test
+    public void result() throws Exception {
+        Map<String, Object> object = new LinkedHashMap<String, Object>() {{
+            put("cheese", "crumpets");
+            put("stuff", new Function<String>() { public String apply() { return "nonsense"; }});
+        }};
+//        _.result(object.entrySet(), asList("cheese"));
+    }
 }
