@@ -789,6 +789,7 @@ _.result(object, 'stuff');
             put("cheese", "crumpets");
             put("stuff", new Function<String>() { public String apply() { return "nonsense"; }});
         }};
+
 //        _.result(object.entrySet(), asList("cheese"));
     }
 }
