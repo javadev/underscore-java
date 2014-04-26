@@ -85,23 +85,25 @@ public class ArraysTest {
     public void test_flatten() {
         List<?> llist = array(1, array(2), array(3, array(array(array(4)))));
         assertEquals("can flatten nested arrays", _.flatten(llist),
-                         array(1, 2, 3, 4));
+            array(1, 2, 3, 4));
         assertEquals("can shallowly flatten nested arrays", _.flatten(llist, true),
-                         array(1, 2, 3, array(array(array(4)))));
+            array(1, 2, 3, array(array(array(4)))));
     }
 
+    @Test
+    public void test_uniq() {
+        List<Integer> tlist = array(1, 2, 1, 3, 1, 4);
+        assertEquals("can find the unique values of an unsorted array",
+            array(1, 2, 3, 4), _.uniq(tlist));
+
+        tlist = array(1, 1, 1, 2, 2, 3);
+        assertEquals("can find the unique values of a sorted array faster",
+            array(1, 2, 3), _.uniq(tlist));
+
+        List<HashMap<String, String>> tlist2 = array(new HashMap<String, String>() {{ put("name", "moe"); }},
+             new HashMap<String, String>() {{ put("name", "curly"); }},
+             new HashMap<String, String>() {{ put("name", "larry"); }});
 /*
-    def test_uniq(self):
-        tlist = [1, 2, 1, 3, 1, 4]
-        self.assertEqual([1, 2, 3, 4], _.uniq(tlist),
-                         'can find the unique values of an unsorted array')
-
-        tlist = [1, 1, 1, 2, 2, 3]
-        self.assertEqual([1, 2, 3], _.uniq(tlist, True),
-                         'can find the unique values of a sorted array faster')
-
-        tlist = [{"name": 'moe'}, {"name": 'curly'},
-                 {"name": 'larry'}, {"name": 'curly'}]
         iterator = lambda value, *args: value.get('name')
         self.assertEqual(
             ["moe", "curly", "larry"], _.uniq(tlist, False, iterator),
@@ -111,7 +113,10 @@ public class ArraysTest {
         iterator = lambda value, *args: value + 1
         self.assertEqual([2, 3, 4, 5], _.uniq(tlist, True, iterator),
                          'iterator works with sorted array')
+*/
+    }
 
+/*
     def test_without(self):
         tlist = [1, 2, 1, 0, 3, 1, 4]
         self.assertEqual([2, 3, 4], _.without(tlist, 0, 1),
