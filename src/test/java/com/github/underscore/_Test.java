@@ -28,6 +28,7 @@ import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -231,6 +232,59 @@ var notevens = _.reject([1, 2, 3, 4], function(num){ return num % 2 == 0; });
             }
         });
         assertEquals("[1, 3]", result.toString());
+    }
+
+/*
+_.all([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // false
+_.all([1, 2, 3, 4], function(num) { return num < 5; }); // true
+*/
+    @Test
+    public void all() {
+        final Boolean result1 = _.all(asList(1, 2, 3, 4), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final Boolean result2 = _.all(asList(1, 2, 3, 4), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item < 5;
+            }
+        });
+        assertFalse(result1);
+        assertTrue(result2);
+    }
+
+/*
+_.any([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // true
+_.any([1, 2, 3, 4], function(num) { return num === 5; }); // false
+*/
+    @Test
+    public void any() {
+        final Boolean result1 = _.any(asList(1, 2, 3, 4), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final Boolean result2 = _.any(asList(1, 2, 3, 4), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item == 5;
+            }
+        });
+        assertTrue(result1);
+        assertFalse(result2);
+    }
+
+/*
+_.include(array(1, 2, 3), 3); // true
+*/
+    @Test
+    public void include() {
+        final Boolean result = _.include(asList(1, 2, 3), 3); 
+        assertTrue(result);
     }
 
 /*
