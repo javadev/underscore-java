@@ -219,6 +219,21 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     }
 
 /*
+var notevens = _.reject([1, 2, 3, 4], function(num){ return num % 2 == 0; });
+=> [1, 3]
+*/
+    @Test
+    public void reject() {
+        final List<Integer> result = _.reject(asList(1, 2, 3, 4), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[1, 3]", result.toString());
+    }
+
+/*
 _.where(listOfPlays, {author: "Shakespeare", year: 1611});
 => [{title: "Cymbeline", author: "Shakespeare", year: 1611},
     {title: "The Tempest", author: "Shakespeare", year: 1611}]
