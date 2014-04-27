@@ -78,7 +78,7 @@
         <a href="#reject">reject</a>,
         <a href="#all">all</a>,
         <a href="#any">any</a>,
-        <a href="#includ">includ</a>,
+        <a href="#include">include</a>,
         <a href="#invoke">invoke</a>,
         <a href="#pluck">pluck</a>,
         <a href="#max">max</a>,
@@ -263,5 +263,44 @@ _.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
     }
 });
 // [1, 3]</pre>
+
+<p class="block" id="all"><b class="function">all</b> <code>_.all(collection, iterator)</code></p>
+<p>Returns true if all values in the collection pass the truth test (<b>iterator</b>).</p>
+<pre>_.all(asList(1, 2, 3, 4), 
+    new Predicate&lt;Integer&gt;() {
+        public Boolean apply(Integer item) {
+            return item % 2 == 0;
+        }
+    });
+// false
+_.all(asList(1, 2, 3, 4), 
+    new Predicate&lt;Integer&gt;() {
+        public Boolean apply(Integer item) {
+            return item < 5;
+        }
+    });
+// true</pre>
+
+<p class="block" id="any"><b class="function">any</b> <code>_.any(collection, iterator)</code></p>
+<p>Returns true if any values in the collection pass the truth test (<b>iterator</b>).</p>
+<pre>_.any(asList(1, 2, 3, 4), 
+    new Predicate&lt;Integer&gt;() {
+        public Boolean apply(Integer item) {
+            return item % 2 == 0;
+        }
+    });
+// true
+_.any(asList(1, 2, 3, 4), 
+    new Predicate&lt;Integer&gt;() {
+        public Boolean apply(Integer item) {
+            return item == 5;
+        }
+    });
+// false</pre>
+
+<p class="block" id="include"><b class="function">include</b> <code>_.include(collection, value)</code> <span class="alias">Alias: <b>contains</b></span></p>
+<p>Returns true if value is found in the collection using == to test equality.</p>
+<pre>_.include(asList(1, 2, 3), 3) // true</pre>
+
 </body>
 </html>
