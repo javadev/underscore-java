@@ -482,7 +482,7 @@ _.pluck(stooges, 'name');
             }
         };
         final List<?> result =
-        _.pluck(new ArrayList<Person>() {{ add(new Person("moe", 40)); add(new Person("larry", 50)); add(new Person("curly", 40));}}, "name");
+        _.pluck(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)), "name");
         assertEquals("[moe, larry, curly]", result.toString());
     }
 
