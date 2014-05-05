@@ -279,12 +279,20 @@ _.any([1, 2, 3, 4], function(num) { return num === 5; }); // false
     }
 
 /*
-_.include(array(1, 2, 3), 3); // true
+_.include([1, 2, 3], 3); // true
 */
     @Test
     public void include() {
         final Boolean result = _.include(asList(1, 2, 3), 3); 
         assertTrue(result);
+    }
+
+/*
+_.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
+*/
+    @Test
+    public void invoke() throws Exception {
+        assertEquals(_.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
     }
 
 /*

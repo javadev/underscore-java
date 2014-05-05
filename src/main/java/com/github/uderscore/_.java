@@ -288,27 +288,29 @@ public final class _<T> {
         return contains(iterable, elem);
     }
 
-    public static <E> void invoke(final Iterable<E> iterable, final String methodName,
+    public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName,
                                   final List<Object> args) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        final List<E> result = new ArrayList<E>();
         final List<Class<?>> argTypes = map(args, new Function1<Object, Class<?>>() {
             public Class<?> apply(Object input) {
                 return input.getClass();
             }
         });
-        final Method method = iterable.getClass().getMethod(methodName, argTypes.toArray(new Class[argTypes.size()]));
+        final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(new Class[argTypes.size()]));
         _.each(iterable, new Block<E>() {
             public void apply(E arg) {
                 try {
-                    method.invoke(iterable, args.toArray(new Object[args.size()]));
+                    result.add((E) method.invoke(arg, args.toArray(new Object[args.size()])));
                 } catch (Exception e) {
                     throw new IllegalArgumentException(e);
                 }
             }
         });
+        return result;
     }
 
-    public static <E> void invoke(final Iterable<E> iterable, final String methodName) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        invoke(iterable, methodName, Collections.emptyList());
+    public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        return invoke(iterable, methodName, Collections.emptyList());
     }
 
     public static <E> List<Object> pluck(final List<E> list,
