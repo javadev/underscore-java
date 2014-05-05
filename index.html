@@ -302,5 +302,9 @@ _.any(asList(1, 2, 3, 4),
 <p>Returns true if value is found in the collection using == to test equality.</p>
 <pre>_.include(asList(1, 2, 3), 3) // true</pre>
 
+<p class="block" id="invoke"><b class="function">invoke</b> <code>_.invoke(collection, functionName)</code></p>
+<p>Returns a copy of the collection after running functionName across all elements.</p>
+<pre>_.invoke(asList(" foo", " bar "), "trim"); // ["foo", "bar"]</pre>
+
 </body>
 </html>
