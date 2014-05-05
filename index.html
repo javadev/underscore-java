@@ -316,7 +316,7 @@ _.any(asList(1, 2, 3, 4),
         this.age = age;
     }
 };
-_.pluck(new ArrayList&lt;Person&gt;() {{ add(new Person(&quot;moe&quot;, 40)); add(new Person(&quot;larry&quot;, 50)); add(new Person(&quot;curly&quot;, 40));}}, &quot;name&quot;);
+_.pluck(asList(new Person(&quot;moe&quot;, 40), new Person(&quot;larry&quot;, 50), new Person(&quot;curly&quot;, 40)), &quot;name&quot;);
 // ["moe", "larry", "curly"]</pre>
 
 <p class="block" id="max"><b class="function">max</b> <code>_.max(collection, [iterator])</code></p>
