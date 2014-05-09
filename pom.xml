@@ -10,6 +10,12 @@
   <description>The java port of Underscore.js</description>
   <url>https://github.com/javadev/underscore-java</url>
   
+  <developers>
+    <developer>
+      <name>Valentyn Kolesnikov</name>
+    </developer>
+  </developers>
+
   <licenses>
     <license>
       <name>The MIT License</name>
@@ -19,10 +25,14 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/javadev/underscore-java/</url>
-    <connection>scm:git:git@github.com:javadev/underscore-java.git</connection>
-    <developerConnection>scm:git:git@github.com:javadev/underscore-java.git</developerConnection>
+    <connection>scm:git:git://github.com/javadev/underscore-java.git</connection>
+    <developerConnection>scm:git:git://github.com/javadev/underscore-java.git</developerConnection>
+    <url>https://github.com/javadev/underscore-java</url>
   </scm>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <ciManagement>
     <system>Travis CI</system>
@@ -106,7 +116,7 @@
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
-        <version>2.1.0</version>
+        <version>2.2.0</version>
         <configuration>
           <repoToken>DD0C2Rr5T4s4XseQYHUqlsFHcWKY78Lfa</repoToken>
         </configuration>
