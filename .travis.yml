@@ -1,2 +1,9 @@
 language: java
-after_success: mvn test jacoco:report coveralls:jacoco
+
+jdk:
+  - openjdk6
+  - openjdk7
+  - oraclejdk7
+  - oraclejdk8
+
+script: mvn clean package jacoco:report coveralls:jacoco
