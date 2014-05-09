@@ -326,6 +326,11 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             _.where(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+        assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
+            + " title: The Tempest, author: Shakespeare, year: 1611]",
+            _.where(new LinkedHashSet<Book>(listOfPlays), asList(
+            Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
     }
 
 /*

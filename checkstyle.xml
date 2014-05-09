@@ -25,11 +25,13 @@
       <property name="fileExtensions" value="java"/>
       <property name="severity" value="warning"/>
     </module>
+<!--
     <module name="RegexpHeader">
         <property name="header" value=
 "/*$\n * \$Id[^$]*\$\n *$\n * Copyright 20[01]\d(,\s20[01]\d)* Valentyn Kolesnikov$\n"/>
         <property name="fileExtensions" value="java"/>
     </module>
+-->
     <module name="RegexpSingleline">
       <property name="format" value="\s+$"/>
       <property name="message" value="Trailing whitespace (extra spaces at the end of a line)"/>

@@ -1,18 +1,18 @@
 /*
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2014 Valentyn Kolesnikov
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -100,24 +100,6 @@ public final class _<T> {
             accum = func.apply(accum, element);
         }
         return accum;
-    }
-
-    public static <E> E reduceRight(final Iterable<E> iterable, final Function1<E, E> func, final E zeroElem) {
-        final List<E> list = new ArrayList<E>();
-        for (E elem : iterable) {
-            list.add(0, elem);
-        }
-        E accum = zeroElem;
-        int index = 0;
-        for (E elem : list) {
-            accum = func.apply(accum);
-            index += 1;
-        }
-        return accum;
-    }
-
-    public static <E> E foldr(final Iterable<E> iterable, final Function1<E, E> func, final E zeroElem) {
-        return reduceRight(iterable, func, zeroElem);
     }
 
     public static <T, E> E foldr(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
