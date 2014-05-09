@@ -6,9 +6,34 @@
   <artifactId>underscore</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Undescore liblary in java program language</name>
-  <description>The undescore liblary in java program language</description>
+  <name>java port of Underscore.js</name>
+  <description>The java port of Underscore.js</description>
+  <url>https://github.com/javadev/underscore-java</url>
   
+  <licenses>
+    <license>
+      <name>The MIT License</name>
+      <url>http://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/javadev/underscore-java/</url>
+    <connection>scm:git:git@github.com:javadev/underscore-java.git</connection>
+    <developerConnection>scm:git:git@github.com:javadev/underscore-java.git</developerConnection>
+  </scm>
+
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/javadev/underscore-java</url>
+  </ciManagement>
+
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/javadev/underscore-java</url>
+  </issueManagement>
+
   <build>
         <finalName>${project.artifactId}</finalName>
     <plugins>
