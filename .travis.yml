@@ -7,3 +7,4 @@ jdk:
   - oraclejdk8
 
 script: mvn clean package
+after_success: mvn test jacoco:report coveralls:jacoco
