@@ -1,5 +1,8 @@
-underscore-java [![Build Status](https://secure.travis-ci.org/javadev/underscore-java.png)](https://travis-ci.org/javadev/underscore-java)
+underscore-java 
 ===============
+
+[![Build Status](https://secure.travis-ci.org/javadev/underscore-java.png)](https://travis-ci.org/javadev/underscore-java)
+[![Coverage Status](https://coveralls.io/repos/javadev/underscore-java/badge.png)](https://coveralls.io/r/javadev/underscore-java)
 
 Underscore-java is a java port of [Underscore.js](http://documentcloud.github.com/underscore/).
 
