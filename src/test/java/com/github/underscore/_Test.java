@@ -54,6 +54,36 @@ _.each([1, 2, 3], alert);
     }
 
 /*
+_.forEach([1, 2, 3], alert);
+=> alerts each number in turn...
+*/
+    @Test
+    public void forEach() {
+        final List<Integer> result = new ArrayList<Integer>();
+        _.forEach(asList(1, 2, 3), new Block<Integer>() {
+            public void apply(Integer item) {
+                result.add(item);
+            }
+        });
+        assertEquals("[1, 2, 3]", result.toString());
+    }
+
+/*
+_([1, 2, 3]).forEach(alert);
+=> alerts each number in turn...
+*/
+    @Test
+    public void forEachObj() {
+        final List<Integer> result = new ArrayList<Integer>();
+        new _(asList(1, 2, 3)).forEach(new Block<Integer>() {
+            public void apply(Integer item) {
+                result.add(item);
+            }
+        });
+        assertEquals("[1, 2, 3]", result.toString());
+    }
+    
+/*
 _.each({one: 1, two: 2, three: 3}, alert);
 => alerts each number value in turn...
 */
@@ -75,7 +105,7 @@ _.map([1, 2, 3], function(num){ return num * 3; });
 */
     @Test
     public void map() {
-        List<Integer> result = _.<Integer, Integer>map(asList(1, 2, 3), new Function1<Integer, Integer>() {
+        List<Integer> result = _.map(asList(1, 2, 3), new Function1<Integer, Integer>() {
             public Integer apply(Integer item) {
                 return item * 3;
             }
@@ -83,6 +113,25 @@ _.map([1, 2, 3], function(num){ return num * 3; });
         assertEquals("[3, 6, 9]", result.toString());
     }
 
+/*
+_.collect([1, 2, 3], function(num){ return num * 3; });
+=> [3, 6, 9]
+*/
+    @Test
+    public void collect() {
+        List<Integer> result = _.collect(asList(1, 2, 3), new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return item * 3;
+            }
+        });
+        assertEquals("[3, 6, 9]", result.toString());
+        Set<Integer> resultSet = _.collect(new LinkedHashSet(asList(1, 2, 3)), new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return item * 3;
+            }
+        });
+        assertEquals("[3, 6, 9]", resultSet.toString());
+    }
 /*
 _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
 => [3, 6, 9]
@@ -135,6 +184,27 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
         Collections.<Integer>emptyList()
         );
         assertEquals("[4, 5, 2, 3, 0, 1]", result.toString());
+    }
+
+/*
+var list = [[0, 1], [2, 3], [4, 5]];
+var flat = _.inject(list, function(a, b) { return a.concat(b); }, []);
+=> [0, 1, 2, 3, 4, 5]
+*/
+    @Test
+    public void inject() {
+        final List<Integer> result =
+        _.inject(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
+            new FunctionAccum<List<Integer>, List<Integer>>() {
+            public List<Integer> apply(List<Integer> item1, List<Integer> item2) {
+                List<Integer> list = new ArrayList<Integer>(item1);
+                list.addAll(item2);
+                return list;
+            }
+        },
+        Collections.<Integer>emptyList()
+        );
+        assertEquals("[0, 1, 2, 3, 4, 5]", result.toString());
     }
 
 /*
@@ -205,6 +275,21 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     }
 
 /*
+var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+=> 2
+*/
+    @Test
+    public void detect() {
+        final Integer result = _.detect(asList(1, 2, 3, 4, 5, 6), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("2", result.toString());
+    }
+
+/*
 var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 => [2, 4, 6]
 */
@@ -220,19 +305,48 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     }
 
 /*
-var notevens = _.reject([1, 2, 3, 4], function(num){ return num % 2 == 0; });
-=> [1, 3]
+var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+=> [2, 4, 6]
 */
     @Test
     public void reject() {
-        final List<Integer> result = _.reject(asList(1, 2, 3, 4), 
+        final List<Integer> result = _.reject(asList(1, 2, 3, 4, 5, 6), 
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
-        assertEquals("[1, 3]", result.toString());
+        assertEquals("[1, 3, 5]", result.toString());
+        final Set<Integer> resultSet = _.reject(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[1, 3, 5]", resultSet.toString());
     }
+    
+/*
+var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+=> [2, 4, 6]
+*/
+    @Test
+    public void select() {
+        final List<Integer> result = _.select(asList(1, 2, 3, 4, 5, 6), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[2, 4, 6]", result.toString());
+        final Set<Integer> resultSet = _.select(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)), 
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[2, 4, 6]", resultSet.toString());
+    }    
 
 /*
 _.all([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // false
@@ -367,21 +481,55 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
 /*
 _.first([5, 4, 3, 2, 1]);
 => 5
+_.first([5, 4, 3, 2, 1], 2);
+=> [5, 4]
 */
     @Test
     public void first() {
         final Integer result = _.first(asList(5, 4, 3, 2, 1));
         assertEquals("5", result.toString());
+        final List<Integer> resultList = _.first(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[5, 4]", resultList.toString());
+        final int resultInt = _.first(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals(5, resultInt);
+    }
+
+/*
+_.head([5, 4, 3, 2, 1]);
+=> 5
+_.head([5, 4, 3, 2, 1], 2);
+=> [5, 4]
+*/
+    @Test
+    public void head() {
+        final Integer result = _.head(asList(5, 4, 3, 2, 1));
+        assertEquals("5", result.toString());
+        final Integer resultObj = new _<Integer>(asList(5, 4, 3, 2, 1)).head();
+        assertEquals("5", resultObj.toString());
+        final List<Integer> resultList = _.head(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[5, 4]", resultList.toString());
+        final List<Integer> resultListObj = new _<Integer>(asList(5, 4, 3, 2, 1)).head(2);
+        assertEquals("[5, 4]", resultListObj.toString());
+        final int resultInt = _.head(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals(5, resultInt);
     }
 
 /*
 _.initial([5, 4, 3, 2, 1]);
 => [5, 4, 3, 2]
+_.initial([5, 4, 3, 2, 1], 2);
+=> [5, 4, 3]
 */
     @Test
     public void initial() {
-        final List<Integer> result = _.initial(asList(5, 4, 3, 2, 1), 1);
+        final List<Integer> result = _.initial(asList(5, 4, 3, 2, 1));
         assertEquals("[5, 4, 3, 2]", result.toString());
+        final List<Integer> resultList = _.initial(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[5, 4, 3]", resultList.toString());
+        final Integer[] resultArray = _.initial(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("[5, 4, 3, 2]", asList(resultArray).toString());
+        final Integer[] resultListArray = _.initial(new Integer[] {5, 4, 3, 2, 1}, 2);
+        assertEquals("[5, 4, 3]", asList(resultListArray).toString());
     }
 
 /*
@@ -392,7 +540,64 @@ _.last([5, 4, 3, 2, 1]);
     public void last() {
         final Integer result = _.last(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
+        final Integer resultArray = _.last(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("1", resultArray.toString());
     }
+
+/*
+_.tail([5, 4, 3, 2, 1]);
+=> [4, 3, 2, 1]
+_.tail([5, 4, 3, 2, 1], 2);
+=> [3, 2, 1]
+*/
+    @Test
+    public void tail() {
+        final List<Integer> result = _.tail(asList(5, 4, 3, 2, 1));
+        assertEquals("[4, 3, 2, 1]", result.toString());
+        final List<Integer> result2 = _.tail(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[3, 2, 1]", result2.toString());
+        final Object[] resultArray = _.tail(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
+        final Object[] resultArray2 = _.tail(new Integer[] {5, 4, 3, 2, 1}, 2);
+        assertEquals("[3, 2, 1]", asList(resultArray2).toString());
+    }
+
+/*
+_.drop([5, 4, 3, 2, 1]);
+=> [4, 3, 2, 1]
+_.drop([5, 4, 3, 2, 1], 2);
+=> [3, 2, 1]
+*/
+    @Test
+    public void drop() {
+        final List<Integer> result = _.drop(asList(5, 4, 3, 2, 1));
+        assertEquals("[4, 3, 2, 1]", result.toString());
+        final List<Integer> result2 = _.drop(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[3, 2, 1]", result2.toString());
+        final Object[] resultArray = _.drop(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
+        final Object[] resultArray2 = _.drop(new Integer[] {5, 4, 3, 2, 1}, 2);
+        assertEquals("[3, 2, 1]", asList(resultArray2).toString());
+    }
+
+/*
+_.rest([5, 4, 3, 2, 1]);
+=> [4, 3, 2, 1]
+_.rest([5, 4, 3, 2, 1], 2);
+=> [3, 2, 1]
+*/
+    @Test
+    public void rest() {
+        final List<Integer> result = _.rest(asList(5, 4, 3, 2, 1));
+        assertEquals("[4, 3, 2, 1]", result.toString());
+        final List<Integer> result2 = _.rest(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[3, 2, 1]", result2.toString());
+        final Object[] resultArray = _.rest(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
+        final Object[] resultArray2 = _.rest(new Integer[] {5, 4, 3, 2, 1}, 2);
+        assertEquals("[3, 2, 1]", asList(resultArray2).toString());
+    }
+
 
 /*
 _.flatten([1, [2], [3, [[4]]]]);
@@ -402,6 +607,12 @@ _.flatten([1, [2], [3, [[4]]]]);
     public void flatten() {
         final List<Integer> result = _.flatten(asList(1, asList(2, asList(3, asList(asList(4))))));
         assertEquals("[1, 2, 3, 4]", result.toString());
+        final List<Integer> result2 = _.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), true);
+        assertEquals("[1, 2, [3, [[4]]]]", result2.toString());
+        final List<Integer> resultObj = new _(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten();
+        assertEquals("[1, 2, 3, 4]", resultObj.toString());
+        final List<Integer> resultObj2 = new _(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(true);
+        assertEquals("[1, 2, [3, [[4]]]]", resultObj2.toString());
     }
 
 /*
@@ -412,6 +623,10 @@ _.compact([0, 1, false, 2, '', 3]);
     public void compact() {
         final List<?> result = _.compact(asList(0, 1, false, 2, "", 3));
         assertEquals("[1, 2, 3]", result.toString());
+        final List<?> result2 = _.compact(asList(0, 1, false, 2, "", 3), 1);
+        assertEquals("[0, false, 2, , 3]", result2.toString());
+        final Object[] resultArray = _.compact(new Object[] {0, 1, false, 2, "", 3}, 1);
+        assertEquals("[0, false, 2, , 3]", asList(resultArray).toString());
     }
 
 /*
@@ -422,6 +637,12 @@ _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
     public void without() {
         final List<Integer> result = _.without(asList(1, 2, 1, 0, 3, 1, 4), 0, 1);
         assertEquals("[2, 3, 4]", result.toString());
+        final List<Integer> result2 = _.without(asList(1, 2, 1, 0, 3, 1, 4), 1);
+        assertEquals("[2, 0, 3, 4]", result2.toString());
+        final Object[] resultArray = _.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 0, 1);
+        assertEquals("[2, 3, 4]", asList(resultArray).toString());
+        final Object[] resultArray2 = _.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 1);
+        assertEquals("[2, 0, 3, 4]", asList(resultArray2).toString());
     }
 
 /*
@@ -433,6 +654,13 @@ _.max(numbers);
     public void max() {
         final Integer result = _.max(asList(10, 5, 100, 2, 1000));
         assertEquals("1000", result.toString());
+        final Integer resultComp = _.max(asList(10, 5, 100, 2, 1000),
+                new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return -item;
+            }
+        });
+        assertEquals("2", resultComp.toString());
     }
 
 /*
@@ -444,6 +672,13 @@ _.min(numbers);
     public void min() {
         final Integer result = _.min(asList(10, 5, 100, 2, 1000));
         assertEquals("2", result.toString());
+        final Integer resultComp = _.min(asList(10, 5, 100, 2, 1000),
+                new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return -item;
+            }
+        });
+        assertEquals("1000", resultComp.toString());
     }
 
 /*
@@ -486,9 +721,18 @@ _.pluck(stooges, 'name');
                 this.age = age;
             }
         };
+        final List<?> resultEmpty =
+        _.pluck(asList(), "name");
+        assertEquals("[]", resultEmpty.toString());
         final List<?> result =
         _.pluck(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)), "name");
         assertEquals("[moe, larry, curly]", result.toString());
+        final Set<?> resultEmpty2 =
+        _.pluck(new LinkedHashSet(asList()), "name");
+        assertEquals("[]", resultEmpty2.toString());
+        final Set<?> resultSet =
+        _.pluck(new LinkedHashSet(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name");
+        assertEquals("[moe, larry, curly]", resultSet.toString());
     }
 
 /*
@@ -551,6 +795,34 @@ _.indexBy(stooges, 'age');
     }
 
 /*
+var stooges = [{name: 'moe', age: 40}, {name: 'moe', age: 50}, {name: 'curly', age: 60}];
+_.countBy(stooges, 'age');
+=> {moe: 2, curly: 1}
+*/
+    @Test
+    public void countBy() throws Exception {
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+            public String toString() {
+                return name + ", " + age;
+            }
+        };
+        final Map<String, Integer> result =
+        _.countBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        });        
+        assertEquals("{moe=2, curly=1}", result.toString());
+    }
+
+/*
 (function(){ return _.toArray(arguments).slice(1); })(1, 2, 3, 4);
 => [2, 3, 4]
 */
@@ -578,6 +850,8 @@ _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
     public void union() throws Exception {
         final List<Integer> result = _.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", result.toString());
+        final Object[] resultArray = _.union(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
+        assertEquals("[[1, 2, 3, 101, 10]]", asList(result).toString());
     }
 
 /*
@@ -660,6 +934,8 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
     public void sortedIndex() throws Exception {
         final Integer result = _.sortedIndex(asList(10, 20, 30, 40, 50), 35);
         assertEquals(3, result);
+        final Integer result2 = _.sortedIndex(new Integer[] {10, 20, 30, 40, 50}, 35);
+        assertEquals(3, result2);
     }
 
 /*
@@ -775,6 +1051,59 @@ _.chain(lyrics)
     }
 
 /*
+var lyrics = [
+  {line: 1, words: "I'm a lumberjack and I'm okay"},
+  {line: 2, words: "I sleep all night and I work all day"},
+  {line: 3, words: "He's a lumberjack and he's okay"},
+  {line: 4, words: "He sleeps all night and he works all day"}
+];
+
+_.chain(lyrics)
+  .map(function(line) { return line.words.split(' '); })
+  .flatten()
+  .reduceRight(function(counts, word) {
+    counts[word] = (counts[word] || 0) + 1;
+    return counts;
+  }, {})
+  .value();
+
+=> {day=2, all=4, works=1 ... }
+*/
+    @Test
+    public void chain3() throws Exception {
+        final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() {{
+            add(new LinkedHashMap<String, Object>() {{ put("line", 1); put("words", "I'm a lumberjack and I'm okay"); }});
+            add(new LinkedHashMap<String, Object>() {{ put("line", 2); put("words", "I sleep all night and I work all day"); }});
+            add(new LinkedHashMap<String, Object>() {{ put("line", 3); put("words", "He's a lumberjack and he's okay"); }});
+            add(new LinkedHashMap<String, Object>() {{ put("line", 4); put("words", "He sleeps all night and he works all day"); }});
+        }};
+        final String result = _.chain(lyrics)
+            .map(
+                new Function1<Map<String, Object>, List<String>>() {
+                public List<String> apply(Map<String, Object> item) {
+                    return asList(String.valueOf(item.get("words")).split(" "));
+                }
+            })
+            .flatten()
+            .reduceRight(
+                new FunctionAccum<Map<String, Object>, String>() {
+                public Map<String, Object> apply(Map<String, Object> accum, String item) {
+                    if (accum.get(item) == null) {
+                        accum.put(item, 1);
+                    } else {
+                        accum.put(item, ((Integer) accum.get(item)) + 1);
+                    }
+                    return accum;
+                }
+            },
+            new LinkedHashMap<String, Object>()
+            )
+            .value();
+        assertEquals("{day=2, all=4, works=1, he=1, and=4, night=2, sleeps=1,"
+                + " He=1, okay=2, he's=1, lumberjack=2, a=2, He's=1, work=1, I=2, sleep=1, I'm=2}", result);
+    }
+
+/*
 var compiled = _.template("hello: <%= name %>");
 compiled({name: 'moe'});
 => "hello: moe"
@@ -874,4 +1203,10 @@ _.result(object, 'stuff');
 
 //        _.result(object.entrySet(), asList("cheese"));
     }
+
+    @Test
+    public void main() throws Exception {
+        _.main(new String[] {});
+    }
+
 }

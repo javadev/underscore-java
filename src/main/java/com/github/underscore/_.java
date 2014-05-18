@@ -50,6 +50,10 @@ public final class _<T> {
         each(iterable, func);
     }
 
+    public void forEach(final Block<? super T> func) {
+        each(iterable, func);
+    }
+
     public static <T, E> List<T> map(final List<E> list, final Function1<? super E, T> func) {
         final List<T> transformed = new ArrayList<T>(list.size());
         for (E element : list) {
@@ -621,7 +625,7 @@ public final class _<T> {
         return filter(list, new Predicate<E>() {
             @Override
             public Boolean apply(E arg) {
-                return arg.equals(falsyValue);
+                return !arg.equals(falsyValue);
             }
         });
     }
@@ -679,7 +683,7 @@ public final class _<T> {
     }
 
     public static <E> List<E> without(final List<E> list, final E value) {
-        return without(list, value);
+        return without(list, (E[]) Arrays.asList(value).toArray());
     }
 
     public static <E> E[] without(final E[] array, final E... values) {
@@ -1031,7 +1035,7 @@ public final class _<T> {
     public static void main(String[] args) {
         final String message = "Underscore-java is a java port of Underscore.js.\n\n"
             + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"
-            + "For docs, license, tests, and downloads, see: http://javadev.github.com/underscore-java";
+            + "For docs, license, tests, and downloads, see: http://javadev.github.io/underscore-java";
         System.out.println(message);
     }
 }
