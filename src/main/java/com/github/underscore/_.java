@@ -772,10 +772,6 @@ public final class _<T> {
         return zipped;
     }
 
-    public static <T> T[][] zip(final T[]... lists) {
-        return (T[][]) zip(Arrays.asList(lists)).toArray();
-    }
-
     public static <K, V> List<Tuple<K, V>> object(final List<K> keys, final List<V> values) {
         return _.map(keys, new Function1<K, Tuple<K, V>>() {
             int index = 0;
@@ -785,10 +781,6 @@ public final class _<T> {
                 return Tuple.create(key, values.get(index++));
             }
         });
-    }
-
-    public static <K, V> Tuple<K, V>[] object(final K[] keys, final V[] values) {
-        return (Tuple<K, V>[]) object(Arrays.asList(keys), Arrays.asList(values)).toArray();
     }
 
     public static <E> int indexOf(final List<E> list, final E value) {
@@ -830,6 +822,7 @@ public final class _<T> {
             if (((Comparable) property.get(elem)).compareTo(valueProperty) >= 0) {
                 return index;
             }
+            index += 1;
         }
         return -1;
     }
@@ -859,64 +852,6 @@ public final class _<T> {
             }
         }
         return array;
-    }
-
-    public static <F1, T> Function<T> partial(final Function1<F1, T> func, final F1 value) {
-        return new Function<T>() {
-            @Override
-            public T apply() {
-                return func.apply(value);
-            }
-        };
-    }
-
-    public static <F2, F1, T> Function1<F1, T> partial(final Function2<F2, F1, T> func, final F2 value) {
-        return new Function1<F1, T>() {
-            @Override
-            public T apply(F1 arg) {
-                return func.apply(value, arg);
-            }
-        };
-    }
-
-    public static <F3, F2, F1, T> Function2<F2, F1, T> partial(final Function3<F3, F2, F1, T> func, final F3 value) {
-        return new Function2<F2, F1, T>() {
-            @Override
-            public T apply(F2 arg1, F1 arg2) {
-                return func.apply(value, arg1, arg2);
-            }
-        };
-    }
-
-    public static <F4, F3, F2, F1, T> Function3<F3, F2, F1, T> partial(final Function4<F4, F3, F2, F1, T> func, final F4 value) {
-        return new Function3<F3, F2, F1, T>() {
-            @Override
-            public T apply(F3 arg1, F2 arg2, F1 arg3) {
-                return func.apply(value, arg1, arg2, arg3);
-            }
-        };
-    }
-
-    public static <T> T partial(final Object function, final Class<T> unused, final Object... args) {
-        try {
-            if (args.length == 0) {
-                throw new IllegalArgumentException("partial method must have at least one argument");
-            }
-            Object currentFunc = function;
-            for (final Object arg : args) {
-                final Method partialMethod = _.class.getMethod("partial",
-                        new Class[]{currentFunc.getClass().getInterfaces()[0], Object.class});
-                currentFunc = partialMethod.invoke(null, new Object[]{currentFunc, arg});
-            }
-            return (T) currentFunc;
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static <T> Chain chain(final List<T> list) {

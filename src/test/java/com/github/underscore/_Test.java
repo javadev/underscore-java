@@ -558,8 +558,12 @@ _.tail([5, 4, 3, 2, 1], 2);
         assertEquals("[3, 2, 1]", result2.toString());
         final Object[] resultArray = _.tail(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
+        final List<Integer> resultArrayObj = new _<Integer>(asList(5, 4, 3, 2, 1)).tail();
+        assertEquals("[4, 3, 2, 1]", resultArrayObj.toString());
         final Object[] resultArray2 = _.tail(new Integer[] {5, 4, 3, 2, 1}, 2);
         assertEquals("[3, 2, 1]", asList(resultArray2).toString());
+        final List<Integer> resultArray2Obj = new _<Integer>(asList(5, 4, 3, 2, 1)).tail(2);
+        assertEquals("[3, 2, 1]", resultArray2Obj.toString());
     }
 
 /*
@@ -862,6 +866,8 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
     public void intersection() throws Exception {
         final List<Integer> result = _.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", result.toString());
+        final Object[] resultArray = _.intersection(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
+        assertEquals("[1, 2]", asList(resultArray).toString());
     }
 
 /*
@@ -872,6 +878,8 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
     public void difference() throws Exception {
         final List<Integer> result = _.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
         assertEquals("[1, 3, 4]", result.toString());
+        final Object[] resultArray = _.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10});
+        assertEquals("[1, 3, 4]", asList(resultArray).toString());
     }
 
 /*
@@ -882,6 +890,8 @@ _.uniq([1, 2, 1, 3, 1, 4]);
     public void uniq() throws Exception {
         final List<Integer> result = _.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
+        final Object[] resultArray = _.uniq(new Integer[] {1, 2, 1, 3, 1, 4});
+        assertEquals("[1, 2, 3, 4]", asList(resultArray).toString());
     }
 
 /*
@@ -914,6 +924,8 @@ _.indexOf([1, 2, 3], 2);
     public void indexOf() throws Exception {
         final Integer result = _.indexOf(asList(1, 2, 3), 2);
         assertEquals(1, result);
+        final Integer resultArray = _.indexOf(new Integer[] {1, 2, 3}, 2);
+        assertEquals(1, resultArray);
     }
 
 /*
@@ -924,6 +936,8 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
     public void lastIndexOf() throws Exception {
         final Integer result = _.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);
         assertEquals(4, result);
+        final Integer resultArray = _.lastIndexOf(new Integer[] {1, 2, 3, 1, 2, 3}, 2);
+        assertEquals(4, resultArray);
     }
 
 /*
@@ -938,6 +952,26 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
         assertEquals(3, result2);
     }
 
+    @Test
+    public void sortedIndex2() throws Exception {
+        class Person implements Comparable<Person> {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+            public int compareTo(Person person) {
+                return person.age - this.age;
+            }
+            public String toString() {
+                return name + ", " + age;
+            }
+        };
+        final int result =
+        _.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)), new Person("moe", 50), "age");
+        assertEquals(1, result);
+    }
 /*
 _.range(10);
 => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
