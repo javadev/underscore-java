@@ -407,6 +407,12 @@ _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
     @Test
     public void invoke() throws Exception {
         assertEquals(_.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
+        assertEquals(_.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")), asList("foo1", "bar1"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void invoke2() throws Exception {
+        _.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));
     }
 
 /*
@@ -442,8 +448,20 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
         assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
             + " title: The Tempest, author: Shakespeare, year: 1611]",
+            _.where(listOfPlays, asList(
+            Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("author2", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+        assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
+            + " title: The Tempest, author: Shakespeare, year: 1611]",
             _.where(new LinkedHashSet<Book>(listOfPlays), asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+        assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
+            + " title: The Tempest, author: Shakespeare, year: 1611]",
+            _.where(new LinkedHashSet<Book>(listOfPlays), asList(
+            Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("author2", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
     }
 
@@ -475,6 +493,11 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             _.findWhere(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+        assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
+            _.findWhere(listOfPlays, asList(
+            Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("author2", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
     }
 
@@ -629,8 +652,14 @@ _.compact([0, 1, false, 2, '', 3]);
         assertEquals("[1, 2, 3]", result.toString());
         final List<?> result2 = _.compact(asList(0, 1, false, 2, "", 3), 1);
         assertEquals("[0, false, 2, , 3]", result2.toString());
-        final Object[] resultArray = _.compact(new Object[] {0, 1, false, 2, "", 3}, 1);
-        assertEquals("[0, false, 2, , 3]", asList(resultArray).toString());
+        final List<?> result3 = new _(asList(0, 1, false, 2, "", 3)).compact();
+        assertEquals("[1, 2, 3]", result3.toString());
+        final List<?> result4 = new _(asList(0, 1, false, 2, "", 3)).compact(1);
+        assertEquals("[0, false, 2, , 3]", result4.toString());
+        final Object[] resultArray = _.compact(new Object[] {0, 1, false, 2, "", 3});
+        assertEquals("[1, 2, 3]", asList(resultArray).toString());
+        final Object[] resultArray2 = _.compact(new Object[] {0, 1, false, 2, "", 3}, 1);
+        assertEquals("[0, false, 2, , 3]", asList(resultArray2).toString());
     }
 
 /*
@@ -739,6 +768,31 @@ _.pluck(stooges, 'name');
         assertEquals("[moe, larry, curly]", resultSet.toString());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void pluck2() throws Exception {
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+        };
+        _.pluck(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)), "name2");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void pluck3() throws Exception {
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+        };
+        _.pluck(new LinkedHashSet(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name2");
+    }
 /*
 _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 => [5, 4, 6, 3, 1, 2]
@@ -796,6 +850,9 @@ _.indexBy(stooges, 'age');
         final Map<String, List<Person>> result =
         _.indexBy(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)), "age");
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", result.toString());
+        final Map<String, List<Person>> result2 =
+        _.indexBy(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)), "age2");
+        assertEquals("{null=[moe, 40, larry, 50, curly, 60]}", result2.toString());
     }
 
 /*
@@ -950,6 +1007,8 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
         assertEquals(3, result);
         final Integer result2 = _.sortedIndex(new Integer[] {10, 20, 30, 40, 50}, 35);
         assertEquals(3, result2);
+        final Integer result3 = _.sortedIndex(asList(10, 20, 30, 40, 50), 60);
+        assertEquals(-1, result3);
     }
 
     @Test
@@ -971,6 +1030,12 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
         final int result =
         _.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)), new Person("moe", 50), "age");
         assertEquals(1, result);
+        final int result2 =
+        _.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)), new Person("moe", 70), "age");
+        assertEquals(-1, result2);
+        final int resultArray =
+        _.<Person>sortedIndex(new Person[] {new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)}, new Person("moe", 50), "age");
+        assertEquals(1, resultArray);
     }
 /*
 _.range(10);

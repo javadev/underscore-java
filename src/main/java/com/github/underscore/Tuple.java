@@ -23,28 +23,6 @@ public class Tuple<A, B> {
     }
 
     @Override
-    public int hashCode() {
-        int hashFirst = first == null ? 0 : first.hashCode();
-        int hashSecond = second == null ? 0 : second.hashCode();
-
-        return (hashFirst + hashSecond) * hashSecond + hashFirst;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof Tuple) {
-            Tuple otherPair = (Tuple) other;
-            return ((this.first == otherPair.first || (this.first != null
-                    && otherPair.first != null && this.first
-                        .equals(otherPair.first))) && (this.second == otherPair.second || (this.second != null
-                    && otherPair.second != null && this.second
-                        .equals(otherPair.second))));
-        }
-
-        return false;
-    }
-
-    @Override
     public String toString() {
         return "(" + first + ", " + second + ")";
     }

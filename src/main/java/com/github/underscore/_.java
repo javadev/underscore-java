@@ -167,8 +167,7 @@ public final class _<T> {
                             return false;
                         }
                     } catch (Exception ex) {
-                        //throw new IllegalArgumentException(ex);
-                        return false;
+                        ex.getMessage();
                     }
                 }
                 return true;
@@ -189,8 +188,7 @@ public final class _<T> {
                             return false;
                         }
                     } catch (Exception ex) {
-                        //throw new IllegalArgumentException(ex);
-                        return false;
+                        ex.getMessage();
                     }
                 }
                 return true;
@@ -211,9 +209,7 @@ public final class _<T> {
                             return false;
                         }
                     } catch (Exception ex) {
-                        //throw new IllegalArgumentException(ex);
-                        return false;
-
+                        ex.getMessage();
                     }
                 }
                 return true;
@@ -304,12 +300,11 @@ public final class _<T> {
         if (list.isEmpty()) {
             return Collections.emptyList();
         }
-        final Field field = list.get(0).getClass().getField(propertyName);
         return _.map(list, new Function1<E, Object>() {
             @Override
-            public Object apply(E input) {
+            public Object apply(E elem) {
                 try {
-                    return field.get(input);
+                    return elem.getClass().getField(propertyName).get(elem);
                 } catch (Exception e) {
                     throw new IllegalArgumentException(e);
                 }
@@ -399,11 +394,7 @@ public final class _<T> {
             public K apply(E elem) {
                 try {
                     return (K) elem.getClass().getField(property).get(elem);
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                    return null;
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
                     return null;
                 }
             }
@@ -621,6 +612,10 @@ public final class _<T> {
         });
     }
 
+    public static <E> E[] compact(final E[] array) {
+        return (E[]) compact(Arrays.asList(array)).toArray();
+    }
+
     public static <E> List<E> compact(final List<E> list, final E falsyValue) {
         return filter(list, new Predicate<E>() {
             @Override
@@ -828,7 +823,7 @@ public final class _<T> {
     }
 
     public static <E extends Comparable<E>> int sortedIndex(final E[] array, final E value, final String propertyName) throws NoSuchFieldException, IllegalAccessException {
-        return sortedIndex(Arrays.asList(array), value);
+        return sortedIndex(Arrays.asList(array), value, propertyName);
     }
 
     public static int[] range(int stop) {
