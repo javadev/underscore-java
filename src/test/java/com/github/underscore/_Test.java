@@ -694,6 +694,22 @@ _.max(numbers);
             }
         });
         assertEquals("2", resultComp.toString());
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+        };
+        final Person resultPerson = _.max(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)),
+                new Function1<Person, Integer>() {
+            public Integer apply(Person item) {
+                return item.age;
+            }
+        });
+        assertEquals("curly", resultPerson.name);
+        assertEquals(60, resultPerson.age);
     }
 
 /*
@@ -712,6 +728,22 @@ _.min(numbers);
             }
         });
         assertEquals("1000", resultComp.toString());
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+        };
+        final Person resultPerson = _.min(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)),
+                new Function1<Person, Integer>() {
+            public Integer apply(Person item) {
+                return item.age;
+            }
+        });
+        assertEquals("moe", resultPerson.name);
+        assertEquals(40, resultPerson.age);
     }
 
 /*
