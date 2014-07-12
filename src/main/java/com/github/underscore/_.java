@@ -962,6 +962,26 @@ public final class _<T> {
         };
     }
 
+    public static <T> void delay(final Function<T> function, final int delayMilliseconds) {
+        final java.util.concurrent.ScheduledExecutorService scheduler = java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
+        scheduler.schedule(
+            new Runnable() {
+                public void run() {
+                    function.apply();
+                }
+            }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+    }
+
+    public static <T> Function<T> debounce(final Function<T> function, final int delayMilliseconds) {
+        return new Function<T>() {
+            @Override
+            public T apply() {
+                delay(function, delayMilliseconds);
+                return null;
+            }
+        };
+    }
+
     public static void main(String[] args) {
         final String message = "Underscore-java is a java port of Underscore.js.\n\n"
             + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"

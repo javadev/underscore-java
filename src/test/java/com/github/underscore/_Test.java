@@ -1303,6 +1303,32 @@ _.result(object, 'stuff');
 //        _.result(object.entrySet(), asList("cheese"));
     }
 
+/*
+var counter = 0;
+var incr = function(){ counter++; };
+var debouncedIncr = _.debounce(incr, 32);
+debouncedIncr(); debouncedIncr();
+_.delay(debouncedIncr, 16);
+_.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
+*/
+
+    @Test
+    public void debounce() throws Exception {
+	final Integer[] counter = new Integer[] {0};
+        Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; }};
+        Function<Void> debouncedIncr = _.debounce(incr, 50);
+        debouncedIncr.apply();
+        debouncedIncr.apply();
+        _.delay(debouncedIncr, 16);
+        _.delay(new Function<Void>() {
+            public Void apply() {
+                assertEquals("incr was debounced", 1, counter[0]);
+                return null;
+            }
+        }, 32);
+        Thread.sleep(120);
+    }
+
     @Test
     public void main() throws Exception {
         _.main(new String[] {});

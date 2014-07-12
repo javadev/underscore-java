@@ -54,3 +54,11 @@
     ok(newBoundf instanceof F, 'a bound instance is an instance of the original function');
   });
 
+  describe('debounce', function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var debouncedIncr = _.debounce(incr, 32);
+    debouncedIncr(); debouncedIncr();
+    _.delay(debouncedIncr, 16);
+    _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
+  });
