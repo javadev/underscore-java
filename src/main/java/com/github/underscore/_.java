@@ -927,6 +927,21 @@ public final class _<T> {
         return value.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&amp;", "&");
     }
 
+    public static <E> Object result(final Iterable<E> iterable, final Predicate<E> pred) {
+        for (E element : iterable) {
+            if (pred.apply(element)) {
+                if (element instanceof Map.Entry) {
+                    if (((Map.Entry) element).getValue() instanceof Function) {
+                        return ((Function) ((Map.Entry) element).getValue()).apply();
+                    }
+                    return ((Map.Entry) element).getValue();
+                }
+                return element;
+            }
+        }
+        return null;
+    }
+
     public static <E> Template<Set<E>> template(final String template) {
         return new Template<Set<E>>(template) {
             @Override

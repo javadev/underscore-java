@@ -1332,7 +1332,26 @@ _.result(object, 'stuff');
             put("stuff", new Function<String>() { public String apply() { return "nonsense"; }});
         }};
 
-//        _.result(object.entrySet(), asList("cheese"));
+        assertEquals("crumpets", _.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
+            public Boolean apply(Map.Entry<String, Object> item) {
+                return item.getKey().equals("cheese");
+            }
+        }));
+        assertEquals("nonsense", _.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
+            public Boolean apply(Map.Entry<String, Object> item) {
+                return item.getKey().equals("stuff");
+            }
+        }));
+        assertEquals("result1", _.result(asList("result1", "result2"), new Predicate<String>() {
+            public Boolean apply(String item) {
+                return item.equals("result1");
+            }
+        }));
+        assertEquals(null, _.result(asList("result1", "result2"), new Predicate<String>() {
+            public Boolean apply(String item) {
+                return item.equals("result3");
+            }
+        }));
     }
 
 /*
