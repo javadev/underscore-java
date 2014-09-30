@@ -997,6 +997,35 @@ public final class _<T> {
         };
     }
 
+    public static <T extends Comparable<T>> List<T> sort(final List<T> list) {
+        final List<T> localList = new ArrayList<T>(list);
+        Collections.<T>sort(localList);
+        return localList;
+    }
+
+    public static <T extends Comparable<T>> T[] sort(final T[] array) {
+        final T[] localArray = array.clone();
+        Arrays.<T>sort(localArray);
+        return localArray;
+    }
+
+    public static <T> String join(final Iterable<T> iterable, final String separator) {
+        final StringBuilder sb = new StringBuilder();
+        each(iterable, new Block<T>() {
+            public void apply(T item) {
+                if (!sb.toString().isEmpty()) {
+                    sb.append(separator);
+                }
+                sb.append(item.toString());
+            }
+        });
+        return sb.toString();
+    }
+
+    public static <T> String join(final T[] array, final String separator) {
+        return join(Arrays.asList(array), separator);
+    }
+
     public static void main(String[] args) {
         final String message = "Underscore-java is a java port of Underscore.js.\n\n"
             + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"

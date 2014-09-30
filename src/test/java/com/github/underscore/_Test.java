@@ -1385,4 +1385,28 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
         _.main(new String[] {});
     }
 
+/*
+['some', 'words', 'example'].sort();
+=> ['example', 'some', 'words']
+*/
+    @Test
+    public void sort() throws Exception {
+        assertEquals("[example, some, words]", _.sort(Arrays.asList("some", "words", "example")).toString());
+        assertEquals("[example, some, words]", asList(_.sort(new String[] {"some", "words", "example"})).toString());
+    }
+
+/*
+['some', 'words', 'example'].join('-');
+=> 'some-words-example'
+*/
+    @Test
+    public void join() throws Exception {
+        assertEquals("some-words-example", _.join(Arrays.asList("some", "words", "example"), "-"));
+        assertEquals("some-words-example", _.join(new String[] {"some", "words", "example"}, "-"));
+    }
+
+    @Test
+    public void compareStrings() throws Exception {
+        assertEquals(_.sort("CAT".split("")), _.sort("CTA".split("")));
+    }
 }
