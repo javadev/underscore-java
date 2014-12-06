@@ -1365,7 +1365,7 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
 
     @Test
     public void debounce() throws Exception {
-	final Integer[] counter = new Integer[] {0};
+    final Integer[] counter = new Integer[] {0};
         Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; }};
         Function<Void> debouncedIncr = _.debounce(incr, 50);
         debouncedIncr.apply();
@@ -1391,7 +1391,7 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
 */
     @Test
     public void sort() throws Exception {
-        assertEquals("[example, some, words]", _.sort(Arrays.asList("some", "words", "example")).toString());
+        assertEquals("[example, some, words]", _.sort(asList("some", "words", "example")).toString());
         assertEquals("[example, some, words]", asList(_.sort(new String[] {"some", "words", "example"})).toString());
     }
 
@@ -1401,12 +1401,25 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
 */
     @Test
     public void join() throws Exception {
-        assertEquals("some-words-example", _.join(Arrays.asList("some", "words", "example"), "-"));
+        assertEquals("some-words-example", _.join(asList("some", "words", "example"), "-"));
         assertEquals("some-words-example", _.join(new String[] {"some", "words", "example"}, "-"));
     }
 
     @Test
     public void compareStrings() throws Exception {
         assertEquals(_.sort("CAT".split("")), _.sort("CTA".split("")));
+    }
+
+/*
+_.concat([1, 2], [3, 4]);
+=> [1, 2, 3, 4]
+*/
+    @Test
+    public void concat() throws Exception {
+        assertEquals(asList(1, 2, 3, 4), asList(_.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
+        assertEquals(asList(1, 2, 3, 4), _.concat(asList(1, 2), asList(3, 4)));
+        assertEquals("[1, 2, 3, 4]", _.chain(asList(1, 2)).concat(asList(3, 4)).value());
+        assertEquals(asList(1, 2, 3, 4), asList(_.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
+        assertEquals(asList(1, 2, 3, 4), _.concat(asList(1, 2), asList(3), asList(4)));
     }
 }

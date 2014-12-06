@@ -913,6 +913,10 @@ public final class _<T> {
             return new Chain<T>(_.sortBy(list, func));
         }
 
+        public <T> Chain<T> concat(final List<T> second) {
+            return new Chain<T>((List<T>) Arrays.asList(_.concat(list.toArray(), second.toArray())));
+        }
+
         public String value() {
             return item == null ? list.toString() : item.toString();
         }
@@ -943,7 +947,7 @@ public final class _<T> {
     }
 
     public static <E> Template<Set<E>> template(final String template) {
-        return new Template<Set<E>>(template) {
+        return new Template<Set<E>>() {
             @Override
             public String apply(Set<E> value) {
                 String result = template;
@@ -1024,6 +1028,44 @@ public final class _<T> {
 
     public static <T> String join(final T[] array, final String separator) {
         return join(Arrays.asList(array), separator);
+    }
+
+    public static <T> T[] concat(final T[] first, final T[] second) {
+        final T[] result = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
+    }
+
+    public static <T> List<T> concat(final List<T> first, final List<T> second) {
+        return (List<T>) Arrays.asList(_.concat(first.toArray(), second.toArray()));
+    }
+
+    public static <T> T[] concat(final T[] first, final T[] ... other) {
+        int length = 0;
+        for (T[] otherItem : other) {
+            length += otherItem.length;
+        }
+        final T[] result = Arrays.copyOf(first, first.length + length);
+        int index = 0;
+        for (T[] otherItem : other) {
+            System.arraycopy(otherItem, 0, result, first.length + index, otherItem.length);
+            index += otherItem.length;
+        }
+        return result;
+    }
+
+    public static <T> List<T> concat(final List<T> first, final List<T> ... other) {
+        int length = 0;
+        for (List<T> otherItem : other) {
+            length += otherItem.size();
+        }
+        final T[] result = (T[]) Arrays.copyOf(first.toArray(), first.size() + length);
+        int index = 0;
+        for (List<T> otherItem : other) {
+            System.arraycopy(otherItem.toArray(), 0, result, first.size() + index, otherItem.size());
+            index += otherItem.size();
+        }
+        return (List<T>) Arrays.asList(result);
     }
 
     public static void main(String[] args) {
