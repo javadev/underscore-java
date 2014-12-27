@@ -5,7 +5,7 @@
   <groupId>com.github</groupId>
   <artifactId>underscore</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>java port of Underscore.js</name>
   <description>The java port of Underscore.js</description>
   <url>https://github.com/javadev/underscore-java</url>
@@ -45,7 +45,6 @@
   </issueManagement>
 
   <build>
-        <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -68,38 +67,6 @@
                   </manifest>
               </archive>
           </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <filters>
-                <filter>
-                  <artifact>*:*</artifact>
-                  <excludes>
-                    <exclude>META-INF/maven/**</exclude>
-                    <exclude>META-INF/services/**</exclude>
-                    <exclude>META-INF/COPYRIGHT.html</exclude>
-                    <exclude>META-INF/LICENSE*</exclude>
-                    <exclude>META-INF/NOTICE*</exclude>
-                    <exclude>META-INF/README.txt</exclude>
-                    <exclude>META-INF/DEPENDENCIES*</exclude>
-                    <exclude>LICENSE.txt</exclude>
-                    <exclude>rhinoDiff.txt</exclude>
-                    <exclude>license/**</exclude>
-                  </excludes>
-                </filter>
-              </filters>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>com.github.searls</groupId>
