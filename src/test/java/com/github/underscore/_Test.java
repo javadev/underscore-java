@@ -1124,7 +1124,7 @@ var youngest = _.chain(stooges)
                     return item.get("name") + " is " + item.get("age");
                 }
             })
-            .first().value().toString();
+            .first().item().toString();
         assertEquals("moe is 21", youngest);
     }
 
@@ -1176,7 +1176,7 @@ _.chain(lyrics)
             },
             new LinkedHashMap<String, Object>()
             )
-            .value();
+            .item().toString();
         assertEquals("{I'm=2, a=2, lumberjack=2, and=4, okay=2, I=2, sleep=1, all=4, night=2, work=1, day=2, He's=1,"
             + " he's=1, He=1, sleeps=1, he=1, works=1}", result);
     }
@@ -1229,9 +1229,67 @@ _.chain(lyrics)
             },
             new LinkedHashMap<String, Object>()
             )
-            .value();
+            .item().toString();
         assertEquals("{day=2, all=4, works=1, he=1, and=4, night=2, sleeps=1,"
                 + " He=1, okay=2, he's=1, lumberjack=2, a=2, He's=1, work=1, I=2, sleep=1, I'm=2}", result);
+    }
+
+/*
+var doctors = [
+    { number: 1,  actor: "William Hartnell",      begin: 1963, end: 1966 },
+    { number: 9,  actor: "Christopher Eccleston", begin: 2005, end: 2005 },
+    { number: 10, actor: "David Tennant",         begin: 2005, end: 2010 }
+];
+_.chain(doctors)
+    .filter(function(doctor) {
+        return doctor.begin > 2000;
+    })
+    .reject(function(doctor) {
+        return doctor.begin > 2009;
+    })
+    .map(function(doctor) {
+        return {
+            doctorNumber: "#" + doctor.number,
+            playedBy: doctor.actor,
+            yearsPlayed: doctor.end - doctor.begin + 1
+        };
+    })
+    .value();
+
+=>  [{ doctorNumber: "#9",  playedBy: "Christopher Eccleston", yearsPlayed: 1 }]
+*/
+    @Test
+    public void chain4() throws Exception {
+        final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() {{
+            add(new LinkedHashMap<String, Object>() {{ put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); }});
+            add(new LinkedHashMap<String, Object>() {{ put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); }});
+            add(new LinkedHashMap<String, Object>() {{ put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); }});
+        }};
+        final String result = _.chain(doctors)
+            .filter(
+                new Predicate<Map<String, Object>>() {
+                public Boolean apply(Map<String, Object> item) {
+                    return (Integer) item.get("begin") > 2000;
+                }
+            })
+            .reject(
+                new Predicate<Map<String, Object>>() {
+                public Boolean apply(Map<String, Object> item) {
+                    return (Integer) item.get("end") > 2009;
+                }
+            })
+            .map(
+                new Function1<Map<String, Object>, Map<String, Object>>() {
+                public Map<String, Object> apply(final Map<String, Object> item) {
+                    return new LinkedHashMap<String, Object>() {{ 
+                        put("doctorNumber", "#" + item.get("number"));
+                        put("playedBy", item.get("actor"));
+                        put("yearsPlayed", (Integer) item.get("end") - (Integer) item.get("begin") + 1);
+                    }};
+                }
+            })
+            .value().toString();
+        assertEquals("[{doctorNumber=#9, playedBy=Christopher Eccleston, yearsPlayed=1}]", result);
     }
 
 /*
@@ -1418,7 +1476,7 @@ _.concat([1, 2], [3, 4]);
     public void concat() throws Exception {
         assertEquals(asList(1, 2, 3, 4), asList(_.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
         assertEquals(asList(1, 2, 3, 4), _.concat(asList(1, 2), asList(3, 4)));
-        assertEquals("[1, 2, 3, 4]", _.chain(asList(1, 2)).concat(asList(3, 4)).value());
+        assertEquals("[1, 2, 3, 4]", _.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
         assertEquals(asList(1, 2, 3, 4), asList(_.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
         assertEquals(asList(1, 2, 3, 4), _.concat(asList(1, 2), asList(3), asList(4)));
     }
