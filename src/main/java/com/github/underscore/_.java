@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Valentyn Kolesnikov
+ * Copyright (c) 2015 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -889,6 +889,14 @@ public final class _<T> {
             return new Chain<F>(_.map(list, func));
         }
 
+        public Chain<T> filter(final Predicate<T> pred) {
+            return new Chain<T>(_.filter(list, pred));
+        }
+
+        public Chain<T> reject(final Predicate<T> pred) {
+            return new Chain<T>(_.reject(list, pred));
+        }
+
         public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {
             F accum = zeroElem;
             for (T element : list) {
@@ -917,8 +925,12 @@ public final class _<T> {
             return new Chain<T>((List<T>) Arrays.asList(_.concat(list.toArray(), second.toArray())));
         }
 
-        public String value() {
-            return item == null ? list.toString() : item.toString();
+        public T item() {
+            return item;
+        }
+
+        public List<T> value() {
+            return list;
         }
 
     }
