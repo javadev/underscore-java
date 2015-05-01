@@ -511,6 +511,8 @@ _.first([5, 4, 3, 2, 1], 2);
     public void first() {
         final Integer result = _.first(asList(5, 4, 3, 2, 1));
         assertEquals("5", result.toString());
+        final Object resultChain = _.chain(asList(5, 4, 3, 2, 1)).first().item();
+        assertEquals("5", resultChain.toString());
         final List<Integer> resultList = _.first(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[5, 4]", resultList.toString());
         final int resultInt = _.first(new Integer[] {5, 4, 3, 2, 1});
@@ -547,8 +549,12 @@ _.initial([5, 4, 3, 2, 1], 2);
     public void initial() {
         final List<Integer> result = _.initial(asList(5, 4, 3, 2, 1));
         assertEquals("[5, 4, 3, 2]", result.toString());
+        final List<Integer> resultChain = _.chain(asList(5, 4, 3, 2, 1)).initial().value();
+        assertEquals("[5, 4, 3, 2]", resultChain.toString());
         final List<Integer> resultList = _.initial(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[5, 4, 3]", resultList.toString());
+        final List<Integer> resultListChain = _.chain(asList(5, 4, 3, 2, 1)).initial(2).value();
+        assertEquals("[5, 4, 3]", resultListChain.toString());
         final Integer[] resultArray = _.initial(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("[5, 4, 3, 2]", asList(resultArray).toString());
         final Integer[] resultListArray = _.initial(new Integer[] {5, 4, 3, 2, 1}, 2);
@@ -563,6 +569,8 @@ _.last([5, 4, 3, 2, 1]);
     public void last() {
         final Integer result = _.last(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
+        final Object resultChain = _.chain(asList(5, 4, 3, 2, 1)).last().item();
+        assertEquals("1", resultChain.toString());
         final Integer resultArray = _.last(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("1", resultArray.toString());
     }
@@ -617,8 +625,12 @@ _.rest([5, 4, 3, 2, 1], 2);
     public void rest() {
         final List<Integer> result = _.rest(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
+        final List<Integer> resultChain = _.chain(asList(5, 4, 3, 2, 1)).rest().value();
+        assertEquals("[4, 3, 2, 1]", resultChain.toString());
         final List<Integer> result2 = _.rest(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[3, 2, 1]", result2.toString());
+        final List<Integer> result2Chain = _.chain(asList(5, 4, 3, 2, 1)).rest(2).value();
+        assertEquals("[3, 2, 1]", result2Chain.toString());
         final Object[] resultArray = _.rest(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
         final Object[] resultArray2 = _.rest(new Integer[] {5, 4, 3, 2, 1}, 2);
@@ -1112,6 +1124,54 @@ var youngest = _.chain(stooges)
             add(new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("age", 23); }});
         }};
         final String youngest = _.chain(stooges)
+            .sortBy(
+                new Function1<Map<String, Object>, String>() {
+                public String apply(Map<String, Object> item) {
+                    return item.get("age").toString();
+                }
+            })
+            .map(
+                new Function1<Map<String, Object>, String>() {
+                public String apply(Map<String, Object> item) {
+                    return item.get("name") + " is " + item.get("age");
+                }
+            })
+            .first().item().toString();
+        assertEquals("moe is 21", youngest);
+    }
+
+    @Test
+    public void chainSet() throws Exception {
+        final Set<Map<String, Object>> stooges = new HashSet<Map<String, Object>>() {{
+            add(new LinkedHashMap<String, Object>() {{ put("name", "curly"); put("age", 25); }});
+            add(new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 21); }});
+            add(new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("age", 23); }});
+        }};
+        final String youngest = _.chain(stooges)
+            .sortBy(
+                new Function1<Map<String, Object>, String>() {
+                public String apply(Map<String, Object> item) {
+                    return item.get("age").toString();
+                }
+            })
+            .map(
+                new Function1<Map<String, Object>, String>() {
+                public String apply(Map<String, Object> item) {
+                    return item.get("name") + " is " + item.get("age");
+                }
+            })
+            .first().item().toString();
+        assertEquals("moe is 21", youngest);
+    }
+
+    @Test
+    public void chainArray() throws Exception {
+        final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() {{
+            add(new LinkedHashMap<String, Object>() {{ put("name", "curly"); put("age", 25); }});
+            add(new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 21); }});
+            add(new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("age", 23); }});
+        }};
+        final String youngest = _.chain(stooges.toArray())
             .sortBy(
                 new Function1<Map<String, Object>, String>() {
                 public String apply(Map<String, Object> item) {

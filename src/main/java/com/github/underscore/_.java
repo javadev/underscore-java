@@ -853,6 +853,14 @@ public final class _<T> {
         return new _.Chain<T>(list);
     }
 
+    public static <T> Chain chain(final Set<T> list) {
+        return new _.Chain<T>(new ArrayList<T>(list));
+    }
+
+    public static <T> Chain chain(final T[] list) {
+        return new _.Chain<T>(Arrays.asList(list));
+    }
+
     public static class Chain<T> {
         private final T item;
         private final List<T> list;
@@ -867,6 +875,26 @@ public final class _<T> {
 
         public Chain<T> first() {
             return new Chain<T>(_.first(list));
+        }
+
+        public Chain<T> initial() {
+            return new Chain<T>(_.initial(list));
+        }
+
+        public Chain<T> initial(int n) {
+            return new Chain<T>(_.initial(list, n));
+        }
+
+        public Chain<T> last() {
+            return new Chain<T>(_.last(list));
+        }
+
+        public Chain<T> rest() {
+            return new Chain<T>(_.rest(list));
+        }
+
+        public Chain<T> rest(int n) {
+            return new Chain<T>(_.rest(list, n));
         }
 
         public Chain<T> flatten() {
@@ -1040,16 +1068,6 @@ public final class _<T> {
 
     public static <T> String join(final T[] array, final String separator) {
         return join(Arrays.asList(array), separator);
-    }
-
-    public static <T> T[] concat(final T[] first, final T[] second) {
-        final T[] result = Arrays.copyOf(first, first.length + second.length);
-        System.arraycopy(second, 0, result, first.length, second.length);
-        return result;
-    }
-
-    public static <T> List<T> concat(final List<T> first, final List<T> second) {
-        return (List<T>) Arrays.asList(_.concat(first.toArray(), second.toArray()));
     }
 
     public static <T> T[] concat(final T[] first, final T[] ... other) {
