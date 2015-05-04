@@ -279,7 +279,7 @@ public final class _<T> {
             }
         });
         final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(new Class[argTypes.size()]));
-        _.each(iterable, new Block<E>() {
+        each(iterable, new Block<E>() {
             public void apply(E arg) {
                 try {
                     result.add((E) method.invoke(arg, args.toArray(new Object[args.size()])));
@@ -300,7 +300,7 @@ public final class _<T> {
         if (list.isEmpty()) {
             return Collections.emptyList();
         }
-        return _.map(list, new Function1<E, Object>() {
+        return map(list, new Function1<E, Object>() {
             @Override
             public Object apply(E elem) {
                 try {
@@ -317,7 +317,7 @@ public final class _<T> {
         if (set.isEmpty()) {
             return Collections.emptySet();
         }
-        return _.map(set, new Function1<E, Object>() {
+        return map(set, new Function1<E, Object>() {
             @Override
             public Object apply(E elem) {
                 try {
@@ -357,7 +357,7 @@ public final class _<T> {
 
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final List<E> list, final Function1<E, T> func) {
         final List<E> sortedList = new ArrayList<E>();
-        _.each(list, new Block<E>() {
+        each(list, new Block<E>() {
             @Override
             public void apply(E arg) {
                 sortedList.add(arg);
@@ -475,15 +475,15 @@ public final class _<T> {
     }
 
     public static <E> E head(final Iterable<E> iterable) {
-        return _.first(iterable);
+        return first(iterable);
     }
 
     public static <E> E head(final E[] array) {
-        return _.first(array);
+        return first(array);
     }
 
     public static <E> List<E> head(final List<E> list, final int n) {
-        return _.first(list, n);
+        return first(list, n);
     }
 
     public T head() {
@@ -759,7 +759,7 @@ public final class _<T> {
 
     public static <T> List<List<T>> zip(final List<T>... lists) {
         final List<List<T>> zipped = new ArrayList<List<T>>();
-        _.each(Arrays.asList(lists), new Block<List<T>>() {
+        each(Arrays.asList(lists), new Block<List<T>>() {
             @Override
             public void apply(final List<T> list) {
                 _.each(list, new Block<T>() {
@@ -781,7 +781,7 @@ public final class _<T> {
     }
 
     public static <K, V> List<Tuple<K, V>> object(final List<K> keys, final List<V> values) {
-        return _.map(keys, new Function1<K, Tuple<K, V>>() {
+        return map(keys, new Function1<K, Tuple<K, V>>() {
             int index = 0;
 
             @Override
@@ -916,6 +916,10 @@ public final class _<T> {
             return new Chain<T>(_.first(list));
         }
 
+        public Chain<T> first(int n) {
+            return new Chain<T>(_.first(list, n));
+        }
+
         public Chain<T> initial() {
             return new Chain<T>(_.initial(list));
         }
@@ -928,6 +932,10 @@ public final class _<T> {
             return new Chain<T>(_.last(list));
         }
 
+        public Chain<T> last(int n) {
+            return new Chain<T>(_.last(list, n));
+        }
+
         public Chain<T> rest() {
             return new Chain<T>(_.rest(list));
         }
@@ -937,13 +945,13 @@ public final class _<T> {
         }
 
         public Chain<T> flatten() {
-            List<T> flattened = new ArrayList<T>();
+            final List<T> flattened = new ArrayList<T>();
             flatten(list, flattened);
             return new Chain<T>(flattened);
         }
 
         private void flatten(final List<?> fromTreeList, final List<T> toFlatList) {
-            for (Object item : fromTreeList) {
+            for (final Object item : fromTreeList) {
                 if (item instanceof List<?>) {
                     flatten((List<?>) item, toFlatList);
                 } else {

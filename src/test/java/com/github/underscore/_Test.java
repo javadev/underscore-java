@@ -92,7 +92,7 @@ _.each({one: 1, two: 2, three: 3}, alert);
         final List<String> result = new ArrayList<String>();
         _.<Map.Entry<String, Integer>>each(new LinkedHashMap<String, Integer>() {{ put("one", 1); put("two", 2); put("three", 3); }}.entrySet(),
             new Block<Map.Entry<String, Integer>>() {
-            public void apply(Map.Entry<String,Integer> item) {
+            public void apply(Map.Entry<String, Integer> item) {
                 result.add(item.getKey());
             }
         });
@@ -513,6 +513,8 @@ _.first([5, 4, 3, 2, 1], 2);
         assertEquals("5", result.toString());
         final Object resultChain = _.chain(asList(5, 4, 3, 2, 1)).first().item();
         assertEquals("5", resultChain.toString());
+        final Object resultChainTwo = _.chain(asList(5, 4, 3, 2, 1)).first(2).value();
+        assertEquals("[5, 4]", resultChainTwo.toString());
         final List<Integer> resultList = _.first(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[5, 4]", resultList.toString());
         final int resultInt = _.first(new Integer[] {5, 4, 3, 2, 1});
@@ -569,8 +571,12 @@ _.last([5, 4, 3, 2, 1]);
     public void last() {
         final Integer result = _.last(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
+        final List<Integer> resultTwo = _.last(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[2, 1]", resultTwo.toString());
         final Object resultChain = _.chain(asList(5, 4, 3, 2, 1)).last().item();
         assertEquals("1", resultChain.toString());
+        final Object resultChainTwo = _.chain(asList(5, 4, 3, 2, 1)).last(2).value();
+        assertEquals("[2, 1]", resultChainTwo.toString());
         final Integer resultArray = _.last(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("1", resultArray.toString());
     }
