@@ -30,6 +30,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 /**
  * Underscore library unit test.
@@ -1101,6 +1102,32 @@ _.findIndex([1, 2, 3], function(item) {return item % 2  === 0; });
     }
 
 /*
+_.findKey([1, 2, 3], function(item) {return item % 2  === 0; });
+=> 2
+*/
+    @Test
+    public void findKey() throws Exception {
+        final Integer result = _.findKey(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(2, result);
+        final Integer resultNotFound = _.findKey(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item > 3;
+            }
+        });
+        assertNull(resultNotFound);
+        final Integer resultArray = _.findKey(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(2, resultArray);
+    }
+
+/*
 _.findLastIndex([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
 => 3
 */
@@ -1124,6 +1151,32 @@ _.findLastIndex([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
             }
         });
         assertEquals(3, resultArray);
+    }
+
+/*
+_.findLastKey([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
+=> 4
+*/
+    @Test
+    public void findLastKey() throws Exception {
+        final Integer result = _.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(4, result);
+        final Integer resultNotFound = _.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item > 5;
+            }
+        });
+        assertNull(resultNotFound);
+        final Integer resultArray = _.findLastKey(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(4, resultArray);
     }
 
 /*

@@ -812,6 +812,19 @@ public final class _<T> {
         return findIndex(Arrays.asList(array), pred);
     }
 
+    public static <E> E findKey(final List<E> list, final Predicate<E> pred) {
+        for (int index = 0; index < list.size(); index++) {
+            if (pred.apply(list.get(index))) {
+                return list.get(index);
+            }
+        }
+        return null;
+    }
+
+    public static <E> E findKey(final E[] array, final Predicate<E> pred) {
+        return findKey(Arrays.asList(array), pred);
+    }
+
     public static <E> int lastIndexOf(final List<E> list, final E value) {
         return list.lastIndexOf(value);
     }
@@ -831,6 +844,19 @@ public final class _<T> {
 
     public static <E> int findLastIndex(final E[] array, final Predicate<E> pred) {
         return findLastIndex(Arrays.asList(array), pred);
+    }
+
+    public static <E> E findLastKey(final List<E> list, final Predicate<E> pred) {
+        for (int index = list.size() - 1; index >= 0; index--) {
+            if (pred.apply(list.get(index))) {
+                return list.get(index);
+            }
+        }
+        return null;
+    }
+
+    public static <E> E findLastKey(final E[] array, final Predicate<E> pred) {
+        return findLastKey(Arrays.asList(array), pred);
     }
 
     public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value) {
