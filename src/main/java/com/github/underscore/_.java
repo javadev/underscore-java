@@ -888,6 +888,23 @@ public final class _<T> {
         return array;
     }
 
+    public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {
+        final List<E> retVal1 = new ArrayList<E>();
+        final List<E> retVal2 = new ArrayList<E>();
+        for (final E e : iterable) {
+            if (pred.apply(e)) {
+                retVal1.add(e);
+            } else {
+                retVal2.add(e);
+            }
+        }
+        return Arrays.asList(retVal1, retVal2);
+    }
+
+    public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
+        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray();
+    }
+
     public static <T> Chain chain(final List<T> list) {
         return new _.Chain<T>(list);
     }

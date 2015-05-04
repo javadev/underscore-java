@@ -1166,6 +1166,7 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
         _.<Person>sortedIndex(new Person[] {new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)}, new Person("moe", 50), "age");
         assertEquals(1, resultArray);
     }
+
 /*
 _.range(10);
 => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -1190,6 +1191,28 @@ _.range(0);
         assertArrayEquals(new int[] {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}, result4);
         final int[] result5 = _.range(0);
         assertArrayEquals(new int[] {}, result5);
+    }
+
+/*
+_.partition([0, 1, 2, 3, 4, 5], isOdd);
+=> [[1, 3, 5], [0, 2, 4]]
+*/
+    @Test
+    public void partition() throws Exception {
+        final List<List<Integer>> result = _.partition(asList(0, 1, 2, 3, 4, 5), new Predicate<Integer>() {
+            public Boolean apply(final Integer item) {
+                return item % 2 == 1;
+            }
+        });
+        assertEquals("[1, 3, 5]", result.get(0).toString());
+        assertEquals("[0, 2, 4]", result.get(1).toString());
+        final List<Integer>[] resultArray = _.partition(new Integer[] {0, 1, 2, 3, 4, 5}, new Predicate<Integer>() {
+            public Boolean apply(final Integer item) {
+                return item % 2 == 1;
+            }
+        });
+        assertEquals("[1, 3, 5]", resultArray[0].toString());
+        assertEquals("[0, 2, 4]", resultArray[1].toString());
     }
 
 /*
