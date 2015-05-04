@@ -1039,6 +1039,10 @@ public final class _<T> {
             return new Chain<T>(_.sortBy(list, func));
         }
 
+        public <F> Chain<F> uniq(final Function1<T, F> func) {
+            return new Chain<F>(new ArrayList(_.uniq(list, func)));
+        }
+
         public <T> Chain<T> concat(final List<T> second) {
             return new Chain<T>((List<T>) Arrays.asList(_.concat(list.toArray(), second.toArray())));
         }

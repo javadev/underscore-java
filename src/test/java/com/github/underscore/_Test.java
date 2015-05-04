@@ -1019,6 +1019,14 @@ _.uniq([1, 2, 1, 3, 1, 4]);
             }
         });
         assertEquals("[moe, 50, curly, 60]", resultObject.toString());
+        final List<Person> resultObjectChain =
+        _.chain(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).uniq(
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        }).value();
+        assertEquals("[moe, 50, curly, 60]", resultObjectChain.toString());
         final Object[] resultObjectArray =
         _.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)).toArray(new Person[]{}),
             new Function1<Person, String>() {
