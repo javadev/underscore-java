@@ -744,6 +744,19 @@ public final class _<T> {
         return (E[]) uniq(Arrays.asList(array)).toArray();
     }
 
+    public static <K, E> Collection<E> uniq(final Iterable<E> iterable, final Function1<E, K> func) {
+        final Map<K, E> retVal = new LinkedHashMap<K, E>();
+        for (final E e : iterable) {
+            final K key = func.apply(e);
+            retVal.put(key, e);
+        }
+        return retVal.values();
+    }
+
+    public static <K, E> E[] uniq(final E[] array, final Function1<E, K> func) {
+        return (E[]) uniq(Arrays.asList(array), func).toArray();
+    }
+
     public static <T> List<List<T>> zip(final List<T>... lists) {
         final List<List<T>> zipped = new ArrayList<List<T>>();
         _.each(Arrays.asList(lists), new Block<List<T>>() {
@@ -786,12 +799,38 @@ public final class _<T> {
         return indexOf(Arrays.asList(array), value);
     }
 
+    public static <E> int findIndex(final List<E> list, final Predicate<E> pred) {
+        for (int index = 0; index < list.size(); index++) {
+            if (pred.apply(list.get(index))) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    public static <E> int findIndex(final E[] array, final Predicate<E> pred) {
+        return findIndex(Arrays.asList(array), pred);
+    }
+
     public static <E> int lastIndexOf(final List<E> list, final E value) {
         return list.lastIndexOf(value);
     }
 
     public static <E> int lastIndexOf(final E[] array, final E value) {
         return lastIndexOf(Arrays.asList(array), value);
+    }
+
+    public static <E> int findLastIndex(final List<E> list, final Predicate<E> pred) {
+        for (int index = list.size() - 1; index >= 0; index--) {
+            if (pred.apply(list.get(index))) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    public static <E> int findLastIndex(final E[] array, final Predicate<E> pred) {
+        return findLastIndex(Arrays.asList(array), pred);
     }
 
     public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value) {

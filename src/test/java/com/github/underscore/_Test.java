@@ -993,6 +993,33 @@ _.uniq([1, 2, 1, 3, 1, 4]);
         assertEquals("[1, 2, 3, 4]", result.toString());
         final Object[] resultArray = _.uniq(new Integer[] {1, 2, 1, 3, 1, 4});
         assertEquals("[1, 2, 3, 4]", asList(resultArray).toString());
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+            public String toString() {
+                return name + ", " + age;
+            }
+        };
+        final Collection<Person> resultObject =
+        _.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        });
+        assertEquals("[moe, 50, curly, 60]", resultObject.toString());
+        final Object[] resultObjectArray =
+        _.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)).toArray(new Person[]{}),
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        });
+        assertEquals("[moe, 50, curly, 60]", asList(resultObjectArray).toString());
     }
 
 /*
@@ -1039,6 +1066,58 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
         assertEquals(4, result);
         final Integer resultArray = _.lastIndexOf(new Integer[] {1, 2, 3, 1, 2, 3}, 2);
         assertEquals(4, resultArray);
+    }
+
+/*
+_.findIndex([1, 2, 3], function(item) {return item % 2  === 0; });
+=> 1
+*/
+    @Test
+    public void findIndex() throws Exception {
+        final Integer result = _.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(1, result);
+        final Integer resultNotFound = _.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item > 3;
+            }
+        });
+        assertEquals(-1, resultNotFound);
+        final Integer resultArray = _.findIndex(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(1, resultArray);
+    }
+
+/*
+_.findLastIndex([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
+=> 3
+*/
+    @Test
+    public void findLastIndex() throws Exception {
+        final Integer result = _.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(3, result);
+        final Integer resultNotFound = _.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item > 5;
+            }
+        });
+        assertEquals(-1, resultNotFound);
+        final Integer resultArray = _.findLastIndex(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(3, resultArray);
     }
 
 /*
