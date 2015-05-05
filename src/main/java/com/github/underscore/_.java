@@ -23,6 +23,10 @@
  */
 package com.github.underscore;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -55,7 +59,7 @@ public final class _<T> {
     }
 
     public static <T, E> List<T> map(final List<E> list, final Function1<? super E, T> func) {
-        final List<T> transformed = new ArrayList<T>(list.size());
+        final List<T> transformed = Lists.newArrayListWithExpectedSize(list.size());
         for (E element : list) {
             transformed.add(func.apply(element));
         }
@@ -63,7 +67,7 @@ public final class _<T> {
     }
 
     public static <T, E> Set<T> map(final Set<E> set, final Function1<? super E, T> func) {
-        final Set<T> transformed = new LinkedHashSet<T>(set.size());
+        final Set<T> transformed = Sets.newLinkedHashSetWithExpectedSize(set.size());
         for (E element : set) {
             transformed.add(func.apply(element));
         }
@@ -95,7 +99,7 @@ public final class _<T> {
     }
 
     public static <T, E> E reduceRight(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
-        final List<T> list = new ArrayList<T>();
+        final List<T> list = Lists.newArrayList();
         for (T elem : iterable) {
             list.add(0, elem);
         }
@@ -125,7 +129,7 @@ public final class _<T> {
 
     public static <E> List<E> filter(final List<E> list,
                                      final Predicate<E> pred) {
-        final List<E> filtered = new ArrayList<E>();
+        final List<E> filtered = Lists.newArrayList();
         for (E element : list) {
             if (pred.apply(element)) {
                 filtered.add(element);
@@ -136,7 +140,7 @@ public final class _<T> {
 
     public static <E> Set<E> filter(final Set<E> set,
                                     final Predicate<E> pred) {
-        final Set<E> filtered = new LinkedHashSet<E>();
+        final Set<E> filtered = Sets.newLinkedHashSet();
         for (E element : set) {
             if (pred.apply(element)) {
                 filtered.add(element);
@@ -156,7 +160,7 @@ public final class _<T> {
     }
 
     public static <T, E> List<E> where(final List<E> list,
-                                    final List<Tuple<String, T>> properties) {
+                                       final List<Tuple<String, T>> properties) {
         return filter(list, new Predicate<E>() {
             @Override
             public Boolean apply(final E elem) {
@@ -177,7 +181,7 @@ public final class _<T> {
     }
 
     public static <T, E> Set<E> where(final Set<E> list,
-                                   final List<Tuple<String, T>> properties) {
+                                      final List<Tuple<String, T>> properties) {
         return filter(list, new Predicate<E>() {
             @Override
             public Boolean apply(final E elem) {
@@ -198,7 +202,7 @@ public final class _<T> {
     }
 
     public static <T, E> E findWhere(final Iterable<E> iterable,
-                                  final List<Tuple<String, T>> properties) {
+                                     final List<Tuple<String, T>> properties) {
         return find(iterable, new Predicate<E>() {
             @Override
             public Boolean apply(final E elem) {
@@ -271,8 +275,8 @@ public final class _<T> {
     }
 
     public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName,
-                                  final List<Object> args) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        final List<E> result = new ArrayList<E>();
+                                     final List<Object> args) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        final List<E> result = Lists.newArrayList();
         final List<Class<?>> argTypes = map(args, new Function1<Object, Class<?>>() {
             public Class<?> apply(Object input) {
                 return input.getClass();
@@ -356,7 +360,7 @@ public final class _<T> {
     }
 
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final List<E> list, final Function1<E, T> func) {
-        final List<E> sortedList = new ArrayList<E>();
+        final List<E> sortedList = Lists.newArrayList();
         each(list, new Block<E>() {
             @Override
             public void apply(E arg) {
@@ -373,14 +377,14 @@ public final class _<T> {
     }
 
     public static <K, E> Map<K, List<E>> groupBy(final Iterable<E> iterable, final Function1<E, K> func) {
-        final Map<K, List<E>> retVal = new LinkedHashMap<K, List<E>>();
+        final Map<K, List<E>> retVal = Maps.newLinkedHashMap();
         for (E e : iterable) {
             final K key = func.apply(e);
             List<E> val;
             if (retVal.containsKey(key)) {
                 val = retVal.get(key);
             } else {
-                val = new ArrayList<E>();
+                val = Lists.newArrayList();
             }
             val.add(e);
             retVal.put(key, val);
@@ -402,7 +406,7 @@ public final class _<T> {
     }
 
     public static <K, E> Map<K, Integer> countBy(final Iterable<E> iterable, Function1<E, K> func) {
-        final Map<K, Integer> retVal = new LinkedHashMap<K, Integer>();
+        final Map<K, Integer> retVal = Maps.newLinkedHashMap();
         for (E e : iterable) {
             final K key = func.apply(e);
             if (retVal.containsKey(key)) {
@@ -415,7 +419,7 @@ public final class _<T> {
     }
 
     public static <E> List<E> shuffle(final List<E> list) {
-        final List<E> shuffled = new ArrayList<E>(list);
+        final List<E> shuffled = Lists.newArrayList(list);
         Collections.shuffle(shuffled);
         return shuffled;
     }
@@ -426,7 +430,7 @@ public final class _<T> {
 
     public static <E> Set<E> sample(final List<E> list, final int howMany) {
         final int size = Math.min(howMany, list.size());
-        final Set<E> samples = new LinkedHashSet<E>(size);
+        final Set<E> samples = Sets.newLinkedHashSetWithExpectedSize(size);
         while (samples.size() < size) {
             E sample = sample(list);
             samples.add(sample);
@@ -435,7 +439,7 @@ public final class _<T> {
     }
 
     public static <E> E[] toArray(final Iterable<E> iterable) {
-        final List<E> list = new ArrayList<E>();
+        final List<E> list = Lists.newArrayList();
         each(iterable, new Block<E>() {
             @Override
             public void apply(E elem) {
@@ -607,7 +611,7 @@ public final class _<T> {
             @Override
             public Boolean apply(E arg) {
                 return !String.valueOf(arg).equals("null") && !String.valueOf(arg).equals("0")
-                    && !String.valueOf(arg).equals("false") && !String.valueOf(arg).equals("");
+                        && !String.valueOf(arg).equals("false") && !String.valueOf(arg).equals("");
             }
         });
     }
@@ -638,13 +642,13 @@ public final class _<T> {
     }
 
     public static <E> List<E> flatten(final List<?> list) {
-        List<E> flattened = new ArrayList<E>();
+        List<E> flattened = Lists.newArrayList();
         flatten(list, flattened, -1);
         return flattened;
     }
 
     public static <E> List<E> flatten(final List<?> list, final boolean shallow) {
-        List<E> flattened = new ArrayList<E>();
+        List<E> flattened = Lists.newArrayList();
         flatten(list, flattened, shallow ? 1 : -1);
         return flattened;
     }
@@ -689,12 +693,12 @@ public final class _<T> {
         return without(array, (E[]) Arrays.asList(value).toArray());
     }
 
-    public static <E> List<E> union(final List<E> ... lists) {
-        final Set<E> union = new LinkedHashSet<E>();
+    public static <E> List<E> union(final List<E>... lists) {
+        final Set<E> union = Sets.newLinkedHashSet();
         for (List<E> list : lists) {
             union.addAll(list);
         }
-        return new ArrayList<E>(union);
+        return Lists.newArrayList(union);
     }
 
     public static <E> E[] union(final E[] array1, final E[] array2) {
@@ -710,11 +714,11 @@ public final class _<T> {
         });
     }
 
-    public static <E> List<E> intersection(final List<E> ... lists) {
+    public static <E> List<E> intersection(final List<E>... lists) {
         final Stack<List<E>> stack = new Stack<List<E>>();
         stack.push(lists[0]);
         for (int index = 1; index < lists.length; index += 1) {
-          stack.push(intersection(stack.peek(), lists[index]));
+            stack.push(intersection(stack.peek(), lists[index]));
         }
         return stack.peek();
     }
@@ -737,7 +741,7 @@ public final class _<T> {
     }
 
     public static <E> List<E> uniq(final List<E> list) {
-        return new ArrayList<E>(new LinkedHashSet<E>(list));
+        return Lists.newArrayList(Sets.newHashSet(list));
     }
 
     public static <E> E[] uniq(final E[] array) {
@@ -745,7 +749,7 @@ public final class _<T> {
     }
 
     public static <K, E> Collection<E> uniq(final Iterable<E> iterable, final Function1<E, K> func) {
-        final Map<K, E> retVal = new LinkedHashMap<K, E>();
+        final Map<K, E> retVal = Maps.newLinkedHashMap();
         for (final E e : iterable) {
             final K key = func.apply(e);
             retVal.put(key, e);
@@ -758,7 +762,7 @@ public final class _<T> {
     }
 
     public static <T> List<List<T>> zip(final List<T>... lists) {
-        final List<List<T>> zipped = new ArrayList<List<T>>();
+        final List<List<T>> zipped = Lists.newArrayList();
         each(Arrays.asList(lists), new Block<List<T>>() {
             @Override
             public void apply(final List<T> list) {
@@ -767,7 +771,7 @@ public final class _<T> {
 
                     @Override
                     public void apply(T elem) {
-                        final List<T> nTuple = index >= zipped.size() ? new ArrayList<T>() : zipped.get(index);
+                        final List<T> nTuple = index >= zipped.size() ? Lists.<T>newArrayList() : zipped.get(index);
                         if (index >= zipped.size()) {
                             zipped.add(nTuple);
                         }
@@ -915,8 +919,8 @@ public final class _<T> {
     }
 
     public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {
-        final List<E> retVal1 = new ArrayList<E>();
-        final List<E> retVal2 = new ArrayList<E>();
+        final List<E> retVal1 = Lists.newArrayList();
+        final List<E> retVal2 = Lists.newArrayList();
         for (final E e : iterable) {
             if (pred.apply(e)) {
                 retVal1.add(e);
@@ -936,7 +940,7 @@ public final class _<T> {
     }
 
     public static <T> Chain chain(final Set<T> list) {
-        return new _.Chain<T>(new ArrayList<T>(list));
+        return new _.Chain<T>(Lists.newArrayList(list));
     }
 
     public static <T> Chain chain(final T[] list) {
@@ -946,10 +950,12 @@ public final class _<T> {
     public static class Chain<T> {
         private final T item;
         private final List<T> list;
+
         public Chain(final T item) {
             this.item = item;
             this.list = null;
         }
+
         public Chain(final List<T> list) {
             this.item = null;
             this.list = list;
@@ -988,7 +994,7 @@ public final class _<T> {
         }
 
         public Chain<T> flatten() {
-            final List<T> flattened = new ArrayList<T>();
+            final List<T> flattened = Lists.newArrayList();
             flatten(list, flattened);
             return new Chain<T>(flattened);
         }
@@ -1024,7 +1030,7 @@ public final class _<T> {
         }
 
         public <F> Chain<F> reduceRight(final FunctionAccum<F, T> func, final F zeroElem) {
-            final List<T> localList = new ArrayList<T>();
+            final List<T> localList = Lists.newArrayList();
             for (T elem : list) {
                 localList.add(0, elem);
             }
@@ -1040,7 +1046,7 @@ public final class _<T> {
         }
 
         public <F> Chain<F> uniq(final Function1<T, F> func) {
-            return new Chain<F>(new ArrayList(_.uniq(list, func)));
+            return new Chain<F>((F) Lists.newArrayList(_.uniq(list, func)));
         }
 
         public <T> Chain<T> concat(final List<T> second) {
@@ -1087,23 +1093,23 @@ public final class _<T> {
                 String result = template;
                 for (E element : value) {
                     result = java.util.regex.Pattern.compile("<%\\=\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
-                        result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                            result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
                     result = java.util.regex.Pattern.compile("<%\\-\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
-                        result).replaceAll(escape(String.valueOf(((Map.Entry) element).getValue())));
+                            result).replaceAll(escape(String.valueOf(((Map.Entry) element).getValue())));
                     java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
-                        "<%\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*%>(.*?)<% \\}\\);\\s*%>").matcher(result);
+                            "<%\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*%>(.*?)<% \\}\\);\\s*%>").matcher(result);
                     if (matcher.find()) {
                         if (((Map.Entry) element).getKey().equals(matcher.group(1))) {
-                            String repeatResult = ""; 
+                            String repeatResult = "";
                             for (String item : ((List<String>) ((Map.Entry) element).getValue())) {
-                      repeatResult += java.util.regex.Pattern.compile("<%=\\s*\\Q" + matcher.group(2) + "\\E\\s*%>").matcher(
-                          matcher.group(3)).replaceAll(item);
+                                repeatResult += java.util.regex.Pattern.compile("<%=\\s*\\Q" + matcher.group(2) + "\\E\\s*%>").matcher(
+                                        matcher.group(3)).replaceAll(item);
                             }
                             result = matcher.replaceFirst(repeatResult);
                         }
                     };
                     java.util.regex.Matcher matcherPrint = java.util.regex.Pattern.compile(
-                        "<%\\s*print\\('([^']*)'\\s*\\+\\s*(\\w+)\\);\\s*%>").matcher(result);
+                            "<%\\s*print\\('([^']*)'\\s*\\+\\s*(\\w+)\\);\\s*%>").matcher(result);
                     if (matcherPrint.find()) {
                         if (((Map.Entry) element).getKey().equals(matcherPrint.group(2))) {
                             result = matcherPrint.replaceFirst(matcherPrint.group(1) + ((Map.Entry) element).getValue());
@@ -1118,11 +1124,11 @@ public final class _<T> {
     public static <T> void delay(final Function<T> function, final int delayMilliseconds) {
         final java.util.concurrent.ScheduledExecutorService scheduler = java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
         scheduler.schedule(
-            new Runnable() {
-                public void run() {
-                    function.apply();
-                }
-            }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+                new Runnable() {
+                    public void run() {
+                        function.apply();
+                    }
+                }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
     }
 
     public static <T> Function<T> debounce(final Function<T> function, final int delayMilliseconds) {
@@ -1136,7 +1142,7 @@ public final class _<T> {
     }
 
     public static <T extends Comparable<T>> List<T> sort(final List<T> list) {
-        final List<T> localList = new ArrayList<T>(list);
+        final List<T> localList = Lists.newArrayList(list);
         Collections.<T>sort(localList);
         return localList;
     }
@@ -1164,7 +1170,7 @@ public final class _<T> {
         return join(Arrays.asList(array), separator);
     }
 
-    public static <T> T[] concat(final T[] first, final T[] ... other) {
+    public static <T> T[] concat(final T[] first, final T[]... other) {
         int length = 0;
         for (T[] otherItem : other) {
             length += otherItem.length;
@@ -1178,7 +1184,7 @@ public final class _<T> {
         return result;
     }
 
-    public static <T> List<T> concat(final List<T> first, final List<T> ... other) {
+    public static <T> List<T> concat(final List<T> first, final List<T>... other) {
         int length = 0;
         for (List<T> otherItem : other) {
             length += otherItem.size();
@@ -1194,8 +1200,8 @@ public final class _<T> {
 
     public static void main(String[] args) {
         final String message = "Underscore-java is a java port of Underscore.js.\n\n"
-            + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"
-            + "For docs, license, tests, and downloads, see: http://javadev.github.io/underscore-java";
+                + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"
+                + "For docs, license, tests, and downloads, see: http://javadev.github.io/underscore-java";
         System.out.println(message);
     }
 }
