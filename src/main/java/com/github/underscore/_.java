@@ -35,6 +35,12 @@ import java.util.*;
  */
 public final class _<T> {
     private final Iterable<T> iterable;
+    public static ClassForName classForName = new ClassForName();
+    public static class ClassForName {
+        public Class<?> call(final String name) throws Exception {
+            return Class.forName(name);
+        }
+    }
 
     public _(final Iterable<T> iterable) {
         this.iterable = iterable;
@@ -55,7 +61,7 @@ public final class _<T> {
     }
 
     public static <T, E> List<T> map(final List<E> list, final Function1<? super E, T> func) {
-        final List<T> transformed = new ArrayList<T>(list.size());
+        final List<T> transformed = newArrayListWithExpectedSize(list.size());
         for (E element : list) {
             transformed.add(func.apply(element));
         }
@@ -63,7 +69,7 @@ public final class _<T> {
     }
 
     public static <T, E> Set<T> map(final Set<E> set, final Function1<? super E, T> func) {
-        final Set<T> transformed = new LinkedHashSet<T>(set.size());
+        final Set<T> transformed = newLinkedHashSetWithExpectedSize(set.size());
         for (E element : set) {
             transformed.add(func.apply(element));
         }
@@ -95,7 +101,7 @@ public final class _<T> {
     }
 
     public static <T, E> E reduceRight(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
-        final List<T> list = new ArrayList<T>();
+        final List<T> list = newArrayList();
         for (T elem : iterable) {
             list.add(0, elem);
         }
@@ -125,7 +131,7 @@ public final class _<T> {
 
     public static <E> List<E> filter(final List<E> list,
                                      final Predicate<E> pred) {
-        final List<E> filtered = new ArrayList<E>();
+        final List<E> filtered = newArrayList();
         for (E element : list) {
             if (pred.apply(element)) {
                 filtered.add(element);
@@ -136,7 +142,7 @@ public final class _<T> {
 
     public static <E> Set<E> filter(final Set<E> set,
                                     final Predicate<E> pred) {
-        final Set<E> filtered = new LinkedHashSet<E>();
+        final Set<E> filtered = newLinkedHashSet();
         for (E element : set) {
             if (pred.apply(element)) {
                 filtered.add(element);
@@ -272,7 +278,7 @@ public final class _<T> {
 
     public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName,
                                   final List<Object> args) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        final List<E> result = new ArrayList<E>();
+        final List<E> result = newArrayList();
         final List<Class<?>> argTypes = map(args, new Function1<Object, Class<?>>() {
             public Class<?> apply(Object input) {
                 return input.getClass();
@@ -356,7 +362,7 @@ public final class _<T> {
     }
 
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final List<E> list, final Function1<E, T> func) {
-        final List<E> sortedList = new ArrayList<E>();
+        final List<E> sortedList = newArrayList();
         each(list, new Block<E>() {
             @Override
             public void apply(E arg) {
@@ -373,14 +379,14 @@ public final class _<T> {
     }
 
     public static <K, E> Map<K, List<E>> groupBy(final Iterable<E> iterable, final Function1<E, K> func) {
-        final Map<K, List<E>> retVal = new LinkedHashMap<K, List<E>>();
+        final Map<K, List<E>> retVal = newLinkedHashMap();
         for (E e : iterable) {
             final K key = func.apply(e);
             List<E> val;
             if (retVal.containsKey(key)) {
                 val = retVal.get(key);
             } else {
-                val = new ArrayList<E>();
+                val = newArrayList();
             }
             val.add(e);
             retVal.put(key, val);
@@ -402,7 +408,7 @@ public final class _<T> {
     }
 
     public static <K, E> Map<K, Integer> countBy(final Iterable<E> iterable, Function1<E, K> func) {
-        final Map<K, Integer> retVal = new LinkedHashMap<K, Integer>();
+        final Map<K, Integer> retVal = newLinkedHashMap();
         for (E e : iterable) {
             final K key = func.apply(e);
             if (retVal.containsKey(key)) {
@@ -415,7 +421,7 @@ public final class _<T> {
     }
 
     public static <E> List<E> shuffle(final List<E> list) {
-        final List<E> shuffled = new ArrayList<E>(list);
+        final List<E> shuffled = newArrayList(list);
         Collections.shuffle(shuffled);
         return shuffled;
     }
@@ -426,7 +432,7 @@ public final class _<T> {
 
     public static <E> Set<E> sample(final List<E> list, final int howMany) {
         final int size = Math.min(howMany, list.size());
-        final Set<E> samples = new LinkedHashSet<E>(size);
+        final Set<E> samples = newLinkedHashSetWithExpectedSize(size);
         while (samples.size() < size) {
             E sample = sample(list);
             samples.add(sample);
@@ -435,7 +441,7 @@ public final class _<T> {
     }
 
     public static <E> E[] toArray(final Iterable<E> iterable) {
-        final List<E> list = new ArrayList<E>();
+        final List<E> list = newArrayList();
         each(iterable, new Block<E>() {
             @Override
             public void apply(E elem) {
@@ -638,13 +644,13 @@ public final class _<T> {
     }
 
     public static <E> List<E> flatten(final List<?> list) {
-        List<E> flattened = new ArrayList<E>();
+        List<E> flattened = newArrayList();
         flatten(list, flattened, -1);
         return flattened;
     }
 
     public static <E> List<E> flatten(final List<?> list, final boolean shallow) {
-        List<E> flattened = new ArrayList<E>();
+        List<E> flattened = newArrayList();
         flatten(list, flattened, shallow ? 1 : -1);
         return flattened;
     }
@@ -690,11 +696,11 @@ public final class _<T> {
     }
 
     public static <E> List<E> union(final List<E> ... lists) {
-        final Set<E> union = new LinkedHashSet<E>();
+        final Set<E> union = newLinkedHashSet();
         for (List<E> list : lists) {
             union.addAll(list);
         }
-        return new ArrayList<E>(union);
+        return newArrayList(union);
     }
 
     public static <E> E[] union(final E[] array1, final E[] array2) {
@@ -737,7 +743,7 @@ public final class _<T> {
     }
 
     public static <E> List<E> uniq(final List<E> list) {
-        return new ArrayList<E>(new LinkedHashSet<E>(list));
+        return newArrayList(newHashSet(list));
     }
 
     public static <E> E[] uniq(final E[] array) {
@@ -745,7 +751,7 @@ public final class _<T> {
     }
 
     public static <K, E> Collection<E> uniq(final Iterable<E> iterable, final Function1<E, K> func) {
-        final Map<K, E> retVal = new LinkedHashMap<K, E>();
+        final Map<K, E> retVal = newLinkedHashMap();
         for (final E e : iterable) {
             final K key = func.apply(e);
             retVal.put(key, e);
@@ -758,7 +764,7 @@ public final class _<T> {
     }
 
     public static <T> List<List<T>> zip(final List<T>... lists) {
-        final List<List<T>> zipped = new ArrayList<List<T>>();
+        final List<List<T>> zipped = newArrayList();
         each(Arrays.asList(lists), new Block<List<T>>() {
             @Override
             public void apply(final List<T> list) {
@@ -767,7 +773,7 @@ public final class _<T> {
 
                     @Override
                     public void apply(T elem) {
-                        final List<T> nTuple = index >= zipped.size() ? new ArrayList<T>() : zipped.get(index);
+                        final List<T> nTuple = index >= zipped.size() ? _.<T>newArrayList() : zipped.get(index);
                         if (index >= zipped.size()) {
                             zipped.add(nTuple);
                         }
@@ -915,8 +921,8 @@ public final class _<T> {
     }
 
     public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {
-        final List<E> retVal1 = new ArrayList<E>();
-        final List<E> retVal2 = new ArrayList<E>();
+        final List<E> retVal1 = newArrayList();
+        final List<E> retVal2 = newArrayList();
         for (final E e : iterable) {
             if (pred.apply(e)) {
                 retVal1.add(e);
@@ -936,7 +942,7 @@ public final class _<T> {
     }
 
     public static <T> Chain chain(final Set<T> list) {
-        return new _.Chain<T>(new ArrayList<T>(list));
+        return new _.Chain<T>(newArrayList(list));
     }
 
     public static <T> Chain chain(final T[] list) {
@@ -988,7 +994,7 @@ public final class _<T> {
         }
 
         public Chain<T> flatten() {
-            final List<T> flattened = new ArrayList<T>();
+            final List<T> flattened = newArrayList();
             flatten(list, flattened);
             return new Chain<T>(flattened);
         }
@@ -1024,7 +1030,7 @@ public final class _<T> {
         }
 
         public <F> Chain<F> reduceRight(final FunctionAccum<F, T> func, final F zeroElem) {
-            final List<T> localList = new ArrayList<T>();
+            final List<T> localList = newArrayList();
             for (T elem : list) {
                 localList.add(0, elem);
             }
@@ -1040,7 +1046,7 @@ public final class _<T> {
         }
 
         public <F> Chain<F> uniq(final Function1<T, F> func) {
-            return new Chain<F>(new ArrayList(_.uniq(list, func)));
+            return new Chain<F>(_.newArrayList((Iterable<F>) _.uniq(list, func)));
         }
 
         public <T> Chain<T> concat(final List<T> second) {
@@ -1136,7 +1142,7 @@ public final class _<T> {
     }
 
     public static <T extends Comparable<T>> List<T> sort(final List<T> list) {
-        final List<T> localList = new ArrayList<T>(list);
+        final List<T> localList = newArrayList(list);
         Collections.<T>sort(localList);
         return localList;
     }
@@ -1190,6 +1196,81 @@ public final class _<T> {
             index += otherItem.size();
         }
         return (List<T>) Arrays.asList(result);
+    }
+
+    private static Class<?> classForName(final String name) throws Exception {
+        return classForName.call(name);
+    }
+
+    private static <T> List<T> newArrayList() {
+        try {
+            final Class<?> listsClass = classForName("com.google.common.collect.Lists");
+            return (List<T>) listsClass.getDeclaredMethod("newArrayList").invoke(null);
+        } catch (Exception e) {
+            return new ArrayList<T>();
+        }
+    }
+
+    private static <T> List<T> newArrayList(Iterable<T> list) {
+        try {
+            final Class<?> listsClass = classForName("com.google.common.collect.Lists");
+            return (List<T>) listsClass.getDeclaredMethod("newArrayList", Iterable.class).invoke(null, list);
+        } catch (Exception e) {
+            final List<T> result = new ArrayList<T>();
+            for (final T item : list) {
+                result.add(item);
+            }
+            return result;
+        }
+    }
+
+    private static <T> List<T> newArrayListWithExpectedSize(int size) {
+        try {
+            final Class<?> listsClass = classForName("com.google.common.collect.Lists");
+            return (List<T>) listsClass.getDeclaredMethod("newArrayListWithExpectedSize", Integer.TYPE).invoke(null, size);
+        } catch (Exception e) {
+            return new ArrayList<T>(size);
+        }
+    }
+
+    private static <T> Set<T> newLinkedHashSet() {
+        try {
+            final Class<?> setsClass = classForName("com.google.common.collect.Sets");
+            return (Set<T>) setsClass.getDeclaredMethod("newLinkedHashSet").invoke(null);
+        } catch (Exception e) {
+            return new LinkedHashSet<T>();
+        }
+    }
+
+    private static <T> Set<T> newHashSet(Iterable<T> list) {
+        try {
+            final Class<?> setsClass = classForName("com.google.common.collect.Sets");
+            return (Set<T>) setsClass.getDeclaredMethod("newHashSet", Iterable.class).invoke(null, list);
+        } catch (Exception e) {
+            final Set<T> result = new HashSet<T>();
+            for (final T item : list) {
+                result.add(item);
+            }
+            return result;
+        }
+    }
+
+    private static <T> Set<T> newLinkedHashSetWithExpectedSize(int size) {
+        try {
+            final Class<?> setsClass = classForName("com.google.common.collect.Sets");
+            return (Set<T>) setsClass.getDeclaredMethod("newLinkedHashSetWithExpectedSize", Integer.TYPE).invoke(null, size);
+        } catch (Exception e) {
+            return new LinkedHashSet<T>(size);
+        }
+    }
+
+    private static <K, E> Map<K, E> newLinkedHashMap() {
+        try {
+            final Class<?> mapsClass = classForName("com.google.common.collect.Maps");
+            return (Map<K, E>) mapsClass.getDeclaredMethod("newLinkedHashMap").invoke(null);
+        } catch (Exception e) {
+            return new LinkedHashMap<K, E>();
+        }
     }
 
     public static void main(String[] args) {
