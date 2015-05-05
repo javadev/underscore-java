@@ -1732,14 +1732,14 @@ _.concat([1, 2], [3, 4]);
             }
         });
         assertEquals("[3, 6, 9]", result3.toString());
-        final List<String> result4 = new ArrayList<String>();
-        _.<Map.Entry<String, Integer>>each(new LinkedHashMap<String, Integer>() {{ put("one", 1); put("two", 2); put("three", 3); }}.entrySet(),
-            new Block<Map.Entry<String, Integer>>() {
-            public void apply(Map.Entry<String, Integer> item) {
-                result4.add(item.getKey());
+        final Set<Integer> result4 =
+        _.map(new LinkedHashMap<Integer, String>() {{ put(1, "one"); put(2, "two"); put(3, "three"); }}.entrySet(),
+            new Function1<Map.Entry<Integer, String>, Integer>() {
+            public Integer apply(Map.Entry<Integer, String> item) {
+                return item.getKey() * 3;
             }
         });
-        assertEquals("[one, two, three]", result4.toString());
+        assertEquals("[3, 6, 9]", result4.toString());
         final List<Integer> result5 = _.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", result5.toString());
         final Map<Double, List<Double>> result6 =
