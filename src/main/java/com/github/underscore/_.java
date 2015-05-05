@@ -38,7 +38,7 @@ public final class _<T> {
     public static ClassForName classForName = new ClassForName();
     public static class ClassForName {
         public Class<?> call(final String name) throws Exception {
-            return Class.forName(name);
+            return Thread.currentThread().getContextClassLoader().loadClass(name);
         }
     }
 
