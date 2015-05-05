@@ -1709,4 +1709,48 @@ _.concat([1, 2], [3, 4]);
         assertEquals(asList(1, 2, 3, 4), asList(_.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
         assertEquals(asList(1, 2, 3, 4), _.concat(asList(1, 2), asList(3), asList(4)));
     }
+
+    @Test
+    public void classForName_without_guava() {
+        _.classForName = new _.ClassForName() {
+            public Class<?> call(final String name) throws Exception {
+                throw new Exception();
+            }
+        };
+        final List<Integer> result1 = _.filter(asList(1, 2, 3, 4, 5, 6),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[2, 4, 6]", result1.toString());
+        final List<Integer> result2 = _.shuffle(asList(1, 2, 3, 4, 5, 6));
+        assertEquals(6, result2.size());
+        List<Integer> result3 = _.map(asList(1, 2, 3), new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return item * 3;
+            }
+        });
+        assertEquals("[3, 6, 9]", result3.toString());
+        final List<String> result4 = new ArrayList<String>();
+        _.<Map.Entry<String, Integer>>each(new LinkedHashMap<String, Integer>() {{ put("one", 1); put("two", 2); put("three", 3); }}.entrySet(),
+            new Block<Map.Entry<String, Integer>>() {
+            public void apply(Map.Entry<String, Integer> item) {
+                result4.add(item.getKey());
+            }
+        });
+        assertEquals("[one, two, three]", result4.toString());
+        final List<Integer> result5 = _.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
+        assertEquals("[1, 2, 3, 101, 10]", result5.toString());
+        final Map<Double, List<Double>> result6 =
+        _.groupBy(asList(1.3, 2.1, 2.4),
+            new Function1<Double, Double>() {
+            public Double apply(Double num) {
+                return Math.floor(num);
+            }
+        });
+        assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result6.toString());
+        final List<Integer> result7 = _.uniq(asList(1, 2, 1, 3, 1, 4));
+        assertEquals("[1, 2, 3, 4]", result7.toString());
+    }
 }
