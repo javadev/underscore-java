@@ -655,10 +655,14 @@ _.flatten([1, [2], [3, [[4]]]]);
         assertEquals("[1, 2, 3, 4]", result.toString());
         final List<Integer> result2 = _.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), true);
         assertEquals("[1, 2, [3, [[4]]]]", result2.toString());
+        final List<Integer> result3 = _.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), false);
+        assertEquals("[1, 2, 3, 4]", result3.toString());
         final List<Integer> resultObj = new _(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten();
         assertEquals("[1, 2, 3, 4]", resultObj.toString());
         final List<Integer> resultObj2 = new _(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(true);
         assertEquals("[1, 2, [3, [[4]]]]", resultObj2.toString());
+        final List<Integer> resultObj3 = new _(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(false);
+        assertEquals("[1, 2, 3, 4]", resultObj3.toString());
     }
 
 /*
