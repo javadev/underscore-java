@@ -810,6 +810,45 @@ public final class _<T> {
         }), (Tuple<K, V>) null);
     }
 
+    public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final Predicate<V> pred) {
+        return without(map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+            @Override
+            public Tuple<K, V> apply(K key) {
+                if (pred.apply(object.get(key))) {
+                    return Tuple.create(key, object.get(key));
+                } else {
+                    return null;
+                }
+            }
+        }), (Tuple<K, V>) null);
+    }
+
+    public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final V ... keys) {
+        return without(map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+            @Override
+            public Tuple<K, V> apply(K key) {
+                if (Arrays.asList(keys).contains(key)) {
+                    return null;
+                } else {
+                    return Tuple.create(key, object.get(key));
+                }
+            }
+        }), (Tuple<K, V>) null);
+    }
+
+    public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final Predicate<V> pred) {
+        return without(map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+            @Override
+            public Tuple<K, V> apply(K key) {
+                if (pred.apply(object.get(key))) {
+                    return null;
+                } else {
+                    return Tuple.create(key, object.get(key));
+                }
+            }
+        }), (Tuple<K, V>) null);
+    }
+
     public static <E> int indexOf(final List<E> list, final E value) {
         return list.indexOf(value);
     }

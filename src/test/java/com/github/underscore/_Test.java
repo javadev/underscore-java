@@ -258,6 +258,8 @@ _.contains([1, 2, 3], 3);
     public void contains() {
         final boolean result = _.contains(asList(1, 2, 3), 3);
         assertTrue(result);
+        final boolean result2 = _.contains(asList(1, 2, null), null);
+        assertTrue(result2);
     }
 
 /*
@@ -1068,6 +1070,10 @@ _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
 /*
 _.pick({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'age');
 => {name: 'moe', age: 50}
+_.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
+  return _.isNumber(value);
+});
+=> {age: 50}
 */
     @Test
     public void pick() throws Exception {
@@ -1076,6 +1082,33 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'age');
             "name", "age"
         );
         assertEquals("[(name, moe), (age, 50)]", result.toString());
+        final List<Tuple<String, Object>> result2 = _.pick(
+            new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 50); put("userid", "moe1"); }},
+            new Predicate<Object>() { public Boolean apply(Object value) { return value instanceof Number; } }
+        );
+        assertEquals("[(age, 50)]", result2.toString());
+    }
+
+/*
+_.omit({name: 'moe', age: 50, userid: 'moe1'}, 'userid');
+=> {name: 'moe', age: 50}
+_.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
+  return _.isNumber(value);
+});
+=> {name: 'moe', userid: 'moe1'}
+*/
+    @Test
+    public void omit() throws Exception {
+        final List<Tuple<String, Object>> result = _.omit(
+            new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 50); put("userid", "moe1"); }},
+            "userid"
+        );
+        assertEquals("[(name, moe), (age, 50)]", result.toString());
+        final List<Tuple<String, Object>> result2 = _.omit(
+            new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 50); put("userid", "moe1"); }},
+            new Predicate<Object>() { public Boolean apply(Object value) { return value instanceof Number; } }
+        );
+        assertEquals("[(name, moe), (userid, moe1)]", result2.toString());
     }
 
 /*
