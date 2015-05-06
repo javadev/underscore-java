@@ -786,6 +786,18 @@ public final class _<T> {
         return zipped;
     }
 
+    public static <T> List<List<T>> unzip(final List<T>... lists) {
+        final List<List<T>> unzipped = newArrayList();
+        for (int index = 0; index < lists[0].size(); index += 1) {
+            final List<T> nTuple = newArrayList();
+            for (int index2 = 0; index2 < lists.length; index2 += 1) {
+                nTuple.add(lists[index2].get(index));
+            }
+            unzipped.add(nTuple);
+        }
+        return unzipped;
+    }
+
     public static <K, V> List<Tuple<K, V>> object(final List<K> keys, final List<V> values) {
         return map(keys, new Function1<K, Tuple<K, V>>() {
             int index = 0;

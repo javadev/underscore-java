@@ -1046,6 +1046,17 @@ _.uniq([1, 2, 1, 3, 1, 4]);
     }
 
 /*
+_.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
+=> [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
+*/
+    @Test
+    public void unzip() throws Exception {
+        final List<List<String>> result = _.unzip(
+            asList("moe", "30", "true"), asList("larry", "40", "false"), asList("curly", "50", "false"));
+        assertEquals("[[moe, larry, curly], [30, 40, 50], [true, false, false]]", result.toString());
+    }
+
+/*
 _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 => [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
 */
