@@ -266,13 +266,13 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 */
     @Test
     public void find() {
-        final Integer result = _.find(asList(1, 2, 3, 4, 5, 6), 
+        final Optional<Integer> result = _.find(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
-        assertEquals("2", result.toString());
+        assertEquals("Optional.of(2)", result.toString());
     }
 
 /*
@@ -281,13 +281,13 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 */
     @Test
     public void detect() {
-        final Integer result = _.detect(asList(1, 2, 3, 4, 5, 6), 
+        final Optional<Integer> result = _.detect(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
-        assertEquals("2", result.toString());
+        assertEquals("Optional.of(2)", result.toString());
     }
 
 /*
@@ -494,12 +494,12 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             _.findWhere(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             _.findWhere(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("author2", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
     }
 
 /*
@@ -695,6 +695,8 @@ _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
         assertEquals("[2, 3, 4]", result.toString());
         final List<Integer> result2 = _.without(asList(1, 2, 1, 0, 3, 1, 4), 1);
         assertEquals("[2, 0, 3, 4]", result2.toString());
+        final List<Integer> result3 = _.without(asList(null, 2, null, 0, 3, null, 4), (Integer) null);
+        assertEquals("[2, 0, 3, 4]", result3.toString());
         final Object[] resultArray = _.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 0, 1);
         assertEquals("[2, 3, 4]", asList(resultArray).toString());
         final Object[] resultArray2 = _.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 1);
@@ -1061,6 +1063,19 @@ _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
         final List<Tuple<String, String>> result = _.object(
             asList("moe", "larry", "curly"), asList("30", "40", "50"));
         assertEquals("[(moe, 30), (larry, 40), (curly, 50)]", result.toString());
+    }
+
+/*
+_.pick({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'age');
+=> {name: 'moe', age: 50}
+*/
+    @Test
+    public void pick() throws Exception {
+        final List<Tuple<String, Object>> result = _.pick(
+            new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 50); put("userid", "moe1"); }},
+            "name", "age"
+        );
+        assertEquals("[(name, moe), (age, 50)]", result.toString());
     }
 
 /*
@@ -1646,6 +1661,56 @@ _.result(object, 'stuff');
     }
 
 /*
+var renderNotes = _.after(notes.length, render);
+_.each(notes, function(note) {
+  note.asyncSave({success: renderNotes});
+});
+// renderNotes is run once, after all notes have saved.
+*/
+    @Test
+    public void after() throws Exception {
+        final List<Integer> notes = asList(1, 2, 3);
+        final Function<Integer> renderNotes = _.after(notes.size(),
+            new Function<Integer>() { public Integer apply() { return 4; }});
+        final List<Integer> result = new ArrayList<Integer>();
+        _.<Integer>each(notes, new Block<Integer>() {
+            public void apply(Integer item) {
+                result.add(item);
+                Integer afterResult = renderNotes.apply();
+                if (afterResult != null) {
+                    result.add(afterResult);
+                }
+            }
+        });
+        assertEquals("[1, 2, 3, 4]", result.toString());
+    }
+
+/*
+var monthlyMeeting = _.before(3, askForRaise);
+monthlyMeeting();
+monthlyMeeting();
+monthlyMeeting();
+// the result of any subsequent calls is the same as the second call
+*/
+    @Test
+    public void before() throws Exception {
+        final List<Integer> notes = asList(1, 2, 3);
+        final Function<Integer> renderNotes = _.before(notes.size() - 1,
+            new Function<Integer>() { public Integer apply() { return 4; }});
+        final List<Integer> result = new ArrayList<Integer>();
+        _.<Integer>each(notes, new Block<Integer>() {
+            public void apply(Integer item) {
+                result.add(item);
+                Integer afterResult = renderNotes.apply();
+                if (afterResult != null) {
+                    result.add(afterResult);
+                }
+            }
+        });
+        assertEquals("[1, 4, 2, 4, 3]", result.toString());
+    }
+
+/*
 var counter = 0;
 var incr = function(){ counter++; };
 var debouncedIncr = _.debounce(incr, 32);
@@ -1756,5 +1821,22 @@ _.concat([1, 2], [3, 4]);
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result6.toString());
         final List<Integer> result7 = _.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result7.toString());
+    }
+
+    @Test
+    public void optional() {
+        assertTrue(Optional.absent().equals(Optional.absent()));
+        assertTrue(Optional.of(1).equals(Optional.of(1)));
+        assertTrue(Optional.of(null).equals(Optional.of(null)));
+        assertFalse(Optional.absent().equals(Optional.of(1)));
+        assertFalse(Optional.of(null).equals(Optional.of(1)));
+        assertFalse(Optional.of(1).equals(Optional.of(null)));
+        assertFalse(Optional.of(1).equals(Optional.absent()));
+        assertFalse(Optional.of(1).equals(Optional.of(2)));
+        assertFalse(Optional.of(1).equals("test"));
+        assertEquals(0, Optional.absent().hashCode());
+        assertEquals("123".hashCode(), Optional.of("123").hashCode());
+        assertEquals("Optional.absent()", Optional.absent().toString());
+        assertEquals("Optional.of(1)", Optional.of(1).toString());
     }
 }

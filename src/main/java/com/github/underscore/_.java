@@ -116,16 +116,16 @@ public final class _<T> {
         return reduceRight(iterable, func, zeroElem);
     }
 
-    public static <E> E find(final Iterable<E> iterable, final Predicate<E> pred) {
+    public static <E> Optional<E> find(final Iterable<E> iterable, final Predicate<E> pred) {
         for (E element : iterable) {
             if (pred.apply(element)) {
-                return element;
+                return Optional.of(element);
             }
         }
-        return null;
+        return Optional.absent();
     }
 
-    public static <E> E detect(final Iterable<E> iterable, final Predicate<E> pred) {
+    public static <E> Optional<E> detect(final Iterable<E> iterable, final Predicate<E> pred) {
         return find(iterable, pred);
     }
 
@@ -203,7 +203,7 @@ public final class _<T> {
 
     }
 
-    public static <T, E> E findWhere(final Iterable<E> iterable,
+    public static <T, E> Optional<E> findWhere(final Iterable<E> iterable,
                                   final List<Tuple<String, T>> properties) {
         return find(iterable, new Predicate<E>() {
             @Override
@@ -243,12 +243,12 @@ public final class _<T> {
     }
 
     public static <E> boolean every(final Iterable<E> iterable, final Predicate<E> pred) {
-        return find(iterable, new Predicate<E>() {
+        return !find(iterable, new Predicate<E>() {
             @Override
             public Boolean apply(E arg) {
                 return !pred.apply(arg);
             }
-        }) == null;
+        }).isPresent();
     }
 
     public static <E> boolean all(final Iterable<E> set, final Predicate<E> pred) {
@@ -256,7 +256,7 @@ public final class _<T> {
     }
 
     public static <E> boolean some(final Iterable<E> iterable, final Predicate<E> pred) {
-        return find(iterable, pred) != null;
+        return find(iterable, pred).isPresent();
     }
 
     public static <E> boolean any(final Iterable<E> iterable, final Predicate<E> pred) {
@@ -267,7 +267,7 @@ public final class _<T> {
         return some(iterable, new Predicate<E>() {
             @Override
             public Boolean apply(E e) {
-                return elem.equals(e);
+                return elem == null ? e == null : elem.equals(e);
             }
         });
     }
@@ -797,6 +797,19 @@ public final class _<T> {
         });
     }
 
+    public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final V ... keys) {
+        return without(map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+            @Override
+            public Tuple<K, V> apply(K key) {
+                if (Arrays.asList(keys).contains(key)) {
+                    return Tuple.create(key, object.get(key));
+                } else {
+                    return null;
+                }
+            }
+        }), (Tuple<K, V>) null);
+    }
+
     public static <E> int indexOf(final List<E> list, final E value) {
         return list.indexOf(value);
     }
@@ -1084,6 +1097,42 @@ public final class _<T> {
             }
         }
         return null;
+    }
+
+    public static <E> Function<E> after(final int count, final Function<E> function) {
+        class AfterFunction implements Function {
+            private final int count;
+            private int index = 0;
+            public AfterFunction(final int count) {
+                this.count = count;
+            }
+            public E apply() {
+                if (++index >= count) {
+                    return function.apply();
+                } else {
+                    return null;
+                }
+            }
+        }
+        return new AfterFunction(count);
+    }
+
+    public static <E> Function<E> before(final int count, final Function<E> function) {
+        class BeforeFunction implements Function {
+            private final int count;
+            private int index = 0;
+            public BeforeFunction(final int count) {
+                this.count = count;
+            }
+            public E apply() {
+                if (++index <= count) {
+                    return function.apply();
+                } else {
+                    return null;
+                }
+            }
+        }
+        return new BeforeFunction(count);
     }
 
     public static <E> Template<Set<E>> template(final String template) {
