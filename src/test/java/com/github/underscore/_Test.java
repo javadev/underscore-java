@@ -115,6 +115,22 @@ _.map([1, 2, 3], function(num){ return num * 3; });
     }
 
 /*
+_.mapObject({start: 5, end: 12}, function(val, key) {
+  return val + 5;
+});
+=> {start: 10, end: 17}
+*/
+    @Test
+    public void mapObject() {
+        List<Tuple<String, Integer>> result = _.mapObject(new LinkedHashMap<String, Integer>() {{ put("start", 5); put("end", 12); }}, new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return item + 5;
+            }
+        });
+        assertEquals("[(start, 10), (end, 17)]", result.toString());
+    }
+
+/*
 _.collect([1, 2, 3], function(num){ return num * 3; });
 => [3, 6, 9]
 */

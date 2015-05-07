@@ -76,6 +76,15 @@ public final class _<T> {
         return transformed;
     }
 
+    public static <K, V> List<Tuple<K, V>> mapObject(final Map<K, V> object, final Function1<? super V, V> func) {
+        return map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+            @Override
+            public Tuple<K, V> apply(K key) {
+                return Tuple.create(key, func.apply(object.get(key)));
+            }
+        });
+    }
+
     public static <T, E> List<T> collect(final List<E> list, final Function1<? super E, T> func) {
         return map(list, func);
     }
