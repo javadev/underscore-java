@@ -85,6 +85,24 @@ public final class _<T> {
         });
     }
 
+    public static <K, V> List<Tuple<K, V>> pairs(final Map<K, V> object) {
+        return map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+            @Override
+            public Tuple<K, V> apply(K key) {
+                return Tuple.create(key, object.get(key));
+            }
+        });
+    }
+
+    public static <K, V> List<Tuple<V, K>> invert(final Map<K, V> object) {
+        return map(newArrayList(object.keySet()), new Function1<K, Tuple<V, K>>() {
+            @Override
+            public Tuple<V, K> apply(K key) {
+                return Tuple.create(object.get(key), key);
+            }
+        });
+    }
+
     public static <T, E> List<T> collect(final List<E> list, final Function1<? super E, T> func) {
         return map(list, func);
     }

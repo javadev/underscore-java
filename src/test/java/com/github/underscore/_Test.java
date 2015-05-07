@@ -131,6 +131,26 @@ _.mapObject({start: 5, end: 12}, function(val, key) {
     }
 
 /*
+_.pairs({one: 1, two: 2, three: 3});
+=> [["one", 1], ["two", 2], ["three", 3]]
+*/
+    @Test
+    public void pairs() {
+        List<Tuple<String, Integer>> result = _.pairs(new LinkedHashMap<String, Integer>() {{ put("one", 1); put("two", 2); put("three", 3); }});
+        assertEquals("[(one, 1), (two, 2), (three, 3)]", result.toString());
+    }
+
+/*
+_.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
+=> {Moses: "Moe", Louis: "Larry", Jerome: "Curly"};
+*/
+    @Test
+    public void invert() {
+        List<Tuple<String, String>> result = _.invert(new LinkedHashMap<String, String>() {{ put("Moe", "Moses"); put("Larry", "Louis"); put("Curly", "Jerome"); }});
+        assertEquals("[(Moses, Moe), (Louis, Larry), (Jerome, Curly)]", result.toString());
+    }
+
+/*
 _.collect([1, 2, 3], function(num){ return num * 3; });
 => [3, 6, 9]
 */
