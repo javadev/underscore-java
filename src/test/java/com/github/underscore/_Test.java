@@ -1654,6 +1654,10 @@ _.template(list, {people: ['moe', 'curly', 'larry']});
         Template<Set<Map.Entry<String,Object>>> compiled = _.template(list);
         assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
             compiled.apply(new LinkedHashMap<String, Object>() {{ put("people", asList("moe", "curly", "larry")); }}.entrySet()));
+        String list2 = "<% _.each(people2, function(name) { %> <li><%= name %></li> <% }); %>";
+        Template<Set<Map.Entry<String,Object>>> compiled2 = _.template(list2);
+        assertEquals("<% _.each(people2, function(name) { %> <li><%= name %></li> <% }); %>",
+            compiled2.apply(new LinkedHashMap<String, Object>() {{ put("people", asList("moe", "curly", "larry")); }}.entrySet()));
     }
 
 /*
@@ -1684,6 +1688,9 @@ compiled({epithet: "stooge"});
         Template<Set<Map.Entry<String,Object>>> compiled = _.template("<% print('Hello ' + epithet); %>");
         assertEquals("Hello stooge",
             compiled.apply(new LinkedHashMap<String, Object>() {{ put("epithet", "stooge"); }}.entrySet()));
+        Template<Set<Map.Entry<String,Object>>> compiled2 = _.template("<% print('Hello ' + epithet2); %>");
+        assertEquals("<% print('Hello ' + epithet2); %>",
+            compiled2.apply(new LinkedHashMap<String, Object>() {{ put("epithet", "stooge"); }}.entrySet()));
     }
 
 /*
