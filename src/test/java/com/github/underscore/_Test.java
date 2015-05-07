@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  * 
- * Copyright (c) 2014 Valentyn Kolesnikov
+ * Copyright 2015 Valentyn Kolesnikov
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -1857,6 +1857,32 @@ _.concat([1, 2], [3, 4]);
         assertEquals("[1, 2, 3, 4]", _.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
         assertEquals(asList(1, 2, 3, 4), asList(_.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
         assertEquals(asList(1, 2, 3, 4), _.concat(asList(1, 2), asList(3), asList(4)));
+    }
+
+/*
+_.random(0, 100);
+=> 42
+*/
+    @Test
+    public void random() {
+        int result = _.random(0, 100);
+        assertTrue(result >= 0);
+        assertTrue(result <= 100);
+    }
+
+/*
+_.times(3, function(n){ genie.grantWishNumber(n); });
+*/
+    @Test
+    public void times() {
+        final List<Integer> result = new ArrayList<Integer>();
+        _.times(3, new Function<Integer>() {
+            public Integer apply() {
+                result.add(1);
+                return null;
+            }
+        });
+        assertEquals("[1, 1, 1]", result.toString());
     }
 
     @Test

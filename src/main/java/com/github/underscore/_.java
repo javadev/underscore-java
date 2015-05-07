@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 Valentyn Kolesnikov
+ * Copyright 2015 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,6 +58,12 @@ public final class _<T> {
 
     public void forEach(final Block<? super T> func) {
         each(iterable, func);
+    }
+
+    public static <E> void times(final int count, final Function<E> function) {
+        for (int index = 0; index < count; index += 1) {
+            function.apply();
+        }
     }
 
     public static <T, E> List<T> map(final List<E> list, final Function1<? super E, T> func) {
@@ -465,6 +471,10 @@ public final class _<T> {
             samples.add(sample);
         }
         return samples;
+    }
+
+    public static int random(final int from, final int to) {
+        return new Random().nextInt(to - from) + from;
     }
 
     public static <E> E[] toArray(final Iterable<E> iterable) {
