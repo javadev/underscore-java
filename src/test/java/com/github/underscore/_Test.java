@@ -1827,7 +1827,7 @@ _.concat([1, 2], [3, 4]);
     public void classForName_without_guava() {
         _.classForName = new _.ClassForName() {
             public Class<?> call(final String name) throws Exception {
-                throw new Exception();
+                throw new Exception("expected");
             }
         };
         final List<Integer> result1 = _.filter(asList(1, 2, 3, 4, 5, 6),
@@ -1865,6 +1865,7 @@ _.concat([1, 2], [3, 4]);
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result6.toString());
         final List<Integer> result7 = _.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result7.toString());
+        _.classForName = new _.ClassForName();
     }
 
     @Test
