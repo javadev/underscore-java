@@ -1808,7 +1808,7 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
 
     @Test
     public void debounce() throws Exception {
-    final Integer[] counter = new Integer[] {0};
+        final Integer[] counter = new Integer[] {0};
         Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; }};
         Function<Void> debouncedIncr = _.debounce(incr, 50);
         debouncedIncr.apply();
@@ -1821,6 +1821,37 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
             }
         }, 32);
         Thread.sleep(120);
+    }
+
+/*
+var initialize = _.once(createApplication);
+initialize();
+initialize();
+// Application is only created once.
+*/
+
+    @Test
+    public void once() throws Exception {
+        final Integer[] counter = new Integer[] {0};
+        Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; }};
+        Function<Void> onceIncr = _.once(incr);
+        onceIncr.apply();
+        onceIncr.apply();
+        Thread.sleep(16);
+        assertEquals("incr was called only once", 1, counter[0]);
+    }
+
+/*
+_.defer(function(){ alert('deferred'); });
+// Returns from the function before the alert runs.
+*/
+    @Test
+    public void defer() throws Exception {
+        final Integer[] counter = new Integer[] {0};
+        _.defer(new Function<Void>() { public Void apply() { counter[0]++; return null; }});
+        assertEquals("incr was debounced", 0, counter[0]);
+        Thread.sleep(16);
+        assertEquals("incr was debounced", 1, counter[0]);
     }
 
     @Test

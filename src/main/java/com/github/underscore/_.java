@@ -1266,6 +1266,18 @@ public final class _<T> {
                     function.apply();
                 }
             }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+        scheduler.shutdown();
+    }
+
+    public static <T> void defer(final Function<T> function) {
+        final java.util.concurrent.ScheduledExecutorService scheduler = java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
+        scheduler.schedule(
+            new Runnable() {
+                public void run() {
+                    function.apply();
+                }
+            }, 0, java.util.concurrent.TimeUnit.MILLISECONDS);
+        scheduler.shutdown();
     }
 
     public static <T> Function<T> debounce(final Function<T> function, final int delayMilliseconds) {
@@ -1273,6 +1285,20 @@ public final class _<T> {
             @Override
             public T apply() {
                 delay(function, delayMilliseconds);
+                return null;
+            }
+        };
+    }
+
+    public static <T> Function<T> once(final Function<T> function) {
+        return new Function<T>() {
+            private volatile boolean executed;
+            @Override
+            public T apply() {
+                if (!executed) {
+                    executed = true;
+                    delay(function, 0);
+                }
                 return null;
             }
         };
