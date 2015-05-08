@@ -1798,6 +1798,64 @@ monthlyMeeting();
     }
 
 /*
+var isFalsy = _.negate(Boolean);
+_.find([-2, -1, 0, 1, 2], isFalsy);
+=> 0
+*/
+    @Test
+    public void negate() throws Exception {
+        Predicate<Integer> isFalsy = _.negate(new Predicate<Integer>() {
+            public Boolean apply(final Integer item) {
+                return item != 0;
+            }
+        });
+        Optional<Integer> result = _.find(asList(-2, -1, 0, 1, 2), isFalsy);
+        assertEquals(0, result.get());
+    }
+
+/*
+_.keys({one: 1, two: 2, three: 3});
+=> ["one", "two", "three"]
+*/
+    @Test
+    public void keys() throws Exception {
+        Set<String> result = _.keys(new LinkedHashMap<String, Object>() {{ put("one", 1); put("two", 2); put("three", 3); }});
+        assertEquals("[one, two, three]", result.toString());
+    }
+
+/*
+_.values({one: 1, two: 2, three: 3});
+=> [1, 2, 3]
+*/
+    @Test
+    public void values() throws Exception {
+        List<Integer> result = _.values(new LinkedHashMap<String, Integer>() {{ put("one", 1); put("two", 2); put("three", 3); }});
+        assertEquals("[1, 2, 3]", result.toString());
+    }
+
+/*
+var iceCream = {flavor: "chocolate"};
+_.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
+=> {flavor: "chocolate", sprinkles: "lots"}
+*/
+    @Test
+    public void defaults() throws Exception {
+        Map<String, String> iceCream = new LinkedHashMap<String, String>() {{ put("flavor", "chocolate"); }};
+        Map<String, String> result = _.defaults(iceCream, new LinkedHashMap<String, String>() {{ put("flavor", "vanilla"); put("sprinkles", "lots"); }});
+        assertEquals("{flavor=chocolate, sprinkles=lots}", result.toString());
+    }
+
+/*
+_.has({a: 1, b: 2, c: 3}, "b");
+=> true
+*/
+    @Test
+    public void has() throws Exception {
+        boolean result = _.has(new LinkedHashMap<String, Integer>() {{ put("a", 1); put("b", 2); put("c", 3); }}, "b");
+        assertTrue(result);
+    }
+
+/*
 var counter = 0;
 var incr = function(){ counter++; };
 var debouncedIncr = _.debounce(incr, 32);

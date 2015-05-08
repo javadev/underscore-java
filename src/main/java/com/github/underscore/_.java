@@ -1038,6 +1038,33 @@ public final class _<T> {
         return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray();
     }
 
+    public static <K, V> Set<K> keys(final Map<K, V> object) {
+        return object.keySet();
+    }
+
+    public static <K, V> List<V> values(final Map<K, V> object) {
+        final List<V> result = newArrayList();
+        for (final Map.Entry<K, V> entry : object.entrySet()) {
+            result.add(entry.getValue());
+        }
+        return result;
+    }
+
+    public static <K, V> Map<K, V> defaults(final Map<K, V> object, final Map<K, V> defaults) {
+        final Map<K, V> result = newLinkedHashMap();
+        for (final Map.Entry<K, V> entry : defaults.entrySet()) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        for (final Map.Entry<K, V> entry : object.entrySet()) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
+
+    public static <K, V> boolean has(final Map<K, V> object, final K key) {
+        return object.containsKey(key);
+    }
+
     public static <T> Chain chain(final List<T> list) {
         return new _.Chain<T>(list);
     }
@@ -1221,6 +1248,14 @@ public final class _<T> {
             }
         }
         return new BeforeFunction(count);
+    }
+
+    public static <E> Predicate<E> negate(final Predicate<E> pred) {
+        return new Predicate<E>() {
+            public Boolean apply(final E item) {
+                return !pred.apply(item);
+            }
+        };
     }
 
     public static <E> Template<Set<E>> template(final String template) {
