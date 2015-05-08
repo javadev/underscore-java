@@ -1258,6 +1258,26 @@ public final class _<T> {
         };
     }
 
+    public static <T> Function1<Void, T> wrap(final Function1<T, T> function, final Function1<Function1<T, T>, T> wrapper) {
+        return new Function1<Void, T>() {
+            public T apply(final Void arg) {
+                return wrapper.apply(function);
+            }
+        };
+    }
+
+    public static <T> Function1<T, T> compose(final Function1<T, T>... func) {
+        return new Function1<T, T>() {
+            public T apply(final T arg) {
+                T result = arg;
+                for (int index = func.length - 1; index >= 0; index -=1) {
+                    result = func[index].apply(result);
+                }
+                return result;
+            }
+        };
+    }
+
     public static <E> Template<Set<E>> template(final String template) {
         return new Template<Set<E>>() {
             @Override

@@ -1798,6 +1798,29 @@ monthlyMeeting();
     }
 
 /*
+var hello = function(name) { return "hello: " + name; };
+hello = _.wrap(hello, function(func) {
+  return "before, " + func("moe") + ", after";
+});
+hello();
+=> 'before, hello: moe, after'
+*/
+    @Test
+    public void wrap() throws Exception {
+        Function1<String, String> hello = new Function1<String, String>() {
+            public String apply(final String name) {
+                return "hello: " + name;
+            }
+        };
+        Function1<Void, String> result = _.wrap(hello, new Function1<Function1<String, String>, String>() {
+            public String apply(final Function1<String, String> func) {
+                return "before, " + func.apply("moe") + ", after";
+            }
+        });
+        assertEquals("before, hello: moe, after", result.apply(null));
+    }
+
+/*
 var isFalsy = _.negate(Boolean);
 _.find([-2, -1, 0, 1, 2], isFalsy);
 => 0
@@ -1811,6 +1834,29 @@ _.find([-2, -1, 0, 1, 2], isFalsy);
         });
         Optional<Integer> result = _.find(asList(-2, -1, 0, 1, 2), isFalsy);
         assertEquals(0, result.get());
+    }
+
+/*
+var greet    = function(name){ return "hi: " + name; };
+var exclaim  = function(statement){ return statement.toUpperCase() + "!"; };
+var welcome = _.compose(greet, exclaim);
+welcome('moe');
+=> 'hi: MOE!'
+*/
+    @Test
+    public void compose() throws Exception {
+        Function1<String, String> greet = new Function1<String, String>() {
+            public String apply(final String name) {
+                return "hi: " + name;
+            }
+        };
+        Function1<String, String> exclaim = new Function1<String, String>() {
+            public String apply(final String statement) {
+                return statement.toUpperCase() + "!";
+            }
+        };
+        Function1<String, String> welcome = _.compose(greet, exclaim);
+        assertEquals("hi: MOE!", welcome.apply("moe"));
     }
 
 /*
