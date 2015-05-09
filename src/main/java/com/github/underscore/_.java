@@ -34,16 +34,25 @@ import java.util.*;
  * @author Valentyn Kolesnikov
  */
 public final class _<T> {
-    private final Iterable<T> iterable;
     public static ClassForName classForName = new ClassForName();
     public static class ClassForName {
         public Class<?> call(final String name) throws Exception {
             return Thread.currentThread().getContextClassLoader().loadClass(name);
         }
     }
+    private static final Map<String, Function1<String, String>> functions = newLinkedHashMap();
+    private static final java.util.concurrent.atomic.AtomicInteger uniqueId = new java.util.concurrent.atomic.AtomicInteger(0);
+    private final Iterable<T> iterable;
+    private final Optional<String> string;
 
     public _(final Iterable<T> iterable) {
         this.iterable = iterable;
+        this.string = Optional.absent();
+    }
+
+    public _(final String string) {
+        this.iterable = null;
+        this.string = Optional.of(string);
     }
 
     public static <T> void each(final Iterable<T> iterable, final Block<? super T> func) {
@@ -475,6 +484,21 @@ public final class _<T> {
 
     public static int random(final int from, final int to) {
         return new Random().nextInt(to - from) + from;
+    }
+
+    public static void mixin(final String funcName, final Function1<String, String> func) {
+        functions.put(funcName, func);
+    }
+
+    public Optional<String> call(final String funcName) {
+        if (string.isPresent() && functions.containsKey(funcName)) {
+            return Optional.of(functions.get(funcName).apply(string.get()));
+        }
+        return Optional.absent();
+    }
+
+    public static String uniqueId(final String prefix) {
+        return prefix + uniqueId.incrementAndGet();
     }
 
     public static <E> E[] toArray(final Iterable<E> iterable) {

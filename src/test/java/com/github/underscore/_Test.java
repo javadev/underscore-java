@@ -2013,6 +2013,36 @@ _.random(0, 100);
     }
 
 /*
+_.mixin({
+  capitalize: function(string) {
+    return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
+  }
+});
+_("fabio").capitalize();
+=> "Fabio"
+*/
+    @Test
+    public void mixin() {
+        _.mixin("capitalize", new Function1<String, String>() {
+            public String apply(final String string) {
+                return String.valueOf(string.charAt(0)).toUpperCase() + string.substring(1).toLowerCase();
+            }
+        });
+        assertEquals("Fabio", new _("fabio").call("capitalize").get());
+        assertFalse(new _("fabio").call("capitalize2").isPresent());
+        assertFalse(new _(asList(1)).call("capitalize2").isPresent());
+    }
+
+/*
+_.uniqueId('contact_');
+=> 'contact_104'
+*/
+    @Test
+    public void uniqueId() {
+        assertEquals("contact_1", _.uniqueId("contact_"));
+    }
+
+/*
 _.times(3, function(n){ genie.grantWishNumber(n); });
 */
     @Test
