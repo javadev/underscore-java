@@ -167,6 +167,16 @@ public final class _<T> {
         return Optional.absent();
     }
 
+    public static <E> Optional<E> findLast(final Iterable<E> iterable, final Predicate<E> pred) {
+        final List<E> list = newArrayList(iterable);
+        for (int index = list.size() - 1; index >= 0; index--) {
+            if (pred.apply(list.get(index))) {
+                return Optional.of(list.get(index));
+            }
+        }
+        return Optional.absent();
+    }
+
     public static <E> Optional<E> detect(final Iterable<E> iterable, final Predicate<E> pred) {
         return find(iterable, pred);
     }
@@ -1193,6 +1203,24 @@ public final class _<T> {
             return new Chain<F>(accum);
         }
 
+        public Chain<Optional<T>> find(final Predicate<T> pred) {
+            for (final T element : list) {
+                if (pred.apply(element)) {
+                    return new Chain<Optional<T>>(Optional.of(element));
+                }
+            }
+            return new Chain<Optional<T>>(Optional.<T>absent());
+        }
+
+        public Chain<Optional<T>> findLast(final Predicate<T> pred) {
+            for (int index = list.size() - 1; index >= 0; index--) {
+                if (pred.apply(list.get(index))) {
+                    return new Chain<Optional<T>>(Optional.of(list.get(index)));
+                }
+            }
+            return new Chain<Optional<T>>(Optional.<T>absent());
+        }
+
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
             return new Chain<T>(_.sortBy(list, func));
         }
@@ -1458,9 +1486,14 @@ public final class _<T> {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
             return (List<T>) listsClass.getDeclaredMethod("newArrayList", Iterable.class).invoke(null, list);
         } catch (Exception e) {
-            final List<T> result = new ArrayList<T>();
-            for (final T item : list) {
-                result.add(item);
+            final List<T> result;
+            if (list instanceof Collection) {
+                result = new ArrayList<T>((Collection) list);
+            } else {
+                result = new ArrayList<T>();
+                for (final T item : list) {
+                    result.add(item);
+                }
             }
             return result;
         }

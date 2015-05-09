@@ -311,6 +311,56 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
             }
         });
         assertEquals("Optional.of(2)", result.toString());
+        final Optional<Integer> resultChain = (Optional<Integer>) _.chain(asList(1, 2, 3, 4, 5, 6)).find(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }).item();
+        assertEquals("Optional.of(2)", resultChain.toString());
+        final Optional<Integer> resultChain2 = (Optional<Integer>) _.chain(asList(1, 2, 3, 4, 5, 6)).find(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item > 6;
+            }
+        }).item();
+        assertEquals("Optional.absent()", resultChain2.toString());
+    }
+
+/*
+var even = _.findLast([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+=> 6
+*/
+    @Test
+    public void findLast() {
+        final Optional<Integer> result = _.findLast(asList(1, 2, 3, 4, 5, 6),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("Optional.of(6)", result.toString());
+        final Optional<Integer> result2 = _.findLast(asList(1, 2, 3, 4, 5, 6),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item > 6;
+            }
+        });
+        assertEquals("Optional.absent()", result2.toString());
+        final Optional<Integer> resultChain = (Optional<Integer>) _.chain(asList(1, 2, 3, 4, 5, 6)).findLast(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }).item();
+        assertEquals("Optional.of(6)", resultChain.toString());
+        final Optional<Integer> resultChain2 = (Optional<Integer>) _.chain(asList(1, 2, 3, 4, 5, 6)).findLast(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item > 6;
+            }
+        }).item();
+        assertEquals("Optional.absent()", resultChain2.toString());
     }
 
 /*
@@ -2099,6 +2149,29 @@ _.times(3, function(n){ genie.grantWishNumber(n); });
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result6.toString());
         final List<Integer> result7 = _.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result7.toString());
+        final int[] array = new int[] {1, 2, 3, 4, 5, 6};
+        Iterable<Integer> iterable = new Iterable<Integer>() {
+            public Iterator<Integer> iterator() {
+                return new Iterator<Integer>() {
+                    private int index = 0;
+                    public boolean hasNext() {
+                        return array.length > index;
+                    }
+                    public Integer next() {
+                        return array[index++];
+                    }
+                    public void remove() {
+                    }
+                };
+            }
+        };
+        final Optional<Integer> result8 = _.findLast(iterable,
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("Optional.of(6)", result8.toString());
         _.classForName = new _.ClassForName();
     }
 
