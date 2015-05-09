@@ -2131,6 +2131,25 @@ _.times(3, function(n){ genie.grantWishNumber(n); });
         assertEquals("[1, 1, 1]", result.toString());
     }
 
+/*
+var stooge = {name: 'moe', luckyNumbers: [13, 27, 34]};
+var clone  = {name: 'moe', luckyNumbers: [13, 27, 34]};
+stooge == clone;
+=> false
+_.isEqual(stooge, clone);
+=> true
+*/
+    @Test
+    public void isEqual() {
+        Map<String, Object> stooge = new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("luckyNumbers", asList(13, 27, 34)); }};
+        Map<String, Object> clone = new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("luckyNumbers", asList(13, 27, 34)); }};
+        assertFalse(stooge == clone);
+        assertTrue(_.isEqual(stooge, clone));
+        assertTrue(_.isEqual(null, null));
+        assertFalse(_.isEqual(stooge, null));
+        assertFalse(_.isEqual(null, clone));
+    }
+
     @Test
     public void classForName_without_guava() {
         _.classForName = new _.ClassForName() {

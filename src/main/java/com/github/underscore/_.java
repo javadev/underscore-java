@@ -1479,6 +1479,10 @@ public final class _<T> {
         return (List<T>) Arrays.asList(result);
     }
 
+    public static <K, V> boolean isEqual(final Map<K, V> object, final Map<K, V> other) {
+        return object == null ? other == null : object.equals(other);
+    }
+
     private static Class<?> classForName(final String name) throws Exception {
         return classForName.call(name);
     }
