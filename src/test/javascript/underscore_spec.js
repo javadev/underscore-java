@@ -378,7 +378,7 @@ _.template(list, {people: ['moe', 'curly', 'larry']});
 */
     it("template each",function(){
         var list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
-        expect(_.template(list, {people: ['moe', 'curly', 'larry']})).toBe(
+        expect(_.template(list)({people: ['moe', 'curly', 'larry']})).toBe(
             " <li>moe</li>  <li>curly</li>  <li>larry</li> ");
     });
 /*
