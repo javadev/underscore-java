@@ -1942,6 +1942,30 @@ _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
     }
 
 /*
+_.clone({name: 'moe'});
+=> {name: 'moe'};
+*/
+    @Test
+    public void cloneMap() throws Exception {
+        Map<String, String> result = (Map<String, String>) _.clone(new LinkedHashMap<String, String>() {{ put("name", "moe"); }});
+        assertEquals("{name=moe}", result.toString());
+    }
+
+    @Test(expected = CloneNotSupportedException.class)
+    public void cloneError() throws Exception {
+        class Test {};
+        _.clone(new Test());
+    }
+
+    @Test(expected = CloneNotSupportedException.class)
+    public void cloneError2() throws Exception {
+        class Test implements Cloneable {
+            public Object clone(String arg) {return null;}
+        };
+        _.clone(new Test());
+    }
+
+/*
 _.has({a: 1, b: 2, c: 3}, "b");
 => true
 */

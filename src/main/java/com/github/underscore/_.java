@@ -1095,6 +1095,17 @@ public final class _<T> {
         return result;
     }
 
+    public static Object clone(Object obj) throws Exception {
+        if (obj instanceof Cloneable) {
+            for (final Method method : obj.getClass().getMethods()) {
+                if (method.getName().equals("clone") && method.getParameterTypes().length == 0) {
+                    return method.invoke(obj);
+                }
+            }
+        }
+        throw new CloneNotSupportedException();
+    }
+
     public static <K, V> boolean has(final Map<K, V> object, final K key) {
         return object.containsKey(key);
     }
