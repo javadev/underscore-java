@@ -172,9 +172,9 @@
       <p class="fade"><i>Some functions were not ported from Underscore.js to Underscore-java for technical reasons or because they weren't applicable to java.</i></p>
     </nav>
 <h2>Collections (Arrays or Objects)</h2>
-<p class="block" id="each"><b class="function">each</b> <code>_.each(collection, iterator)</code></p>
+<p class="block" id="each"><b class="function">each</b> <code>$.each(collection, iterator)</code></p>
 <p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection).</p>
-<pre>_.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
+<pre>$.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
     public void apply(Integer item) {
         System.out.println(item + &quot;,&quot;);
     }
@@ -183,7 +183,7 @@
 
 int multiplier = 2;
 int index = 0;
-_.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
+$.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
     public void apply(Integer item) {
         System.out.println(index + &quot;=&quot; + (item * multiplier) + &quot;,&quot;);
         index += 1;
@@ -192,16 +192,16 @@ _.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
 // 0=2,1=4,2=6,
 </pre>
 
-<p class="block" id="map"><b class="function">map</b> <code>_.map(collection, iterator)</code> <span class="alias">Alias: <b>collect</b></span></p>
+<p class="block" id="map"><b class="function">map</b> <code>$.map(collection, iterator)</code> <span class="alias">Alias: <b>collect</b></span></p>
 <p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection).</p>
-<pre>_.map(asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
+<pre>$.map(asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
             public Integer apply(Integer item) {
                 return item * 3;
             }
         });
 // [3, 6, 9]
 
-_.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put(2, &quot;two&quot;); put(3, &quot;three&quot;); }}
+$.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put(2, &quot;two&quot;); put(3, &quot;three&quot;); }}
     .entrySet(),
     new Function1&lt;Map.Entry&lt;Integer, String&gt;, Integer&gt;() {
     public Integer apply(Map.Entry&lt;Integer, String&gt; item) {
@@ -210,9 +210,9 @@ _.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
 });
 // [3, 6, 9]
 </pre>
-<p class="block" id="reduce"><b class="function">reduce</b> <code>_.reduce(collection, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
+<p class="block" id="reduce"><b class="function">reduce</b> <code>$.reduce(collection, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
 <p>Reduce the collection into a single value. Memo is the initial state of the reduction, updated by the return value of the iterator.</p>
-<pre>_.reduce(asList(1, 2, 3),
+<pre>$.reduce(asList(1, 2, 3),
     new FunctionAccum&lt;Integer, Integer&gt;() {
     public Integer apply(Integer item1, Integer item2) {
         return item1 + item2;
@@ -222,9 +222,9 @@ _.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
 );
 // 6</pre>
 
-<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>_.reduceRight(collection, memo, iterator)</code><span class="alias">Alias: <b>foldr</b></span></p>
+<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>$.reduceRight(collection, memo, iterator)</code><span class="alias">Alias: <b>foldr</b></span></p>
 <p>Right-associative version of reduce.</p>
-<pre>_.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
+<pre>$.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
     new FunctionAccum&lt;List&lt;Integer&gt;, List&lt;Integer&gt;&gt;() {
     public List&lt;Integer&gt; apply(List&lt;Integer&gt; item1, List&lt;Integer&gt; item2) {
         List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;(item1);
@@ -235,9 +235,9 @@ _.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
 });
 // [4, 5, 2, 3, 0, 1]</pre>
 
-<p class="block" id="find"><b class="function">find</b> <code>_.find(collection, iterator)</code> <span class="alias">Alias: <b>detect</b></span></p>
+<p class="block" id="find"><b class="function">find</b> <code>$.find(collection, iterator)</code> <span class="alias">Alias: <b>detect</b></span></p>
 <p>Return the value of the first item in the collection that passes the truth test (<b>iterator</b>).</p>
-<pre>_.find(asList(1, 2, 3, 4, 5, 6), 
+<pre>$.find(asList(1, 2, 3, 4, 5, 6), 
     new Predicate&lt;Integer&gt;() {
     public Boolean apply(Integer item) {
         return item % 2 == 0;
@@ -245,9 +245,9 @@ _.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
 });
 // 2</pre>
 
-<p class="block" id="filter"><b class="function">filter</b> <code>_.filter(collection, iterator)</code> <span class="alias">Alias: <b>select</b></span></p>
+<p class="block" id="filter"><b class="function">filter</b> <code>$.filter(collection, iterator)</code> <span class="alias">Alias: <b>select</b></span></p>
 <p>Return the values in the collection that pass the truth test (<b>iterator</b>).</p>
-<pre>_.filter(asList(1, 2, 3, 4, 5, 6), 
+<pre>$.filter(asList(1, 2, 3, 4, 5, 6), 
     new Predicate&lt;Integer&gt;() {
     public Boolean apply(Integer item) {
         return item % 2 == 0;
@@ -255,9 +255,9 @@ _.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
 });
 // [2, 4, 6]</pre>
 
-<p class="block" id="reject"><b class="function">reject</b> <code>_.reject(collection, iterator)</code></p>
+<p class="block" id="reject"><b class="function">reject</b> <code>$.reject(collection, iterator)</code></p>
 <p>Return an array where the items failing the truth test (<b>iterator</b>) are removed.</p>
-<pre>_.reject(asList(1, 2, 3, 4), 
+<pre>$.reject(asList(1, 2, 3, 4), 
     new Predicate&lt;Integer&gt;() {
     public Boolean apply(Integer item) {
         return item % 2 == 0;
@@ -265,16 +265,16 @@ _.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
 });
 // [1, 3]</pre>
 
-<p class="block" id="all"><b class="function">all</b> <code>_.all(collection, iterator)</code></p>
+<p class="block" id="all"><b class="function">all</b> <code>$.all(collection, iterator)</code></p>
 <p>Returns true if all values in the collection pass the truth test (<b>iterator</b>).</p>
-<pre>_.all(asList(1, 2, 3, 4), 
+<pre>$.all(asList(1, 2, 3, 4), 
     new Predicate&lt;Integer&gt;() {
         public Boolean apply(Integer item) {
             return item % 2 == 0;
         }
     });
 // false
-_.all(asList(1, 2, 3, 4), 
+$.all(asList(1, 2, 3, 4), 
     new Predicate&lt;Integer&gt;() {
         public Boolean apply(Integer item) {
             return item < 5;
@@ -282,16 +282,16 @@ _.all(asList(1, 2, 3, 4),
     });
 // true</pre>
 
-<p class="block" id="any"><b class="function">any</b> <code>_.any(collection, iterator)</code></p>
+<p class="block" id="any"><b class="function">any</b> <code>$.any(collection, iterator)</code></p>
 <p>Returns true if any values in the collection pass the truth test (<b>iterator</b>).</p>
-<pre>_.any(asList(1, 2, 3, 4), 
+<pre>$.any(asList(1, 2, 3, 4), 
     new Predicate&lt;Integer&gt;() {
         public Boolean apply(Integer item) {
             return item % 2 == 0;
         }
     });
 // true
-_.any(asList(1, 2, 3, 4), 
+$.any(asList(1, 2, 3, 4), 
     new Predicate&lt;Integer&gt;() {
         public Boolean apply(Integer item) {
             return item == 5;
@@ -299,15 +299,15 @@ _.any(asList(1, 2, 3, 4),
     });
 // false</pre>
 
-<p class="block" id="include"><b class="function">include</b> <code>_.include(collection, value)</code> <span class="alias">Alias: <b>contains</b></span></p>
+<p class="block" id="include"><b class="function">include</b> <code>$.include(collection, value)</code> <span class="alias">Alias: <b>contains</b></span></p>
 <p>Returns true if value is found in the collection using == to test equality.</p>
-<pre>_.include(asList(1, 2, 3), 3); // true</pre>
+<pre>$.include(asList(1, 2, 3), 3); // true</pre>
 
-<p class="block" id="invoke"><b class="function">invoke</b> <code>_.invoke(collection, functionName)</code></p>
+<p class="block" id="invoke"><b class="function">invoke</b> <code>$.invoke(collection, functionName)</code></p>
 <p>Returns a copy of the collection after running functionName across all elements.</p>
-<pre>_.invoke(asList(" foo", " bar "), "trim"); // ["foo", "bar"]</pre>
+<pre>$.invoke(asList(" foo", " bar "), "trim"); // ["foo", "bar"]</pre>
 
-<p class="block" id="pluck"><b class="function">pluck</b> <code>_.pluck(collection, propertyName)</code></p>
+<p class="block" id="pluck"><b class="function">pluck</b> <code>$.pluck(collection, propertyName)</code></p>
 <p>Extract an array of property values</p>
 <pre>class Person {
     public final String name;
@@ -317,16 +317,16 @@ _.any(asList(1, 2, 3, 4),
         this.age = age;
     }
 };
-_.pluck(asList(new Person(&quot;moe&quot;, 40), new Person(&quot;larry&quot;, 50), new Person(&quot;curly&quot;, 40)), &quot;name&quot;);
+$.pluck(asList(new Person(&quot;moe&quot;, 40), new Person(&quot;larry&quot;, 50), new Person(&quot;curly&quot;, 40)), &quot;name&quot;);
 // ["moe", "larry", "curly"]</pre>
 
-<p class="block" id="max"><b class="function">max</b> <code>_.max(collection, [iterator])</code></p>
+<p class="block" id="max"><b class="function">max</b> <code>$.max(collection, [iterator])</code></p>
 <p>Returns the maximum value from the collection. If passed an iterator, max will return max value returned by the iterator.</p>
-<pre>_.max(asList(10, 5, 100, 2, 1000)); // 100</pre>
+<pre>$.max(asList(10, 5, 100, 2, 1000)); // 100</pre>
 
-<p class="block" id="min"><b class="function">min</b> <code>_.min(collection, [iterator])</code></p>
+<p class="block" id="min"><b class="function">min</b> <code>$.min(collection, [iterator])</code></p>
 <p>Returns the minimum value from the collection. If passed an iterator, min will return min value returned by the iterator.</p>
-<pre>_.min(asList(10, 5, 100, 2, 1000)); // 2</pre>
+<pre>$.min(asList(10, 5, 100, 2, 1000)); // 2</pre>
 
 </body>
 </html>
