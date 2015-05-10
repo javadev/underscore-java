@@ -1095,7 +1095,7 @@ public final class $<T> {
         return result;
     }
 
-    public static Object clone(Object obj) throws Exception {
+    public static Object clone(final Object obj) throws Exception {
         if (obj instanceof Cloneable) {
             for (final Method method : obj.getClass().getMethods()) {
                 if (method.getName().equals("clone") && method.getParameterTypes().length == 0) {
@@ -1485,6 +1485,26 @@ public final class $<T> {
 
     public static <K, V> boolean isEqual(final Map<K, V> object, final Map<K, V> other) {
         return object == null ? other == null : object.equals(other);
+    }
+
+    public static boolean isArray(final Object object) {
+        return object != null && object.getClass().isArray();
+    }
+
+    public static boolean isObject(final Object object) {
+        return object instanceof Map;
+    }
+
+    public static boolean isFunction(final Object object) {
+        return object instanceof Function1;
+    }
+
+    public static boolean isString(final Object object) {
+        return object instanceof String;
+    }
+
+    public static boolean isNumber(final Object object) {
+        return object instanceof Number;
     }
 
     private static Class<?> classForName(final String name) throws Exception {

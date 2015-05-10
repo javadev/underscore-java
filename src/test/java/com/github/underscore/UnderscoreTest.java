@@ -2152,6 +2152,57 @@ _.isEqual(stooge, clone);
         assertFalse($.isEqual(null, clone));
     }
 
+/*
+_.isArray([1,2,3]);
+=> true
+*/
+    @Test
+    public void isArray() {
+        assertTrue($.isArray(new int[] {1, 2, 3, 4, 5}));
+        assertFalse($.isArray(null));
+        assertFalse($.isArray("string"));
+    }
+
+/*
+_.isObject({});
+=> true
+_.isObject(1);
+=> false
+*/
+    @Test
+    public void isObject() {
+        assertTrue($.isObject(new LinkedHashMap<String, String>()));
+        assertFalse($.isObject(null));
+        assertFalse($.isObject("string"));
+    }
+
+/*
+_.isFunction(alert);
+=> true
+*/
+    @Test
+    public void isFunction() {
+        assertTrue($.isFunction(new Function1<String, Integer>() { public Integer apply(final String arg) { return null; }}));
+    }
+
+/*
+_.isString("moe");
+=> true
+*/
+    @Test
+    public void isString() {
+        assertTrue($.isString("moe"));
+    }
+
+/*
+_.isNumber(8.4 * 5);
+=> true
+*/
+    @Test
+    public void isNumber() {
+        assertTrue($.isNumber(8.4 * 5));
+    }
+
     @Test
     public void classForName_without_guava() {
         $.classForName = new $.ClassForName() {
