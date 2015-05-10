@@ -1106,6 +1106,10 @@ public final class $<T> {
         throw new CloneNotSupportedException();
     }
 
+    public static <E> E[] clone(final E[] iterable) {
+        return Arrays.copyOf(iterable, iterable.length);
+    }
+
     public static <K, V> boolean has(final Map<K, V> object, final K key) {
         return object.containsKey(key);
     }

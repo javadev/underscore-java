@@ -1949,6 +1949,8 @@ _.clone({name: 'moe'});
     public void cloneMap() throws Exception {
         Map<String, String> result = (Map<String, String>) $.clone(new LinkedHashMap<String, String>() {{ put("name", "moe"); }});
         assertEquals("{name=moe}", result.toString());
+        Integer[] result2 = (Integer[]) $.clone(new Integer[] { 1, 2, 3, 4, 5 });
+        assertEquals("[1, 2, 3, 4, 5]", asList(result2).toString());
     }
 
     @Test(expected = CloneNotSupportedException.class)
