@@ -33,7 +33,7 @@ import java.util.*;
  *
  * @author Valentyn Kolesnikov
  */
-public final class _<T> {
+public final class $<T> {
     public static ClassForName classForName = new ClassForName();
     public static class ClassForName {
         public Class<?> call(final String name) throws Exception {
@@ -45,12 +45,12 @@ public final class _<T> {
     private final Iterable<T> iterable;
     private final Optional<String> string;
 
-    public _(final Iterable<T> iterable) {
+    public $(final Iterable<T> iterable) {
         this.iterable = iterable;
         this.string = Optional.absent();
     }
 
-    public _(final String string) {
+    public $(final String string) {
         this.iterable = null;
         this.string = Optional.of(string);
     }
@@ -588,11 +588,11 @@ public final class _<T> {
     }
 
     public List<T> initial() {
-        return _.initial(((List) iterable), 1);
+        return $.initial(((List) iterable), 1);
     }
 
     public List<T> initial(final int n) {
-        return _.initial(((List) iterable), n);
+        return $.initial(((List) iterable), n);
     }
 
     public static <E> E last(final E[] array) {
@@ -608,11 +608,11 @@ public final class _<T> {
     }
 
     public T last() {
-        return _.last(((List<T>) iterable));
+        return $.last(((List<T>) iterable));
     }
 
     public List<T> last(final int n) {
-        return _.last(((List) iterable), n);
+        return $.last(((List) iterable), n);
     }
 
     public static <E> List<E> rest(final List<E> list) {
@@ -624,11 +624,11 @@ public final class _<T> {
     }
 
     public List<T> rest() {
-        return _.rest((List) iterable);
+        return $.rest((List) iterable);
     }
 
     public List<T> rest(int n) {
-        return _.rest((List) iterable, n);
+        return $.rest((List) iterable, n);
     }
 
     public static <E> List<E> tail(final List<E> list) {
@@ -707,11 +707,11 @@ public final class _<T> {
     }
 
     public List<T> compact() {
-        return _.compact(((List) iterable));
+        return $.compact(((List) iterable));
     }
 
     public List<T> compact(final T falsyValue) {
-        return _.compact(((List) iterable), falsyValue);
+        return $.compact(((List) iterable), falsyValue);
     }
 
     public static <E> List<E> flatten(final List<?> list) {
@@ -737,11 +737,11 @@ public final class _<T> {
     }
 
     public List<T> flatten() {
-        return _.flatten(((List) iterable));
+        return $.flatten(((List) iterable));
     }
 
     public List<T> flatten(final boolean shallow) {
-        return _.flatten(((List) iterable), shallow);
+        return $.flatten(((List) iterable), shallow);
     }
 
     public static <E> List<E> without(final List<E> list, E... values) {
@@ -839,12 +839,12 @@ public final class _<T> {
         each(Arrays.asList(lists), new Block<List<T>>() {
             @Override
             public void apply(final List<T> list) {
-                _.each(list, new Block<T>() {
+                $.each(list, new Block<T>() {
                     int index = 0;
 
                     @Override
                     public void apply(T elem) {
-                        final List<T> nTuple = index >= zipped.size() ? _.<T>newArrayList() : zipped.get(index);
+                        final List<T> nTuple = index >= zipped.size() ? $.<T>newArrayList() : zipped.get(index);
                         if (index >= zipped.size()) {
                             zipped.add(nTuple);
                         }
@@ -1111,15 +1111,15 @@ public final class _<T> {
     }
 
     public static <T> Chain chain(final List<T> list) {
-        return new _.Chain<T>(list);
+        return new $.Chain<T>(list);
     }
 
     public static <T> Chain chain(final Set<T> list) {
-        return new _.Chain<T>(newArrayList(list));
+        return new $.Chain<T>(newArrayList(list));
     }
 
     public static <T> Chain chain(final T[] list) {
-        return new _.Chain<T>(Arrays.asList(list));
+        return new $.Chain<T>(Arrays.asList(list));
     }
 
     public static class Chain<T> {
@@ -1135,35 +1135,35 @@ public final class _<T> {
         }
 
         public Chain<T> first() {
-            return new Chain<T>(_.first(list));
+            return new Chain<T>($.first(list));
         }
 
         public Chain<T> first(int n) {
-            return new Chain<T>(_.first(list, n));
+            return new Chain<T>($.first(list, n));
         }
 
         public Chain<T> initial() {
-            return new Chain<T>(_.initial(list));
+            return new Chain<T>($.initial(list));
         }
 
         public Chain<T> initial(int n) {
-            return new Chain<T>(_.initial(list, n));
+            return new Chain<T>($.initial(list, n));
         }
 
         public Chain<T> last() {
-            return new Chain<T>(_.last(list));
+            return new Chain<T>($.last(list));
         }
 
         public Chain<T> last(int n) {
-            return new Chain<T>(_.last(list, n));
+            return new Chain<T>($.last(list, n));
         }
 
         public Chain<T> rest() {
-            return new Chain<T>(_.rest(list));
+            return new Chain<T>($.rest(list));
         }
 
         public Chain<T> rest(int n) {
-            return new Chain<T>(_.rest(list, n));
+            return new Chain<T>($.rest(list, n));
         }
 
         public Chain<T> flatten() {
@@ -1183,15 +1183,15 @@ public final class _<T> {
         }
 
         public <F> Chain<F> map(final Function1<? super T, F> func) {
-            return new Chain<F>(_.map(list, func));
+            return new Chain<F>($.map(list, func));
         }
 
         public Chain<T> filter(final Predicate<T> pred) {
-            return new Chain<T>(_.filter(list, pred));
+            return new Chain<T>($.filter(list, pred));
         }
 
         public Chain<T> reject(final Predicate<T> pred) {
-            return new Chain<T>(_.reject(list, pred));
+            return new Chain<T>($.reject(list, pred));
         }
 
         public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {
@@ -1233,15 +1233,15 @@ public final class _<T> {
         }
 
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
-            return new Chain<T>(_.sortBy(list, func));
+            return new Chain<T>($.sortBy(list, func));
         }
 
         public <F> Chain<F> uniq(final Function1<T, F> func) {
-            return new Chain<F>(_.newArrayList((Iterable<F>) _.uniq(list, func)));
+            return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
         }
 
         public <T> Chain<T> concat(final List<T> second) {
-            return new Chain<T>((List<T>) Arrays.asList(_.concat(list.toArray(), second.toArray())));
+            return new Chain<T>((List<T>) Arrays.asList($.concat(list.toArray(), second.toArray())));
         }
 
         public T item() {
