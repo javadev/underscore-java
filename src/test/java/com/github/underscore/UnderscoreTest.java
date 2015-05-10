@@ -2203,6 +2203,59 @@ _.isNumber(8.4 * 5);
         assertTrue($.isNumber(8.4 * 5));
     }
 
+/*
+_.isBoolean(null);
+=> false
+*/
+    @Test
+    public void isBoolean() {
+        assertTrue($.isBoolean(false));
+        assertFalse($.isBoolean(null));
+    }
+
+/*
+_.isDate(new Date());
+=> true
+*/
+    @Test
+    public void isDate() {
+        assertTrue($.isDate(new java.util.Date()));
+        assertFalse($.isDate(null));
+    }
+
+/*
+_.isRegExp(/moe/);
+=> true
+*/
+    @Test
+    public void isRegExp() {
+        assertTrue($.isRegExp(java.util.regex.Pattern.compile("moe")));
+        assertFalse($.isRegExp(null));
+    }
+
+/*
+try {
+  throw new TypeError("Example");
+} catch (o_O) {
+  _.isError(o_O)
+}
+=> true
+*/
+    @Test
+    public void isError() {
+        assertTrue($.isError(new Exception()));
+        assertFalse($.isError(null));
+    }
+
+/*
+_.isNull(null);
+=> true
+*/
+    @Test
+    public void isNull() {
+        assertTrue($.isNull(null));
+    }
+
     @Test
     public void classForName_without_guava() {
         $.classForName = new $.ClassForName() {

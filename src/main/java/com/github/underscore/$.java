@@ -1507,6 +1507,26 @@ public final class $<T> {
         return object instanceof Number;
     }
 
+    public static boolean isBoolean(final Object object) {
+        return object instanceof Boolean;
+    }
+
+    public static boolean isDate(final Object object) {
+        return object instanceof Date;
+    }
+
+    public static boolean isRegExp(final Object object) {
+        return object instanceof java.util.regex.Pattern;
+    }
+
+    public static boolean isError(final Object object) {
+        return object instanceof Throwable;
+    }
+
+    public static boolean isNull(final Object object) {
+        return object == null;
+    }
+
     private static Class<?> classForName(final String name) throws Exception {
         return classForName.call(name);
     }
