@@ -45,48 +45,48 @@ public class ArraysTest {
 
     @Test
     public void test_first() {
-        Integer res = new _<Integer>(array(1, 2, 3, 4, 5)).first();
+        Integer res = new $<Integer>(array(1, 2, 3, 4, 5)).first();
         assertEquals("first one item did not work", 1, res);
-        List<Integer> resList = new _(array(1, 2, 3, 4, 5)).first(3);
+        List<Integer> resList = new $(array(1, 2, 3, 4, 5)).first(3);
         assertEquals("first multi item did not wok", array(1, 2, 3), resList);
     }
 
     @Test
     public void test_initial() {
-        List<Integer> res = new _(array(1, 2, 3, 4, 5)).initial();
+        List<Integer> res = new $(array(1, 2, 3, 4, 5)).initial();
         assertEquals("initial one item did not work", array(1, 2, 3, 4), res);
-        res = new _(array(1, 2, 3, 4, 5)).initial(3);
+        res = new $(array(1, 2, 3, 4, 5)).initial(3);
         assertEquals("initial multi item did not wok", array(1, 2), res);
     }
 
     @Test
     public void test_last() {
-        Integer res = new _<Integer>(array(1, 2, 3, 4, 5)).last();
+        Integer res = new $<Integer>(array(1, 2, 3, 4, 5)).last();
         assertEquals("last one item did not work", 5, res);
-        List<Integer> resList = new _(array(1, 2, 3, 4, 5)).last(3);
+        List<Integer> resList = new $(array(1, 2, 3, 4, 5)).last(3);
         assertEquals("last multi item did not wok", array(3, 4, 5), resList);
     }
 
     @Test
     public void test_rest() {
-        List<Integer> res = new _(array(1, 2, 3, 4, 5)).rest();
+        List<Integer> res = new $(array(1, 2, 3, 4, 5)).rest();
         assertEquals("rest one item did not work", array(2, 3, 4, 5), res);
-        res = new _(array(1, 2, 3, 4, 5)).rest(3);
+        res = new $(array(1, 2, 3, 4, 5)).rest(3);
         assertEquals("rest multi item did not wok", array(4, 5), res);
     }
 
     @Test
     public void test_compact() {
-        List<Integer> res = new _(array(false, 1, 0, "foo", null, -1)).compact();
+        List<Integer> res = new $(array(false, 1, 0, "foo", null, -1)).compact();
         assertEquals("compact did not work", array(1, "foo", -1), res);
     }
 
     @Test
     public void test_flatten() {
         List<?> llist = array(1, array(2), array(3, array(array(array(4)))));
-        assertEquals("can flatten nested arrays", _.flatten(llist),
+        assertEquals("can flatten nested arrays", $.flatten(llist),
             array(1, 2, 3, 4));
-        assertEquals("can shallowly flatten nested arrays", _.flatten(llist, true),
+        assertEquals("can shallowly flatten nested arrays", $.flatten(llist, true),
             array(1, 2, 3, array(array(array(4)))));
     }
 
@@ -94,10 +94,10 @@ public class ArraysTest {
     public void test_uniq() {
         List<Integer> tlist = array(1, 2, 1, 3, 1, 4);
         assertEquals("can find the unique values of an unsorted array",
-            array(1, 2, 3, 4), _.uniq(tlist));
+            array(1, 2, 3, 4), $.uniq(tlist));
 
         tlist = array(1, 1, 1, 2, 2, 3);
         assertEquals("can find the unique values of a sorted array faster",
-            array(1, 2, 3), _.uniq(tlist));
+            array(1, 2, 3), $.uniq(tlist));
     }
 }
