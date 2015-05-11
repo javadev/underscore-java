@@ -1140,7 +1140,7 @@ public final class $<T> {
     }
 
     public static <T> Chain chain(final Set<T> list) {
-        return new $.Chain<T>(newArrayList(list));
+        return new $.Chain<T>(list);
     }
 
     public static <T> Chain chain(final T[] list) {
@@ -1157,6 +1157,10 @@ public final class $<T> {
         public Chain(final List<T> list) {
             this.item = null;
             this.list = list;
+        }
+        public Chain(final Set<T> list) {
+            this.item = null;
+            this.list = newArrayList(list);
         }
 
         public Chain<T> first() {
@@ -1259,6 +1263,18 @@ public final class $<T> {
 
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
             return new Chain<T>($.sortBy(list, func));
+        }
+
+        public Chain<T> shuffle() {
+            return new Chain<T>($.shuffle(list));
+        }
+
+        public Chain<T> sample() {
+            return new Chain<T>($.sample(list));
+        }
+
+        public Chain<T> sample(final int howMany) {
+            return new Chain<T>($.sample(list, howMany));
         }
 
         public Chain<Boolean> contains(final T elem) {
