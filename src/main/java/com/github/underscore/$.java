@@ -1115,6 +1115,12 @@ public final class $<T> {
         return Arrays.copyOf(iterable, iterable.length);
     }
 
+    public static <T> void tap(final Iterable<T> iterable, final Block<? super T> func) {
+        for (T element : iterable) {
+            func.apply(element);
+        }
+    }
+
     public static <K, V> boolean has(final Map<K, V> object, final K key) {
         return object.containsKey(key);
     }
@@ -1275,6 +1281,11 @@ public final class $<T> {
 
         public Chain<T> sample(final int howMany) {
             return new Chain<T>($.sample(list, howMany));
+        }
+
+        public Chain<T> tap(final Block<T> func) {
+            $.tap(list, func);
+            return new Chain<T>(list);
         }
 
         public Chain<Boolean> contains(final T elem) {
