@@ -294,8 +294,12 @@ _.contains([1, 2, 3], 3);
     public void contains() {
         final boolean result = $.contains(asList(1, 2, 3), 3);
         assertTrue(result);
-        final boolean result2 = $.contains(asList(1, 2, null), null);
+        final boolean result2 = $.contains(asList(1, 2, 3), 3, 1);
         assertTrue(result2);
+        final boolean result3 = $.contains(asList(1, 2, 3), 1, 1);
+        assertFalse(result3);
+        final boolean result4 = $.contains(asList(1, 2, null), null);
+        assertTrue(result4);
     }
 
 /*
