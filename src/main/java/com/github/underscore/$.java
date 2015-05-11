@@ -1261,6 +1261,14 @@ public final class $<T> {
             return new Chain<T>($.sortBy(list, func));
         }
 
+        public Chain<Boolean> contains(final T elem) {
+            return new Chain<Boolean>($.contains(list, elem));
+        }
+
+        public <T> Chain<T> uniq() {
+            return new Chain<T>((List<T>) $.uniq(list));
+        }
+
         public <F> Chain<F> uniq(final Function1<T, F> func) {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
         }

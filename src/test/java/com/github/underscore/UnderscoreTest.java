@@ -294,6 +294,8 @@ _.contains([1, 2, 3], 3);
     public void contains() {
         final boolean result = $.contains(asList(1, 2, 3), 3);
         assertTrue(result);
+        final boolean resultChain = (Boolean) $.chain(asList(1, 2, 3)).contains(3).item();
+        assertTrue(resultChain);
         final boolean result2 = $.contains(asList(1, 2, 3), 3, 1);
         assertTrue(result2);
         final boolean result3 = $.contains(asList(1, 2, 3), 1, 1);
@@ -1125,6 +1127,7 @@ _.uniq([1, 2, 1, 3, 1, 4]);
             }
         }).value();
         assertEquals("[moe, 50, curly, 60]", resultObjectChain.toString());
+        assertEquals("[1, 2, 3, 4, 5]", $.chain(asList(1, 2, 3, 3, 4, 5)).uniq().value().toString());
         final Object[] resultObjectArray =
         $.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)).toArray(new Person[]{}),
             new Function1<Person, String>() {
