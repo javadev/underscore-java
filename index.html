@@ -210,7 +210,7 @@ $.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
 });
 // [3, 6, 9]
 </pre>
-<p class="block" id="reduce"><b class="function">reduce</b> <code>$.reduce(collection, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
+<p class="block" id="reduce"><b class="function">reduce</b> <code>$.reduce(collection, iterator, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
 <p>Reduce the collection into a single value. Memo is the initial state of the reduction, updated by the return value of the iterator.</p>
 <pre>$.reduce(asList(1, 2, 3),
     new FunctionAccum&lt;Integer, Integer&gt;() {
@@ -222,7 +222,7 @@ $.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
 );
 // 6</pre>
 
-<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>$.reduceRight(collection, memo, iterator)</code><span class="alias">Alias: <b>foldr</b></span></p>
+<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>$.reduceRight(collection, iterator, memo)</code><span class="alias">Alias: <b>foldr</b></span></p>
 <p>Right-associative version of reduce.</p>
 <pre>$.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
     new FunctionAccum&lt;List&lt;Integer&gt;, List&lt;Integer&gt;&gt;() {
@@ -242,7 +242,7 @@ $.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
     public Boolean apply(Integer item) {
         return item % 2 == 0;
     }
-});
+}).get();
 // 2</pre>
 
 <p class="block" id="filter"><b class="function">filter</b> <code>$.filter(collection, iterator)</code> <span class="alias">Alias: <b>select</b></span></p>
