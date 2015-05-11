@@ -1671,6 +1671,15 @@ _.chain(doctors)
     }
 
 /*
+_.now();
+=> 1392066795351
+*/
+    @Test
+    public void now() throws Exception {
+        assertTrue($.now() >= new Date().getTime());
+    }
+
+/*
 var compiled = _.template("hello: <%= name %>");
 compiled({name: 'moe'});
 => "hello: moe"

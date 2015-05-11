@@ -1361,6 +1361,10 @@ public final class $<T> {
         };
     }
 
+    public static long now() {
+        return new Date().getTime();
+    }
+
     public static <E> Template<Set<E>> template(final String template) {
         return new Template<Set<E>>() {
             @Override
