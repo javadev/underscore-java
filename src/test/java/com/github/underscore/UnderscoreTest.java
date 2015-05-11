@@ -1678,6 +1678,33 @@ _.chain(doctors)
     }
 
 /*
+var doctors = [
+    { number: 1,  actor: "William Hartnell",      begin: 1963, end: 1966 },
+    { number: 9,  actor: "Christopher Eccleston", begin: 2005, end: 2005 },
+    { number: 10, actor: "David Tennant",         begin: 2005, end: 2010 }
+];
+_.chain(doctors)
+    .skip(1)
+    .limit(1)
+    .value();
+
+=>  [{ number: 9,  actor: "Christopher Eccleston", begin: 2005, end: 2005 }]
+*/
+    @Test
+    public void chain5() throws Exception {
+        final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() {{
+            add(new LinkedHashMap<String, Object>() {{ put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); }});
+            add(new LinkedHashMap<String, Object>() {{ put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); }});
+            add(new LinkedHashMap<String, Object>() {{ put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); }});
+        }};
+        final String result = $.chain(doctors)
+            .skip(1)
+            .limit(1)
+            .value().toString();
+        assertEquals("[{number=9, actor=Christopher Eccleston, begin=2005, end=2005}]", result);
+    }
+
+/*
 _.now();
 => 1392066795351
 */

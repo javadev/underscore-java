@@ -1277,6 +1277,14 @@ public final class $<T> {
             return new Chain<T>((List<T>) Arrays.asList($.concat(list.toArray(), second.toArray())));
         }
 
+        public <T> Chain<T> skip(final int numberToSkip) {
+            return new Chain<T>((List<T>) list.subList(numberToSkip, list.size()));
+        }
+
+        public <T> Chain<T> limit(final int size) {
+            return new Chain<T>((List<T>) list.subList(0, size));
+        }
+
         public T item() {
             return item;
         }
