@@ -1114,6 +1114,22 @@ public final class $<T> {
         return object.containsKey(key);
     }
 
+    public static <K, V> Function1<Map<K, V>, V> property(final K key) {
+        return new Function1<Map<K, V>, V>() {
+            public V apply(final Map<K, V> object) {
+                return object.get(key);
+            }
+        };
+    }
+
+    public static <K, V> Function1<K, V> propertyOf(final Map<K, V> object) {
+        return new Function1<K, V>() {
+            public V apply(final K key) {
+                return object.get(key);
+            }
+        };
+    }
+
     public static <T> Chain chain(final List<T> list) {
         return new $.Chain<T>(list);
     }

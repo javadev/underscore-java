@@ -1978,6 +1978,28 @@ _.has({a: 1, b: 2, c: 3}, "b");
     }
 
 /*
+var stooge = {name: 'moe'};
+'moe' === _.property('name')(stooge);
+=> true
+*/
+    @Test
+    public void property() throws Exception {
+        Map<String, Object> stooge = new LinkedHashMap<String, Object>() {{ put("name", "moe"); }};
+        assertEquals("moe", $.property("name").apply(stooge));
+    }
+
+/*
+var stooge = {name: 'moe'};
+_.propertyOf(stooge)('name');
+=> 'moe'
+*/
+    @Test
+    public void propertyOf() throws Exception {
+        Map<String, String> stooge = new LinkedHashMap<String, String>() {{ put("name", "moe"); }};
+        assertEquals("moe", $.propertyOf(stooge).apply("name"));
+    }
+
+/*
 var counter = 0;
 var incr = function(){ counter++; };
 var debouncedIncr = _.debounce(incr, 32);
@@ -2254,6 +2276,7 @@ _.isNull(null);
     @Test
     public void isNull() {
         assertTrue($.isNull(null));
+        assertFalse($.isNull(""));
     }
 
     @Test
