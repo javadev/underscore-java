@@ -2157,6 +2157,7 @@ _.defer(function(){ alert('deferred'); });
     public void join() throws Exception {
         assertEquals("some-words-example", $.join(asList("some", "words", "example"), "-"));
         assertEquals("some-words-example", $.join(new String[] {"some", "words", "example"}, "-"));
+        assertEquals("some-words-example", $.chain(asList("some", "words", "example")).join("-").item());
     }
 
     @Test

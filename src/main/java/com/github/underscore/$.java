@@ -1304,6 +1304,10 @@ public final class $<T> {
             return new Chain<T>((List<T>) Arrays.asList($.concat(list.toArray(), second.toArray())));
         }
 
+        public Chain<String> join(final String separator) {
+            return new Chain<String>($.join(list, separator));
+        }
+
         public <T> Chain<T> skip(final int numberToSkip) {
             return new Chain<T>((List<T>) list.subList(numberToSkip, list.size()));
         }
