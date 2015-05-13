@@ -1519,6 +1519,15 @@ public final class $<T> {
         };
     }
 
+    public static <T, F> Function1<T, F> bind(final Function1<T, F> function) {
+        return new Function1<T, F>() {
+            @Override
+            public F apply(T arg) {
+                return function.apply(arg);
+            }
+        };
+    }
+
     public static <T> void delay(final Function<T> function, final int delayMilliseconds) {
         final java.util.concurrent.ScheduledExecutorService scheduler = java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
         scheduler.schedule(

@@ -157,7 +157,7 @@ _.functions(_);
     @Test
     public void functions() {
         List<String> result = $.functions(new $(""));
-        assertEquals("[after, all, any, before, call]", $.first(result, 5).toString());
+        assertEquals("[after, all, any, before, bind]", $.first(result, 5).toString());
     }
 
 /*
@@ -2131,6 +2131,47 @@ _.propertyOf(stooge)('name');
     public void propertyOf() throws Exception {
         Map<String, String> stooge = new LinkedHashMap<String, String>() {{ put("name", "moe"); }};
         assertEquals("moe", $.propertyOf(stooge).apply("name"));
+    }
+
+/*
+var func = function(greeting){ return greeting + ': ' + this.name };
+func = _.bind(func, {name: 'moe'}, 'hi');
+func();
+=> 'hi: moe'
+*/
+    @Test
+    public void bind() throws Exception {
+        class GreetingFunction implements Function1<String, String> {
+            private final String name;
+            public GreetingFunction(final String name) {
+                this.name = name;
+            }
+            public String apply(final String greeting) {
+                return greeting + ": " + this.name;
+            }
+        };
+        assertEquals("hi: moe", $.bind(new GreetingFunction("moe")).apply("hi"));
+    }
+
+/*
+var subtract = function(a, b) { return b - a; };
+sub5 = _.partial(subtract, 5);
+sub5(20);
+=> 15
+*/
+    @Test
+    public void partial() throws Exception {
+        class SubtractFunction implements Function1<Integer, Integer> {
+            private final Integer arg1;
+            public SubtractFunction(final Integer arg1) {
+                this.arg1 = arg1;
+            }
+            public Integer apply(final Integer arg2) {
+                return arg2 - arg1;
+            }
+        };
+        Function1<Integer, Integer> sub5 = new SubtractFunction(5);
+        assertEquals(15, sub5.apply(20));
     }
 
 /*
