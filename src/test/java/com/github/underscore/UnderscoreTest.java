@@ -2202,6 +2202,13 @@ _.defer(function(){ alert('deferred'); });
     @Test
     public void sort() throws Exception {
         assertEquals("[example, some, words]", $.sort(asList("some", "words", "example")).toString());
+        assertEquals("[example, some, words]", $.chain(asList("some", "words", "example")).sort().value().toString());
+        assertEquals("[4, 5, 7]", $.chain(asList("some", "words", "example"))
+            .map(new Function1<String, Integer>() {
+                public Integer apply(String arg) {
+                    return arg.length();
+                }
+            }).sort().value().toString());
         assertEquals("[example, some, words]", asList($.sort(new String[] {"some", "words", "example"})).toString());
     }
 

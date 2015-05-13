@@ -1314,6 +1314,10 @@ public final class $<T> {
             return new Chain<T>($.min(list, func));
         }
 
+        public Chain<T> sort() {
+            return new Chain<T>($.sort((List<Comparable>) list));
+        }
+
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
             return new Chain<T>($.sortBy(list, func));
         }
