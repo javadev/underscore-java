@@ -1341,6 +1341,14 @@ public final class $<T> {
             return new Chain<T>((List<T>) Arrays.asList($.concat(list.toArray(), second.toArray())));
         }
 
+        public <T> Chain<T> slice(final int start) {
+            return new Chain<T>((List<T>) $.slice(list, start));
+        }
+
+        public <T> Chain<T> slice(final int start, final int end) {
+            return new Chain<T>((List<T>) $.slice(list, start, end));
+        }
+
         public Chain<String> join(final String separator) {
             return new Chain<String>($.join(list, separator));
         }
@@ -1590,6 +1598,42 @@ public final class $<T> {
             index += otherItem.size();
         }
         return (List<T>) Arrays.asList(result);
+    }
+
+    public static <T> List<T> slice(final List<T> list, final int start) {
+        final List<T> result;
+        if (start > 0) {
+            result = list.subList(start, list.size());
+        } else {
+            result = list.subList(list.size() + start, list.size());
+        }
+        return result;
+    }
+
+    public static <T> T[] slice(final T[] array, final int start) {
+        return (T[]) slice(Arrays.asList(array), start).toArray();
+    }
+
+    public static <T> List<T> slice(final List<T> list, final int start, final int end) {
+        final List<T> result;
+        if (start > 0) {
+            if (end > 0) {
+                result = list.subList(start, end);
+            } else {
+                result = list.subList(start, list.size() + end);
+            }
+        } else {
+            if (end > 0) {
+                result = list.subList(list.size() + start, end);
+            } else {
+                result = list.subList(list.size() + start, list.size() + end);
+            }
+        }
+        return result;
+    }
+
+    public static <T> T[] slice(final T[] array, final int start, final int end) {
+        return (T[]) slice(Arrays.asList(array), start, end).toArray();
     }
 
     public static <K, V> boolean isEqual(final Map<K, V> object, final Map<K, V> other) {
