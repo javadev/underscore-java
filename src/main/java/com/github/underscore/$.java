@@ -435,6 +435,23 @@ public final class $<T> {
         return sortedList;
     }
 
+    public static <K, V extends Comparable<? super V>> List<Map<K, V>> sortBy(final List<Map<K, V>> list, final K key) {
+        final List<Map<K, V>> sortedList = newArrayList();
+        each(list, new Block<Map<K, V>>() {
+            @Override
+            public void apply(Map<K, V> arg) {
+                sortedList.add(arg);
+            }
+        });
+        Collections.sort(sortedList, new Comparator<Map<K, V>>() {
+            @Override
+            public int compare(Map<K, V> o1, Map<K, V> o2) {
+                return o1.get(key).compareTo(o2.get(key));
+            }
+        });
+        return sortedList;
+    }
+
     public static <K, E> Map<K, List<E>> groupBy(final Iterable<E> iterable, final Function1<E, K> func) {
         final Map<K, List<E>> retVal = newLinkedHashMap();
         for (E e : iterable) {
@@ -1285,6 +1302,10 @@ public final class $<T> {
 
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
             return new Chain<T>($.sortBy(list, func));
+        }
+
+        public <K, V extends Comparable<? super V>> Chain<Map<K, V>> sortBy(final K key) {
+            return new Chain<Map<K, V>>($.sortBy((List<Map<K, V>>) list, key));
         }
 
         public Chain<T> shuffle() {

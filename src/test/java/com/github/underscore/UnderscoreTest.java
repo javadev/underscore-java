@@ -985,6 +985,27 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
     }
 
 /*
+var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+_.sortBy(stooges, 'name');
+=> [{name: 'curly', age: 60}, {name: 'larry', age: 50}, {name: 'moe', age: 40}];
+*/
+    @Test
+    public void sortByMap() throws Exception {
+        final List<Map<String, Comparable>> result = $.sortBy(asList(
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "moe"); put("age", 40); }},
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "larry"); put("age", 50); }},
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "curly"); put("age", 60); }}
+        ), "name");
+        assertEquals("[{name=curly, age=60}, {name=larry, age=50}, {name=moe, age=40}]", result.toString());
+        final List<Map<String, Comparable>> resultChain = $.chain(asList(
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "moe"); put("age", 40); }},
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "larry"); put("age", 50); }},
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "curly"); put("age", 60); }}
+        )).sortBy("name").value();
+        assertEquals("[{name=curly, age=60}, {name=larry, age=50}, {name=moe, age=40}]", resultChain.toString());
+    }
+
+/*
 _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
 => {1: [1.3], 2: [2.1, 2.4]}
 */
