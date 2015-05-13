@@ -37,7 +37,7 @@ public final class $<T> {
     public static ClassForName classForName = new ClassForName();
     public static class ClassForName {
         public Class<?> call(final String name) throws Exception {
-            return Thread.currentThread().getContextClassLoader().loadClass(name);
+            return Class.forName(name);
         }
     }
     private static final Map<String, Function1<String, String>> functions = newLinkedHashMap();
@@ -1645,7 +1645,7 @@ public final class $<T> {
     }
 
     public static <T> List<T> reverse(final List<T> list) {
-        final List<T> result = (List<T>) $.clone(newArrayList(list));
+        final List<T> result = (List<T>) clone(newArrayList(list));
         Collections.reverse(result);
         return result;
     }
