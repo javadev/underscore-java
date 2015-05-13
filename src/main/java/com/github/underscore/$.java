@@ -1117,15 +1117,19 @@ public final class $<T> {
         return result;
     }
 
-    public static Object clone(final Object obj) throws Exception {
-        if (obj instanceof Cloneable) {
-            for (final Method method : obj.getClass().getMethods()) {
-                if (method.getName().equals("clone") && method.getParameterTypes().length == 0) {
-                    return method.invoke(obj);
+    public static Object clone(final Object obj) {
+        try {
+            if (obj instanceof Cloneable) {
+                for (final Method method : obj.getClass().getMethods()) {
+                    if (method.getName().equals("clone") && method.getParameterTypes().length == 0) {
+                        return method.invoke(obj);
+                    }
                 }
             }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
         }
-        throw new CloneNotSupportedException();
+        throw new IllegalArgumentException("Cannot clone object");
     }
 
     public static <E> E[] clone(final E[] iterable) {
@@ -1347,6 +1351,10 @@ public final class $<T> {
 
         public <T> Chain<T> slice(final int start, final int end) {
             return new Chain<T>((List<T>) $.slice(list, start, end));
+        }
+
+        public <T> Chain<T> reverse() {
+            return new Chain<T>((List<T>) $.reverse(list));
         }
 
         public Chain<String> join(final String separator) {
@@ -1634,6 +1642,16 @@ public final class $<T> {
 
     public static <T> T[] slice(final T[] array, final int start, final int end) {
         return (T[]) slice(Arrays.asList(array), start, end).toArray();
+    }
+
+    public static <T> List<T> reverse(final List<T> list) {
+        final List<T> result = (List<T>) $.clone(newArrayList(list));
+        Collections.reverse(result);
+        return result;
+    }
+
+    public static <T> T[] reverse(final T[] array) {
+        return (T[]) reverse(newArrayList(Arrays.asList(array))).toArray();
     }
 
     public static <K, V> boolean isEqual(final Map<K, V> object, final Map<K, V> other) {

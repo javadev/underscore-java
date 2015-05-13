@@ -2041,13 +2041,13 @@ _.clone({name: 'moe'});
         assertEquals("[1, 2, 3, 4, 5]", asList(result2).toString());
     }
 
-    @Test(expected = CloneNotSupportedException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void cloneError() throws Exception {
         class Test {};
         $.clone(new Test());
     }
 
-    @Test(expected = CloneNotSupportedException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void cloneError2() throws Exception {
         class Test implements Cloneable {
             public Object clone(String arg) {return null;}
@@ -2055,6 +2055,13 @@ _.clone({name: 'moe'});
         $.clone(new Test());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void cloneError3() throws Exception {
+        class Test implements Cloneable {
+            public Object clone() {throw new RuntimeException();}
+        };
+        $.clone(new Test());
+    }
 /*
 _.chain([1,2,3,200])
   .filter(function(num) { return num % 2 == 0; })
@@ -2224,7 +2231,6 @@ arr.slice(1, 4) // => [2, 3, 4]
 arr.slice(2, 3) // => [3]
 arr.slice(-2) // => [4, 5]
 arr.slice(-3, -1) // [3, 4]
-
 */
     @Test
     public void slice() {
@@ -2239,6 +2245,16 @@ arr.slice(-3, -1) // [3, 4]
         assertEquals(asList(2, 3, 4), $.chain(asList(1, 2, 3, 4, 5)).slice(1, 4).value());
         assertEquals(asList(3, 4, 5), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, 2)));
         assertEquals(asList(2, 3, 4), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, 1, 4)));
+    }
+
+/*
+[1, 2, 3].reverse() // [3, 2, 1]
+*/
+    @Test
+    public void reverse() {
+        assertEquals("[3, 2, 1]", $.reverse(asList(1, 2, 3)).toString());
+        assertEquals("[3, 2, 1]", asList($.reverse(new Integer[] {1, 2, 3})).toString());
+        assertEquals("[3, 2, 1]", $.chain(asList(1, 2, 3)).reverse().value().toString());
     }
 
 /*
