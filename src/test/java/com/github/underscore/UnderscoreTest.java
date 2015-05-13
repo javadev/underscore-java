@@ -806,6 +806,8 @@ _.max(numbers);
     public void max() {
         final Integer result = $.max(asList(10, 5, 100, 2, 1000));
         assertEquals("1000", result.toString());
+        final Integer resultChain = (Integer) $.chain(asList(10, 5, 100, 2, 1000)).max().item();
+        assertEquals("1000", resultChain.toString());
         final Integer resultComp = $.max(asList(10, 5, 100, 2, 1000),
                 new Function1<Integer, Integer>() {
             public Integer apply(Integer item) {
@@ -813,6 +815,13 @@ _.max(numbers);
             }
         });
         assertEquals("2", resultComp.toString());
+        final Integer resultCompChain = (Integer) $.chain(asList(10, 5, 100, 2, 1000)).max(
+                new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return -item;
+            }
+        }).item();
+        assertEquals("2", resultCompChain.toString());
         class Person {
             public final String name;
             public final Integer age;
@@ -840,6 +849,8 @@ _.min(numbers);
     public void min() {
         final Integer result = $.min(asList(10, 5, 100, 2, 1000));
         assertEquals("2", result.toString());
+        final Integer resultChain = (Integer) $.chain(asList(10, 5, 100, 2, 1000)).min().item();
+        assertEquals("2", resultChain.toString());
         final Integer resultComp = $.min(asList(10, 5, 100, 2, 1000),
                 new Function1<Integer, Integer>() {
             public Integer apply(Integer item) {
@@ -847,6 +858,13 @@ _.min(numbers);
             }
         });
         assertEquals("1000", resultComp.toString());
+        final Integer resultCompChain = (Integer) $.chain(asList(10, 5, 100, 2, 1000)).min(
+                new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return -item;
+            }
+        }).item();
+        assertEquals("1000", resultCompChain.toString());
         class Person {
             public final String name;
             public final Integer age;

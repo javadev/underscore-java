@@ -1267,6 +1267,22 @@ public final class $<T> {
             return new Chain<Optional<T>>(Optional.<T>absent());
         }
 
+        public Chain<Comparable> max() {
+            return new Chain<Comparable>($.max((Collection) list));
+        }
+
+        public <F extends Comparable<? super F>> Chain<T> max(final Function1<T, F> func) {
+            return new Chain<T>($.max(list, func));
+        }
+
+        public Chain<Comparable> min() {
+            return new Chain<Comparable>($.min((Collection) list));
+        }
+
+        public <F extends Comparable<? super F>> Chain<T> min(final Function1<T, F> func) {
+            return new Chain<T>($.min(list, func));
+        }
+
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
             return new Chain<T>($.sortBy(list, func));
         }
