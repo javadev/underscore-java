@@ -151,6 +151,16 @@ _.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
     }
 
 /*
+_.functions(_);
+=> ["all", "any", "bind", "bindAll", "clone", "compact", "compose" ...
+*/
+    @Test
+    public void functions() {
+        List<String> result = $.functions(new $(""));
+        assertEquals("[after, all, any, before, call]", $.first(result, 5).toString());
+    }
+
+/*
 _.collect([1, 2, 3], function(num){ return num * 3; });
 => [3, 6, 9]
 */

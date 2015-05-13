@@ -118,6 +118,16 @@ public final class $<T> {
         });
     }
 
+    public static List<String> functions(final Object object) {
+        final List<String> result = newArrayList();
+        for (final Method method : object.getClass().getDeclaredMethods()) {
+            if (!method.getName().contains("$")) {
+                result.add(method.getName());
+            }
+        }
+        return sort(uniq(result));
+    }
+
     public static <T, E> List<T> collect(final List<E> list, final Function1<? super E, T> func) {
         return map(list, func);
     }
