@@ -1188,8 +1188,13 @@ public final class $<T> {
         private final T item;
         private final List<T> list;
         public Chain(final T item) {
-            this.item = item;
-            this.list = null;
+            if (item instanceof List) {
+                this.item = null;
+                this.list = (List<T>) item;
+            } else {
+                this.item = item;
+                this.list = null;
+            }
         }
         public Chain(final List<T> list) {
             this.item = null;

@@ -24,6 +24,7 @@
 package com.github.underscore;
 
 import java.util.*;
+import java.lang.reflect.Method;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertArrayEquals;
@@ -1757,6 +1758,27 @@ _.chain(doctors)
             .limit(1)
             .value().toString();
         assertEquals("[{number=9, actor=Christopher Eccleston, begin=2005, end=2005}]", result);
+    }
+
+    @Test
+    public void chain6() throws Exception {
+        final List<String> result = $.chain($.class.getDeclaredMethods())
+            .reduce(new FunctionAccum<List<String>, Method>() {
+                public List<String> apply(final List<String> accum, final Method method) {
+                    accum.add(method.getName());
+                    return accum;
+                }
+            }, new ArrayList<String>())
+            .reject(new Predicate<String>() {
+                public Boolean apply(final String name) {
+                    return name.contains("$");
+                }
+            })
+            .uniq()
+            .sort()
+            .first(4)
+            .value();
+        assertEquals("[after, all, any, before]", result.toString());
     }
 
 /*
