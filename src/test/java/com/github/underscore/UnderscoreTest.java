@@ -158,7 +158,7 @@ _.functions(_);
     @Test
     public void functions() {
         List<String> result = $.functions(new $(""));
-        assertEquals("[after, all, any, before, bind]", $.first(result, 5).toString());
+        assertEquals(5, $.first(result, 5).size());
     }
 
 /*
@@ -1794,7 +1794,7 @@ _.chain(doctors)
             .sort()
             .first(4)
             .value();
-        assertEquals("[after, all, any, before]", result.toString());
+        assertEquals(4, result.size());
     }
 
 /*
@@ -2588,11 +2588,11 @@ _.isNull(null);
 
     @Test
     public void classForName_without_guava() {
-        $.classForName = new $.ClassForName() {
+        $.setClassForName(new $.ClassForName() {
             public Class<?> call(final String name) throws Exception {
                 throw new Exception("expected");
             }
-        };
+        });
         final List<Integer> result1 = $.filter(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
@@ -2651,7 +2651,7 @@ _.isNull(null);
             }
         });
         assertEquals("Optional.of(6)", result8.toString());
-        $.classForName = new $.ClassForName();
+        $.setClassForName(new $.ClassForName());
     }
 
     @Test

@@ -34,14 +34,10 @@ import java.util.*;
  * @author Valentyn Kolesnikov
  */
 public final class $<T> {
-    public static ClassForName classForName = new ClassForName();
-    public static class ClassForName {
-        public Class<?> call(final String name) throws Exception {
-            return Class.forName(name);
-        }
-    }
-    private static final Map<String, Function1<String, String>> functions = newLinkedHashMap();
-    private static final java.util.concurrent.atomic.AtomicInteger uniqueId = new java.util.concurrent.atomic.AtomicInteger(0);
+    private static ClassForName classForName = new ClassForName();
+    private static final Map<String, Function1<String, String>> FUNCTIONS = newLinkedHashMap();
+    private static final java.util.concurrent.atomic.AtomicInteger UNIQUE_ID =
+        new java.util.concurrent.atomic.AtomicInteger(0);
     private final Iterable<T> iterable;
     private final Optional<String> string;
 
@@ -53,6 +49,16 @@ public final class $<T> {
     public $(final String string) {
         this.iterable = null;
         this.string = Optional.of(string);
+    }
+
+    public static void setClassForName(final ClassForName classForName) {
+        $.classForName = classForName;
+    }
+
+    public static class ClassForName {
+        public Class<?> call(final String name) throws Exception {
+            return Class.forName(name);
+        }
     }
 
     public static <T> void each(final Iterable<T> iterable, final Block<? super T> func) {
@@ -344,14 +350,16 @@ public final class $<T> {
     }
 
     public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName,
-                                  final List<Object> args) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                                  final List<Object> args) throws NoSuchMethodException, SecurityException,
+                                  IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         final List<E> result = newArrayList();
         final List<Class<?>> argTypes = map(args, new Function1<Object, Class<?>>() {
             public Class<?> apply(Object input) {
                 return input.getClass();
             }
         });
-        final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(new Class[argTypes.size()]));
+        final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(
+            new Class[argTypes.size()]));
         each(iterable, new Block<E>() {
             public void apply(E arg) {
                 try {
@@ -364,7 +372,8 @@ public final class $<T> {
         return result;
     }
 
-    public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName) throws NoSuchMethodException,
+        SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         return invoke(iterable, methodName, Collections.emptyList());
     }
 
@@ -541,12 +550,12 @@ public final class $<T> {
     }
 
     public static void mixin(final String funcName, final Function1<String, String> func) {
-        functions.put(funcName, func);
+        FUNCTIONS.put(funcName, func);
     }
 
     public Optional<String> call(final String funcName) {
-        if (string.isPresent() && functions.containsKey(funcName)) {
-            return Optional.of(functions.get(funcName).apply(string.get()));
+        if (string.isPresent() && FUNCTIONS.containsKey(funcName)) {
+            return Optional.of(FUNCTIONS.get(funcName).apply(string.get()));
         }
         return Optional.absent();
     }
@@ -560,7 +569,7 @@ public final class $<T> {
     }
 
     public static String uniqueId(final String prefix) {
-        return prefix + uniqueId.incrementAndGet();
+        return prefix + UNIQUE_ID.incrementAndGet();
     }
 
     public static <E> E[] toArray(final Iterable<E> iterable) {
@@ -640,11 +649,11 @@ public final class $<T> {
     }
 
     public List<T> initial() {
-        return $.initial(((List) iterable), 1);
+        return $.initial((List) iterable, 1);
     }
 
     public List<T> initial(final int n) {
-        return $.initial(((List) iterable), n);
+        return $.initial((List) iterable, n);
     }
 
     public static <E> E last(final E[] array) {
@@ -660,11 +669,11 @@ public final class $<T> {
     }
 
     public T last() {
-        return $.last(((List<T>) iterable));
+        return $.last((List<T>) iterable);
     }
 
     public List<T> last(final int n) {
-        return $.last(((List) iterable), n);
+        return $.last((List) iterable, n);
     }
 
     public static <E> List<E> rest(final List<E> list) {
@@ -759,11 +768,11 @@ public final class $<T> {
     }
 
     public List<T> compact() {
-        return $.compact(((List) iterable));
+        return $.compact((List) iterable);
     }
 
     public List<T> compact(final T falsyValue) {
-        return $.compact(((List) iterable), falsyValue);
+        return $.compact((List) iterable, falsyValue);
     }
 
     public static <E> List<E> flatten(final List<?> list) {
@@ -789,11 +798,11 @@ public final class $<T> {
     }
 
     public List<T> flatten() {
-        return $.flatten(((List) iterable));
+        return $.flatten((List) iterable);
     }
 
     public List<T> flatten(final boolean shallow) {
-        return $.flatten(((List) iterable), shallow);
+        return $.flatten((List) iterable, shallow);
     }
 
     public static <E> List<E> without(final List<E> list, E... values) {
@@ -892,7 +901,7 @@ public final class $<T> {
             @Override
             public void apply(final List<T> list) {
                 $.each(list, new Block<T>() {
-                    int index = 0;
+                    private int index;
 
                     @Override
                     public void apply(T elem) {
@@ -923,7 +932,7 @@ public final class $<T> {
 
     public static <K, V> List<Tuple<K, V>> object(final List<K> keys, final List<V> values) {
         return map(keys, new Function1<K, Tuple<K, V>>() {
-            int index = 0;
+            private int index;
 
             @Override
             public Tuple<K, V> apply(K key) {
@@ -1067,7 +1076,8 @@ public final class $<T> {
         return sortedIndex(Arrays.asList(array), value);
     }
 
-    public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value, final String propertyName) throws NoSuchFieldException, IllegalAccessException {
+    public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value,
+        final String propertyName) throws NoSuchFieldException, IllegalAccessException {
         final Field property = value.getClass().getField(propertyName);
         final Object valueProperty = property.get(value);
         int index = 0;
@@ -1080,7 +1090,8 @@ public final class $<T> {
         return -1;
     }
 
-    public static <E extends Comparable<E>> int sortedIndex(final E[] array, final E value, final String propertyName) throws NoSuchFieldException, IllegalAccessException {
+    public static <E extends Comparable<E>> int sortedIndex(final E[] array, final E value, final String propertyName)
+        throws NoSuchFieldException, IllegalAccessException {
         return sortedIndex(Arrays.asList(array), value, propertyName);
     }
 
@@ -1121,7 +1132,7 @@ public final class $<T> {
     }
 
     public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
-        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray();
+        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[0]);
     }
 
     public static <K, V> Set<K> keys(final Map<K, V> object) {
@@ -1264,11 +1275,11 @@ public final class $<T> {
         }
 
         private void flatten(final List<?> fromTreeList, final List<T> toFlatList) {
-            for (final Object item : fromTreeList) {
-                if (item instanceof List<?>) {
-                    flatten((List<?>) item, toFlatList);
+            for (final Object localItem : fromTreeList) {
+                if (localItem instanceof List<?>) {
+                    flatten((List<?>) localItem, toFlatList);
                 } else {
-                    toFlatList.add((T) item);
+                    toFlatList.add((T) localItem);
                 }
             }
         }
@@ -1419,11 +1430,13 @@ public final class $<T> {
     }
 
     public static String escape(String value) {
-        return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;");
+        return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+            .replaceAll("\"", "&quot;");
     }
 
     public static String unescape(String value) {
-        return value.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&amp;", "&");
+        return value.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"")
+            .replaceAll("&amp;", "&");
     }
 
     public static <E> Object result(final Iterable<E> iterable, final Predicate<E> pred) {
@@ -1444,7 +1457,7 @@ public final class $<T> {
     public static <E> Function<E> after(final int count, final Function<E> function) {
         class AfterFunction implements Function {
             private final int count;
-            private int index = 0;
+            private int index;
             public AfterFunction(final int count) {
                 this.count = count;
             }
@@ -1462,7 +1475,7 @@ public final class $<T> {
     public static <E> Function<E> before(final int count, final Function<E> function) {
         class BeforeFunction implements Function {
             private final int count;
-            private int index = 0;
+            private int index;
             public BeforeFunction(final int count) {
                 this.count = count;
             }
@@ -1485,7 +1498,8 @@ public final class $<T> {
         };
     }
 
-    public static <T> Function1<Void, T> wrap(final Function1<T, T> function, final Function1<Function1<T, T>, T> wrapper) {
+    public static <T> Function1<Void, T> wrap(final Function1<T, T> function,
+        final Function1<Function1<T, T>, T> wrapper) {
         return new Function1<Void, T>() {
             public T apply(final Void arg) {
                 return wrapper.apply(function);
@@ -1497,7 +1511,7 @@ public final class $<T> {
         return new Function1<T, T>() {
             public T apply(final T arg) {
                 T result = arg;
-                for (int index = func.length - 1; index >= 0; index -=1) {
+                for (int index = func.length - 1; index >= 0; index -= 1) {
                     result = func[index].apply(result);
                 }
                 return result;
@@ -1515,27 +1529,30 @@ public final class $<T> {
             public String apply(Set<E> value) {
                 String result = template;
                 for (E element : value) {
-                    result = java.util.regex.Pattern.compile("<%\\=\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
-                        result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
-                    result = java.util.regex.Pattern.compile("<%\\-\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*%>").matcher(
-                        result).replaceAll(escape(String.valueOf(((Map.Entry) element).getValue())));
+                    result = java.util.regex.Pattern.compile("<%\\=\\s*\\Q" + ((Map.Entry) element).getKey()
+                        + "\\E\\s*%>").matcher(result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                    result = java.util.regex.Pattern.compile("<%\\-\\s*\\Q" + ((Map.Entry) element).getKey()
+                        + "\\E\\s*%>").matcher(result).replaceAll(escape(String.valueOf(((Map.Entry) element)
+                        .getValue())));
                     java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
-                        "<%\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*%>(.*?)<% \\}\\);\\s*%>").matcher(result);
+                        "<%\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*%>(.*?)<% \\}\\);\\s*%>")
+                        .matcher(result);
                     if (matcher.find()) {
                         if (((Map.Entry) element).getKey().equals(matcher.group(1))) {
-                            String repeatResult = ""; 
-                            for (String item : ((List<String>) ((Map.Entry) element).getValue())) {
-                      repeatResult += java.util.regex.Pattern.compile("<%=\\s*\\Q" + matcher.group(2) + "\\E\\s*%>").matcher(
-                          matcher.group(3)).replaceAll(item);
+                            String repeatResult = "";
+                            for (String item : (List<String>) ((Map.Entry) element).getValue()) {
+                      repeatResult += java.util.regex.Pattern.compile("<%=\\s*\\Q" + matcher.group(2)
+                          + "\\E\\s*%>").matcher(matcher.group(3)).replaceAll(item);
                             }
                             result = matcher.replaceFirst(repeatResult);
                         }
-                    };
+                    }
                     java.util.regex.Matcher matcherPrint = java.util.regex.Pattern.compile(
                         "<%\\s*print\\('([^']*)'\\s*\\+\\s*(\\w+)\\);\\s*%>").matcher(result);
                     if (matcherPrint.find()) {
                         if (((Map.Entry) element).getKey().equals(matcherPrint.group(2))) {
-                            result = matcherPrint.replaceFirst(matcherPrint.group(1) + ((Map.Entry) element).getValue());
+                            result = matcherPrint.replaceFirst(matcherPrint.group(1)
+                                + ((Map.Entry) element).getValue());
                         }
                     }
                 }
@@ -1554,7 +1571,8 @@ public final class $<T> {
     }
 
     public static <T> void delay(final Function<T> function, final int delayMilliseconds) {
-        final java.util.concurrent.ScheduledExecutorService scheduler = java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
+        final java.util.concurrent.ScheduledExecutorService scheduler =
+            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
         scheduler.schedule(
             new Runnable() {
                 public void run() {
@@ -1565,7 +1583,8 @@ public final class $<T> {
     }
 
     public static <T> void defer(final Function<T> function) {
-        final java.util.concurrent.ScheduledExecutorService scheduler = java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
+        final java.util.concurrent.ScheduledExecutorService scheduler =
+            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
         scheduler.schedule(
             new Runnable() {
                 public void run() {
@@ -1802,7 +1821,8 @@ public final class $<T> {
     private static <T> List<T> newArrayListWithExpectedSize(int size) {
         try {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
-            return (List<T>) listsClass.getDeclaredMethod("newArrayListWithExpectedSize", Integer.TYPE).invoke(null, size);
+            return (List<T>) listsClass.getDeclaredMethod("newArrayListWithExpectedSize", Integer.TYPE)
+                .invoke(null, size);
         } catch (Exception e) {
             return new ArrayList<T>(size);
         }
@@ -1833,7 +1853,8 @@ public final class $<T> {
     private static <T> Set<T> newLinkedHashSetWithExpectedSize(int size) {
         try {
             final Class<?> setsClass = classForName("com.google.common.collect.Sets");
-            return (Set<T>) setsClass.getDeclaredMethod("newLinkedHashSetWithExpectedSize", Integer.TYPE).invoke(null, size);
+            return (Set<T>) setsClass.getDeclaredMethod("newLinkedHashSetWithExpectedSize", Integer.TYPE)
+                .invoke(null, size);
         } catch (Exception e) {
             return new LinkedHashSet<T>(size);
         }
