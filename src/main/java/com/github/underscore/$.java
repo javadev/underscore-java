@@ -524,6 +524,18 @@ public final class $<T> {
         return samples;
     }
 
+    public static <E> E identity(final E value) {
+        return value;
+    }
+
+    public static <E> Function<E> constant(final E value) {
+        return new Function<E>() {
+            public E apply() {
+                return value;
+            }
+        };
+    }
+
     public static int random(final int from, final int to) {
         return new Random().nextInt(to - from) + from;
     }

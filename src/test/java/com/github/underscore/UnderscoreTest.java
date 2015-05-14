@@ -2338,6 +2338,28 @@ arr.slice(-3, -1) // [3, 4]
     }
 
 /*
+var stooge = {name: 'moe'};
+stooge === _.identity(stooge);
+=> true
+*/
+    @Test
+    public void identity() {
+        Map<String, String> object = new LinkedHashMap<String, String>() {{ put("name", "moe"); }};
+        assertEquals(object, $.identity(object));
+    }
+
+/*
+var stooge = {name: 'moe'};
+stooge === _.constant(stooge)();
+=> true
+*/
+    @Test
+    public void constant() {
+        Map<String, String> object = new LinkedHashMap<String, String>() {{ put("name", "moe"); }};
+        assertEquals(object, $.constant(object).apply());
+    }
+
+/*
 _.random(0, 100);
 => 42
 */
