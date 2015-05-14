@@ -197,6 +197,22 @@ _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
     }
 
 /*
+var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
+_.map(stooges, _.iteratee('age'));
+=> [25, 21, 23]
+*/
+    @Test
+    public void iteratee() {
+        List<Map<String, Object>> sooges = asList(
+            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "curly"); put("age", 25); }},
+            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 21); }},
+            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("age", 23); }}
+        );
+        final List<Object> result = $.map(sooges, $.iteratee("age"));
+        assertEquals("[25, 21, 23]", result.toString());
+    }
+
+/*
 var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 => 6
 */

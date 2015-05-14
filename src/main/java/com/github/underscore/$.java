@@ -551,6 +551,14 @@ public final class $<T> {
         return Optional.absent();
     }
 
+    public static <K, V> Function1<Map<K, V>, V> iteratee(final K key) {
+        return new Function1<Map<K, V>, V>() {
+            public V apply(Map<K, V> item) {
+                return item.get(key);
+            }
+        };
+    }
+
     public static String uniqueId(final String prefix) {
         return prefix + uniqueId.incrementAndGet();
     }
