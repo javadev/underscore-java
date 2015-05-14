@@ -1682,8 +1682,30 @@ public final class $<T> {
         return (T[]) reverse(newArrayList(Arrays.asList(array))).toArray();
     }
 
+    public static <K, V> Predicate<Map<K, V>> matcher(final Map<K, V> object) {
+        return new Predicate<Map<K, V>>() {
+            public Boolean apply(final Map<K, V> item) {
+                for (final K key : keys(object)) {
+                    if (!item.containsKey(key) || !item.get(key).equals(object.get(key))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+    }
+
     public static <K, V> boolean isEqual(final Map<K, V> object, final Map<K, V> other) {
         return object == null ? other == null : object.equals(other);
+    }
+
+    public static <K, V> boolean isMatch(final Map<K, V> object, final Map<K, V> properties) {
+        for (final K key : keys(properties)) {
+            if (!object.containsKey(key) || !object.get(key).equals(properties.get(key))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static boolean isArray(final Object object) {

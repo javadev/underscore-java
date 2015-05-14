@@ -2394,6 +2394,22 @@ _.times(3, function(n){ genie.grantWishNumber(n); });
     }
 
 /*
+var ready = _.matcher({selected: true, visible: true});
+var readyToGoList = _.filter(list, ready);
+*/
+    @Test
+    public void matcher() {
+        List<Map<String, Object>> list = asList(
+            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("selected", true); put("visible", true); }},
+            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("selected", true); put("visible", false); }},
+            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "curly"); }}
+        );
+        Predicate<Map<String, Object>> ready = $.matcher(new LinkedHashMap<String, Object>() {{ put("selected", true); put("visible", true); }});
+        List<Map<String, Object>> result = $.filter(list, ready);
+        assertEquals("[{name=moe, selected=true, visible=true}]", result.toString());
+    }
+
+/*
 var stooge = {name: 'moe', luckyNumbers: [13, 27, 34]};
 var clone  = {name: 'moe', luckyNumbers: [13, 27, 34]};
 stooge == clone;
@@ -2410,6 +2426,21 @@ _.isEqual(stooge, clone);
         assertTrue($.isEqual(null, null));
         assertFalse($.isEqual(stooge, null));
         assertFalse($.isEqual(null, clone));
+    }
+
+/*
+var stooge = {name: 'moe', age: 32};
+_.isMatch(stooge, {age: 32});
+=> true
+*/
+    @Test
+    public void isMatch() {
+        Map<String, Object> stooge = new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 32); }};
+        assertTrue($.isMatch(stooge, new LinkedHashMap<String, Object>() {{ put("age", 32); }}));
+        Map<String, Object> stooge2 = new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 33); }};
+        assertFalse($.isMatch(stooge2, new LinkedHashMap<String, Object>() {{ put("age", 32); }}));
+        Map<String, Object> stooge3 = new LinkedHashMap<String, Object>() {{ put("name", "moe"); }};
+        assertFalse($.isMatch(stooge3, new LinkedHashMap<String, Object>() {{ put("age", 32); }}));
     }
 
 /*
