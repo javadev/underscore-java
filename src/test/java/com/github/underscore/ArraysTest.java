@@ -1,18 +1,18 @@
 /*
  * The MIT License (MIT)
- * 
+ *
  * Copyright 2015 Valentyn Kolesnikov
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,6 +27,7 @@ import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * Underscore library unit test.
@@ -35,69 +36,472 @@ import static org.junit.Assert.assertEquals;
  */
 public class ArraysTest {
   
-    public <T> List<T>array(T ... items) {
-        return asList(items);
-    }
-
-    public <T> List<T>array() {
-        return Collections.<T>emptyList();
-    }
-
+/*
+_.first([5, 4, 3, 2, 1]);
+=> 5
+_.first([5, 4, 3, 2, 1], 2);
+=> [5, 4]
+*/
     @Test
-    public void test_first() {
-        Integer res = new $<Integer>(array(1, 2, 3, 4, 5)).first();
-        assertEquals("first one item did not work", 1, res);
-        List<Integer> resList = new $(array(1, 2, 3, 4, 5)).first(3);
-        assertEquals("first multi item did not wok", array(1, 2, 3), resList);
+    public void first() {
+        final Integer result = $.first(asList(5, 4, 3, 2, 1));
+        assertEquals("5", result.toString());
+        final Object resultChain = $.chain(asList(5, 4, 3, 2, 1)).first().item();
+        assertEquals("5", resultChain.toString());
+        final Object resultChainTwo = $.chain(asList(5, 4, 3, 2, 1)).first(2).value();
+        assertEquals("[5, 4]", resultChainTwo.toString());
+        final List<Integer> resultList = $.first(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[5, 4]", resultList.toString());
+        final int resultInt = $.first(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals(5, resultInt);
     }
 
+/*
+_.head([5, 4, 3, 2, 1]);
+=> 5
+_.head([5, 4, 3, 2, 1], 2);
+=> [5, 4]
+*/
     @Test
-    public void test_initial() {
-        List<Integer> res = new $(array(1, 2, 3, 4, 5)).initial();
-        assertEquals("initial one item did not work", array(1, 2, 3, 4), res);
-        res = new $(array(1, 2, 3, 4, 5)).initial(3);
-        assertEquals("initial multi item did not wok", array(1, 2), res);
+    public void head() {
+        final Integer result = $.head(asList(5, 4, 3, 2, 1));
+        assertEquals("5", result.toString());
+        final Integer resultObj = new $<Integer>(asList(5, 4, 3, 2, 1)).head();
+        assertEquals("5", resultObj.toString());
+        final List<Integer> resultList = $.head(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[5, 4]", resultList.toString());
+        final List<Integer> resultListObj = new $<Integer>(asList(5, 4, 3, 2, 1)).head(2);
+        assertEquals("[5, 4]", resultListObj.toString());
+        final int resultInt = $.head(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals(5, resultInt);
     }
 
+/*
+_.rest([5, 4, 3, 2, 1]);
+=> [4, 3, 2, 1]
+_.rest([5, 4, 3, 2, 1], 2);
+=> [3, 2, 1]
+*/
     @Test
-    public void test_last() {
-        Integer res = new $<Integer>(array(1, 2, 3, 4, 5)).last();
+    public void rest() {
+        final List<Integer> result = $.rest(asList(5, 4, 3, 2, 1));
+        assertEquals("[4, 3, 2, 1]", result.toString());
+        final List<Integer> resultChain = $.chain(asList(5, 4, 3, 2, 1)).rest().value();
+        assertEquals("[4, 3, 2, 1]", resultChain.toString());
+        final List<Integer> result2 = $.rest(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[3, 2, 1]", result2.toString());
+        final List<Integer> result2Chain = $.chain(asList(5, 4, 3, 2, 1)).rest(2).value();
+        assertEquals("[3, 2, 1]", result2Chain.toString());
+        final Object[] resultArray = $.rest(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
+        final Object[] resultArray2 = $.rest(new Integer[] {5, 4, 3, 2, 1}, 2);
+        assertEquals("[3, 2, 1]", asList(resultArray2).toString());
+    }
+
+/*
+_.tail([5, 4, 3, 2, 1]);
+=> [4, 3, 2, 1]
+_.tail([5, 4, 3, 2, 1], 2);
+=> [3, 2, 1]
+*/
+    @Test
+    public void tail() {
+        final List<Integer> result = $.tail(asList(5, 4, 3, 2, 1));
+        assertEquals("[4, 3, 2, 1]", result.toString());
+        final List<Integer> result2 = $.tail(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[3, 2, 1]", result2.toString());
+        final Object[] resultArray = $.tail(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
+        final List<Integer> resultArrayObj = new $<Integer>(asList(5, 4, 3, 2, 1)).tail();
+        assertEquals("[4, 3, 2, 1]", resultArrayObj.toString());
+        final Object[] resultArray2 = $.tail(new Integer[] {5, 4, 3, 2, 1}, 2);
+        assertEquals("[3, 2, 1]", asList(resultArray2).toString());
+        final List<Integer> resultArray2Obj = new $<Integer>(asList(5, 4, 3, 2, 1)).tail(2);
+        assertEquals("[3, 2, 1]", resultArray2Obj.toString());
+    }
+
+/*
+_.drop([5, 4, 3, 2, 1]);
+=> [4, 3, 2, 1]
+_.drop([5, 4, 3, 2, 1], 2);
+=> [3, 2, 1]
+*/
+    @Test
+    public void drop() {
+        final List<Integer> result = $.drop(asList(5, 4, 3, 2, 1));
+        assertEquals("[4, 3, 2, 1]", result.toString());
+        final List<Integer> result2 = $.drop(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[3, 2, 1]", result2.toString());
+        final Object[] resultArray = $.drop(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
+        final Object[] resultArray2 = $.drop(new Integer[] {5, 4, 3, 2, 1}, 2);
+        assertEquals("[3, 2, 1]", asList(resultArray2).toString());
+    }
+
+
+/*
+_.initial([5, 4, 3, 2, 1]);
+=> [5, 4, 3, 2]
+_.initial([5, 4, 3, 2, 1], 2);
+=> [5, 4, 3]
+*/
+    @Test
+    public void initial() {
+        final List<Integer> result = $.initial(asList(5, 4, 3, 2, 1));
+        assertEquals("[5, 4, 3, 2]", result.toString());
+        final List<Integer> resultChain = $.chain(asList(5, 4, 3, 2, 1)).initial().value();
+        assertEquals("[5, 4, 3, 2]", resultChain.toString());
+        final List<Integer> resultList = $.initial(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[5, 4, 3]", resultList.toString());
+        final List<Integer> resultListChain = $.chain(asList(5, 4, 3, 2, 1)).initial(2).value();
+        assertEquals("[5, 4, 3]", resultListChain.toString());
+        final Integer[] resultArray = $.initial(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("[5, 4, 3, 2]", asList(resultArray).toString());
+        final Integer[] resultListArray = $.initial(new Integer[] {5, 4, 3, 2, 1}, 2);
+        assertEquals("[5, 4, 3]", asList(resultListArray).toString());
+        List<Integer> res = new $(asList(1, 2, 3, 4, 5)).initial();
+        assertEquals("initial one item did not work", asList(1, 2, 3, 4), res);
+        res = new $(asList(1, 2, 3, 4, 5)).initial(3);
+        assertEquals("initial multi item did not wok", asList(1, 2), res);
+    }
+
+/*
+_.last([5, 4, 3, 2, 1]);
+=> 1
+*/
+    @Test
+    public void last() {
+        final Integer result = $.last(asList(5, 4, 3, 2, 1));
+        assertEquals("1", result.toString());
+        final List<Integer> resultTwo = $.last(asList(5, 4, 3, 2, 1), 2);
+        assertEquals("[2, 1]", resultTwo.toString());
+        final Object resultChain = $.chain(asList(5, 4, 3, 2, 1)).last().item();
+        assertEquals("1", resultChain.toString());
+        final Object resultChainTwo = $.chain(asList(5, 4, 3, 2, 1)).last(2).value();
+        assertEquals("[2, 1]", resultChainTwo.toString());
+        final Integer resultArray = $.last(new Integer[] {5, 4, 3, 2, 1});
+        assertEquals("1", resultArray.toString());
+        Integer res = new $<Integer>(asList(1, 2, 3, 4, 5)).last();
         assertEquals("last one item did not work", 5, res);
-        List<Integer> resList = new $(array(1, 2, 3, 4, 5)).last(3);
-        assertEquals("last multi item did not wok", array(3, 4, 5), resList);
+        List<Integer> resList = new $(asList(1, 2, 3, 4, 5)).last(3);
+        assertEquals("last multi item did not wok", asList(3, 4, 5), resList);
+    }
+
+/*
+_.compact([0, 1, false, 2, '', 3]);
+=> [1, 2, 3]
+*/
+    @Test
+    public void compact() {
+        final List<?> result = $.compact(asList(0, 1, false, 2, "", 3));
+        assertEquals("[1, 2, 3]", result.toString());
+        final List<?> result2 = $.compact(asList(0, 1, false, 2, "", 3), 1);
+        assertEquals("[0, false, 2, , 3]", result2.toString());
+        final List<?> result3 = new $(asList(0, 1, false, 2, "", 3)).compact();
+        assertEquals("[1, 2, 3]", result3.toString());
+        final List<?> result4 = new $(asList(0, 1, false, 2, "", 3)).compact(1);
+        assertEquals("[0, false, 2, , 3]", result4.toString());
+        final Object[] resultArray = $.compact(new Object[] {0, 1, false, 2, "", 3});
+        assertEquals("[1, 2, 3]", asList(resultArray).toString());
+        final Object[] resultArray2 = $.compact(new Object[] {0, 1, false, 2, "", 3}, 1);
+        assertEquals("[0, false, 2, , 3]", asList(resultArray2).toString());
+    }
+
+/*
+_.flatten([1, [2], [3, [[4]]]]);
+=> [1, 2, 3, 4];
+*/
+    @Test
+    public void flatten() {
+        final List<Integer> result = $.flatten(asList(1, asList(2, asList(3, asList(asList(4))))));
+        assertEquals("[1, 2, 3, 4]", result.toString());
+        final List<Integer> result2 = $.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), true);
+        assertEquals("[1, 2, [3, [[4]]]]", result2.toString());
+        final List<Integer> result3 = $.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), false);
+        assertEquals("[1, 2, 3, 4]", result3.toString());
+        final List<Integer> resultObj = new $(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten();
+        assertEquals("[1, 2, 3, 4]", resultObj.toString());
+        final List<Integer> resultObj2 = new $(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(true);
+        assertEquals("[1, 2, [3, [[4]]]]", resultObj2.toString());
+        final List<Integer> resultObj3 = new $(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(false);
+        assertEquals("[1, 2, 3, 4]", resultObj3.toString());
+    }
+
+/*
+_.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
+=> [2, 3, 4]
+*/
+    @Test
+    public void without() {
+        final List<Integer> result = $.without(asList(1, 2, 1, 0, 3, 1, 4), 0, 1);
+        assertEquals("[2, 3, 4]", result.toString());
+        final List<Integer> result2 = $.without(asList(1, 2, 1, 0, 3, 1, 4), 1);
+        assertEquals("[2, 0, 3, 4]", result2.toString());
+        final List<Integer> result3 = $.without(asList(null, 2, null, 0, 3, null, 4), (Integer) null);
+        assertEquals("[2, 0, 3, 4]", result3.toString());
+        final Object[] resultArray = $.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 0, 1);
+        assertEquals("[2, 3, 4]", asList(resultArray).toString());
+        final Object[] resultArray2 = $.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 1);
+        assertEquals("[2, 0, 3, 4]", asList(resultArray2).toString());
+    }
+
+/*
+_.sortedIndex([10, 20, 30, 40, 50], 35);
+=> 3
+*/
+    @Test
+    public void sortedIndex() throws Exception {
+        final Integer result = $.sortedIndex(asList(10, 20, 30, 40, 50), 35);
+        assertEquals(3, result);
+        final Integer result2 = $.sortedIndex(new Integer[] {10, 20, 30, 40, 50}, 35);
+        assertEquals(3, result2);
+        final Integer result3 = $.sortedIndex(asList(10, 20, 30, 40, 50), 60);
+        assertEquals(-1, result3);
     }
 
     @Test
-    public void test_rest() {
-        List<Integer> res = new $(array(1, 2, 3, 4, 5)).rest();
-        assertEquals("rest one item did not work", array(2, 3, 4, 5), res);
-        res = new $(array(1, 2, 3, 4, 5)).rest(3);
-        assertEquals("rest multi item did not wok", array(4, 5), res);
+    public void sortedIndex2() throws Exception {
+        class Person implements Comparable<Person> {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+            public int compareTo(Person person) {
+                return person.age - this.age;
+            }
+            public String toString() {
+                return name + ", " + age;
+            }
+        };
+        final int result =
+        $.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)), new Person("moe", 50), "age");
+        assertEquals(1, result);
+        final int result2 =
+        $.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)), new Person("moe", 70), "age");
+        assertEquals(-1, result2);
+        final int resultArray =
+        $.<Person>sortedIndex(new Person[] {new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)}, new Person("moe", 50), "age");
+        assertEquals(1, resultArray);
     }
 
+/*
+_.uniq([1, 2, 1, 3, 1, 4]);
+=> [1, 2, 3, 4]
+*/
     @Test
-    public void test_compact() {
-        List<Integer> res = new $(array(false, 1, 0, "foo", null, -1)).compact();
-        assertEquals("compact did not work", array(1, "foo", -1), res);
+    public void uniq() throws Exception {
+        final List<Integer> result = $.uniq(asList(1, 2, 1, 3, 1, 4));
+        assertEquals("[1, 2, 3, 4]", result.toString());
+        final Object[] resultArray = $.uniq(new Integer[] {1, 2, 1, 3, 1, 4});
+        assertEquals("[1, 2, 3, 4]", asList(resultArray).toString());
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+            public String toString() {
+                return name + ", " + age;
+            }
+        };
+        final Collection<Person> resultObject =
+        $.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        });
+        assertEquals("[moe, 50, curly, 60]", resultObject.toString());
+        final List<Person> resultObjectChain =
+        $.chain(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).uniq(
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        }).value();
+        assertEquals("[moe, 50, curly, 60]", resultObjectChain.toString());
+        assertEquals("[1, 2, 3, 4, 5]", $.chain(asList(1, 2, 3, 3, 4, 5)).uniq().value().toString());
+        final Object[] resultObjectArray =
+        $.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)).toArray(new Person[]{}),
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        });
+        assertEquals("[moe, 50, curly, 60]", asList(resultObjectArray).toString());
     }
 
+/*
+_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+=> [1, 2]
+*/
     @Test
-    public void test_flatten() {
-        List<?> llist = array(1, array(2), array(3, array(array(array(4)))));
-        assertEquals("can flatten nested arrays", $.flatten(llist),
-            array(1, 2, 3, 4));
-        assertEquals("can shallowly flatten nested arrays", $.flatten(llist, true),
-            array(1, 2, 3, array(array(array(4)))));
+    public void intersection() throws Exception {
+        final List<Integer> result = $.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
+        assertEquals("[1, 2]", result.toString());
+        final Object[] resultArray = $.intersection(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
+        assertEquals("[1, 2]", asList(resultArray).toString());
     }
 
+/*
+_.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+=> [1, 2, 3, 101, 10]
+*/
     @Test
-    public void test_uniq() {
-        List<Integer> tlist = array(1, 2, 1, 3, 1, 4);
-        assertEquals("can find the unique values of an unsorted array",
-            array(1, 2, 3, 4), $.uniq(tlist));
+    public void union() throws Exception {
+        final List<Integer> result = $.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
+        assertEquals("[1, 2, 3, 101, 10]", result.toString());
+        final Object[] resultArray = $.union(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
+        assertEquals("[[1, 2, 3, 101, 10]]", asList(result).toString());
+    }
 
-        tlist = array(1, 1, 1, 2, 2, 3);
-        assertEquals("can find the unique values of a sorted array faster",
-            array(1, 2, 3), $.uniq(tlist));
+/*
+_.difference([1, 2, 3, 4, 5], [5, 2, 10]);
+=> [1, 3, 4]
+*/
+    @Test
+    public void difference() throws Exception {
+        final List<Integer> result = $.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
+        assertEquals("[1, 3, 4]", result.toString());
+        final Object[] resultArray = $.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10});
+        assertEquals("[1, 3, 4]", asList(resultArray).toString());
+    }
+
+/*
+_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
+=> [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
+*/
+    @Test
+    public void zip() throws Exception {
+        final List<List<String>> result = $.zip(
+            asList("moe", "larry", "curly"), asList("30", "40", "50"), asList("true", "false", "false"));
+        assertEquals("[[moe, 30, true], [larry, 40, false], [curly, 50, false]]", result.toString());
+    }
+
+/*
+_.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
+=> [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
+*/
+    @Test
+    public void unzip() throws Exception {
+        final List<List<String>> result = $.unzip(
+            asList("moe", "30", "true"), asList("larry", "40", "false"), asList("curly", "50", "false"));
+        assertEquals("[[moe, larry, curly], [30, 40, 50], [true, false, false]]", result.toString());
+    }
+
+/*
+_.object(['moe', 'larry', 'curly'], [30, 40, 50]);
+=> {moe: 30, larry: 40, curly: 50}
+*/
+    @Test
+    public void object() throws Exception {
+        final List<Tuple<String, String>> result = $.object(
+            asList("moe", "larry", "curly"), asList("30", "40", "50"));
+        assertEquals("[(moe, 30), (larry, 40), (curly, 50)]", result.toString());
+    }
+
+/*
+_.indexOf([1, 2, 3], 2);
+=> 1
+*/
+    @Test
+    public void indexOf() throws Exception {
+        final Integer result = $.indexOf(asList(1, 2, 3), 2);
+        assertEquals(1, result);
+        final Integer resultArray = $.indexOf(new Integer[] {1, 2, 3}, 2);
+        assertEquals(1, resultArray);
+    }
+
+/*
+_.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
+=> 4
+*/
+    @Test
+    public void lastIndexOf() throws Exception {
+        final Integer result = $.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);
+        assertEquals(4, result);
+        final Integer resultArray = $.lastIndexOf(new Integer[] {1, 2, 3, 1, 2, 3}, 2);
+        assertEquals(4, resultArray);
+    }
+
+/*
+_.findIndex([1, 2, 3], function(item) {return item % 2  === 0; });
+=> 1
+*/
+    @Test
+    public void findIndex() throws Exception {
+        final Integer result = $.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(1, result);
+        final Integer resultNotFound = $.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item > 3;
+            }
+        });
+        assertEquals(-1, resultNotFound);
+        final Integer resultArray = $.findIndex(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(1, resultArray);
+    }
+
+/*
+_.findLastIndex([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
+=> 3
+*/
+    @Test
+    public void findLastIndex() throws Exception {
+        final Integer result = $.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(3, result);
+        final Integer resultNotFound = $.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item > 5;
+            }
+        });
+        assertEquals(-1, resultNotFound);
+        final Integer resultArray = $.findLastIndex(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(3, resultArray);
+    }
+
+/*
+_.range(10);
+=> [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+_.range(1, 11);
+=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+_.range(0, 30, 5);
+=> [0, 5, 10, 15, 20, 25]
+_.range(0, -10, -1);
+=> [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+_.range(0);
+=> []
+*/
+    @Test
+    public void range() throws Exception {
+        final int[] result = $.range(10);
+        assertArrayEquals(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, result);
+        final int[] result2 = $.range(1, 11);
+        assertArrayEquals(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, result2);
+        final int[] result3 = $.range(0, 30, 5);
+        assertArrayEquals(new int[] {0, 5, 10, 15, 20, 25}, result3);
+        final int[] result4 = $.range(0, -10, -1);
+        assertArrayEquals(new int[] {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}, result4);
+        final int[] result5 = $.range(0);
+        assertArrayEquals(new int[] {}, result5);
     }
 }
