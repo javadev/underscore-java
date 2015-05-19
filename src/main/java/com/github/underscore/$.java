@@ -758,7 +758,7 @@ public final class $<T> {
         return filter(list, new Predicate<E>() {
             @Override
             public Boolean apply(E arg) {
-                return !arg.equals(falsyValue);
+                return !(arg == null ? falsyValue == null : arg.equals(falsyValue));
             }
         });
     }
