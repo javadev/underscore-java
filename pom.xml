@@ -63,10 +63,28 @@
           <configuration>
               <archive>
                   <manifest>
-                      <mainClass>com.github.underscore._</mainClass>
+                      <mainClass>com.github.underscore.$</mainClass>
                   </manifest>
               </archive>
           </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.13</version>
+        <executions>
+          <execution>
+          <id>checkstyle</id>
+          <phase>validate</phase>
+          <goals>
+            <goal>check</goal>
+          </goals>
+          <configuration>
+            <configLocation>${basedir}/checkstyle.xml</configLocation>
+            <failOnViolation>true</failOnViolation>
+          </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>com.github.searls</groupId>

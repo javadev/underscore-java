@@ -23,7 +23,6 @@
  */
 package com.github.underscore;
 
-import java.lang.reflect.Method;
 import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
@@ -37,7 +36,7 @@ import static org.junit.Assert.assertTrue;
  * @author Valentyn Kolesnikov
  */
 public class CollectionsTest {
-  
+
 /*
 _.each([1, 2, 3], alert);
 => alerts each number in turn...
@@ -512,7 +511,7 @@ _.pluck(stooges, 'name');
                 this.name = name;
                 this.age = age;
             }
-        };
+        }
         $.pluck(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)), "name2");
     }
 
@@ -548,7 +547,7 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             public String toString() {
                 return "title: " + title + ", author: " + author + ", year: " + year;
             }
-        };
+        }
         List<Book> listOfPlays =
             new ArrayList<Book>() {{
               add(new Book("Cymbeline2", "Shakespeare", 1614));
@@ -597,7 +596,7 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
             public String toString() {
                 return "title: " + title + ", author: " + author + ", year: " + year;
             }
-        };
+        }
         List<Book> listOfPlays =
             new ArrayList<Book>() {{
               add(new Book("Cymbeline2", "Shakespeare", 1614));
@@ -647,7 +646,7 @@ _.max(numbers);
                 this.name = name;
                 this.age = age;
             }
-        };
+        }
         final Person resultPerson = $.max(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)),
                 new Function1<Person, Integer>() {
             public Integer apply(Person item) {
@@ -690,7 +689,7 @@ _.min(numbers);
                 this.name = name;
                 this.age = age;
             }
-        };
+        }
         final Person resultPerson = $.min(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)),
                 new Function1<Person, Integer>() {
             public Integer apply(Person item) {

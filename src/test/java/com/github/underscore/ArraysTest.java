@@ -274,7 +274,7 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
             public String toString() {
                 return name + ", " + age;
             }
-        };
+        }
         final int result =
         $.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)), new Person("moe", 50), "age");
         assertEquals(1, result);
@@ -306,7 +306,7 @@ _.uniq([1, 2, 1, 3, 1, 4]);
             public String toString() {
                 return name + ", " + age;
             }
-        };
+        }
         final Collection<Person> resultObject =
         $.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
             new Function1<Person, String>() {

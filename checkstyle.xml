@@ -35,11 +35,12 @@
     <module name="RegexpSingleline">
       <property name="format" value="\s+$"/>
       <property name="message" value="Trailing whitespace (extra spaces at the end of a line)"/>
-      <property name="severity" value="warning"/>
+      <property name="severity" value="error"/>
     </module>
     <module name="RegexpSingleline">
       <property name="format" value="System\.(out|err)"/>
       <property name="message" value="Do not print directly to System.out or System.err use Log4J instead"/>
+      <property name="severity" value="warning"/>
     </module>
     <module name="RegexpSingleline">
       <property name="format" value="\.printStackTrace\("/>
@@ -48,11 +49,13 @@
     <module name="TreeWalker">
         <property name="tabWidth" value="4" />
         <module name="FileContentsHolder"/>
+<!--
         <module name="JavadocType">
             <property name="scope" value="protected"/>
             <property name="authorFormat" value="([\wø]+\s*)?"/>
-            <property name="versionFormat" value="\$Revision[^$]*\$ \$Date[^$]*\$"/>
+            <property name="allowMissingParamTags" value="true"/>
         </module>
+-->
         <module name="JavadocMethod">
             <property name="severity" value="warning"/>
             <property name="scope" value="protected"/>
@@ -86,8 +89,13 @@
         <module name="StaticVariableName">
             <property name="format" value="^(m_|[a-z])[a-zA-Z0-9]*$"/>
         </module>
-        <module name="TypeName"/>
-        <module name="AvoidStarImport"/>
+        <module name="TypeName">
+            <property name="format" value="^[A-Z\$][a-zA-Z0-9]*$"/>
+        </module>
+
+        <module name="AvoidStarImport">
+            <property name="excludes" value="java.util"/>
+        </module>
         <module name="IllegalImport"/>
         <module name="UnusedImports"/>
         <module name="RedundantImport"/>
@@ -107,7 +115,7 @@
             <property name="max" value="120"/>
         </module>
         <module name="AnonInnerLength">
-            <property name="max" value="10"/>
+            <property name="max" value="35"/>
         </module>
         <module name="ParameterNumber">
             <property name="severity" value="warning"/>
