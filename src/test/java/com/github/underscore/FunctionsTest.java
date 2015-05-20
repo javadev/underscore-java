@@ -78,6 +78,21 @@ sub5(20);
     }
 
 /*
+var fibonacci = _.memoize(function(n) {
+  return n < 2 ? n: fibonacci(n - 1) + fibonacci(n - 2);
+});
+*/
+    @Test
+    public void memoize() throws Exception {
+        class FibonacciFuncion1 extends MemoizeFunction1<Integer> {
+            public Integer calc(final Integer n) {
+                return n < 2 ? n : apply(n - 1) + apply(n - 2);
+            }
+        }
+        assertEquals(55, new FibonacciFuncion1().apply(10));
+    }
+
+/*
 var counter = 0;
 var incr = function(){ counter++; };
 var debouncedIncr = _.debounce(incr, 32);
