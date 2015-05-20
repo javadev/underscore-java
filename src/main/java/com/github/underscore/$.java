@@ -134,6 +134,10 @@ public final class $<T> {
         return sort(uniq(result));
     }
 
+    public static List<String> methods(final Object object) {
+        return functions(object);
+    }
+
     public static <T, E> List<T> collect(final List<E> list, final Function1<? super E, T> func) {
         return map(list, func);
     }

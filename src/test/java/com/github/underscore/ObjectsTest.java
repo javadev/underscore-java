@@ -85,7 +85,17 @@ _.functions(_);
 */
     @Test
     public void functions() {
-        List<String> result = $.functions(new $(""));
+        List<String> result = $.functions($.class);
+        assertEquals(5, $.first(result, 5).size());
+    }
+
+/*
+_.methods(_);
+=> ["all", "any", "bind", "bindAll", "clone", "compact", "compose" ...
+*/
+    @Test
+    public void methods() {
+        List<String> result = $.methods($.class);
         assertEquals(5, $.first(result, 5).size());
     }
 
