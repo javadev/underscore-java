@@ -8,7 +8,7 @@ public abstract class MemoizeFunction1<T> implements Function1<T, T> {
     public abstract T calc(final T n);
 
     public T apply(final T key) {
-        if (!$.has(cache, key)) {
+        if (!cache.containsKey(key)) {
             cache.put(key, calc(key));
         }
         return cache.get(key);
