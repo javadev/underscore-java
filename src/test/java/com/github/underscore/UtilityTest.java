@@ -187,6 +187,16 @@ compiled({name: 'moe'});
         assertEquals("hello: moe, hello2: moe2", compiled.apply(
             new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("name2", "moe2"); }}.entrySet()));
     }
+
+    @Test
+    public void template4() throws Exception {
+        $.templateSettings(new HashMap<String, String>() {{ put("interpolate", ""); }});
+        $.templateSettings(new HashMap<String, String>() {{ put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}"); }});
+        Template<Set<Map.Entry<String,Object>>> compiled = $.template("hello: {{= name }}");
+        assertEquals("hello: moe", compiled.apply(new LinkedHashMap<String, Object>() {{ put("name", "moe"); }}.entrySet()));
+        $.templateSettings(new HashMap<String, String>() {{ put("interpolate", "<%=([\\s\\S]+?)%>"); }});
+    }
+
 /*
 var list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
 _.template(list, {people: ['moe', 'curly', 'larry']});
@@ -202,6 +212,14 @@ _.template(list, {people: ['moe', 'curly', 'larry']});
         Template<Set<Map.Entry<String,Object>>> compiled2 = $.template(list2);
         assertEquals("<% _.each(people2, function(name) { %> <li><%= name %></li> <% }); %>",
             compiled2.apply(new LinkedHashMap<String, Object>() {{ put("people", asList("moe", "curly", "larry")); }}.entrySet()));
+        $.templateSettings(new HashMap<String, String>() {{ put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}");
+            put("evaluate", "\\{\\{([\\s\\S]+?)\\}\\}"); }});
+        String list3 = "{{ _.each(people, function(name) { }} <li>{{= name }}</li> {{ }); }}";
+        Template<Set<Map.Entry<String,Object>>> compiled3 = $.template(list3);
+        assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
+            compiled3.apply(new LinkedHashMap<String, Object>() {{ put("people", asList("moe", "curly", "larry")); }}.entrySet()));
+        $.templateSettings(new HashMap<String, String>() {{ put("interpolate", "<%=([\\s\\S]+?)%>");
+            put("evaluate", "<%([\\s\\S]+?)%>"); }});
     }
 
 /*

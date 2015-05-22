@@ -36,6 +36,11 @@ import java.util.*;
 public final class $<T> {
     private static ClassForName classForName = new ClassForName();
     private static final Map<String, Function1<String, String>> FUNCTIONS = newLinkedHashMap();
+    private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<String, String>() { {
+        put("evaluate", "<%([\\s\\S]+?)%>");
+        put("interpolate", "<%=([\\s\\S]+?)%>");
+        put("escape", "<%-([\\s\\S]+?)%>");
+    } };
     private static final java.util.concurrent.atomic.AtomicInteger UNIQUE_ID =
         new java.util.concurrent.atomic.AtomicInteger(0);
     private final Iterable<T> iterable;
@@ -53,6 +58,18 @@ public final class $<T> {
 
     public static void setClassForName(final ClassForName classForName) {
         $.classForName = classForName;
+    }
+
+    private static void setTemplateKey(final Map<String, String> templateSettings, final String key) {
+        if (templateSettings.containsKey(key) && templateSettings.get(key).contains("([\\s\\S]+?)")) {
+            TEMPLATE_SETTINGS.put(key, templateSettings.get(key));
+        }
+    }
+
+    public static void templateSettings(final Map<String, String> templateSettings) {
+        setTemplateKey(templateSettings, "evaluate");
+        setTemplateKey(templateSettings, "interpolate");
+        setTemplateKey(templateSettings, "escape");
     }
 
     public static class ClassForName {
@@ -1533,26 +1550,32 @@ public final class $<T> {
             public String apply(Set<E> value) {
                 String result = template;
                 for (E element : value) {
-                    result = java.util.regex.Pattern.compile("<%\\=\\s*\\Q" + ((Map.Entry) element).getKey()
-                        + "\\E\\s*%>").matcher(result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
-                    result = java.util.regex.Pattern.compile("<%\\-\\s*\\Q" + ((Map.Entry) element).getKey()
-                        + "\\E\\s*%>").matcher(result).replaceAll(escape(String.valueOf(((Map.Entry) element)
+                    result = java.util.regex.Pattern.compile(TEMPLATE_SETTINGS.get("interpolate")
+                        .replace("([\\s\\S]+?)", "\\s*\\Q" + ((Map.Entry) element).getKey()
+                        + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                    result = java.util.regex.Pattern.compile(TEMPLATE_SETTINGS.get("escape")
+                        .replace("([\\s\\S]+?)", "\\s*\\Q" + ((Map.Entry) element).getKey()
+                        + "\\E\\s*")).matcher(result).replaceAll(escape(String.valueOf(((Map.Entry) element)
                         .getValue())));
                     java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
-                        "<%\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*%>(.*?)<% \\}\\);\\s*%>")
+                        TEMPLATE_SETTINGS.get("evaluate").replace("([\\s\\S]+?)",
+                        "\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*") + "(.*?)"
+                        + TEMPLATE_SETTINGS.get("evaluate").replace("([\\s\\S]+?)", " \\}\\);\\s*"))
                         .matcher(result);
                     if (matcher.find()) {
                         if (((Map.Entry) element).getKey().equals(matcher.group(1))) {
                             String repeatResult = "";
                             for (String item : (List<String>) ((Map.Entry) element).getValue()) {
-                      repeatResult += java.util.regex.Pattern.compile("<%=\\s*\\Q" + matcher.group(2)
-                          + "\\E\\s*%>").matcher(matcher.group(3)).replaceAll(item);
+                      repeatResult += java.util.regex.Pattern.compile(TEMPLATE_SETTINGS.get("interpolate")
+                          .replace("([\\s\\S]+?)", "\\s*\\Q" + matcher.group(2)
+                          + "\\E\\s*")).matcher(matcher.group(3)).replaceAll(item);
                             }
                             result = matcher.replaceFirst(repeatResult);
                         }
                     }
                     java.util.regex.Matcher matcherPrint = java.util.regex.Pattern.compile(
-                        "<%\\s*print\\('([^']*)'\\s*\\+\\s*(\\w+)\\);\\s*%>").matcher(result);
+                        TEMPLATE_SETTINGS.get("evaluate").replace("([\\s\\S]+?)",
+                        "\\s*print\\('([^']*)'\\s*\\+\\s*(\\w+)\\);\\s*")).matcher(result);
                     if (matcherPrint.find()) {
                         if (((Map.Entry) element).getKey().equals(matcherPrint.group(2))) {
                             result = matcherPrint.replaceFirst(matcherPrint.group(1)
