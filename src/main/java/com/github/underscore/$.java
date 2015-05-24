@@ -72,6 +72,29 @@ public final class $<T> {
         setTemplateKey(templateSettings, "escape");
     }
 
+    private static final class WherePredicate<E, T> implements Predicate<E> {
+        private final List<Tuple<String, T>> properties;
+
+        private WherePredicate(List<Tuple<String, T>> properties) {
+            this.properties = properties;
+        }
+
+        @Override
+        public Boolean apply(final E elem) {
+            for (Tuple<String, T> prop : properties) {
+                try {
+                    if (!elem.getClass().getField(prop.fst()).get(elem)
+                            .equals(prop.snd())) {
+                        return false;
+                    }
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            return true;
+        }
+    }
+
     private static final class TemplateImpl<E> implements Template<Set<E>> {
         private final String template;
 
@@ -86,11 +109,11 @@ public final class $<T> {
             final String escape = TEMPLATE_SETTINGS.get("escape");
             String result = template;
             for (final E element : value) {
-                result = java.util.regex.Pattern.compile(interpolate
-                    .replace("([\\s\\S]+?)", "\\s*\\Q" + ((Map.Entry) element).getKey()
+                result = java.util.regex.Pattern.compile(interpolate.replace("([\\s\\S]+?)",
+                    "\\s*\\Q" + ((Map.Entry) element).getKey()
                     + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
-                result = java.util.regex.Pattern.compile(escape
-                    .replace("([\\s\\S]+?)", "\\s*\\Q" + ((Map.Entry) element).getKey()
+                result = java.util.regex.Pattern.compile(escape.replace("([\\s\\S]+?)",
+                    "\\s*\\Q" + ((Map.Entry) element).getKey()
                     + "\\E\\s*")).matcher(result).replaceAll(escape(String.valueOf(((Map.Entry) element)
                     .getValue())));
                 java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
@@ -303,44 +326,13 @@ public final class $<T> {
 
     public static <T, E> List<E> where(final List<E> list,
                                     final List<Tuple<String, T>> properties) {
-        return filter(list, new Predicate<E>() {
-            @Override
-            public Boolean apply(final E elem) {
-                for (Tuple<String, T> prop : properties) {
-                    try {
-                        if (!elem.getClass().getField(prop.fst()).get(elem)
-                                .equals(prop.snd())) {
-                            return false;
-                        }
-                    } catch (Exception ex) {
-                        ex.getMessage();
-                    }
-                }
-                return true;
-            }
-        });
+        return filter(list, new WherePredicate<E, T>(properties));
 
     }
 
     public static <T, E> Set<E> where(final Set<E> list,
                                    final List<Tuple<String, T>> properties) {
-        return filter(list, new Predicate<E>() {
-            @Override
-            public Boolean apply(final E elem) {
-                for (Tuple<String, T> prop : properties) {
-                    try {
-                        if (!elem.getClass().getField(prop.fst()).get(elem)
-                                .equals(prop.snd())) {
-                            return false;
-                        }
-                    } catch (Exception ex) {
-                        ex.getMessage();
-                    }
-                }
-                return true;
-            }
-        });
-
+        return filter(list, new WherePredicate<E, T>(properties));
     }
 
     public static <T, E> Optional<E> findWhere(final Iterable<E> iterable,
