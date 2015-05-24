@@ -115,7 +115,7 @@
             <property name="max" value="120"/>
         </module>
         <module name="AnonInnerLength">
-            <property name="max" value="41"/>
+            <property name="max" value="18"/>
         </module>
         <module name="ParameterNumber">
             <property name="severity" value="warning"/>

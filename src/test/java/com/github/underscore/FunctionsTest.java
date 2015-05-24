@@ -114,7 +114,7 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
                 assertEquals("incr was debounced", 1, counter[0]);
                 return null;
             }
-        }, 32);
+        }, 48);
         Thread.sleep(120);
     }
 

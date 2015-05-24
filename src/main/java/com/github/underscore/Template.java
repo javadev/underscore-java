@@ -1,7 +1,4 @@
 package com.github.underscore;
 
-public abstract class Template<T> implements Function1<T, String> {
-    public Template() {
-    }
-
+public interface Template<T> extends Function1<T, String> {
 }

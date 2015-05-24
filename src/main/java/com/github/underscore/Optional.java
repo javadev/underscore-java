@@ -1,6 +1,6 @@
 package com.github.underscore;
 
-public class Optional<T> {
+public final class Optional<T> {
     private final T arg;
     private final boolean absent;
 
