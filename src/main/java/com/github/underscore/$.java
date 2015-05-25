@@ -1392,6 +1392,96 @@ public final class $<T> {
         return object.containsKey(key);
     }
 
+    // Math Functions
+    public static <T extends Number> T sum(final Iterable<T> iterable) {
+        T result = null;
+        for (final T item : iterable) {
+            result = sum(result, item);
+        }
+        return result;
+    }
+
+    public <T extends Number> T sum() {
+        return (T) sum((List<T>) iterable);
+    }
+
+    private static <T extends Number> T sum(final T first, final T second) {
+        if (first == null) {
+            return second;
+        } else if (second == null) {
+            return first;
+        } else if (first instanceof java.math.BigDecimal) {
+            return (T) sum((java.math.BigDecimal) first, (java.math.BigDecimal) second);
+        } else if (second instanceof java.math.BigInteger) {
+            return (T) sum((java.math.BigInteger) first, (java.math.BigInteger) second);
+        } else if (first instanceof Byte) {
+            return (T) sum((Byte) first, (Byte) second);
+        } else if (first instanceof Double) {
+            return (T) sum((Double) first, (Double) second);
+        } else if (first instanceof Float) {
+            return (T) sum((Float) first, (Float) second);
+        } else if (first instanceof Integer) {
+            return (T) sum((Integer) first, (Integer) second);
+        } else if (first instanceof Long) {
+            return (T) sum((Long) first, (Long) second);
+        } else if (first instanceof Short) {
+            return (T) sum((Short) first, (Short) second);
+        } else {
+            throw new UnsupportedOperationException("Sum only supports official subclasses of Number");
+        }
+    }
+
+    private static java.math.BigDecimal sum(java.math.BigDecimal first, java.math.BigDecimal second) {
+        return first.add(second);
+    }
+
+    private static java.math.BigInteger sum(java.math.BigInteger first, java.math.BigInteger second) {
+        return first.add(second);
+    }
+
+    private static Byte sum(Byte first, Byte second) {
+        return (byte) (first + second);
+    }
+
+    private static Double sum(Double first, Double second) {
+        return first + second;
+    }
+
+    private static Float sum(Float first, Float second) {
+        return first + second;
+    }
+
+    private static Integer sum(Integer first, Integer second) {
+        return first + second;
+    }
+
+    private static Long sum(Long first, Long second) {
+        return first + second;
+    }
+
+    private static Short sum(Short first, Short second) {
+        return (short) (first + second);
+    }
+
+    public static <T extends Number> double mean(final Iterable<T> iterable) {
+        T result = null;
+        int count = 0;
+        for (final T item : iterable) {
+            result = sum(result, item);
+            count += 1;
+        }
+        return result.doubleValue() / count;
+    }
+
+    public static <T extends Number> double median(final Iterable<T> iterable) {
+        final List<T> result = newArrayList(iterable);
+        final int size = size(iterable);
+        if (size % 2 == 1) {
+            return result.get(size / 2).doubleValue();
+        }
+        return (result.get(size / 2 - 1).doubleValue() + result.get(size / 2).doubleValue()) / 2;
+    }
+
     // Utility Functions
     public static <E> E identity(final E value) {
         return value;
@@ -1650,6 +1740,10 @@ public final class $<T> {
 
         public Chain<T> sample(final int howMany) {
             return new Chain<T>($.sample(list, howMany));
+        }
+
+        public <T extends Number> Chain<T> sum() {
+            return new Chain<T>($.sum((List<T>) list));
         }
 
         public Chain<T> tap(final Block<T> func) {
