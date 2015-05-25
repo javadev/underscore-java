@@ -469,8 +469,13 @@ _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void invoke2() throws Exception {
+    public void invokeError() throws Exception {
         $.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void invokeError2() throws Exception {
+        $.invoke(asList(" foo ", "  bar"), "trim2");
     }
 
 /*

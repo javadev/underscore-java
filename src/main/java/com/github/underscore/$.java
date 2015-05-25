@@ -24,7 +24,6 @@
 package com.github.underscore;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -152,6 +151,19 @@ public final class $<T> {
         }
     }
 
+    private static Class<?> classForName(final String name) throws Exception {
+        return classForName.call(name);
+    }
+
+    public static <K, V> Function1<Map<K, V>, V> iteratee(final K key) {
+        return new Function1<Map<K, V>, V>() {
+            public V apply(Map<K, V> item) {
+                return item.get(key);
+            }
+        };
+    }
+
+    // Collection Functions
     public static <T> void each(final Iterable<T> iterable, final Block<? super T> func) {
         for (T element : iterable) {
             func.apply(element);
@@ -164,12 +176,6 @@ public final class $<T> {
 
     public void forEach(final Block<? super T> func) {
         each(iterable, func);
-    }
-
-    public static <E> void times(final int count, final Function<E> function) {
-        for (int index = 0; index < count; index += 1) {
-            function.apply();
-        }
     }
 
     public static <T, E> List<T> map(final List<E> list, final Function1<? super E, T> func) {
@@ -188,47 +194,6 @@ public final class $<T> {
         return transformed;
     }
 
-    public static <K, V> List<Tuple<K, V>> mapObject(final Map<K, V> object, final Function1<? super V, V> func) {
-        return map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
-            @Override
-            public Tuple<K, V> apply(K key) {
-                return Tuple.create(key, func.apply(object.get(key)));
-            }
-        });
-    }
-
-    public static <K, V> List<Tuple<K, V>> pairs(final Map<K, V> object) {
-        return map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
-            @Override
-            public Tuple<K, V> apply(K key) {
-                return Tuple.create(key, object.get(key));
-            }
-        });
-    }
-
-    public static <K, V> List<Tuple<V, K>> invert(final Map<K, V> object) {
-        return map(newArrayList(object.keySet()), new Function1<K, Tuple<V, K>>() {
-            @Override
-            public Tuple<V, K> apply(K key) {
-                return Tuple.create(object.get(key), key);
-            }
-        });
-    }
-
-    public static List<String> functions(final Object object) {
-        final List<String> result = newArrayList();
-        for (final Method method : object.getClass().getDeclaredMethods()) {
-            if (!method.getName().contains("$")) {
-                result.add(method.getName());
-            }
-        }
-        return sort(uniq(result));
-    }
-
-    public static List<String> methods(final Object object) {
-        return functions(object);
-    }
-
     public static <T, E> List<T> collect(final List<E> list, final Function1<? super E, T> func) {
         return map(list, func);
     }
@@ -245,11 +210,11 @@ public final class $<T> {
         return accum;
     }
 
-    public static <T, E> E inject(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
+    public static <T, E> E foldl(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
         return reduce(iterable, func, zeroElem);
     }
 
-    public static <T, E> E foldl(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
+    public static <T, E> E inject(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
         return reduce(iterable, func, zeroElem);
     }
 
@@ -278,6 +243,10 @@ public final class $<T> {
         return Optional.absent();
     }
 
+    public static <E> Optional<E> detect(final Iterable<E> iterable, final Predicate<E> pred) {
+        return find(iterable, pred);
+    }
+
     public static <E> Optional<E> findLast(final Iterable<E> iterable, final Predicate<E> pred) {
         final List<E> list = newArrayList(iterable);
         for (int index = list.size() - 1; index >= 0; index--) {
@@ -286,10 +255,6 @@ public final class $<T> {
             }
         }
         return Optional.absent();
-    }
-
-    public static <E> Optional<E> detect(final Iterable<E> iterable, final Predicate<E> pred) {
-        return find(iterable, pred);
     }
 
     public static <E> List<E> filter(final List<E> list,
@@ -322,38 +287,6 @@ public final class $<T> {
     public static <E> Set<E> select(final Set<E> set,
                                     final Predicate<E> pred) {
         return filter(set, pred);
-    }
-
-    public static <T, E> List<E> where(final List<E> list,
-                                    final List<Tuple<String, T>> properties) {
-        return filter(list, new WherePredicate<E, T>(properties));
-
-    }
-
-    public static <T, E> Set<E> where(final Set<E> list,
-                                   final List<Tuple<String, T>> properties) {
-        return filter(list, new WherePredicate<E, T>(properties));
-    }
-
-    public static <T, E> Optional<E> findWhere(final Iterable<E> iterable,
-                                  final List<Tuple<String, T>> properties) {
-        return find(iterable, new Predicate<E>() {
-            @Override
-            public Boolean apply(final E elem) {
-                for (Tuple<String, T> prop : properties) {
-                    try {
-                        if (!elem.getClass().getField(prop.fst()).get(elem)
-                                .equals(prop.snd())) {
-                            return false;
-                        }
-                    } catch (Exception ex) {
-                        ex.getMessage();
-                    }
-                }
-                return true;
-            }
-        });
-
     }
 
     public static <E> List<E> reject(final List<E> list, final Predicate<E> pred) {
@@ -414,35 +347,36 @@ public final class $<T> {
     }
 
     public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName,
-                                  final List<Object> args) throws NoSuchMethodException, SecurityException,
-                                  IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+                                  final List<Object> args) {
         final List<E> result = newArrayList();
         final List<Class<?>> argTypes = map(args, new Function1<Object, Class<?>>() {
             public Class<?> apply(Object input) {
                 return input.getClass();
             }
         });
-        final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(
-            new Class[argTypes.size()]));
-        each(iterable, new Block<E>() {
-            public void apply(E arg) {
-                try {
-                    result.add((E) method.invoke(arg, args.toArray(new Object[args.size()])));
-                } catch (Exception e) {
-                    throw new IllegalArgumentException(e);
+        try {
+            final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(
+                new Class[argTypes.size()]));
+            each(iterable, new Block<E>() {
+                public void apply(E arg) {
+                    try {
+                        result.add((E) method.invoke(arg, args.toArray(new Object[args.size()])));
+                    } catch (Exception e) {
+                        throw new IllegalArgumentException(e);
+                    }
                 }
-            }
-        });
+            });
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException(e);
+        }
         return result;
     }
 
-    public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName) throws NoSuchMethodException,
-        SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName) {
         return invoke(iterable, methodName, Collections.emptyList());
     }
 
-    public static <E> List<Object> pluck(final List<E> list,
-                                         final String propertyName) throws NoSuchFieldException, SecurityException {
+    public static <E> List<Object> pluck(final List<E> list, final String propertyName) {
         if (list.isEmpty()) {
             return Collections.emptyList();
         }
@@ -458,8 +392,7 @@ public final class $<T> {
         });
     }
 
-    public static <E> Set<Object> pluck(final Set<E> set,
-                                        final String propertyName) throws NoSuchFieldException, SecurityException {
+    public static <E> Set<Object> pluck(final Set<E> set, final String propertyName) {
         if (set.isEmpty()) {
             return Collections.emptySet();
         }
@@ -473,6 +406,38 @@ public final class $<T> {
                 }
             }
         });
+    }
+
+    public static <T, E> List<E> where(final List<E> list,
+                                    final List<Tuple<String, T>> properties) {
+        return filter(list, new WherePredicate<E, T>(properties));
+
+    }
+
+    public static <T, E> Set<E> where(final Set<E> list,
+                                   final List<Tuple<String, T>> properties) {
+        return filter(list, new WherePredicate<E, T>(properties));
+    }
+
+    public static <T, E> Optional<E> findWhere(final Iterable<E> iterable,
+                                  final List<Tuple<String, T>> properties) {
+        return find(iterable, new Predicate<E>() {
+            @Override
+            public Boolean apply(final E elem) {
+                for (Tuple<String, T> prop : properties) {
+                    try {
+                        if (!elem.getClass().getField(prop.fst()).get(elem)
+                                .equals(prop.snd())) {
+                            return false;
+                        }
+                    } catch (Exception ex) {
+                        ex.getMessage();
+                    }
+                }
+                return true;
+            }
+        });
+
     }
 
     public static <E extends Comparable<? super E>> E max(final Collection<E> collection) {
@@ -499,6 +464,26 @@ public final class $<T> {
                 return func.apply(o1).compareTo(func.apply(o2));
             }
         });
+    }
+
+    public static <E> List<E> shuffle(final List<E> list) {
+        final List<E> shuffled = newArrayList(list);
+        Collections.shuffle(shuffled);
+        return shuffled;
+    }
+
+    public static <E> E sample(final List<E> list) {
+        return list.get(new Random().nextInt(list.size()));
+    }
+
+    public static <E> Set<E> sample(final List<E> list, final int howMany) {
+        final int size = Math.min(howMany, list.size());
+        final Set<E> samples = newLinkedHashSetWithExpectedSize(size);
+        while (samples.size() < size) {
+            E sample = sample(list);
+            samples.add(sample);
+        }
+        return samples;
     }
 
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final List<E> list, final Function1<E, T> func) {
@@ -577,65 +562,6 @@ public final class $<T> {
         return retVal;
     }
 
-    public static <E> List<E> shuffle(final List<E> list) {
-        final List<E> shuffled = newArrayList(list);
-        Collections.shuffle(shuffled);
-        return shuffled;
-    }
-
-    public static <E> E sample(final List<E> list) {
-        return list.get(new Random().nextInt(list.size()));
-    }
-
-    public static <E> Set<E> sample(final List<E> list, final int howMany) {
-        final int size = Math.min(howMany, list.size());
-        final Set<E> samples = newLinkedHashSetWithExpectedSize(size);
-        while (samples.size() < size) {
-            E sample = sample(list);
-            samples.add(sample);
-        }
-        return samples;
-    }
-
-    public static <E> E identity(final E value) {
-        return value;
-    }
-
-    public static <E> Function<E> constant(final E value) {
-        return new Function<E>() {
-            public E apply() {
-                return value;
-            }
-        };
-    }
-
-    public static int random(final int from, final int to) {
-        return new Random().nextInt(to - from) + from;
-    }
-
-    public static void mixin(final String funcName, final Function1<String, String> func) {
-        FUNCTIONS.put(funcName, func);
-    }
-
-    public Optional<String> call(final String funcName) {
-        if (string.isPresent() && FUNCTIONS.containsKey(funcName)) {
-            return Optional.of(FUNCTIONS.get(funcName).apply(string.get()));
-        }
-        return Optional.absent();
-    }
-
-    public static <K, V> Function1<Map<K, V>, V> iteratee(final K key) {
-        return new Function1<Map<K, V>, V>() {
-            public V apply(Map<K, V> item) {
-                return item.get(key);
-            }
-        };
-    }
-
-    public static String uniqueId(final String prefix) {
-        return prefix + UNIQUE_ID.incrementAndGet();
-    }
-
     public static <E> E[] toArray(final Iterable<E> iterable) {
         final List<E> list = newArrayList();
         each(iterable, new Block<E>() {
@@ -656,6 +582,24 @@ public final class $<T> {
         return size;
     }
 
+    public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {
+        final List<E> retVal1 = newArrayList();
+        final List<E> retVal2 = newArrayList();
+        for (final E e : iterable) {
+            if (pred.apply(e)) {
+                retVal1.add(e);
+            } else {
+                retVal2.add(e);
+            }
+        }
+        return Arrays.asList(retVal1, retVal2);
+    }
+
+    public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
+        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[0]);
+    }
+
+    // Array Functions
     public static <E> E first(final Iterable<E> iterable) {
         return iterable.iterator().next();
     }
@@ -748,6 +692,14 @@ public final class $<T> {
         return list.subList(n, list.size());
     }
 
+    public static <E> E[] rest(final E[] array) {
+        return rest(array, 1);
+    }
+
+    public static <E> E[] rest(final E[] array, final int n) {
+        return (E[]) rest(Arrays.asList(array), n).toArray();
+    }
+
     public List<T> rest() {
         return $.rest((List) iterable);
     }
@@ -764,6 +716,14 @@ public final class $<T> {
         return rest(list, n);
     }
 
+    public static <E> E[] tail(final E[] array) {
+        return rest(array);
+    }
+
+    public static <E> E[] tail(final E[] array, final int n) {
+        return rest(array, n);
+    }
+
     public List<T> tail() {
         return rest();
     }
@@ -778,22 +738,6 @@ public final class $<T> {
 
     public static <E> List<E> drop(final List<E> list, final int n) {
         return rest(list, n);
-    }
-
-    public static <E> E[] rest(final E[] array, final int n) {
-        return (E[]) rest(Arrays.asList(array), n).toArray();
-    }
-
-    public static <E> E[] rest(final E[] array) {
-        return rest(array, 1);
-    }
-
-    public static <E> E[] tail(final E[] array) {
-        return rest(array);
-    }
-
-    public static <E> E[] tail(final E[] array, final int n) {
-        return rest(array, n);
     }
 
     public static <E> E[] drop(final E[] array) {
@@ -869,7 +813,7 @@ public final class $<T> {
         return $.flatten((List) iterable, shallow);
     }
 
-    public static <E> List<E> without(final List<E> list, E... values) {
+    public static <E> List<E> without(final List<E> list, E ... values) {
         final List<E> valuesList = Arrays.asList(values);
         return filter(list, new Predicate<E>() {
             @Override
@@ -883,7 +827,7 @@ public final class $<T> {
         return without(list, (E[]) Arrays.asList(value).toArray());
     }
 
-    public static <E> E[] without(final E[] array, final E... values) {
+    public static <E> E[] without(final E[] array, final E ... values) {
         return (E[]) without(Arrays.asList(array), values).toArray();
     }
 
@@ -891,12 +835,25 @@ public final class $<T> {
         return without(array, (E[]) Arrays.asList(value).toArray());
     }
 
-    public static <E> List<E> union(final List<E> ... lists) {
-        final Set<E> union = newLinkedHashSet();
-        for (List<E> list : lists) {
-            union.addAll(list);
+    public static <E> List<E> uniq(final List<E> list) {
+        return newArrayList(newHashSet(list));
+    }
+
+    public static <E> E[] uniq(final E[] array) {
+        return (E[]) uniq(Arrays.asList(array)).toArray();
+    }
+
+    public static <K, E> Collection<E> uniq(final Iterable<E> iterable, final Function1<E, K> func) {
+        final Map<K, E> retVal = newLinkedHashMap();
+        for (final E e : iterable) {
+            final K key = func.apply(e);
+            retVal.put(key, e);
         }
-        return newArrayList(union);
+        return retVal.values();
+    }
+
+    public static <K, E> E[] uniq(final E[] array, final Function1<E, K> func) {
+        return (E[]) uniq(Arrays.asList(array), func).toArray();
     }
 
     public static <E> E[] union(final E[] array1, final E[] array2) {
@@ -938,28 +895,7 @@ public final class $<T> {
         return (E[]) difference(Arrays.asList(array1), Arrays.asList(array2)).toArray();
     }
 
-    public static <E> List<E> uniq(final List<E> list) {
-        return newArrayList(newHashSet(list));
-    }
-
-    public static <E> E[] uniq(final E[] array) {
-        return (E[]) uniq(Arrays.asList(array)).toArray();
-    }
-
-    public static <K, E> Collection<E> uniq(final Iterable<E> iterable, final Function1<E, K> func) {
-        final Map<K, E> retVal = newLinkedHashMap();
-        for (final E e : iterable) {
-            final K key = func.apply(e);
-            retVal.put(key, e);
-        }
-        return retVal.values();
-    }
-
-    public static <K, E> E[] uniq(final E[] array, final Function1<E, K> func) {
-        return (E[]) uniq(Arrays.asList(array), func).toArray();
-    }
-
-    public static <T> List<List<T>> zip(final List<T>... lists) {
+    public static <T> List<List<T>> zip(final List<T> ... lists) {
         final List<List<T>> zipped = newArrayList();
         each(Arrays.asList(lists), new Block<List<T>>() {
             @Override
@@ -982,7 +918,7 @@ public final class $<T> {
         return zipped;
     }
 
-    public static <T> List<List<T>> unzip(final List<T>... lists) {
+    public static <T> List<List<T>> unzip(final List<T> ... lists) {
         final List<List<T>> unzipped = newArrayList();
         for (int index = 0; index < lists[0].size(); index += 1) {
             final List<T> nTuple = newArrayList();
@@ -1003,6 +939,312 @@ public final class $<T> {
                 return Tuple.create(key, values.get(index++));
             }
         });
+    }
+
+    public static <E> int findIndex(final List<E> list, final Predicate<E> pred) {
+        for (int index = 0; index < list.size(); index++) {
+            if (pred.apply(list.get(index))) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    public static <E> int findIndex(final E[] array, final Predicate<E> pred) {
+        return findIndex(Arrays.asList(array), pred);
+    }
+
+    public static <E> int findLastIndex(final List<E> list, final Predicate<E> pred) {
+        for (int index = list.size() - 1; index >= 0; index--) {
+            if (pred.apply(list.get(index))) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    public static <E> int findLastIndex(final E[] array, final Predicate<E> pred) {
+        return findLastIndex(Arrays.asList(array), pred);
+    }
+
+    public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value) {
+        int index = 0;
+        for (E elem : list) {
+            if (elem.compareTo(value) >= 0) {
+                return index;
+            }
+            index += 1;
+        }
+        return -1;
+    }
+
+    public static <E extends Comparable<E>> int sortedIndex(final E[] array, final E value) {
+        return sortedIndex(Arrays.asList(array), value);
+    }
+
+    public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value,
+        final String propertyName) {
+        try {
+            final Field property = value.getClass().getField(propertyName);
+            final Object valueProperty = property.get(value);
+            int index = 0;
+            for (E elem : list) {
+                if (((Comparable) property.get(elem)).compareTo(valueProperty) >= 0) {
+                    return index;
+                }
+                index += 1;
+            }
+            return -1;
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public static <E extends Comparable<E>> int sortedIndex(final E[] array, final E value,
+        final String propertyName) {
+        return sortedIndex(Arrays.asList(array), value, propertyName);
+    }
+
+    public static <E> int indexOf(final List<E> list, final E value) {
+        return list.indexOf(value);
+    }
+
+    public static <E> int indexOf(final E[] array, final E value) {
+        return indexOf(Arrays.asList(array), value);
+    }
+
+    public static <E> int lastIndexOf(final List<E> list, final E value) {
+        return list.lastIndexOf(value);
+    }
+
+    public static <E> int lastIndexOf(final E[] array, final E value) {
+        return lastIndexOf(Arrays.asList(array), value);
+    }
+
+    public static int[] range(int stop) {
+        return range(0, stop, 1);
+    }
+
+    public static int[] range(int start, int stop) {
+        return range(start, stop, 1);
+    }
+
+    public static int[] range(int start, int stop, int step) {
+        int[] array = new int[Math.abs(stop - start) / Math.abs(step)];
+        int index2 = 0;
+        if (start < stop) {
+            for (int index = start; index < stop; index += step, index2 += 1) {
+                array[index2] = index;
+            }
+        } else {
+            for (int index = start; index > stop; index += step, index2 += 1) {
+                array[index2] = index;
+            }
+        }
+        return array;
+    }
+
+    // Functions
+    public static <T, F> Function1<T, F> bind(final Function1<T, F> function) {
+        return new Function1<T, F>() {
+            @Override
+            public F apply(T arg) {
+                return function.apply(arg);
+            }
+        };
+    }
+
+    public static <T> void delay(final Function<T> function, final int delayMilliseconds) {
+        final java.util.concurrent.ScheduledExecutorService scheduler =
+            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
+        scheduler.schedule(
+            new Runnable() {
+                public void run() {
+                    function.apply();
+                }
+            }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+        scheduler.shutdown();
+    }
+
+    public static <T> void defer(final Function<T> function) {
+        final java.util.concurrent.ScheduledExecutorService scheduler =
+            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
+        scheduler.schedule(
+            new Runnable() {
+                public void run() {
+                    function.apply();
+                }
+            }, 0, java.util.concurrent.TimeUnit.MILLISECONDS);
+        scheduler.shutdown();
+    }
+
+    public static <T> Function<T> debounce(final Function<T> function, final int delayMilliseconds) {
+        return new Function<T>() {
+            @Override
+            public T apply() {
+                delay(function, delayMilliseconds);
+                return null;
+            }
+        };
+    }
+
+    public static <T> Function1<Void, T> wrap(final Function1<T, T> function,
+        final Function1<Function1<T, T>, T> wrapper) {
+        return new Function1<Void, T>() {
+            public T apply(final Void arg) {
+                return wrapper.apply(function);
+            }
+        };
+    }
+
+    public static <E> Predicate<E> negate(final Predicate<E> pred) {
+        return new Predicate<E>() {
+            public Boolean apply(final E item) {
+                return !pred.apply(item);
+            }
+        };
+    }
+
+    public static <T> Function1<T, T> compose(final Function1<T, T> ... func) {
+        return new Function1<T, T>() {
+            public T apply(final T arg) {
+                T result = arg;
+                for (int index = func.length - 1; index >= 0; index -= 1) {
+                    result = func[index].apply(result);
+                }
+                return result;
+            }
+        };
+    }
+
+    public static <E> Function<E> after(final int count, final Function<E> function) {
+        class AfterFunction implements Function {
+            private final int count;
+            private int index;
+            public AfterFunction(final int count) {
+                this.count = count;
+            }
+            public E apply() {
+                if (++index >= count) {
+                    return function.apply();
+                } else {
+                    return null;
+                }
+            }
+        }
+        return new AfterFunction(count);
+    }
+
+    public static <E> Function<E> before(final int count, final Function<E> function) {
+        class BeforeFunction implements Function {
+            private final int count;
+            private int index;
+            public BeforeFunction(final int count) {
+                this.count = count;
+            }
+            public E apply() {
+                if (++index <= count) {
+                    return function.apply();
+                } else {
+                    return null;
+                }
+            }
+        }
+        return new BeforeFunction(count);
+    }
+
+    public static <T> Function<T> once(final Function<T> function) {
+        return new Function<T>() {
+            private volatile boolean executed;
+            @Override
+            public T apply() {
+                if (!executed) {
+                    executed = true;
+                    delay(function, 0);
+                }
+                return null;
+            }
+        };
+    }
+
+    // Object Functions
+    public static <K, V> Set<K> keys(final Map<K, V> object) {
+        return object.keySet();
+    }
+
+    public static <K, V> List<V> values(final Map<K, V> object) {
+        final List<V> result = newArrayList();
+        for (final Map.Entry<K, V> entry : object.entrySet()) {
+            result.add(entry.getValue());
+        }
+        return result;
+    }
+
+    public static <K, V> List<Tuple<K, V>> mapObject(final Map<K, V> object, final Function1<? super V, V> func) {
+        return map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+            @Override
+            public Tuple<K, V> apply(K key) {
+                return Tuple.create(key, func.apply(object.get(key)));
+            }
+        });
+    }
+
+    public static <K, V> List<Tuple<K, V>> pairs(final Map<K, V> object) {
+        return map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+            @Override
+            public Tuple<K, V> apply(K key) {
+                return Tuple.create(key, object.get(key));
+            }
+        });
+    }
+
+    public static <K, V> List<Tuple<V, K>> invert(final Map<K, V> object) {
+        return map(newArrayList(object.keySet()), new Function1<K, Tuple<V, K>>() {
+            @Override
+            public Tuple<V, K> apply(K key) {
+                return Tuple.create(object.get(key), key);
+            }
+        });
+    }
+
+    public static List<String> functions(final Object object) {
+        final List<String> result = newArrayList();
+        for (final Method method : object.getClass().getDeclaredMethods()) {
+            if (!method.getName().contains("$")) {
+                result.add(method.getName());
+            }
+        }
+        return sort(uniq(result));
+    }
+
+    public static List<String> methods(final Object object) {
+        return functions(object);
+    }
+
+    public static <E> E findKey(final List<E> list, final Predicate<E> pred) {
+        for (int index = 0; index < list.size(); index++) {
+            if (pred.apply(list.get(index))) {
+                return list.get(index);
+            }
+        }
+        return null;
+    }
+
+    public static <E> E findKey(final E[] array, final Predicate<E> pred) {
+        return findKey(Arrays.asList(array), pred);
+    }
+
+    public static <E> E findLastKey(final List<E> list, final Predicate<E> pred) {
+        for (int index = list.size() - 1; index >= 0; index--) {
+            if (pred.apply(list.get(index))) {
+                return list.get(index);
+            }
+        }
+        return null;
+    }
+
+    public static <E> E findLastKey(final E[] array, final Predicate<E> pred) {
+        return findLastKey(Arrays.asList(array), pred);
     }
 
     public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final V ... keys) {
@@ -1057,160 +1299,6 @@ public final class $<T> {
         }), (Tuple<K, V>) null);
     }
 
-    public static <E> int indexOf(final List<E> list, final E value) {
-        return list.indexOf(value);
-    }
-
-    public static <E> int indexOf(final E[] array, final E value) {
-        return indexOf(Arrays.asList(array), value);
-    }
-
-    public static <E> int findIndex(final List<E> list, final Predicate<E> pred) {
-        for (int index = 0; index < list.size(); index++) {
-            if (pred.apply(list.get(index))) {
-                return index;
-            }
-        }
-        return -1;
-    }
-
-    public static <E> int findIndex(final E[] array, final Predicate<E> pred) {
-        return findIndex(Arrays.asList(array), pred);
-    }
-
-    public static <E> E findKey(final List<E> list, final Predicate<E> pred) {
-        for (int index = 0; index < list.size(); index++) {
-            if (pred.apply(list.get(index))) {
-                return list.get(index);
-            }
-        }
-        return null;
-    }
-
-    public static <E> E findKey(final E[] array, final Predicate<E> pred) {
-        return findKey(Arrays.asList(array), pred);
-    }
-
-    public static <E> int lastIndexOf(final List<E> list, final E value) {
-        return list.lastIndexOf(value);
-    }
-
-    public static <E> int lastIndexOf(final E[] array, final E value) {
-        return lastIndexOf(Arrays.asList(array), value);
-    }
-
-    public static <E> int findLastIndex(final List<E> list, final Predicate<E> pred) {
-        for (int index = list.size() - 1; index >= 0; index--) {
-            if (pred.apply(list.get(index))) {
-                return index;
-            }
-        }
-        return -1;
-    }
-
-    public static <E> int findLastIndex(final E[] array, final Predicate<E> pred) {
-        return findLastIndex(Arrays.asList(array), pred);
-    }
-
-    public static <E> E findLastKey(final List<E> list, final Predicate<E> pred) {
-        for (int index = list.size() - 1; index >= 0; index--) {
-            if (pred.apply(list.get(index))) {
-                return list.get(index);
-            }
-        }
-        return null;
-    }
-
-    public static <E> E findLastKey(final E[] array, final Predicate<E> pred) {
-        return findLastKey(Arrays.asList(array), pred);
-    }
-
-    public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value) {
-        int index = 0;
-        for (E elem : list) {
-            if (elem.compareTo(value) >= 0) {
-                return index;
-            }
-            index += 1;
-        }
-        return -1;
-    }
-
-    public static <E extends Comparable<E>> int sortedIndex(final E[] array, final E value) {
-        return sortedIndex(Arrays.asList(array), value);
-    }
-
-    public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value,
-        final String propertyName) throws NoSuchFieldException, IllegalAccessException {
-        final Field property = value.getClass().getField(propertyName);
-        final Object valueProperty = property.get(value);
-        int index = 0;
-        for (E elem : list) {
-            if (((Comparable) property.get(elem)).compareTo(valueProperty) >= 0) {
-                return index;
-            }
-            index += 1;
-        }
-        return -1;
-    }
-
-    public static <E extends Comparable<E>> int sortedIndex(final E[] array, final E value, final String propertyName)
-        throws NoSuchFieldException, IllegalAccessException {
-        return sortedIndex(Arrays.asList(array), value, propertyName);
-    }
-
-    public static int[] range(int stop) {
-        return range(0, stop, 1);
-    }
-
-    public static int[] range(int start, int stop) {
-        return range(start, stop, 1);
-    }
-
-    public static int[] range(int start, int stop, int step) {
-        int[] array = new int[Math.abs(stop - start) / Math.abs(step)];
-        int index2 = 0;
-        if (start < stop) {
-            for (int index = start; index < stop; index += step, index2 += 1) {
-                array[index2] = index;
-            }
-        } else {
-            for (int index = start; index > stop; index += step, index2 += 1) {
-                array[index2] = index;
-            }
-        }
-        return array;
-    }
-
-    public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {
-        final List<E> retVal1 = newArrayList();
-        final List<E> retVal2 = newArrayList();
-        for (final E e : iterable) {
-            if (pred.apply(e)) {
-                retVal1.add(e);
-            } else {
-                retVal2.add(e);
-            }
-        }
-        return Arrays.asList(retVal1, retVal2);
-    }
-
-    public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
-        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[0]);
-    }
-
-    public static <K, V> Set<K> keys(final Map<K, V> object) {
-        return object.keySet();
-    }
-
-    public static <K, V> List<V> values(final Map<K, V> object) {
-        final List<V> result = newArrayList();
-        for (final Map.Entry<K, V> entry : object.entrySet()) {
-            result.add(entry.getValue());
-        }
-        return result;
-    }
-
     public static <K, V> Map<K, V> defaults(final Map<K, V> object, final Map<K, V> defaults) {
         final Map<K, V> result = newLinkedHashMap();
         for (final Map.Entry<K, V> entry : defaults.entrySet()) {
@@ -1247,8 +1335,74 @@ public final class $<T> {
         }
     }
 
+    public static <K, V> boolean isMatch(final Map<K, V> object, final Map<K, V> properties) {
+        for (final K key : keys(properties)) {
+            if (!object.containsKey(key) || !object.get(key).equals(properties.get(key))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static <K, V> boolean isEqual(final Map<K, V> object, final Map<K, V> other) {
+        return object == null ? other == null : object.equals(other);
+    }
+
+    public static boolean isArray(final Object object) {
+        return object != null && object.getClass().isArray();
+    }
+
+    public static boolean isObject(final Object object) {
+        return object instanceof Map;
+    }
+
+    public static boolean isFunction(final Object object) {
+        return object instanceof Function1;
+    }
+
+    public static boolean isString(final Object object) {
+        return object instanceof String;
+    }
+
+    public static boolean isNumber(final Object object) {
+        return object instanceof Number;
+    }
+
+    public static boolean isDate(final Object object) {
+        return object instanceof Date;
+    }
+
+    public static boolean isRegExp(final Object object) {
+        return object instanceof java.util.regex.Pattern;
+    }
+
+    public static boolean isError(final Object object) {
+        return object instanceof Throwable;
+    }
+
+    public static boolean isBoolean(final Object object) {
+        return object instanceof Boolean;
+    }
+
+    public static boolean isNull(final Object object) {
+        return object == null;
+    }
+
     public static <K, V> boolean has(final Map<K, V> object, final K key) {
         return object.containsKey(key);
+    }
+
+    // Utility Functions
+    public static <E> E identity(final E value) {
+        return value;
+    }
+
+    public static <E> Function<E> constant(final E value) {
+        return new Function<E>() {
+            public E apply() {
+                return value;
+            }
+        };
     }
 
     public static <K, V> Function1<Map<K, V>, V> property(final K key) {
@@ -1265,6 +1419,66 @@ public final class $<T> {
                 return object.get(key);
             }
         };
+    }
+
+    public static <K, V> Predicate<Map<K, V>> matcher(final Map<K, V> object) {
+        return new Predicate<Map<K, V>>() {
+            public Boolean apply(final Map<K, V> item) {
+                for (final K key : keys(object)) {
+                    if (!item.containsKey(key) || !item.get(key).equals(object.get(key))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+    }
+
+    public static <E> void times(final int count, final Function<E> function) {
+        for (int index = 0; index < count; index += 1) {
+            function.apply();
+        }
+    }
+
+    public static int random(final int from, final int to) {
+        return new Random().nextInt(to - from) + from;
+    }
+
+    public static long now() {
+        return new Date().getTime();
+    }
+
+    public static String escape(String value) {
+        return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+            .replaceAll("\"", "&quot;");
+    }
+
+    public static String unescape(String value) {
+        return value.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"")
+            .replaceAll("&amp;", "&");
+    }
+
+    public static <E> Object result(final Iterable<E> iterable, final Predicate<E> pred) {
+        for (E element : iterable) {
+            if (pred.apply(element)) {
+                if (element instanceof Map.Entry) {
+                    if (((Map.Entry) element).getValue() instanceof Function) {
+                        return ((Function) ((Map.Entry) element).getValue()).apply();
+                    }
+                    return ((Map.Entry) element).getValue();
+                }
+                return element;
+            }
+        }
+        return null;
+    }
+
+    public static String uniqueId(final String prefix) {
+        return prefix + UNIQUE_ID.incrementAndGet();
+    }
+
+    public static <E> Template<Set<E>> template(final String template) {
+        return new TemplateImpl<E>(template);
     }
 
     public static <T> Chain chain(final List<T> list) {
@@ -1490,162 +1704,26 @@ public final class $<T> {
         public List<T> value() {
             return list;
         }
-
     }
 
-    public static String escape(String value) {
-        return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-            .replaceAll("\"", "&quot;");
+    // OOP
+    public static void mixin(final String funcName, final Function1<String, String> func) {
+        FUNCTIONS.put(funcName, func);
     }
 
-    public static String unescape(String value) {
-        return value.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"")
-            .replaceAll("&amp;", "&");
-    }
-
-    public static <E> Object result(final Iterable<E> iterable, final Predicate<E> pred) {
-        for (E element : iterable) {
-            if (pred.apply(element)) {
-                if (element instanceof Map.Entry) {
-                    if (((Map.Entry) element).getValue() instanceof Function) {
-                        return ((Function) ((Map.Entry) element).getValue()).apply();
-                    }
-                    return ((Map.Entry) element).getValue();
-                }
-                return element;
-            }
+    public Optional<String> call(final String funcName) {
+        if (string.isPresent() && FUNCTIONS.containsKey(funcName)) {
+            return Optional.of(FUNCTIONS.get(funcName).apply(string.get()));
         }
-        return null;
+        return Optional.absent();
     }
 
-    public static <E> Function<E> after(final int count, final Function<E> function) {
-        class AfterFunction implements Function {
-            private final int count;
-            private int index;
-            public AfterFunction(final int count) {
-                this.count = count;
-            }
-            public E apply() {
-                if (++index >= count) {
-                    return function.apply();
-                } else {
-                    return null;
-                }
-            }
+    public static <E> List<E> union(final List<E> ... lists) {
+        final Set<E> union = newLinkedHashSet();
+        for (List<E> list : lists) {
+            union.addAll(list);
         }
-        return new AfterFunction(count);
-    }
-
-    public static <E> Function<E> before(final int count, final Function<E> function) {
-        class BeforeFunction implements Function {
-            private final int count;
-            private int index;
-            public BeforeFunction(final int count) {
-                this.count = count;
-            }
-            public E apply() {
-                if (++index <= count) {
-                    return function.apply();
-                } else {
-                    return null;
-                }
-            }
-        }
-        return new BeforeFunction(count);
-    }
-
-    public static <E> Predicate<E> negate(final Predicate<E> pred) {
-        return new Predicate<E>() {
-            public Boolean apply(final E item) {
-                return !pred.apply(item);
-            }
-        };
-    }
-
-    public static <T> Function1<Void, T> wrap(final Function1<T, T> function,
-        final Function1<Function1<T, T>, T> wrapper) {
-        return new Function1<Void, T>() {
-            public T apply(final Void arg) {
-                return wrapper.apply(function);
-            }
-        };
-    }
-
-    public static <T> Function1<T, T> compose(final Function1<T, T>... func) {
-        return new Function1<T, T>() {
-            public T apply(final T arg) {
-                T result = arg;
-                for (int index = func.length - 1; index >= 0; index -= 1) {
-                    result = func[index].apply(result);
-                }
-                return result;
-            }
-        };
-    }
-
-    public static long now() {
-        return new Date().getTime();
-    }
-
-    public static <E> Template<Set<E>> template(final String template) {
-        return new TemplateImpl<E>(template);
-    }
-
-    public static <T, F> Function1<T, F> bind(final Function1<T, F> function) {
-        return new Function1<T, F>() {
-            @Override
-            public F apply(T arg) {
-                return function.apply(arg);
-            }
-        };
-    }
-
-    public static <T> void delay(final Function<T> function, final int delayMilliseconds) {
-        final java.util.concurrent.ScheduledExecutorService scheduler =
-            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
-        scheduler.schedule(
-            new Runnable() {
-                public void run() {
-                    function.apply();
-                }
-            }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
-        scheduler.shutdown();
-    }
-
-    public static <T> void defer(final Function<T> function) {
-        final java.util.concurrent.ScheduledExecutorService scheduler =
-            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
-        scheduler.schedule(
-            new Runnable() {
-                public void run() {
-                    function.apply();
-                }
-            }, 0, java.util.concurrent.TimeUnit.MILLISECONDS);
-        scheduler.shutdown();
-    }
-
-    public static <T> Function<T> debounce(final Function<T> function, final int delayMilliseconds) {
-        return new Function<T>() {
-            @Override
-            public T apply() {
-                delay(function, delayMilliseconds);
-                return null;
-            }
-        };
-    }
-
-    public static <T> Function<T> once(final Function<T> function) {
-        return new Function<T>() {
-            private volatile boolean executed;
-            @Override
-            public T apply() {
-                if (!executed) {
-                    executed = true;
-                    delay(function, 0);
-                }
-                return null;
-            }
-        };
+        return newArrayList(union);
     }
 
     public static <T extends Comparable<T>> List<T> sort(final List<T> list) {
@@ -1749,76 +1827,6 @@ public final class $<T> {
 
     public static <T> T[] reverse(final T[] array) {
         return (T[]) reverse(newArrayList(Arrays.asList(array))).toArray();
-    }
-
-    public static <K, V> Predicate<Map<K, V>> matcher(final Map<K, V> object) {
-        return new Predicate<Map<K, V>>() {
-            public Boolean apply(final Map<K, V> item) {
-                for (final K key : keys(object)) {
-                    if (!item.containsKey(key) || !item.get(key).equals(object.get(key))) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        };
-    }
-
-    public static <K, V> boolean isEqual(final Map<K, V> object, final Map<K, V> other) {
-        return object == null ? other == null : object.equals(other);
-    }
-
-    public static <K, V> boolean isMatch(final Map<K, V> object, final Map<K, V> properties) {
-        for (final K key : keys(properties)) {
-            if (!object.containsKey(key) || !object.get(key).equals(properties.get(key))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean isArray(final Object object) {
-        return object != null && object.getClass().isArray();
-    }
-
-    public static boolean isObject(final Object object) {
-        return object instanceof Map;
-    }
-
-    public static boolean isFunction(final Object object) {
-        return object instanceof Function1;
-    }
-
-    public static boolean isString(final Object object) {
-        return object instanceof String;
-    }
-
-    public static boolean isNumber(final Object object) {
-        return object instanceof Number;
-    }
-
-    public static boolean isBoolean(final Object object) {
-        return object instanceof Boolean;
-    }
-
-    public static boolean isDate(final Object object) {
-        return object instanceof Date;
-    }
-
-    public static boolean isRegExp(final Object object) {
-        return object instanceof java.util.regex.Pattern;
-    }
-
-    public static boolean isError(final Object object) {
-        return object instanceof Throwable;
-    }
-
-    public static boolean isNull(final Object object) {
-        return object == null;
-    }
-
-    private static Class<?> classForName(final String name) throws Exception {
-        return classForName.call(name);
     }
 
     private static <T> List<T> newArrayList() {

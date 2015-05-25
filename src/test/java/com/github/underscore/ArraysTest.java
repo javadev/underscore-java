@@ -292,6 +292,16 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
         assertEquals(1, resultArray);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void sortedIndex2Error() throws Exception {
+        class Person implements Comparable<Person> {
+            public int compareTo(Person person) {
+                return 0;
+            }
+        }
+        $.<Person>sortedIndex(asList(new Person()), new Person(), "age");
+    }
+
 /*
 _.uniq([1, 2, 1, 3, 1, 4]);
 => [1, 2, 3, 4]
