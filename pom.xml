@@ -81,6 +81,7 @@
           </goals>
           <configuration>
             <configLocation>${basedir}/checkstyle.xml</configLocation>
+            <includeTestSourceDirectory>true</includeTestSourceDirectory>
             <failOnViolation>true</failOnViolation>
           </configuration>
           </execution>

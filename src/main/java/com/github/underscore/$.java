@@ -163,7 +163,6 @@ public final class $<T> {
         };
     }
 
-    // Collection Functions
     public static <T> void each(final Iterable<T> iterable, final Block<? super T> func) {
         for (T element : iterable) {
             func.apply(element);
@@ -599,7 +598,6 @@ public final class $<T> {
         return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[0]);
     }
 
-    // Array Functions
     public static <E> E first(final Iterable<E> iterable) {
         return iterable.iterator().next();
     }
@@ -1044,7 +1042,6 @@ public final class $<T> {
         return array;
     }
 
-    // Functions
     public static <T, F> Function1<T, F> bind(final Function1<T, F> function) {
         return new Function1<T, F>() {
             @Override
@@ -1167,7 +1164,6 @@ public final class $<T> {
         };
     }
 
-    // Object Functions
     public static <K, V> Set<K> keys(final Map<K, V> object) {
         return object.keySet();
     }
@@ -1392,7 +1388,6 @@ public final class $<T> {
         return object.containsKey(key);
     }
 
-    // Utility Functions
     public static <E> E identity(final E value) {
         return value;
     }
@@ -1706,7 +1701,6 @@ public final class $<T> {
         }
     }
 
-    // OOP
     public static void mixin(final String funcName, final Function1<String, String> func) {
         FUNCTIONS.put(funcName, func);
     }

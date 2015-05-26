@@ -23,7 +23,6 @@
  */
 package com.github.underscore;
 
-import java.lang.reflect.Method;
 import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
@@ -35,7 +34,7 @@ import static org.junit.Assert.assertEquals;
  * @author Valentyn Kolesnikov
  */
 public class FunctionsTest {
-  
+
 /*
 var func = function(greeting){ return greeting + ': ' + this.name };
 func = _.bind(func, {name: 'moe'}, 'hi');
@@ -52,7 +51,7 @@ func();
             public String apply(final String greeting) {
                 return greeting + ": " + this.name;
             }
-        };
+        }
         assertEquals("hi: moe", $.bind(new GreetingFunction("moe")).apply("hi"));
     }
 
@@ -72,7 +71,7 @@ sub5(20);
             public Integer apply(final Integer arg2) {
                 return arg2 - arg1;
             }
-        };
+        }
         Function1<Integer, Integer> sub5 = new SubtractFunction(5);
         assertEquals(15, sub5.apply(20));
     }
@@ -104,7 +103,7 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
     @Test
     public void debounce() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; }};
+        Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; } };
         Function<Void> debouncedIncr = $.debounce(incr, 50);
         debouncedIncr.apply();
         debouncedIncr.apply();
@@ -125,7 +124,7 @@ _.defer(function(){ alert('deferred'); });
     @Test
     public void defer() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        $.defer(new Function<Void>() { public Void apply() { counter[0]++; return null; }});
+        $.defer(new Function<Void>() { public Void apply() { counter[0]++; return null; } });
         assertEquals("incr was debounced", 0, counter[0]);
         Thread.sleep(16);
         assertEquals("incr was debounced", 1, counter[0]);
@@ -140,7 +139,7 @@ initialize();
     @Test
     public void once() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; }};
+        Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; } };
         Function<Void> onceIncr = $.once(incr);
         onceIncr.apply();
         onceIncr.apply();
@@ -221,7 +220,7 @@ _.each(notes, function(note) {
     public void after() throws Exception {
         final List<Integer> notes = asList(1, 2, 3);
         final Function<Integer> renderNotes = $.after(notes.size(),
-            new Function<Integer>() { public Integer apply() { return 4; }});
+            new Function<Integer>() { public Integer apply() { return 4; } });
         final List<Integer> result = new ArrayList<Integer>();
         $.<Integer>each(notes, new Block<Integer>() {
             public void apply(Integer item) {
@@ -246,7 +245,7 @@ monthlyMeeting();
     public void before() throws Exception {
         final List<Integer> notes = asList(1, 2, 3);
         final Function<Integer> renderNotes = $.before(notes.size() - 1,
-            new Function<Integer>() { public Integer apply() { return 4; }});
+            new Function<Integer>() { public Integer apply() { return 4; } });
         final List<Integer> result = new ArrayList<Integer>();
         $.<Integer>each(notes, new Block<Integer>() {
             public void apply(Integer item) {
@@ -268,9 +267,9 @@ _.map(stooges, _.iteratee('age'));
     @Test
     public void iteratee() {
         List<Map<String, Object>> sooges = asList(
-            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "curly"); put("age", 25); }},
-            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 21); }},
-            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("age", 23); }}
+            (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } },
+            (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } },
+            (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } }
         );
         final List<Object> result = $.map(sooges, $.iteratee("age"));
         assertEquals("[25, 21, 23]", result.toString());

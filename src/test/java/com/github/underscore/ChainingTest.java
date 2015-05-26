@@ -35,7 +35,7 @@ import static org.junit.Assert.assertEquals;
  * @author Valentyn Kolesnikov
  */
 public class ChainingTest {
-  
+
 /*
 var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
 var youngest = _.chain(stooges)
@@ -47,11 +47,11 @@ var youngest = _.chain(stooges)
 */
     @Test
     public void chain() throws Exception {
-        final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() {{
-            add(new LinkedHashMap<String, Object>() {{ put("name", "curly"); put("age", 25); }});
-            add(new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 21); }});
-            add(new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("age", 23); }});
-        }};
+        final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() { {
+            add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
+            add(new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } });
+            add(new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } });
+        } };
         final String youngest = $.chain(stooges)
             .sortBy(
                 new Function1<Map<String, Object>, String>() {
@@ -71,11 +71,11 @@ var youngest = _.chain(stooges)
 
     @Test
     public void chainSet() throws Exception {
-        final Set<Map<String, Object>> stooges = new HashSet<Map<String, Object>>() {{
-            add(new LinkedHashMap<String, Object>() {{ put("name", "curly"); put("age", 25); }});
-            add(new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 21); }});
-            add(new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("age", 23); }});
-        }};
+        final Set<Map<String, Object>> stooges = new HashSet<Map<String, Object>>() { {
+            add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
+            add(new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } });
+            add(new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } });
+        } };
         final String youngest = $.chain(stooges)
             .sortBy(
                 new Function1<Map<String, Object>, String>() {
@@ -95,11 +95,11 @@ var youngest = _.chain(stooges)
 
     @Test
     public void chainArray() throws Exception {
-        final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() {{
-            add(new LinkedHashMap<String, Object>() {{ put("name", "curly"); put("age", 25); }});
-            add(new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 21); }});
-            add(new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("age", 23); }});
-        }};
+        final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() { {
+            add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
+            add(new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } });
+            add(new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } });
+        } };
         final String youngest = $.chain(stooges.toArray())
             .sortBy(
                 new Function1<Map<String, Object>, String>() {
@@ -138,12 +138,12 @@ _.chain(lyrics)
 */
     @Test
     public void chain2() throws Exception {
-        final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() {{
-            add(new LinkedHashMap<String, Object>() {{ put("line", 1); put("words", "I'm a lumberjack and I'm okay"); }});
-            add(new LinkedHashMap<String, Object>() {{ put("line", 2); put("words", "I sleep all night and I work all day"); }});
-            add(new LinkedHashMap<String, Object>() {{ put("line", 3); put("words", "He's a lumberjack and he's okay"); }});
-            add(new LinkedHashMap<String, Object>() {{ put("line", 4); put("words", "He sleeps all night and he works all day"); }});
-        }};
+        final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() { {
+            add(new LinkedHashMap<String, Object>() { { put("line", 1); put("words", "I'm a lumberjack and I'm okay"); } });
+            add(new LinkedHashMap<String, Object>() { { put("line", 2); put("words", "I sleep all night and I work all day"); } });
+            add(new LinkedHashMap<String, Object>() { { put("line", 3); put("words", "He's a lumberjack and he's okay"); } });
+            add(new LinkedHashMap<String, Object>() { { put("line", 4); put("words", "He sleeps all night and he works all day"); } });
+        } };
         final String result = $.chain(lyrics)
             .map(
                 new Function1<Map<String, Object>, List<String>>() {
@@ -191,12 +191,12 @@ _.chain(lyrics)
 */
     @Test
     public void chain3() throws Exception {
-        final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() {{
-            add(new LinkedHashMap<String, Object>() {{ put("line", 1); put("words", "I'm a lumberjack and I'm okay"); }});
-            add(new LinkedHashMap<String, Object>() {{ put("line", 2); put("words", "I sleep all night and I work all day"); }});
-            add(new LinkedHashMap<String, Object>() {{ put("line", 3); put("words", "He's a lumberjack and he's okay"); }});
-            add(new LinkedHashMap<String, Object>() {{ put("line", 4); put("words", "He sleeps all night and he works all day"); }});
-        }};
+        final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() { {
+            add(new LinkedHashMap<String, Object>() { { put("line", 1); put("words", "I'm a lumberjack and I'm okay"); } });
+            add(new LinkedHashMap<String, Object>() { { put("line", 2); put("words", "I sleep all night and I work all day"); } });
+            add(new LinkedHashMap<String, Object>() { { put("line", 3); put("words", "He's a lumberjack and he's okay"); } });
+            add(new LinkedHashMap<String, Object>() { { put("line", 4); put("words", "He sleeps all night and he works all day"); } });
+        } };
         final String result = $.chain(lyrics)
             .map(
                 new Function1<Map<String, Object>, List<String>>() {
@@ -249,11 +249,11 @@ _.chain(doctors)
 */
     @Test
     public void chain4() throws Exception {
-        final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() {{
-            add(new LinkedHashMap<String, Object>() {{ put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); }});
-            add(new LinkedHashMap<String, Object>() {{ put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); }});
-            add(new LinkedHashMap<String, Object>() {{ put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); }});
-        }};
+        final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() { {
+            add(new LinkedHashMap<String, Object>() { { put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); } });
+            add(new LinkedHashMap<String, Object>() { { put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); } });
+            add(new LinkedHashMap<String, Object>() { { put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); } });
+        } };
         final String result = $.chain(doctors)
             .filter(
                 new Predicate<Map<String, Object>>() {
@@ -270,11 +270,11 @@ _.chain(doctors)
             .map(
                 new Function1<Map<String, Object>, Map<String, Object>>() {
                 public Map<String, Object> apply(final Map<String, Object> item) {
-                    return new LinkedHashMap<String, Object>() {{ 
+                    return new LinkedHashMap<String, Object>() { {
                         put("doctorNumber", "#" + item.get("number"));
                         put("playedBy", item.get("actor"));
                         put("yearsPlayed", (Integer) item.get("end") - (Integer) item.get("begin") + 1);
-                    }};
+                    } };
                 }
             })
             .value().toString();
@@ -296,11 +296,11 @@ _.chain(doctors)
 */
     @Test
     public void chain5() throws Exception {
-        final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() {{
-            add(new LinkedHashMap<String, Object>() {{ put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); }});
-            add(new LinkedHashMap<String, Object>() {{ put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); }});
-            add(new LinkedHashMap<String, Object>() {{ put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); }});
-        }};
+        final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() { {
+            add(new LinkedHashMap<String, Object>() { { put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); } });
+            add(new LinkedHashMap<String, Object>() { { put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); } });
+            add(new LinkedHashMap<String, Object>() { { put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); } });
+        } };
         final String result = $.chain(doctors)
             .skip(1)
             .limit(1)

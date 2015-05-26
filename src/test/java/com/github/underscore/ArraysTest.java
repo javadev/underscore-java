@@ -35,7 +35,7 @@ import static org.junit.Assert.assertArrayEquals;
  * @author Valentyn Kolesnikov
  */
 public class ArraysTest {
-  
+
 /*
 _.first([5, 4, 3, 2, 1]);
 => 5

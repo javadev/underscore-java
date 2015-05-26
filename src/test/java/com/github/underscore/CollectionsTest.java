@@ -89,7 +89,7 @@ _.each({one: 1, two: 2, three: 3}, alert);
     @Test
     public void eachMap() {
         final List<String> result = new ArrayList<String>();
-        $.<Map.Entry<String, Integer>>each(new LinkedHashMap<String, Integer>() {{ put("one", 1); put("two", 2); put("three", 3); }}.entrySet(),
+        $.<Map.Entry<String, Integer>>each((new LinkedHashMap<String, Integer>() { { put("one", 1); put("two", 2); put("three", 3); } }).entrySet(),
             new Block<Map.Entry<String, Integer>>() {
             public void apply(Map.Entry<String, Integer> item) {
                 result.add(item.getKey());
@@ -119,7 +119,7 @@ _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
     @Test
     public void mapMap() {
         final Set<Integer> result =
-        $.map(new LinkedHashMap<Integer, String>() {{ put(1, "one"); put(2, "two"); put(3, "three"); }}.entrySet(),
+        $.map((new LinkedHashMap<Integer, String>() { { put(1, "one"); put(2, "two"); put(3, "three"); } }).entrySet(),
             new Function1<Map.Entry<Integer, String>, Integer>() {
             public Integer apply(Map.Entry<Integer, String> item) {
                 return item.getKey() * 3;
@@ -335,7 +335,7 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 */
     @Test
     public void filter() {
-        final List<Integer> result = $.filter(asList(1, 2, 3, 4, 5, 6), 
+        final List<Integer> result = $.filter(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
@@ -350,21 +350,21 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 */
     @Test
     public void select() {
-        final List<Integer> result = $.select(asList(1, 2, 3, 4, 5, 6), 
+        final List<Integer> result = $.select(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals("[2, 4, 6]", result.toString());
-        final Set<Integer> resultSet = $.select(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)), 
+        final Set<Integer> resultSet = $.select(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals("[2, 4, 6]", resultSet.toString());
-    }    
+    }
 
 /*
 var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
@@ -372,14 +372,14 @@ var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 */
     @Test
     public void reject() {
-        final List<Integer> result = $.reject(asList(1, 2, 3, 4, 5, 6), 
+        final List<Integer> result = $.reject(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals("[1, 3, 5]", result.toString());
-        final Set<Integer> resultSet = $.reject(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)), 
+        final Set<Integer> resultSet = $.reject(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
@@ -394,13 +394,13 @@ _.all([1, 2, 3, 4], function(num) { return num < 5; }); // true
 */
     @Test
     public void all() {
-        final Boolean result1 = $.all(asList(1, 2, 3, 4), 
+        final Boolean result1 = $.all(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
-        final Boolean result2 = $.all(asList(1, 2, 3, 4), 
+        final Boolean result2 = $.all(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item < 5;
@@ -437,7 +437,7 @@ _.include([1, 2, 3], 3); // true
 */
     @Test
     public void include() {
-        final Boolean result = $.include(asList(1, 2, 3), 3); 
+        final Boolean result = $.include(asList(1, 2, 3), 3);
         assertTrue(result);
     }
 
@@ -492,7 +492,7 @@ _.pluck(stooges, 'name');
                 this.name = name;
                 this.age = age;
             }
-        };
+        }
         final List<?> resultEmpty =
         $.pluck(asList(), "name");
         assertEquals("[]", resultEmpty.toString());
@@ -529,7 +529,7 @@ _.pluck(stooges, 'name');
                 this.name = name;
                 this.age = age;
             }
-        };
+        }
         $.pluck(new LinkedHashSet(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name2");
     }
 
@@ -554,11 +554,11 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             }
         }
         List<Book> listOfPlays =
-            new ArrayList<Book>() {{
+            new ArrayList<Book>() { {
               add(new Book("Cymbeline2", "Shakespeare", 1614));
               add(new Book("Cymbeline", "Shakespeare", 1611));
               add(new Book("The Tempest", "Shakespeare", 1611));
-            }};
+            } };
         assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
             + " title: The Tempest, author: Shakespeare, year: 1611]",
             $.where(listOfPlays, asList(
@@ -603,11 +603,11 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
             }
         }
         List<Book> listOfPlays =
-            new ArrayList<Book>() {{
+            new ArrayList<Book>() { {
               add(new Book("Cymbeline2", "Shakespeare", 1614));
               add(new Book("Cymbeline", "Shakespeare", 1611));
               add(new Book("The Tempest", "Shakespeare", 1611));
-            }};
+            } };
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             $.findWhere(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
@@ -729,15 +729,15 @@ _.sortBy(stooges, 'name');
     @Test
     public void sortByMap() throws Exception {
         final List<Map<String, Comparable>> result = $.sortBy(asList(
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "moe"); put("age", 40); }},
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "larry"); put("age", 50); }},
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "curly"); put("age", 60); }}
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "moe"); put("age", 40); } },
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "larry"); put("age", 50); } },
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "curly"); put("age", 60); } }
         ), "name");
         assertEquals("[{name=curly, age=60}, {name=larry, age=50}, {name=moe, age=40}]", result.toString());
         final List<Map<String, Comparable>> resultChain = $.chain(asList(
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "moe"); put("age", 40); }},
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "larry"); put("age", 50); }},
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() {{ put("name", "curly"); put("age", 60); }}
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "moe"); put("age", 40); } },
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "larry"); put("age", 50); } },
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "curly"); put("age", 60); } }
         )).sortBy("name").value();
         assertEquals("[{name=curly, age=60}, {name=larry, age=50}, {name=moe, age=40}]", resultChain.toString());
     }
@@ -779,7 +779,7 @@ _.indexBy(stooges, 'age');
             public String toString() {
                 return name + ", " + age;
             }
-        };
+        }
         final Map<String, List<Person>> result =
         $.indexBy(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)), "age");
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", result.toString());
@@ -805,14 +805,14 @@ _.countBy(stooges, 'age');
             public String toString() {
                 return name + ", " + age;
             }
-        };
+        }
         final Map<String, Integer> result =
         $.countBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
             new Function1<Person, String>() {
             public String apply(Person person) {
                 return person.name;
             }
-        });        
+        });
         assertEquals("{moe=2, curly=1}", result.toString());
     }
 

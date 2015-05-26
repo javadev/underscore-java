@@ -24,14 +24,11 @@
 package com.github.underscore;
 
 import java.util.*;
-import java.lang.reflect.Method;
 import org.junit.Test;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
 
 /**
  * Underscore library unit test.
@@ -125,7 +122,7 @@ arr.slice(-3, -1) // [3, 4]
     }
 
     @Test
-    public void classForName_without_guava() {
+    public void classForNameWithoutGuava() {
         $.setClassForName(new $.ClassForName() {
             public Class<?> call(final String name) throws Exception {
                 throw new Exception("expected");
@@ -147,7 +144,7 @@ arr.slice(-3, -1) // [3, 4]
         });
         assertEquals("[3, 6, 9]", result3.toString());
         final Set<Integer> result4 =
-        $.map(new LinkedHashMap<Integer, String>() {{ put(1, "one"); put(2, "two"); put(3, "three"); }}.entrySet(),
+        $.map((new LinkedHashMap<Integer, String>() { { put(1, "one"); put(2, "two"); put(3, "three"); } }).entrySet(),
             new Function1<Map.Entry<Integer, String>, Integer>() {
             public Integer apply(Map.Entry<Integer, String> item) {
                 return item.getKey() * 3;
@@ -170,7 +167,7 @@ arr.slice(-3, -1) // [3, 4]
         Iterable<Integer> iterable = new Iterable<Integer>() {
             public Iterator<Integer> iterator() {
                 return new Iterator<Integer>() {
-                    private int index = 0;
+                    private int index;
                     public boolean hasNext() {
                         return array.length > index;
                     }

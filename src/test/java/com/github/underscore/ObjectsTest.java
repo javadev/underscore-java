@@ -23,7 +23,6 @@
  */
 package com.github.underscore;
 
-import java.lang.reflect.Method;
 import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
@@ -38,14 +37,14 @@ import static org.junit.Assert.assertTrue;
  * @author Valentyn Kolesnikov
  */
 public class ObjectsTest {
-  
+
 /*
 _.keys({one: 1, two: 2, three: 3});
 => ["one", "two", "three"]
 */
     @Test
     public void keys() throws Exception {
-        Set<String> result = $.keys(new LinkedHashMap<String, Object>() {{ put("one", 1); put("two", 2); put("three", 3); }});
+        Set<String> result = $.keys(new LinkedHashMap<String, Object>() { { put("one", 1); put("two", 2); put("three", 3); } });
         assertEquals("[one, two, three]", result.toString());
     }
 
@@ -55,7 +54,7 @@ _.values({one: 1, two: 2, three: 3});
 */
     @Test
     public void values() throws Exception {
-        List<Integer> result = $.values(new LinkedHashMap<String, Integer>() {{ put("one", 1); put("two", 2); put("three", 3); }});
+        List<Integer> result = $.values(new LinkedHashMap<String, Integer>() { { put("one", 1); put("two", 2); put("three", 3); } });
         assertEquals("[1, 2, 3]", result.toString());
     }
 
@@ -65,7 +64,7 @@ _.pairs({one: 1, two: 2, three: 3});
 */
     @Test
     public void pairs() {
-        List<Tuple<String, Integer>> result = $.pairs(new LinkedHashMap<String, Integer>() {{ put("one", 1); put("two", 2); put("three", 3); }});
+        List<Tuple<String, Integer>> result = $.pairs(new LinkedHashMap<String, Integer>() { { put("one", 1); put("two", 2); put("three", 3); } });
         assertEquals("[(one, 1), (two, 2), (three, 3)]", result.toString());
     }
 
@@ -75,7 +74,7 @@ _.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
 */
     @Test
     public void invert() {
-        List<Tuple<String, String>> result = $.invert(new LinkedHashMap<String, String>() {{ put("Moe", "Moses"); put("Larry", "Louis"); put("Curly", "Jerome"); }});
+        List<Tuple<String, String>> result = $.invert(new LinkedHashMap<String, String>() { { put("Moe", "Moses"); put("Larry", "Louis"); put("Curly", "Jerome"); } });
         assertEquals("[(Moses, Moe), (Louis, Larry), (Jerome, Curly)]", result.toString());
     }
 
@@ -110,12 +109,12 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
     @Test
     public void pick() throws Exception {
         final List<Tuple<String, Object>> result = $.pick(
-            new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 50); put("userid", "moe1"); }},
+            new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             "name", "age"
         );
         assertEquals("[(name, moe), (age, 50)]", result.toString());
         final List<Tuple<String, Object>> result2 = $.pick(
-            new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 50); put("userid", "moe1"); }},
+            new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             new Predicate<Object>() { public Boolean apply(Object value) { return value instanceof Number; } }
         );
         assertEquals("[(age, 50)]", result2.toString());
@@ -132,12 +131,12 @@ _.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
     @Test
     public void omit() throws Exception {
         final List<Tuple<String, Object>> result = $.omit(
-            new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 50); put("userid", "moe1"); }},
+            new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             "userid"
         );
         assertEquals("[(name, moe), (age, 50)]", result.toString());
         final List<Tuple<String, Object>> result2 = $.omit(
-            new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 50); put("userid", "moe1"); }},
+            new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             new Predicate<Object>() { public Boolean apply(Object value) { return value instanceof Number; } }
         );
         assertEquals("[(name, moe), (userid, moe1)]", result2.toString());
@@ -150,8 +149,8 @@ _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
 */
     @Test
     public void defaults() throws Exception {
-        Map<String, String> iceCream = new LinkedHashMap<String, String>() {{ put("flavor", "chocolate"); }};
-        Map<String, String> result = $.defaults(iceCream, new LinkedHashMap<String, String>() {{ put("flavor", "vanilla"); put("sprinkles", "lots"); }});
+        Map<String, String> iceCream = new LinkedHashMap<String, String>() { { put("flavor", "chocolate"); } };
+        Map<String, String> result = $.defaults(iceCream, new LinkedHashMap<String, String>() { { put("flavor", "vanilla"); put("sprinkles", "lots"); } });
         assertEquals("{flavor=chocolate, sprinkles=lots}", result.toString());
     }
 
@@ -161,7 +160,7 @@ _.clone({name: 'moe'});
 */
     @Test
     public void cloneMap() throws Exception {
-        Map<String, String> result = (Map<String, String>) $.clone(new LinkedHashMap<String, String>() {{ put("name", "moe"); }});
+        Map<String, String> result = (Map<String, String>) $.clone(new LinkedHashMap<String, String>() { { put("name", "moe"); } });
         assertEquals("{name=moe}", result.toString());
         Integer[] result2 = (Integer[]) $.clone(new Integer[] { 1, 2, 3, 4, 5 });
         assertEquals("[1, 2, 3, 4, 5]", asList(result2).toString());
@@ -169,23 +168,24 @@ _.clone({name: 'moe'});
 
     @Test(expected = IllegalArgumentException.class)
     public void cloneError() throws Exception {
-        class Test {};
+        class Test {
+        }
         $.clone(new Test());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void cloneError2() throws Exception {
         class Test implements Cloneable {
-            public Object clone(String arg) {return null;}
-        };
+            public Object clone(String arg) { return null; }
+        }
         $.clone(new Test());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void cloneError3() throws Exception {
         class Test implements Cloneable {
-            public Object clone() {throw new RuntimeException();}
-        };
+            public Object clone() throws CloneNotSupportedException { super.clone(); throw new RuntimeException(); }
+        }
         $.clone(new Test());
     }
 
@@ -199,8 +199,8 @@ _.isEqual(stooge, clone);
 */
     @Test
     public void isEqual() {
-        Map<String, Object> stooge = new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("luckyNumbers", asList(13, 27, 34)); }};
-        Map<String, Object> clone = new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("luckyNumbers", asList(13, 27, 34)); }};
+        Map<String, Object> stooge = new LinkedHashMap<String, Object>() { { put("name", "moe"); put("luckyNumbers", asList(13, 27, 34)); } };
+        Map<String, Object> clone = new LinkedHashMap<String, Object>() { { put("name", "moe"); put("luckyNumbers", asList(13, 27, 34)); } };
         assertFalse(stooge == clone);
         assertTrue($.isEqual(stooge, clone));
         assertTrue($.isEqual(null, null));
@@ -266,7 +266,7 @@ _.isFunction(alert);
 */
     @Test
     public void isFunction() {
-        assertTrue($.isFunction(new Function1<String, Integer>() { public Integer apply(final String arg) { return null; }}));
+        assertTrue($.isFunction(new Function1<String, Integer>() { public Integer apply(final String arg) { return null; } }));
     }
 
 /*
@@ -325,7 +325,7 @@ _.chain([1,2,3,200])
     @Test
     public void tap() throws Exception {
         final List<Map.Entry<String, Integer>> result = new ArrayList<Map.Entry<String, Integer>>();
-        $.tap(new LinkedHashMap<String, Integer>() {{ put("a", 1); put("b", 2); put("c", 3); }}.entrySet(), 
+        $.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),
             new Block<Map.Entry<String, Integer>>() {
                 public void apply(final Map.Entry<String, Integer> item) {
                     result.add(item);
@@ -333,7 +333,7 @@ _.chain([1,2,3,200])
             });
         assertEquals("[a=1, b=2, c=3]", result.toString());
         final List<Map.Entry<String, Integer>> resultChain = new ArrayList<Map.Entry<String, Integer>>();
-        $.chain(new LinkedHashMap<String, Integer>() {{ put("a", 1); put("b", 2); put("c", 3); }}.entrySet())
+        $.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
             .tap(new Block<Map.Entry<String, Integer>>() {
                 public void apply(final Map.Entry<String, Integer> item) {
                     resultChain.add(item);
@@ -348,7 +348,7 @@ _.has({a: 1, b: 2, c: 3}, "b");
 */
     @Test
     public void has() throws Exception {
-        boolean result = $.has(new LinkedHashMap<String, Integer>() {{ put("a", 1); put("b", 2); put("c", 3); }}, "b");
+        boolean result = $.has(new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }, "b");
         assertTrue(result);
     }
 
@@ -359,12 +359,12 @@ _.isMatch(stooge, {age: 32});
 */
     @Test
     public void isMatch() {
-        Map<String, Object> stooge = new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 32); }};
-        assertTrue($.isMatch(stooge, new LinkedHashMap<String, Object>() {{ put("age", 32); }}));
-        Map<String, Object> stooge2 = new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("age", 33); }};
-        assertFalse($.isMatch(stooge2, new LinkedHashMap<String, Object>() {{ put("age", 32); }}));
-        Map<String, Object> stooge3 = new LinkedHashMap<String, Object>() {{ put("name", "moe"); }};
-        assertFalse($.isMatch(stooge3, new LinkedHashMap<String, Object>() {{ put("age", 32); }}));
+        Map<String, Object> stooge = new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 32); } };
+        assertTrue($.isMatch(stooge, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
+        Map<String, Object> stooge2 = new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 33); } };
+        assertFalse($.isMatch(stooge2, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
+        Map<String, Object> stooge3 = new LinkedHashMap<String, Object>() { { put("name", "moe"); } };
+        assertFalse($.isMatch(stooge3, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
     }
 
 /*
@@ -374,11 +374,11 @@ var readyToGoList = _.filter(list, ready);
     @Test
     public void matcher() {
         List<Map<String, Object>> list = asList(
-            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "moe"); put("selected", true); put("visible", true); }},
-            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "larry"); put("selected", true); put("visible", false); }},
-            (Map<String, Object>) new LinkedHashMap<String, Object>() {{ put("name", "curly"); }}
+            (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "moe"); put("selected", true); put("visible", true); } },
+            (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "larry"); put("selected", true); put("visible", false); } },
+            (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "curly"); } }
         );
-        Predicate<Map<String, Object>> ready = $.matcher(new LinkedHashMap<String, Object>() {{ put("selected", true); put("visible", true); }});
+        Predicate<Map<String, Object>> ready = $.matcher(new LinkedHashMap<String, Object>() { { put("selected", true); put("visible", true); } });
         List<Map<String, Object>> result = $.filter(list, ready);
         assertEquals("[{name=moe, selected=true, visible=true}]", result.toString());
     }
@@ -443,7 +443,7 @@ _.mapObject({start: 5, end: 12}, function(val, key) {
 */
     @Test
     public void mapObject() {
-        List<Tuple<String, Integer>> result = $.mapObject(new LinkedHashMap<String, Integer>() {{ put("start", 5); put("end", 12); }}, new Function1<Integer, Integer>() {
+        List<Tuple<String, Integer>> result = $.mapObject(new LinkedHashMap<String, Integer>() { { put("start", 5); put("end", 12); } }, new Function1<Integer, Integer>() {
             public Integer apply(Integer item) {
                 return item + 5;
             }
