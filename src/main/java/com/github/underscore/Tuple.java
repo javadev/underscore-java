@@ -4,14 +4,14 @@ public class Tuple<A, B> {
     private final A first;
     private final B second;
 
-    public static <A, B> Tuple<A, B> create(final A a, final B b) {
-        return new Tuple<A, B>(a, b);
-    }
-
     public Tuple(final A first, final B second) {
         super();
         this.first = first;
         this.second = second;
+    }
+
+    public static <A, B> Tuple<A, B> create(final A a, final B b) {
+        return new Tuple<A, B>(a, b);
     }
 
     public A fst() {

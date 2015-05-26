@@ -40,6 +40,8 @@ public class UnderscoreTest {
     @Test
     public void main() throws Exception {
         $.main(new String[] {});
+        new $(asList("")).getIterable();
+        new $("").getString();
     }
 
 /*

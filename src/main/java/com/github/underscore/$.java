@@ -32,7 +32,7 @@ import java.util.*;
  *
  * @author Valentyn Kolesnikov
  */
-public final class $<T> {
+public class $<T> {
     private static ClassForName classForName = new ClassForName();
     private static final Map<String, Function1<String, String>> FUNCTIONS = newLinkedHashMap();
     private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<String, String>() { {
@@ -42,6 +42,7 @@ public final class $<T> {
     } };
     private static final java.util.concurrent.atomic.AtomicInteger UNIQUE_ID =
         new java.util.concurrent.atomic.AtomicInteger(0);
+    private static final String ALL_SYMBOLS = "([\\s\\S]+?)";
     private final Iterable<T> iterable;
     private final Optional<String> string;
 
@@ -60,7 +61,7 @@ public final class $<T> {
     }
 
     private static void setTemplateKey(final Map<String, String> templateSettings, final String key) {
-        if (templateSettings.containsKey(key) && templateSettings.get(key).contains("([\\s\\S]+?)")) {
+        if (templateSettings.containsKey(key) && templateSettings.get(key).contains(ALL_SYMBOLS)) {
             TEMPLATE_SETTINGS.put(key, templateSettings.get(key));
         }
     }
@@ -108,37 +109,33 @@ public final class $<T> {
             final String escape = TEMPLATE_SETTINGS.get("escape");
             String result = template;
             for (final E element : value) {
-                result = java.util.regex.Pattern.compile(interpolate.replace("([\\s\\S]+?)",
+                result = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
                     "\\s*\\Q" + ((Map.Entry) element).getKey()
                     + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
-                result = java.util.regex.Pattern.compile(escape.replace("([\\s\\S]+?)",
+                result = java.util.regex.Pattern.compile(escape.replace(ALL_SYMBOLS,
                     "\\s*\\Q" + ((Map.Entry) element).getKey()
                     + "\\E\\s*")).matcher(result).replaceAll(escape(String.valueOf(((Map.Entry) element)
                     .getValue())));
                 java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
-                    evaluate.replace("([\\s\\S]+?)",
+                    evaluate.replace(ALL_SYMBOLS,
                     "\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*") + "(.*?)"
-                    + evaluate.replace("([\\s\\S]+?)", " \\}\\);\\s*"))
+                    + evaluate.replace(ALL_SYMBOLS, " \\}\\);\\s*"))
                     .matcher(result);
-                if (matcher.find()) {
-                    if (((Map.Entry) element).getKey().equals(matcher.group(1))) {
-                        StringBuilder repeatResult = new StringBuilder();
-                        for (String item : (List<String>) ((Map.Entry) element).getValue()) {
-                  repeatResult.append(java.util.regex.Pattern.compile(interpolate
-                      .replace("([\\s\\S]+?)", "\\s*\\Q" + matcher.group(2)
-                      + "\\E\\s*")).matcher(matcher.group(3)).replaceAll(item));
-                        }
-                        result = matcher.replaceFirst(repeatResult.toString());
+                if (matcher.find() && ((Map.Entry) element).getKey().equals(matcher.group(1))) {
+                    StringBuilder repeatResult = new StringBuilder();
+                    for (String item : (List<String>) ((Map.Entry) element).getValue()) {
+                        repeatResult.append(java.util.regex.Pattern.compile(
+                            interpolate.replace(ALL_SYMBOLS, "\\s*\\Q" + matcher.group(2)
+                            + "\\E\\s*")).matcher(matcher.group(3)).replaceAll(item));
                     }
+                    result = matcher.replaceFirst(repeatResult.toString());
                 }
                 java.util.regex.Matcher matcherPrint = java.util.regex.Pattern.compile(
-                    evaluate.replace("([\\s\\S]+?)",
+                    evaluate.replace(ALL_SYMBOLS,
                     "\\s*print\\('([^']*)'\\s*\\+\\s*(\\w+)\\);\\s*")).matcher(result);
-                if (matcherPrint.find()) {
-                    if (((Map.Entry) element).getKey().equals(matcherPrint.group(2))) {
-                        result = matcherPrint.replaceFirst(matcherPrint.group(1)
-                            + ((Map.Entry) element).getValue());
-                    }
+                if (matcherPrint.find() && ((Map.Entry) element).getKey().equals(matcherPrint.group(2))) {
+                    result = matcherPrint.replaceFirst(matcherPrint.group(1)
+                        + ((Map.Entry) element).getValue());
                 }
             }
             return result;
@@ -595,7 +592,7 @@ public final class $<T> {
     }
 
     public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
-        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[0]);
+        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[2]);
     }
 
     public static <E> E first(final Iterable<E> iterable) {
@@ -1481,7 +1478,7 @@ public final class $<T> {
     }
 
     public static <T> Chain chain(final Set<T> list) {
-        return new $.Chain<T>(list);
+        return new $.Chain<T>(newArrayList(list));
     }
 
     public static <T> Chain chain(final T[] list) {
@@ -1503,10 +1500,6 @@ public final class $<T> {
         public Chain(final List<T> list) {
             this.item = null;
             this.list = list;
-        }
-        public Chain(final Set<T> list) {
-            this.item = null;
-            this.list = newArrayList(list);
         }
 
         public Chain<T> first() {
@@ -1644,7 +1637,7 @@ public final class $<T> {
         }
 
         public Chain<T> sample(final int howMany) {
-            return new Chain<T>($.sample(list, howMany));
+            return new Chain<T>($.newArrayList($.sample(list, howMany)));
         }
 
         public Chain<T> tap(final Block<T> func) {
@@ -1823,6 +1816,14 @@ public final class $<T> {
         return (T[]) reverse(newArrayList(Arrays.asList(array))).toArray();
     }
 
+    public Iterable<T> getIterable() {
+        return iterable;
+    }
+
+    public Optional<String> getString() {
+        return string;
+    }
+
     private static <T> List<T> newArrayList() {
         try {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
@@ -1832,7 +1833,7 @@ public final class $<T> {
         }
     }
 
-    private static <T> List<T> newArrayList(Iterable<T> list) {
+    protected static <T> List<T> newArrayList(Iterable<T> list) {
         try {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
             return (List<T>) listsClass.getDeclaredMethod("newArrayList", Iterable.class).invoke(null, list);
