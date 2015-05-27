@@ -1700,6 +1700,10 @@ public class $<T> {
         public List<T> value() {
             return list;
         }
+
+        public String toString() {
+            return String.valueOf(list);
+        }
     }
 
     public static void mixin(final String funcName, final Function1<String, String> func) {

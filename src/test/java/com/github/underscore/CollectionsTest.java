@@ -463,18 +463,19 @@ _.contains([1, 2, 3], 3);
 _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
 */
     @Test
-    public void invoke() throws Exception {
+    public void invoke() {
         assertEquals($.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
         assertEquals($.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")), asList("foo1", "bar1"));
+        assertEquals($.invoke(asList($.chain(asList(5, 1, 7)), $.chain(asList(3, 2, 1))), "sort").toString(), asList("[1, 5, 7]", "[1, 2, 3]").toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void invokeError() throws Exception {
+    public void invokeError() {
         $.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void invokeError2() throws Exception {
+    public void invokeError2() {
         $.invoke(asList(" foo ", "  bar"), "trim2");
     }
 
@@ -484,7 +485,7 @@ _.pluck(stooges, 'name');
 => ["moe", "larry", "curly"]
 */
     @Test
-    public void pluck() throws Exception {
+    public void pluck() {
         class Person {
             public final String name;
             public final Integer age;
@@ -508,7 +509,7 @@ _.pluck(stooges, 'name');
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void pluck2() throws Exception {
+    public void pluck2() {
         class Person {
             public final String name;
             public final Integer age;
@@ -521,7 +522,7 @@ _.pluck(stooges, 'name');
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void pluck3() throws Exception {
+    public void pluck3() {
         class Person {
             public final String name;
             public final Integer age;
@@ -710,7 +711,7 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 => [5, 4, 6, 3, 1, 2]
 */
     @Test
-    public void sortBy() throws Exception {
+    public void sortBy() {
         final List<Integer> result =
         $.sortBy(asList(1, 2, 3, 4, 5, 6),
             new Function1<Integer, Integer>() {
@@ -727,7 +728,7 @@ _.sortBy(stooges, 'name');
 => [{name: 'curly', age: 60}, {name: 'larry', age: 50}, {name: 'moe', age: 40}];
 */
     @Test
-    public void sortByMap() throws Exception {
+    public void sortByMap() {
         final List<Map<String, Comparable>> result = $.sortBy(asList(
             (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "moe"); put("age", 40); } },
             (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "larry"); put("age", 50); } },
@@ -747,7 +748,7 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
 => {1: [1.3], 2: [2.1, 2.4]}
 */
     @Test
-    public void groupBy() throws Exception {
+    public void groupBy() {
         final Map<Double, List<Double>> result =
         $.groupBy(asList(1.3, 2.1, 2.4),
             new Function1<Double, Double>() {
@@ -768,7 +769,7 @@ _.indexBy(stooges, 'age');
 }
 */
     @Test
-    public void indexBy() throws Exception {
+    public void indexBy() {
         class Person {
             public final String name;
             public final Integer age;
@@ -794,7 +795,7 @@ _.countBy(stooges, 'age');
 => {moe: 2, curly: 1}
 */
     @Test
-    public void countBy() throws Exception {
+    public void countBy() {
         class Person {
             public final String name;
             public final Integer age;
@@ -851,7 +852,7 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
 => [2, 3, 4]
 */
     @Test
-    public void toArray() throws Exception {
+    public void toArray() {
         final Object[] result = $.<Integer>toArray(asList(1, 2, 3, 4));
         assertEquals("1", result[0].toString());
     }
@@ -861,7 +862,7 @@ _.size({one: 1, two: 2, three: 3});
 => 3
 */
     @Test
-    public void size() throws Exception {
+    public void size() {
         final int result = $.size(asList(1, 2, 3, 4));
         assertEquals(4, result);
     }
@@ -871,7 +872,7 @@ _.partition([0, 1, 2, 3, 4, 5], isOdd);
 => [[1, 3, 5], [0, 2, 4]]
 */
     @Test
-    public void partition() throws Exception {
+    public void partition() {
         final List<List<Integer>> result = $.partition(asList(0, 1, 2, 3, 4, 5), new Predicate<Integer>() {
             public Boolean apply(final Integer item) {
                 return item % 2 == 1;

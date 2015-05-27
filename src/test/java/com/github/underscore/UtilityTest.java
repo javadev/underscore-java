@@ -65,7 +65,7 @@ var stooge = {name: 'moe'};
 => true
 */
     @Test
-    public void property() throws Exception {
+    public void property() {
         Map<String, Object> stooge = new LinkedHashMap<String, Object>() { { put("name", "moe"); } };
         assertEquals("moe", $.property("name").apply(stooge));
     }
@@ -76,7 +76,7 @@ _.propertyOf(stooge)('name');
 => 'moe'
 */
     @Test
-    public void propertyOf() throws Exception {
+    public void propertyOf() {
         Map<String, String> stooge = new LinkedHashMap<String, String>() { { put("name", "moe"); } };
         assertEquals("moe", $.propertyOf(stooge).apply("name"));
     }
@@ -97,7 +97,7 @@ _.now();
 => 1392066795351
 */
     @Test
-    public void now() throws Exception {
+    public void now() {
         assertTrue($.now() >= new Date().getTime());
     }
 
@@ -151,7 +151,7 @@ _.escape('Curly, Larry & Moe');
 => "Curly, Larry &amp; Moe"
 */
     @Test
-    public void escape() throws Exception {
+    public void escape() {
         assertEquals("Curly, Larry &amp; Moe", $.escape("Curly, Larry & Moe"));
     }
 
@@ -160,7 +160,7 @@ _.unescape('Curly, Larry &amp; Moe');
 => "Curly, Larry & Moe"
 */
     @Test
-    public void unescape() throws Exception {
+    public void unescape() {
         assertEquals("Curly, Larry & Moe", $.unescape("Curly, Larry &amp; Moe"));
     }
 
@@ -170,26 +170,26 @@ compiled({name: 'moe'});
 => "hello: moe"
 */
     @Test
-    public void template() throws Exception {
+    public void template() {
         Template<Set<Map.Entry<String, Object>>> compiled = $.template("hello: <%= name %>");
         assertEquals("hello: moe", compiled.apply((new LinkedHashMap<String, Object>() { { put("name", "moe"); } }).entrySet()));
     }
 
     @Test
-    public void template2() throws Exception {
+    public void template2() {
         Template<Set<Map.Entry<String, Object>>> compiled = $.template("hello: <%= name %>, hello2: <%= name %>");
         assertEquals("hello: moe, hello2: moe", compiled.apply((new LinkedHashMap<String, Object>() { { put("name", "moe"); } }).entrySet()));
     }
 
     @Test
-    public void template3() throws Exception {
+    public void template3() {
         Template<Set<Map.Entry<String, Object>>> compiled = $.template("hello: <%= name %>, hello2: <%= name2 %>");
         assertEquals("hello: moe, hello2: moe2", compiled.apply(
             (new LinkedHashMap<String, Object>() { { put("name", "moe"); put("name2", "moe2"); } }).entrySet()));
     }
 
     @Test
-    public void template4() throws Exception {
+    public void template4() {
         $.templateSettings(new HashMap<String, String>() { { put("interpolate", ""); } });
         $.templateSettings(new HashMap<String, String>() { { put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}"); } });
         Template<Set<Map.Entry<String, Object>>> compiled = $.template("hello: {{= name }}");
@@ -203,7 +203,7 @@ _.template(list, {people: ['moe', 'curly', 'larry']});
 => "<li>moe</li><li>curly</li><li>larry</li>"
 */
     @Test
-    public void templateEach() throws Exception {
+    public void templateEach() {
         String list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
         Template<Set<Map.Entry<String, Object>>> compiled = $.template(list);
         assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
@@ -228,14 +228,14 @@ template({value: '<script>'});
 => "<b>&lt;script&gt;</b>"
 */
     @Test
-    public void templateValue() throws Exception {
+    public void templateValue() {
         Template<Set<Map.Entry<String, Object>>> template = $.template("<b><%- value %></b>");
         assertEquals("<b>&lt;script&gt;</b>",
             template.apply((new LinkedHashMap<String, Object>() { { put("value", "<script>"); } }).entrySet()));
     }
 
     @Test
-    public void templateValue2() throws Exception {
+    public void templateValue2() {
         Template<Set<Map.Entry<String, Object>>> template = $.template("hello: <%= name %>, <b><%- value %></b>");
         assertEquals("hello: moe, <b>&lt;script&gt;</b>",
             template.apply((new LinkedHashMap<String, Object>() { { put("name", "moe"); put("value", "<script>"); } }).entrySet()));
@@ -246,7 +246,7 @@ compiled({epithet: "stooge"});
 => "Hello stooge"
 */
     @Test
-    public void templatePrint() throws Exception {
+    public void templatePrint() {
         Template<Set<Map.Entry<String, Object>>> compiled = $.template("<% print('Hello ' + epithet); %>");
         assertEquals("Hello stooge",
             compiled.apply((new LinkedHashMap<String, Object>() { { put("epithet", "stooge"); } }).entrySet()));
@@ -263,7 +263,7 @@ _.result(object, 'stuff');
 => "nonsense"
 */
     @Test
-    public void result() throws Exception {
+    public void result() {
         Map<String, Object> object = new LinkedHashMap<String, Object>() { {
             put("cheese", "crumpets");
             put("stuff", new Function<String>() { public String apply() { return "nonsense"; } });

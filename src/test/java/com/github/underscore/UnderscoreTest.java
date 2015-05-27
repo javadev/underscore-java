@@ -38,7 +38,7 @@ import static org.junit.Assert.assertTrue;
 public class UnderscoreTest {
 
     @Test
-    public void main() throws Exception {
+    public void main() {
         $.main(new String[] {});
         new $(asList("")).getIterable();
         new $("").getString();
@@ -49,7 +49,7 @@ public class UnderscoreTest {
 => ['example', 'some', 'words']
 */
     @Test
-    public void sort() throws Exception {
+    public void sort() {
         assertEquals("[example, some, words]", $.sort(asList("some", "words", "example")).toString());
         assertEquals("[example, some, words]", $.chain(asList("some", "words", "example")).sort().value().toString());
         assertEquals("[4, 5, 7]", $.chain(asList("some", "words", "example"))
@@ -66,14 +66,14 @@ public class UnderscoreTest {
 => 'some-words-example'
 */
     @Test
-    public void join() throws Exception {
+    public void join() {
         assertEquals("some-words-example", $.join(asList("some", "words", "example"), "-"));
         assertEquals("some-words-example", $.join(new String[] {"some", "words", "example"}, "-"));
         assertEquals("some-words-example", $.chain(asList("some", "words", "example")).join("-").item());
     }
 
     @Test
-    public void compareStrings() throws Exception {
+    public void compareStrings() {
         assertEquals($.sort("CAT".split("")), $.sort("CTA".split("")));
     }
 
@@ -82,7 +82,7 @@ _.concat([1, 2], [3, 4]);
 => [1, 2, 3, 4]
 */
     @Test
-    public void concat() throws Exception {
+    public void concat() {
         assertEquals(asList(1, 2, 3, 4), asList($.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
         assertEquals(asList(1, 2, 3, 4), $.concat(asList(1, 2), asList(3, 4)));
         assertEquals("[1, 2, 3, 4]", $.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());

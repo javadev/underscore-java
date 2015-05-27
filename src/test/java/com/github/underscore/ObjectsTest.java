@@ -43,7 +43,7 @@ _.keys({one: 1, two: 2, three: 3});
 => ["one", "two", "three"]
 */
     @Test
-    public void keys() throws Exception {
+    public void keys() {
         Set<String> result = $.keys(new LinkedHashMap<String, Object>() { { put("one", 1); put("two", 2); put("three", 3); } });
         assertEquals("[one, two, three]", result.toString());
     }
@@ -53,7 +53,7 @@ _.values({one: 1, two: 2, three: 3});
 => [1, 2, 3]
 */
     @Test
-    public void values() throws Exception {
+    public void values() {
         List<Integer> result = $.values(new LinkedHashMap<String, Integer>() { { put("one", 1); put("two", 2); put("three", 3); } });
         assertEquals("[1, 2, 3]", result.toString());
     }
@@ -107,7 +107,7 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
 => {age: 50}
 */
     @Test
-    public void pick() throws Exception {
+    public void pick() {
         final List<Tuple<String, Object>> result = $.pick(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             "name", "age"
@@ -129,7 +129,7 @@ _.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
 => {name: 'moe', userid: 'moe1'}
 */
     @Test
-    public void omit() throws Exception {
+    public void omit() {
         final List<Tuple<String, Object>> result = $.omit(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             "userid"
@@ -148,7 +148,7 @@ _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
 => {flavor: "chocolate", sprinkles: "lots"}
 */
     @Test
-    public void defaults() throws Exception {
+    public void defaults() {
         Map<String, String> iceCream = new LinkedHashMap<String, String>() { { put("flavor", "chocolate"); } };
         Map<String, String> result = $.defaults(iceCream, new LinkedHashMap<String, String>() { { put("flavor", "vanilla"); put("sprinkles", "lots"); } });
         assertEquals("{flavor=chocolate, sprinkles=lots}", result.toString());
@@ -159,7 +159,7 @@ _.clone({name: 'moe'});
 => {name: 'moe'};
 */
     @Test
-    public void cloneMap() throws Exception {
+    public void cloneMap() {
         Map<String, String> result = (Map<String, String>) $.clone(new LinkedHashMap<String, String>() { { put("name", "moe"); } });
         assertEquals("{name=moe}", result.toString());
         Integer[] result2 = (Integer[]) $.clone(new Integer[] { 1, 2, 3, 4, 5 });
@@ -167,14 +167,14 @@ _.clone({name: 'moe'});
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void cloneError() throws Exception {
+    public void cloneError() {
         class Test {
         }
         $.clone(new Test());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void cloneError2() throws Exception {
+    public void cloneError2() {
         class Test implements Cloneable {
             public Object clone(String arg) { return null; }
         }
@@ -182,7 +182,7 @@ _.clone({name: 'moe'});
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void cloneError3() throws Exception {
+    public void cloneError3() {
         class Test implements Cloneable {
             public Object clone() throws CloneNotSupportedException { super.clone(); throw new RuntimeException(); }
         }
@@ -339,7 +339,7 @@ _.chain([1,2,3,200])
 => [4, 40000]
 */
     @Test
-    public void tap() throws Exception {
+    public void tap() {
         final List<Map.Entry<String, Integer>> result = new ArrayList<Map.Entry<String, Integer>>();
         $.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),
             new Block<Map.Entry<String, Integer>>() {
@@ -363,7 +363,7 @@ _.has({a: 1, b: 2, c: 3}, "b");
 => true
 */
     @Test
-    public void has() throws Exception {
+    public void has() {
         boolean result = $.has(new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }, "b");
         assertTrue(result);
     }
@@ -404,7 +404,7 @@ _.findKey([1, 2, 3], function(item) {return item % 2  === 0; });
 => 2
 */
     @Test
-    public void findKey() throws Exception {
+    public void findKey() {
         final Integer result = $.findKey(asList(1, 2, 3), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
@@ -430,7 +430,7 @@ _.findLastKey([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
 => 4
 */
     @Test
-    public void findLastKey() throws Exception {
+    public void findLastKey() {
         final Integer result = $.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;

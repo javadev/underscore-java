@@ -42,7 +42,7 @@ func();
 => 'hi: moe'
 */
     @Test
-    public void bind() throws Exception {
+    public void bind() {
         class GreetingFunction implements Function1<String, String> {
             private final String name;
             public GreetingFunction(final String name) {
@@ -62,7 +62,7 @@ sub5(20);
 => 15
 */
     @Test
-    public void partial() throws Exception {
+    public void partial() {
         class SubtractFunction implements Function1<Integer, Integer> {
             private final Integer arg1;
             public SubtractFunction(final Integer arg1) {
@@ -82,7 +82,7 @@ var fibonacci = _.memoize(function(n) {
 });
 */
     @Test
-    public void memoize() throws Exception {
+    public void memoize() {
         class FibonacciFuncion1 extends MemoizeFunction1<Integer> {
             public Integer calc(final Integer n) {
                 return n < 2 ? n : apply(n - 1) + apply(n - 2);
@@ -143,7 +143,7 @@ initialize();
         Function<Void> onceIncr = $.once(incr);
         onceIncr.apply();
         onceIncr.apply();
-        Thread.sleep(16);
+        Thread.sleep(32);
         assertEquals("incr was called only once", 1, counter[0]);
     }
 
@@ -156,7 +156,7 @@ hello();
 => 'before, hello: moe, after'
 */
     @Test
-    public void wrap() throws Exception {
+    public void wrap() {
         Function1<String, String> hello = new Function1<String, String>() {
             public String apply(final String name) {
                 return "hello: " + name;
@@ -176,7 +176,7 @@ _.find([-2, -1, 0, 1, 2], isFalsy);
 => 0
 */
     @Test
-    public void negate() throws Exception {
+    public void negate() {
         Predicate<Integer> isFalsy = $.negate(new Predicate<Integer>() {
             public Boolean apply(final Integer item) {
                 return item != 0;
@@ -194,7 +194,7 @@ welcome('moe');
 => 'hi: MOE!'
 */
     @Test
-    public void compose() throws Exception {
+    public void compose() {
         Function1<String, String> greet = new Function1<String, String>() {
             public String apply(final String name) {
                 return "hi: " + name;
@@ -217,7 +217,7 @@ _.each(notes, function(note) {
 // renderNotes is run once, after all notes have saved.
 */
     @Test
-    public void after() throws Exception {
+    public void after() {
         final List<Integer> notes = asList(1, 2, 3);
         final Function<Integer> renderNotes = $.after(notes.size(),
             new Function<Integer>() { public Integer apply() { return 4; } });
@@ -242,7 +242,7 @@ monthlyMeeting();
 // the result of any subsequent calls is the same as the second call
 */
     @Test
-    public void before() throws Exception {
+    public void before() {
         final List<Integer> notes = asList(1, 2, 3);
         final Function<Integer> renderNotes = $.before(notes.size() - 1,
             new Function<Integer>() { public Integer apply() { return 4; } });

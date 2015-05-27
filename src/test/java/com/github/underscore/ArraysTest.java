@@ -256,7 +256,7 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
 => 3
 */
     @Test
-    public void sortedIndex() throws Exception {
+    public void sortedIndex() {
         final Integer result = $.sortedIndex(asList(10, 20, 30, 40, 50), 35);
         assertEquals(3, result);
         final Integer result2 = $.sortedIndex(new Integer[] {10, 20, 30, 40, 50}, 35);
@@ -266,7 +266,7 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
     }
 
     @Test
-    public void sortedIndex2() throws Exception {
+    public void sortedIndex2() {
         class Person implements Comparable<Person> {
             public final String name;
             public final Integer age;
@@ -293,7 +293,7 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void sortedIndex2Error() throws Exception {
+    public void sortedIndex2Error() {
         class Person implements Comparable<Person> {
             public int compareTo(Person person) {
                 return 0;
@@ -307,7 +307,7 @@ _.uniq([1, 2, 1, 3, 1, 4]);
 => [1, 2, 3, 4]
 */
     @Test
-    public void uniq() throws Exception {
+    public void uniq() {
         final List<Integer> result = $.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
         final Object[] resultArray = $.uniq(new Integer[] {1, 2, 1, 3, 1, 4});
@@ -355,7 +355,7 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 => [1, 2]
 */
     @Test
-    public void intersection() throws Exception {
+    public void intersection() {
         final List<Integer> result = $.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", result.toString());
         final Object[] resultArray = $.intersection(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
@@ -367,7 +367,7 @@ _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 => [1, 2, 3, 101, 10]
 */
     @Test
-    public void union() throws Exception {
+    public void union() {
         final List<Integer> result = $.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", result.toString());
         final Object[] resultArray = $.union(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
@@ -379,7 +379,7 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
 => [1, 3, 4]
 */
     @Test
-    public void difference() throws Exception {
+    public void difference() {
         final List<Integer> result = $.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
         assertEquals("[1, 3, 4]", result.toString());
         final Object[] resultArray = $.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10});
@@ -391,7 +391,7 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 => [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
 */
     @Test
-    public void zip() throws Exception {
+    public void zip() {
         final List<List<String>> result = $.zip(
             asList("moe", "larry", "curly"), asList("30", "40", "50"), asList("true", "false", "false"));
         assertEquals("[[moe, 30, true], [larry, 40, false], [curly, 50, false]]", result.toString());
@@ -402,7 +402,7 @@ _.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
 => [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
 */
     @Test
-    public void unzip() throws Exception {
+    public void unzip() {
         final List<List<String>> result = $.unzip(
             asList("moe", "30", "true"), asList("larry", "40", "false"), asList("curly", "50", "false"));
         assertEquals("[[moe, larry, curly], [30, 40, 50], [true, false, false]]", result.toString());
@@ -413,7 +413,7 @@ _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
 => {moe: 30, larry: 40, curly: 50}
 */
     @Test
-    public void object() throws Exception {
+    public void object() {
         final List<Tuple<String, String>> result = $.object(
             asList("moe", "larry", "curly"), asList("30", "40", "50"));
         assertEquals("[(moe, 30), (larry, 40), (curly, 50)]", result.toString());
@@ -424,7 +424,7 @@ _.indexOf([1, 2, 3], 2);
 => 1
 */
     @Test
-    public void indexOf() throws Exception {
+    public void indexOf() {
         final Integer result = $.indexOf(asList(1, 2, 3), 2);
         assertEquals(1, result);
         final Integer resultArray = $.indexOf(new Integer[] {1, 2, 3}, 2);
@@ -436,7 +436,7 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 => 4
 */
     @Test
-    public void lastIndexOf() throws Exception {
+    public void lastIndexOf() {
         final Integer result = $.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);
         assertEquals(4, result);
         final Integer resultArray = $.lastIndexOf(new Integer[] {1, 2, 3, 1, 2, 3}, 2);
@@ -448,7 +448,7 @@ _.findIndex([1, 2, 3], function(item) {return item % 2  === 0; });
 => 1
 */
     @Test
-    public void findIndex() throws Exception {
+    public void findIndex() {
         final Integer result = $.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
@@ -474,7 +474,7 @@ _.findLastIndex([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
 => 3
 */
     @Test
-    public void findLastIndex() throws Exception {
+    public void findLastIndex() {
         final Integer result = $.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
@@ -508,7 +508,7 @@ _.range(0);
 => []
 */
     @Test
-    public void range() throws Exception {
+    public void range() {
         final int[] result = $.range(10);
         assertArrayEquals(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, result);
         final int[] result2 = $.range(1, 11);
