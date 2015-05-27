@@ -1337,8 +1337,16 @@ public class $<T> {
         return true;
     }
 
-    public static <K, V> boolean isEqual(final Map<K, V> object, final Map<K, V> other) {
+    public static boolean isEqual(final Object object, final Object other) {
         return object == null ? other == null : object.equals(other);
+    }
+
+    public static <K, V> boolean isEmpty(final Map<K, V> object) {
+        return object == null || object.isEmpty();
+    }
+
+    public static <T> boolean isEmpty(final Iterable<T> iterable) {
+        return iterable == null || size(iterable) == 0;
     }
 
     public static boolean isArray(final Object object) {

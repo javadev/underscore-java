@@ -196,6 +196,10 @@ stooge == clone;
 => false
 _.isEqual(stooge, clone);
 => true
+_.isEqual(null, null)
+=> true
+_.isEqual('Curly', 'Curly')
+=> true
 */
     @Test
     public void isEqual() {
@@ -206,8 +210,20 @@ _.isEqual(stooge, clone);
         assertTrue($.isEqual(null, null));
         assertFalse($.isEqual(stooge, null));
         assertFalse($.isEqual(null, clone));
+        assertTrue($.isEqual("Curly", "Curly"));
+        assertTrue($.isEqual(0, -0));
+        assertTrue($.isEqual(75, 75));
     }
 
+    @Test
+    public void isEmpty() {
+        assertTrue($.isEmpty((List) null));
+        assertTrue($.isEmpty(new ArrayList<String>()));
+        assertFalse($.isEmpty(asList("")));
+        assertTrue($.isEmpty((Map) null));
+        assertTrue($.isEmpty(new HashMap<String, String>()));
+        assertFalse($.isEmpty(new HashMap<String, String>() { { put("", ""); } }));
+    }
 /*
 _.isObject({});
 => true
