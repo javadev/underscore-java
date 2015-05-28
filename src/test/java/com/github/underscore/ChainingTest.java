@@ -328,4 +328,35 @@ _.chain(doctors)
             .value();
         assertEquals(4, result.size());
     }
+
+/*
+var words = ["Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"];
+var sum = _(words)
+        .filter(function(w){return w[0] == "E"})
+        .map(function(w){return w.length})
+        .reduce(function(acc, curr){return acc + curr});
+=> 34
+*/
+    @Test
+    public void chain7() {
+        String[] words = new String[] {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
+        int sum = (Integer) $.chain(words)
+          .filter(new Predicate<String>() {
+              public Boolean apply(String w) {
+                  return w.startsWith("E");
+              }
+          })
+          .map(new Function1<String, Integer>() {
+              public Integer apply(String w) {
+                  return w.length();
+              }
+          })
+          .reduce(new FunctionAccum<Integer, Integer>() {
+              public Integer apply(Integer accum, Integer length) {
+                  return accum + length;
+              }
+          }, 0).item();
+        assertEquals(34, sum);
+    }
+
 }
