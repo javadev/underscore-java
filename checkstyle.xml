@@ -6,10 +6,6 @@
 <module name="Checker">
     <property name="charset" value="UTF-8"/>
     <property name="severity" value="error"/>
-<!--    <module name="PackageHtml">
-        <property name="severity" value="warning"/>
-    </module>
--->
     <module name="NewlineAtEndOfFile">
         <property name="lineSeparator" value="lf"/>
     </module>
@@ -25,13 +21,6 @@
       <property name="fileExtensions" value="java"/>
       <property name="severity" value="warning"/>
     </module>
-<!--
-    <module name="RegexpHeader">
-        <property name="header" value=
-"/*$\n * \$Id[^$]*\$\n *$\n * Copyright 20[01]\d(,\s20[01]\d)* Valentyn Kolesnikov$\n"/>
-        <property name="fileExtensions" value="java"/>
-    </module>
--->
     <module name="RegexpSingleline">
       <property name="format" value="\s+$"/>
       <property name="message" value="Trailing whitespace (extra spaces at the end of a line)"/>
@@ -49,13 +38,6 @@
     <module name="TreeWalker">
         <property name="tabWidth" value="4" />
         <module name="FileContentsHolder"/>
-<!--
-        <module name="JavadocType">
-            <property name="scope" value="protected"/>
-            <property name="authorFormat" value="([\wø]+\s*)?"/>
-            <property name="allowMissingParamTags" value="true"/>
-        </module>
--->
         <module name="JavadocMethod">
             <property name="severity" value="warning"/>
             <property name="scope" value="protected"/>
@@ -99,13 +81,6 @@
         <module name="IllegalImport"/>
         <module name="UnusedImports"/>
         <module name="RedundantImport"/>
-<!--        <module name="ExecutableStatementCount">
-            <property name="severity" value="warning"/>
-        </module>
--->
-<!--        <module name="FileLength">
-            <property name="severity" value="warning"/>
-        </module> -->
         <module name="LineLength">
             <property name="severity" value="warning"/>
             <property name="max" value="120"/>
@@ -233,21 +208,10 @@
         <module name="BooleanExpressionComplexity">
             <property name="severity" value="warning"/>
         </module>
-<!--        <module name="ClassDataAbstractionCoupling">
-            <property name="severity" value="warning"/>
-        </module>
-        <module name="ClassFanOutComplexity">
-            <property name="severity" value="warning"/>
-        </module>
--->
         <module name="CyclomaticComplexity">
             <property name="severity" value="ignore"/>
             <property name="max" value="12"/>            
         </module>
-<!--        <module name="NPathComplexity">
-            <property name="severity" value="warning"/>
-        </module>
--->
         <module name="TodoComment">
             <property name="format" value="DOCUMENT ME|DOCUMENTATION|Description of the Method|Description of the Parameter|Description of the Return Value|Description of the Exception|Description of the Class"/>
         </module>

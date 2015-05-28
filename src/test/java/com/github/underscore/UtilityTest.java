@@ -98,7 +98,7 @@ _.now();
 */
     @Test
     public void now() {
-        assertTrue($.now() >= new Date().getTime());
+        assertTrue($.now() <= new Date().getTime());
     }
 
 /*

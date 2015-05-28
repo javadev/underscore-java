@@ -371,7 +371,7 @@ _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
         final List<Integer> result = $.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", result.toString());
         final Object[] resultArray = $.union(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
-        assertEquals("[[1, 2, 3, 101, 10]]", asList(result).toString());
+        assertEquals("[1, 2, 3, 101, 10]", asList(resultArray).toString());
     }
 
 /*
