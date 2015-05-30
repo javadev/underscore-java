@@ -559,14 +559,7 @@ public class $<T> {
     }
 
     public static <E> E[] toArray(final Iterable<E> iterable) {
-        final List<E> list = newArrayList();
-        each(iterable, new Block<E>() {
-            @Override
-            public void apply(E elem) {
-                list.add(elem);
-            }
-        });
-        return (E[]) list.toArray();
+        return (E[]) newArrayList(iterable).toArray();
     }
 
     public static int size(final Iterable<?> iterable) {
@@ -1754,6 +1747,10 @@ public class $<T> {
         return join(Arrays.asList(array), separator);
     }
 
+    public String join(final String separator) {
+        return join(iterable, separator);
+    }
+
     public static <T> T[] concat(final T[] first, final T[] ... other) {
         int length = 0;
         for (T[] otherItem : other) {
@@ -1768,26 +1765,31 @@ public class $<T> {
         return result;
     }
 
-    public static <T> List<T> concat(final List<T> first, final List<T> ... other) {
+    public static <T> List<T> concat(final Iterable<T> first, final Iterable<T> ... other) {
         int length = 0;
-        for (List<T> otherItem : other) {
-            length += otherItem.size();
+        for (Iterable<T> otherItem : other) {
+            length += size(otherItem);
         }
-        final T[] result = (T[]) Arrays.copyOf(first.toArray(), first.size() + length);
+        final T[] result = (T[]) Arrays.copyOf(toArray(first), size(first) + length);
         int index = 0;
-        for (List<T> otherItem : other) {
-            System.arraycopy(otherItem.toArray(), 0, result, first.size() + index, otherItem.size());
-            index += otherItem.size();
+        for (Iterable<T> otherItem : other) {
+            System.arraycopy(toArray(otherItem), 0, result, size(first) + index, size(otherItem));
+            index += size(otherItem);
         }
         return (List<T>) Arrays.asList(result);
     }
 
-    public static <T> List<T> slice(final List<T> list, final int start) {
+
+    public List<T> concatTo(final Iterable<T> ... other) {
+        return concat(iterable, other);
+    }
+
+    public static <T> List<T> slice(final Iterable<T> list, final int start) {
         final List<T> result;
         if (start > 0) {
-            result = list.subList(start, list.size());
+            result = newArrayList(list).subList(start, size(list));
         } else {
-            result = list.subList(list.size() + start, list.size());
+            result = newArrayList(list).subList(size(list) + start, size(list));
         }
         return result;
     }
@@ -1796,19 +1798,23 @@ public class $<T> {
         return (T[]) slice(Arrays.asList(array), start).toArray();
     }
 
-    public static <T> List<T> slice(final List<T> list, final int start, final int end) {
+    public List<T> slice(final int start) {
+        return slice(iterable, start);
+    }
+
+    public static <T> List<T> slice(final Iterable<T> list, final int start, final int end) {
         final List<T> result;
         if (start > 0) {
             if (end > 0) {
-                result = list.subList(start, end);
+                result = newArrayList(list).subList(start, end);
             } else {
-                result = list.subList(start, list.size() + end);
+                result = newArrayList(list).subList(start, size(list) + end);
             }
         } else {
             if (end > 0) {
-                result = list.subList(list.size() + start, end);
+                result = newArrayList(list).subList(size(list) + start, end);
             } else {
-                result = list.subList(list.size() + start, list.size() + end);
+                result = newArrayList(list).subList(size(list) + start, size(list) + end);
             }
         }
         return result;
@@ -1818,7 +1824,11 @@ public class $<T> {
         return (T[]) slice(Arrays.asList(array), start, end).toArray();
     }
 
-    public static <T> List<T> reverse(final List<T> list) {
+    public List<T> slice(final int start, final int end) {
+        return slice(iterable, start, end);
+    }
+
+    public static <T> List<T> reverse(final Iterable<T> list) {
         final List<T> result = (List<T>) clone(newArrayList(list));
         Collections.reverse(result);
         return result;
@@ -1826,6 +1836,10 @@ public class $<T> {
 
     public static <T> T[] reverse(final T[] array) {
         return (T[]) reverse(newArrayList(Arrays.asList(array))).toArray();
+    }
+
+    public List<T> reverse() {
+        return reverse(iterable);
     }
 
     public Iterable<T> getIterable() {

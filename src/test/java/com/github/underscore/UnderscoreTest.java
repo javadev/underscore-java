@@ -68,6 +68,7 @@ public class UnderscoreTest {
     @Test
     public void join() {
         assertEquals("some-words-example", $.join(asList("some", "words", "example"), "-"));
+        assertEquals("some-words-example", new $(asList("some", "words", "example")).join("-"));
         assertEquals("some-words-example", $.join(new String[] {"some", "words", "example"}, "-"));
         assertEquals("some-words-example", $.chain(asList("some", "words", "example")).join("-").item());
     }
@@ -85,9 +86,11 @@ _.concat([1, 2], [3, 4]);
     public void concat() {
         assertEquals(asList(1, 2, 3, 4), asList($.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
         assertEquals(asList(1, 2, 3, 4), $.concat(asList(1, 2), asList(3, 4)));
+        assertEquals(asList(1, 2, 3, 4), new $(asList(1, 2)).concatTo(asList(3, 4)));
         assertEquals("[1, 2, 3, 4]", $.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
         assertEquals(asList(1, 2, 3, 4), asList($.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
         assertEquals(asList(1, 2, 3, 4), $.concat(asList(1, 2), asList(3), asList(4)));
+        assertEquals(asList(1, 2, 3, 4), new $(asList(1, 2)).concatTo(asList(3), asList(4)));
     }
 
 /*
@@ -101,9 +104,11 @@ arr.slice(-3, -1) // [3, 4]
     @Test
     public void slice() {
         assertEquals(asList(3, 4, 5), $.slice(asList(1, 2, 3, 4, 5), 2));
+        assertEquals(asList(3, 4, 5), new $(asList(1, 2, 3, 4, 5)).slice(2));
         assertEquals(asList(2, 3, 4), $.slice(asList(1, 2, 3, 4, 5), 1, 4));
         assertEquals(asList(2, 3, 4), $.slice(asList(1, 2, 3, 4, 5), 1, -1));
         assertEquals(asList(3), $.slice(asList(1, 2, 3, 4, 5), 2, 3));
+        assertEquals(asList(3), new $(asList(1, 2, 3, 4, 5)).slice(2, 3));
         assertEquals(asList(4, 5), $.slice(asList(1, 2, 3, 4, 5), -2));
         assertEquals(asList(3, 4), $.slice(asList(1, 2, 3, 4, 5), -3, -1));
         assertEquals(asList(3, 4), $.slice(asList(1, 2, 3, 4, 5), -3, 4));
@@ -119,6 +124,7 @@ arr.slice(-3, -1) // [3, 4]
     @Test
     public void reverse() {
         assertEquals("[3, 2, 1]", $.reverse(asList(1, 2, 3)).toString());
+        assertEquals("[3, 2, 1]", new $(asList(1, 2, 3)).reverse().toString());
         assertEquals("[3, 2, 1]", asList($.reverse(new Integer[] {1, 2, 3})).toString());
         assertEquals("[3, 2, 1]", $.chain(asList(1, 2, 3)).reverse().value().toString());
     }

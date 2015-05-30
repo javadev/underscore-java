@@ -143,7 +143,7 @@ initialize();
         Function<Void> onceIncr = $.once(incr);
         onceIncr.apply();
         onceIncr.apply();
-        Thread.sleep(32);
+        Thread.sleep(48);
         assertEquals("incr was called only once", 1, counter[0]);
     }
 
