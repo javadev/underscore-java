@@ -1718,8 +1718,8 @@ public class $<T> {
         return newArrayList(union);
     }
 
-    public static <T extends Comparable<T>> List<T> sort(final List<T> list) {
-        final List<T> localList = newArrayList(list);
+    public static <T extends Comparable<T>> List<T> sort(final Iterable<T> iterable) {
+        final List<T> localList = newArrayList(iterable);
         Collections.<T>sort(localList);
         return localList;
     }
@@ -1728,6 +1728,10 @@ public class $<T> {
         final T[] localArray = array.clone();
         Arrays.<T>sort(localArray);
         return localArray;
+    }
+
+    public List<T> sort() {
+        return sort((Iterable<Comparable>) iterable);
     }
 
     public static <T> String join(final Iterable<T> iterable, final String separator) {
