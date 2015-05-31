@@ -410,9 +410,9 @@ public class $<T> {
 
     }
 
-    public static <T, E> Set<E> where(final Set<E> list,
+    public static <T, E> Set<E> where(final Set<E> set,
                                    final List<Tuple<String, T>> properties) {
-        return filter(list, new WherePredicate<E, T>(properties));
+        return filter(set, new WherePredicate<E, T>(properties));
     }
 
     public static <T, E> Optional<E> findWhere(final Iterable<E> iterable,
@@ -1466,12 +1466,12 @@ public class $<T> {
         return new $.Chain<T>(list);
     }
 
-    public static <T> Chain chain(final Set<T> list) {
-        return new $.Chain<T>(newArrayList(list));
+    public static <T> Chain chain(final Set<T> set) {
+        return new $.Chain<T>(newArrayList(set));
     }
 
-    public static <T> Chain chain(final T[] list) {
-        return new $.Chain<T>(Arrays.asList(list));
+    public static <T> Chain chain(final T[] array) {
+        return new $.Chain<T>(Arrays.asList(array));
     }
 
     public static class Chain<T> {
