@@ -45,6 +45,14 @@ public class $<T> extends com.github.underscore.$<T> {
         public <T extends Number> Chain<T> sum() {
             return new Chain<T>($.sum((List<T>) value()));
         }
+
+        public Chain<Double> mean() {
+            return new Chain<Double>($.mean((List<Number>) value()));
+        }
+
+        public Chain<Double> median() {
+            return new Chain<Double>($.median((List<Number>) value()));
+        }
     }
 
     public static <T> Chain chain(final List<T> list) {
@@ -139,6 +147,10 @@ public class $<T> extends com.github.underscore.$<T> {
         return result.doubleValue() / count;
     }
 
+    public double mean() {
+        return mean((Iterable<Number>) getIterable());
+    }
+
     public static <T extends Number> double median(final Iterable<T> iterable) {
         final List<T> result = newArrayList((Collection) iterable);
         final int size = size(iterable);
@@ -146,6 +158,10 @@ public class $<T> extends com.github.underscore.$<T> {
             return result.get(size / 2).doubleValue();
         }
         return (result.get(size / 2 - 1).doubleValue() + result.get(size / 2).doubleValue()) / 2;
+    }
+
+    public double median() {
+        return median((Iterable<Number>) getIterable());
     }
 
     public static void main(String[] args) {

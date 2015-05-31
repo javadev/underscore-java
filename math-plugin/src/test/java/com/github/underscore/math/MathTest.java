@@ -110,6 +110,10 @@ _.mean([0, 1, 2]);
     public void mean() {
         final Double result = $.mean(asList((double) 0, (double) 0.5, (double) 1));
         assertEquals("0.5", result.toString());
+        final Double resultObj = new $(asList((double) 0, (double) 0.5, (double) 1)).mean();
+        assertEquals("0.5", resultObj.toString());
+        final Double resultChain = (Double) $.chain(asList((double) 0, (double) 0.5, (double) 1)).mean().item();
+        assertEquals("0.5", resultChain.toString());
         final Double result2 = $.mean(asList((long) 0, (long) 1, (long) 2));
         assertEquals("1.0", result2.toString());
     }
@@ -128,6 +132,10 @@ _.median([0, 0, 1, 2, 3, 4]);
     public void median() {
         final Double result = $.median(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5));
         assertEquals("0.0", result.toString());
+        final Double resultObj = new $(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median();
+        assertEquals("0.0", resultObj.toString());
+        final Double resultChain = (Double) $.chain(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median().item();
+        assertEquals("0.0", resultChain.toString());
         final Double result2 = $.median(asList((int) 0, (int) 0, (int) 1, (int) 2, (int) 5));
         assertEquals("1.0", result2.toString());
         final Double result3 = $.median(asList((int) 0, (int) 0, (int) 1, (int) 2));
