@@ -87,11 +87,11 @@ _.concat([1, 2], [3, 4]);
     public void concat() {
         assertEquals(asList(1, 2, 3, 4), asList($.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
         assertEquals(asList(1, 2, 3, 4), $.concat(asList(1, 2), asList(3, 4)));
-        assertEquals(asList(1, 2, 3, 4), new $(asList(1, 2)).concatTo(asList(3, 4)));
+        assertEquals(asList(1, 2, 3, 4), new $(asList(1, 2)).concatWith(asList(3, 4)));
         assertEquals("[1, 2, 3, 4]", $.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
         assertEquals(asList(1, 2, 3, 4), asList($.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
         assertEquals(asList(1, 2, 3, 4), $.concat(asList(1, 2), asList(3), asList(4)));
-        assertEquals(asList(1, 2, 3, 4), new $(asList(1, 2)).concatTo(asList(3), asList(4)));
+        assertEquals(asList(1, 2, 3, 4), new $(asList(1, 2)).concatWith(asList(3), asList(4)));
     }
 
 /*

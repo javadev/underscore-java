@@ -312,8 +312,8 @@ public class $<T> {
         }).isPresent();
     }
 
-    public static <E> boolean all(final Iterable<E> set, final Predicate<E> pred) {
-        return every(set, pred);
+    public static <E> boolean all(final Iterable<E> iterable, final Predicate<E> pred) {
+        return every(iterable, pred);
     }
 
     public static <E> boolean some(final Iterable<E> iterable, final Predicate<E> pred) {
@@ -483,13 +483,7 @@ public class $<T> {
     }
 
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final List<E> list, final Function1<E, T> func) {
-        final List<E> sortedList = newArrayList();
-        each(list, new Block<E>() {
-            @Override
-            public void apply(E arg) {
-                sortedList.add(arg);
-            }
-        });
+        final List<E> sortedList = newArrayList(list);
         Collections.sort(sortedList, new Comparator<E>() {
             @Override
             public int compare(E o1, E o2) {
@@ -500,13 +494,7 @@ public class $<T> {
     }
 
     public static <K, V extends Comparable<? super V>> List<Map<K, V>> sortBy(final List<Map<K, V>> list, final K key) {
-        final List<Map<K, V>> sortedList = newArrayList();
-        each(list, new Block<Map<K, V>>() {
-            @Override
-            public void apply(Map<K, V> arg) {
-                sortedList.add(arg);
-            }
-        });
+        final List<Map<K, V>> sortedList = newArrayList(list);
         Collections.sort(sortedList, new Comparator<Map<K, V>>() {
             @Override
             public int compare(Map<K, V> o1, Map<K, V> o2) {
@@ -1784,16 +1772,16 @@ public class $<T> {
     }
 
 
-    public List<T> concatTo(final Iterable<T> ... other) {
+    public List<T> concatWith(final Iterable<T> ... other) {
         return concat(iterable, other);
     }
 
-    public static <T> List<T> slice(final Iterable<T> list, final int start) {
+    public static <T> List<T> slice(final Iterable<T> iterable, final int start) {
         final List<T> result;
         if (start > 0) {
-            result = newArrayList(list).subList(start, size(list));
+            result = newArrayList(iterable).subList(start, size(iterable));
         } else {
-            result = newArrayList(list).subList(size(list) + start, size(list));
+            result = newArrayList(iterable).subList(size(iterable) + start, size(iterable));
         }
         return result;
     }
@@ -1806,19 +1794,19 @@ public class $<T> {
         return slice(iterable, start);
     }
 
-    public static <T> List<T> slice(final Iterable<T> list, final int start, final int end) {
+    public static <T> List<T> slice(final Iterable<T> iterable, final int start, final int end) {
         final List<T> result;
         if (start > 0) {
             if (end > 0) {
-                result = newArrayList(list).subList(start, end);
+                result = newArrayList(iterable).subList(start, end);
             } else {
-                result = newArrayList(list).subList(start, size(list) + end);
+                result = newArrayList(iterable).subList(start, size(iterable) + end);
             }
         } else {
             if (end > 0) {
-                result = newArrayList(list).subList(size(list) + start, end);
+                result = newArrayList(iterable).subList(size(iterable) + start, end);
             } else {
-                result = newArrayList(list).subList(size(list) + start, size(list) + end);
+                result = newArrayList(iterable).subList(size(iterable) + start, size(iterable) + end);
             }
         }
         return result;
@@ -1832,8 +1820,8 @@ public class $<T> {
         return slice(iterable, start, end);
     }
 
-    public static <T> List<T> reverse(final Iterable<T> list) {
-        final List<T> result = (List<T>) clone(newArrayList(list));
+    public static <T> List<T> reverse(final Iterable<T> iterable) {
+        final List<T> result = (List<T>) clone(newArrayList(iterable));
         Collections.reverse(result);
         return result;
     }
@@ -1863,17 +1851,17 @@ public class $<T> {
         }
     }
 
-    protected static <T> List<T> newArrayList(Iterable<T> list) {
+    protected static <T> List<T> newArrayList(Iterable<T> iterable) {
         try {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
-            return (List<T>) listsClass.getDeclaredMethod("newArrayList", Iterable.class).invoke(null, list);
+            return (List<T>) listsClass.getDeclaredMethod("newArrayList", Iterable.class).invoke(null, iterable);
         } catch (Exception e) {
             final List<T> result;
-            if (list instanceof Collection) {
-                result = new ArrayList<T>((Collection) list);
+            if (iterable instanceof Collection) {
+                result = new ArrayList<T>((Collection) iterable);
             } else {
                 result = new ArrayList<T>();
-                for (final T item : list) {
+                for (final T item : iterable) {
                     result.add(item);
                 }
             }
@@ -1900,13 +1888,13 @@ public class $<T> {
         }
     }
 
-    private static <T> Set<T> newHashSet(Iterable<T> list) {
+    private static <T> Set<T> newHashSet(Iterable<T> iterable) {
         try {
             final Class<?> setsClass = classForName("com.google.common.collect.Sets");
-            return (Set<T>) setsClass.getDeclaredMethod("newHashSet", Iterable.class).invoke(null, list);
+            return (Set<T>) setsClass.getDeclaredMethod("newHashSet", Iterable.class).invoke(null, iterable);
         } catch (Exception e) {
             final Set<T> result = new HashSet<T>();
-            for (final T item : list) {
+            for (final T item : iterable) {
                 result.add(item);
             }
             return result;
