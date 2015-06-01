@@ -54,9 +54,9 @@ var youngest = _.chain(stooges)
         } };
         final String youngest = $.chain(stooges)
             .sortBy(
-                new Function1<Map<String, Object>, String>() {
-                public String apply(Map<String, Object> item) {
-                    return item.get("age").toString();
+                new Function1<Map<String, Object>, Integer>() {
+                public Integer apply(Map<String, Object> item) {
+                    return (Integer) item.get("age");
                 }
             })
             .map(
@@ -78,9 +78,9 @@ var youngest = _.chain(stooges)
         } };
         final String youngest = $.chain(stooges)
             .sortBy(
-                new Function1<Map<String, Object>, String>() {
-                public String apply(Map<String, Object> item) {
-                    return item.get("age").toString();
+                new Function1<Map<String, Object>, Integer>() {
+                public Integer apply(Map<String, Object> item) {
+                    return (Integer) item.get("age");
                 }
             })
             .map(
@@ -102,9 +102,9 @@ var youngest = _.chain(stooges)
         } };
         final String youngest = $.chain(stooges.toArray())
             .sortBy(
-                new Function1<Map<String, Object>, String>() {
-                public String apply(Map<String, Object> item) {
-                    return item.get("age").toString();
+                new Function1<Map<String, Object>, Integer>() {
+                public Integer apply(Map<String, Object> item) {
+                    return (Integer) item.get("age");
                 }
             })
             .map(
@@ -153,17 +153,17 @@ _.chain(lyrics)
             })
             .flatten()
             .reduce(
-                new FunctionAccum<Map<String, Object>, String>() {
-                public Map<String, Object> apply(Map<String, Object> accum, String item) {
+                new FunctionAccum<Map<String, Integer>, String>() {
+                public Map<String, Integer> apply(Map<String, Integer> accum, String item) {
                     if (accum.get(item) == null) {
                         accum.put(item, 1);
                     } else {
-                        accum.put(item, ((Integer) accum.get(item)) + 1);
+                        accum.put(item, accum.get(item) + 1);
                     }
                     return accum;
                 }
             },
-            new LinkedHashMap<String, Object>()
+            new LinkedHashMap<String, Integer>()
             )
             .item().toString();
         assertEquals("{I'm=2, a=2, lumberjack=2, and=4, okay=2, I=2, sleep=1, all=4, night=2, work=1, day=2, He's=1,"
@@ -206,17 +206,17 @@ _.chain(lyrics)
             })
             .flatten()
             .reduceRight(
-                new FunctionAccum<Map<String, Object>, String>() {
-                public Map<String, Object> apply(Map<String, Object> accum, String item) {
+                new FunctionAccum<Map<String, Integer>, String>() {
+                public Map<String, Integer> apply(Map<String, Integer> accum, String item) {
                     if (accum.get(item) == null) {
                         accum.put(item, 1);
                     } else {
-                        accum.put(item, ((Integer) accum.get(item)) + 1);
+                        accum.put(item, accum.get(item) + 1);
                     }
                     return accum;
                 }
             },
-            new LinkedHashMap<String, Object>()
+            new LinkedHashMap<String, Integer>()
             )
             .item().toString();
         assertEquals("{day=2, all=4, works=1, he=1, and=4, night=2, sleeps=1,"
