@@ -19,7 +19,7 @@ Add this dependency to your project's POM:
     <dependency>
       <groupId>com.github.javadev</groupId>
       <artifactId>underscore</artifactId>
-      <version>1.2</version>
+      <version>1.3</version>
     </dependency>
 
 Underscore-java is a java port of [Underscore.js](http://underscorejs.org/).
