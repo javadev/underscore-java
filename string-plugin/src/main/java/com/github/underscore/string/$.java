@@ -28,29 +28,35 @@ import com.github.underscore.Function1;
 import com.github.underscore.Function3;
 
 public class $<T> extends com.github.underscore.$<T> {
-    private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile("[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
+    private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
+        "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
     private static Map<String, String> deburredLetters = new LinkedHashMap<String, String>() { {
-        put("\u00c0", "A");  put("\u00c1", "A"); put("\u00c2", "A"); put("\u00c3", "A"); put("\u00c4", "A"); put("\u00c5", "A");
-        put("\u00e0", "a");  put("\u00e1", "a"); put("\u00e2", "a"); put("\u00e3", "a"); put("\u00e4", "a"); put("\u00e5", "a");
-        put("\u00c7", "C");  put("\u00e7", "c");
-        put("\u00d0", "D");  put("\u00f0", "d");
-        put("\u00c8", "E");  put("\u00c9", "E");  put("\u00ca", "E");  put("\u00cb", "E");
-        put("\u00e8", "e");  put("\u00e9", "e");  put("\u00ea", "e");  put("\u00eb", "e");
-        put("\u00cC", "I");  put("\u00cd", "I");  put("\u00ce", "I");  put("\u00cf", "I");
-        put("\u00eC", "i");  put("\u00ed", "i");  put("\u00ee", "i");  put("\u00ef", "i");
-        put("\u00d1", "N");  put("\u00f1", "n");
-        put("\u00d2", "O");  put("\u00d3", "O");  put("\u00d4", "O");  put("\u00d5", "O");  put("\u00d6", "O");  put("\u00d8", "O");
-        put("\u00f2", "o");  put("\u00f3", "o");  put("\u00f4", "o");  put("\u00f5", "o");  put("\u00f6", "o");  put("\u00f8", "o");
-        put("\u00d9", "U");  put("\u00da", "U");  put("\u00db", "U");  put("\u00dc", "U");
-        put("\u00f9", "u");  put("\u00fa", "u");  put("\u00fb", "u");  put("\u00fc", "u");
-        put("\u00dd", "Y");  put("\u00fd", "y");  put("\u00ff", "y");
-        put("\u00c6", "Ae");  put("\u00e6", "ae");
-        put("\u00de", "Th");  put("\u00fe", "th");
+        put("\u00c0", "A"); put("\u00c1", "A"); put("\u00c2", "A"); put("\u00c3", "A");
+        put("\u00c4", "A"); put("\u00c5", "A");
+        put("\u00e0", "a"); put("\u00e1", "a"); put("\u00e2", "a"); put("\u00e3", "a");
+        put("\u00e4", "a"); put("\u00e5", "a");
+        put("\u00c7", "C"); put("\u00e7", "c");
+        put("\u00d0", "D"); put("\u00f0", "d");
+        put("\u00c8", "E"); put("\u00c9", "E"); put("\u00ca", "E"); put("\u00cb", "E");
+        put("\u00e8", "e"); put("\u00e9", "e"); put("\u00ea", "e"); put("\u00eb", "e");
+        put("\u00cC", "I"); put("\u00cd", "I"); put("\u00ce", "I"); put("\u00cf", "I");
+        put("\u00eC", "i"); put("\u00ed", "i"); put("\u00ee", "i"); put("\u00ef", "i");
+        put("\u00d1", "N"); put("\u00f1", "n");
+        put("\u00d2", "O"); put("\u00d3", "O"); put("\u00d4", "O"); put("\u00d5", "O");
+        put("\u00d6", "O"); put("\u00d8", "O");
+        put("\u00f2", "o"); put("\u00f3", "o"); put("\u00f4", "o"); put("\u00f5", "o");
+        put("\u00f6", "o"); put("\u00f8", "o");
+        put("\u00d9", "U"); put("\u00da", "U"); put("\u00db", "U"); put("\u00dc", "U");
+        put("\u00f9", "u"); put("\u00fa", "u"); put("\u00fb", "u"); put("\u00fc", "u");
+        put("\u00dd", "Y"); put("\u00fd", "y"); put("\u00ff", "y");
+        put("\u00c6", "Ae"); put("\u00e6", "ae");
+        put("\u00de", "Th"); put("\u00fe", "th");
         put("\u00df", "ss");
     } };
     private static String upper = "[A-Z\\xc0-\\xd6\\xd8-\\xde]";
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
-    private static java.util.regex.Pattern reWords = java.util.regex.Pattern.compile(upper + "+(?=" + upper + lower + ")|" + upper + "?" + lower + "|" + upper + "+|[0-9]+");
+    private static java.util.regex.Pattern reWords = java.util.regex.Pattern.compile(
+        upper + "+(?=" + upper + lower + ")|" + upper + "?" + lower + "|" + upper + "+|[0-9]+");
 
     public $(final Iterable<T> iterable) {
         super(iterable);
@@ -85,15 +91,16 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(newArrayList(list));
     }
 
-    public static <T> Chain chain(final T[] list) {
+    public static <T> Chain chain(final T ... list) {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
     public static String camelCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
-                final String localWord = word.toLowerCase();
-                return result + (index > 0 ? (word.substring(0, 1).toUpperCase() + word.substring(1)) : localWord);
+                final String localWord = word.toLowerCase(Locale.getDefault());
+                return result + (index > 0 ? (word.substring(0, 1).toUpperCase(Locale.getDefault())
+                    + word.substring(1)) : localWord);
             }
         }).apply(string);
     }
@@ -125,7 +132,8 @@ public class $<T> extends com.github.underscore.$<T> {
         return result;
     }
 
-    private static Function1<String, String> createCompounder(final Function3<String, String, Integer, String> callback) {
+    private static Function1<String, String> createCompounder(
+        final Function3<String, String, Integer, String> callback) {
         return new Function1<String, String>() {
             public String apply(final String string) {
                 int index = -1;
@@ -145,7 +153,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return $.camelCase(getString().get());
     }
 
-    public static void main(String[] args) {
+    public static void main(String ... args) {
         final String message = "Underscore-java-string is a string plugin for underscore-java.\n\n"
             + "For docs, license, tests, and downloads, see: http://javadev.github.io/underscore-java";
         System.out.println(message);
