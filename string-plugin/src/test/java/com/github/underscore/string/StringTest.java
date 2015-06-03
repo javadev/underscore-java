@@ -69,6 +69,19 @@ _.capitalize('fred');
         assertEquals("À", $.capitalize("\u00c0"));
     }
 
+/*
+_.deburr('déjà vu');
+// → 'deja vu'
+*/
+    @Test
+    public void deburr() {
+        assertEquals("deja vu", $.deburr("déjà vu"));
+        assertEquals("deja vu", new $("déjà vu").deburr());
+        assertEquals("deja vu", $.chain("déjà vu").deburr().item());
+        assertEquals("", $.deburr(null));
+        assertEquals("A", $.deburr("\u00c0"));
+    }
+
     @Test
     public void main() throws Exception {
         $.main(new String[] {});

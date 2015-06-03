@@ -81,6 +81,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<String> capitalize() {
             return new Chain<String>($.capitalize((String) item()));
         }
+
+        public Chain<String> deburr() {
+            return new Chain<String>($.deburr((String) item()));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -119,7 +123,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return value == null ? "" : value;
     }
 
-    private static String deburr(final String string) {
+    public static String deburr(final String string) {
         final String localString = baseToString(string);
         final StringBuilder sb = new StringBuilder();
         for (final String str : localString.split("")) {
@@ -165,6 +169,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String capitalize() {
         return $.capitalize(getString().get());
+    }
+
+    public String deburr() {
+        return $.deburr(getString().get());
     }
 
     public static void main(String ... args) {
