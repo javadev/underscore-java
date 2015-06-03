@@ -56,6 +56,19 @@ _.camelCase('__foo_bar__');
         assertEquals("a", $.camelCase("\u00c0"));
     }
 
+/*
+_.capitalize('fred');
+ => 'Fred'
+*/
+    @Test
+    public void capitalize() {
+        assertEquals("Fred", $.capitalize("fred"));
+        assertEquals("Fred", new $("fred").capitalize());
+        assertEquals("Fred", $.chain("fred").capitalize().item());
+        assertEquals("", $.capitalize(null));
+        assertEquals("À", $.capitalize("\u00c0"));
+    }
+
     @Test
     public void main() throws Exception {
         $.main(new String[] {});

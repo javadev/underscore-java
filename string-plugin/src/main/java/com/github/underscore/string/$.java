@@ -77,6 +77,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<String> camelCase() {
             return new Chain<String>($.camelCase((String) item()));
         }
+
+        public Chain<String> capitalize() {
+            return new Chain<String>($.capitalize((String) item()));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -103,6 +107,12 @@ public class $<T> extends com.github.underscore.$<T> {
                     + word.substring(1)) : localWord);
             }
         }).apply(string);
+    }
+
+    public static String capitalize(final String string) {
+        final String localString = baseToString(string);
+        return localString.isEmpty() ? "" : (localString.substring(0, 1).toUpperCase(Locale.getDefault())
+            + (localString.length() > 1 ? localString.substring(1) : ""));
     }
 
     private static String baseToString(String value) {
@@ -151,6 +161,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String camelCase() {
         return $.camelCase(getString().get());
+    }
+
+    public String capitalize() {
+        return $.capitalize(getString().get());
     }
 
     public static void main(String ... args) {
