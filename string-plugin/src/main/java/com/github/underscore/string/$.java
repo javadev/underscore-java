@@ -101,6 +101,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<String> snakeCase() {
             return new Chain<String>($.snakeCase((String) item()));
         }
+
+        public Chain<List<String>> words() {
+            return new Chain<List<String>>($.words((String) item()));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -152,7 +156,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return sb.toString();
     }
 
-    private static List<String> words(final String string) {
+    public static List<String> words(final String string) {
         final String localString = baseToString(string);
         final List<String> result = new ArrayList<String>();
         final java.util.regex.Matcher matcher = reWords.matcher(localString);
@@ -241,6 +245,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String snakeCase() {
         return $.snakeCase(getString().get());
+    }
+
+    public List<String> words() {
+        return $.words(getString().get());
     }
 
     public static void main(String ... args) {

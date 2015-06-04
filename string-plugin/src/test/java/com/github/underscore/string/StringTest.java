@@ -152,6 +152,18 @@ _.snakeCase('--foo-bar');
         assertEquals("a", $.snakeCase("\u00c0"));
     }
 
+/*
+_.words('fred, barney, & pebbles');
+=> ['fred', 'barney', 'pebbles']
+*/
+    @Test
+    public void words() {
+        assertEquals("[fred, barney, pebbles]", $.words("fred, barney, & pebbles").toString());
+        assertEquals("[fred, barney, pebbles]", new $("fred, barney, & pebbles").words().toString());
+        assertEquals("[fred, barney, pebbles]", $.chain("fred, barney, & pebbles").words().value().toString());
+        assertEquals("[]", $.words(null).toString());
+    }
+
     @Test
     public void main() throws Exception {
         $.main(new String[] {});
