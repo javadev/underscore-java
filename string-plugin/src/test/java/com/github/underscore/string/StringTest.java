@@ -110,6 +110,27 @@ _.endsWith('abc', 'b', 2);
         assertTrue($.endsWith("1", "1"));
     }
 
+/*
+_.kebabCase('Foo Bar');
+=> 'foo-bar'
+
+_.kebabCase('fooBar');
+=> 'foo-bar'
+
+_.kebabCase('__foo_bar__');
+=> 'foo-bar'
+*/
+    @Test
+    public void kebabCase() {
+        assertEquals("foo-bar", $.kebabCase("Foo Bar"));
+        assertEquals("foo-bar", new $("Foo Bar").kebabCase());
+        assertEquals("foo-bar", $.chain("Foo Bar").kebabCase().item());
+        assertEquals("foo-bar", $.kebabCase("fooBar"));
+        assertEquals("foo-bar", $.kebabCase("__foo_bar__"));
+        assertEquals("", $.kebabCase(null));
+        assertEquals("a", $.kebabCase("\u00c0"));
+    }
+
     @Test
     public void main() throws Exception {
         $.main(new String[] {});
