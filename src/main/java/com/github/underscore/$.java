@@ -34,7 +34,13 @@ import java.util.*;
  */
 public class $<T> {
     private static ClassForName classForName = new ClassForName();
-    private static final Map<String, Function1<String, String>> FUNCTIONS = newLinkedHashMap();
+    private static final ThreadLocal<Map<String, Function1<String, String>>> FUNCTIONS =
+        new ThreadLocal<Map<String, Function1<String, String>>>() {
+        @Override
+        protected Map<String, Function1<String, String>> initialValue() {
+            return newLinkedHashMap();
+        }
+    };
     private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<String, String>() { {
         put("evaluate", "<%([\\s\\S]+?)%>");
         put("interpolate", "<%=([\\s\\S]+?)%>");
@@ -1688,12 +1694,12 @@ public class $<T> {
     }
 
     public static void mixin(final String funcName, final Function1<String, String> func) {
-        FUNCTIONS.put(funcName, func);
+        FUNCTIONS.get().put(funcName, func);
     }
 
     public Optional<String> call(final String funcName) {
-        if (string.isPresent() && FUNCTIONS.containsKey(funcName)) {
-            return Optional.of(FUNCTIONS.get(funcName).apply(string.get()));
+        if (string.isPresent() && FUNCTIONS.get().containsKey(funcName)) {
+            return Optional.of(FUNCTIONS.get().get(funcName).apply(string.get()));
         }
         return Optional.absent();
     }
