@@ -131,6 +131,27 @@ _.kebabCase('__foo_bar__');
         assertEquals("a", $.kebabCase("\u00c0"));
     }
 
+/*
+_.snakeCase('Foo Bar');
+=> 'foo_bar'
+
+_.snakeCase('fooBar');
+=> 'foo_bar'
+
+_.snakeCase('--foo-bar');
+=> 'foo_bar'
+*/
+    @Test
+    public void snakeCase() {
+        assertEquals("foo_bar", $.snakeCase("Foo Bar"));
+        assertEquals("foo_bar", new $("Foo Bar").snakeCase());
+        assertEquals("foo_bar", $.chain("Foo Bar").snakeCase().item());
+        assertEquals("foo_bar", $.snakeCase("fooBar"));
+        assertEquals("foo_bar", $.snakeCase("--foo-bar"));
+        assertEquals("", $.snakeCase(null));
+        assertEquals("a", $.snakeCase("\u00c0"));
+    }
+
     @Test
     public void main() throws Exception {
         $.main(new String[] {});
