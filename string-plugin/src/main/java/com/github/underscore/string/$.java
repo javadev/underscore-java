@@ -85,6 +85,14 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<String> deburr() {
             return new Chain<String>($.deburr((String) item()));
         }
+
+        public Chain<Boolean> endsWith(final String target) {
+            return new Chain<Boolean>($.endsWith((String) item(), target));
+        }
+
+        public Chain<Boolean> endsWith(final String target, final Integer position) {
+            return new Chain<Boolean>($.endsWith((String) item(), target, position));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -163,6 +171,24 @@ public class $<T> extends com.github.underscore.$<T> {
         };
     }
 
+    public static boolean endsWith(final String string, final String target) {
+        return endsWith(string, target, null);
+    }
+
+    public static boolean endsWith(final String string, final String target, final Integer position) {
+        if (string == null || target == null) {
+            return false;
+        }
+        final String localString = baseToString(string);
+
+        final int length = localString.length();
+        final int localPosition = position == null ? length
+          : Math.min(position < 0 ? 0 : position, length);
+
+        final int localPosition2 = localPosition - target.length();
+      return localPosition2 >= 0 && localString.indexOf(target, localPosition2) == localPosition2;
+    }
+
     public String camelCase() {
         return $.camelCase(getString().get());
     }
@@ -173,6 +199,14 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String deburr() {
         return $.deburr(getString().get());
+    }
+
+    public boolean endsWith(final String target) {
+        return $.endsWith(getString().get(), target);
+    }
+
+    public boolean endsWith(final String target, final Integer position) {
+        return $.endsWith(getString().get(), target, position);
     }
 
     public static void main(String ... args) {

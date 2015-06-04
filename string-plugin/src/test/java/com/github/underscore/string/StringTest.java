@@ -26,6 +26,8 @@ package com.github.underscore.string;
 import java.util.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Underscore library unit test.
@@ -58,7 +60,7 @@ _.camelCase('__foo_bar__');
 
 /*
 _.capitalize('fred');
- => 'Fred'
+=> 'Fred'
 */
     @Test
     public void capitalize() {
@@ -71,7 +73,7 @@ _.capitalize('fred');
 
 /*
 _.deburr('déjà vu');
-// → 'deja vu'
+=> 'deja vu'
 */
     @Test
     public void deburr() {
@@ -80,6 +82,32 @@ _.deburr('déjà vu');
         assertEquals("deja vu", $.chain("déjà vu").deburr().item());
         assertEquals("", $.deburr(null));
         assertEquals("A", $.deburr("\u00c0"));
+    }
+
+/*
+_.endsWith('abc', 'c');
+=> true
+
+_.endsWith('abc', 'b');
+=> false
+
+_.endsWith('abc', 'b', 2);
+=> true
+*/
+    @Test
+    public void endsWith() {
+        assertTrue($.endsWith("abc", "c"));
+        assertTrue(new $("abc").endsWith("c"));
+        assertTrue((Boolean) $.chain("abc").endsWith("c").item());
+        assertFalse($.endsWith("abc", "b"));
+        assertTrue($.endsWith("abc", "b", 2));
+        assertTrue(new $("abc").endsWith("b", 2));
+        assertTrue((Boolean) $.chain("abc").endsWith("b", 2).item());
+        assertFalse($.endsWith("abc", "c", -4));
+        assertFalse($.endsWith((String) null, (String) null));
+        assertFalse($.endsWith("1", (String) null));
+        assertFalse($.endsWith(null, "1"));
+        assertTrue($.endsWith("1", "1"));
     }
 
     @Test
