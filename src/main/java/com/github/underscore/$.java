@@ -34,7 +34,8 @@ import java.util.*;
  */
 public class $<T> {
     private static ClassForName classForName = new ClassForName();
-    private static final Map<String, Function1<String, String>> FUNCTIONS = newLinkedHashMap();
+    private static final Map<String, Function1<String, String>> FUNCTIONS =
+        new java.util.concurrent.ConcurrentHashMap<String, Function1<String, String>>();
     private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<String, String>() { {
         put("evaluate", "<%([\\s\\S]+?)%>");
         put("interpolate", "<%=([\\s\\S]+?)%>");
