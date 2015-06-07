@@ -106,6 +106,14 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.startCase((String) item()));
         }
 
+        public Chain<Boolean> startsWith(final String target) {
+            return new Chain<Boolean>($.startsWith((String) item(), target));
+        }
+
+        public Chain<Boolean> startsWith(final String target, final Integer position) {
+            return new Chain<Boolean>($.startsWith((String) item(), target, position));
+        }
+
         public Chain<List<String>> words() {
             return new Chain<List<String>>($.words((String) item()));
         }
@@ -233,6 +241,23 @@ public class $<T> extends com.github.underscore.$<T> {
         }).apply(string);
     }
 
+    public static boolean startsWith(final String string, final String target) {
+        return startsWith(string, target, null);
+    }
+
+    public static boolean startsWith(final String string, final String target, final Integer position) {
+        if (string == null || target == null) {
+            return false;
+        }
+        final String localString = baseToString(string);
+
+        final int length = localString.length();
+        final int localPosition = position == null ? 0
+          : Math.min(position < 0 ? 0 : position, length);
+
+        return localString.lastIndexOf(target, localPosition) == localPosition;
+    }
+
     public String camelCase() {
         return $.camelCase(getString().get());
     }
@@ -263,6 +288,14 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String startCase() {
         return $.startCase(getString().get());
+    }
+
+    public boolean startsWith(final String target) {
+        return $.startsWith(getString().get(), target);
+    }
+
+    public boolean startsWith(final String target, final Integer position) {
+        return $.startsWith(getString().get(), target, position);
     }
 
     public List<String> words() {

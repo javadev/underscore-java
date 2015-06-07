@@ -170,6 +170,32 @@ _.startCase('__foo_bar__');
     }
 
 /*
+_.startsWith('abc', 'a');
+=> true
+
+_.startsWith('abc', 'b');
+=> false
+
+_.startsWith('abc', 'b', 1);
+=> true
+*/
+    @Test
+    public void startsWith() {
+        assertTrue($.startsWith("abc", "a"));
+        assertTrue(new $("abc").startsWith("a"));
+        assertTrue((Boolean) $.chain("abc").startsWith("a").item());
+        assertFalse($.startsWith("abc", "b"));
+        assertTrue($.startsWith("abc", "b", 1));
+        assertTrue(new $("abc").startsWith("b", 1));
+        assertTrue((Boolean) $.chain("abc").startsWith("b", 1).item());
+        assertFalse($.startsWith("abc", "c", -4));
+        assertFalse($.startsWith((String) null, (String) null));
+        assertFalse($.startsWith("1", (String) null));
+        assertFalse($.startsWith(null, "1"));
+        assertTrue($.startsWith("1", "1"));
+    }
+
+/*
 _.words('fred, barney, & pebbles');
 => ['fred', 'barney', 'pebbles']
 */
