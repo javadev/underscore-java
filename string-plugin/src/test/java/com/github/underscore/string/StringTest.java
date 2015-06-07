@@ -153,6 +153,23 @@ _.snakeCase('--foo-bar');
     }
 
 /*
+_.startCase('--foo-bar');
+=> 'Foo Bar'
+
+_.startCase('fooBar');
+=> 'Foo Bar'
+
+_.startCase('__foo_bar__');
+=> 'Foo Bar
+*/
+    @Test
+    public void startCase() {
+        assertEquals("Foo Bar", $.startCase("--foo-bar"));
+        assertEquals("Foo Bar", new $("--foo-bar").startCase());
+        assertEquals("Foo Bar", $.chain("--foo-bar").startCase().item());
+    }
+
+/*
 _.words('fred, barney, & pebbles');
 => ['fred', 'barney', 'pebbles']
 */

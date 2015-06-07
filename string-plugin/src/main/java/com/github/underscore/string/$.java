@@ -102,6 +102,10 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.snakeCase((String) item()));
         }
 
+        public Chain<String> startCase() {
+            return new Chain<String>($.startCase((String) item()));
+        }
+
         public Chain<List<String>> words() {
             return new Chain<List<String>>($.words((String) item()));
         }
@@ -219,6 +223,16 @@ public class $<T> extends com.github.underscore.$<T> {
         }).apply(string);
     }
 
+    public static String startCase(final String string) {
+        return createCompounder(new Function3<String, String, Integer, String>() {
+            public String apply(final String result, final String word, final Integer index) {
+                final String localWord = word.toLowerCase(Locale.getDefault());
+                return result + (index > 0 ? " " : "") + word.substring(0, 1).toUpperCase(Locale.getDefault())
+                    + word.substring(1);
+            }
+        }).apply(string);
+    }
+
     public String camelCase() {
         return $.camelCase(getString().get());
     }
@@ -245,6 +259,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String snakeCase() {
         return $.snakeCase(getString().get());
+    }
+
+    public String startCase() {
+        return $.startCase(getString().get());
     }
 
     public List<String> words() {
