@@ -98,6 +98,34 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.kebabCase((String) item()));
         }
 
+        public Chain<String> repeat(final int length) {
+            return new Chain<String>($.repeat((String) item(), length));
+        }
+
+        public Chain<String> pad(final int length) {
+            return new Chain<String>($.pad((String) item(), length));
+        }
+
+        public Chain<String> pad(final int length, final String chars) {
+            return new Chain<String>($.pad((String) item(), length, chars));
+        }
+
+        public Chain<String> padLeft(final int length) {
+            return new Chain<String>($.padLeft((String) item(), length));
+        }
+
+        public Chain<String> padLeft(final int length, final String chars) {
+            return new Chain<String>($.padLeft((String) item(), length, chars));
+        }
+
+        public Chain<String> padRight(final int length) {
+            return new Chain<String>($.padRight((String) item(), length));
+        }
+
+        public Chain<String> padRight(final int length, final String chars) {
+            return new Chain<String>($.padRight((String) item(), length, chars));
+        }
+
         public Chain<String> snakeCase() {
             return new Chain<String>($.snakeCase((String) item()));
         }
@@ -222,6 +250,73 @@ public class $<T> extends com.github.underscore.$<T> {
         }).apply(string);
     }
 
+    public static String repeat(final String string, final int length) {
+        final StringBuilder result = new StringBuilder();
+        final StringBuilder localString = new StringBuilder(baseToString(string));
+        if (length < 1 || string == null) {
+            return result.toString();
+        }
+        int n = length;
+        do {
+            if (n % 2 != 0) {
+                result.append(localString);
+            }
+            n = (int) Math.floor(n / (double) 2);
+            localString.append(localString.toString());
+        } while (n > 0);
+        return result.toString();
+    }
+
+    private static String createPadding(final String string, final int length, final String chars) {
+        final int strLength = string.length();
+        final int padLength = length - strLength;
+        final String localChars = chars == null ? " " : chars;
+        return repeat(localChars, (int) Math.ceil(padLength / (double) localChars.length())).substring(0, padLength);
+    }
+
+    public static String pad(final String string, final int length) {
+        return pad(string, length, null);
+    }
+
+    public static String pad(final String string, final int length, final String chars) {
+        final String localString = baseToString(string);
+        final int strLength = string.length();
+        if (strLength >= length) {
+            return localString;
+        }
+        final double mid = (length - strLength) / (double) 2;
+        final int leftLength = (int) Math.floor(mid);
+        final int rightLength = (int) Math.ceil(mid);
+        final String localChars = createPadding("", rightLength, chars);
+        return localChars.substring(0, leftLength) + string + localChars;
+    }
+
+    private static Function3<String, Integer, String, String> createPadDir(final boolean fromRight) {
+        return new Function3<String, Integer, String, String>() {
+            public String apply(String string, Integer length, String chars) {
+                final String localString = baseToString(string);
+                return (fromRight ? localString : "") + createPadding(localString, length, chars)
+                    + (fromRight ? "" : localString);
+            }
+        };
+    }
+
+    public static String padLeft(final String string, final Integer length) {
+         return createPadDir(false).apply(string, length, null);
+    }
+
+    public static String padLeft(final String string, final Integer length, final String chars) {
+         return createPadDir(false).apply(string, length, chars);
+    }
+
+    public static String padRight(final String string, final Integer length) {
+         return createPadDir(true).apply(string, length, null);
+    }
+
+    public static String padRight(final String string, final Integer length, final String chars) {
+         return createPadDir(true).apply(string, length, chars);
+    }
+
     public static String snakeCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
@@ -280,6 +375,34 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String kebabCase() {
         return $.kebabCase(getString().get());
+    }
+
+    public String repeat(final int length) {
+        return $.repeat(getString().get(), length);
+    }
+
+    public String pad(final int length) {
+        return $.pad(getString().get(), length);
+    }
+
+    public String pad(final int length, final String chars) {
+        return $.pad(getString().get(), length, chars);
+    }
+
+    public String padLeft(final int length) {
+        return $.padLeft(getString().get(), length);
+    }
+
+    public String padLeft(final int length, final String chars) {
+        return $.padLeft(getString().get(), length, chars);
+    }
+
+    public String padRight(final int length) {
+        return $.padRight(getString().get(), length);
+    }
+
+    public String padRight(final int length, final String chars) {
+        return $.padRight(getString().get(), length, chars);
     }
 
     public String snakeCase() {

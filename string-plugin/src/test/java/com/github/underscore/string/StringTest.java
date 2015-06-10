@@ -207,6 +207,90 @@ _.words('fred, barney, & pebbles');
         assertEquals("[]", $.words(null).toString());
     }
 
+/*
+_.pad('abc', 8);
+=> '  abc   '
+
+_.pad('abc', 8, '_-');
+=> '_-abc_-_'
+
+_.pad('abc', 3);
+=> 'abc'
+*/
+    @Test
+    public void pad() {
+        assertEquals("abc", $.pad("abc", 2));
+        assertEquals("abc", new $("abc").pad(2));
+        assertEquals("abc", $.chain("abc").pad(2).item());
+        assertEquals("  abc  ", $.pad("abc", 7));
+        assertEquals("  abc   ", $.pad("abc", 8));
+        assertEquals("_-abc_-_", $.pad("abc", 8, "_-"));
+        assertEquals("_-abc_-_", new $("abc").pad(8, "_-"));
+        assertEquals("_-abc_-_", $.chain("abc").pad(8, "_-").item());
+    }
+
+/*
+_.padLeft('abc', 6);
+=> '   abc'
+
+_.padLeft('abc', 6, '_-');
+=> '_-_abc'
+
+_.padLeft('abc', 3);
+=> 'abc'
+*/
+    @Test
+    public void padLeft() {
+        assertEquals("   abc", $.padLeft("abc", 6));
+        assertEquals("   abc", new $("abc").padLeft(6));
+        assertEquals("   abc", $.chain("abc").padLeft(6).item());
+        assertEquals("_-_abc", $.padLeft("abc", 6, "_-"));
+        assertEquals("_-_abc", new $("abc").padLeft(6, "_-"));
+        assertEquals("_-_abc", $.chain("abc").padLeft(6, "_-").item());
+        assertEquals("abc", $.padLeft("abc", 3));
+    }
+
+/*
+_.padRight('abc', 6);
+// → 'abc   '
+
+_.padRight('abc', 6, '_-');
+// → 'abc_-_'
+
+_.padRight('abc', 3);
+// → 'abc'
+*/
+    @Test
+    public void padRight() {
+        assertEquals("abc   ", $.padRight("abc", 6));
+        assertEquals("abc   ", new $("abc").padRight(6));
+        assertEquals("abc   ", $.chain("abc").padRight(6).item());
+        assertEquals("abc_-_", $.padRight("abc", 6, "_-"));
+        assertEquals("abc_-_", new $("abc").padRight(6, "_-"));
+        assertEquals("abc_-_", $.chain("abc").padRight(6, "_-").item());
+        assertEquals("abc", $.padRight("abc", 3));
+    }
+
+/*
+_.repeat('*', 3);
+=> '***'
+
+_.repeat('abc', 2);
+=> 'abcabc'
+
+_.repeat('abc', 0);
+=> ''
+*/
+    @Test
+    public void repeat() {
+        assertEquals("***", $.repeat("*", 3));
+        assertEquals("***", new $("*").repeat(3));
+        assertEquals("***", $.chain("*").repeat(3).item());
+        assertEquals("abcabc", $.repeat("abc", 2));
+        assertEquals("", $.repeat("abc", 0));
+        assertEquals("", $.repeat(null, 1));
+    }
+
     @Test
     public void main() throws Exception {
         $.main(new String[] {});

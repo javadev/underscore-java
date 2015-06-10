@@ -124,7 +124,10 @@ _.defer(function(){ alert('deferred'); });
     @Test
     public void defer() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        $.defer(new Function<Void>() { public Void apply() { counter[0]++; return null; } });
+        $.defer(new Function<Void>() { public Void apply() { try { Thread.sleep(16); } catch (Exception e) {
+            e.getMessage();
+            }
+            counter[0]++; return null; } });
         assertEquals("incr was debounced", 0, counter[0]);
         Thread.sleep(32);
         assertEquals("incr was debounced", 1, counter[0]);
