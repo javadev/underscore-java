@@ -1827,7 +1827,7 @@ public class $<T> {
     }
 
     public static <T> T[] reverse(final T[] array) {
-        return (T[]) reverse(newArrayList(Arrays.asList(array))).toArray();
+        return (T[]) reverse(Arrays.asList(array)).toArray();
     }
 
     public List<T> reverse() {
