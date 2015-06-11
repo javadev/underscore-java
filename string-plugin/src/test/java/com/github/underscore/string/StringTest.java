@@ -196,6 +196,24 @@ _.startsWith('abc', 'b', 1);
     }
 
 /*
+_.trim('  abc  ');
+=> 'abc'
+
+_.trim('-_-abc-_-', '_-');
+=> 'abc'
+*/
+    @Test
+    public void trim() {
+        assertEquals("abc", $.trim("  abc  "));
+        assertEquals("abc", new $("  abc  ").trim());
+        assertEquals("abc", $.chain("  abc  ").trim().item());
+        assertEquals("", $.trim(""));
+        assertEquals(" ", $.trim(" ", ""));
+        assertEquals("abc", $.trim("-_-abc-_-", "_-"));
+        assertEquals("    ", $.trim("    ", " "));
+    }
+
+/*
 _.words('fred, barney, & pebbles');
 => ['fred', 'barney', 'pebbles']
 */

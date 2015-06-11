@@ -142,6 +142,10 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<Boolean>($.startsWith((String) item(), target, position));
         }
 
+        public Chain<String> trim() {
+            return new Chain<String>($.trim((String) item()));
+        }
+
         public Chain<List<String>> words() {
             return new Chain<List<String>>($.words((String) item()));
         }
@@ -353,6 +357,43 @@ public class $<T> extends com.github.underscore.$<T> {
         return localString.lastIndexOf(target, localPosition) == localPosition;
     }
 
+    private static int charsLeftIndex(final String string, final String chars) {
+        int index = 0;
+        final int length = string.length();
+        while (index < length && chars.indexOf(string.charAt(index)) > -1) {
+            index += 1;
+        }
+        return index == length ? -1 : index;
+    }
+
+    private static int charsRightIndex(final String string, final String chars) {
+        int index = string.length() - 1;
+        while (index >= 0 && chars.indexOf(string.charAt(index)) > -1) {
+            index -= 1;
+        }
+        return index;
+    }
+
+    public static String trim(final String string) {
+        return trim(string, null);
+    }
+
+    public static String trim(final String string, final String chars) {
+        final String localString = baseToString(string);
+        if (localString.isEmpty()) {
+            return localString;
+        }
+        final String localChars;
+        if (chars == null) {
+            localChars = " ";
+        } else {
+            localChars = chars;
+        }
+        final int leftIndex = charsLeftIndex(localString, localChars);
+        final int rightIndex = charsRightIndex(localString, localChars);
+        return leftIndex > -1 ? localString.substring(leftIndex, rightIndex + 1) : localString;
+    }
+
     public String camelCase() {
         return $.camelCase(getString().get());
     }
@@ -419,6 +460,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public boolean startsWith(final String target, final Integer position) {
         return $.startsWith(getString().get(), target, position);
+    }
+
+    public String trim() {
+        return $.trim(getString().get());
     }
 
     public List<String> words() {
