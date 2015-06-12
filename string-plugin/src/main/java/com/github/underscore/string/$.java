@@ -166,6 +166,10 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.trimRight((String) item(), chars));
         }
 
+        public Chain<String> uncapitalize() {
+            return new Chain<String>($.uncapitalize((String) item()));
+        }
+
         public Chain<List<String>> words() {
             return new Chain<List<String>>($.words((String) item()));
         }
@@ -200,6 +204,12 @@ public class $<T> extends com.github.underscore.$<T> {
     public static String capitalize(final String string) {
         final String localString = baseToString(string);
         return localString.isEmpty() ? "" : (localString.substring(0, 1).toUpperCase(Locale.getDefault())
+            + (localString.length() > 1 ? localString.substring(1) : ""));
+    }
+
+    public static String uncapitalize(final String string) {
+        final String localString = baseToString(string);
+        return localString.isEmpty() ? "" : (localString.substring(0, 1).toLowerCase(Locale.getDefault())
             + (localString.length() > 1 ? localString.substring(1) : ""));
     }
 
@@ -542,6 +552,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String trimRightWith(final String chars) {
         return $.trimRight(getString().get(), chars);
+    }
+
+    public String uncapitalize() {
+        return $.uncapitalize(getString().get());
     }
 
     public List<String> words() {

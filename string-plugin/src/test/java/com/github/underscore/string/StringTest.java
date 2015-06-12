@@ -72,6 +72,19 @@ _.capitalize('fred');
     }
 
 /*
+_.uncapitalize('Fred');
+=> 'fred'
+*/
+    @Test
+    public void uncapitalize() {
+        assertEquals("fred", $.uncapitalize("Fred"));
+        assertEquals("fred", new $("Fred").uncapitalize());
+        assertEquals("fred", $.chain("Fred").uncapitalize().item());
+        assertEquals("", $.uncapitalize(null));
+        assertEquals("à", $.uncapitalize("\u00c0"));
+    }
+
+/*
 _.deburr('déjà vu');
 => 'deja vu'
 */
