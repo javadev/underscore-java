@@ -210,7 +210,51 @@ _.trim('-_-abc-_-', '_-');
         assertEquals("", $.trim(""));
         assertEquals(" ", $.trim(" ", ""));
         assertEquals("abc", $.trim("-_-abc-_-", "_-"));
+        assertEquals("abc", new $("-_-abc-_-").trimWith("_-"));
+        assertEquals("abc", $.chain("-_-abc-_-").trim("_-").item());
         assertEquals("    ", $.trim("    ", " "));
+    }
+
+/*
+_.trimLeft('  abc  ');
+=> 'abc  '
+
+_.trimLeft('-_-abc-_-', '_-');
+=> 'abc-_-'
+*/
+
+    @Test
+    public void trimLeft() {
+        assertEquals("abc  ", $.trimLeft("  abc  "));
+        assertEquals("abc  ", new $("  abc  ").trimLeft());
+        assertEquals("abc  ", $.chain("  abc  ").trimLeft().item());
+        assertEquals("", $.trimLeft(""));
+        assertEquals(" ", $.trimLeft(" ", ""));
+        assertEquals("abc-_-", $.trimLeft("-_-abc-_-", "_-"));
+        assertEquals("abc-_-", new $("-_-abc-_-").trimLeftWith("_-"));
+        assertEquals("abc-_-", $.chain("-_-abc-_-").trimLeft("_-").item());
+        assertEquals("    ", $.trimLeft("    ", " "));
+    }
+
+/*
+_.trimRight('  abc  ');
+=> '  abc'
+
+_.trimRight('-_-abc-_-', '_-');
+=> '-_-abc'
+*/
+
+    @Test
+    public void trimRight() {
+        assertEquals("  abc", $.trimRight("  abc  "));
+        assertEquals("  abc", new $("  abc  ").trimRight());
+        assertEquals("  abc", $.chain("  abc  ").trimRight().item());
+        assertEquals("", $.trimRight(""));
+        assertEquals(" ", $.trimRight(" ", ""));
+        assertEquals("-_-abc", $.trimRight("-_-abc-_-", "_-"));
+        assertEquals("-_-abc", new $("-_-abc-_-").trimRightWith("_-"));
+        assertEquals("-_-abc", $.chain("-_-abc-_-").trimRight("_-").item());
+        assertEquals("    ", $.trimRight("    ", " "));
     }
 
 /*

@@ -146,6 +146,26 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.trim((String) item()));
         }
 
+        public Chain<String> trim(final String chars) {
+            return new Chain<String>($.trim((String) item(), chars));
+        }
+
+        public Chain<String> trimLeft() {
+            return new Chain<String>($.trimLeft((String) item()));
+        }
+
+        public Chain<String> trimLeft(final String chars) {
+            return new Chain<String>($.trimLeft((String) item(), chars));
+        }
+
+        public Chain<String> trimRight() {
+            return new Chain<String>($.trimRight((String) item()));
+        }
+
+        public Chain<String> trimRight(final String chars) {
+            return new Chain<String>($.trimRight((String) item(), chars));
+        }
+
         public Chain<List<String>> words() {
             return new Chain<List<String>>($.words((String) item()));
         }
@@ -394,6 +414,44 @@ public class $<T> extends com.github.underscore.$<T> {
         return leftIndex > -1 ? localString.substring(leftIndex, rightIndex + 1) : localString;
     }
 
+    public static String trimLeft(final String string) {
+        return trimLeft(string, null);
+    }
+
+    public static String trimLeft(final String string, final String chars) {
+        final String localString = baseToString(string);
+        if (localString.isEmpty()) {
+            return localString;
+        }
+        final String localChars;
+        if (chars == null) {
+            localChars = " ";
+        } else {
+            localChars = chars;
+        }
+        final int leftIndex = charsLeftIndex(localString, localChars);
+        return leftIndex > -1 ? localString.substring(leftIndex, localString.length()) : localString;
+    }
+
+    public static String trimRight(final String string) {
+        return trimRight(string, null);
+    }
+
+    public static String trimRight(final String string, final String chars) {
+        final String localString = baseToString(string);
+        if (localString.isEmpty()) {
+            return localString;
+        }
+        final String localChars;
+        if (chars == null) {
+            localChars = " ";
+        } else {
+            localChars = chars;
+        }
+        final int rightIndex = charsRightIndex(localString, localChars);
+        return rightIndex > -1 ? localString.substring(0, rightIndex + 1) : localString;
+    }
+
     public String camelCase() {
         return $.camelCase(getString().get());
     }
@@ -464,6 +522,26 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String trim() {
         return $.trim(getString().get());
+    }
+
+    public String trimWith(final String chars) {
+        return $.trim(getString().get(), chars);
+    }
+
+    public String trimLeft() {
+        return $.trimLeft(getString().get());
+    }
+
+    public String trimLeftWith(final String chars) {
+        return $.trimLeft(getString().get(), chars);
+    }
+
+    public String trimRight() {
+        return $.trimRight(getString().get());
+    }
+
+    public String trimRightWith(final String chars) {
+        return $.trimRight(getString().get(), chars);
     }
 
     public List<String> words() {
