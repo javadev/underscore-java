@@ -28,6 +28,8 @@ import com.github.underscore.Function1;
 import com.github.underscore.Function3;
 
 public class $<T> extends com.github.underscore.$<T> {
+    private static final int DEFAULT_TRUNC_LENGTH = 30;
+    private static final String DEFAULT_TRUNC_OMISSION = "...";
     private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
         "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
     private static Map<String, String> deburredLetters = new LinkedHashMap<String, String>() { {
@@ -160,6 +162,14 @@ public class $<T> extends com.github.underscore.$<T> {
 
         public Chain<String> trimRight() {
             return new Chain<String>($.trimRight((String) item()));
+        }
+
+        public Chain<String> trunc() {
+            return new Chain<String>($.trunc((String) item()));
+        }
+
+        public Chain<String> trunc(final int length) {
+            return new Chain<String>($.trunc((String) item(), length));
         }
 
         public Chain<String> trimRight(final String chars) {
@@ -462,6 +472,21 @@ public class $<T> extends com.github.underscore.$<T> {
         return rightIndex > -1 ? localString.substring(0, rightIndex + 1) : localString;
     }
 
+    public static String trunc(final String string) {
+        return trunc(string, DEFAULT_TRUNC_LENGTH);
+    }
+
+    public static String trunc(final String string, final Integer length) {
+        final String localString = baseToString(string);
+        final String omission = DEFAULT_TRUNC_OMISSION;
+        if (length >= localString.length()) {
+            return localString;
+        }
+        final int end = length - omission.length();
+        final String result = string.substring(0, end);
+        return result + omission;
+    }
+
     public String camelCase() {
         return $.camelCase(getString().get());
     }
@@ -552,6 +577,14 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String trimRightWith(final String chars) {
         return $.trimRight(getString().get(), chars);
+    }
+
+    public String trunc() {
+        return $.trunc(getString().get());
+    }
+
+    public String trunc(final int length) {
+        return $.trunc(getString().get(), length);
     }
 
     public String uncapitalize() {

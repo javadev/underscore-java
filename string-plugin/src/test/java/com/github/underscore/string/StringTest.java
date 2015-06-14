@@ -271,6 +271,27 @@ _.trimRight('-_-abc-_-', '_-');
     }
 
 /*
+_.trunc('hi-diddly-ho there, neighborino');
+=> 'hi-diddly-ho there, neighbo...'
+
+_.trunc('hi-diddly-ho there, neighborino', 24);
+=> 'hi-diddly-ho there, n...'
+*/
+
+    @Test
+    public void trunc() {
+        assertEquals("hi-diddly-ho there, neighbo...", $.trunc("hi-diddly-ho there, neighborino"));
+        assertEquals("hi-diddly-ho there, n...", $.trunc("hi-diddly-ho there, neighborino", 24));
+        assertEquals("hi-diddly-ho there, neighborino", $.trunc("hi-diddly-ho there, neighborino", 31));
+        assertEquals("hi-", $.trunc("hi-"));
+        assertEquals("hi-", new $("hi-").trunc());
+        assertEquals("hi-", $.chain("hi-").trunc().item());
+        assertEquals("...", $.trunc("hi-did", 3));
+        assertEquals("...", new $("hi-did").trunc(3));
+        assertEquals("...", $.chain("hi-did").trunc(3).item());
+    }
+
+/*
 _.words('fred, barney, & pebbles');
 => ['fred', 'barney', 'pebbles']
 */
