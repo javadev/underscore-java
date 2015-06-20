@@ -9,18 +9,20 @@ Requirements
 
 Java 1.6 and later.
 
-Installation
-============
+## Installation
 
-### Maven users
+Include the following in your `pom.xml` for Maven:
 
-Add this dependency to your project's POM:
-
-    <dependency>
-      <groupId>com.github.javadev</groupId>
-      <artifactId>underscore</artifactId>
-      <version>1.3</version>
-    </dependency>
+```
+<dependencies>
+  <dependency>
+    <groupId>com.github.javadev</groupId>
+    <artifactId>underscore</artifactId>
+    <version>1.3</version>
+  </dependency>
+  ...
+</dependencies>
+```
 
 Underscore-java is a java port of [Underscore.js](http://underscorejs.org/).
 
