@@ -1842,7 +1842,7 @@ public class $<T> {
         return string;
     }
 
-    private static <T> List<T> newArrayList() {
+    protected static <T> List<T> newArrayList() {
         try {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
             return (List<T>) listsClass.getDeclaredMethod("newArrayList").invoke(null);
@@ -1869,7 +1869,7 @@ public class $<T> {
         }
     }
 
-    private static <T> List<T> newArrayListWithExpectedSize(int size) {
+    protected static <T> List<T> newArrayListWithExpectedSize(int size) {
         try {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
             return (List<T>) listsClass.getDeclaredMethod("newArrayListWithExpectedSize", Integer.TYPE)
@@ -1879,7 +1879,7 @@ public class $<T> {
         }
     }
 
-    private static <T> Set<T> newLinkedHashSet() {
+    protected static <T> Set<T> newLinkedHashSet() {
         try {
             final Class<?> setsClass = classForName("com.google.common.collect.Sets");
             return (Set<T>) setsClass.getDeclaredMethod("newLinkedHashSet").invoke(null);
@@ -1888,7 +1888,7 @@ public class $<T> {
         }
     }
 
-    private static <T> Set<T> newHashSet(Iterable<T> iterable) {
+    protected static <T> Set<T> newHashSet(Iterable<T> iterable) {
         try {
             final Class<?> setsClass = classForName("com.google.common.collect.Sets");
             return (Set<T>) setsClass.getDeclaredMethod("newHashSet", Iterable.class).invoke(null, iterable);
@@ -1901,7 +1901,7 @@ public class $<T> {
         }
     }
 
-    private static <T> Set<T> newLinkedHashSetWithExpectedSize(int size) {
+    protected static <T> Set<T> newLinkedHashSetWithExpectedSize(int size) {
         try {
             final Class<?> setsClass = classForName("com.google.common.collect.Sets");
             return (Set<T>) setsClass.getDeclaredMethod("newLinkedHashSetWithExpectedSize", Integer.TYPE)
@@ -1911,7 +1911,7 @@ public class $<T> {
         }
     }
 
-    private static <K, E> Map<K, E> newLinkedHashMap() {
+    protected static <K, E> Map<K, E> newLinkedHashMap() {
         try {
             final Class<?> mapsClass = classForName("com.google.common.collect.Maps");
             return (Map<K, E>) mapsClass.getDeclaredMethod("newLinkedHashMap").invoke(null);
