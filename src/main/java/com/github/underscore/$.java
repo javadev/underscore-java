@@ -1778,7 +1778,7 @@ public class $<T> {
 
     public static <T> List<T> slice(final Iterable<T> iterable, final int start) {
         final List<T> result;
-        if (start > 0) {
+        if (start >= 0) {
             result = newArrayList(iterable).subList(start, size(iterable));
         } else {
             result = newArrayList(iterable).subList(size(iterable) + start, size(iterable));
@@ -1796,7 +1796,7 @@ public class $<T> {
 
     public static <T> List<T> slice(final Iterable<T> iterable, final int start, final int end) {
         final List<T> result;
-        if (start > 0) {
+        if (start >= 0) {
             if (end > 0) {
                 result = newArrayList(iterable).subList(start, end);
             } else {

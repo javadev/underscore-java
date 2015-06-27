@@ -107,6 +107,7 @@ arr.slice(-3, -1) // [3, 4]
         assertEquals(asList(3, 4, 5), $.slice(asList(1, 2, 3, 4, 5), 2));
         assertEquals(asList(3, 4, 5), new $(asList(1, 2, 3, 4, 5)).slice(2));
         assertEquals(asList(2, 3, 4), $.slice(asList(1, 2, 3, 4, 5), 1, 4));
+        assertEquals(asList("a", "b"), $.slice(asList("a", "b", "c", "d"), 0, 2));
         assertEquals(asList(2, 3, 4), $.slice(asList(1, 2, 3, 4, 5), 1, -1));
         assertEquals(asList(3), $.slice(asList(1, 2, 3, 4, 5), 2, 3));
         assertEquals(asList(3), new $(asList(1, 2, 3, 4, 5)).slice(2, 3));
