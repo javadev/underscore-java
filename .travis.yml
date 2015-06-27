@@ -10,4 +10,5 @@ script:
   - mvn clean package jacoco:report coveralls:jacoco
   - mvn -f math-plugin/pom.xml clean package jacoco:report
   - mvn -f string-plugin/pom.xml clean package jacoco:report
+  - mvn -f lodash-plugin/pom.xml clean package jacoco:report
   

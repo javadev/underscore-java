@@ -42,6 +42,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain(final List<T> list) {
             super(list);
         }
+
+        public Chain<List<List<T>>> chunk(final Integer size) {
+            return new Chain<List<List<T>>>($.chunk(value(), size));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -60,15 +64,19 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
-    public static <T> List<List<T>> chunk(final List<T> list, final Integer size) {
+    public static <T> List<List<T>> chunk(final Iterable<T> list, final Integer size) {
         int index = 0;
-        int length = list.size();
+        int length = size(list);
         final List<List<T>> result = new ArrayList<List<T>>(length / size);
         while (index < length) {
-            result.add(list.subList(index, Math.min(length, index + size)));
+            result.add(newArrayList(list).subList(index, Math.min(length, index + size)));
             index += size;
         }
         return result;
+    }
+
+    public List<List<T>> chunk(final Integer size) {
+        return chunk(getIterable(), size);
     }
 
     public static void main(String ... args) {
