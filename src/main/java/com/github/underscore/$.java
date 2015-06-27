@@ -665,7 +665,7 @@ public class $<T> {
     }
 
     public static <E> List<E> rest(final List<E> list, int n) {
-        return list.subList(n, list.size());
+        return list.subList(Math.min(n, list.size()), list.size());
     }
 
     public static <E> E[] rest(final E[] array) {

@@ -50,6 +50,31 @@ _.chunk(['a', 'b', 'c', 'd'], 3);
         assertEquals("[[a, b, c], [d]]", $.chunk(asList("a", "b", "c", "d"), 3).toString());
     }
 
+/*
+_.drop([1, 2, 3]);
+// → [2, 3]
+
+_.drop([1, 2, 3], 2);
+// → [3]
+
+_.drop([1, 2, 3], 5);
+// → []
+
+_.drop([1, 2, 3], 0);
+// → [1, 2, 3]
+*/
+    @Test
+    public void drop() {
+        assertEquals("[2, 3]", $.drop(asList(1, 2, 3)).toString());
+        assertEquals("[2, 3]", new $(asList(1, 2, 3)).drop().toString());
+        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).drop().toString());
+        assertEquals("[3]", $.drop(asList(1, 2, 3), 2).toString());
+        assertEquals("[3]", new $(asList(1, 2, 3)).drop(2).toString());
+        assertEquals("[3]", $.chain(asList(1, 2, 3)).drop(2).toString());
+        assertEquals("[]", $.drop(asList(1, 2, 3), 5).toString());
+        assertEquals("[1, 2, 3]", $.drop(asList(1, 2, 3), 0).toString());
+    }
+
     @Test
     public void main() {
         $.main(new String[] {});

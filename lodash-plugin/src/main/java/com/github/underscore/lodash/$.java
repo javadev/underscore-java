@@ -46,6 +46,14 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<List<List<T>>> chunk(final Integer size) {
             return new Chain<List<List<T>>>($.chunk(value(), size));
         }
+
+        public Chain<List<T>> drop() {
+            return new Chain<List<T>>($.drop(value()));
+        }
+
+        public Chain<List<T>> drop(final Integer n) {
+            return new Chain<List<T>>($.drop(value(), n));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -77,6 +85,22 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public List<List<T>> chunk(final Integer size) {
         return chunk(getIterable(), size);
+    }
+
+    public static <T> List<T> drop(final Iterable<T> list) {
+        return rest(newArrayList(list));
+    }
+
+    public List<T> drop() {
+        return drop(getIterable());
+    }
+
+    public static <T> List<T> drop(final Iterable<T> list, final Integer n) {
+        return rest(newArrayList(list), n);
+    }
+
+    public List<T> drop(final Integer n) {
+        return drop(getIterable(), n);
     }
 
     public static void main(String ... args) {
