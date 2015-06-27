@@ -60,8 +60,15 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
-    public static <T> List<List<T>> chunk(final List<T> list, final Integer count) {
-        return Collections.emptyList();
+    public static <T> List<List<T>> chunk(final List<T> list, final Integer size) {
+        int index = 0;
+        int length = list.size();
+        final List<List<T>> result = new ArrayList<List<T>>(length / size);
+        while (index < length) {
+            result.add(list.subList(index, Math.min(length, index + size)));
+            index += size;
+        }
+        return result;
     }
 
     public static void main(String ... args) {

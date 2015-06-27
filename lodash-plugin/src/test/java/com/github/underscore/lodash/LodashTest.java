@@ -44,8 +44,8 @@ _.chunk(['a', 'b', 'c', 'd'], 3);
 */
     @Test
     public void chunk() {
-        assertEquals("[]", $.chunk(asList("a", "b", "c", "d"), 2).toString());
-        assertEquals("[]", $.chunk(asList("a", "b", "c", "d"), 3).toString());
+        assertEquals("[[a, b], [c, d]]", $.chunk(asList("a", "b", "c", "d"), 2).toString());
+        assertEquals("[[a, b, c], [d]]", $.chunk(asList("a", "b", "c", "d"), 3).toString());
     }
 
     @Test
