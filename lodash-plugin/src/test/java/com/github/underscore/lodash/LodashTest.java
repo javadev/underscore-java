@@ -75,6 +75,31 @@ _.drop([1, 2, 3], 0);
         assertEquals("[1, 2, 3]", $.drop(asList(1, 2, 3), 0).toString());
     }
 
+/*
+_.dropRight([1, 2, 3]);
+// → [1, 2]
+
+_.dropRight([1, 2, 3], 2);
+// → [1]
+
+_.dropRight([1, 2, 3], 5);
+// → []
+
+_.dropRight([1, 2, 3], 0);
+// → [1, 2, 3]
+*/
+    @Test
+    public void dropRight() {
+        assertEquals("[1, 2]", $.dropRight(asList(1, 2, 3)).toString());
+        assertEquals("[1, 2]", new $(asList(1, 2, 3)).dropRight().toString());
+        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).dropRight().toString());
+        assertEquals("[1]", $.dropRight(asList(1, 2, 3), 2).toString());
+        assertEquals("[1]", new $(asList(1, 2, 3)).dropRight(2).toString());
+        assertEquals("[1]", $.chain(asList(1, 2, 3)).dropRight(2).toString());
+        assertEquals("[]", $.dropRight(asList(1, 2, 3), 5).toString());
+        assertEquals("[1, 2, 3]", $.dropRight(asList(1, 2, 3), 0).toString());
+    }
+
     @Test
     public void main() {
         $.main(new String[] {});

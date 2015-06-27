@@ -621,7 +621,7 @@ public class $<T> {
     }
 
     public static <E> List<E> initial(final List<E> list, final int n) {
-        return list.subList(0, list.size() - n);
+        return list.subList(0, Math.max(0, list.size() - n));
     }
 
     public static <E> E[] initial(final E[] array) {

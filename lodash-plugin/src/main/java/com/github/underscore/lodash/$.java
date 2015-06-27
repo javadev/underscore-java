@@ -54,6 +54,14 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<List<T>> drop(final Integer n) {
             return new Chain<List<T>>($.drop(value(), n));
         }
+
+        public Chain<List<T>> dropRight() {
+            return new Chain<List<T>>($.dropRight(value()));
+        }
+
+        public Chain<List<T>> dropRight(final Integer n) {
+            return new Chain<List<T>>($.dropRight(value(), n));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -72,12 +80,12 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
-    public static <T> List<List<T>> chunk(final Iterable<T> list, final Integer size) {
+    public static <T> List<List<T>> chunk(final Iterable<T> iterable, final Integer size) {
         int index = 0;
-        int length = size(list);
+        int length = size(iterable);
         final List<List<T>> result = new ArrayList<List<T>>(length / size);
         while (index < length) {
-            result.add(newArrayList(list).subList(index, Math.min(length, index + size)));
+            result.add(newArrayList(iterable).subList(index, Math.min(length, index + size)));
             index += size;
         }
         return result;
@@ -87,20 +95,36 @@ public class $<T> extends com.github.underscore.$<T> {
         return chunk(getIterable(), size);
     }
 
-    public static <T> List<T> drop(final Iterable<T> list) {
-        return rest(newArrayList(list));
+    public static <T> List<T> drop(final Iterable<T> iterable) {
+        return rest(newArrayList(iterable));
     }
 
     public List<T> drop() {
         return drop(getIterable());
     }
 
-    public static <T> List<T> drop(final Iterable<T> list, final Integer n) {
-        return rest(newArrayList(list), n);
+    public static <T> List<T> drop(final Iterable<T> iterable, final Integer n) {
+        return rest(newArrayList(iterable), n);
     }
 
     public List<T> drop(final Integer n) {
         return drop(getIterable(), n);
+    }
+
+    public static <T> List<T> dropRight(final Iterable<T> iterable) {
+        return initial(newArrayList(iterable));
+    }
+
+    public List<T> dropRight() {
+        return dropRight(getIterable());
+    }
+
+    public static <T> List<T> dropRight(final Iterable<T> iterable, final Integer n) {
+        return initial(newArrayList(iterable), n);
+    }
+
+    public List<T> dropRight(final Integer n) {
+        return dropRight(getIterable(), n);
     }
 
     public static void main(String ... args) {
