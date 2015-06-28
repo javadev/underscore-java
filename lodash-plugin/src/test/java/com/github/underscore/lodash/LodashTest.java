@@ -126,6 +126,31 @@ _.dropWhile([1, 2, 3], function(n) {
         }).toString());
     }
 
+/*
+_.dropRightWhile([1, 2, 3], function(n) {
+  return n > 1;
+});
+// → [1]
+*/
+    @Test
+    public void dropRightWhile() {
+        assertEquals("[1]", $.dropRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n > 1;
+            }
+        }).toString());
+        assertEquals("[1]", new $(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n > 1;
+            }
+        }).toString());
+        assertEquals("[1]", $.chain(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n > 1;
+            }
+        }).toString());
+    }
+
     @Test
     public void main() {
         $.main(new String[] {});

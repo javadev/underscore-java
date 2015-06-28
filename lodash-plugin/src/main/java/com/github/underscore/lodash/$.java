@@ -67,6 +67,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<List<T>> dropWhile(final Predicate<T> pred) {
             return new Chain<List<T>>($.dropWhile(value(), pred));
         }
+
+        public Chain<List<T>> dropRightWhile(final Predicate<T> pred) {
+            return new Chain<List<T>>($.dropRightWhile(value(), pred));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -138,6 +142,15 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public List<T> dropWhile(final Predicate<T> pred) {
         return dropWhile(getIterable(), pred);
+    }
+
+    public static <T> List<T> dropRightWhile(final Iterable<T> iterable, final Predicate<T> pred) {
+        final List<T> list = reverse(iterable);
+        return rest(list, findIndex(list, negate(pred)));
+    }
+
+    public List<T> dropRightWhile(final Predicate<T> pred) {
+        return dropRightWhile(getIterable(), pred);
     }
 
     public static void main(String ... args) {
