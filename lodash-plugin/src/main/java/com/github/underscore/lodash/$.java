@@ -24,6 +24,7 @@
 package com.github.underscore.lodash;
 
 import java.util.*;
+import com.github.underscore.Predicate;
 
 public class $<T> extends com.github.underscore.$<T> {
 
@@ -61,6 +62,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
         public Chain<List<T>> dropRight(final Integer n) {
             return new Chain<List<T>>($.dropRight(value(), n));
+        }
+
+        public Chain<List<T>> dropWhile(final Predicate<T> pred) {
+            return new Chain<List<T>>($.dropWhile(value(), pred));
         }
     }
 
@@ -125,6 +130,14 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public List<T> dropRight(final Integer n) {
         return dropRight(getIterable(), n);
+    }
+
+    public static <T> List<T> dropWhile(final Iterable<T> iterable, final Predicate<T> pred) {
+        return rest(newArrayList(iterable), findIndex(newArrayList(iterable), negate(pred)));
+    }
+
+    public List<T> dropWhile(final Predicate<T> pred) {
+        return dropWhile(getIterable(), pred);
     }
 
     public static void main(String ... args) {

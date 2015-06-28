@@ -25,6 +25,7 @@ package com.github.underscore.lodash;
 
 import java.util.*;
 import org.junit.Test;
+import com.github.underscore.Predicate;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
@@ -98,6 +99,31 @@ _.dropRight([1, 2, 3], 0);
         assertEquals("[1]", $.chain(asList(1, 2, 3)).dropRight(2).toString());
         assertEquals("[]", $.dropRight(asList(1, 2, 3), 5).toString());
         assertEquals("[1, 2, 3]", $.dropRight(asList(1, 2, 3), 0).toString());
+    }
+
+/*
+_.dropWhile([1, 2, 3], function(n) {
+  return n < 3;
+});
+// → [3]
+*/
+    @Test
+    public void dropWhile() {
+        assertEquals("[3]", $.dropWhile(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n < 3;
+            }
+        }).toString());
+        assertEquals("[3]", new $(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n < 3;
+            }
+        }).toString());
+        assertEquals("[3]", $.chain(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n < 3;
+            }
+        }).toString());
     }
 
     @Test
