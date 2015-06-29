@@ -72,11 +72,11 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<T>>($.dropRightWhile(value(), pred));
         }
 
-        public Chain<List<Object>> fill(Object value) {
+        public Chain<List<Object>> fill(final Object value) {
             return new Chain<List<Object>>($.fill((List<Object>) value(), value));
         }
 
-        public Chain<List<Object>> fill(Object value, Integer start, Integer end) {
+        public Chain<List<Object>> fill(final Object value, final Integer start, final Integer end) {
             return new Chain<List<Object>>($.fill((List<Object>) value(), value, start, end));
         }
 
@@ -84,12 +84,16 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<?>>($.flattenDeep((List<?>) value()));
         }
 
-        public Chain<List<Object>> pull(Object ... values) {
+        public Chain<List<Object>> pull(final Object ... values) {
             return new Chain<List<Object>>($.pull((List<Object>) value(), values));
         }
 
-        public Chain<List<Object>> pullAt(Integer ... indexes) {
+        public Chain<List<Object>> pullAt(final Integer ... indexes) {
             return new Chain<List<Object>>($.pullAt((List<Object>) value(), indexes));
+        }
+
+        public Chain<List<T>> remove(final Predicate<T> pred) {
+            return new Chain<List<T>>($.remove(value(), pred));
         }
 
         public Chain<List<T>> xor(final List<T> list) {
@@ -221,7 +225,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return pull((List<Object>) getIterable(), values);
     }
 
-    public static List<Object> pullAt(final List<Object> list, Integer ... indexes) {
+    public static List<Object> pullAt(final List<Object> list, final Integer ... indexes) {
         final List<Object> result = newArrayList();
         final List<Integer> indexesList = Arrays.asList(indexes);
         int index = 0;
@@ -236,8 +240,24 @@ public class $<T> extends com.github.underscore.$<T> {
         return result;
     }
 
-    public List<Object> pullAt(Integer ... indexes) {
+    public List<Object> pullAt(final Integer ... indexes) {
         return pullAt((List<Object>) getIterable(), indexes);
+    }
+
+    public static <T> List<T> remove(final List<T> list, final Predicate<T> pred) {
+        final List<T> result = newArrayList();
+        for (final Iterator<T> iterator = list.iterator(); iterator.hasNext(); ) {
+            final T object = iterator.next();
+            if (pred.apply(object)) {
+                result.add(object);
+                iterator.remove();
+            }
+        }
+        return result;
+    }
+
+    public List<T> remove(final Predicate<T> pred) {
+        return remove((List<T>) getIterable(), pred);
     }
 
     public static <T> List<T> xor(final List<T> ... lists) {

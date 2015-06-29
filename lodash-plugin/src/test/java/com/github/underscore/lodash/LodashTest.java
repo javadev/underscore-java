@@ -248,6 +248,46 @@ console.log(evens);
     }
 
 /*
+var array = [1, 2, 3, 4];
+var evens = _.remove(array, function(n) {
+  return n % 2 == 0;
+});
+
+console.log(array);
+// → [1, 3]
+
+console.log(evens);
+// → [2, 4]
+*/
+    @Test
+    public void remove() {
+        List<Integer> array = new ArrayList<Integer>(asList(1, 2, 3, 4));
+        List<Integer> evens = $.remove(array, new Predicate<Integer>() {
+            public Boolean apply(final Integer n) {
+                return n % 2 == 0;
+            }
+        });
+        assertEquals("[1, 3]", array.toString());
+        assertEquals("[2, 4]", evens.toString());
+        array = new ArrayList<Integer>(asList(1, 2, 3, 4));
+        evens = new $(array).remove(new Predicate<Integer>() {
+            public Boolean apply(final Integer n) {
+                return n % 2 == 0;
+            }
+        });
+        assertEquals("[1, 3]", array.toString());
+        assertEquals("[2, 4]", evens.toString());
+        array = new ArrayList<Integer>(asList(1, 2, 3, 4));
+        evens = $.chain(array).remove(new Predicate<Integer>() {
+            public Boolean apply(final Integer n) {
+                return n % 2 == 0;
+            }
+        }).value();
+        assertEquals("[1, 3]", array.toString());
+        assertEquals("[2, 4]", evens.toString());
+    }
+
+/*
 _.xor([1, 2], [4, 2]);
 // → [1, 4]
 */
@@ -257,6 +297,7 @@ _.xor([1, 2], [4, 2]);
         assertEquals("[1, 4]", new $(asList(1, 2)).xor(asList(4, 2)).toString());
         assertEquals("[1, 4]", $.chain(asList(1, 2)).xor(asList(4, 2)).toString());
     }
+
 
     @Test
     public void main() {
