@@ -71,6 +71,14 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<List<T>> dropRightWhile(final Predicate<T> pred) {
             return new Chain<List<T>>($.dropRightWhile(value(), pred));
         }
+
+        public Chain<List<Object>> fill(Object value) {
+            return new Chain<List<Object>>($.fill((List<Object>) value(), value));
+        }
+
+        public Chain<List<Object>> fill(Object value, Integer start, Integer end) {
+            return new Chain<List<Object>>($.fill((List<Object>) value(), value, start, end));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -145,12 +153,33 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static <T> List<T> dropRightWhile(final Iterable<T> iterable, final Predicate<T> pred) {
-        final List<T> list = reverse(iterable);
-        return rest(list, findIndex(list, negate(pred)));
+        return dropWhile(reverse(iterable), pred);
     }
 
     public List<T> dropRightWhile(final Predicate<T> pred) {
         return dropRightWhile(getIterable(), pred);
+    }
+
+    public static List<Object> fill(final List<Object> list, Object value) {
+        for (int index = 0; index < list.size(); index += 1) {
+            list.set(index, value);
+        }
+        return list;
+    }
+
+    public List<Object> fill(Object value) {
+        return fill((List<Object>) getIterable(), value);
+    }
+
+    public static List<Object> fill(final List<Object> list, Object value, Integer start, Integer end) {
+        for (int index = start; index < end; index += 1) {
+            list.set(index, value);
+        }
+        return list;
+    }
+
+    public List<Object> fill(Object value, Integer start, Integer end) {
+        return fill((List<Object>) getIterable(), value, start, end);
     }
 
     public static void main(String ... args) {

@@ -151,6 +151,42 @@ _.dropRightWhile([1, 2, 3], function(n) {
         }).toString());
     }
 
+/*
+var array = [1, 2, 3];
+
+_.fill(array, 'a');
+console.log(array);
+// → ['a', 'a', 'a']
+
+_.fill(Array(3), 2);
+// → [2, 2, 2]
+
+_.fill([4, 6, 8], '*', 1, 2);
+// → [4, '*', 8]
+*/
+    @Test
+    public void fill() {
+        List<Object> array = new ArrayList<Object>(asList(1, 2, 3));
+        $.fill(array, "a");
+        assertEquals("[a, a, a]", array.toString());
+        array = new ArrayList<Object>(asList(1, 2, 3));
+        new $(array).fill("a");
+        assertEquals("[a, a, a]", array.toString());
+        array = new ArrayList<Object>(asList(1, 2, 3));
+        $.chain(array).fill("a");
+        assertEquals("[a, a, a]", array.toString());
+        assertEquals("[2, 2, 2]", $.fill(new ArrayList<Object>(Collections.nCopies(3, 0)), 2).toString());
+        array = new ArrayList<Object>(asList(4, 6, 8));
+        $.fill(array, "*", 1, 2);
+        assertEquals("[4, *, 8]", array.toString());
+        array = new ArrayList<Object>(asList(4, 6, 8));
+        new $(array).fill("*", 1, 2);
+        assertEquals("[4, *, 8]", array.toString());
+        array = new ArrayList<Object>(asList(4, 6, 8));
+        $.chain(array).fill("*", 1, 2);
+        assertEquals("[4, *, 8]", array.toString());
+    }
+
     @Test
     public void main() {
         $.main(new String[] {});
