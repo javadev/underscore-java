@@ -83,6 +83,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<List<?>> flattenDeep() {
             return new Chain<List<?>>($.flattenDeep((List<?>) value()));
         }
+
+        public Chain<List<Object>> pull(Object ... values) {
+            return new Chain<List<Object>>($.pull((List<Object>) value(), values));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -192,6 +196,21 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public List<T> flattenDeep() {
         return flattenDeep((List<?>) getIterable());
+    }
+
+    public static List<Object> pull(final List<Object> list, Object ... values) {
+        final List<Object> valuesList = Arrays.asList(values);
+        for (Iterator<Object> iterator = list.iterator(); iterator.hasNext(); ) {
+            final Object object = iterator.next();
+            if (valuesList.contains(object)) {
+                iterator.remove();
+            }
+        }
+        return list;
+    }
+
+    public List<Object> pull(Object ... values) {
+        return pull((List<Object>) getIterable(), values);
     }
 
     public static void main(String ... args) {

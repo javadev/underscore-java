@@ -201,6 +201,26 @@ _.flattenDeep([1, [2, 3, [4]]]);
         assertEquals("[1, 2, 3, 4]", resultChain.toString());
     }
 
+/*
+var array = [1, 2, 3, 1, 2, 3];
+
+_.pull(array, 2, 3);
+console.log(array);
+// → [1, 1]
+*/
+    @Test
+    public void pull() {
+        List<Object> array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
+        $.pull(array, 2, 3);
+        assertEquals("[1, 1]", array.toString());
+        array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
+        new $(array).pull(2, 3);
+        assertEquals("[1, 1]", array.toString());
+        array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
+        $.chain(array).pull(2, 3);
+        assertEquals("[1, 1]", array.toString());
+    }
+
     @Test
     public void main() {
         $.main(new String[] {});
