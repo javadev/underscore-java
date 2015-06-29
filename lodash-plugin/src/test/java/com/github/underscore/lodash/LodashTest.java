@@ -221,6 +221,32 @@ console.log(array);
         assertEquals("[1, 1]", array.toString());
     }
 
+/*
+var array = [5, 10, 15, 20];
+var evens = _.pullAt(array, 1, 3);
+
+console.log(array);
+// → [5, 15]
+
+console.log(evens);
+// → [10, 20]
+*/
+    @Test
+    public void pullAt() {
+        List<Object> array = new ArrayList<Object>(asList(5, 10, 15, 20));
+        List<Object> events = $.pullAt(array, 1, 3);
+        assertEquals("[5, 15]", array.toString());
+        assertEquals("[10, 20]", events.toString());
+        array = new ArrayList<Object>(asList(5, 10, 15, 20));
+        events = new $(array).pullAt(1, 3);
+        assertEquals("[5, 15]", array.toString());
+        assertEquals("[10, 20]", events.toString());
+        array = new ArrayList<Object>(asList(5, 10, 15, 20));
+        events = $.chain(array).pullAt(1, 3).value();
+        assertEquals("[5, 15]", array.toString());
+        assertEquals("[10, 20]", events.toString());
+    }
+
     @Test
     public void main() {
         $.main(new String[] {});

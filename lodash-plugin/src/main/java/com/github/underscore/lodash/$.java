@@ -87,6 +87,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<List<Object>> pull(Object ... values) {
             return new Chain<List<Object>>($.pull((List<Object>) value(), values));
         }
+
+        public Chain<List<Object>> pullAt(Integer ... indexes) {
+            return new Chain<List<Object>>($.pullAt((List<Object>) value(), indexes));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -200,7 +204,7 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public static List<Object> pull(final List<Object> list, Object ... values) {
         final List<Object> valuesList = Arrays.asList(values);
-        for (Iterator<Object> iterator = list.iterator(); iterator.hasNext(); ) {
+        for (final Iterator<Object> iterator = list.iterator(); iterator.hasNext(); ) {
             final Object object = iterator.next();
             if (valuesList.contains(object)) {
                 iterator.remove();
@@ -211,6 +215,25 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public List<Object> pull(Object ... values) {
         return pull((List<Object>) getIterable(), values);
+    }
+
+    public static List<Object> pullAt(final List<Object> list, Integer ... indexes) {
+        final List<Object> result = newArrayList();
+        final List<Integer> indexesList = Arrays.asList(indexes);
+        int index = 0;
+        for (final Iterator<Object> iterator = list.iterator(); iterator.hasNext(); ) {
+            final Object object = iterator.next();
+            if (indexesList.contains(index)) {
+                result.add(object);
+                iterator.remove();
+            }
+            index += 1;
+        }
+        return result;
+    }
+
+    public List<Object> pullAt(Integer ... indexes) {
+        return pullAt((List<Object>) getIterable(), indexes);
     }
 
     public static void main(String ... args) {
