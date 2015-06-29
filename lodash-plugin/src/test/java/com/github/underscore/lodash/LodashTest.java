@@ -288,6 +288,31 @@ console.log(evens);
     }
 
 /*
+_.take([1, 2, 3]);
+// → [1]
+
+_.take([1, 2, 3], 2);
+// → [1, 2]
+
+_.take([1, 2, 3], 5);
+// → [1, 2, 3]
+
+_.take([1, 2, 3], 0);
+// → []
+*/
+    @Test
+    public void take() {
+        assertEquals("[1]", $.take(asList(1, 2, 3)).toString());
+        assertEquals("[1]", new $(asList(1, 2, 3)).take().toString());
+        assertEquals("[1]", $.chain(asList(1, 2, 3)).take().value().toString());
+        assertEquals("[1, 2]", $.take(asList(1, 2, 3), 2).toString());
+        assertEquals("[1, 2]", new $(asList(1, 2, 3)).take(2).toString());
+        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).take(2).value().toString());
+        assertEquals("[1, 2, 3]", $.take(asList(1, 2, 3), 5).toString());
+        assertEquals("[]", $.take(asList(1, 2, 3), 0).toString());
+    }
+
+/*
 _.xor([1, 2], [4, 2]);
 // → [1, 4]
 */

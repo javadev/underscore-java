@@ -585,7 +585,7 @@ public class $<T> {
     }
 
     public static <E> List<E> first(final List<E> list, final int n) {
-        return list.subList(0, n);
+        return list.subList(0, Math.min(n, list.size()));
     }
 
     public T first() {

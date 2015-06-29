@@ -96,6 +96,14 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<T>>($.remove(value(), pred));
         }
 
+        public Chain<List<T>> take() {
+            return new Chain<List<T>>($.take(value()));
+        }
+
+        public Chain<List<T>> take(final Integer n) {
+            return new Chain<List<T>>($.take(value(), n));
+        }
+
         public Chain<List<T>> xor(final List<T> list) {
             return new Chain<List<T>>($.xor(value(), list));
         }
@@ -258,6 +266,22 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public List<T> remove(final Predicate<T> pred) {
         return remove((List<T>) getIterable(), pred);
+    }
+
+    public static <T> List<T> take(final Iterable<T> iterable) {
+        return first(newArrayList(iterable), 1);
+    }
+
+    public List<T> take() {
+        return take(getIterable());
+    }
+
+    public static <T> List<T> take(final Iterable<T> iterable, final Integer n) {
+        return first(newArrayList(iterable), n);
+    }
+
+    public List<T> take(final Integer n) {
+        return take(getIterable(), n);
     }
 
     public static <T> List<T> xor(final List<T> ... lists) {
