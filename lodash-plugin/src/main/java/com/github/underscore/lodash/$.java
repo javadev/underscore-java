@@ -91,6 +91,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<List<Object>> pullAt(Integer ... indexes) {
             return new Chain<List<Object>>($.pullAt((List<Object>) value(), indexes));
         }
+
+        public Chain<List<T>> xor(final List<T> list) {
+            return new Chain<List<T>>($.xor(value(), list));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -234,6 +238,21 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public List<Object> pullAt(Integer ... indexes) {
         return pullAt((List<Object>) getIterable(), indexes);
+    }
+
+    public static <T> List<T> xor(final List<T> ... lists) {
+        int index = -1;
+        int length = lists.length;
+        List<T> result = null;
+        while (++index < length) {
+            final List<T> array = lists[index];
+            result = result == null ? array : concat(difference(result, array), difference(array, result));
+        }
+        return uniq(result);
+    }
+
+    public List<T> xor(final List<T> list) {
+        return xor((List<T>) getIterable(), list);
     }
 
     public static void main(String ... args) {

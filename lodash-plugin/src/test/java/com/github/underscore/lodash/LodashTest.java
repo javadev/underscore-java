@@ -247,6 +247,17 @@ console.log(evens);
         assertEquals("[10, 20]", events.toString());
     }
 
+/*
+_.xor([1, 2], [4, 2]);
+// → [1, 4]
+*/
+    @Test
+    public void xor() {
+        assertEquals("[1, 4]", $.xor(asList(1, 2), asList(4, 2)).toString());
+        assertEquals("[1, 4]", new $(asList(1, 2)).xor(asList(4, 2)).toString());
+        assertEquals("[1, 4]", $.chain(asList(1, 2)).xor(asList(4, 2)).toString());
+    }
+
     @Test
     public void main() {
         $.main(new String[] {});
