@@ -187,6 +187,20 @@ _.fill([4, 6, 8], '*', 1, 2);
         assertEquals("[4, *, 8]", array.toString());
     }
 
+/*
+_.flattenDeep([1, [2, 3, [4]]]);
+// → [1, 2, 3, 4]
+*/
+    @Test
+    public void flattenDeep() {
+        final List<Integer> result = $.flattenDeep(asList(1, asList(2, 3, asList(asList(4)))));
+        assertEquals("[1, 2, 3, 4]", result.toString());
+        final List<Integer> result2 = new $(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep();
+        assertEquals("[1, 2, 3, 4]", result2.toString());
+        final List<Integer> resultChain = $.chain(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep().value();
+        assertEquals("[1, 2, 3, 4]", resultChain.toString());
+    }
+
     @Test
     public void main() {
         $.main(new String[] {});
