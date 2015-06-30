@@ -100,8 +100,16 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<T>>($.take(value()));
         }
 
+        public Chain<List<T>> takeRight() {
+            return new Chain<List<T>>($.takeRight(value()));
+        }
+
         public Chain<List<T>> take(final Integer n) {
             return new Chain<List<T>>($.take(value(), n));
+        }
+
+        public Chain<List<T>> takeRight(final Integer n) {
+            return new Chain<List<T>>($.takeRight(value(), n));
         }
 
         public Chain<List<T>> xor(final List<T> list) {
@@ -276,12 +284,28 @@ public class $<T> extends com.github.underscore.$<T> {
         return take(getIterable());
     }
 
+    public static <T> List<T> takeRight(final Iterable<T> iterable) {
+        return last(newArrayList(iterable), 1);
+    }
+
+    public List<T> takeRight() {
+        return takeRight(getIterable());
+    }
+
     public static <T> List<T> take(final Iterable<T> iterable, final Integer n) {
         return first(newArrayList(iterable), n);
     }
 
     public List<T> take(final Integer n) {
         return take(getIterable(), n);
+    }
+
+    public static <T> List<T> takeRight(final Iterable<T> iterable, final Integer n) {
+        return last(newArrayList(iterable), n);
+    }
+
+    public List<T> takeRight(final Integer n) {
+        return takeRight(getIterable(), n);
     }
 
     public static <T> List<T> xor(final List<T> ... lists) {

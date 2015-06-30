@@ -313,6 +313,31 @@ _.take([1, 2, 3], 0);
     }
 
 /*
+_.takeRight([1, 2, 3]);
+// → [3]
+
+_.takeRight([1, 2, 3], 2);
+// → [2, 3]
+
+_.takeRight([1, 2, 3], 5);
+// → [1, 2, 3]
+
+_.takeRight([1, 2, 3], 0);
+// → []
+*/
+    @Test
+    public void takeRight() {
+        assertEquals("[3]", $.takeRight(asList(1, 2, 3)).toString());
+        assertEquals("[3]", new $(asList(1, 2, 3)).takeRight().toString());
+        assertEquals("[3]", $.chain(asList(1, 2, 3)).takeRight().value().toString());
+        assertEquals("[2, 3]", $.takeRight(asList(1, 2, 3), 2).toString());
+        assertEquals("[2, 3]", new $(asList(1, 2, 3)).takeRight(2).toString());
+        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).takeRight(2).value().toString());
+        assertEquals("[1, 2, 3]", $.takeRight(asList(1, 2, 3), 5).toString());
+        assertEquals("[]", $.takeRight(asList(1, 2, 3), 0).toString());
+    }
+
+/*
 _.xor([1, 2], [4, 2]);
 // → [1, 4]
 */

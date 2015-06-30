@@ -649,7 +649,7 @@ public class $<T> {
     }
 
     public static <E> List<E> last(final List<E> list, final int n) {
-        return list.subList(list.size() - n, list.size());
+        return list.subList(Math.max(0, list.size() - n), list.size());
     }
 
     public T last() {
