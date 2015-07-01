@@ -18,7 +18,7 @@ Include the following in your `pom.xml` for Maven:
   <dependency>
     <groupId>com.github.javadev</groupId>
     <artifactId>underscore</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
   </dependency>
   ...
 </dependencies>
