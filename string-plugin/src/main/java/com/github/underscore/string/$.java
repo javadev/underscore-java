@@ -288,7 +288,6 @@ public class $<T> extends com.github.underscore.$<T> {
     public static String kebabCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
-                final String localWord = word.toLowerCase(Locale.getDefault());
                 return result + (index > 0 ? "-" : "") + word.toLowerCase(Locale.getDefault());
             }
         }).apply(string);
@@ -364,7 +363,6 @@ public class $<T> extends com.github.underscore.$<T> {
     public static String snakeCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
-                final String localWord = word.toLowerCase(Locale.getDefault());
                 return result + (index > 0 ? "_" : "") + word.toLowerCase(Locale.getDefault());
             }
         }).apply(string);
@@ -373,7 +371,6 @@ public class $<T> extends com.github.underscore.$<T> {
     public static String startCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
-                final String localWord = word.toLowerCase(Locale.getDefault());
                 return result + (index > 0 ? " " : "") + word.substring(0, 1).toUpperCase(Locale.getDefault())
                     + word.substring(1);
             }

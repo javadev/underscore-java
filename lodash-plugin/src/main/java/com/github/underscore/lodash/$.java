@@ -33,7 +33,7 @@ public class $<T> extends com.github.underscore.$<T> {
     private static final String DEFAULT_TRUNC_OMISSION = "...";
     private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
         "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
-    private static Map<String, String> deburredLetters = new LinkedHashMap<String, String>() { {
+    private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<String, String>() { {
         put("\u00c0", "A"); put("\u00c1", "A"); put("\u00c2", "A"); put("\u00c3", "A");
         put("\u00c4", "A"); put("\u00c5", "A");
         put("\u00e0", "a"); put("\u00e1", "a"); put("\u00e2", "a"); put("\u00e3", "a");
@@ -623,22 +623,22 @@ public class $<T> extends com.github.underscore.$<T> {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
                 final String localWord = word.toLowerCase(Locale.getDefault());
-                return result + (index > 0 ? (word.substring(0, 1).toUpperCase(Locale.getDefault())
-                    + word.substring(1)) : localWord);
+                return result + (index > 0 ? word.substring(0, 1).toUpperCase(Locale.getDefault())
+                    + word.substring(1) : localWord);
             }
         }).apply(string);
     }
 
     public static String capitalize(final String string) {
         final String localString = baseToString(string);
-        return localString.isEmpty() ? "" : (localString.substring(0, 1).toUpperCase(Locale.getDefault())
-            + (localString.length() > 1 ? localString.substring(1) : ""));
+        return localString.isEmpty() ? "" : localString.substring(0, 1).toUpperCase(Locale.getDefault())
+            + (localString.length() > 1 ? localString.substring(1) : "");
     }
 
     public static String uncapitalize(final String string) {
         final String localString = baseToString(string);
-        return localString.isEmpty() ? "" : (localString.substring(0, 1).toLowerCase(Locale.getDefault())
-            + (localString.length() > 1 ? localString.substring(1) : ""));
+        return localString.isEmpty() ? "" : localString.substring(0, 1).toLowerCase(Locale.getDefault())
+            + (localString.length() > 1 ? localString.substring(1) : "");
     }
 
     private static String baseToString(String value) {
@@ -650,7 +650,7 @@ public class $<T> extends com.github.underscore.$<T> {
         final StringBuilder sb = new StringBuilder();
         for (final String str : localString.split("")) {
             if (RE_LATIN_1.matcher(str).matches()) {
-                sb.append(deburredLetters.get(str));
+                sb.append(DEBURRED_LETTERS.get(str));
             } else {
                 sb.append(str);
             }
@@ -706,7 +706,6 @@ public class $<T> extends com.github.underscore.$<T> {
     public static String kebabCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
-                final String localWord = word.toLowerCase(Locale.getDefault());
                 return result + (index > 0 ? "-" : "") + word.toLowerCase(Locale.getDefault());
             }
         }).apply(string);
@@ -782,7 +781,6 @@ public class $<T> extends com.github.underscore.$<T> {
     public static String snakeCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
-                final String localWord = word.toLowerCase(Locale.getDefault());
                 return result + (index > 0 ? "_" : "") + word.toLowerCase(Locale.getDefault());
             }
         }).apply(string);
@@ -791,7 +789,6 @@ public class $<T> extends com.github.underscore.$<T> {
     public static String startCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
-                final String localWord = word.toLowerCase(Locale.getDefault());
                 return result + (index > 0 ? " " : "") + word.substring(0, 1).toUpperCase(Locale.getDefault())
                     + word.substring(1);
             }
