@@ -112,8 +112,20 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<T>>($.takeRight(value(), n));
         }
 
+        public Chain<List<T>> takeWhile(final Predicate<T> pred) {
+            return new Chain<List<T>>($.takeWhile(value(), pred));
+        }
+
+        public Chain<List<T>> takeRightWhile(final Predicate<T> pred) {
+            return new Chain<List<T>>($.takeRightWhile(value(), pred));
+        }
+
         public Chain<List<T>> xor(final List<T> list) {
             return new Chain<List<T>>($.xor(value(), list));
+        }
+
+        public Chain<List<T>> at(final Integer ... indexes) {
+            return new Chain<List<T>>($.at(value(), indexes));
         }
     }
 
@@ -189,7 +201,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static <T> List<T> dropRightWhile(final Iterable<T> iterable, final Predicate<T> pred) {
-        return dropWhile(reverse(iterable), pred);
+        return reverse(dropWhile(reverse(iterable), pred));
     }
 
     public List<T> dropRightWhile(final Predicate<T> pred) {
@@ -308,6 +320,22 @@ public class $<T> extends com.github.underscore.$<T> {
         return takeRight(getIterable(), n);
     }
 
+    public static <T> List<T> takeWhile(final Iterable<T> iterable, final Predicate<T> pred) {
+        return first(newArrayList(iterable), findIndex(newArrayList(iterable), negate(pred)));
+    }
+
+    public List<T> takeWhile(final Predicate<T> pred) {
+        return takeWhile(getIterable(), pred);
+    }
+
+    public static <T> List<T> takeRightWhile(final Iterable<T> iterable, final Predicate<T> pred) {
+        return reverse(takeWhile(reverse(iterable), pred));
+    }
+
+    public List<T> takeRightWhile(final Predicate<T> pred) {
+        return takeRightWhile(getIterable(), pred);
+    }
+
     public static <T> List<T> xor(final List<T> ... lists) {
         int index = -1;
         int length = lists.length;
@@ -321,6 +349,24 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public List<T> xor(final List<T> list) {
         return xor((List<T>) getIterable(), list);
+    }
+
+    public static <T> List<T> at(final List<T> list, final Integer ... indexes) {
+        final List<T> result = newArrayList();
+        final List<Integer> indexesList = Arrays.asList(indexes);
+        int index = 0;
+        for (final Iterator<T> iterator = list.iterator(); iterator.hasNext(); ) {
+            final T object = iterator.next();
+            if (indexesList.contains(index)) {
+                result.add(object);
+            }
+            index += 1;
+        }
+        return result;
+    }
+
+    public List<T> at(final Integer ... indexes) {
+        return at((List<T>) getIterable(), indexes);
     }
 
     public static void main(String ... args) {

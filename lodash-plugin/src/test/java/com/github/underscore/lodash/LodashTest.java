@@ -128,25 +128,25 @@ _.dropWhile([1, 2, 3], function(n) {
 
 /*
 _.dropRightWhile([1, 2, 3], function(n) {
-  return n > 1;
+  return n > 2;
 });
-// → [1]
+// → [1, 2]
 */
     @Test
     public void dropRightWhile() {
-        assertEquals("[1]", $.dropRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
+        assertEquals("[1, 2]", $.dropRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
             public Boolean apply(Integer n) {
-                return n > 1;
+                return n > 2;
             }
         }).toString());
-        assertEquals("[1]", new $(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
+        assertEquals("[1, 2]", new $(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
             public Boolean apply(Integer n) {
-                return n > 1;
+                return n > 2;
             }
         }).toString());
-        assertEquals("[1]", $.chain(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
+        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
             public Boolean apply(Integer n) {
-                return n > 1;
+                return n > 2;
             }
         }).toString());
     }
@@ -338,6 +338,56 @@ _.takeRight([1, 2, 3], 0);
     }
 
 /*
+_.takeWhile([1, 2, 3], function(n) {
+  return n < 3;
+});
+// → [1, 2]
+*/
+    @Test
+    public void takeWhile() {
+        assertEquals("[1, 2]", $.takeWhile(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n < 3;
+            }
+        }).toString());
+        assertEquals("[1, 2]", new $(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n < 3;
+            }
+        }).toString());
+        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n < 3;
+            }
+        }).toString());
+    }
+
+/*
+_.takeRightWhile([1, 2, 3], function(n) {
+  return n > 1;
+});
+// → [2, 3]
+*/
+    @Test
+    public void takeRightWhile() {
+        assertEquals("[2, 3]", $.takeRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n > 1;
+            }
+        }).toString());
+        assertEquals("[2, 3]", new $(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n > 1;
+            }
+        }).toString());
+        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
+            public Boolean apply(Integer n) {
+                return n > 1;
+            }
+        }).toString());
+    }
+
+/*
 _.xor([1, 2], [4, 2]);
 // → [1, 4]
 */
@@ -348,6 +398,17 @@ _.xor([1, 2], [4, 2]);
         assertEquals("[1, 4]", $.chain(asList(1, 2)).xor(asList(4, 2)).toString());
     }
 
+
+/*
+_.at(['a', 'b', 'c'], 0, 2);
+// → ['a', 'c']
+*/
+    @Test
+    public void at() {
+        assertEquals("[a, c]", $.at(asList("a", "b", "c"), 0, 2).toString());
+        assertEquals("[a, c]", new $(asList("a", "b", "c")).at(0, 2).toString());
+        assertEquals("[a, c]", $.chain(asList("a", "b", "c")).at(0, 2).value().toString());
+    }
 
     @Test
     public void main() {
