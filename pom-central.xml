@@ -5,7 +5,7 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore</artifactId>
   <packaging>jar</packaging>
-  <version>1.3</version>
+  <version>1.4</version>
   <name>java port of Underscore.js</name>
   <description>The java port of Underscore.js</description>
   <url>https://github.com/javadev/underscore-java</url>
@@ -76,6 +76,7 @@
                   <id>attach-sources</id>
                   <goals>
                       <goal>jar</goal>
+                      <goal>test-jar</goal>
                   </goals>
               </execution>
           </executions>
@@ -89,6 +90,7 @@
                   <id>attach-sources</id>
                   <goals>
                       <goal>jar</goal>
+                      <goal>test-jar</goal>
                   </goals>
               </execution>
           </executions>
