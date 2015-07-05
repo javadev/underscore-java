@@ -1,6 +1,7 @@
 underscore-java 
 ===============
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.javadev/underscore.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.javadev%22%20AND%20a%3A%22underscore%22)
 [![Build Status](https://secure.travis-ci.org/javadev/underscore-java.png)](https://travis-ci.org/javadev/underscore-java)
 [![Coverage Status](https://coveralls.io/repos/javadev/underscore-java/badge.png?branch=master)](https://coveralls.io/r/javadev/underscore-java)
 
