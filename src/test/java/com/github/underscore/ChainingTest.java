@@ -94,6 +94,30 @@ var youngest = _.chain(stooges)
     }
 
     @Test
+    public void chainObj() {
+        final Set<Map<String, Object>> stooges = new HashSet<Map<String, Object>>() { {
+            add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
+            add(new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } });
+            add(new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } });
+        } };
+        final String youngest = new $(stooges).chain()
+            .sortBy(
+                new Function1<Map<String, Object>, Integer>() {
+                public Integer apply(Map<String, Object> item) {
+                    return (Integer) item.get("age");
+                }
+            })
+            .map(
+                new Function1<Map<String, Object>, String>() {
+                public String apply(Map<String, Object> item) {
+                    return item.get("name") + " is " + item.get("age");
+                }
+            })
+            .first().item().toString();
+        assertEquals("moe is 21", youngest);
+    }
+
+    @Test
     public void chainArray() {
         final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });

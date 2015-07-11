@@ -1496,6 +1496,10 @@ public class $<T> {
         return new $.Chain<T>(Arrays.asList(array));
     }
 
+    public Chain<T> chain() {
+        return new $.Chain<T>(newArrayList(iterable));
+    }
+
     public static class Chain<T> {
         private final T item;
         private final List<T> list;
