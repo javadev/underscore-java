@@ -41,6 +41,7 @@ public class UnderscoreTest {
     public void main() {
         $.main(new String[] {});
         new $(asList("")).getIterable();
+        new $(asList("")).value();
         new $("").getString();
     }
 

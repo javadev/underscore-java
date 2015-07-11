@@ -50,6 +50,35 @@ _.each([1, 2, 3], alert);
             }
         });
         assertEquals("[1, 2, 3]", result.toString());
+        final List<Integer> result2 = new ArrayList<Integer>();
+        new $(asList(1, 2, 3)).each(new Block<Integer>() {
+            public void apply(Integer item) {
+                result2.add(item);
+            }
+        });
+        assertEquals("[1, 2, 3]", result2.toString());
+    }
+
+/*
+_.eachRight([1, 2, 3], alert);
+=> alerts each number in turn from right to left...
+*/
+    @Test
+    public void eachRight() {
+        final List<Integer> result = new ArrayList<Integer>();
+        $.eachRight(asList(1, 2, 3), new Block<Integer>() {
+            public void apply(Integer item) {
+                result.add(item);
+            }
+        });
+        assertEquals("[3, 2, 1]", result.toString());
+        final List<Integer> result2 = new ArrayList<Integer>();
+        new $(asList(1, 2, 3)).eachRight(new Block<Integer>() {
+            public void apply(Integer item) {
+                result2.add(item);
+            }
+        });
+        assertEquals("[3, 2, 1]", result2.toString());
     }
 
 /*
@@ -65,6 +94,28 @@ _.forEach([1, 2, 3], alert);
             }
         });
         assertEquals("[1, 2, 3]", result.toString());
+    }
+
+/*
+_.forEach([1, 2, 3], alert);
+=> alerts each number in turn from right to left...
+*/
+    @Test
+    public void forEachRight() {
+        final List<Integer> result = new ArrayList<Integer>();
+        $.forEachRight(asList(1, 2, 3), new Block<Integer>() {
+            public void apply(Integer item) {
+                result.add(item);
+            }
+        });
+        assertEquals("[3, 2, 1]", result.toString());
+        final List<Integer> result2 = new ArrayList<Integer>();
+        new $(asList(1, 2, 3)).forEachRight(new Block<Integer>() {
+            public void apply(Integer item) {
+                result2.add(item);
+            }
+        });
+        assertEquals("[3, 2, 1]", result2.toString());
     }
 
 /*

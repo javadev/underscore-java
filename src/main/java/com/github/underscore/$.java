@@ -166,12 +166,34 @@ public class $<T> {
         }
     }
 
+    public void each(final Block<? super T> func) {
+        each(iterable, func);
+    }
+
+    public static <T> void eachRight(final Iterable<T> iterable, final Block<? super T> func) {
+        for (T element : reverse(iterable)) {
+            func.apply(element);
+        }
+    }
+
+    public void eachRight(final Block<? super T> func) {
+        eachRight(iterable, func);
+    }
+
     public static <T> void forEach(final Iterable<T> iterable, final Block<? super T> func) {
         each(iterable, func);
     }
 
     public void forEach(final Block<? super T> func) {
         each(iterable, func);
+    }
+
+    public static <T> void forEachRight(final Iterable<T> iterable, final Block<? super T> func) {
+        eachRight(iterable, func);
+    }
+
+    public void forEachRight(final Block<? super T> func) {
+        eachRight(iterable, func);
     }
 
     public static <T, E> List<T> map(final List<E> list, final Function1<? super E, T> func) {
@@ -1835,6 +1857,10 @@ public class $<T> {
     }
 
     public Iterable<T> getIterable() {
+        return iterable;
+    }
+
+    public Iterable<T> value() {
         return iterable;
     }
 
