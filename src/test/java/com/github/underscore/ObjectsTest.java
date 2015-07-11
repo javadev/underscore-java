@@ -452,6 +452,16 @@ _.findLastKey([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
     }
 
 /*
+_.extend({name: 'moe'}, {age: 50});
+=> {name: 'moe', age: 50}
+*/
+    @Test
+    public void extend() {
+        assertEquals("{name=moe, age=50}", $.extend(new LinkedHashMap<String, Object>() { { put("name", "moe"); } },
+            new LinkedHashMap<String, Object>() { { put("age", 50); } }).toString());
+    }
+
+/*
 _.mapObject({start: 5, end: 12}, function(val, key) {
   return val + 5;
 });

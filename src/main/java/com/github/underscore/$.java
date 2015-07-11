@@ -1217,6 +1217,19 @@ public class $<T> {
         return functions(object);
     }
 
+    public static <K, V> Map<K, V> extend(final Map<K, V> destination, final Map<K, V> ... sources) {
+        final Map<K, V> result = newLinkedHashMap();
+        for (final Map.Entry<K, V> entry : destination.entrySet()) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        for (final Map<K, V> source : sources) {
+            for (final Map.Entry<K, V> entry : source.entrySet()) {
+                result.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return result;
+    }
+
     public static <E> E findKey(final List<E> list, final Predicate<E> pred) {
         for (int index = 0; index < list.size(); index++) {
             if (pred.apply(list.get(index))) {
