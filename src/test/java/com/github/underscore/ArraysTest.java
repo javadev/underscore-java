@@ -56,6 +56,11 @@ _.first([5, 4, 3, 2, 1], 2);
         assertEquals(5, resultInt);
     }
 
+    @Test(expected = NoSuchElementException.class)
+    public void firstEmpty() {
+        $.first(asList());
+    }
+
 /*
 _.head([5, 4, 3, 2, 1]);
 => 5
