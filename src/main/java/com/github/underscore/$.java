@@ -854,6 +854,14 @@ public class $<T> {
         return (E[]) uniq(Arrays.asList(array), func).toArray();
     }
 
+    public static <E> List<E> union(final List<E> ... lists) {
+        final Set<E> union = newLinkedHashSet();
+        for (List<E> list : lists) {
+            union.addAll(list);
+        }
+        return newArrayList(union);
+    }
+
     public static <E> E[] union(final E[] array1, final E[] array2) {
         return (E[]) union(Arrays.asList(array1), Arrays.asList(array2)).toArray();
     }
@@ -1064,15 +1072,7 @@ public class $<T> {
     }
 
     public static <T> void defer(final Function<T> function) {
-        final java.util.concurrent.ScheduledExecutorService scheduler =
-            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
-        scheduler.schedule(
-            new Runnable() {
-                public void run() {
-                    function.apply();
-                }
-            }, 0, java.util.concurrent.TimeUnit.MILLISECONDS);
-        scheduler.shutdown();
+        delay(function, 0);
     }
 
     public static <T> Function<T> debounce(final Function<T> function, final int delayMilliseconds) {
@@ -1563,19 +1563,7 @@ public class $<T> {
         }
 
         public Chain<T> flatten() {
-            final List<T> flattened = newArrayList();
-            flatten(list, flattened);
-            return new Chain<T>(flattened);
-        }
-
-        private void flatten(final List<?> fromTreeList, final List<T> toFlatList) {
-            for (final Object localItem : fromTreeList) {
-                if (localItem instanceof List<?>) {
-                    flatten((List<?>) localItem, toFlatList);
-                } else {
-                    toFlatList.add((T) localItem);
-                }
-            }
+            return new Chain<T>((List<T>) $.flatten(list));
         }
 
         public <F> Chain<F> map(final Function1<? super T, F> func) {
@@ -1591,23 +1579,11 @@ public class $<T> {
         }
 
         public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {
-            F accum = zeroElem;
-            for (T element : list) {
-                accum = func.apply(accum, element);
-            }
-            return new Chain<F>(accum);
+            return new Chain<F>($.reduce(list, func, zeroElem));
         }
 
         public <F> Chain<F> reduceRight(final FunctionAccum<F, T> func, final F zeroElem) {
-            final List<T> localList = newArrayList();
-            for (T elem : list) {
-                localList.add(0, elem);
-            }
-            F accum = zeroElem;
-            for (T element : localList) {
-                accum = func.apply(accum, element);
-            }
-            return new Chain<F>(accum);
+            return new Chain<F>($.reduceRight(list, func, zeroElem));
         }
 
         public Chain<Optional<T>> find(final Predicate<T> pred) {
@@ -1735,14 +1711,6 @@ public class $<T> {
             return Optional.of(FUNCTIONS.get(funcName).apply(string.get()));
         }
         return Optional.absent();
-    }
-
-    public static <E> List<E> union(final List<E> ... lists) {
-        final Set<E> union = newLinkedHashSet();
-        for (List<E> list : lists) {
-            union.addAll(list);
-        }
-        return newArrayList(union);
     }
 
     public static <T extends Comparable<T>> List<T> sort(final Iterable<T> iterable) {
