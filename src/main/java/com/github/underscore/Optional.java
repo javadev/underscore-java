@@ -31,18 +31,30 @@ public final class Optional<T> {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Optional)) {
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        return (((Optional) obj).absent && absent)
-            || (!((Optional) obj).absent && !absent
-                && (arg == null ? ((Optional) obj).arg == null : arg.equals(((Optional) obj).arg)));
+
+        final Optional optional = (Optional) o;
+
+        if (absent != optional.absent) {
+            return false;
+        }
+        if (arg == null ? optional.arg != null : !arg.equals(optional.arg)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return arg == null ? 0 : arg.hashCode();
+        int result = arg == null ? 0 : arg.hashCode();
+        result = 31 * result + (absent ? 1 : 0);
+        return result;
     }
 
     @Override

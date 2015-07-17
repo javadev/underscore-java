@@ -204,6 +204,10 @@ arr.slice(-3, -1) // [3, 4]
     public void optional() {
         assertTrue(Optional.absent().equals(Optional.absent()));
         assertTrue(Optional.of(1).equals(Optional.of(1)));
+        Optional<Integer> one = Optional.of(1);
+        assertTrue(one.equals(one));
+        assertFalse(Optional.of(1L).equals(Optional.of(1)));
+        assertFalse(Optional.of(1L).equals(null));
         assertTrue(Optional.of(null).equals(Optional.of(null)));
         assertFalse(Optional.absent().equals(Optional.of(1)));
         assertFalse(Optional.of(null).equals(Optional.of(1)));
@@ -211,8 +215,8 @@ arr.slice(-3, -1) // [3, 4]
         assertFalse(Optional.of(1).equals(Optional.absent()));
         assertFalse(Optional.of(1).equals(Optional.of(2)));
         assertFalse(Optional.of(1).equals("test"));
-        assertEquals(0, Optional.absent().hashCode());
-        assertEquals("123".hashCode(), Optional.of("123").hashCode());
+        assertEquals(1, Optional.absent().hashCode());
+        assertEquals(Optional.of("123").hashCode(), Optional.of("123").hashCode());
         assertEquals("Optional.absent()", Optional.absent().toString());
         assertEquals("Optional.of(1)", Optional.of(1).toString());
     }
