@@ -119,7 +119,7 @@ public class $<T> {
                 java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
                     evaluate.replace(ALL_SYMBOLS,
                     "\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*") + "(.*?)"
-                    + evaluate.replace(ALL_SYMBOLS, " \\}\\);\\s*"))
+                    + evaluate.replace(ALL_SYMBOLS, "\\s*\\}\\);\\s*"))
                     .matcher(result);
                 if (matcher.find() && ((Map.Entry) element).getKey().equals(matcher.group(1))) {
                     StringBuilder repeatResult = new StringBuilder();
@@ -602,7 +602,7 @@ public class $<T> {
         return iterable.iterator().next();
     }
 
-    public static <E> E first(final E[] array) {
+    public static <E> E first(final E ... array) {
         return array[0];
     }
 
@@ -622,7 +622,7 @@ public class $<T> {
         return first(iterable);
     }
 
-    public static <E> E head(final E[] array) {
+    public static <E> E head(final E ... array) {
         return first(array);
     }
 
@@ -646,7 +646,7 @@ public class $<T> {
         return list.subList(0, Math.max(0, list.size() - n));
     }
 
-    public static <E> E[] initial(final E[] array) {
+    public static <E> E[] initial(final E ... array) {
         return initial(array, 1);
     }
 
@@ -662,7 +662,7 @@ public class $<T> {
         return $.initial((List) iterable, n);
     }
 
-    public static <E> E last(final E[] array) {
+    public static <E> E last(final E ... array) {
         return array[array.length - 1];
     }
 
@@ -690,7 +690,7 @@ public class $<T> {
         return list.subList(Math.min(n, list.size()), list.size());
     }
 
-    public static <E> E[] rest(final E[] array) {
+    public static <E> E[] rest(final E ... array) {
         return rest(array, 1);
     }
 
@@ -714,7 +714,7 @@ public class $<T> {
         return rest(list, n);
     }
 
-    public static <E> E[] tail(final E[] array) {
+    public static <E> E[] tail(final E ... array) {
         return rest(array);
     }
 
@@ -738,7 +738,7 @@ public class $<T> {
         return rest(list, n);
     }
 
-    public static <E> E[] drop(final E[] array) {
+    public static <E> E[] drop(final E ... array) {
         return rest(array);
     }
 
@@ -756,7 +756,7 @@ public class $<T> {
         });
     }
 
-    public static <E> E[] compact(final E[] array) {
+    public static <E> E[] compact(final E ... array) {
         return (E[]) compact(Arrays.asList(array)).toArray();
     }
 
@@ -837,7 +837,7 @@ public class $<T> {
         return newArrayList(newHashSet(list));
     }
 
-    public static <E> E[] uniq(final E[] array) {
+    public static <E> E[] uniq(final E ... array) {
         return (E[]) uniq(Arrays.asList(array)).toArray();
     }
 
@@ -862,8 +862,8 @@ public class $<T> {
         return newArrayList(union);
     }
 
-    public static <E> E[] union(final E[] array1, final E[] array2) {
-        return (E[]) union(Arrays.asList(array1), Arrays.asList(array2)).toArray();
+    public static <E> E[] union(final E[] ... arrays) {
+        return (E[]) union(Arrays.asList(arrays[0]), Arrays.asList(arrays[1])).toArray();
     }
 
     public static <E> List<E> intersection(final List<E> list1, final List<E> list2) {
@@ -884,8 +884,8 @@ public class $<T> {
         return stack.peek();
     }
 
-    public static <E> E[] intersection(final E[] array1, final E[] array2) {
-        return (E[]) intersection(Arrays.asList(array1), Arrays.asList(array2)).toArray();
+    public static <E> E[] intersection(final E[] ... arrays) {
+        return (E[]) intersection(Arrays.asList(arrays[0]), Arrays.asList(arrays[1])).toArray();
     }
 
     public static <E> List<E> difference(final List<E> list1, final List<E> list2) {
@@ -897,8 +897,8 @@ public class $<T> {
         });
     }
 
-    public static <E> E[] difference(final E[] array1, final E[] array2) {
-        return (E[]) difference(Arrays.asList(array1), Arrays.asList(array2)).toArray();
+    public static <E> E[] difference(final E[] ... arrays) {
+        return (E[]) difference(Arrays.asList(arrays[0]), Arrays.asList(arrays[1])).toArray();
     }
 
     public static <T> List<List<T>> zip(final List<T> ... lists) {
@@ -1334,7 +1334,7 @@ public class $<T> {
         throw new IllegalArgumentException("Cannot clone object");
     }
 
-    public static <E> E[] clone(final E[] iterable) {
+    public static <E> E[] clone(final E ... iterable) {
         return Arrays.copyOf(iterable, iterable.length);
     }
 
@@ -1505,7 +1505,7 @@ public class $<T> {
         return new $.Chain<T>(newArrayList(set));
     }
 
-    public static <T> Chain chain(final T[] array) {
+    public static <T> Chain chain(final T ... array) {
         return new $.Chain<T>(Arrays.asList(array));
     }
 
@@ -1719,7 +1719,7 @@ public class $<T> {
         return localList;
     }
 
-    public static <T extends Comparable<T>> T[] sort(final T[] array) {
+    public static <T extends Comparable<T>> T[] sort(final T ... array) {
         final T[] localArray = array.clone();
         Arrays.<T>sort(localArray);
         return localArray;
@@ -1833,7 +1833,7 @@ public class $<T> {
         return result;
     }
 
-    public static <T> T[] reverse(final T[] array) {
+    public static <T> T[] reverse(final T ... array) {
         return (T[]) reverse(Arrays.asList(array)).toArray();
     }
 
@@ -1931,7 +1931,7 @@ public class $<T> {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String ... args) {
         final String message = "Underscore-java is a java port of Underscore.js.\n\n"
             + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"
             + "For docs, license, tests, and downloads, see: http://javadev.github.io/underscore-java";
