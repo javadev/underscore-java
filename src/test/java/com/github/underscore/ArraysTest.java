@@ -387,8 +387,12 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
     public void difference() {
         final List<Integer> result = $.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
         assertEquals("[1, 3, 4]", result.toString());
+        final List<Integer> resultList = $.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10), asList(8, 4));
+        assertEquals("[1, 3]", resultList.toString());
         final Object[] resultArray = $.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10});
         assertEquals("[1, 3, 4]", asList(resultArray).toString());
+        final Object[] resultArray2 = $.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10}, new Integer[] {8, 4});
+        assertEquals("[1, 3]", asList(resultArray2).toString());
     }
 
 /*

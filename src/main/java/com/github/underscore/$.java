@@ -863,7 +863,11 @@ public class $<T> {
     }
 
     public static <E> E[] union(final E[] ... arrays) {
-        return (E[]) union(Arrays.asList(arrays[0]), Arrays.asList(arrays[1])).toArray();
+        final Set<E> union = newLinkedHashSet();
+        for (E[] array : arrays) {
+            union.addAll(Arrays.asList(array));
+        }
+        return (E[]) newArrayList(union).toArray();
     }
 
     public static <E> List<E> intersection(final List<E> list1, final List<E> list2) {
@@ -885,7 +889,12 @@ public class $<T> {
     }
 
     public static <E> E[] intersection(final E[] ... arrays) {
-        return (E[]) intersection(Arrays.asList(arrays[0]), Arrays.asList(arrays[1])).toArray();
+        final Stack<List<E>> stack = new Stack<List<E>>();
+        stack.push(Arrays.asList(arrays[0]));
+        for (int index = 1; index < arrays.length; index += 1) {
+          stack.push(intersection(stack.peek(), Arrays.asList(arrays[index])));
+        }
+        return (E[]) stack.peek().toArray();
     }
 
     public static <E> List<E> difference(final List<E> list1, final List<E> list2) {
@@ -897,8 +906,22 @@ public class $<T> {
         });
     }
 
+    public static <E> List<E> difference(final List<E> ... lists) {
+        final Stack<List<E>> stack = new Stack<List<E>>();
+        stack.push(lists[0]);
+        for (int index = 1; index < lists.length; index += 1) {
+          stack.push(difference(stack.peek(), lists[index]));
+        }
+        return stack.peek();
+    }
+
     public static <E> E[] difference(final E[] ... arrays) {
-        return (E[]) difference(Arrays.asList(arrays[0]), Arrays.asList(arrays[1])).toArray();
+        final Stack<List<E>> stack = new Stack<List<E>>();
+        stack.push(Arrays.asList(arrays[0]));
+        for (int index = 1; index < arrays.length; index += 1) {
+          stack.push(difference(stack.peek(), Arrays.asList(arrays[index])));
+        }
+        return (E[]) stack.peek().toArray();
     }
 
     public static <T> List<List<T>> zip(final List<T> ... lists) {
