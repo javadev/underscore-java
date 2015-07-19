@@ -504,8 +504,8 @@ public class $<T> {
         return samples;
     }
 
-    public static <E, T extends Comparable<? super T>> List<E> sortBy(final List<E> list, final Function1<E, T> func) {
-        final List<E> sortedList = newArrayList(list);
+    public static <E, T extends Comparable<? super T>> List<E> sortBy(final Iterable<E> iterable, final Function1<E, T> func) {
+        final List<E> sortedList = newArrayList(iterable);
         Collections.sort(sortedList, new Comparator<E>() {
             @Override
             public int compare(E o1, E o2) {
@@ -515,8 +515,12 @@ public class $<T> {
         return sortedList;
     }
 
-    public static <K, V extends Comparable<? super V>> List<Map<K, V>> sortBy(final List<Map<K, V>> list, final K key) {
-        final List<Map<K, V>> sortedList = newArrayList(list);
+    public <E, T extends Comparable<? super T>> List<E> sortBy(final Function1<E, T> func) {
+        return sortBy((Iterable<E>) iterable, func);
+    }
+
+    public static <K, V extends Comparable<? super V>> List<Map<K, V>> sortBy(final Iterable<Map<K, V>> iterable, final K key) {
+        final List<Map<K, V>> sortedList = newArrayList(iterable);
         Collections.sort(sortedList, new Comparator<Map<K, V>>() {
             @Override
             public int compare(Map<K, V> o1, Map<K, V> o2) {
@@ -542,6 +546,10 @@ public class $<T> {
         return retVal;
     }
 
+    public <K, E> Map<K, List<E>> groupBy(final Function1<E, K> func) {
+        return groupBy((Iterable<E>) iterable, func);
+    }
+
     public static <K, E> Map<K, List<E>> indexBy(final Iterable<E> iterable, final String property) {
         return groupBy(iterable, new Function1<E, K>() {
             @Override
@@ -555,6 +563,10 @@ public class $<T> {
         });
     }
 
+    public <K, E> Map<K, List<E>> indexBy(final String property) {
+        return indexBy((Iterable<E>) iterable, property);
+    }
+
     public static <K, E> Map<K, Integer> countBy(final Iterable<E> iterable, Function1<E, K> func) {
         final Map<K, Integer> retVal = newLinkedHashMap();
         for (E e : iterable) {
@@ -566,6 +578,10 @@ public class $<T> {
             }
         }
         return retVal;
+    }
+
+    public <K, E> Map<K, Integer> countBy(Function1<E, K> func) {
+        return countBy((Iterable<E>) iterable, func);
     }
 
     public static <E> E[] toArray(final Iterable<E> iterable) {

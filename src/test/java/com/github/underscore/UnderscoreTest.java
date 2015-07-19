@@ -220,4 +220,19 @@ arr.slice(-3, -1) // [3, 4]
         assertEquals("Optional.absent()", Optional.absent().toString());
         assertEquals("Optional.of(1)", Optional.of(1).toString());
     }
+
+    @Test
+    public void stackoverflow() {
+        // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
+        assertEquals("[D=67.3, B=67.4, C=67.4, A=99.5]", $.sortBy((new LinkedHashMap<String, Double>() { {
+            put("A", 99.5);
+            put("B", 67.4);
+            put("C", 67.4);
+            put("D", 67.3);
+        } }).entrySet(), new Function1<Map.Entry<String, Double>, Double>() {
+            public Double apply(Map.Entry<String, Double> item) {
+                return item.getValue();
+            }
+        }).toString());
+    }
 }
