@@ -172,13 +172,15 @@ compiled({name: 'moe'});
     @Test
     public void template() {
         Template<Set<Map.Entry<String, Object>>> compiled = $.template("hello: <%= name %>");
-        assertEquals("hello: moe", compiled.apply((new LinkedHashMap<String, Object>() { { put("name", "moe"); } }).entrySet()));
+        assertEquals("hello: moe", compiled.apply((new LinkedHashMap<String, Object>() { {
+            put("name", "moe"); } }).entrySet()));
     }
 
     @Test
     public void template2() {
         Template<Set<Map.Entry<String, Object>>> compiled = $.template("hello: <%= name %>, hello2: <%= name %>");
-        assertEquals("hello: moe, hello2: moe", compiled.apply((new LinkedHashMap<String, Object>() { { put("name", "moe"); } }).entrySet()));
+        assertEquals("hello: moe, hello2: moe", compiled.apply((new LinkedHashMap<String, Object>() { {
+            put("name", "moe"); } }).entrySet()));
     }
 
     @Test
@@ -193,7 +195,8 @@ compiled({name: 'moe'});
         $.templateSettings(new HashMap<String, String>() { { put("interpolate", ""); } });
         $.templateSettings(new HashMap<String, String>() { { put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}"); } });
         Template<Set<Map.Entry<String, Object>>> compiled = $.template("hello: {{= name }}");
-        assertEquals("hello: moe", compiled.apply((new LinkedHashMap<String, Object>() { { put("name", "moe"); } }).entrySet()));
+        assertEquals("hello: moe", compiled.apply((new LinkedHashMap<String, Object>() { {
+            put("name", "moe"); } }).entrySet()));
         $.templateSettings(new HashMap<String, String>() { { put("interpolate", "<%=([\\s\\S]+?)%>"); } });
     }
 
@@ -207,17 +210,20 @@ _.template(list, {people: ['moe', 'curly', 'larry']});
         String list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
         Template<Set<Map.Entry<String, Object>>> compiled = $.template(list);
         assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
-            compiled.apply((new LinkedHashMap<String, Object>() { { put("people", asList("moe", "curly", "larry")); } }).entrySet()));
+            compiled.apply((new LinkedHashMap<String, Object>() { {
+                put("people", asList("moe", "curly", "larry")); } }).entrySet()));
         String list2 = "<% _.each(people2, function(name) { %> <li><%= name %></li> <% }); %>";
         Template<Set<Map.Entry<String, Object>>> compiled2 = $.template(list2);
         assertEquals("<% _.each(people2, function(name) { %> <li><%= name %></li> <% }); %>",
-            compiled2.apply((new LinkedHashMap<String, Object>() { { put("people", asList("moe", "curly", "larry")); } }).entrySet()));
+            compiled2.apply((new LinkedHashMap<String, Object>() { {
+                put("people", asList("moe", "curly", "larry")); } }).entrySet()));
         $.templateSettings(new HashMap<String, String>() { { put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}");
             put("evaluate", "\\{\\{([\\s\\S]+?)\\}\\}"); } });
         String list3 = "{{ _.each(people, function(name) { }} <li>{{= name }}</li> {{ }); }}";
         Template<Set<Map.Entry<String, Object>>> compiled3 = $.template(list3);
         assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
-            compiled3.apply((new LinkedHashMap<String, Object>() { { put("people", asList("moe", "curly", "larry")); } }).entrySet()));
+            compiled3.apply((new LinkedHashMap<String, Object>() { {
+                put("people", asList("moe", "curly", "larry")); } }).entrySet()));
         $.templateSettings(new HashMap<String, String>() { { put("interpolate", "<%=([\\s\\S]+?)%>");
             put("evaluate", "<%([\\s\\S]+?)%>"); } });
     }
@@ -238,7 +244,8 @@ template({value: '<script>'});
     public void templateValue2() {
         Template<Set<Map.Entry<String, Object>>> template = $.template("hello: <%= name %>, <b><%- value %></b>");
         assertEquals("hello: moe, <b>&lt;script&gt;</b>",
-            template.apply((new LinkedHashMap<String, Object>() { { put("name", "moe"); put("value", "<script>"); } }).entrySet()));
+            template.apply((new LinkedHashMap<String, Object>() { {
+                put("name", "moe"); put("value", "<script>"); } }).entrySet()));
     }
 /*
 var compiled = _.template("<% print('Hello ' + epithet); %>");

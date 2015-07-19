@@ -163,10 +163,14 @@ _.chain(lyrics)
     @Test
     public void chain2() {
         final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() { {
-            add(new LinkedHashMap<String, Object>() { { put("line", 1); put("words", "I'm a lumberjack and I'm okay"); } });
-            add(new LinkedHashMap<String, Object>() { { put("line", 2); put("words", "I sleep all night and I work all day"); } });
-            add(new LinkedHashMap<String, Object>() { { put("line", 3); put("words", "He's a lumberjack and he's okay"); } });
-            add(new LinkedHashMap<String, Object>() { { put("line", 4); put("words", "He sleeps all night and he works all day"); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("line", 1); put("words", "I'm a lumberjack and I'm okay"); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("line", 2); put("words", "I sleep all night and I work all day"); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("line", 3); put("words", "He's a lumberjack and he's okay"); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("line", 4); put("words", "He sleeps all night and he works all day"); } });
         } };
         final String result = $.chain(lyrics)
             .map(
@@ -216,10 +220,14 @@ _.chain(lyrics)
     @Test
     public void chain3() {
         final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() { {
-            add(new LinkedHashMap<String, Object>() { { put("line", 1); put("words", "I'm a lumberjack and I'm okay"); } });
-            add(new LinkedHashMap<String, Object>() { { put("line", 2); put("words", "I sleep all night and I work all day"); } });
-            add(new LinkedHashMap<String, Object>() { { put("line", 3); put("words", "He's a lumberjack and he's okay"); } });
-            add(new LinkedHashMap<String, Object>() { { put("line", 4); put("words", "He sleeps all night and he works all day"); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("line", 1); put("words", "I'm a lumberjack and I'm okay"); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("line", 2); put("words", "I sleep all night and I work all day"); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("line", 3); put("words", "He's a lumberjack and he's okay"); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("line", 4); put("words", "He sleeps all night and he works all day"); } });
         } };
         final String result = $.chain(lyrics)
             .map(
@@ -274,9 +282,12 @@ _.chain(doctors)
     @Test
     public void chain4() {
         final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() { {
-            add(new LinkedHashMap<String, Object>() { { put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); } });
-            add(new LinkedHashMap<String, Object>() { { put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); } });
-            add(new LinkedHashMap<String, Object>() { { put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); } });
         } };
         final String result = $.chain(doctors)
             .filter(
@@ -321,9 +332,12 @@ _.chain(doctors)
     @Test
     public void chain5() {
         final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() { {
-            add(new LinkedHashMap<String, Object>() { { put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); } });
-            add(new LinkedHashMap<String, Object>() { { put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); } });
-            add(new LinkedHashMap<String, Object>() { { put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("number", 1); put("actor", "William Hartnell"); put("begin", 1963); put("end", 1966); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("number", 9); put("actor", "Christopher Eccleston"); put("begin", 2005); put("end", 2005); } });
+            add(new LinkedHashMap<String, Object>() { {
+                put("number", 10); put("actor", "David Tennant"); put("begin", 2005); put("end", 2010); } });
         } };
         final String result = $.chain(doctors)
             .skip(1)

@@ -504,7 +504,8 @@ public class $<T> {
         return samples;
     }
 
-    public static <E, T extends Comparable<? super T>> List<E> sortBy(final Iterable<E> iterable, final Function1<E, T> func) {
+    public static <E, T extends Comparable<? super T>> List<E> sortBy(final Iterable<E> iterable,
+        final Function1<E, T> func) {
         final List<E> sortedList = newArrayList(iterable);
         Collections.sort(sortedList, new Comparator<E>() {
             @Override
@@ -519,7 +520,8 @@ public class $<T> {
         return sortBy((Iterable<E>) iterable, func);
     }
 
-    public static <K, V extends Comparable<? super V>> List<Map<K, V>> sortBy(final Iterable<Map<K, V>> iterable, final K key) {
+    public static <K, V extends Comparable<? super V>> List<Map<K, V>> sortBy(final Iterable<Map<K, V>> iterable,
+        final K key) {
         final List<Map<K, V>> sortedList = newArrayList(iterable);
         Collections.sort(sortedList, new Comparator<Map<K, V>>() {
             @Override

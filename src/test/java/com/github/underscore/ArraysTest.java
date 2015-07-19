@@ -287,13 +287,16 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
             }
         }
         final int result =
-        $.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)), new Person("moe", 50), "age");
+        $.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50),
+            new Person("curly", 60)), new Person("moe", 50), "age");
         assertEquals(1, result);
         final int result2 =
-        $.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)), new Person("moe", 70), "age");
+        $.<Person>sortedIndex(asList(new Person("moe", 40), new Person("moe", 50),
+            new Person("curly", 60)), new Person("moe", 70), "age");
         assertEquals(-1, result2);
         final int resultArray =
-        $.<Person>sortedIndex(new Person[] {new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)}, new Person("moe", 50), "age");
+        $.<Person>sortedIndex(new Person[] {new Person("moe", 40), new Person("moe", 50),
+            new Person("curly", 60)}, new Person("moe", 50), "age");
         assertEquals(1, resultArray);
     }
 
@@ -391,7 +394,8 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
         assertEquals("[1, 3]", resultList.toString());
         final Object[] resultArray = $.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10});
         assertEquals("[1, 3, 4]", asList(resultArray).toString());
-        final Object[] resultArray2 = $.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10}, new Integer[] {8, 4});
+        final Object[] resultArray2 = $.difference(new Integer[] {1, 2, 3, 4, 5},
+            new Integer[] {5, 2, 10}, new Integer[] {8, 4});
         assertEquals("[1, 3]", asList(resultArray2).toString());
     }
 

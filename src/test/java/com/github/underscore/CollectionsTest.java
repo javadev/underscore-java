@@ -140,7 +140,8 @@ _.each({one: 1, two: 2, three: 3}, alert);
     @Test
     public void eachMap() {
         final List<String> result = new ArrayList<String>();
-        $.<Map.Entry<String, Integer>>each((new LinkedHashMap<String, Integer>() { { put("one", 1); put("two", 2); put("three", 3); } }).entrySet(),
+        $.<Map.Entry<String, Integer>>each((new LinkedHashMap<String, Integer>() { {
+            put("one", 1); put("two", 2); put("three", 3); } }).entrySet(),
             new Block<Map.Entry<String, Integer>>() {
             public void apply(Map.Entry<String, Integer> item) {
                 result.add(item.getKey());
@@ -517,7 +518,8 @@ _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
     public void invoke() {
         assertEquals($.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
         assertEquals($.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")), asList("foo1", "bar1"));
-        assertEquals($.invoke(asList($.chain(asList(5, 1, 7)), $.chain(asList(3, 2, 1))), "sort").toString(), asList("[1, 5, 7]", "[1, 2, 3]").toString());
+        assertEquals($.invoke(asList($.chain(asList(5, 1, 7)),
+            $.chain(asList(3, 2, 1))), "sort").toString(), asList("[1, 5, 7]", "[1, 2, 3]").toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -555,7 +557,8 @@ _.pluck(stooges, 'name');
         $.pluck(new LinkedHashSet(asList()), "name");
         assertEquals("[]", resultEmpty2.toString());
         final Set<?> resultSet =
-        $.pluck(new LinkedHashSet(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name");
+        $.pluck(new LinkedHashSet(
+            asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name");
         assertEquals("[moe, larry, curly]", resultSet.toString());
     }
 
@@ -582,7 +585,8 @@ _.pluck(stooges, 'name');
                 this.age = age;
             }
         }
-        $.pluck(new LinkedHashSet(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name2");
+        $.pluck(new LinkedHashSet(
+            asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name2");
     }
 
 /*
@@ -704,7 +708,8 @@ _.max(numbers);
                 this.age = age;
             }
         }
-        final Person resultPerson = $.max(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)),
+        final Person resultPerson = $.max(
+            asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)),
                 new Function1<Person, Integer>() {
             public Integer apply(Person item) {
                 return item.age;
@@ -747,7 +752,8 @@ _.min(numbers);
                 this.age = age;
             }
         }
-        final Person resultPerson = $.min(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)),
+        final Person resultPerson = $.min(
+            asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)),
                 new Function1<Person, Integer>() {
             public Integer apply(Person item) {
                 return item.age;
@@ -789,15 +795,21 @@ _.sortBy(stooges, 'name');
     @Test
     public void sortByMap() {
         final List<Map<String, Comparable>> result = $.sortBy(asList(
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "moe"); put("age", 40); } },
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "larry"); put("age", 50); } },
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "curly"); put("age", 60); } }
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { {
+                put("name", "moe"); put("age", 40); } },
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { {
+                put("name", "larry"); put("age", 50); } },
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { {
+                put("name", "curly"); put("age", 60); } }
         ), "name");
         assertEquals("[{name=curly, age=60}, {name=larry, age=50}, {name=moe, age=40}]", result.toString());
         final List<Map<String, Comparable>> resultChain = $.chain(asList(
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "moe"); put("age", 40); } },
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "larry"); put("age", 50); } },
-            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { { put("name", "curly"); put("age", 60); } }
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { {
+                put("name", "moe"); put("age", 40); } },
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { {
+                put("name", "larry"); put("age", 50); } },
+            (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { {
+                put("name", "curly"); put("age", 60); } }
         )).sortBy("name").value();
         assertEquals("[{name=curly, age=60}, {name=larry, age=50}, {name=moe, age=40}]", resultChain.toString());
     }

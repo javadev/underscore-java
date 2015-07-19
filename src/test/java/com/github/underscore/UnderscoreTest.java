@@ -255,7 +255,7 @@ arr.slice(-3, -1) // [3, 4]
 
     @Test
     public void stackoverflow3() {
-        // http://stackoverflow.com/questions/11647889/sorting-the-mapkey-value-in-descending-order-based-on-the-value?lq=1
+// http://stackoverflow.com/questions/11647889/sorting-the-mapkey-value-in-descending-order-based-on-the-value?lq=1
         assertEquals("{C=50, A=34, B=25}", $.chain((new HashMap<String, Integer>() { {
             put("A", 34);
             put("B", 25);
