@@ -1685,12 +1685,20 @@ public class $<T> {
             return new Chain<T>($.sortBy(list, func));
         }
 
-        public <K, V> Chain<Map<K, V>> toMap() {
-            return new Chain<Map<K, V>>($.toMap((Iterable<Map.Entry<K, V>>) list));
-        }
-
         public <K, V extends Comparable<? super V>> Chain<Map<K, V>> sortBy(final K key) {
             return new Chain<Map<K, V>>($.sortBy((List<Map<K, V>>) list, key));
+        }
+
+        public <F> Chain<Map<F, List<T>>> groupBy(final Function1<T, F> func) {
+            return new Chain<Map<F, List<T>>>($.groupBy(list, func));
+        }
+
+        public Chain<Map<Object, List<T>>> indexBy(final String property) {
+            return new Chain<Map<Object, List<T>>>($.indexBy(list, property));
+        }
+
+        public <F> Chain<Map<F, Integer>> countBy(final Function1<T, F> func) {
+            return new Chain<Map<F, Integer>>($.countBy(list, func));
         }
 
         public Chain<T> shuffle() {
@@ -1748,6 +1756,10 @@ public class $<T> {
 
         public <T> Chain<T> limit(final int size) {
             return new Chain<T>((List<T>) list.subList(0, size));
+        }
+
+        public <K, V> Chain<Map<K, V>> toMap() {
+            return new Chain<Map<K, V>>($.toMap((Iterable<Map.Entry<K, V>>) list));
         }
 
         public T item() {

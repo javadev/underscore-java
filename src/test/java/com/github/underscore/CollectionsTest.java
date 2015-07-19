@@ -785,6 +785,14 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
             }
         });
         assertEquals("[5, 4, 6, 3, 1, 2]", resultObj.toString());
+        final List<Integer> resultChain =
+        $.chain(asList(1, 2, 3, 4, 5, 6)).sortBy(
+            new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return Double.valueOf(Math.sin(item) * 1000).intValue();
+            }
+        }).value();
+        assertEquals("[5, 4, 6, 3, 1, 2]", resultChain.toString());
     }
 
 /*
@@ -836,6 +844,14 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
             }
         });
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", resultObj.toString());
+        final Map<Double, List<Double>> resultChain =
+        (Map<Double, List<Double>>) $.chain(asList(1.3, 2.1, 2.4)).groupBy(
+            new Function1<Double, Double>() {
+            public Double apply(Double num) {
+                return Math.floor(num);
+            }
+        }).item();
+        assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", resultChain.toString());
     }
 
 /*
@@ -866,6 +882,10 @@ _.indexBy(stooges, 'age');
         final Map<String, List<Person>> resultObj =
         new $(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60))).indexBy("age");
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", resultObj.toString());
+        final Map<String, List<Person>> resultChain =
+        (Map<String, List<Person>>) $.chain(asList(new Person("moe", 40), new Person("larry", 50),
+            new Person("curly", 60))).indexBy("age").item();
+        assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", resultChain.toString());
         final Map<String, List<Person>> result2 =
         $.indexBy(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)), "age2");
         assertEquals("{null=[moe, 40, larry, 50, curly, 60]}", result2.toString());
@@ -905,6 +925,15 @@ _.countBy(stooges, 'age');
             }
         });
         assertEquals("{moe=2, curly=1}", resultObj.toString());
+        final Map<String, Integer> resultChain =
+        (Map<String, Integer>) $.chain(asList(new Person("moe", 40), new Person("moe", 50),
+            new Person("curly", 60))).countBy(
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        }).item();
+        assertEquals("{moe=2, curly=1}", resultChain.toString());
     }
 
 /*
