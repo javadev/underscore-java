@@ -239,7 +239,7 @@ arr.slice(-3, -1) // [3, 4]
     @Test
     public void stackoverflow2() {
         // http://stackoverflow.com/questions/12229577/java-hashmap-sorting-string-integer-how-to-sort-it?lq=1
-        assertEquals("{a=5, f=5, c=4, e=3, b=2, d=2}", $.chain((new HashMap<String, Integer>() { {
+        assertEquals("{a=5, f=5, c=4, e=3, b=2, d=2}", $.chain((new LinkedHashMap<String, Integer>() { {
             put("a", 5);
             put("b", 2);
             put("c", 4);
@@ -256,7 +256,7 @@ arr.slice(-3, -1) // [3, 4]
     @Test
     public void stackoverflow3() {
 // http://stackoverflow.com/questions/11647889/sorting-the-mapkey-value-in-descending-order-based-on-the-value?lq=1
-        assertEquals("{C=50, A=34, B=25}", $.chain((new HashMap<String, Integer>() { {
+        assertEquals("{C=50, A=34, B=25}", $.chain((new LinkedHashMap<String, Integer>() { {
             put("A", 34);
             put("B", 25);
             put("C", 50);
