@@ -933,6 +933,20 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
     public void toArray() {
         final Object[] result = $.<Integer>toArray(asList(1, 2, 3, 4));
         assertEquals("1", result[0].toString());
+        final Object[] resultObj = new $(asList(1, 2, 3, 4)).toArray();
+        assertEquals("1", resultObj[0].toString());
+    }
+
+    @Test
+    public void toMap() {
+        assertEquals("{name1=one, name2=two}", $.toMap((new LinkedHashMap<String, String>() { {
+            put("name1", "one");
+            put("name2", "two");
+        } }).entrySet()).toString());
+        assertEquals("{name1=one, name2=two}", new $((new LinkedHashMap<String, String>() { {
+            put("name1", "one");
+            put("name2", "two");
+        } }).entrySet()).toMap().toString());
     }
 
 /*

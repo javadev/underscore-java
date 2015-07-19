@@ -383,4 +383,11 @@ var sum = _(words)
         assertEquals(34, sum);
     }
 
+    @Test
+    public void chainToMap() {
+        assertEquals("{name1=one, name2=two}", $.chain((new LinkedHashMap<String, String>() { {
+            put("name1", "one");
+            put("name2", "two");
+        } }).entrySet()).toMap().item().toString());
+    }
 }

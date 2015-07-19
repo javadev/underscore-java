@@ -588,6 +588,22 @@ public class $<T> {
         return (E[]) newArrayList(iterable).toArray();
     }
 
+    public <E> E[] toArray() {
+        return toArray((Iterable<E>) iterable);
+    }
+
+    public static <K, V> Map<K, V> toMap(final Iterable<Map.Entry<K, V>> iterable) {
+        final Map<K, V> result = newLinkedHashMap();
+        for (Map.Entry<K, V> entry : iterable) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
+
+    public <K, V> Map<K, V> toMap() {
+        return toMap((Iterable<Map.Entry<K, V>>) iterable);
+    }
+
     public static int size(final Iterable<?> iterable) {
         int size;
         final Iterator<?> iterator = iterable.iterator();
@@ -1665,6 +1681,10 @@ public class $<T> {
 
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
             return new Chain<T>($.sortBy(list, func));
+        }
+
+        public <K, V> Chain<Map<K, V>> toMap() {
+            return new Chain<Map<K, V>>($.toMap((Iterable<Map.Entry<K, V>>) list));
         }
 
         public <K, V extends Comparable<? super V>> Chain<Map<K, V>> sortBy(final K key) {

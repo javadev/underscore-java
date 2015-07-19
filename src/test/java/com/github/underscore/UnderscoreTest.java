@@ -224,15 +224,46 @@ arr.slice(-3, -1) // [3, 4]
     @Test
     public void stackoverflow() {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
-        assertEquals("[D=67.3, B=67.4, C=67.4, A=99.5]", $.sortBy((new LinkedHashMap<String, Double>() { {
+        assertEquals("{D=67.3, B=67.4, C=67.4, A=99.5}", $.chain((new LinkedHashMap<String, Double>() { {
             put("A", 99.5);
             put("B", 67.4);
             put("C", 67.4);
             put("D", 67.3);
-        } }).entrySet(), new Function1<Map.Entry<String, Double>, Double>() {
+        } }).entrySet()).sortBy(new Function1<Map.Entry<String, Double>, Double>() {
             public Double apply(Map.Entry<String, Double> item) {
                 return item.getValue();
             }
-        }).toString());
+        }).toMap().item().toString());
+    }
+
+    @Test
+    public void stackoverflow2() {
+        // http://stackoverflow.com/questions/12229577/java-hashmap-sorting-string-integer-how-to-sort-it?lq=1
+        assertEquals("{a=5, f=5, c=4, e=3, b=2, d=2}", $.chain((new HashMap<String, Integer>() { {
+            put("a", 5);
+            put("b", 2);
+            put("c", 4);
+            put("d", 2);
+            put("e", 3);
+            put("f", 5);
+        } }).entrySet()).sortBy(new Function1<Map.Entry<String, Integer>, Integer>() {
+            public Integer apply(Map.Entry<String, Integer> item) {
+                return -item.getValue();
+            }
+        }).toMap().item().toString());
+    }
+
+    @Test
+    public void stackoverflow3() {
+        // http://stackoverflow.com/questions/11647889/sorting-the-mapkey-value-in-descending-order-based-on-the-value?lq=1
+        assertEquals("{C=50, A=34, B=25}", $.chain((new HashMap<String, Integer>() { {
+            put("A", 34);
+            put("B", 25);
+            put("C", 50);
+        } }).entrySet()).sortBy(new Function1<Map.Entry<String, Integer>, Integer>() {
+            public Integer apply(Map.Entry<String, Integer> item) {
+                return -item.getValue();
+            }
+        }).toMap().item().toString());
     }
 }
