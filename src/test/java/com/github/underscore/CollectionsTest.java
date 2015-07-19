@@ -441,25 +441,79 @@ var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     }
 
 /*
-_.all([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // false
-_.all([1, 2, 3, 4], function(num) { return num < 5; }); // true
+_.every([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // false
+_.every([1, 2, 3, 4], function(num) { return num < 5; }); // true
 */
     @Test
-    public void all() {
-        final Boolean result1 = $.all(asList(1, 2, 3, 4),
+    public void every() {
+        final boolean result1 = $.every(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
-        final Boolean result2 = $.all(asList(1, 2, 3, 4),
+        final boolean result1obj = new $(asList(1, 2, 3, 4))
+            .every(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final boolean result2 = $.every(asList(1, 2, 3, 4),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item < 5;
+            }
+        });
+        final boolean result2obj = new $(asList(1, 2, 3, 4))
+            .every(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item < 5;
             }
         });
         assertFalse(result1);
+        assertFalse(result1obj);
         assertTrue(result2);
+        assertTrue(result2obj);
+    }
+
+/*
+_.all([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // false
+_.all([1, 2, 3, 4], function(num) { return num < 5; }); // true
+*/
+    @Test
+    public void all() {
+        final boolean result1 = $.all(asList(1, 2, 3, 4),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final boolean result1obj = new $(asList(1, 2, 3, 4))
+            .all(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final boolean result2 = $.all(asList(1, 2, 3, 4),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item < 5;
+            }
+        });
+        final boolean result2obj = new $(asList(1, 2, 3, 4))
+            .all(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item < 5;
+            }
+        });
+        assertFalse(result1);
+        assertFalse(result1obj);
+        assertTrue(result2);
+        assertTrue(result2obj);
     }
 
 /*
@@ -468,20 +522,36 @@ _.any([1, 2, 3, 4], function(num) { return num === 5; }); // false
 */
     @Test
     public void any() {
-        final Boolean result1 = $.any(asList(1, 2, 3, 4),
+        final boolean result1 = $.any(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
-        final Boolean result2 = $.any(asList(1, 2, 3, 4),
+        final boolean result1obj = new $(asList(1, 2, 3, 4))
+            .any(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final boolean result2 = $.any(asList(1, 2, 3, 4),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item == 5;
+            }
+        });
+        final boolean result2obj = new $(asList(1, 2, 3, 4))
+            .any(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item == 5;
             }
         });
         assertTrue(result1);
+        assertTrue(result1obj);
         assertFalse(result2);
+        assertFalse(result2obj);
     }
 
 /*

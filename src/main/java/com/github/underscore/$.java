@@ -334,7 +334,15 @@ public class $<T> {
         }).isPresent();
     }
 
+    public boolean every(final Predicate<T> pred) {
+        return every(iterable, pred);
+    }
+
     public static <E> boolean all(final Iterable<E> iterable, final Predicate<E> pred) {
+        return every(iterable, pred);
+    }
+
+    public boolean all(final Predicate<T> pred) {
         return every(iterable, pred);
     }
 
@@ -342,7 +350,15 @@ public class $<T> {
         return find(iterable, pred).isPresent();
     }
 
+    public boolean some(final Predicate<T> pred) {
+        return some(iterable, pred);
+    }
+
     public static <E> boolean any(final Iterable<E> iterable, final Predicate<E> pred) {
+        return some(iterable, pred);
+    }
+
+    public boolean any(final Predicate<T> pred) {
         return some(iterable, pred);
     }
 
