@@ -371,6 +371,10 @@ public class $<T> {
         });
     }
 
+    public boolean contains(final T elem) {
+        return contains(iterable, elem);
+    }
+
     public static <E> boolean contains(final Iterable<E> iterable, final E elem, final int fromIndex) {
         final List<E> list = newArrayList(iterable);
         return contains(list.subList(fromIndex, list.size()), elem);

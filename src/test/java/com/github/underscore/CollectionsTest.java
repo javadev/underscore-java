@@ -555,6 +555,44 @@ _.any([1, 2, 3, 4], function(num) { return num === 5; }); // false
     }
 
 /*
+_.some([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // true
+_.some([1, 2, 3, 4], function(num) { return num === 5; }); // false
+*/
+    @Test
+    public void some() {
+        final boolean result1 = $.some(asList(1, 2, 3, 4),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final boolean result1obj = new $(asList(1, 2, 3, 4))
+            .some(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final boolean result2 = $.some(asList(1, 2, 3, 4),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item == 5;
+            }
+        });
+        final boolean result2obj = new $(asList(1, 2, 3, 4))
+            .some(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item == 5;
+            }
+        });
+        assertTrue(result1);
+        assertTrue(result1obj);
+        assertFalse(result2);
+        assertFalse(result2obj);
+    }
+
+/*
 _.include([1, 2, 3], 3); // true
 */
     @Test
@@ -571,6 +609,8 @@ _.contains([1, 2, 3], 3);
     public void contains() {
         final boolean result = $.contains(asList(1, 2, 3), 3);
         assertTrue(result);
+        final boolean resultObj = new $(asList(1, 2, 3)).contains(3);
+        assertTrue(resultObj);
         final boolean resultChain = (Boolean) $.chain(asList(1, 2, 3)).contains(3).item();
         assertTrue(resultChain);
         final boolean result2 = $.contains(asList(1, 2, 3), 3, 1);
