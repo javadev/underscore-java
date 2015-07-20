@@ -1664,21 +1664,11 @@ public class $<T> {
         }
 
         public Chain<Optional<T>> find(final Predicate<T> pred) {
-            for (final T element : list) {
-                if (pred.apply(element)) {
-                    return new Chain<Optional<T>>(Optional.of(element));
-                }
-            }
-            return new Chain<Optional<T>>(Optional.<T>absent());
+            return new Chain<Optional<T>>($.find(list, pred));
         }
 
         public Chain<Optional<T>> findLast(final Predicate<T> pred) {
-            for (int index = list.size() - 1; index >= 0; index--) {
-                if (pred.apply(list.get(index))) {
-                    return new Chain<Optional<T>>(Optional.of(list.get(index)));
-                }
-            }
-            return new Chain<Optional<T>>(Optional.<T>absent());
+            return new Chain<Optional<T>>($.findLast(list, pred));
         }
 
         public Chain<Comparable> max() {
@@ -1738,6 +1728,14 @@ public class $<T> {
             return new Chain<T>(list);
         }
 
+        public Chain<Boolean> every(final Predicate<T> pred) {
+            return new Chain<Boolean>($.every(list, pred));
+        }
+
+        public Chain<Boolean> some(final Predicate<T> pred) {
+            return new Chain<Boolean>($.some(list, pred));
+        }
+
         public Chain<Boolean> contains(final T elem) {
             return new Chain<Boolean>($.contains(list, elem));
         }
@@ -1750,8 +1748,8 @@ public class $<T> {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
         }
 
-        public <T> Chain<T> concat(final List<T> second) {
-            return new Chain<T>((List<T>) Arrays.asList($.concat(list.toArray(), second.toArray())));
+        public Chain<T> concat(final List<T> second) {
+            return new Chain<T>($.concat(list, second));
         }
 
         public <T> Chain<T> slice(final int start) {

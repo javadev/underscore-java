@@ -459,6 +459,13 @@ _.every([1, 2, 3, 4], function(num) { return num < 5; }); // true
                 return item % 2 == 0;
             }
         });
+        final boolean result1chain = (Boolean) $.chain(asList(1, 2, 3, 4))
+            .every(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }).item();
         final boolean result2 = $.every(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
@@ -472,10 +479,19 @@ _.every([1, 2, 3, 4], function(num) { return num < 5; }); // true
                 return item < 5;
             }
         });
+        final boolean result2chain = (Boolean) $.chain(asList(1, 2, 3, 4))
+            .every(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item < 5;
+            }
+        }).item();
         assertFalse(result1);
         assertFalse(result1obj);
+        assertFalse(result1chain);
         assertTrue(result2);
         assertTrue(result2obj);
+        assertTrue(result2chain);
     }
 
 /*
@@ -573,6 +589,13 @@ _.some([1, 2, 3, 4], function(num) { return num === 5; }); // false
                 return item % 2 == 0;
             }
         });
+        final boolean result1chain = (Boolean) $.chain(asList(1, 2, 3, 4))
+            .some(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }).item();
         final boolean result2 = $.some(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
@@ -586,10 +609,19 @@ _.some([1, 2, 3, 4], function(num) { return num === 5; }); // false
                 return item == 5;
             }
         });
+        final boolean result2chain = (Boolean) $.chain(asList(1, 2, 3, 4))
+            .some(
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item == 5;
+            }
+        }).item();
         assertTrue(result1);
         assertTrue(result1obj);
+        assertTrue(result1chain);
         assertFalse(result2);
         assertFalse(result2obj);
+        assertFalse(result2chain);
     }
 
 /*
