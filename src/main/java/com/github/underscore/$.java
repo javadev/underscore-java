@@ -1919,7 +1919,7 @@ public class $<T> {
     }
 
     public static <T> List<T> reverse(final Iterable<T> iterable) {
-        final List<T> result = (List<T>) clone(newArrayList(iterable));
+        final List<T> result = newArrayList(iterable);
         Collections.reverse(result);
         return result;
     }
