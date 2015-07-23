@@ -55,7 +55,7 @@ _.values({one: 1, two: 2, three: 3});
 */
     @Test
     public void values() {
-        List<Integer> result = $.values(new LinkedHashMap<String, Integer>() { {
+        Collection<Integer> result = $.values(new LinkedHashMap<String, Integer>() { {
             put("one", 1); put("two", 2); put("three", 3); } });
         assertEquals("[1, 2, 3]", result.toString());
     }

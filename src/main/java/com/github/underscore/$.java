@@ -1245,37 +1245,33 @@ public class $<T> {
         return object.keySet();
     }
 
-    public static <K, V> List<V> values(final Map<K, V> object) {
-        final List<V> result = newArrayList();
-        for (final Map.Entry<K, V> entry : object.entrySet()) {
-            result.add(entry.getValue());
-        }
-        return result;
+    public static <K, V> Collection<V> values(final Map<K, V> object) {
+        return object.values();
     }
 
     public static <K, V> List<Tuple<K, V>> mapObject(final Map<K, V> object, final Function1<? super V, V> func) {
-        return map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+        return map(newArrayList(object.entrySet()), new Function1<Map.Entry<K, V>, Tuple<K, V>>() {
             @Override
-            public Tuple<K, V> apply(K key) {
-                return Tuple.create(key, func.apply(object.get(key)));
+            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
+                return Tuple.create(entry.getKey(), func.apply(entry.getValue()));
             }
         });
     }
 
     public static <K, V> List<Tuple<K, V>> pairs(final Map<K, V> object) {
-        return map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+        return map(newArrayList(object.entrySet()), new Function1<Map.Entry<K, V>, Tuple<K, V>>() {
             @Override
-            public Tuple<K, V> apply(K key) {
-                return Tuple.create(key, object.get(key));
+            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
+                return Tuple.create(entry.getKey(), entry.getValue());
             }
         });
     }
 
     public static <K, V> List<Tuple<V, K>> invert(final Map<K, V> object) {
-        return map(newArrayList(object.keySet()), new Function1<K, Tuple<V, K>>() {
+        return map(newArrayList(object.entrySet()), new Function1<Map.Entry<K, V>, Tuple<V, K>>() {
             @Override
-            public Tuple<V, K> apply(K key) {
-                return Tuple.create(object.get(key), key);
+            public Tuple<V, K> apply(Map.Entry<K, V> entry) {
+                return Tuple.create(entry.getValue(), entry.getKey());
             }
         });
     }
