@@ -415,6 +415,7 @@ _.at(['a', 'b', 'c'], 0, 2);
         $.main(new String[] {});
         new $(new ArrayList<String>());
         new $("");
+        new $(asList()).chain();
         $.chain(new ArrayList<String>());
         $.chain(new HashSet<String>());
         $.chain(new String[] {});

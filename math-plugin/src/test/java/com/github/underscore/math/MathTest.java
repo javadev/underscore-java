@@ -148,6 +148,7 @@ _.median([0, 0, 1, 2, 3, 4]);
     public void main() throws Exception {
         $.main(new String[] {});
         new $("");
+        new $(asList()).chain();
         $.chain(new HashSet<String>());
         $.chain(new String[] {});
     }

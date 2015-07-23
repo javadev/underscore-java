@@ -201,6 +201,10 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
+    public Chain chain() {
+        return new $.Chain<T>(newArrayList(value()));
+    }
+
     public static String camelCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
@@ -485,111 +489,111 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public String camelCase() {
-        return $.camelCase(getString().get());
+        return camelCase(getString().get());
     }
 
     public String capitalize() {
-        return $.capitalize(getString().get());
+        return capitalize(getString().get());
     }
 
     public String deburr() {
-        return $.deburr(getString().get());
+        return deburr(getString().get());
     }
 
     public boolean endsWith(final String target) {
-        return $.endsWith(getString().get(), target);
+        return endsWith(getString().get(), target);
     }
 
     public boolean endsWith(final String target, final Integer position) {
-        return $.endsWith(getString().get(), target, position);
+        return endsWith(getString().get(), target, position);
     }
 
     public String kebabCase() {
-        return $.kebabCase(getString().get());
+        return kebabCase(getString().get());
     }
 
     public String repeat(final int length) {
-        return $.repeat(getString().get(), length);
+        return repeat(getString().get(), length);
     }
 
     public String pad(final int length) {
-        return $.pad(getString().get(), length);
+        return pad(getString().get(), length);
     }
 
     public String pad(final int length, final String chars) {
-        return $.pad(getString().get(), length, chars);
+        return pad(getString().get(), length, chars);
     }
 
     public String padLeft(final int length) {
-        return $.padLeft(getString().get(), length);
+        return padLeft(getString().get(), length);
     }
 
     public String padLeft(final int length, final String chars) {
-        return $.padLeft(getString().get(), length, chars);
+        return padLeft(getString().get(), length, chars);
     }
 
     public String padRight(final int length) {
-        return $.padRight(getString().get(), length);
+        return padRight(getString().get(), length);
     }
 
     public String padRight(final int length, final String chars) {
-        return $.padRight(getString().get(), length, chars);
+        return padRight(getString().get(), length, chars);
     }
 
     public String snakeCase() {
-        return $.snakeCase(getString().get());
+        return snakeCase(getString().get());
     }
 
     public String startCase() {
-        return $.startCase(getString().get());
+        return startCase(getString().get());
     }
 
     public boolean startsWith(final String target) {
-        return $.startsWith(getString().get(), target);
+        return startsWith(getString().get(), target);
     }
 
     public boolean startsWith(final String target, final Integer position) {
-        return $.startsWith(getString().get(), target, position);
+        return startsWith(getString().get(), target, position);
     }
 
     public String trim() {
-        return $.trim(getString().get());
+        return trim(getString().get());
     }
 
     public String trimWith(final String chars) {
-        return $.trim(getString().get(), chars);
+        return trim(getString().get(), chars);
     }
 
     public String trimLeft() {
-        return $.trimLeft(getString().get());
+        return trimLeft(getString().get());
     }
 
     public String trimLeftWith(final String chars) {
-        return $.trimLeft(getString().get(), chars);
+        return trimLeft(getString().get(), chars);
     }
 
     public String trimRight() {
-        return $.trimRight(getString().get());
+        return trimRight(getString().get());
     }
 
     public String trimRightWith(final String chars) {
-        return $.trimRight(getString().get(), chars);
+        return trimRight(getString().get(), chars);
     }
 
     public String trunc() {
-        return $.trunc(getString().get());
+        return trunc(getString().get());
     }
 
     public String trunc(final int length) {
-        return $.trunc(getString().get(), length);
+        return trunc(getString().get(), length);
     }
 
     public String uncapitalize() {
-        return $.uncapitalize(getString().get());
+        return uncapitalize(getString().get());
     }
 
     public List<String> words() {
-        return $.words(getString().get());
+        return words(getString().get());
     }
 
     public static void main(String ... args) {

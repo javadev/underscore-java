@@ -129,7 +129,7 @@ _.defer(function(){ alert('deferred'); });
             }
             counter[0]++; return null; } });
         assertEquals("incr was debounced", 0, counter[0]);
-        Thread.sleep(32);
+        Thread.sleep(60);
         assertEquals("incr was debounced", 1, counter[0]);
     }
 

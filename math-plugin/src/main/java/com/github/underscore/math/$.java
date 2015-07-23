@@ -67,6 +67,10 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
+    public Chain chain() {
+        return new $.Chain<T>(newArrayList(value()));
+    }
+
     public static <T extends Number> T sum(final Iterable<T> iterable) {
         T result = null;
         for (final T item : iterable) {

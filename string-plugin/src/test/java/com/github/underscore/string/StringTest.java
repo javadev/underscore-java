@@ -392,6 +392,7 @@ _.repeat('abc', 0);
         $.main(new String[] {});
         new $(new ArrayList<String>());
         new $("");
+        new $(Arrays.asList()).chain();
         $.chain(new ArrayList<String>());
         $.chain(new HashSet<String>());
         $.chain(new String[] {});

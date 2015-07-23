@@ -298,6 +298,10 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
+    public Chain chain() {
+        return new $.Chain<T>(newArrayList(value()));
+    }
+
     public static <T> List<List<T>> chunk(final Iterable<T> iterable, final Integer size) {
         int index = 0;
         int length = size(iterable);
