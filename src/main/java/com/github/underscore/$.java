@@ -1330,11 +1330,11 @@ public class $<T> {
     }
 
     public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final V ... keys) {
-        return without(map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+        return without(map(newArrayList(object.entrySet()), new Function1<Map.Entry<K, V>, Tuple<K, V>>() {
             @Override
-            public Tuple<K, V> apply(K key) {
-                if (Arrays.asList(keys).contains(key)) {
-                    return Tuple.create(key, object.get(key));
+            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
+                if (Arrays.asList(keys).contains(entry.getKey())) {
+                    return Tuple.create(entry.getKey(), entry.getValue());
                 } else {
                     return null;
                 }
@@ -1343,11 +1343,11 @@ public class $<T> {
     }
 
     public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final Predicate<V> pred) {
-        return without(map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+        return without(map(newArrayList(object.entrySet()), new Function1<Map.Entry<K, V>, Tuple<K, V>>() {
             @Override
-            public Tuple<K, V> apply(K key) {
-                if (pred.apply(object.get(key))) {
-                    return Tuple.create(key, object.get(key));
+            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
+                if (pred.apply(object.get(entry.getKey()))) {
+                    return Tuple.create(entry.getKey(), entry.getValue());
                 } else {
                     return null;
                 }
@@ -1356,26 +1356,26 @@ public class $<T> {
     }
 
     public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final V ... keys) {
-        return without(map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+        return without(map(newArrayList(object.entrySet()), new Function1<Map.Entry<K, V>, Tuple<K, V>>() {
             @Override
-            public Tuple<K, V> apply(K key) {
-                if (Arrays.asList(keys).contains(key)) {
+            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
+                if (Arrays.asList(keys).contains(entry.getKey())) {
                     return null;
                 } else {
-                    return Tuple.create(key, object.get(key));
+                    return Tuple.create(entry.getKey(), entry.getValue());
                 }
             }
         }), (Tuple<K, V>) null);
     }
 
     public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final Predicate<V> pred) {
-        return without(map(newArrayList(object.keySet()), new Function1<K, Tuple<K, V>>() {
+        return without(map(newArrayList(object.entrySet()), new Function1<Map.Entry<K, V>, Tuple<K, V>>() {
             @Override
-            public Tuple<K, V> apply(K key) {
-                if (pred.apply(object.get(key))) {
+            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
+                if (pred.apply(entry.getValue())) {
                     return null;
                 } else {
-                    return Tuple.create(key, object.get(key));
+                    return Tuple.create(entry.getKey(), entry.getValue());
                 }
             }
         }), (Tuple<K, V>) null);
