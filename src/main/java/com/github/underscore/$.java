@@ -237,15 +237,7 @@ public class $<T> {
     }
 
     public static <T, E> E reduceRight(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
-        final List<T> list = newArrayList();
-        for (T elem : iterable) {
-            list.add(0, elem);
-        }
-        E accum = zeroElem;
-        for (T element : list) {
-            accum = func.apply(accum, element);
-        }
-        return accum;
+        return reduce(reverse(iterable), func, zeroElem);
     }
 
     public static <T, E> E foldr(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
