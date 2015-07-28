@@ -193,8 +193,8 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(list);
     }
 
-    public static <T> Chain chain(final Set<T> list) {
-        return new $.Chain<T>(newArrayList(list));
+    public static <T> Chain chain(final Iterable<T> iterable) {
+        return new $.Chain<T>(newArrayList(iterable));
     }
 
     public static <T> Chain chain(final T ... list) {

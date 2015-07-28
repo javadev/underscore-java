@@ -1574,8 +1574,8 @@ public class $<T> {
         return new $.Chain<T>(list);
     }
 
-    public static <T> Chain chain(final Set<T> set) {
-        return new $.Chain<T>(newArrayList(set));
+    public static <T> Chain chain(final Iterable<T> iterable) {
+        return new $.Chain<T>(newArrayList(iterable));
     }
 
     public static <T> Chain chain(final T ... array) {
