@@ -1752,8 +1752,8 @@ public class $<T> {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
         }
 
-        public Chain<T> concat(final List<T> second) {
-            return new Chain<T>($.concat(list, second));
+        public Chain<T> concat(final List<T> ... lists) {
+            return new Chain<T>($.concat(list, lists));
         }
 
         public <T> Chain<T> slice(final int start) {
