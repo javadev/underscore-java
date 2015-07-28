@@ -1683,8 +1683,8 @@ public class $<T> {
             return new Chain<T>($.min(list, func));
         }
 
-        public Chain<T> sort() {
-            return new Chain<T>($.sort((List<Comparable>) list));
+        public Chain<Comparable> sort() {
+            return new Chain<Comparable>($.sort((List<Comparable>) list));
         }
 
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
@@ -1812,7 +1812,7 @@ public class $<T> {
         return localArray;
     }
 
-    public List<T> sort() {
+    public List<Comparable> sort() {
         return sort((Iterable<Comparable>) iterable);
     }
 
