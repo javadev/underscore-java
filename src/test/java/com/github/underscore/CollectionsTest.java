@@ -1140,6 +1140,10 @@ _.size({one: 1, two: 2, three: 3});
     public void size() {
         final int result = $.size(asList(1, 2, 3, 4));
         assertEquals(4, result);
+        final int resultObj = new $(asList(1, 2, 3, 4)).size();
+        assertEquals(4, resultObj);
+        final int resultChain = $.chain(asList(1, 2, 3, 4)).size();
+        assertEquals(4, resultChain);
     }
 
 /*

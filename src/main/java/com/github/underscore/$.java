@@ -635,6 +635,10 @@ public class $<T> {
         return size;
     }
 
+    public int size() {
+        return size(iterable);
+    }
+
     public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {
         final List<E> retVal1 = newArrayList();
         final List<E> retVal2 = newArrayList();
@@ -1438,6 +1442,10 @@ public class $<T> {
         return iterable == null || size(iterable) == 0;
     }
 
+    public boolean isEmpty() {
+        return iterable == null || size(iterable) == 0;
+    }
+
     public static boolean isArray(final Object object) {
         return object != null && object.getClass().isArray();
     }
@@ -1774,6 +1782,14 @@ public class $<T> {
 
         public <K, V> Chain<Map<K, V>> toMap() {
             return new Chain<Map<K, V>>($.toMap((Iterable<Map.Entry<K, V>>) list));
+        }
+
+        public boolean isEmpty() {
+            return $.isEmpty(list);
+        }
+
+        public int size() {
+            return $.size(list);
         }
 
         public T item() {
