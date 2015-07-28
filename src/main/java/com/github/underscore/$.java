@@ -619,6 +619,9 @@ public class $<T> {
     }
 
     public static int size(final Iterable<?> iterable) {
+        if (iterable instanceof Collection) {
+            return ((Collection) iterable).size();
+        }
         int size;
         final Iterator<?> iterator = iterable.iterator();
         for (size = 0; iterator.hasNext(); size += 1) {
@@ -629,6 +632,10 @@ public class $<T> {
 
     public int size() {
         return size(iterable);
+    }
+
+    public static <E> int size(final E ... array) {
+        return array.length;
     }
 
     public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {

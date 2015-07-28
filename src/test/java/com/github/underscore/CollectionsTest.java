@@ -1144,6 +1144,25 @@ _.size({one: 1, two: 2, three: 3});
         assertEquals(4, resultObj);
         final int resultChain = $.chain(asList(1, 2, 3, 4)).size();
         assertEquals(4, resultChain);
+        final int[] array = new int[] {1, 2, 3, 4, 5, 6};
+        Iterable<Integer> iterable = new Iterable<Integer>() {
+            public Iterator<Integer> iterator() {
+                return new Iterator<Integer>() {
+                    private int index;
+                    public boolean hasNext() {
+                        return array.length > index;
+                    }
+                    public Integer next() {
+                        return array[index++];
+                    }
+                    public void remove() {
+                    }
+                };
+            }
+        };
+        assertEquals(6, $.size(iterable));
+        assertEquals(5, $.size(new Integer[] {5, 4, 3, 2, 1}));
+        assertEquals(5, $.size(5, 4, 3, 2, 1));
     }
 
 /*
