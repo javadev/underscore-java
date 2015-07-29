@@ -121,6 +121,42 @@
         </executions>
       </plugin>
       <plugin>
+          <groupId>com.github.wvengen</groupId>
+          <artifactId>proguard-maven-plugin</artifactId>
+          <version>2.0.10</version>
+          <executions>
+             <execution>
+                 <phase>package</phase>
+                 <goals><goal>proguard</goal></goals>
+             </execution>
+          </executions>
+          <configuration>
+              <options>
+                  <option>-allowaccessmodification</option>
+                  <option>-renamesourcefileattribute SourceFile</option>
+                  <option>-keepattributes Signature,InnerClasses,SourceFile,LineNumberTable</option>
+                  <option>-keep public class com.github.underscore.$ { *; }</option>
+                  <option>-keep public class com.github.underscore.*$Chain { *; }</option>
+                  <option>-keep public class com.github.underscore.Block { *; }</option>
+                  <option>-keep public class com.github.underscore.Function { *; }</option>
+                  <option>-keep public class com.github.underscore.Function1 { *; }</option>
+                  <option>-keep public class com.github.underscore.Function2 { *; }</option>
+                  <option>-keep public class com.github.underscore.Function3 { *; }</option>
+                  <option>-keep public class com.github.underscore.Function4 { *; }</option>
+                  <option>-keep public class com.github.underscore.FunctionAccum { *; }</option>
+                  <option>-keep public class com.github.underscore.MemoizeFunction1 { *; }</option>
+                  <option>-keep public class com.github.underscore.Optional { *; }</option>
+                  <option>-keep public class com.github.underscore.Predicate { *; }</option>
+                  <option>-keep public class com.github.underscore.Template { *; }</option>
+                  <option>-keep public class com.github.underscore.Tuple { *; }</option>
+                  <option>-keepclassmembers class * { *** newArrayList(); *** newLinkedHashSet(); *** newHashSet(java.lang.Iterable); *** newLinkedHashMap(); }</option>
+              </options>
+              <libs>
+                  <lib>${java.home}/lib/rt.jar</lib>
+              </libs>
+          </configuration>
+      </plugin>
+      <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.3</version>
