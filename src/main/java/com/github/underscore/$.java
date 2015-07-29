@@ -712,11 +712,11 @@ public class $<T> {
     }
 
     public List<T> initial() {
-        return $.initial((List) iterable, 1);
+        return initial((List) iterable, 1);
     }
 
     public List<T> initial(final int n) {
-        return $.initial((List) iterable, n);
+        return initial((List) iterable, n);
     }
 
     public static <E> E last(final E ... array) {
@@ -732,11 +732,11 @@ public class $<T> {
     }
 
     public T last() {
-        return $.last((List<T>) iterable);
+        return last((List<T>) iterable);
     }
 
     public List<T> last(final int n) {
-        return $.last((List) iterable, n);
+        return last((List) iterable, n);
     }
 
     public static <E> List<E> rest(final List<E> list) {
@@ -756,11 +756,11 @@ public class $<T> {
     }
 
     public List<T> rest() {
-        return $.rest((List) iterable);
+        return rest((List) iterable);
     }
 
     public List<T> rest(int n) {
-        return $.rest((List) iterable, n);
+        return rest((List) iterable, n);
     }
 
     public static <E> List<E> tail(final List<E> list) {
@@ -831,11 +831,11 @@ public class $<T> {
     }
 
     public List<T> compact() {
-        return $.compact((List) iterable);
+        return compact((List) iterable);
     }
 
     public List<T> compact(final T falsyValue) {
-        return $.compact((List) iterable, falsyValue);
+        return compact((List) iterable, falsyValue);
     }
 
     public static <E> List<E> flatten(final List<?> list) {
@@ -861,11 +861,11 @@ public class $<T> {
     }
 
     public List<T> flatten() {
-        return $.flatten((List) iterable);
+        return flatten((List) iterable);
     }
 
     public List<T> flatten(final boolean shallow) {
-        return $.flatten((List) iterable, shallow);
+        return flatten((List) iterable, shallow);
     }
 
     public static <E> List<E> without(final List<E> list, E ... values) {
