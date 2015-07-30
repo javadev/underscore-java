@@ -133,8 +133,7 @@
           <configuration>
               <options>
                   <option>-allowaccessmodification</option>
-                  <option>-renamesourcefileattribute SourceFile</option>
-                  <option>-keepattributes Signature,InnerClasses,SourceFile,LineNumberTable</option>
+                  <option>-keepattributes Signature,InnerClasses</option>
                   <option>-keep public class com.github.underscore.$ { *; }</option>
                   <option>-keep public class com.github.underscore.*$Chain { *; }</option>
                   <option>-keep public class com.github.underscore.Block { *; }</option>

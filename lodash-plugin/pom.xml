@@ -81,9 +81,9 @@
           <configuration>
               <options>
                   <option>-allowaccessmodification</option>
-                  <option>-renamesourcefileattribute SourceFile</option>
-                  <option>-keepattributes Signature,InnerClasses,SourceFile,LineNumberTable</option>
+                  <option>-keepattributes Signature,InnerClasses</option>
                   <option>-keep public class com.github.underscore.lodash.$ { *; }</option>
+                  <option>-keep public class com.github.underscore.lodash.*$Chain { *; }</option>
               </options>
               <libs>
                   <lib>${java.home}/lib/rt.jar</lib>
