@@ -171,9 +171,7 @@ public class $<T> {
     }
 
     public static <T> void eachRight(final Iterable<T> iterable, final Block<? super T> func) {
-        for (T element : reverse(iterable)) {
-            func.apply(element);
-        }
+        each(reverse(iterable), func);
     }
 
     public void eachRight(final Block<? super T> func) {
@@ -258,17 +256,10 @@ public class $<T> {
     }
 
     public static <E> Optional<E> findLast(final Iterable<E> iterable, final Predicate<E> pred) {
-        final List<E> list = newArrayList(iterable);
-        for (int index = list.size() - 1; index >= 0; index--) {
-            if (pred.apply(list.get(index))) {
-                return Optional.of(list.get(index));
-            }
-        }
-        return Optional.absent();
+        return find(reverse(iterable), pred);
     }
 
-    public static <E> List<E> filter(final List<E> list,
-                                     final Predicate<E> pred) {
+    public static <E> List<E> filter(final List<E> list, final Predicate<E> pred) {
         final List<E> filtered = newArrayList();
         for (E element : list) {
             if (pred.apply(element)) {
@@ -278,8 +269,7 @@ public class $<T> {
         return filtered;
     }
 
-    public static <E> Set<E> filter(final Set<E> set,
-                                    final Predicate<E> pred) {
+    public static <E> Set<E> filter(final Set<E> set, final Predicate<E> pred) {
         final Set<E> filtered = newLinkedHashSet();
         for (E element : set) {
             if (pred.apply(element)) {
@@ -289,13 +279,11 @@ public class $<T> {
         return filtered;
     }
 
-    public static <E> List<E> select(final List<E> list,
-                                     final Predicate<E> pred) {
+    public static <E> List<E> select(final List<E> list, final Predicate<E> pred) {
         return filter(list, pred);
     }
 
-    public static <E> Set<E> select(final Set<E> set,
-                                    final Predicate<E> pred) {
+    public static <E> Set<E> select(final Set<E> set, final Predicate<E> pred) {
         return filter(set, pred);
     }
 
