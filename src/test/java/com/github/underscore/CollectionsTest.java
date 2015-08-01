@@ -810,6 +810,16 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("author2", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+        assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
+            + " title: The Tempest, author: Shakespeare, year: 1611]",
+            new $(listOfPlays).where(asList(
+            Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+        assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
+            + " title: The Tempest, author: Shakespeare, year: 1611]",
+            $.chain(listOfPlays).where(asList(
+            Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).value().toString());
     }
 
 /*

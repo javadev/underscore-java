@@ -452,6 +452,10 @@ public class $<T> {
 
     }
 
+    public <E> List<T> where(final List<Tuple<String, E>> properties) {
+        return where(newArrayList(iterable), properties);
+    }
+
     public static <T, E> Set<E> where(final Set<E> set,
                                    final List<Tuple<String, T>> properties) {
         return filter(set, new WherePredicate<E, T>(properties));
@@ -1763,7 +1767,11 @@ public class $<T> {
             return new Chain<List<Object>>($.pluck(list, propertyName));
         }
 
-        public <T> Chain<T> uniq() {
+        public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
+            return new Chain<T>($.where(list, properties));
+        }
+
+        public Chain<T> uniq() {
             return new Chain<T>((List<T>) $.uniq(list));
         }
 
@@ -1775,15 +1783,15 @@ public class $<T> {
             return new Chain<T>($.concat(list, lists));
         }
 
-        public <T> Chain<T> slice(final int start) {
+        public Chain<T> slice(final int start) {
             return new Chain<T>((List<T>) $.slice(list, start));
         }
 
-        public <T> Chain<T> slice(final int start, final int end) {
+        public Chain<T> slice(final int start, final int end) {
             return new Chain<T>((List<T>) $.slice(list, start, end));
         }
 
-        public <T> Chain<T> reverse() {
+        public Chain<T> reverse() {
             return new Chain<T>((List<T>) $.reverse(list));
         }
 
@@ -1791,11 +1799,11 @@ public class $<T> {
             return new Chain<String>($.join(list, separator));
         }
 
-        public <T> Chain<T> skip(final int numberToSkip) {
+        public Chain<T> skip(final int numberToSkip) {
             return new Chain<T>((List<T>) list.subList(numberToSkip, list.size()));
         }
 
-        public <T> Chain<T> limit(final int size) {
+        public Chain<T> limit(final int size) {
             return new Chain<T>((List<T>) list.subList(0, size));
         }
 
