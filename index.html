@@ -1,180 +1,159 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="author" content="Valentyn Kolesnikov" />
-  <meta name="description" content="Underscore-java is a java port of the popular Underscore.js library" />
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Underscore-java</title>
 
-  <title>Underscore-java</title>
-
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #f2f2f2;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      font-size: 14px;
-      color: #222;
-      line-height: 1.4em;
-    }
-    #container {
-      margin: 0 0 0 50px;
-      width: 800px;
-    }
-    h1 { font-size: 32px; padding: 20px 0 5px 0; margin-left: -5px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { background: none; color: #222; }
-    h2 { font-size: 24px; font-weight: bold; color: #0d0d0d; margin: 30px 0 5px 0; border-top: 3px solid #ddd; padding-top: 30px; }
-    h3 { font-size: 16px; font-weight: bold; color: #0d0d0d; margin: 20px 0 5px 0; }
-    p { margin: 0 0 10px 0; }
-    a { background: #5A68A5; color: #fff; padding: 5px 5px 2px 5px; text-decoration: none; }
-    @media screen and (-webkit-min-device-pixel-ratio:0) {
-      a { padding: 2px 5px; }
-    }
-    a:hover { background: #384683; color: #fff; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    pre { color: #666; background: #ddd; padding: 15px; margin: 5px 0; border-left: 5px solid #5A68A5; font-family: Monaco, "Lucida Grande", monospace; }
-    code { font-family: Monaco, "Lucida Grande", monospace; color: #666; margin-left: 15px; }
-    p code, li code { margin: 0; }
-    hr { border: 0; width: 100%; border-bottom: 3px solid #ddd; margin: 20px 0; }
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-    .fade { color: #aaa; }
-    .function { font-size: 20px; }
-    .alias { float: right; color: #666; font-style: italic; }
-    .block { margin-top: 35px; margin-bottom: 2px; }
-    nav p { line-height: 1.8em; }
-  </style>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="./files/style.css">
+    <link rel="shortcut icon" href="./files/favicon.ico" type="image/x-icon" />
 </head>
-
 <body>
-  <div id="container">
+    <div id="sidebar" class="interface">
+        <a class="toc_title" href="#">
+            Underscore-java <span class="version">(1.5)</span>
+        </a>
+        <a class="toc_title" href="#">
+            Introduction
+        </a>
 
-    <h1><a href="http://github.com/javadev/underscore-java">Underscore-java</a>
-      <span class="small">by <a href="http://github.com/javadev">javadev</a></span></h1>
+            <a class="toc_title" href="#Collections">
+                Collections
+            </a>
 
-    <nav>
-      <p><a href="http://github.com/javadev/underscore-java">Underscore-java</a> is a java port of the popular <a href="http://underscorejs.org/">Underscore.js</a> library. In addition to porting Underscore's functionality, Underscore-java includes <a href="https://github.com/javadev/underscore-java/tree/master/src/test/java/com/github/underscore">matching unit tests</a>. Underscore-java requires java 1.6 or greater.</p>
-      <p>Underscore-java is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a> and open sourced under the MIT license.</p>
-    </nav>
-      
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/javadev/underscore-java/zipball/master">zip</a> or
-      <a href="http://github.com/javadev/underscore-java/tarball/master">tar</a> formats.
-    </p>
-    
-    <nav>
-      <h2>Table of Contents</h2>
-      <p><a href="#styles">Object-Oriented and Static Styles</a></p>
-      
-      <h3>Collections</h3>
-      <p>
-        <a href="#each">each</a>,
-        <a href="#map">map</a>,
-        <a href="#reduce">reduce</a>,
-        <a href="#reduceRight">reduceRight</a>,
-        <a href="#find">find</a>,
-        <a href="#filter">filter</a>,
-        <a href="#reject">reject</a>,
-        <a href="#all">all</a>,
-        <a href="#any">any</a>,
-        <a href="#include">include</a>,
-        <a href="#invoke">invoke</a>,
-        <a href="#pluck">pluck</a>,
-        <a href="#max">max</a>,
-        <a href="#min">min</a>,
-        <a href="#groupBy">groupBy</a>,
-        <a href="#sortBy">sortBy</a>,
-        <a href="#sortedIndex">sortedIndex</a>,
-        <a href="#shuffle">shuffle</a>,
-        <a href="#toArray">toArray</a>,
-        <a href="#size">size</a>
-      </p>
-      
-      <h3>Arrays</h3>
-      <p>
-        <a href="#first">first</a>,
-        <a href="#initial">initial</a>,
-        <a href="#rest">rest</a>,
-        <a href="#last">last</a>,
-        <a href="#compact">compact</a>,
-        <a href="#flatten">flatten</a>,
-        <a href="#without">without</a>,
-        <a href="#uniq">uniq</a>,
-        <a href="#union">union</a>,
-        <a href="#intersection">intersection</a>,
-        <a href="#difference">difference</a>,
-        <a href="#zip">zip</a>,
-        <a href="#indexOf">indexOf</a>,
-        <a href="#lastIndexOf">lastIndexOf</a>,
-        <a href="#range">range</a></span>
-      </p>
-      
-      <h3>Functions</h3>
-      <p>
-        <span class="fade">bind</span>,
-        <span class="fade">bindAll</span>
-        <a href="#memoize">memoize</a>,
-        <span class="fade">delay</span>,
-        <span class="fade">defer</span>,
-        <a href="#throttle">throttle</a>,
-        <span class="fade">debounce</span>,
-        <a href="#once">once</a>,
-        <a href="#after">after</a>,
-        <a href="#wrap">wrap</a>,
-        <a href="#compose">compose</a>
-      </p>
-      
-      <h3>Objects</h3>
-      <p>
-        <a href="#keys">keys</a>,
-        <a href="#values">values</a>,
-        <a href="#functions">functions</a>,
-        <a href="#extend">extend</a>,
-        <a href="#defaults">defaults</a>,
-        <a href="#clon">clon</a>,
-        <a href="#tap">tap</a>,
-        <a href="#has">has</a>,
-        <a href="#isEqual">isEqual</a>,
-        <a href="#isEmpty">isEmpty</a>,
-        <span class="fade">isElement</span>,
-        <a href="#isObject">isObject</a>,
-        <a href="#isArray">isArray</a>,
-        <span class="fade">isArguments</span>,
-        <a href="#isFunction">isFunction</a>,
-        <a href="#isString">isString</a>,
-        <a href="#isNumber">isNumber</a>,
-        <a href="#isBoolean">isBoolean</a>,
-        <a href="#isDate">isDate</a>,
-        <span class="fade">isRegExp</span>,
-        <a href="#isNaN">isNaN</a>,
-        <a href="#isNull">isNull</a>,
-        <span class="fade">isUndefined</span>
-      </p>
-      
-      <h3>Utility</h3>
-      <p>
-        <span class="fade">noConflict</span>,
-        <a href="#identity">identity</a>,
-        <a href="#times">times</a>,
-        <a href="#mixin">mixin</a>,
-        <a href="#uniqueId">uniqueId</a>,
-        <a href="#escape">escape</a>,
-        <a href="#template">template</a>
-      </p>
-      
-      <h3>Chaining</h3>
-      <p>
-        <a href="#chain">chain</a>,
-        <a href="#value">value</a>
-      </p>
-      
-      <p class="fade"><i>Some functions were not ported from Underscore.js to Underscore-java for technical reasons or because they weren't applicable to java.</i></p>
-    </nav>
-<h2>Collections (Arrays or Objects)</h2>
-<p class="block" id="each"><b class="function">each</b> <code>$.each(collection, iterator)</code></p>
-<p>Iterates over the collection and yield each in turn to the iterator function. Arguments passed to iterator are (value, key, collection).</p>
-<pre>$.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
+            <ul class="toc_section">
+                <li>- <a href="#each">each</a></li><li>- <a
+                href="#map">map</a></li><li>- <a
+                href="#reduce">reduce</a></li><li>- <a
+                href="#reduceRight">reduceRight</a></li><li>- <a
+                href="#find">find</a></li><li>- <a
+                href="#filter">filter</a></li><li>- <a
+                href="#where">where</a></li><li>- <a
+                href="#findWhere">findWhere</a></li><li>- <a
+                href="#reject">reject</a></li><li>- <a
+                href="#all">all</a></li><li>- <a href="#any">any</a></li><li>-
+                <a href="#include">include</a></li><li>- <a
+                href="#invoke">invoke</a></li><li>- <a
+                href="#pluck">pluck</a></li><li>- <a
+                href="#max">max</a></li><li>- <a href="#min">min</a></li><li>-
+                <a href="#sortBy">sortBy</a></li><li>- <a
+                href="#groupBy">groupBy</a></li><li>- <a
+                href="#countBy">countBy</a></li><li>- <a
+                href="#sortedIndex">sortedIndex</a></li><li>- <a
+                href="#shuffle">shuffle</a></li><li>- <a
+                href="#toArray">toArray</a></li><li>- <a
+                href="#toMap">toMap</a></li><li>- <a href="#size">size</a></li>
+             </ul>
+
+            <a class="toc_title" href="#Arrays">
+                Arrays
+            </a>
+
+            <ul class="toc_section">
+                <li>- <a href="#first">first</a></li><li>- <a
+                href="#initial">initial</a></li><li>- <a
+                href="#last">last</a></li><li>- <a
+                href="#rest">rest</a></li><li>- <a
+                href="#compact">compact</a></li><li>- <a
+                href="#flatten">flatten</a></li><li>- <a
+                href="#without">without</a></li><li>- <a
+                href="#union">union</a></li><li>- <a
+                href="#intersection">intersection</a></li><li>- <a
+                href="#difference">difference</a></li><li>- <a
+                href="#uniq">uniq</a></li><li>- <a href="#zip">zip</a></li><li>-
+                <a href="#object">object</a></li><li>- <a
+                href="#indexOf">indexOf</a></li><li>- <a
+                href="#lastIndexOf">lastIndexOf</a></li><li>- <a
+                href="#range">range</a></li><li>- <a
+                href="#concat">concat</a></li><li>- <a
+                href="#reverse">reverse</a></li><li>- <a
+                href="#join">join</a></li><li>- <a
+                href="#slice">slice</a></li>
+             </ul>
+
+            <a class="toc_title" href="#Functions">
+                Functions
+            </a>
+
+            <ul class="toc_section">
+                <li>- <a href="#bind">bind</a></li><li>- <a
+                href="#memoize">memoize</a></li><li>- <a
+                href="#delay">delay</a></li><li>- <a
+                href="#once">once</a></li><li>- <a
+                href="#debounce">debounce</a></li><li>- <a
+                href="#after">after</a></li><li>- <a
+                href="#wrap">wrap</a></li><li>- <a
+                href="#compose">compose</a></li>
+             </ul>
+
+            <a class="toc_title" href="#Objects">
+                Objects
+            </a>
+
+            <ul class="toc_section">
+                <li>- <a href="#keys">keys</a></li><li>- <a
+                href="#values">values</a></li><li>- <a
+                href="#pairs">pairs</a></li><li>- <a
+                href="#invert">invert</a></li><li>- <a
+                href="#functions">functions</a></li><li>- <a
+                href="#extend">extend</a></li><li>- <a
+                href="#pick">pick</a></li><li>- <a
+                href="#omit">omit</a></li><li>- <a
+                href="#defaults">defaults</a></li><li>- <a
+                href="#clone">clone</a></li><li>- <a
+                href="#has">has</a></li><li>- <a
+                href="#isEqual">isEqual</a></li><li>- <a
+                href="#isEmpty">isEmpty</a></li><li>- <a
+                href="#isArray">isArray</a></li><li>- <a
+                href="#isObject">isObject</a></li><li>- <a
+                href="#isFunction">isFunction</a></li><li>- <a
+                href="#isString">isString</a></li><li>- <a
+                href="#isNumber">isNumber</a></li><li>- <a
+                href="#isBoolean">isBoolean</a></li><li>- <a
+                href="#isDate">isDate</a></li>
+             </ul>
+
+            <a class="toc_title" href="#Utilities">
+                Utilities
+            </a>
+
+            <ul class="toc_section">
+                <li>- <a href="#times">times</a></li><li>- <a
+                href="#random">random</a></li><li>- <a
+                href="#mixin">mixin</a></li><li>- <a
+                href="#uniqueId">uniqueId</a></li><li>- <a
+                href="#escape">escape</a></li><li>- <a
+                href="#result">result</a></li>
+             </ul>
+
+        <a class="toc_title" href="#changelog">
+            Change Log
+        </a>
+    </div>
+    <div class="container">
+        <h1>Underscore-java</h1>
+        <p id="Introduction">
+            Underscore-java is a port of <a href="http://underscorejs.org/">Underscore.js</a>
+ for Java. It is a utility-belt library that provides a lot of the
+ functional programming support that you would expect in Prototype.js
+(or Ruby). <br><br>Underscore-java provides dozens of functions that
+support both the usual functional suspects: map, select, invoke - as
+well as more specialized helpers: function binding, sorting, deep
+equality testing, and so on. It delegates to built-in functions where
+applicable.<br><br>Underscore-java is compatible with Java 6, 7, 8.<br><br>The project is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a>. Contributions are welcome.<br>
+        </p>
+        <h2>Download</h2>
+        <div><a href="https://github.com/javadev/underscore-java/archive/v1.5.zip">Version 1.5</a> - <i>~554kb, Includes all development files</i></div>
+        <h2 id="Collections">Collection Functions (Arrays, Structs, Queries, or Objects)</h2>
+
+
+<p id="each"><b class="header">each</b> <code>$.each(collection, iterator)</code><br>Iterates
+ over a collection of elements, yielding
+each in turn to an iterator
+ function. The iterator is bound to the context
+object (component or
+ struct), if one is passed. Each invocation of iterator is
+called with
+ argument: (element).<br></p><pre>$.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
     public void apply(Integer item) {
         System.out.println(item + &quot;,&quot;);
     }
@@ -189,16 +168,16 @@ $.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
         index += 1;
     }
 });
-// 0=2,1=4,2=6,
-</pre>
+// 0=2,1=4,2=6,</pre><p></p>
 
-<p class="block" id="map"><b class="function">map</b> <code>$.map(collection, iterator)</code> <span class="alias">Alias: <b>collect</b></span></p>
-<p>Returns an array of values by mapping each in collection through the iterator. Arguments passed to iterator are (value, key, collection).</p>
-<pre>$.map(asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
-            public Integer apply(Integer item) {
-                return item * 3;
-            }
-        });
+<p id="map"><b class="header">map</b> <code>$.map(collection, iterator)</code><br>Produces
+ a new array of values by mapping each
+value in collection through a
+ transformation function (iterator).<br></p><pre>$.map(asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
+    public Integer apply(Integer item) {
+        return item * 3;
+    }
+});
 // [3, 6, 9]
 
 $.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put(2, &quot;two&quot;); put(3, &quot;three&quot;); }}
@@ -208,11 +187,16 @@ $.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
         return item.getKey() * 3;
     }
 });
-// [3, 6, 9]
-</pre>
-<p class="block" id="reduce"><b class="function">reduce</b> <code>$.reduce(collection, iterator, memo)</code> <span class="alias">Aliases: <b>inject, foldl</b></span></p>
-<p>Reduce the collection into a single value. Memo is the initial state of the reduction, updated by the return value of the iterator.</p>
-<pre>$.reduce(asList(1, 2, 3),
+// [3, 6, 9]</pre><p></p>
+
+<p id="reduce"><b class="header">reduce</b> <code>$.reduce(collection, iterator,
+memo)</code><br>Also
+ known as inject and foldl, reduce boils
+down a collection of values
+ into a single value. Memo is the initial state of
+the reduction, and
+ each successive step of it should be returned by
+iterator.<br></p><pre>$.reduce(asList(1, 2, 3),
     new FunctionAccum&lt;Integer, Integer&gt;() {
     public Integer apply(Integer item1, Integer item2) {
         return item1 + item2;
@@ -220,11 +204,11 @@ $.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
     },
     0
 );
-// 6</pre>
+// 6</pre><p></p>
 
-<p class="block" id="reduceRight"><b class="function">reduceRight</b> <code>$.reduceRight(collection, iterator, memo)</code><span class="alias">Alias: <b>foldr</b></span></p>
-<p>Right-associative version of reduce.</p>
-<pre>$.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
+<p id="reduceRight"><b class="header">reduceRight</b>
+<code>$.reduceRight(collection, iterator, memo)</code><br>The
+right-associative version of reduce.<br></p><pre>$.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
     new FunctionAccum&lt;List&lt;Integer&gt;, List&lt;Integer&gt;&gt;() {
     public List&lt;Integer&gt; apply(List&lt;Integer&gt; item1, List&lt;Integer&gt; item2) {
         List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;(item1);
@@ -233,83 +217,155 @@ $.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
     },
     Collections.&lt;Integer&gt;emptyList()
 });
-// [4, 5, 2, 3, 0, 1]</pre>
+// [4, 5, 2, 3, 0, 1]</pre><p></p>
 
-<p class="block" id="find"><b class="function">find</b> <code>$.find(collection, iterator)</code> <span class="alias">Alias: <b>detect</b></span></p>
-<p>Return the value of the first item in the collection that passes the truth test (<b>iterator</b>).</p>
-<pre>$.find(asList(1, 2, 3, 4, 5, 6), 
+ <p id="find"><b class="header">find</b> <code>$.find(collection,
+iterator)</code><br>Looks
+ through each value in the collection, returning
+the first one that
+ passes a truth test (iterator). The function returns as
+soon as it finds
+ an acceptable element, and doesn't traverse the entire
+collection.<br></p><pre>$.find(asList(1, 2, 3, 4, 5, 6),
     new Predicate&lt;Integer&gt;() {
     public Boolean apply(Integer item) {
         return item % 2 == 0;
     }
 }).get();
-// 2</pre>
+// 2</pre><p></p>
 
-<p class="block" id="filter"><b class="function">filter</b> <code>$.filter(collection, iterator)</code> <span class="alias">Alias: <b>select</b></span></p>
-<p>Return the values in the collection that pass the truth test (<b>iterator</b>).</p>
-<pre>$.filter(asList(1, 2, 3, 4, 5, 6), 
+<p id="filter"><b class="header">filter</b> <code>$.filter(collection, iterator)
+</code><br>Looks through each value in the collection,
+returning an array of all the values that pass a truth test
+(iterator).<br></p><pre>$.filter(asList(1, 2, 3, 4, 5, 6),
     new Predicate&lt;Integer&gt;() {
     public Boolean apply(Integer item) {
         return item % 2 == 0;
     }
 });
-// [2, 4, 6]</pre>
+// [2, 4, 6]</pre><p></p>
 
-<p class="block" id="reject"><b class="function">reject</b> <code>$.reject(collection, iterator)</code></p>
-<p>Return an array where the items failing the truth test (<b>iterator</b>) are removed.</p>
-<pre>$.reject(asList(1, 2, 3, 4), 
+<p id="where"><b class="header">where</b> <code>$.where(list, properties)
+</code><br>Looks
+ through each value in the list, returning an array of all
+the values
+ that contain all of the key-value pairs listed in
+properties.<br></p><pre>class Book {
+    public final String title;
+    public final String author;
+    public final Integer year;
+    public Book(final String title, final String author, final Integer year) {
+        this.title = title;
+        this.author = author;
+        this.year = year;
+    }
+    public String toString() {
+        return &quot;title: &quot; + title + &quot;, author: &quot; + author + &quot;, year: &quot; + year;
+    }
+}
+List&lt;Book&gt; listOfPlays =
+    new ArrayList&lt;Book&gt;() { {
+      add(new Book(&quot;Cymbeline2&quot;, &quot;Shakespeare&quot;, 1614));
+      add(new Book(&quot;Cymbeline&quot;, &quot;Shakespeare&quot;, 1611));
+      add(new Book(&quot;The Tempest&quot;, &quot;Shakespeare&quot;, 1611));
+    } };
+$.where(listOfPlays, asList(
+            Tuple.&lt;String, Object&gt;create(&quot;author&quot;, &quot;Shakespeare&quot;),
+            Tuple.&lt;String, Object&gt;create(&quot;year&quot;, Integer.valueOf(1611)))).toString());
+// [title: Cymbeline, author: Shakespeare, year: 1611,
+title: The Tempest, author: Shakespeare, year: 1611]</pre><p></p>
+
+<p id="findWhere"><b class="header">findWhere</b> <code>$.findWhere(collection, properties)</code>
+<br>Looks through the collection and returns the first
+value that matches all of the key-value pairs listed in
+properties.<br></p><pre>class Book {
+    public final String title;
+    public final String author;
+    public final Integer year;
+    public Book(final String title, final String author, final Integer year) {
+        this.title = title;
+        this.author = author;
+        this.year = year;
+    }
+    public String toString() {
+        return &quot;title: &quot; + title + &quot;, author: &quot; + author + &quot;, year: &quot; + year;
+    }
+}
+List&lt;Book&gt; listOfPlays =
+    new ArrayList&lt;Book&gt;() { {
+      add(new Book(&quot;Cymbeline2&quot;, &quot;Shakespeare&quot;, 1614));
+      add(new Book(&quot;Cymbeline&quot;, &quot;Shakespeare&quot;, 1611));
+      add(new Book(&quot;The Tempest&quot;, &quot;Shakespeare&quot;, 1611));
+    } };
+$.findWhere(listOfPlays, asList(
+    Tuple.&lt;String, Object&gt;create(&quot;author&quot;, &quot;Shakespeare&quot;),
+    Tuple.&lt;String, Object&gt;create(&quot;year&quot;, Integer.valueOf(1611)))).get();
+// &quot;title: Cymbeline, author: Shakespeare, year: 1611&quot;
+</pre><p></p>
+
+<p id="reject"><b class="header">reject</b> <code>$.reject(collection, iterator)
+</code><br>Returns the values in collection without the
+elements that the truth test (iterator) passes. The opposite of
+filter.<br></p><pre>$.reject(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
     public Boolean apply(Integer item) {
         return item % 2 == 0;
     }
 });
-// [1, 3]</pre>
+// [1, 3]</pre><p></p>
 
-<p class="block" id="all"><b class="function">all</b> <code>$.all(collection, iterator)</code></p>
-<p>Returns true if all values in the collection pass the truth test (<b>iterator</b>).</p>
-<pre>$.all(asList(1, 2, 3, 4), 
+<p id="all"><b class="header">all</b> <code>$.all(collection, iterator)
+</code><br>Returns true if all of the values in the
+collection pass the iterator truth test.<br></p><pre>$.all(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
         public Boolean apply(Integer item) {
             return item % 2 == 0;
         }
     });
 // false
-$.all(asList(1, 2, 3, 4), 
+$.all(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
         public Boolean apply(Integer item) {
             return item < 5;
         }
     });
-// true</pre>
+// true</pre><p></p>
 
-<p class="block" id="any"><b class="function">any</b> <code>$.any(collection, iterator)</code></p>
-<p>Returns true if any values in the collection pass the truth test (<b>iterator</b>).</p>
-<pre>$.any(asList(1, 2, 3, 4), 
+<p id="any"><b class="header">any</b> <code>$.any(collection, iterator)</code><br>Returns
+ true if any of the values in the collection pass the iterator truth
+test. Short-circuits and stops traversing the collection if a true
+element is found.<br></p><pre>$.any(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
         public Boolean apply(Integer item) {
             return item % 2 == 0;
         }
     });
 // true
-$.any(asList(1, 2, 3, 4), 
+$.any(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
         public Boolean apply(Integer item) {
             return item == 5;
         }
     });
-// false</pre>
+// false</pre><p></p>
 
-<p class="block" id="include"><b class="function">include</b> <code>$.include(collection, value)</code> <span class="alias">Alias: <b>contains</b></span></p>
-<p>Returns true if value is found in the collection using == to test equality.</p>
-<pre>$.include(asList(1, 2, 3), 3); // true</pre>
+<p id="include"><b class="header">include</b> <code>$.include(collection, value)
+</code><br>Returns true if the value is present in the
+collection.<br></p><pre>$.include(asList(1, 2, 3), 3); // true</pre><p></p>
 
-<p class="block" id="invoke"><b class="function">invoke</b> <code>$.invoke(collection, functionName)</code></p>
-<p>Returns a copy of the collection after running functionName across all elements.</p>
-<pre>$.invoke(asList(" foo", " bar "), "trim"); // ["foo", "bar"]</pre>
+<p id="invoke"><b class="header">invoke</b> <code>$.invoke(collection,
+methodName, [arguments])</code><br>Calls
+ the method named by methodName
+on each value in the collection. The
+ arguments struct passed to invoke will be
+forwarded on to the method
+ invocation.<br></p><pre>$.invoke(asList(" foo", " bar "), "trim"); // ["foo", "bar"]
+</pre><p></p>
 
-<p class="block" id="pluck"><b class="function">pluck</b> <code>$.pluck(collection, propertyName)</code></p>
-<p>Extract an array of property values</p>
-<pre>class Person {
+<p id="pluck"><b class="header">pluck</b> <code>$.pluck(collection,
+propertyName)</code><br>A convenient version of what is perhaps the most
+common use-case for map: extracting a collection of property
+values.<br></p><pre>class Person {
     public final String name;
     public final Integer age;
     public Person(final String name, final Integer age) {
@@ -318,15 +374,671 @@ $.any(asList(1, 2, 3, 4),
     }
 };
 $.pluck(asList(new Person(&quot;moe&quot;, 40), new Person(&quot;larry&quot;, 50), new Person(&quot;curly&quot;, 40)), &quot;name&quot;);
-// ["moe", "larry", "curly"]</pre>
+// ["moe", "larry", "curly"]</pre><p></p>
 
-<p class="block" id="max"><b class="function">max</b> <code>$.max(collection, [iterator])</code></p>
-<p>Returns the maximum value from the collection. If passed an iterator, max will return max value returned by the iterator.</p>
-<pre>$.max(asList(10, 5, 100, 2, 1000)); // 100</pre>
+<p id="max"><b class="header">max</b> <code>$.max(collection, [iterator])</code><br>Returns
+ the maximum value in collection. If iterator
+is passed, it will be used
+ on each value to generate the criterion by which the
+value is ranked.<br></p><pre>$.max(asList(10, 5, 100, 2, 1000));
+// 100
+$.max(asList(10, 5, 100, 2, 1000),
+        new Function1&lt;Integer, Integer&gt;() {
+    public Integer apply(Integer item) {
+        return -item;
+    }
+});
+// 2
+</pre><p></p>
 
-<p class="block" id="min"><b class="function">min</b> <code>$.min(collection, [iterator])</code></p>
-<p>Returns the minimum value from the collection. If passed an iterator, min will return min value returned by the iterator.</p>
-<pre>$.min(asList(10, 5, 100, 2, 1000)); // 2</pre>
+ <p id="min"><b class="header">min</b> <code>$.min(collection, [iterator])</code><br>Returns
+ the minimum value in collection. If
+iterator is passed, it will be used
+ on each value to generate the criterion
+by which the value is ranked.<br></p><pre>$.min(asList(10, 5, 100, 2, 1000));
+// 2
+$.min(asList(10, 5, 100, 2, 1000),
+        new Function1&lt;Integer, Integer&gt;() {
+    public Integer apply(Integer item) {
+        return -item;
+    }
+});
+// 1000
+</pre><p></p>
 
-</body>
-</html>
+<p id="sortBy"><b class="header">sortBy</b> <code>$.sortBy(collection,
+iterator)</code><br>Returns
+ a sorted copy of collection,
+ranked in ascending order by the results
+ of running each value through
+iterator. Iterator may also be the string
+ name of the object key to sort by.
+Delegates to arraySort().<br></p><pre>$.sortBy(asList(1, 2, 3, 4, 5, 6),
+        new Function1&lt;Integer, Integer&gt;() {
+        public Integer apply(Integer item) {
+            return Double.valueOf(Math.sin(item) * 1000).intValue();
+        }
+    });<br>=&gt; [5, 4, 6, 3, 1, 2]</pre><p></p>
+
+<p id="groupBy"><b class="header">groupBy</b> <code>$.groupBy(collection,
+iterator)</code><br>Splits
+ a collection into sets, grouped by the
+result of running each value
+ through iterator. If iterator is a string instead
+of a function, groups
+ by the property named by iterator on each of the
+values.<br></p><pre>$.groupBy(asList(1.3, 2.1, 2.4),
+        new Function1&lt;Double, Double&gt;() {
+        public Double apply(Double num) {
+            return Math.floor(num);
+        }
+    });<br>=&gt; {1.0=[1.3], 2.0=[2.1, 2.4]}</pre><p></p>
+
+<p id="countBy"><b class="header">countBy</b> <code>$.countBy(collection,
+iterator)</code><br>Sorts
+ a collection into groups and returns a count
+for the number of objects
+ in each group. Similar to groupBy, but instead of
+returning a list of
+ values, returns a count for the number of values in that
+group.<br></p><pre>class Person {
+    public final String name;
+    public final Integer age;
+    public Person(final String name, final Integer age) {
+        this.name = name;
+        this.age = age;
+    }
+    public String toString() {
+        return name + &quot;, &quot; + age;
+    }
+}
+final Map&lt;String, Integer&gt; result =
+$.countBy(asList(new Person(&quot;moe&quot;, 40), new Person(&quot;moe&quot;, 50), new Person(&quot;curly&quot;, 60)),
+    new Function1&lt;Person, String&gt;() {
+    public String apply(Person person) {
+        return person.name;
+    }
+});<br>=&gt; {moe=2, curly=1}</pre><p></p>
+
+<p id="sortedIndex"><b class="header">sortedIndex</b>
+<code>$.sortedIndex(collection, value, [iterator])</code><br>Uses
+ a
+binary search to determine the index at which the value should be
+ inserted into
+the collection in order to maintain the collection's
+ sorted order. If an
+iterator is passed, it will be used to compute the
+ sort ranking of each
+value.<br></p><pre>$.sortedIndex(asList(10, 20, 30, 40, 50), 35);<br>=&gt; 3</pre><p></p>
+
+<p id="shuffle"><b class="header">shuffle</b> <code>$.shuffle(array)
+</code><br>Returns a shuffled copy of the array, using a version of the
+Fisher-Yates shuffle.<br></p><pre>$.shuffle(asList(1, 2, 3, 4, 5, 6)<br>=&gt; [4, 1, 6, 3, 5, 2]</pre><p></p>
+
+<p id="toArray"><b class="header">toArray</b> <code>$.toArray(collection)
+</code><br>Converts the collection (object), into an array.<br>
+</p><pre>$.<Integer>toArray(asList(1, 2, 3, 4));<br>=&gt; [1, 2, 3, 4]</pre><p></p>
+
+<p id="toMap"><b class="header">toMap</b> <code>$.toMap(collection)</code><br>Converts
+ the collection to a map object.<br></p><pre>$.toMap((new LinkedHashMap&lt;String, String&gt;() { {
+        put(&quot;name1&quot;, &quot;one&quot;);
+        put(&quot;name2&quot;, &quot;two&quot;);
+    } }).entrySet()).toString());<br>=&gt; {name1=one, name2=two}</pre><p></p>
+
+<p id="size"><b class="header">size</b> <code>$.size(collection)
+</code><br>Return the number of values in the collection.
+<br></p><pre>$.size(asList(1, 2, 3, 4));<br>=&gt; 4</pre><p></p>
+ <h2 id="Arrays">Array Functions</h2>
+
+<p id="first"><b class="header">first</b> <code>$.first(array, [n])
+</code><br>Returns the first element of an array. Passing n will return the
+first n elements of the array.<br></p><pre>$.first(asList(5, 4, 3, 2, 1));
+=&gt; 5
+</pre><p></p>
+
+<p id="initial"><b class="header">initial</b> <code>$.initial(array, [n])
+</code><br>Returns
+ everything but the last entry of the array. Especially
+useful on the
+ arguments object. Pass n to exclude the last n elements from the
+result.<br></p>
+<pre>$.initial(asList(5, 4, 3, 2, 1));<br>=&gt; [5, 4, 3, 2]</pre><p></p>
+
+<p id="last"><b class="header">last</b> <code>$.last(array, [n])
+</code><br>Returns the last element of an array. Passing n will return the
+last n elements of the array.<br></p>
+<pre>$.last(asList(5, 4, 3, 2, 1));<br>=&gt; 1</pre><p></p>
+
+<p id="rest"><b class="header">rest</b> <code>$.rest(array, [index])
+</code><br>Returns the rest of the elements in an array. Pass an index to
+return the values of the array from that index onward.<br></p>
+<pre>$.rest(asList(5, 4, 3, 2, 1));<br>=&gt; [4, 3, 2, 1]</pre><p></p>
+
+<p id="compact"><b class="header">compact</b> <code>$.compact(array)
+</code><br>Returns a copy of the array with all falsy values removed. In
+Coldfusion, false, 0, and "" are all falsy.<br></p>
+<pre>$.compact([0, 1, false, 2, '', 3]);<br>=&gt; [1, 2, 3]</pre><p></p>
+
+<p id="flatten"><b class="header">flatten</b> <code>$.flatten(array, [shallow])
+</code><br>Flattens a nested array (the nesting can be to any depth). If
+you pass shallow, the array will only be flattened a single
+level.<br></p>
+<pre>$.flatten(asList(1, asList(2, asList(3, asList(asList(4))))));
+=&gt; [1, 2, 3, 4];<br>
+$.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), true);
+=&gt; [1, 2, [3, [[4]]]];</pre><p></p>
+
+<p id="without"><b class="header">without</b> <code>$.without(array, [values])
+</code><br>Returns a copy of the array with all instances of the values
+removed.<br></p><pre>$.without(asList(1, 2, 1, 0, 3, 1, 4), 0, 1)
+=&gt; [2, 3, 4]</pre><p></p>
+
+<p id="union"><b class="header">union</b> <code>$.union(*arrays)
+</code><br>Computes
+ the union of the passed-in arrays: the collection of
+unique items, in
+ order, that are present in one or more of the
+arrays.<br></p><pre>$.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
+=&gt; [1, 2, 3, 101, 10]</pre><p></p>
+
+<p id="intersection"><b class="header">intersection</b>
+<code>$.intersection(*arrays)</code><br>Computes
+ the collection of
+values that are the intersection of all the arrays.
+ Each value in the result is
+present in each of the arrays.<br></p>
+<pre>$.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));<br>=&gt; [1, 2]</pre><p></p>
+
+<p id="difference"><b class="header">difference</b> <code>$.difference(array, others)</code>
+<br>Similar to without, but returns the values from array
+that are not present in the other arrays.<br></p>
+<pre>$.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));<br>=&gt; [1, 3, 4]</pre><p></p>
+
+<p id="uniq"><b class="header">uniq</b> <code>$.uniq(array, [iterator])</code>
+<br>Produces
+ a duplicate-free version of the array.
+If you want to compute unique items based on a
+transformation, pass an iterator function.<br></p>
+<pre>$.uniq(asList(1, 2, 1, 3, 1, 4));<br>=&gt; [1, 2, 3, 4]</pre><p></p>
+
+<p id="zip"><b class="header">zip</b> <code>$.zip(*arrays)
+</code><br>Merges
+ together the values of each of the arrays with the
+values at the
+ corresponding position. Useful when you have separate data
+sources that
+ are coordinated through matching array
+indexes.<br></p>
+<pre>$.zip(asList("moe", "larry", "curly"), asList("30", "40", "50"), asList("true", "false", "false"));
+=&gt; [[moe, 30, true], [larry, 40, false], [curly, 50, false]]</pre><p></p>
+
+<p id="object"><b class="header">object</b> <code>$.object(array,
+[values])</code><br>Converts an array into a struct. Pass either a single array
+of [key, value] pairs, or an array of keys, and an array of
+values.<br></p>
+<pre>$.object(asList("moe", "larry", "curly"), asList("30", "40", "50"));
+=&gt; [(moe, 30), (larry, 40), (curly, 50)]</pre><p></p>
+
+<p id="indexOf"><b class="header">indexOf</b> 
+<code>$.indexOf(array, value)</code><br>Returns
+ the index at which value can
+be found in the array, or -1 if value is
+ not present in the array.<br></p><pre>$.indexOf(asList(1, 2, 3), 2);<br>=&gt; 1</pre><p></p>
+
+<p id="lastIndexOf"><b class="header">lastIndexOf</b> <code>$.lastIndexOf(array,
+value) : numeric</code><br>Returns the index of the last occurrence of value in
+the array, or -1 if value is not present.<br></p>
+<pre>$.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);<br>=&gt; 4</pre><p></p>
+
+<p id="range"><b class="header">range</b> <code>$.range([start], stop, [step])
+</code><br>A
+ function to create flexibly-numbered arrays of integers,
+handy for each
+ and map loops. start, if omitted, defaults to 0; step defaults
+to 1.
+ Returns an array of integers from start to stop, incremented (or
+decremented) by step, exclusive.<br></p>
+<pre>$.range(10);<br>=&gt; [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]<br>
+$.range(1, 11);<br>=&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]<br>
+$.range(0, 30, 5);<br>=&gt; [0, 5, 10, 15, 20, 25]<br>
+$.range(0, -10, -1);<br>=&gt; [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]<br>
+$.range(0);<br>=&gt; []</pre><p></p>
+
+<p id="concat"><b class="header">concat</b> <code>$.concat(*arrays)
+</code><br>Concatenates any number of arrays together an returns the
+result. Delegates to ArrayAppend().<br></p>
+<pre>$.concat(asList(1, 2), asList(3, 4))<br>=&gt; [1, 2, 3, 4];</pre><p></p>
+
+<p id="reverse"><b class="header">reverse</b> <code>$.reverse(array)
+</code><br>Returns a copy of the array in reverse
+order.<br></p><pre>$.reverse(asList(1, 2, 3))<br>=&gt; [3, 2, 1]</pre><p></p>
+
+<p id="join"><b class="header">join</b> <code>$.join(array, [separator])
+</code><br>Returns a string with all array elements joined together.
+Default separator is a single space.<br></p><pre>$.join(asList(1, 2), " and ");
+=&gt; "1 and 2"</pre><p></p>
+
+<p id="slice"><b class="header">slice</b> <code>$.slice(array, [from], [to])
+</code><br>Returns a subsection of the array. Negative values for to and
+from offset from the end of the array.<br></p>
+<pre>$.slice(asList(1, 2, 3, 4), 1);<br>=&gt; [2, 3, 4]
+<br>$.slice(asList(1, 2, 3, 4), 3);<br>=&gt; [3, 4]
+<br>$.slice(asList(1, 2, 3, 4), 2, -1);<br>=&gt; [2, 3]<br>
+$.slice(asList(1, 2, 3, 4), -3, -1);<br>=&gt; [2, 3]</pre><p></p>
+ <h2 id="Functions">Functions</h2>
+
+<p id="bind"><b class="header">bind</b> <code>$.bind(function, object, [*arguments])</code>
+<br>Bind
+ a function to a structure, meaning that
+whenever the function is
+ called, the value of "this" will be the structure.
+Optionally, bind
+ arguments to the function to pre-fill them, also known as
+partial
+ application.<br></p>
+<pre>class GreetingFunction implements Function1&lt;String, String&gt; {
+    private final String name;
+    public GreetingFunction(final String name) {
+        this.name = name;
+    }
+    public String apply(final String greeting) {
+        return greeting + &quot;: &quot; + this.name;
+    }
+}
+$.bind(new GreetingFunction(&quot;moe&quot;)).apply(&quot;hi&quot;);
+=&gt; "hi: moe"</pre><p></p>
+
+<p id="memoize"><b class="header">memoize</b> 
+<code>$.memoize(function, [hashFunction])</code><br>Memoizes
+ a given function by caching the
+computed result. Useful for speeding up
+ slow-running computations. If passed an
+optional hashFunction, it will
+ be used to compute the hash key for storing the
+result, based on the
+ arguments to the original function. The default
+hashFunction just uses
+ the first argument to the memoized function as the
+key.<br></p>
+<pre>class FibonacciFuncion1 extends MemoizeFunction1&lt;Integer&gt; {
+    public Integer calc(final Integer n) {
+        return n &lt; 2 ? n : apply(n - 1) + apply(n - 2);
+    }
+}
+fibonacci = new FibonacciFuncion1().apply(10));
+// 55</pre><p></p>
+
+<p id="delay"><b class="header">delay</b> 
+<code>$.delay(function, wait, arguments)</code><br>Delays a function for the given number of
+milliseconds, and then calls it with the arguments supplied in the args
+struct.<br></p>
+<pre>$.delay(new Function&lt;String&gt;() {
+    public String apply() {
+        return "hi";
+    }
+}, 1000);
+=&gt; "hi" // appears after one second</pre><p></p>
+
+<p id="once"><b class="header">once</b> <code>$.once(function)
+</code><br>Returns a function that will be executed at most one time, no
+matter how often you call it. Useful for lazy initialization.<br></p>
+<pre>final Integer[] counter = new Integer[] {0};
+Function&lt;Void&gt; incr = new Function&lt;Void&gt;() { public Void apply() { counter[0]++; return null; } };
+Function&lt;Void&gt; onceIncr = $.once(incr);
+onceIncr.apply();
+onceIncr.apply();
+=&gt; counter[0] == 1</pre><p></p>
+
+<p id="debounce"><b class="header">debounce</b> 
+<code>$.debounce(function, wait)</code><br>Returns
+ a function that, as long as it
+continues to be invoked, will not be
+ triggered. The function will be called
+after it stops being called for N
+ milliseconds. If immediate is passed, trigger
+the function on the
+ leading edge, instead of the trailing.<br></p>
+<pre>final Integer[] counter = new Integer[] {0};
+Function&lt;Void&gt; incr = new Function&lt;Void&gt;() { public Void apply() { counter[0]++; return null; } };
+Function&lt;Void&gt; debouncedIncr = $.debounce(incr, 50);
+debouncedIncr.apply();
+debouncedIncr.apply();
+$.delay(debouncedIncr, 16);
+$.delay(new Function&lt;Void&gt;() {
+    public Void apply() {
+        System.out.println(counter[0]);
+        return null;
+    }
+}, 60);
+Thread.sleep(120);
+=&gt; function argument is called only once</pre><p></p>
+
+<p id="after"><b class="header">after</b> 
+<code>$.after(count, function)</code><br>Returns
+ a function that will only be executed after being called
+N times. When
+ count &lt;= 0, the result of calling the function immediately is
+returned.<br></p>
+<pre>final List&lt;Integer&gt; notes = asList(1, 2, 3);
+final Function&lt;Integer&gt; renderNotes = $.after(notes.size(),
+    new Function&lt;Integer&gt;() { public Integer apply() { return 4; } });
+final List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
+$.&lt;Integer&gt;each(notes, new Block&lt;Integer&gt;() {
+    public void apply(Integer item) {
+        result.add(item);
+        Integer afterResult = renderNotes.apply();
+        if (afterResult != null) {
+            result.add(afterResult);
+        }
+    }
+});
+=&gt; [1, 2, 3, 4]</pre><p></p>
+
+<p id="wrap"><b class="header">wrap</b> <code>$.wrap(function, wrapper)
+</code><br>Returns
+ the first function passed as an argument to the
+second, allowing you to
+ adjust arguments, run code before and after, and
+conditionally execute
+ the original function.<br></p>
+<pre>Function1&lt;String, String&gt; hello = new Function1&lt;String, String&gt;() {
+    public String apply(final String name) {
+        return &quot;hello: &quot; + name;
+    }
+};
+Function1&lt;Void, String&gt; result = $.wrap(hello, new Function1&lt;Function1&lt;String, String&gt;, String&gt;() {
+    public String apply(final Function1&lt;String, String&gt; func) {
+        return &quot;before, &quot; + func.apply(&quot;moe&quot;) + &quot;, after&quot;;
+    }
+});
+result.apply(null);
+=&gt; "before, hello: moe, after"</pre><p></p>
+
+<p id="compose"><b class="header">compose</b> <code>$.compose(*functions)
+</code><br>Returns
+ a function that is the composition of a list of
+functions, each
+ function consumes the return value of the function that
+follows. In math
+ terms, composing the functions f(), g(), and h() produces
+f(g(h())).<br></p>
+<pre>Function1&lt;String, String&gt; greet = new Function1&lt;String, String&gt;() {
+    public String apply(final String name) {
+        return &quot;hi: &quot; + name;
+    }
+};
+Function1&lt;String, String&gt; exclaim = new Function1&lt;String, String&gt;() {
+    public String apply(final String statement) {
+        return statement.toUpperCase() + &quot;!&quot;;
+    }
+};
+Function1&lt;String, String&gt; welcome = $.compose(greet, exclaim);
+welcome.apply(&quot;moe&quot;);
+=&gt; 'hi: MOE!';</pre><p></p>
+<h2 id="Objects">Object/Struct Functions</h2>
+
+<p id="keys"><b class="header">keys</b> <code>$.keys(object)
+</code><br>Retrieve all the names of the object's
+properties.<br></p><pre>$.keys(new LinkedHashMap&lt;String, Object&gt;() { {
+    put(&quot;one&quot;, 1); put(&quot;two&quot;, 2); put(&quot;three&quot;, 3); } });
+=&gt; ["one", "two", "three"]</pre><p></p>
+
+<p id="values"><b class="header">values</b> <code>$.values(object)
+</code><br>Return all of the values of the object's own properties.<br></p>
+<pre>$.values(new LinkedHashMap&lt;String, Integer&gt;() { {
+    put(&quot;one&quot;, 1); put(&quot;two&quot;, 2); put(&quot;three&quot;, 3); } });
+=&gt; [1, 2, 3]</pre><p></p>
+
+<p id="pairs"><b class="header">pairs</b> <code>$.pairs(object)
+</code><br>Convert
+ an object into a list of [key, value] pairs. Notes:
+Resulting item
+ order is not guaranteed. Key capitalization will depend on your
+CF
+ engine.<br></p><pre>$.pairs(new LinkedHashMap<String, Integer>() { {
+    put("one", 1); put("two", 2); put("three", 3); } });
+=&gt; [(one, 1), (two, 2), (three, 3)]</pre><p></p>
+
+<p id="invert"><b class="header">invert</b> 
+<code>$.invert(object)</code><br>Returns
+ a copy of the object where the keys have become the
+values and the
+ values the keys. For this to work, all of your object's values
+should be
+ unique and string serializable. Note: Capitalization will depend on
+your CF engine.<br></p><pre>$.invert(new LinkedHashMap&lt;String, String&gt;() { {
+    put(&quot;Moe&quot;, &quot;Moses&quot;); put(&quot;Larry&quot;, &quot;Louis&quot;); put(&quot;Curly&quot;, &quot;Jerome&quot;); } });
+=&gt; [(Moses, Moe), (Louis, Larry), (Jerome, Curly)]</pre><p></p>
+
+<p id="functions"><b class="header">functions</b> <code>$.functions(object)
+</code><br>Returns
+ a sorted array of the names of every method in an
+object -- that is to
+ say, the name of every function property of the
+object.<br></p><pre>$.functions($.class);
+=&gt; ["all", "any", "bind", "clone", "compact", "compose" ...</pre><p></p>
+
+<p id="extend"><b class="header">extend</b> 
+<code>$.extend(destination, *sources)</code><br>Copy
+ all of the properties in the source objects over
+to the destination
+ object, and return the destination object. It's in-order, so
+the last
+ source will override properties of the same name in previous
+arguments.<br></p><pre>$.extend(new LinkedHashMap&lt;String, Object&gt;() { { put(&quot;name&quot;, &quot;moe&quot;); } },
+    new LinkedHashMap&lt;String, Object&gt;() { { put(&quot;age&quot;, 50); } });
+=&gt; {name=moe, age=50}</pre><p></p>
+
+<p id="pick"><b class="header">pick</b> 
+<code>$.pick(object, *keys)
+</code><br>Return a copy of the object, filtered to only have values for
+the whitelisted keys (or array of valid keys).<br></p>
+<pre>$.pick(
+    new LinkedHashMap&lt;String, Object&gt;() { { put(&quot;name&quot;, &quot;moe&quot;); put(&quot;age&quot;, 50); put(&quot;userid&quot;, &quot;moe1&quot;); } },
+    &quot;name&quot;, &quot;age&quot;
+);<br>=&gt; [(name, moe), (age, 50)]</pre><p></p>
+
+<p id="omit"><b class="header">omit</b> <code>$.omit(object, *keys)
+</code><br>Return a copy of the object, filtered to omit the blacklisted
+keys (or array of keys).<br></p>
+<pre>$.omit(
+    new LinkedHashMap&lt;String, Object&gt;() { { put(&quot;name&quot;, &quot;moe&quot;); put(&quot;age&quot;, 50); put(&quot;userid&quot;, &quot;moe1&quot;); } },
+    &quot;userid&quot;
+);<br>=&gt; [(name, moe), (age, 50)]</pre><p></p>
+
+<p id="defaults"><b class="header">defaults</b> <code>$.defaults(object, *defaults)</code>
+<br>Fill
+ in missing properties in object with default
+values from the defaults
+ objects, and return the object. As soon as the
+property is filled,
+ further defaults will have no effect.<br></p>
+<pre>Map&lt;String, String&gt; iceCream = new LinkedHashMap&lt;String, String&gt;() { { put(&quot;flavor&quot;, &quot;chocolate&quot;); } };
+Map&lt;String, String&gt; result = $.defaults(iceCream, new LinkedHashMap&lt;String, String&gt;() { {
+    put(&quot;flavor&quot;, &quot;vanilla&quot;); put(&quot;sprinkles&quot;, &quot;lots&quot;); } });
+=&gt; {flavor=chocolate, sprinkles=lots}</pre><p></p>
+
+<p id="clone"><b class="header">clone</b> <code>$.clone(object)
+</code><br>Create a shallow-copied clone of the object. Any nested structs or
+objects will be copied by reference, not duplicated.<br></p>
+<pre>$.clone(new LinkedHashMap&lt;String, String&gt;() { {
+    put(&quot;name&quot;, &quot;moe&quot;); } });<br>=&gt; {name=moe}</pre><p></p>
+
+<p id="has"><b class="header">has</b> <code>$.has(object, key)
+</code><br>Does the object contain the given key? Delegates to
+$.include() for arrays or native structKeyExists() for
+objects.<br></p><pre>$.has(new LinkedHashMap&lt;String, Integer&gt;() { {
+    put(&quot;a&quot;, 1); put(&quot;b&quot;, 2); put(&quot;c&quot;, 3); } }, &quot;b&quot;);
+=&gt; true</pre><p></p>
+
+<p id="isEqual"><b class="header">isEqual</b> <code>$.isEqual(object, other)</code>
+<br>Performs a deep comparison between the two objects, to
+determine if they should be considered equal.<br></p>
+<pre>Map&lt;String, Object&gt; stooge = new LinkedHashMap&lt;String, Object&gt;() { {
+    put(&quot;name&quot;, &quot;moe&quot;); put(&quot;luckyNumbers&quot;, asList(13, 27, 34)); } };
+Map&lt;String, Object&gt; clone = new LinkedHashMap&lt;String, Object&gt;() { {
+    put(&quot;name&quot;, &quot;moe&quot;); put(&quot;luckyNumbers&quot;, asList(13, 27, 34)); } };
+=&gt; stooge == clone // false
+=&gt; $.isEqual(stooge, clone); // true</pre><p></p>
+
+<p id="isEmpty"><b class="header">isEmpty</b> <code>$.isEmpty(object)
+</code><br>Returns true if object contains no values. Delegates to
+ArrayLen for arrays, structIsEmpty() otherwise.<br></p>
+<pre>$.isEmpty(asList(1, 2, 3, 4))<br>=&gt; false<br>$.isEmpty(new ArrayList&lt;String&gt;())<br>=&gt; true</pre><p></p>
+
+<p id="isArray"><b class="header">isArray</b> <code>$.isArray(object)</code>
+<br>Returns true if object is an Array. Delegates to native
+isArray();<br></p><pre>$.isArray("string")<br>=&gt; false<br>$.isArray(new int[] {1, 2, 3, 4, 5});<br>=&gt; true</pre><p></p>
+
+<p id="isObject"><b class="header">isObject</b> <code>$.isObject(object)</code>
+<br>Returns true if value is an Object. Delegates to native
+isObject()<br></p><pre>$.isObject(new LinkedHashMap&lt;String, String&gt;())<br>=&gt; true
+<br>$.isObject(null);<br>=&gt; false</pre><p></p>
+
+<p id="isFunction"><b class="header">isFunction</b> <code>$.isFunction(object)</code>
+<br>Returns true if object is a Function.<br></p>
+<pre>$.isFunction(new Function1&lt;String, Integer&gt;() {
+    public Integer apply(final String arg) { return null; } })
+=&gt; true</pre><p></p>
+
+<p id="isString"><b class="header">isString</b> <code>$.isString(object)
+</code><br>Returns true if object is a String. Uses Java String type
+comparison.<br></p><pre>$.isString("moe");<br>=&gt; true<br>$.isString(1);<br>=&gt; false</pre><p></p>
+
+<p id="isNumber"><b class="header">isNumber</b> <code>$.isNumber(object)
+</code><br>Returns true if object is of a Java numeric
+type.<br></p><pre>$.isNumber(1);<br>=&gt; true
+</pre><p></p>
+
+<p id="isBoolean"><b class="header">isBoolean</b> <code>$.isBoolean(object)
+</code><br>Returns true if object is a boolean. Delegates to native
+isBoolean()<br></p><pre>$.isBoolean(false);<br>=&gt; true</pre><p></p>
+
+<p id="isDate"><b class="header">isDate</b> <code>$.isDate(object)
+</code><br>Returns true if object is a date. Delegates to native
+isDate()<br></p><pre>$.isDate(new java.util.Date())<br>=&gt; true</pre><p></p>
+ <h2
+id="Utilities">Utility Functions</h2>
+
+<p id="times"><b class="header">times</b> <code>$.times(n, iterator)
+</code><br>Invokes the given iterator function n
+times.<br></p><pre>final List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
+$.times(3, new Function&lt;Integer&gt;() {
+    public Integer apply() {
+        result.add(1);
+        return null;
+    }
+});
+=&gt; [1, 1, 1]
+</pre><p></p>
+
+<p id="random"><b class="header">random</b> <code>$.random(min, max)
+</code><br>Returns
+ a random integer between min and max, inclusive. If
+you only pass one
+ argument, it will return a number between 0 and that number.
+Delegates
+ to RandRange().<br></p><pre>$.random(0, 100);
+=&gt; 42</pre><p></p>
+
+<p id="mixin"><b class="header">mixin</b> <code>$.mixin(object)
+</code><br>Allows
+ you to extend Underscore with your own utility functions.<br></p>
+<pre>
+$.mixin(&quot;capitalize&quot;, new Function1&lt;String, String&gt;() {
+    public String apply(final String string) {
+        return String.valueOf(string.charAt(0)).toUpperCase() + string.substring(1).toLowerCase();
+    }
+});
+new $("fabio").call("capitalize").get()
+=&gt; "Fabio"</pre><p></p>
+
+<p id="uniqueId"><b class="header">uniqueId</b> <code>$.uniqueId(prefix)
+</code><br>Generates an identifier that is unique for this instance of
+Underscore<br></p><pre>$.uniqueId("c");<br>=&gt; c1</pre><p></p>
+
+<p id="escape"><b class="header">escape</b> <code>$.escape(input)
+</code><br>Escapes a string for insertion into HTML, replacing &amp;,
+&lt;, &gt;, and " characters. Delegates to
+HTMLeditFormat().<br></p><pre>$.escape("Curly, Larry &amp; Moe");
+=&gt; "Curly, Larry &amp; Moe"</pre><p></p>
+
+<p id="result"><b class="header">result</b> <code>$.result(object, property)
+</code><br>If the value of the named property is a function then invoke it;
+otherwise, return it.<br></p>
+<pre>Map&lt;String, Object&gt; object = new LinkedHashMap&lt;String, Object&gt;() { {
+    put(&quot;cheese&quot;, &quot;crumpets&quot;);
+    put(&quot;stuff&quot;, new Function&lt;String&gt;() { public String apply() { return &quot;nonsense&quot;; } });
+} };
+
+$.result(object.entrySet(), new Predicate&lt;Map.Entry&lt;String, Object&gt;&gt;() {
+    public Boolean apply(Map.Entry&lt;String, Object&gt; item) {
+        return item.getKey().equals(&quot;cheese&quot;);
+    }
+});
+=&gt; "crumpets"<br>$.result(object.entrySet(), new Predicate&lt;Map.Entry&lt;String, Object&gt;&gt;() {
+    public Boolean apply(Map.Entry&lt;String, Object&gt; item) {
+        return item.getKey().equals(&quot;stuff&quot;);
+    }
+});
+=&gt; "nonsense"</pre><p></p>
+ <p
+id="changelog">
+ </p><h2>Change Log</h2>
+ <p>
+ <b class="header">1.5</b> --
+<small><i>Aug 1st, 2015</i></small><br>
+ </p>
+ <ul>
+ <li>Added toMap(), value(),
+chain(), eachRight(), and forEachRight()</li>
+ </ul>
+ <p>
+ </p><p>
+<b class="header">1.4</b> -- <small><i>July 1st, 2015</i></small><br>
+ </p>
+<ul>
+ <li>Fixed slice(0, N) method</li>
+ <li>List generators available for plugins</li>
+ <li>Added parameters check for first, last, rest and initial methods</li>
+ <li>Introduced underscore-lodash plugin</li>
+ </ul>
+ <p>
+ <b
+class="header">1.3</b> -- <small><i>June 1st, 2015</i></small><br>
+ </p>
+<ul>
+ <li>Main class was renamed from _ to the $.</li>
+ <li>Methods were reordered</li>
+ <li>Unit tests were divided by groups</li>
+ <li>New methods were added</li>
+ <li>Math plugin was added</li>
+</ul>
+ <p>
+ <b class="header">1.2</b> -- <small><i>May 1st, 2015</i></small><br>
+ </p>
+ <ul>
+ <li>Added methods initial, rest, last to the _.chain().</li>
+ </ul>
+ <p>
+<b class="header">1.1</b> -- <small><i>April 4th, 2015</i></small><br>
+ </p>
+<ul>
+ <li>Add support for the methods filter and reject to the chain object</li>
+ </ul>
+ <p>
+ <b class="header">1.0</b> -- <small><i>December 27, 2014</i></small><br>
+ </p>
+ <ul>
+ <li>
+ Main functionality was implemented
+</li>
+ </ul>
+ <p></p>
+ </div>
+ <a
+href="http://github.com/javadev/underscore-java"><img style="position: absolute;
+top: 0; right: 0; border: 0;" src="./files/forkme_right_darkblue_121621.png"
+alt="Fork me on GitHub"></a>
+
+</body></html>
