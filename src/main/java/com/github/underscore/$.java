@@ -390,8 +390,16 @@ public class $<T> {
         return result;
     }
 
+    public List<T> invoke(final String methodName, final List<Object> args) {
+        return invoke(iterable, methodName, args);
+    }
+
     public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName) {
         return invoke(iterable, methodName, Collections.emptyList());
+    }
+
+    public List<T> invoke(final String methodName) {
+        return invoke(iterable, methodName);
     }
 
     public static <E> List<Object> pluck(final List<E> list, final String propertyName) {
@@ -412,6 +420,10 @@ public class $<T> {
                 }
             }
         });
+    }
+
+    public List<Object> pluck(final String propertyName) {
+        return pluck(newArrayList(iterable), propertyName);
     }
 
     public static <E> Set<Object> pluck(final Set<E> set, final String propertyName) {
@@ -1737,6 +1749,18 @@ public class $<T> {
 
         public Chain<Boolean> contains(final T elem) {
             return new Chain<Boolean>($.contains(list, elem));
+        }
+
+        public Chain<T> invoke(final String methodName, final List<Object> args) {
+            return new Chain<T>($.invoke(list, methodName, args));
+        }
+
+        public Chain<T> invoke(final String methodName) {
+            return new Chain<T>($.invoke(list, methodName));
+        }
+
+        public Chain<List<Object>> pluck(final String propertyName) {
+            return new Chain<List<Object>>($.pluck(list, propertyName));
         }
 
         public <T> Chain<T> uniq() {

@@ -659,7 +659,13 @@ _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
     @Test
     public void invoke() {
         assertEquals($.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
+        assertEquals(new $(asList(" foo ", "  bar")).invoke("trim"), asList("foo", "bar"));
+        assertEquals($.chain(asList(" foo ", "  bar")).invoke("trim").value(), asList("foo", "bar"));
         assertEquals($.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")), asList("foo1", "bar1"));
+        assertEquals(new $(asList("foo", "bar")).invoke("concat",
+            Arrays.<Object>asList("1")), asList("foo1", "bar1"));
+        assertEquals($.chain(asList("foo", "bar")).invoke("concat",
+            Arrays.<Object>asList("1")).value(), asList("foo1", "bar1"));
         assertEquals($.invoke(asList($.chain(asList(5, 1, 7)),
             $.chain(asList(3, 2, 1))), "sort").toString(), asList("[1, 5, 7]", "[1, 2, 3]").toString());
     }
@@ -710,6 +716,12 @@ _.pluck(stooges, 'name');
         final List<?> result2 =
         $.pluck(asList(new Person2("moe", 40), new Person2("larry", 50), new Person2("curly", 40)), "getName");
         assertEquals("[moe, larry, curly]", result2.toString());
+        final List<?> resultObj =
+        new $(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name");
+        assertEquals("[moe, larry, curly]", resultObj.toString());
+        final List<?> resultChain =
+        $.chain(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name").value();
+        assertEquals("[moe, larry, curly]", resultChain.toString());
         final Set<?> resultEmpty2 =
         $.pluck(new LinkedHashSet(asList()), "name");
         assertEquals("[]", resultEmpty2.toString());
