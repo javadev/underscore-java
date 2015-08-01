@@ -852,6 +852,14 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
+            new $(listOfPlays).findWhere(asList(
+            Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
+        assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
+            ((Optional<Book>) $.chain(listOfPlays).findWhere(asList(
+            Tuple.<String, Object>create("author", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).item()).get().toString());
+        assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             $.findWhere(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("author2", "Shakespeare"),

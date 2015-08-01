@@ -479,7 +479,10 @@ public class $<T> {
                 return true;
             }
         });
+    }
 
+    public <E> Optional<T> findWhere(final List<Tuple<String, E>> properties) {
+        return findWhere(iterable, properties);
     }
 
     public static <E extends Comparable<? super E>> E max(final Collection<E> collection) {
@@ -1769,6 +1772,10 @@ public class $<T> {
 
         public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
             return new Chain<T>($.where(list, properties));
+        }
+
+        public <E> Chain<Optional<T>> findWhere(final List<Tuple<String, E>> properties) {
+            return new Chain<Optional<T>>($.findWhere(list, properties));
         }
 
         public Chain<T> uniq() {
