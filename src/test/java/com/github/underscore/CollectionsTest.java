@@ -689,12 +689,27 @@ _.pluck(stooges, 'name');
                 this.age = age;
             }
         }
-        final List<?> resultEmpty =
-        $.pluck(asList(), "name");
-        assertEquals("[]", resultEmpty.toString());
+        class Person2 {
+            private final String name;
+            private final Integer age;
+            public Person2(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+            public String getName() {
+                return name;
+            }
+            public Integer getAge() {
+                return age;
+            }
+        }
+        assertEquals("[]", $.pluck(asList(), "name").toString());
         final List<?> result =
         $.pluck(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)), "name");
         assertEquals("[moe, larry, curly]", result.toString());
+        final List<?> result2 =
+        $.pluck(asList(new Person2("moe", 40), new Person2("larry", 50), new Person2("curly", 40)), "getName");
+        assertEquals("[moe, larry, curly]", result2.toString());
         final Set<?> resultEmpty2 =
         $.pluck(new LinkedHashSet(asList()), "name");
         assertEquals("[]", resultEmpty2.toString());
@@ -702,6 +717,10 @@ _.pluck(stooges, 'name');
         $.pluck(new LinkedHashSet(
             asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name");
         assertEquals("[moe, larry, curly]", resultSet.toString());
+        final Set<?> resultSet2 =
+        $.pluck(new LinkedHashSet(
+            asList(new Person2("moe", 40), new Person2("larry", 50), new Person2("curly", 40))), "getName");
+        assertEquals("[moe, larry, curly]", resultSet2.toString());
     }
 
     @Test(expected = IllegalArgumentException.class)

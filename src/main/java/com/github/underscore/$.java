@@ -404,7 +404,11 @@ public class $<T> {
                 try {
                     return elem.getClass().getField(propertyName).get(elem);
                 } catch (Exception e) {
-                    throw new IllegalArgumentException(e);
+                    try {
+                        return elem.getClass().getMethod(propertyName).invoke(elem);
+                    } catch (Exception ex) {
+                        throw new IllegalArgumentException(ex);
+                    }
                 }
             }
         });
@@ -420,7 +424,11 @@ public class $<T> {
                 try {
                     return elem.getClass().getField(propertyName).get(elem);
                 } catch (Exception e) {
-                    throw new IllegalArgumentException(e);
+                    try {
+                        return elem.getClass().getMethod(propertyName).invoke(elem);
+                    } catch (Exception ex) {
+                        throw new IllegalArgumentException(ex);
+                    }
                 }
             }
         });

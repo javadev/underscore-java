@@ -267,4 +267,30 @@ arr.slice(-3, -1) // [3, 4]
             }
         }).toMap().item().toString());
     }
+
+    @Test
+    public void stackoverflow4() {
+        // http://stackoverflow.com/questions/23812947/
+        // most-efficient-way-to-find-the-collection-of-all-ids-in-a-collection-of-entities?rq=1
+        class Entity {
+            private long id;
+            private String data;
+
+            public Entity(long id, String data) {
+                this.id = id;
+                this.data = data;
+            }
+
+            public long getId() {
+                return id;
+            }
+
+            public String getData() {
+                return data;
+            }
+        }
+        Entity entity1 = new Entity(1, "one");
+        Entity entity2 = new Entity(2, "two");
+        assertEquals("[1, 2]", $.pluck(asList(entity1, entity2), "getId").toString());
+    }
 }
