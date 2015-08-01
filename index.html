@@ -271,7 +271,7 @@ List&lt;Book&gt; listOfPlays =
     } };
 $.where(listOfPlays, asList(
             Tuple.&lt;String, Object&gt;create(&quot;author&quot;, &quot;Shakespeare&quot;),
-            Tuple.&lt;String, Object&gt;create(&quot;year&quot;, Integer.valueOf(1611)))).toString());
+            Tuple.&lt;String, Object&gt;create(&quot;year&quot;, Integer.valueOf(1611))));
 // [title: Cymbeline, author: Shakespeare, year: 1611,
 title: The Tempest, author: Shakespeare, year: 1611]</pre><p></p>
 
@@ -483,7 +483,7 @@ Fisher-Yates shuffle.<br></p><pre>$.shuffle(asList(1, 2, 3, 4, 5, 6)<br>=&gt; [4
  the collection to a map object.<br></p><pre>$.toMap((new LinkedHashMap&lt;String, String&gt;() { {
         put(&quot;name1&quot;, &quot;one&quot;);
         put(&quot;name2&quot;, &quot;two&quot;);
-    } }).entrySet()).toString());<br>=&gt; {name1=one, name2=two}</pre><p></p>
+    } }).entrySet());<br>=&gt; {name1=one, name2=two}</pre><p></p>
 
 <p id="size"><b class="header">size</b> <code>$.size(collection)
 </code><br>Return the number of values in the collection.
@@ -572,8 +572,8 @@ indexes.<br></p>
 <pre>$.zip(asList("moe", "larry", "curly"), asList("30", "40", "50"), asList("true", "false", "false"));
 =&gt; [[moe, 30, true], [larry, 40, false], [curly, 50, false]]</pre><p></p>
 
-<p id="object"><b class="header">object</b> <code>$.object(array,
-[values])</code><br>Converts an array into a struct. Pass either a single array
+<p id="object"><b class="header">object</b> <code>$.object(array, [values])</code>
+<br>Converts an array into a struct. Pass either a single array
 of [key, value] pairs, or an array of keys, and an array of
 values.<br></p>
 <pre>$.object(asList("moe", "larry", "curly"), asList("30", "40", "50"));
@@ -585,8 +585,8 @@ values.<br></p>
 be found in the array, or -1 if value is
  not present in the array.<br></p><pre>$.indexOf(asList(1, 2, 3), 2);<br>=&gt; 1</pre><p></p>
 
-<p id="lastIndexOf"><b class="header">lastIndexOf</b> <code>$.lastIndexOf(array,
-value) : numeric</code><br>Returns the index of the last occurrence of value in
+<p id="lastIndexOf"><b class="header">lastIndexOf</b> <code>$.lastIndexOf(array, value)</code>
+<br>Returns the index of the last occurrence of value in
 the array, or -1 if value is not present.<br></p>
 <pre>$.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);<br>=&gt; 4</pre><p></p>
 
@@ -606,7 +606,7 @@ $.range(0);<br>=&gt; []</pre><p></p>
 
 <p id="concat"><b class="header">concat</b> <code>$.concat(*arrays)
 </code><br>Concatenates any number of arrays together an returns the
-result. Delegates to ArrayAppend().<br></p>
+result.<br></p>
 <pre>$.concat(asList(1, 2), asList(3, 4))<br>=&gt; [1, 2, 3, 4];</pre><p></p>
 
 <p id="reverse"><b class="header">reverse</b> <code>$.reverse(array)
@@ -649,17 +649,10 @@ $.bind(new GreetingFunction(&quot;moe&quot;)).apply(&quot;hi&quot;);
 =&gt; "hi: moe"</pre><p></p>
 
 <p id="memoize"><b class="header">memoize</b> 
-<code>$.memoize(function, [hashFunction])</code><br>Memoizes
+<code>$.memoize(function)</code><br>Memoizes
  a given function by caching the
 computed result. Useful for speeding up
- slow-running computations. If passed an
-optional hashFunction, it will
- be used to compute the hash key for storing the
-result, based on the
- arguments to the original function. The default
-hashFunction just uses
- the first argument to the memoized function as the
-key.<br></p>
+ slow-running computations.<br></p>
 <pre>class FibonacciFuncion1 extends MemoizeFunction1&lt;Integer&gt; {
     public Integer calc(final Integer n) {
         return n &lt; 2 ? n : apply(n - 1) + apply(n - 2);
