@@ -875,6 +875,8 @@ _.max(numbers);
     public void max() {
         final Integer result = $.max(asList(10, 5, 100, 2, 1000));
         assertEquals("1000", result.toString());
+        final Integer resultObj = new $<Integer>(asList(10, 5, 100, 2, 1000)).max();
+        assertEquals("1000", resultObj.toString());
         final Integer resultChain = (Integer) $.chain(asList(10, 5, 100, 2, 1000)).max().item();
         assertEquals("1000", resultChain.toString());
         final Integer resultComp = $.max(asList(10, 5, 100, 2, 1000),
@@ -884,6 +886,13 @@ _.max(numbers);
             }
         });
         assertEquals("2", resultComp.toString());
+        final Integer resultCompObj = new $<Integer>(asList(10, 5, 100, 2, 1000)).max(
+                new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return -item;
+            }
+        });
+        assertEquals("2", resultCompObj.toString());
         final Integer resultCompChain = (Integer) $.chain(asList(10, 5, 100, 2, 1000)).max(
                 new Function1<Integer, Integer>() {
             public Integer apply(Integer item) {
@@ -919,6 +928,8 @@ _.min(numbers);
     public void min() {
         final Integer result = $.min(asList(10, 5, 100, 2, 1000));
         assertEquals("2", result.toString());
+        final Integer resultObj = new $<Integer>(asList(10, 5, 100, 2, 1000)).min();
+        assertEquals("2", resultObj.toString());
         final Integer resultChain = (Integer) $.chain(asList(10, 5, 100, 2, 1000)).min().item();
         assertEquals("2", resultChain.toString());
         final Integer resultComp = $.min(asList(10, 5, 100, 2, 1000),
@@ -928,6 +939,13 @@ _.min(numbers);
             }
         });
         assertEquals("1000", resultComp.toString());
+        final Integer resultCompObj = new $<Integer>(asList(10, 5, 100, 2, 1000)).min(
+                new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return -item;
+            }
+        });
+        assertEquals("1000", resultCompObj.toString());
         final Integer resultCompChain = (Integer) $.chain(asList(10, 5, 100, 2, 1000)).min(
                 new Function1<Integer, Integer>() {
             public Integer apply(Integer item) {

@@ -489,6 +489,10 @@ public class $<T> {
         return Collections.max(collection);
     }
 
+    public T max() {
+        return (T) max((Collection) iterable);
+    }
+
     public static <E, F extends Comparable> E max(final Collection<E> collection, final Function1<E, F> func) {
         return Collections.max(collection, new Comparator<E>() {
             @Override
@@ -498,8 +502,16 @@ public class $<T> {
         });
     }
 
+    public <F extends Comparable<? super F>> T max(final Function1<T, F> func) {
+        return (T) max((Collection) iterable, func);
+    }
+
     public static <E extends Comparable<? super E>> E min(final Collection<E> collection) {
         return Collections.min(collection);
+    }
+
+    public T min() {
+        return (T) min((Collection) iterable);
     }
 
     public static <E, F extends Comparable> E min(final Collection<E> collection, final Function1<E, F> func) {
@@ -509,6 +521,10 @@ public class $<T> {
                 return func.apply(o1).compareTo(func.apply(o2));
             }
         });
+    }
+
+    public <F extends Comparable<? super F>> T min(final Function1<T, F> func) {
+        return (T) min((Collection) iterable, func);
     }
 
     public static <E> List<E> shuffle(final List<E> list) {
