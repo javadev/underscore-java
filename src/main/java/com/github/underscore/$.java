@@ -527,14 +527,22 @@ public class $<T> {
         return (T) min((Collection) iterable, func);
     }
 
-    public static <E> List<E> shuffle(final List<E> list) {
-        final List<E> shuffled = newArrayList(list);
+    public static <E> List<E> shuffle(final Iterable<E> iterable) {
+        final List<E> shuffled = newArrayList(iterable);
         Collections.shuffle(shuffled);
         return shuffled;
     }
 
-    public static <E> E sample(final List<E> list) {
-        return list.get(new Random().nextInt(list.size()));
+    public List<T> shuffle() {
+        return shuffle(iterable);
+    }
+
+    public static <E> E sample(final Iterable<E> iterable) {
+        return newArrayList(iterable).get(new Random().nextInt(size(iterable)));
+    }
+
+    public T sample() {
+        return sample(iterable);
     }
 
     public static <E> Set<E> sample(final List<E> list, final int howMany) {

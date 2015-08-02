@@ -1153,6 +1153,8 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
     public void shuffle() {
         final List<Integer> result = $.shuffle(asList(1, 2, 3, 4, 5, 6));
         assertEquals(6, result.size());
+        final List<Integer> resultObj = new $(asList(1, 2, 3, 4, 5, 6)).shuffle();
+        assertEquals(6, resultObj.size());
         final List<Integer> resultChain = $.chain(asList(1, 2, 3, 4, 5, 6)).shuffle().value();
         assertEquals(6, resultChain.size());
     }
@@ -1167,6 +1169,8 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
     public void sample() {
         final Integer result = $.sample(asList(1, 2, 3, 4, 5, 6));
         assertTrue(result >= 1 && result <= 6);
+        final Integer resultObj = new $<Integer>(asList(1, 2, 3, 4, 5, 6)).sample();
+        assertTrue(resultObj >= 1 && resultObj <= 6);
         final Set<Integer> resultList = $.sample(asList(1, 2, 3, 4, 5, 6), 3);
         assertEquals(3, resultList.size());
         final Integer resultChain = (Integer) $.chain(asList(1, 2, 3, 4, 5, 6)).sample().item();
