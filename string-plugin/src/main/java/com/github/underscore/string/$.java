@@ -488,6 +488,403 @@ public class $<T> extends com.github.underscore.$<T> {
         return result + omission;
     }
 
+    public static class JSONArray {
+        public static void writeJSONString(Collection collection, java.io.Writer out) throws java.io.IOException {
+            if (collection == null) {
+                out.write("null");
+                return;
+            }
+
+            boolean first = true;
+            Iterator iter = collection.iterator();
+
+            out.write('[');
+            while (iter.hasNext()) {
+                if (first) {
+                    first = false;
+                } else {
+                    out.write(',');
+                }
+
+                Object value = iter.next();
+                if (value == null) {
+                    out.write("null");
+                    continue;
+                }
+
+                JSONValue.writeJSONString(value, out);
+            }
+            out.write(']');
+        }
+
+        public static void writeJSONString(byte[] array, java.io.Writer out) throws java.io.IOException {
+            if (array == null) {
+                out.write("null");
+            } else if (array.length == 0) {
+                out.write("[]");
+            } else {
+                out.write("[");
+                out.write(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    out.write(",");
+                    out.write(String.valueOf(array[i]));
+                }
+
+                out.write("]");
+            }
+        }
+
+        public static void writeJSONString(short[] array, java.io.Writer out) throws java.io.IOException {
+            if (array == null) {
+                out.write("null");
+            } else if (array.length == 0) {
+                out.write("[]");
+            } else {
+                out.write("[");
+                out.write(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    out.write(",");
+                    out.write(String.valueOf(array[i]));
+                }
+
+                out.write("]");
+            }
+        }
+
+        public static void writeJSONString(int[] array, java.io.Writer out) throws java.io.IOException {
+            if (array == null) {
+                out.write("null");
+            } else if (array.length == 0) {
+                out.write("[]");
+            } else {
+                out.write("[");
+                out.write(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    out.write(",");
+                    out.write(String.valueOf(array[i]));
+                }
+
+                out.write("]");
+            }
+        }
+
+        public static void writeJSONString(long[] array, java.io.Writer out) throws java.io.IOException {
+            if (array == null) {
+                out.write("null");
+            } else if (array.length == 0) {
+                out.write("[]");
+            } else {
+                out.write("[");
+                out.write(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    out.write(",");
+                    out.write(String.valueOf(array[i]));
+                }
+
+                out.write("]");
+            }
+        }
+
+        public static void writeJSONString(float[] array, java.io.Writer out) throws java.io.IOException {
+            if (array == null) {
+                out.write("null");
+            } else if (array.length == 0) {
+                out.write("[]");
+            } else {
+                out.write("[");
+                out.write(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    out.write(",");
+                    out.write(String.valueOf(array[i]));
+                }
+
+                out.write("]");
+            }
+        }
+
+        public static void writeJSONString(double[] array, java.io.Writer out) throws java.io.IOException {
+            if (array == null) {
+                out.write("null");
+            } else if (array.length == 0) {
+                out.write("[]");
+            } else {
+                out.write("[");
+                out.write(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    out.write(",");
+                    out.write(String.valueOf(array[i]));
+                }
+
+                out.write("]");
+            }
+        }
+
+        public static void writeJSONString(boolean[] array, java.io.Writer out) throws java.io.IOException {
+            if (array == null) {
+                out.write("null");
+            } else if (array.length == 0) {
+                out.write("[]");
+            } else {
+                out.write("[");
+                out.write(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    out.write(",");
+                    out.write(String.valueOf(array[i]));
+                }
+
+                out.write("]");
+            }
+        }
+
+        public static void writeJSONString(char[] array, java.io.Writer out) throws java.io.IOException {
+            if (array == null) {
+                out.write("null");
+            } else if (array.length == 0) {
+                out.write("[]");
+            } else {
+                out.write("[\"");
+                out.write(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    out.write("\",\"");
+                    out.write(String.valueOf(array[i]));
+                }
+
+                out.write("\"]");
+            }
+        }
+
+        public static void writeJSONString(Object[] array, java.io.Writer out) throws java.io.IOException {
+            if (array == null) {
+                out.write("null");
+            } else if (array.length == 0) {
+                out.write("[]");
+            } else {
+                out.write("[");
+                JSONValue.writeJSONString(array[0], out);
+
+                for (int i = 1; i < array.length; i++) {
+                    out.write(",");
+                    JSONValue.writeJSONString(array[i], out);
+                }
+
+                out.write("]");
+            }
+        }
+    }
+
+    public static class JSONObject {
+        public static void writeJSONString(Map map, java.io.Writer out) throws java.io.IOException {
+            if (map == null) {
+                out.write("null");
+                return;
+            }
+
+            boolean first = true;
+            Iterator iter = map.entrySet().iterator();
+
+            out.write('{');
+            while (iter.hasNext()) {
+                if (first) {
+                    first = false;
+                } else {
+                    out.write(',');
+                }
+                Map.Entry entry = (Map.Entry) iter.next();
+                out.write('\"');
+                out.write(escape(String.valueOf(entry.getKey())));
+                out.write('\"');
+                out.write(':');
+                JSONValue.writeJSONString(entry.getValue(), out);
+            }
+            out.write('}');
+        }
+    }
+
+    public static class JSONValue {
+        public static void writeJSONString(Object value, java.io.Writer out) throws java.io.IOException {
+            if (value == null) {
+                out.write("null");
+                return;
+            }
+
+            if (value instanceof String) {
+                out.write('\"');
+                out.write(escape((String) value));
+                out.write('\"');
+                return;
+            }
+
+            if (value instanceof Double) {
+                if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
+                    out.write("null");
+                } else {
+                    out.write(value.toString());
+                }
+                return;
+            }
+
+            if (value instanceof Float) {
+                if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
+                    out.write("null");
+                } else {
+                    out.write(value.toString());
+                }
+                return;
+            }
+
+            if (value instanceof Number) {
+                out.write(value.toString());
+                return;
+            }
+
+            if (value instanceof Boolean) {
+                out.write(value.toString());
+                return;
+            }
+
+            if (value instanceof Map) {
+                JSONObject.writeJSONString((Map) value, out);
+                return;
+            }
+
+            if (value instanceof Collection) {
+                JSONArray.writeJSONString((Collection) value, out);
+                return;
+            }
+
+            if (value instanceof byte[]) {
+                JSONArray.writeJSONString((byte[]) value, out);
+                return;
+            }
+
+            if (value instanceof short[]) {
+                JSONArray.writeJSONString((short[]) value, out);
+                return;
+            }
+
+            if (value instanceof int[]) {
+                JSONArray.writeJSONString((int[]) value, out);
+                return;
+            }
+
+            if (value instanceof long[]) {
+                JSONArray.writeJSONString((long[]) value, out);
+                return;
+            }
+
+            if (value instanceof float[]) {
+                JSONArray.writeJSONString((float[]) value, out);
+                return;
+            }
+
+            if (value instanceof double[]) {
+                JSONArray.writeJSONString((double[]) value, out);
+                return;
+            }
+
+            if (value instanceof boolean[]) {
+                JSONArray.writeJSONString((boolean[]) value, out);
+                return;
+            }
+
+            if (value instanceof char[]) {
+                JSONArray.writeJSONString((char[]) value, out);
+                return;
+            }
+
+            if (value instanceof Object[]) {
+                JSONArray.writeJSONString((Object[]) value, out);
+                return;
+            }
+
+            out.write(value.toString());
+        }
+
+        public static String escape(String s) {
+            if (s == null) {
+                return null;
+            }
+            StringBuffer sb = new StringBuffer();
+            escape(s, sb);
+            return sb.toString();
+        }
+
+        static void escape(String s, StringBuffer sb) {
+            final int len = s.length();
+            for (int i = 0; i < len; i++) {
+                char ch = s.charAt(i);
+                switch (ch) {
+                case '"':
+                    sb.append("\\\"");
+                    break;
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                case '\b':
+                    sb.append("\\b");
+                    break;
+                case '\f':
+                    sb.append("\\f");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                case '/':
+                    sb.append("\\/");
+                    break;
+                default:
+                    if ((ch >= '\u0000' && ch <= '\u001F') || (ch >= '\u007F' && ch <= '\u009F')
+                        || (ch >= '\u2000' && ch <= '\u20FF')) {
+                        String ss = Integer.toHexString(ch);
+                        sb.append("\\u");
+                        for (int k = 0; k < 4 - ss.length(); k++) {
+                            sb.append('0');
+                        }
+                        sb.append(ss.toUpperCase());
+                    } else {
+                        sb.append(ch);
+                    }
+                }
+            }
+        }
+    }
+
+    public static String toJSONString(Collection collection) {
+        final java.io.StringWriter writer = new java.io.StringWriter();
+
+        try {
+            JSONArray.writeJSONString(collection, writer);
+            return writer.toString();
+        } catch (java.io.IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String toJSONString(Map map) {
+        final java.io.StringWriter writer = new java.io.StringWriter();
+
+        try {
+            JSONObject.writeJSONString(map, writer);
+            return writer.toString();
+        } catch (java.io.IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String camelCase() {
         return camelCase(getString().get());
     }
