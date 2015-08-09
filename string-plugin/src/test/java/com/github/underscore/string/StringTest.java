@@ -390,53 +390,53 @@ _.repeat('abc', 0);
     @Test
     public void testJSONArray() throws java.io.IOException {
         java.io.StringWriter writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((Collection) null, writer);
+        $.JSONArray.writeJSON((Collection) null, writer);
         assertEquals("null", writer.toString());
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new ArrayList<String>() { { add((String) null); } }, writer);
+        $.JSONArray.writeJSON(new ArrayList<String>() { { add((String) null); } }, writer);
         assertEquals("[null]", writer.toString());
     }
 
     @Test
     public void testJSONArrayCollection() {
         assertEquals("[\"First item\",\"Second item\"]",
-            $.toJSONString(Arrays.asList("First item", "Second item")));
+            $.toJSON(Arrays.asList("First item", "Second item")));
         assertEquals("[[1,2]]",
-            $.toJSONString(Arrays.asList(new byte[] {1, 2})));
+            $.toJSON(Arrays.asList(new byte[] {1, 2})));
         assertEquals("[[1,2]]",
-            $.toJSONString(Arrays.asList(new short[] {1, 2})));
+            $.toJSON(Arrays.asList(new short[] {1, 2})));
         assertEquals("[[1,2]]",
-            $.toJSONString(Arrays.asList(new int[] {1, 2})));
+            $.toJSON(Arrays.asList(new int[] {1, 2})));
         assertEquals("[[1,2]]",
-            $.toJSONString(Arrays.asList(new long[] {1, 2})));
+            $.toJSON(Arrays.asList(new long[] {1, 2})));
         assertEquals("[[1.0,2.0]]",
-            $.toJSONString(Arrays.asList(new float[] {1, 2})));
+            $.toJSON(Arrays.asList(new float[] {1, 2})));
         assertEquals("[[1.0,2.0]]",
-            $.toJSONString(Arrays.asList(new double[] {1, 2})));
+            $.toJSON(Arrays.asList(new double[] {1, 2})));
         assertEquals("[[\"1\",\"2\"]]",
-            $.toJSONString(Arrays.asList(new char[] {'1', '2'})));
+            $.toJSON(Arrays.asList(new char[] {'1', '2'})));
         assertEquals("[[true,false,true]]",
-            $.toJSONString(Arrays.asList(new boolean[] {true, false, true})));
+            $.toJSON(Arrays.asList(new boolean[] {true, false, true})));
         assertEquals("[1.0,2.0]",
-            $.toJSONString(Arrays.asList(new Float[] {1F, 2F})));
+            $.toJSON(Arrays.asList(new Float[] {1F, 2F})));
         assertEquals("[1.0,2.0]",
-            $.toJSONString(Arrays.asList(new Double[] {1D, 2D})));
+            $.toJSON(Arrays.asList(new Double[] {1D, 2D})));
         assertEquals("[true,false,true]",
-            $.toJSONString(Arrays.asList(new Boolean[] {true, false, true})));
+            $.toJSON(Arrays.asList(new Boolean[] {true, false, true})));
         assertEquals("[[\"First item\",\"Second item\"]]",
-            $.toJSONString(Arrays.asList(Arrays.asList("First item", "Second item"))));
+            $.toJSON(Arrays.asList(Arrays.asList("First item", "Second item"))));
         assertEquals("[{\"1\":\"First item\",\"2\":\"Second item\",\"3\":null}]",
-            $.toJSONString(Arrays.asList(new LinkedHashMap() { {
+            $.toJSON(Arrays.asList(new LinkedHashMap() { {
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
-        assertEquals("[null]", $.toJSONString(Arrays.asList(new String[] {(String) null})));
-        assertEquals("null", $.toJSONString((Collection) null));
+        assertEquals("[null]", $.toJSON(Arrays.asList(new String[] {(String) null})));
+        assertEquals("null", $.toJSON((Collection) null));
         class Test {
             public String toString() {
                 return "test";
             }
         }
         assertEquals("[[test,test]]",
-            $.toJSONString(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
+            $.toJSON(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
     }
 
     @Test
@@ -466,19 +466,19 @@ _.repeat('abc', 0);
         java.io.StringWriter writer;
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((byte[]) null, writer);
+        $.JSONArray.writeJSON((byte[]) null, writer);
         assertEquals("null", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new byte[0], writer);
+        $.JSONArray.writeJSON(new byte[0], writer);
         assertEquals("[]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new byte[] { 12 }, writer);
+        $.JSONArray.writeJSON(new byte[] { 12 }, writer);
         assertEquals("[12]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new byte[] { -7, 22, 86, -99 }, writer);
+        $.JSONArray.writeJSON(new byte[] { -7, 22, 86, -99 }, writer);
         assertEquals("[-7,22,86,-99]", writer.toString());
     }
 
@@ -487,19 +487,19 @@ _.repeat('abc', 0);
         java.io.StringWriter writer;
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((short[]) null, writer);
+        $.JSONArray.writeJSON((short[]) null, writer);
         assertEquals("null", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new short[0], writer);
+        $.JSONArray.writeJSON(new short[0], writer);
         assertEquals("[]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new short[] { 12 }, writer);
+        $.JSONArray.writeJSON(new short[] { 12 }, writer);
         assertEquals("[12]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new short[] { -7, 22, 86, -99 }, writer);
+        $.JSONArray.writeJSON(new short[] { -7, 22, 86, -99 }, writer);
         assertEquals("[-7,22,86,-99]", writer.toString());
     }
 
@@ -508,19 +508,19 @@ _.repeat('abc', 0);
         java.io.StringWriter writer;
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((int[]) null, writer);
+        $.JSONArray.writeJSON((int[]) null, writer);
         assertEquals("null", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new int[0], writer);
+        $.JSONArray.writeJSON(new int[0], writer);
         assertEquals("[]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new int[] { 12 }, writer);
+        $.JSONArray.writeJSON(new int[] { 12 }, writer);
         assertEquals("[12]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new int[] { -7, 22, 86, -99 }, writer);
+        $.JSONArray.writeJSON(new int[] { -7, 22, 86, -99 }, writer);
         assertEquals("[-7,22,86,-99]", writer.toString());
     }
 
@@ -529,19 +529,19 @@ _.repeat('abc', 0);
         java.io.StringWriter writer;
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((long[]) null, writer);
+        $.JSONArray.writeJSON((long[]) null, writer);
         assertEquals("null", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new long[0], writer);
+        $.JSONArray.writeJSON(new long[0], writer);
         assertEquals("[]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new long[] { 12 }, writer);
+        $.JSONArray.writeJSON(new long[] { 12 }, writer);
         assertEquals("[12]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new long[] { -7, 22, 86, -99 }, writer);
+        $.JSONArray.writeJSON(new long[] { -7, 22, 86, -99 }, writer);
         assertEquals("[-7,22,86,-99]", writer.toString());
     }
 
@@ -550,19 +550,19 @@ _.repeat('abc', 0);
         java.io.StringWriter writer;
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((float[]) null, writer);
+        $.JSONArray.writeJSON((float[]) null, writer);
         assertEquals("null", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new float[0], writer);
+        $.JSONArray.writeJSON(new float[0], writer);
         assertEquals("[]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new float[] { 12.8f }, writer);
+        $.JSONArray.writeJSON(new float[] { 12.8f }, writer);
         assertEquals("[12.8]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, writer);
+        $.JSONArray.writeJSON(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, writer);
         assertEquals("[-7.1,22.234,86.7,-99.02]", writer.toString());
     }
 
@@ -571,19 +571,19 @@ _.repeat('abc', 0);
         java.io.StringWriter writer;
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((double[]) null, writer);
+        $.JSONArray.writeJSON((double[]) null, writer);
         assertEquals("null", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new double[0], writer);
+        $.JSONArray.writeJSON(new double[0], writer);
         assertEquals("[]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new double[] { 12.8 }, writer);
+        $.JSONArray.writeJSON(new double[] { 12.8 }, writer);
         assertEquals("[12.8]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new double[] { -7.1, 22.234, 86.7, -99.02 }, writer);
+        $.JSONArray.writeJSON(new double[] { -7.1, 22.234, 86.7, -99.02 }, writer);
         assertEquals("[-7.1,22.234,86.7,-99.02]", writer.toString());
     }
 
@@ -592,19 +592,19 @@ _.repeat('abc', 0);
         java.io.StringWriter writer;
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((boolean[]) null, writer);
+        $.JSONArray.writeJSON((boolean[]) null, writer);
         assertEquals("null", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new boolean[0], writer);
+        $.JSONArray.writeJSON(new boolean[0], writer);
         assertEquals("[]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new boolean[] { true }, writer);
+        $.JSONArray.writeJSON(new boolean[] { true }, writer);
         assertEquals("[true]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new boolean[] { true, false, true }, writer);
+        $.JSONArray.writeJSON(new boolean[] { true, false, true }, writer);
         assertEquals("[true,false,true]", writer.toString());
     }
 
@@ -613,19 +613,19 @@ _.repeat('abc', 0);
         java.io.StringWriter writer;
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((char[]) null, writer);
+        $.JSONArray.writeJSON((char[]) null, writer);
         assertEquals("null", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new char[0], writer);
+        $.JSONArray.writeJSON(new char[0], writer);
         assertEquals("[]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new char[] { 'a' }, writer);
+        $.JSONArray.writeJSON(new char[] { 'a' }, writer);
         assertEquals("[\"a\"]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new char[] { 'a', 'b', 'c' }, writer);
+        $.JSONArray.writeJSON(new char[] { 'a', 'b', 'c' }, writer);
         assertEquals("[\"a\",\"b\",\"c\"]", writer.toString());
     }
 
@@ -634,43 +634,45 @@ _.repeat('abc', 0);
         java.io.StringWriter writer;
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString((Object[]) null, writer);
+        $.JSONArray.writeJSON((Object[]) null, writer);
         assertEquals("null", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new Object[0], writer);
+        $.JSONArray.writeJSON(new Object[0], writer);
         assertEquals("[]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new Object[] { "Hello" }, writer);
+        $.JSONArray.writeJSON(new Object[] { "Hello" }, writer);
         assertEquals("[\"Hello\"]", writer.toString());
 
         writer = new java.io.StringWriter();
-        $.JSONArray.writeJSONString(new Object[] { "Hello", new Integer(12), new int[] { 1, 2, 3} }, writer);
+        $.JSONArray.writeJSON(new Object[] { "Hello", new Integer(12), new int[] { 1, 2, 3} }, writer);
         assertEquals("[\"Hello\",12,[1,2,3]]", writer.toString());
     }
 
     @Test
-    public void toJSONStringFromList() {
+    public void toJSONFromList() {
         final List<String> testList = new ArrayList<String>();
         testList.add("First item");
         testList.add("Second item");
 
-        assertEquals("[\"First item\",\"Second item\"]", $.toJSONString(testList));
-        assertEquals("[null]", $.toJSONString(Arrays.asList(Double.NaN)));
-        assertEquals("[null]", $.toJSONString(Arrays.asList(Double.POSITIVE_INFINITY)));
-        assertEquals("[null]", $.toJSONString(Arrays.asList(Float.NaN)));
-        assertEquals("[null]", $.toJSONString(Arrays.asList(Float.POSITIVE_INFINITY)));
+        assertEquals("[\"First item\",\"Second item\"]", $.toJSON(testList));
+        assertEquals("[\"First item\",\"Second item\"]", new $(testList).toJSON());
+        assertEquals("[\"First item\",\"Second item\"]", $.chain(testList).toJSON().item());
+        assertEquals("[null]", $.toJSON(Arrays.asList(Double.NaN)));
+        assertEquals("[null]", $.toJSON(Arrays.asList(Double.POSITIVE_INFINITY)));
+        assertEquals("[null]", $.toJSON(Arrays.asList(Float.NaN)));
+        assertEquals("[null]", $.toJSON(Arrays.asList(Float.POSITIVE_INFINITY)));
     }
 
     @Test
-    public void toJSONStringFromMap() {
+    public void toJSONFromMap() {
         final Map<String, String> testMap = new LinkedHashMap<String, String>();
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
 
-        assertEquals("{\"First item\":\"1\",\"Second item\":\"2\"}", $.toJSONString(testMap));
-        assertEquals("null", $.toJSONString((Map) null));
+        assertEquals("{\"First item\":\"1\",\"Second item\":\"2\"}", $.toJSON(testMap));
+        assertEquals("null", $.toJSON((Map) null));
     }
 
     @Test

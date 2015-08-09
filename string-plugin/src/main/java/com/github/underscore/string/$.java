@@ -30,6 +30,7 @@ import com.github.underscore.Function3;
 public class $<T> extends com.github.underscore.$<T> {
     private static final int DEFAULT_TRUNC_LENGTH = 30;
     private static final String DEFAULT_TRUNC_OMISSION = "...";
+    private static final String NULL = "null";
     private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
         "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
     private static Map<String, String> deburredLetters = new LinkedHashMap<String, String>() { {
@@ -182,6 +183,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
         public Chain<List<String>> words() {
             return new Chain<List<String>>($.words((String) item()));
+        }
+
+        public Chain<String> toJSON() {
+            return new Chain<String>($.toJSON((Collection) value()));
         }
     }
 
@@ -489,9 +494,9 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class JSONArray {
-        public static void writeJSONString(Collection collection, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(Collection collection, java.io.Writer out) throws java.io.IOException {
             if (collection == null) {
-                out.write("null");
+                out.write(NULL);
                 return;
             }
 
@@ -508,18 +513,18 @@ public class $<T> extends com.github.underscore.$<T> {
 
                 Object value = iter.next();
                 if (value == null) {
-                    out.write("null");
+                    out.write(NULL);
                     continue;
                 }
 
-                JSONValue.writeJSONString(value, out);
+                JSONValue.writeJSON(value, out);
             }
             out.write(']');
         }
 
-        public static void writeJSONString(byte[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(byte[] array, java.io.Writer out) throws java.io.IOException {
             if (array == null) {
-                out.write("null");
+                out.write(NULL);
             } else if (array.length == 0) {
                 out.write("[]");
             } else {
@@ -535,9 +540,9 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJSONString(short[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(short[] array, java.io.Writer out) throws java.io.IOException {
             if (array == null) {
-                out.write("null");
+                out.write(NULL);
             } else if (array.length == 0) {
                 out.write("[]");
             } else {
@@ -553,9 +558,9 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJSONString(int[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(int[] array, java.io.Writer out) throws java.io.IOException {
             if (array == null) {
-                out.write("null");
+                out.write(NULL);
             } else if (array.length == 0) {
                 out.write("[]");
             } else {
@@ -571,9 +576,9 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJSONString(long[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(long[] array, java.io.Writer out) throws java.io.IOException {
             if (array == null) {
-                out.write("null");
+                out.write(NULL);
             } else if (array.length == 0) {
                 out.write("[]");
             } else {
@@ -589,9 +594,9 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJSONString(float[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(float[] array, java.io.Writer out) throws java.io.IOException {
             if (array == null) {
-                out.write("null");
+                out.write(NULL);
             } else if (array.length == 0) {
                 out.write("[]");
             } else {
@@ -607,9 +612,9 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJSONString(double[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(double[] array, java.io.Writer out) throws java.io.IOException {
             if (array == null) {
-                out.write("null");
+                out.write(NULL);
             } else if (array.length == 0) {
                 out.write("[]");
             } else {
@@ -625,9 +630,9 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJSONString(boolean[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(boolean[] array, java.io.Writer out) throws java.io.IOException {
             if (array == null) {
-                out.write("null");
+                out.write(NULL);
             } else if (array.length == 0) {
                 out.write("[]");
             } else {
@@ -643,9 +648,9 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJSONString(char[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(char[] array, java.io.Writer out) throws java.io.IOException {
             if (array == null) {
-                out.write("null");
+                out.write(NULL);
             } else if (array.length == 0) {
                 out.write("[]");
             } else {
@@ -661,18 +666,18 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJSONString(Object[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(Object[] array, java.io.Writer out) throws java.io.IOException {
             if (array == null) {
-                out.write("null");
+                out.write(NULL);
             } else if (array.length == 0) {
                 out.write("[]");
             } else {
                 out.write("[");
-                JSONValue.writeJSONString(array[0], out);
+                JSONValue.writeJSON(array[0], out);
 
                 for (int i = 1; i < array.length; i++) {
                     out.write(",");
-                    JSONValue.writeJSONString(array[i], out);
+                    JSONValue.writeJSON(array[i], out);
                 }
 
                 out.write("]");
@@ -681,9 +686,9 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class JSONObject {
-        public static void writeJSONString(Map map, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(Map map, java.io.Writer out) throws java.io.IOException {
             if (map == null) {
-                out.write("null");
+                out.write(NULL);
                 return;
             }
 
@@ -702,16 +707,16 @@ public class $<T> extends com.github.underscore.$<T> {
                 out.write(escape(String.valueOf(entry.getKey())));
                 out.write('\"');
                 out.write(':');
-                JSONValue.writeJSONString(entry.getValue(), out);
+                JSONValue.writeJSON(entry.getValue(), out);
             }
             out.write('}');
         }
     }
 
     public static class JSONValue {
-        public static void writeJSONString(Object value, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(Object value, java.io.Writer out) throws java.io.IOException {
             if (value == null) {
-                out.write("null");
+                out.write(NULL);
                 return;
             }
 
@@ -724,7 +729,7 @@ public class $<T> extends com.github.underscore.$<T> {
 
             if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
-                    out.write("null");
+                    out.write(NULL);
                 } else {
                     out.write(value.toString());
                 }
@@ -733,7 +738,7 @@ public class $<T> extends com.github.underscore.$<T> {
 
             if (value instanceof Float) {
                 if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
-                    out.write("null");
+                    out.write(NULL);
                 } else {
                     out.write(value.toString());
                 }
@@ -751,57 +756,57 @@ public class $<T> extends com.github.underscore.$<T> {
             }
 
             if (value instanceof Map) {
-                JSONObject.writeJSONString((Map) value, out);
+                JSONObject.writeJSON((Map) value, out);
                 return;
             }
 
             if (value instanceof Collection) {
-                JSONArray.writeJSONString((Collection) value, out);
+                JSONArray.writeJSON((Collection) value, out);
                 return;
             }
 
             if (value instanceof byte[]) {
-                JSONArray.writeJSONString((byte[]) value, out);
+                JSONArray.writeJSON((byte[]) value, out);
                 return;
             }
 
             if (value instanceof short[]) {
-                JSONArray.writeJSONString((short[]) value, out);
+                JSONArray.writeJSON((short[]) value, out);
                 return;
             }
 
             if (value instanceof int[]) {
-                JSONArray.writeJSONString((int[]) value, out);
+                JSONArray.writeJSON((int[]) value, out);
                 return;
             }
 
             if (value instanceof long[]) {
-                JSONArray.writeJSONString((long[]) value, out);
+                JSONArray.writeJSON((long[]) value, out);
                 return;
             }
 
             if (value instanceof float[]) {
-                JSONArray.writeJSONString((float[]) value, out);
+                JSONArray.writeJSON((float[]) value, out);
                 return;
             }
 
             if (value instanceof double[]) {
-                JSONArray.writeJSONString((double[]) value, out);
+                JSONArray.writeJSON((double[]) value, out);
                 return;
             }
 
             if (value instanceof boolean[]) {
-                JSONArray.writeJSONString((boolean[]) value, out);
+                JSONArray.writeJSON((boolean[]) value, out);
                 return;
             }
 
             if (value instanceof char[]) {
-                JSONArray.writeJSONString((char[]) value, out);
+                JSONArray.writeJSON((char[]) value, out);
                 return;
             }
 
             if (value instanceof Object[]) {
-                JSONArray.writeJSONString((Object[]) value, out);
+                JSONArray.writeJSON((Object[]) value, out);
                 return;
             }
 
@@ -863,22 +868,26 @@ public class $<T> extends com.github.underscore.$<T> {
         }
     }
 
-    public static String toJSONString(Collection collection) {
+    public static String toJSON(Collection collection) {
         final java.io.StringWriter writer = new java.io.StringWriter();
 
         try {
-            JSONArray.writeJSONString(collection, writer);
+            JSONArray.writeJSON(collection, writer);
             return writer.toString();
         } catch (java.io.IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String toJSONString(Map map) {
+    public String toJSON() {
+        return toJSON((Collection) getIterable());
+    }
+
+    public static String toJSON(Map map) {
         final java.io.StringWriter writer = new java.io.StringWriter();
 
         try {
-            JSONObject.writeJSONString(map, writer);
+            JSONObject.writeJSON(map, writer);
             return writer.toString();
         } catch (java.io.IOException e) {
             throw new RuntimeException(e);
