@@ -5,9 +5,9 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore-string</artifactId>
   <packaging>jar</packaging>
-  <version>1.1</version>
+  <version>1.2</version>
   <name>String plugin for underscore-java</name>
-  <description>The math plugin for underscore-java</description>
+  <description>The string plugin for underscore-java</description>
   <url>https://github.com/javadev/underscore-java</url>
   
   <developers>
