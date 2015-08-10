@@ -31,6 +31,7 @@ import com.github.underscore.Predicate;
 public class $<T> extends com.github.underscore.$<T> {
     private static final int DEFAULT_TRUNC_LENGTH = 30;
     private static final String DEFAULT_TRUNC_OMISSION = "...";
+    private static final String NULL = "null";
     private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
         "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
     private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<String, String>() { {
@@ -279,6 +280,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
         public Chain<List<String>> words() {
             return new Chain<List<String>>($.words((String) item()));
+        }
+
+        public Chain<String> toJSON() {
+            return new Chain<String>($.toJSON((Collection) value()));
         }
     }
 
@@ -904,6 +909,399 @@ public class $<T> extends com.github.underscore.$<T> {
         final int end = length - omission.length();
         final String result = string.substring(0, end);
         return result + omission;
+    }
+
+    public static class JSONArray {
+        public static void writeJSON(Collection collection, StringBuilder builder) {
+            if (collection == null) {
+                builder.append(NULL);
+                return;
+            }
+
+            boolean first = true;
+            Iterator iter = collection.iterator();
+
+            builder.append('[');
+            while (iter.hasNext()) {
+                if (first) {
+                    first = false;
+                } else {
+                    builder.append(',');
+                }
+
+                Object value = iter.next();
+                if (value == null) {
+                    builder.append(NULL);
+                    continue;
+                }
+
+                JSONValue.writeJSON(value, builder);
+            }
+            builder.append(']');
+        }
+
+        public static void writeJSON(byte[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
+                }
+
+                builder.append("]");
+            }
+        }
+
+        public static void writeJSON(short[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
+                }
+
+                builder.append("]");
+            }
+        }
+
+        public static void writeJSON(int[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
+                }
+
+                builder.append("]");
+            }
+        }
+
+        public static void writeJSON(long[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
+                }
+
+                builder.append("]");
+            }
+        }
+
+        public static void writeJSON(float[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
+                }
+
+                builder.append("]");
+            }
+        }
+
+        public static void writeJSON(double[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
+                }
+
+                builder.append("]");
+            }
+        }
+
+        public static void writeJSON(boolean[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
+                }
+
+                builder.append("]");
+            }
+        }
+
+        public static void writeJSON(char[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[\"");
+                builder.append(String.valueOf(array[0]));
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append("\",\"");
+                    builder.append(String.valueOf(array[i]));
+                }
+
+                builder.append("\"]");
+            }
+        }
+
+        public static void writeJSON(Object[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[");
+                JSONValue.writeJSON(array[0], builder);
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append(",");
+                    JSONValue.writeJSON(array[i], builder);
+                }
+
+                builder.append("]");
+            }
+        }
+    }
+
+    public static class JSONObject {
+        public static void writeJSON(Map map, StringBuilder builder) {
+            if (map == null) {
+                builder.append(NULL);
+                return;
+            }
+
+            boolean first = true;
+            Iterator iter = map.entrySet().iterator();
+
+            builder.append('{');
+            while (iter.hasNext()) {
+                if (first) {
+                    first = false;
+                } else {
+                    builder.append(',');
+                }
+                Map.Entry entry = (Map.Entry) iter.next();
+                builder.append('\"');
+                builder.append(escape(String.valueOf(entry.getKey())));
+                builder.append('\"');
+                builder.append(':');
+                JSONValue.writeJSON(entry.getValue(), builder);
+            }
+            builder.append('}');
+        }
+    }
+
+    public static class JSONValue {
+        public static void writeJSON(Object value, StringBuilder builder) {
+            if (value == null) {
+                builder.append(NULL);
+                return;
+            }
+
+            if (value instanceof String) {
+                builder.append('\"');
+                builder.append(escape((String) value));
+                builder.append('\"');
+                return;
+            }
+
+            if (value instanceof Double) {
+                if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
+                    builder.append(NULL);
+                } else {
+                    builder.append(value.toString());
+                }
+                return;
+            }
+
+            if (value instanceof Float) {
+                if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
+                    builder.append(NULL);
+                } else {
+                    builder.append(value.toString());
+                }
+                return;
+            }
+
+            if (value instanceof Number) {
+                builder.append(value.toString());
+                return;
+            }
+
+            if (value instanceof Boolean) {
+                builder.append(value.toString());
+                return;
+            }
+
+            if (value instanceof Map) {
+                JSONObject.writeJSON((Map) value, builder);
+                return;
+            }
+
+            if (value instanceof Collection) {
+                JSONArray.writeJSON((Collection) value, builder);
+                return;
+            }
+
+            if (value instanceof byte[]) {
+                JSONArray.writeJSON((byte[]) value, builder);
+                return;
+            }
+
+            if (value instanceof short[]) {
+                JSONArray.writeJSON((short[]) value, builder);
+                return;
+            }
+
+            if (value instanceof int[]) {
+                JSONArray.writeJSON((int[]) value, builder);
+                return;
+            }
+
+            if (value instanceof long[]) {
+                JSONArray.writeJSON((long[]) value, builder);
+                return;
+            }
+
+            if (value instanceof float[]) {
+                JSONArray.writeJSON((float[]) value, builder);
+                return;
+            }
+
+            if (value instanceof double[]) {
+                JSONArray.writeJSON((double[]) value, builder);
+                return;
+            }
+
+            if (value instanceof boolean[]) {
+                JSONArray.writeJSON((boolean[]) value, builder);
+                return;
+            }
+
+            if (value instanceof char[]) {
+                JSONArray.writeJSON((char[]) value, builder);
+                return;
+            }
+
+            if (value instanceof Object[]) {
+                JSONArray.writeJSON((Object[]) value, builder);
+                return;
+            }
+
+            builder.append(value.toString());
+        }
+
+        public static String escape(String s) {
+            if (s == null) {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder();
+            escape(s, sb);
+            return sb.toString();
+        }
+
+        static void escape(String s, StringBuilder sb) {
+            final int len = s.length();
+            for (int i = 0; i < len; i++) {
+                char ch = s.charAt(i);
+                switch (ch) {
+                case '"':
+                    sb.append("\\\"");
+                    break;
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                case '\b':
+                    sb.append("\\b");
+                    break;
+                case '\f':
+                    sb.append("\\f");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                case '/':
+                    sb.append("\\/");
+                    break;
+                default:
+                    if (ch >= '\u0000' && ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
+                        || ch >= '\u2000' && ch <= '\u20FF') {
+                        String ss = Integer.toHexString(ch);
+                        sb.append("\\u");
+                        for (int k = 0; k < 4 - ss.length(); k++) {
+                            sb.append('0');
+                        }
+                        sb.append(ss.toUpperCase());
+                    } else {
+                        sb.append(ch);
+                    }
+                }
+            }
+        }
+    }
+
+    public static String toJSON(Collection collection) {
+        final StringBuilder builder = new StringBuilder();
+
+        JSONArray.writeJSON(collection, builder);
+        return builder.toString();
+    }
+
+    public String toJSON() {
+        return toJSON((Collection) getIterable());
+    }
+
+    public static String toJSON(Map map) {
+        final StringBuilder builder = new StringBuilder();
+
+        JSONObject.writeJSON(map, builder);
+        return builder.toString();
     }
 
     public String camelCase() {
