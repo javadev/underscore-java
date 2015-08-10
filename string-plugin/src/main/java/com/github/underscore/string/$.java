@@ -494,335 +494,335 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class JSONArray {
-        public static void writeJSON(Collection collection, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(Collection collection, StringBuilder builder) {
             if (collection == null) {
-                out.write(NULL);
+                builder.append(NULL);
                 return;
             }
 
             boolean first = true;
             Iterator iter = collection.iterator();
 
-            out.write('[');
+            builder.append('[');
             while (iter.hasNext()) {
                 if (first) {
                     first = false;
                 } else {
-                    out.write(',');
+                    builder.append(',');
                 }
 
                 Object value = iter.next();
                 if (value == null) {
-                    out.write(NULL);
+                    builder.append(NULL);
                     continue;
                 }
 
-                JSONValue.writeJSON(value, out);
+                JSONValue.writeJSON(value, builder);
             }
-            out.write(']');
+            builder.append(']');
         }
 
-        public static void writeJSON(byte[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(byte[] array, StringBuilder builder) {
             if (array == null) {
-                out.write(NULL);
+                builder.append(NULL);
             } else if (array.length == 0) {
-                out.write("[]");
+                builder.append("[]");
             } else {
-                out.write("[");
-                out.write(String.valueOf(array[0]));
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    out.write(",");
-                    out.write(String.valueOf(array[i]));
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
                 }
 
-                out.write("]");
-            }
-        }
-
-        public static void writeJSON(short[] array, java.io.Writer out) throws java.io.IOException {
-            if (array == null) {
-                out.write(NULL);
-            } else if (array.length == 0) {
-                out.write("[]");
-            } else {
-                out.write("[");
-                out.write(String.valueOf(array[0]));
-
-                for (int i = 1; i < array.length; i++) {
-                    out.write(",");
-                    out.write(String.valueOf(array[i]));
-                }
-
-                out.write("]");
+                builder.append("]");
             }
         }
 
-        public static void writeJSON(int[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(short[] array, StringBuilder builder) {
             if (array == null) {
-                out.write(NULL);
+                builder.append(NULL);
             } else if (array.length == 0) {
-                out.write("[]");
+                builder.append("[]");
             } else {
-                out.write("[");
-                out.write(String.valueOf(array[0]));
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    out.write(",");
-                    out.write(String.valueOf(array[i]));
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
                 }
 
-                out.write("]");
+                builder.append("]");
             }
         }
 
-        public static void writeJSON(long[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(int[] array, StringBuilder builder) {
             if (array == null) {
-                out.write(NULL);
+                builder.append(NULL);
             } else if (array.length == 0) {
-                out.write("[]");
+                builder.append("[]");
             } else {
-                out.write("[");
-                out.write(String.valueOf(array[0]));
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    out.write(",");
-                    out.write(String.valueOf(array[i]));
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
                 }
 
-                out.write("]");
+                builder.append("]");
             }
         }
 
-        public static void writeJSON(float[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(long[] array, StringBuilder builder) {
             if (array == null) {
-                out.write(NULL);
+                builder.append(NULL);
             } else if (array.length == 0) {
-                out.write("[]");
+                builder.append("[]");
             } else {
-                out.write("[");
-                out.write(String.valueOf(array[0]));
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    out.write(",");
-                    out.write(String.valueOf(array[i]));
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
                 }
 
-                out.write("]");
+                builder.append("]");
             }
         }
 
-        public static void writeJSON(double[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(float[] array, StringBuilder builder) {
             if (array == null) {
-                out.write(NULL);
+                builder.append(NULL);
             } else if (array.length == 0) {
-                out.write("[]");
+                builder.append("[]");
             } else {
-                out.write("[");
-                out.write(String.valueOf(array[0]));
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    out.write(",");
-                    out.write(String.valueOf(array[i]));
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
                 }
 
-                out.write("]");
+                builder.append("]");
             }
         }
 
-        public static void writeJSON(boolean[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(double[] array, StringBuilder builder) {
             if (array == null) {
-                out.write(NULL);
+                builder.append(NULL);
             } else if (array.length == 0) {
-                out.write("[]");
+                builder.append("[]");
             } else {
-                out.write("[");
-                out.write(String.valueOf(array[0]));
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    out.write(",");
-                    out.write(String.valueOf(array[i]));
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
                 }
 
-                out.write("]");
+                builder.append("]");
             }
         }
 
-        public static void writeJSON(char[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(boolean[] array, StringBuilder builder) {
             if (array == null) {
-                out.write(NULL);
+                builder.append(NULL);
             } else if (array.length == 0) {
-                out.write("[]");
+                builder.append("[]");
             } else {
-                out.write("[\"");
-                out.write(String.valueOf(array[0]));
+                builder.append("[");
+                builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    out.write("\",\"");
-                    out.write(String.valueOf(array[i]));
+                    builder.append(",");
+                    builder.append(String.valueOf(array[i]));
                 }
 
-                out.write("\"]");
+                builder.append("]");
             }
         }
 
-        public static void writeJSON(Object[] array, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(char[] array, StringBuilder builder) {
             if (array == null) {
-                out.write(NULL);
+                builder.append(NULL);
             } else if (array.length == 0) {
-                out.write("[]");
+                builder.append("[]");
             } else {
-                out.write("[");
-                JSONValue.writeJSON(array[0], out);
+                builder.append("[\"");
+                builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    out.write(",");
-                    JSONValue.writeJSON(array[i], out);
+                    builder.append("\",\"");
+                    builder.append(String.valueOf(array[i]));
                 }
 
-                out.write("]");
+                builder.append("\"]");
+            }
+        }
+
+        public static void writeJSON(Object[] array, StringBuilder builder) {
+            if (array == null) {
+                builder.append(NULL);
+            } else if (array.length == 0) {
+                builder.append("[]");
+            } else {
+                builder.append("[");
+                JSONValue.writeJSON(array[0], builder);
+
+                for (int i = 1; i < array.length; i++) {
+                    builder.append(",");
+                    JSONValue.writeJSON(array[i], builder);
+                }
+
+                builder.append("]");
             }
         }
     }
 
     public static class JSONObject {
-        public static void writeJSON(Map map, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(Map map, StringBuilder builder) {
             if (map == null) {
-                out.write(NULL);
+                builder.append(NULL);
                 return;
             }
 
             boolean first = true;
             Iterator iter = map.entrySet().iterator();
 
-            out.write('{');
+            builder.append('{');
             while (iter.hasNext()) {
                 if (first) {
                     first = false;
                 } else {
-                    out.write(',');
+                    builder.append(',');
                 }
                 Map.Entry entry = (Map.Entry) iter.next();
-                out.write('\"');
-                out.write(escape(String.valueOf(entry.getKey())));
-                out.write('\"');
-                out.write(':');
-                JSONValue.writeJSON(entry.getValue(), out);
+                builder.append('\"');
+                builder.append(escape(String.valueOf(entry.getKey())));
+                builder.append('\"');
+                builder.append(':');
+                JSONValue.writeJSON(entry.getValue(), builder);
             }
-            out.write('}');
+            builder.append('}');
         }
     }
 
     public static class JSONValue {
-        public static void writeJSON(Object value, java.io.Writer out) throws java.io.IOException {
+        public static void writeJSON(Object value, StringBuilder builder) {
             if (value == null) {
-                out.write(NULL);
+                builder.append(NULL);
                 return;
             }
 
             if (value instanceof String) {
-                out.write('\"');
-                out.write(escape((String) value));
-                out.write('\"');
+                builder.append('\"');
+                builder.append(escape((String) value));
+                builder.append('\"');
                 return;
             }
 
             if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
-                    out.write(NULL);
+                    builder.append(NULL);
                 } else {
-                    out.write(value.toString());
+                    builder.append(value.toString());
                 }
                 return;
             }
 
             if (value instanceof Float) {
                 if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
-                    out.write(NULL);
+                    builder.append(NULL);
                 } else {
-                    out.write(value.toString());
+                    builder.append(value.toString());
                 }
                 return;
             }
 
             if (value instanceof Number) {
-                out.write(value.toString());
+                builder.append(value.toString());
                 return;
             }
 
             if (value instanceof Boolean) {
-                out.write(value.toString());
+                builder.append(value.toString());
                 return;
             }
 
             if (value instanceof Map) {
-                JSONObject.writeJSON((Map) value, out);
+                JSONObject.writeJSON((Map) value, builder);
                 return;
             }
 
             if (value instanceof Collection) {
-                JSONArray.writeJSON((Collection) value, out);
+                JSONArray.writeJSON((Collection) value, builder);
                 return;
             }
 
             if (value instanceof byte[]) {
-                JSONArray.writeJSON((byte[]) value, out);
+                JSONArray.writeJSON((byte[]) value, builder);
                 return;
             }
 
             if (value instanceof short[]) {
-                JSONArray.writeJSON((short[]) value, out);
+                JSONArray.writeJSON((short[]) value, builder);
                 return;
             }
 
             if (value instanceof int[]) {
-                JSONArray.writeJSON((int[]) value, out);
+                JSONArray.writeJSON((int[]) value, builder);
                 return;
             }
 
             if (value instanceof long[]) {
-                JSONArray.writeJSON((long[]) value, out);
+                JSONArray.writeJSON((long[]) value, builder);
                 return;
             }
 
             if (value instanceof float[]) {
-                JSONArray.writeJSON((float[]) value, out);
+                JSONArray.writeJSON((float[]) value, builder);
                 return;
             }
 
             if (value instanceof double[]) {
-                JSONArray.writeJSON((double[]) value, out);
+                JSONArray.writeJSON((double[]) value, builder);
                 return;
             }
 
             if (value instanceof boolean[]) {
-                JSONArray.writeJSON((boolean[]) value, out);
+                JSONArray.writeJSON((boolean[]) value, builder);
                 return;
             }
 
             if (value instanceof char[]) {
-                JSONArray.writeJSON((char[]) value, out);
+                JSONArray.writeJSON((char[]) value, builder);
                 return;
             }
 
             if (value instanceof Object[]) {
-                JSONArray.writeJSON((Object[]) value, out);
+                JSONArray.writeJSON((Object[]) value, builder);
                 return;
             }
 
-            out.write(value.toString());
+            builder.append(value.toString());
         }
 
         public static String escape(String s) {
             if (s == null) {
                 return null;
             }
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             escape(s, sb);
             return sb.toString();
         }
 
-        static void escape(String s, StringBuffer sb) {
+        static void escape(String s, StringBuilder sb) {
             final int len = s.length();
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
@@ -869,14 +869,10 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static String toJSON(Collection collection) {
-        final java.io.StringWriter writer = new java.io.StringWriter();
+        final StringBuilder builder = new StringBuilder();
 
-        try {
-            JSONArray.writeJSON(collection, writer);
-            return writer.toString();
-        } catch (java.io.IOException e) {
-            throw new RuntimeException(e);
-        }
+        JSONArray.writeJSON(collection, builder);
+        return builder.toString();
     }
 
     public String toJSON() {
@@ -884,14 +880,10 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static String toJSON(Map map) {
-        final java.io.StringWriter writer = new java.io.StringWriter();
+        final StringBuilder builder = new StringBuilder();
 
-        try {
-            JSONObject.writeJSON(map, writer);
-            return writer.toString();
-        } catch (java.io.IOException e) {
-            throw new RuntimeException(e);
-        }
+        JSONObject.writeJSON(map, builder);
+        return builder.toString();
     }
 
     public String camelCase() {
