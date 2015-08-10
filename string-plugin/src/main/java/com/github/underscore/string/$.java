@@ -222,14 +222,14 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public static String capitalize(final String string) {
         final String localString = baseToString(string);
-        return localString.isEmpty() ? "" : (localString.substring(0, 1).toUpperCase(Locale.getDefault())
-            + (localString.length() > 1 ? localString.substring(1) : ""));
+        return localString.isEmpty() ? "" : localString.substring(0, 1).toUpperCase(Locale.getDefault())
+            + (localString.length() > 1 ? localString.substring(1) : "");
     }
 
     public static String uncapitalize(final String string) {
         final String localString = baseToString(string);
-        return localString.isEmpty() ? "" : (localString.substring(0, 1).toLowerCase(Locale.getDefault())
-            + (localString.length() > 1 ? localString.substring(1) : ""));
+        return localString.isEmpty() ? "" : localString.substring(0, 1).toLowerCase(Locale.getDefault())
+            + (localString.length() > 1 ? localString.substring(1) : "");
     }
 
     private static String baseToString(String value) {
@@ -852,8 +852,8 @@ public class $<T> extends com.github.underscore.$<T> {
                     sb.append("\\/");
                     break;
                 default:
-                    if ((ch >= '\u0000' && ch <= '\u001F') || (ch >= '\u007F' && ch <= '\u009F')
-                        || (ch >= '\u2000' && ch <= '\u20FF')) {
+                    if (ch >= '\u0000' && ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
+                        || ch >= '\u2000' && ch <= '\u20FF') {
                         String ss = Integer.toHexString(ch);
                         sb.append("\\u");
                         for (int k = 0; k < 4 - ss.length(); k++) {
