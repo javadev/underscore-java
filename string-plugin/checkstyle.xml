@@ -128,7 +128,10 @@
         </module>
         <module name="ModifierOrder"/>
         <module name="RedundantModifier"/>
-        <module name="EmptyBlock"/>
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+            <property name="tokens" value="LITERAL_TRY"/>
+        </module>
         <module name="LeftCurly">
             <property name="maxLineLength" value="120"/>
         </module>

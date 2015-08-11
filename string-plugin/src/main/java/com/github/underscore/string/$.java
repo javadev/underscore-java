@@ -188,6 +188,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<String> toJson() {
             return new Chain<String>($.toJson((Collection) value()));
         }
+
+        public Chain<Object> fromJson() {
+            return new Chain<Object>($.fromJson((String) item()));
+        }
     }
 
     public static Chain chain(final String item) {
@@ -884,6 +888,378 @@ public class $<T> extends com.github.underscore.$<T> {
 
         JsonObject.writeJson(map, builder);
         return builder.toString();
+    }
+
+    public static class ParseException extends RuntimeException {
+        public final int offset;
+        public final int line;
+        public final int column;
+
+        public ParseException(String message, int offset, int line, int column) {
+            super(message + " at " + line + ":" + column);
+            this.offset = offset;
+            this.line = line;
+            this.column = column;
+        }
+    }
+
+    public static class JsonParser {
+        private final StringBuilder builder;
+        private int bufferOffset;
+        private int index;
+        private int fill;
+        private int line;
+        private int lineOffset;
+        private int current;
+        private StringBuilder captureBuffer;
+        private int captureStart;
+
+        public JsonParser(String string) {
+            this.builder = new StringBuilder(string);
+            line = 1;
+            captureStart = -1;
+            fill = builder.length();
+        }
+
+        public Object parse() {
+            read();
+            skipWhiteSpace();
+            final Object result = readValue();
+            skipWhiteSpace();
+            if (!isEndOfText()) {
+                throw error("Unexpected character");
+            }
+            return result;
+        }
+
+        private Object readValue() {
+            switch (current) {
+            case 'n':
+                return readNull();
+            case 't':
+                return readTrue();
+            case 'f':
+                return readFalse();
+            case '"':
+                return readString();
+            case '[':
+                return readArray();
+            case '{':
+                return readObject();
+            case '-':
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                return readNumber();
+            default:
+                throw expected("value");
+            }
+        }
+
+        private List<Object> readArray() {
+            read();
+            List<Object> array = newArrayList();
+            skipWhiteSpace();
+            if (readChar(']')) {
+                return array;
+            }
+            do {
+                skipWhiteSpace();
+                array.add(readValue());
+                skipWhiteSpace();
+            } while (readChar(','));
+            if (!readChar(']')) {
+                throw expected("',' or ']'");
+            }
+            return array;
+        }
+
+        private Map<String, Object> readObject() {
+            read();
+            Map<String, Object> object = newLinkedHashMap();
+            skipWhiteSpace();
+            if (readChar('}')) {
+                return object;
+            }
+            do {
+                skipWhiteSpace();
+                String name = readName();
+                skipWhiteSpace();
+                if (!readChar(':')) {
+                    throw expected("':'");
+                }
+                skipWhiteSpace();
+                object.put(name, readValue());
+                skipWhiteSpace();
+            } while (readChar(','));
+            if (!readChar('}')) {
+                throw expected("',' or '}'");
+            }
+            return object;
+        }
+
+        private String readName() {
+            if (current != '"') {
+                throw expected("name");
+            }
+            return readStringInternal();
+        }
+
+        private String readNull() {
+            read();
+            readRequiredChar('u');
+            readRequiredChar('l');
+            readRequiredChar('l');
+            return null;
+        }
+
+        private Boolean readTrue() {
+            read();
+            readRequiredChar('r');
+            readRequiredChar('u');
+            readRequiredChar('e');
+            return Boolean.TRUE;
+        }
+
+        private Boolean readFalse() {
+            read();
+            readRequiredChar('a');
+            readRequiredChar('l');
+            readRequiredChar('s');
+            readRequiredChar('e');
+            return Boolean.FALSE;
+        }
+
+        private void readRequiredChar(char ch) {
+            if (!readChar(ch)) {
+                throw expected("'" + ch + "'");
+            }
+        }
+
+        private String readString() {
+            return readStringInternal();
+        }
+
+        private String readStringInternal() {
+            read();
+            startCapture();
+            while (current != '"') {
+                if (current == '\\') {
+                    pauseCapture();
+                    readEscape();
+                    startCapture();
+                } else if (current < 0x20) {
+                    throw expected("valid string character");
+                } else {
+                    read();
+                }
+            }
+            String string = endCapture();
+            read();
+            return string;
+        }
+
+        private void readEscape() {
+            read();
+            switch (current) {
+            case '"':
+            case '/':
+            case '\\':
+                captureBuffer.append((char) current);
+                break;
+            case 'b':
+                captureBuffer.append('\b');
+                break;
+            case 'f':
+                captureBuffer.append('\f');
+                break;
+            case 'n':
+                captureBuffer.append('\n');
+                break;
+            case 'r':
+                captureBuffer.append('\r');
+                break;
+            case 't':
+                captureBuffer.append('\t');
+                break;
+            case 'u':
+                char[] hexChars = new char[4];
+                for (int i = 0; i < 4; i++) {
+                    read();
+                    if (!isHexDigit()) {
+                        throw expected("hexadecimal digit");
+                    }
+                    hexChars[i] = (char) current;
+                }
+                captureBuffer.append((char) Integer.parseInt(new String(hexChars), 16));
+                break;
+            default:
+                throw expected("valid escape sequence");
+            }
+            read();
+        }
+
+        private Number readNumber() {
+            startCapture();
+            readChar('-');
+            int firstDigit = current;
+            if (!readDigit()) {
+                throw expected("digit");
+            }
+            if (firstDigit != '0') {
+                while (readDigit()) {
+                }
+            }
+            readFraction();
+            readExponent();
+            final String number = endCapture();
+            if (number.contains(".") || number.contains("e") || number.contains("E")) {
+                return Double.valueOf(number);
+            } else {
+                return Long.valueOf(number);
+            }
+        }
+
+        private boolean readFraction() {
+            if (!readChar('.')) {
+                return false;
+            }
+            if (!readDigit()) {
+                throw expected("digit");
+            }
+            while (readDigit()) {
+            }
+            return true;
+        }
+
+        private boolean readExponent() {
+            if (!readChar('e') && !readChar('E')) {
+                return false;
+            }
+            if (!readChar('+')) {
+                readChar('-');
+            }
+            if (!readDigit()) {
+                throw expected("digit");
+            }
+            while (readDigit()) {
+            }
+            return true;
+        }
+
+        private boolean readChar(char ch) {
+            if (current != ch) {
+                return false;
+            }
+            read();
+            return true;
+        }
+
+        private boolean readDigit() {
+            if (!isDigit()) {
+                return false;
+            }
+            read();
+            return true;
+        }
+
+        private void skipWhiteSpace() {
+            while (isWhiteSpace()) {
+                read();
+            }
+        }
+
+        private void read() {
+            if (index == fill) {
+                if (captureStart != -1) {
+                    captureBuffer.append(builder.substring(captureStart, fill));
+                    captureStart = 0;
+                }
+                bufferOffset += fill;
+                fill = -1;
+                index = 0;
+                current = -1;
+                return;
+            }
+            if (current == '\n') {
+                line++;
+                lineOffset = bufferOffset + index;
+            }
+            current = builder.charAt(index++);
+        }
+
+        private void startCapture() {
+            if (captureBuffer == null) {
+                captureBuffer = new StringBuilder();
+            }
+            captureStart = index - 1;
+        }
+
+        private void pauseCapture() {
+            captureBuffer.append(builder.substring(captureStart, index - 1));
+            captureStart = -1;
+        }
+
+        private String endCapture() {
+            int end = current == -1 ? index : index - 1;
+            String captured;
+            if (captureBuffer.length() > 0) {
+                captureBuffer.append(builder.substring(captureStart, end));
+                captured = captureBuffer.toString();
+                captureBuffer.setLength(0);
+            } else {
+                captured = builder.substring(captureStart, end);
+            }
+            captureStart = -1;
+            return captured;
+        }
+
+        private ParseException expected(String expected) {
+            if (isEndOfText()) {
+                return error("Unexpected end of input");
+            }
+            return error("Expected " + expected);
+        }
+
+        private ParseException error(String message) {
+            int absIndex = bufferOffset + index;
+            int column = absIndex - lineOffset;
+            int offset = isEndOfText() ? absIndex : absIndex - 1;
+            return new ParseException(message, offset, line, column - 1);
+        }
+
+        private boolean isWhiteSpace() {
+            return current == ' ' || current == '\t' || current == '\n' || current == '\r';
+        }
+
+        private boolean isDigit() {
+            return current >= '0' && current <= '9';
+        }
+
+        private boolean isHexDigit() {
+            return current >= '0' && current <= '9' || current >= 'a' && current <= 'f' || current >= 'A'
+                    && current <= 'F';
+        }
+
+        private boolean isEndOfText() {
+            return current == -1;
+        }
+
+    }
+
+    public static Object fromJson(String string) {
+        return new JsonParser(string).parse();
+    }
+
+    public Object fromJson() {
+        return fromJson(getString().get());
     }
 
     public String camelCase() {
