@@ -676,6 +676,141 @@ _.repeat('abc', 0);
     }
 
     @Test
+    public void testDecode() {
+        String string = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
+        assertEquals("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]",
+            $.toJson((List<Object>) $.fromJson(string)));
+        assertEquals("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]",
+            $.toJson((List<Object>) new $(string).fromJson()));
+        assertEquals("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]",
+            $.toJson((List<Object>) $.chain(string).fromJson().value()));
+    }
+
+    @Test
+    public void testDecode2() {
+        String string = "[\"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"]";
+        assertEquals("[\"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"]",
+            $.toJson((List<Object>) $.fromJson(string)));
+    }
+
+    @Test
+    public void testDecode3() {
+        assertEquals("[]", $.toJson((List<Object>) $.fromJson("[]")));
+    }
+
+    @Test
+    public void testDecodeMap() {
+        String string = "{\"first\": 123e+10,\"second\":[{\"k1\":{\"id\":\"id1\"}},"
+            + "4,5,6,{\"id\":-123E-1}],\t\n\r \"third\":789,\"id\":null}";
+        assertEquals("{\"first\":1.23E12,\"second\":[{\"k1\":{\"id\":\"id1\"}},"
+            + "4,5,6,{\"id\":-12.3}],\"third\":789,\"id\":null}", $.toJson((Map<String, Object>) $.fromJson(string)));
+    }
+
+    @Test
+    public void testDecodeMap2() {
+        assertEquals("{}", $.toJson((Map<String, Object>) $.fromJson("{}")));
+    }
+
+    @Test
+    public void testDecodeTrueFalse() {
+        List<Object> array1 = new ArrayList<Object>();
+        array1.add("abc\u0010a/");
+        array1.add(new Integer(123));
+        array1.add(new Double(222.123));
+        array1.add(Boolean.TRUE);
+        array1.add(Boolean.FALSE);
+        assertEquals("[\"abc\\u0010a\\/\",123,222.123,true,false]", $.toJson(array1));
+        String string = "[\"abc\\u0010a\\/\",123,222.123,true,false]";
+        assertEquals("[\"abc\\u0010a\\/\",123,222.123,true,false]", $.toJson((List<Object>) $.fromJson(string)));
+    }
+
+    @Test
+    public void testDecodeUnicode() {
+        assertEquals("[\"abc\u0A00\"]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0a00\"]")));
+        assertEquals("[\"abc\u0A00\"]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0A00\"]")));
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeUnicodeErr1() {
+        $.fromJson("[\"abc\\u0$00\"]");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr1() {
+        $.fromJson("$");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr2() {
+        $.fromJson("[\"value\"");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr3() {
+        $.fromJson("{\"value\":123");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr4() {
+        $.fromJson("{\"value\"123");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr5() {
+        $.fromJson("{value");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr6() {
+        $.fromJson("[ture]");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr7() {
+        $.fromJson("[\"abc\\u001g\\/\"]");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr8() {
+        $.fromJson("[\"\\abc\"]");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr9() {
+        $.fromJson("[123ea]");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr10() {
+        $.fromJson("[123.a]");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr11() {
+        $.fromJson("[1g]");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr12() {
+        $.fromJson("[--1");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr13() {
+        $.fromJson("[\"abc\u0010\"]");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr14() {
+        $.fromJson("[\"abc\"][]");
+    }
+
+    @Test(expected = $.ParseException.class)
+    public void testDecodeParseErr15() {
+        $.fromJson("[\"abc\\u001G\\/\"]");
+    }
+
+    @Test
     public void main() throws Exception {
         $.main(new String[] {});
         new $(new ArrayList<String>());
