@@ -820,6 +820,34 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             $.chain(listOfPlays).where(asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).value().toString());
+        class Book2 {
+            public final String title;
+            private final String author;
+            public final Integer year;
+            public Book2(final String title, final String author, final Integer year) {
+                this.title = title;
+                this.author = author;
+                this.year = year;
+            }
+            public String getAuthor() {
+                return author;
+            }
+            public String toString() {
+                return "title: " + title + ", author: " + author + ", year: " + year;
+            }
+        }
+        List<Book2> listOfPlays2 =
+            new ArrayList<Book2>() { {
+              add(new Book2("Cymbeline2", "Shakespeare", 1614));
+              add(new Book2("Cymbeline", "Shakespeare", 1611));
+              add(new Book2("The Tempest", "Shakespeare", 1611));
+            } };
+        assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
+            + " title: The Tempest, author: Shakespeare, year: 1611]",
+            $.where(listOfPlays2, asList(
+            Tuple.<String, Object>create("getAuthor", "Shakespeare"),
+            Tuple.<String, Object>create("author2", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
     }
 
 /*
@@ -864,6 +892,36 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("author2", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
+        class Book2 {
+            public final String title;
+            private final String author;
+            public final Integer year;
+            public Book2(final String title, final String author, final Integer year) {
+                this.title = title;
+                this.author = author;
+                this.year = year;
+            }
+            public String getAuthor() {
+                return author;
+            }
+            public String toString() {
+                return "title: " + title + ", author: " + author + ", year: " + year;
+            }
+        }
+        List<Book2> listOfPlays2 =
+            new ArrayList<Book2>() { {
+              add(new Book2("Cymbeline2", "Shakespeare", 1614));
+              add(new Book2("Cymbeline", "Shakespeare", 1611));
+              add(new Book2("The Tempest", "Shakespeare", 1611));
+            } };
+        assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
+            $.findWhere(listOfPlays2, asList(
+            Tuple.<String, Object>create("getAuthor", "Shakespeare"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
+        assertEquals(Optional.absent(),
+            $.findWhere(listOfPlays2, asList(
+            Tuple.<String, Object>create("getAuthor", "Shakespeare2"),
+            Tuple.<String, Object>create("year", Integer.valueOf(1611)))));
     }
 
 /*
