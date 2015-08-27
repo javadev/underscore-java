@@ -7,6 +7,7 @@ underscore-java
 [![Circle CI](https://circleci.com/gh/javadev/underscore-java.png?style=badge)](https://circleci.com/gh/javadev/underscore-java)
 [![Build Status](https://drone.io/github.com/javadev/underscore-java/status.png)](https://drone.io/github.com/javadev/underscore-java/latest)
 [![Codeship Status for javadev/underscore-java](https://codeship.com/projects/c989fef0-f3ab-0132-7ca5-16cf317d1634/status?branch=master)](https://codeship.com/projects/85467)
+[![Build Status](https://buildhive.cloudbees.com/job/javadev/job/underscore-java/badge/icon)](https://buildhive.cloudbees.com/job/javadev/job/underscore-java/)
 
 Requirements
 ============
