@@ -9,6 +9,7 @@ underscore-java
 [![Codeship Status for javadev/underscore-java](https://codeship.com/projects/c989fef0-f3ab-0132-7ca5-16cf317d1634/status?branch=master)](https://codeship.com/projects/85467)
 [![Build Status](https://buildhive.cloudbees.com/job/javadev/job/underscore-java/badge/icon)](https://buildhive.cloudbees.com/job/javadev/job/underscore-java/)
 [![wercker status](https://app.wercker.com/status/d1130226089a5bd54d205e1901cbef3b/s "wercker status")](https://app.wercker.com/project/bykey/d1130226089a5bd54d205e1901cbef3b)
+[![Build Status](https://snap-ci.com/javadev/underscore-java/branch/master/build_image)](https://snap-ci.com/javadev/underscore-java/branch/master)
 
 Requirements
 ============
