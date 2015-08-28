@@ -1,0 +1,12 @@
+language: java
+
+jdk:
+  - openjdk7
+  - oraclejdk7
+  - oraclejdk8
+
+script:
+  - mvn clean install jacoco:report
+  - mvn -f math-plugin/pom.xml clean package jacoco:report
+  - mvn -f string-plugin/pom.xml clean package jacoco:report
+  - mvn -f lodash-plugin/pom.xml clean package jacoco:report
