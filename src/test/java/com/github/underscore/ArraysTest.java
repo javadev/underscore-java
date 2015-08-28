@@ -104,6 +104,21 @@ _.rest([5, 4, 3, 2, 1], 2);
     }
 
 /*
+_.chunk(['a', 'b', 'c', 'd'], 2);
+// → [['a', 'b'], ['c', 'd']]
+
+_.chunk(['a', 'b', 'c', 'd'], 3);
+// → [['a', 'b', 'c'], ['d']]
+*/
+    @Test
+    public void chunk() {
+        assertEquals("[[a, b], [c, d]]", $.chunk(asList("a", "b", "c", "d"), 2).toString());
+        assertEquals("[[a, b], [c, d]]", new $(asList("a", "b", "c", "d")).chunk(2).toString());
+        assertEquals("[[a, b], [c, d]]", $.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
+        assertEquals("[[a, b, c], [d]]", $.chunk(asList("a", "b", "c", "d"), 3).toString());
+    }
+
+/*
 _.tail([5, 4, 3, 2, 1]);
 => [4, 3, 2, 1]
 _.tail([5, 4, 3, 2, 1], 2);

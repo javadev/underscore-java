@@ -1160,6 +1160,21 @@ public class $<T> {
         return array;
     }
 
+    public static <T> List<List<T>> chunk(final Iterable<T> iterable, final int size) {
+        int index = 0;
+        int length = size(iterable);
+        final List<List<T>> result = new ArrayList<List<T>>(length / size);
+        while (index < length) {
+            result.add(newArrayList(iterable).subList(index, Math.min(length, index + size)));
+            index += size;
+        }
+        return result;
+    }
+
+    public List<List<T>> chunk(final int size) {
+        return chunk(getIterable(), size);
+    }
+
     public static <T, F> Function1<T, F> bind(final Function1<T, F> function) {
         return new Function1<T, F>() {
             @Override
@@ -1799,6 +1814,10 @@ public class $<T> {
 
         public <F> Chain<F> uniq(final Function1<T, F> func) {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
+        }
+
+        public Chain<List<List<T>>> chunk(final int size) {
+            return new Chain<List<List<T>>>($.chunk(value(), size));
         }
 
         public Chain<T> concat(final List<T> ... lists) {
