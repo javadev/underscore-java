@@ -966,13 +966,17 @@ public class $<T> {
         });
     }
 
-    public static <E> List<E> intersection(final List<E> ... lists) {
+    public static <E> List<E> intersection(final List<E> list, final List<E> ... lists) {
         final Stack<List<E>> stack = new Stack<List<E>>();
-        stack.push(lists[0]);
-        for (int index = 1; index < lists.length; index += 1) {
+        stack.push(list);
+        for (int index = 0; index < lists.length; index += 1) {
           stack.push(intersection(stack.peek(), lists[index]));
         }
         return stack.peek();
+    }
+
+    public List<T> intersectionWith(final List<T> ... lists) {
+        return intersection(newArrayList(iterable), lists);
     }
 
     public static <E> E[] intersection(final E[] ... arrays) {
@@ -993,13 +997,17 @@ public class $<T> {
         });
     }
 
-    public static <E> List<E> difference(final List<E> ... lists) {
+    public static <E> List<E> difference(final List<E> list, final List<E> ... lists) {
         final Stack<List<E>> stack = new Stack<List<E>>();
-        stack.push(lists[0]);
-        for (int index = 1; index < lists.length; index += 1) {
+        stack.push(list);
+        for (int index = 0; index < lists.length; index += 1) {
           stack.push(difference(stack.peek(), lists[index]));
         }
         return stack.peek();
+    }
+
+    public List<T> differenceWith(final List<T> ... lists) {
+        return difference(newArrayList(iterable), lists);
     }
 
     public static <E> E[] difference(final E[] ... arrays) {
@@ -1814,6 +1822,14 @@ public class $<T> {
 
         public <F> Chain<F> uniq(final Function1<T, F> func) {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
+        }
+
+        public Chain<T> intersection(final List<T> ... lists) {
+            return new Chain<T>($.intersection(list, lists));
+        }
+
+        public Chain<T> difference(final List<T> ... lists) {
+            return new Chain<T>($.difference(list, lists));
         }
 
         public Chain<List<List<T>>> chunk(final int size) {

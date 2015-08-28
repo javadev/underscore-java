@@ -381,6 +381,10 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
     public void intersection() {
         final List<Integer> result = $.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", result.toString());
+        final List<Integer> resultObj = new $(asList(1, 2, 3)).intersectionWith(asList(101, 2, 1, 10), asList(2, 1));
+        assertEquals("[1, 2]", resultObj.toString());
+        final List<Object> resultChain = $.chain(asList(1, 2, 3)).intersection(asList(101, 2, 1, 10), asList(2, 1)).value();
+        assertEquals("[1, 2]", resultChain.toString());
         final Object[] resultArray = $.intersection(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
         assertEquals("[1, 2]", asList(resultArray).toString());
     }
@@ -405,6 +409,10 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
     public void difference() {
         final List<Integer> result = $.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
         assertEquals("[1, 3, 4]", result.toString());
+        final List<Integer> resultObj = new $(asList(1, 2, 3, 4, 5)).differenceWith(asList(5, 2, 10));
+        assertEquals("[1, 3, 4]", resultObj.toString());
+        final List<Object> resultChain = $.chain(asList(1, 2, 3, 4, 5)).difference(asList(5, 2, 10)).value();
+        assertEquals("[1, 3, 4]", resultChain.toString());
         final List<Integer> resultList = $.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10), asList(8, 4));
         assertEquals("[1, 3]", resultList.toString());
         final Object[] resultArray = $.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10});

@@ -232,6 +232,8 @@ _.isEqual('Curly', 'Curly')
         assertTrue($.chain((List) null).isEmpty());
         assertTrue($.chain(new ArrayList<String>()).isEmpty());
         assertFalse($.isEmpty(asList("")));
+        assertFalse(new $(asList("")).isEmpty());
+        assertFalse($.chain(asList("")).isEmpty());
         assertTrue($.isEmpty((Map) null));
         assertTrue($.isEmpty(new HashMap<String, String>()));
         assertFalse($.isEmpty(new HashMap<String, String>() { { put("", ""); } }));
