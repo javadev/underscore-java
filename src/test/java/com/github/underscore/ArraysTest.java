@@ -397,6 +397,10 @@ _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
     public void union() {
         final List<Integer> result = $.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", result.toString());
+        final List<Integer> resultObj = new $(asList(1, 2, 3)).unionWith(asList(101, 2, 1, 10), asList(2, 1));
+        assertEquals("[1, 2, 3, 101, 10]", resultObj.toString());
+        final List<Object> resultChain = $.chain(asList(1, 2, 3)).union(asList(101, 2, 1, 10), asList(2, 1)).value();
+        assertEquals("[1, 2, 3, 101, 10]", resultChain.toString());
         final Object[] resultArray = $.union(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
         assertEquals("[1, 2, 3, 101, 10]", asList(resultArray).toString());
     }

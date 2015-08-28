@@ -941,12 +941,17 @@ public class $<T> {
         return (E[]) uniq(Arrays.asList(array), func).toArray();
     }
 
-    public static <E> List<E> union(final List<E> ... lists) {
+    public static <E> List<E> union(final List<E> list, final List<E> ... lists) {
         final Set<E> union = newLinkedHashSet();
-        for (List<E> list : lists) {
-            union.addAll(list);
+        union.addAll(list);
+        for (List<E> localList : lists) {
+            union.addAll(localList);
         }
         return newArrayList(union);
+    }
+
+    public List<T> unionWith(final List<T> ... lists) {
+        return union(newArrayList(iterable), lists);
     }
 
     public static <E> E[] union(final E[] ... arrays) {
@@ -1822,6 +1827,10 @@ public class $<T> {
 
         public <F> Chain<F> uniq(final Function1<T, F> func) {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
+        }
+
+        public Chain<T> union(final List<T> ... lists) {
+            return new Chain<T>($.union(list, lists));
         }
 
         public Chain<T> intersection(final List<T> ... lists) {
