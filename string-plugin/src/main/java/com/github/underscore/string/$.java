@@ -907,7 +907,6 @@ public class $<T> extends com.github.underscore.$<T> {
         private final StringBuilder builder;
         private int bufferOffset;
         private int index;
-        private int fill;
         private int line;
         private int lineOffset;
         private int current;
@@ -918,7 +917,6 @@ public class $<T> extends com.github.underscore.$<T> {
             this.builder = new StringBuilder(string);
             line = 1;
             captureStart = -1;
-            fill = builder.length();
         }
 
         public Object parse() {
@@ -1177,14 +1175,7 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         private void read() {
-            if (index == fill) {
-                if (captureStart != -1) {
-                    captureBuffer.append(builder.substring(captureStart, fill));
-                    captureStart = 0;
-                }
-                bufferOffset += fill;
-                fill = -1;
-                index = 0;
+            if (index == builder.length()) {
                 current = -1;
                 return;
             }
