@@ -38,6 +38,7 @@ import static org.junit.Assert.assertTrue;
 public class UnderscoreTest {
 
     @Test
+    @SuppressWarnings("unchecked")
     public void main() {
         $.main(new String[] {});
         new $(asList("")).getIterable();

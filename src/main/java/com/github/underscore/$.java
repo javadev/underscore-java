@@ -107,6 +107,7 @@ public class $<T> {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public String apply(Set<E> value) {
             final String evaluate = TEMPLATE_SETTINGS.get("evaluate");
             final String interpolate = TEMPLATE_SETTINGS.get("interpolate");
@@ -368,6 +369,7 @@ public class $<T> {
         return contains(iterable, elem);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName,
                                   final List<Object> args) {
         final List<E> result = newArrayList();
@@ -478,10 +480,12 @@ public class $<T> {
         return Collections.max(collection);
     }
 
+    @SuppressWarnings("unchecked")
     public T max() {
         return (T) max((Collection) iterable);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E, F extends Comparable> E max(final Collection<E> collection, final Function1<E, F> func) {
         return Collections.max(collection, new Comparator<E>() {
             @Override
@@ -491,6 +495,7 @@ public class $<T> {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public <F extends Comparable<? super F>> T max(final Function1<T, F> func) {
         return (T) max((Collection) iterable, func);
     }
@@ -499,10 +504,12 @@ public class $<T> {
         return Collections.min(collection);
     }
 
+    @SuppressWarnings("unchecked")
     public T min() {
         return (T) min((Collection) iterable);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E, F extends Comparable> E min(final Collection<E> collection, final Function1<E, F> func) {
         return Collections.min(collection, new Comparator<E>() {
             @Override
@@ -512,6 +519,7 @@ public class $<T> {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public <F extends Comparable<? super F>> T min(final Function1<T, F> func) {
         return (T) min((Collection) iterable, func);
     }
@@ -556,6 +564,7 @@ public class $<T> {
         return sortedList;
     }
 
+    @SuppressWarnings("unchecked")
     public <E, T extends Comparable<? super T>> List<E> sortBy(final Function1<E, T> func) {
         return sortBy((Iterable<E>) iterable, func);
     }
@@ -588,10 +597,12 @@ public class $<T> {
         return retVal;
     }
 
+    @SuppressWarnings("unchecked")
     public <K, E> Map<K, List<E>> groupBy(final Function1<E, K> func) {
         return groupBy((Iterable<E>) iterable, func);
     }
 
+    @SuppressWarnings("unchecked")
     public static <K, E> Map<K, List<E>> indexBy(final Iterable<E> iterable, final String property) {
         return groupBy(iterable, new Function1<E, K>() {
             @Override
@@ -605,6 +616,7 @@ public class $<T> {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public <K, E> Map<K, List<E>> indexBy(final String property) {
         return indexBy((Iterable<E>) iterable, property);
     }
@@ -622,14 +634,17 @@ public class $<T> {
         return retVal;
     }
 
+    @SuppressWarnings("unchecked")
     public <K, E> Map<K, Integer> countBy(Function1<E, K> func) {
         return countBy((Iterable<E>) iterable, func);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] toArray(final Iterable<E> iterable) {
         return (E[]) newArrayList(iterable).toArray();
     }
 
+    @SuppressWarnings("unchecked")
     public <E> E[] toArray() {
         return toArray((Iterable<E>) iterable);
     }
@@ -642,6 +657,7 @@ public class $<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public <K, V> Map<K, V> toMap() {
         return toMap((Iterable<Map.Entry<K, V>>) iterable);
     }
@@ -666,6 +682,7 @@ public class $<T> {
         return array.length;
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {
         final List<E> retVal1 = newArrayList();
         final List<E> retVal2 = newArrayList();
@@ -679,6 +696,7 @@ public class $<T> {
         return Arrays.asList(retVal1, retVal2);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
         return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[2]);
     }
@@ -699,6 +717,7 @@ public class $<T> {
         return iterable.iterator().next();
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> first(final int n) {
         return ((List) iterable).subList(0, n);
     }
@@ -739,10 +758,12 @@ public class $<T> {
         return Arrays.copyOf(array, array.length - n);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> initial() {
         return initial((List) iterable, 1);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> initial(final int n) {
         return initial((List) iterable, n);
     }
@@ -763,6 +784,7 @@ public class $<T> {
         return last((List<T>) iterable);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> last(final int n) {
         return last((List) iterable, n);
     }
@@ -779,14 +801,17 @@ public class $<T> {
         return rest(array, 1);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] rest(final E[] array, final int n) {
         return (E[]) rest(Arrays.asList(array), n).toArray();
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> rest() {
         return rest((List) iterable);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> rest(int n) {
         return rest((List) iterable, n);
     }
@@ -841,6 +866,7 @@ public class $<T> {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] compact(final E ... array) {
         return (E[]) compact(Arrays.asList(array)).toArray();
     }
@@ -854,14 +880,17 @@ public class $<T> {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] compact(final E[] array, final E falsyValue) {
         return (E[]) compact(Arrays.asList(array), falsyValue).toArray();
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> compact() {
         return compact((List) iterable);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> compact(final T falsyValue) {
         return compact((List) iterable, falsyValue);
     }
@@ -878,6 +907,7 @@ public class $<T> {
         return flattened;
     }
 
+    @SuppressWarnings("unchecked")
     private static <E> void flatten(final List<?> fromTreeList, final List<E> toFlatList, final int shallowLevel) {
         for (Object item : fromTreeList) {
             if (item instanceof List<?> && shallowLevel != 0) {
@@ -906,14 +936,17 @@ public class $<T> {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> List<E> without(final List<E> list, final E value) {
         return without(list, (E[]) Arrays.asList(value).toArray());
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] without(final E[] array, final E ... values) {
         return (E[]) without(Arrays.asList(array), values).toArray();
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] without(final E[] array, final E value) {
         return without(array, (E[]) Arrays.asList(value).toArray());
     }
@@ -922,6 +955,7 @@ public class $<T> {
         return newArrayList(newHashSet(list));
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] uniq(final E ... array) {
         return (E[]) uniq(Arrays.asList(array)).toArray();
     }
@@ -935,6 +969,7 @@ public class $<T> {
         return retVal.values();
     }
 
+    @SuppressWarnings("unchecked")
     public static <K, E> E[] uniq(final E[] array, final Function1<E, K> func) {
         return (E[]) uniq(Arrays.asList(array), func).toArray();
     }
@@ -952,6 +987,7 @@ public class $<T> {
         return union(newArrayList(iterable), lists);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] union(final E[] ... arrays) {
         final Set<E> union = newLinkedHashSet();
         for (E[] array : arrays) {
@@ -982,6 +1018,7 @@ public class $<T> {
         return intersection(newArrayList(iterable), lists);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] intersection(final E[] ... arrays) {
         final Stack<List<E>> stack = new Stack<List<E>>();
         stack.push(Arrays.asList(arrays[0]));
@@ -1013,6 +1050,7 @@ public class $<T> {
         return difference(newArrayList(iterable), lists);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] difference(final E[] ... arrays) {
         final Stack<List<E>> stack = new Stack<List<E>>();
         stack.push(Arrays.asList(arrays[0]));
@@ -1109,6 +1147,7 @@ public class $<T> {
         return sortedIndex(Arrays.asList(array), value);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value,
         final String propertyName) {
         try {
@@ -1251,7 +1290,7 @@ public class $<T> {
     }
 
     public static <E> Function<E> after(final int count, final Function<E> function) {
-        class AfterFunction implements Function {
+        class AfterFunction implements Function<E> {
             private final int count;
             private int index;
             public AfterFunction(final int count) {
@@ -1269,7 +1308,7 @@ public class $<T> {
     }
 
     public static <E> Function<E> before(final int count, final Function<E> function) {
-        class BeforeFunction implements Function {
+        class BeforeFunction implements Function<E> {
             private final int count;
             private int index;
             public BeforeFunction(final int count) {
@@ -1652,6 +1691,7 @@ public class $<T> {
     public static class Chain<T> {
         private final T item;
         private final List<T> list;
+        @SuppressWarnings("unchecked")
         public Chain(final T item) {
             if (item instanceof List) {
                 this.item = null;
@@ -1698,6 +1738,7 @@ public class $<T> {
             return new Chain<T>($.rest(list, n));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> flatten() {
             return new Chain<T>((List<T>) $.flatten(list));
         }
@@ -1730,6 +1771,7 @@ public class $<T> {
             return new Chain<Optional<T>>($.findLast(list, pred));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<Comparable> max() {
             return new Chain<Comparable>($.max((Collection) list));
         }
@@ -1738,6 +1780,7 @@ public class $<T> {
             return new Chain<T>($.max(list, func));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<Comparable> min() {
             return new Chain<Comparable>($.min((Collection) list));
         }
@@ -1746,6 +1789,7 @@ public class $<T> {
             return new Chain<T>($.min(list, func));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<Comparable> sort() {
             return new Chain<Comparable>($.sort((List<Comparable>) list));
         }
@@ -1754,6 +1798,7 @@ public class $<T> {
             return new Chain<T>($.sortBy(list, func));
         }
 
+        @SuppressWarnings("unchecked")
         public <K, V extends Comparable<? super V>> Chain<Map<K, V>> sortBy(final K key) {
             return new Chain<Map<K, V>>($.sortBy((List<Map<K, V>>) list, key));
         }
@@ -1823,6 +1868,7 @@ public class $<T> {
             return new Chain<T>((List<T>) $.uniq(list));
         }
 
+        @SuppressWarnings("unchecked")
         public <F> Chain<F> uniq(final Function1<T, F> func) {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
         }
@@ -1875,6 +1921,7 @@ public class $<T> {
             return new Chain<T>((List<T>) list.subList(0, size));
         }
 
+        @SuppressWarnings("unchecked")
         public <K, V> Chain<Map<K, V>> toMap() {
             return new Chain<Map<K, V>>($.toMap((Iterable<Map.Entry<K, V>>) list));
         }
@@ -1923,6 +1970,7 @@ public class $<T> {
         return localArray;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Comparable> sort() {
         return sort((Iterable<Comparable>) iterable);
     }
@@ -2003,6 +2051,7 @@ public class $<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] slice(final T[] array, final int start) {
         return (T[]) slice(Arrays.asList(array), start).toArray();
     }
@@ -2029,6 +2078,7 @@ public class $<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] slice(final T[] array, final int start, final int end) {
         return (T[]) slice(Arrays.asList(array), start, end).toArray();
     }
@@ -2043,6 +2093,7 @@ public class $<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] reverse(final T ... array) {
         return (T[]) reverse(Arrays.asList(array)).toArray();
     }
@@ -2063,6 +2114,7 @@ public class $<T> {
         return string;
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList() {
         try {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
@@ -2072,6 +2124,7 @@ public class $<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList(Iterable<T> iterable) {
         try {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
@@ -2090,6 +2143,7 @@ public class $<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayListWithExpectedSize(int size) {
         try {
             final Class<?> listsClass = classForName("com.google.common.collect.Lists");
@@ -2100,6 +2154,7 @@ public class $<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T> Set<T> newLinkedHashSet() {
         try {
             final Class<?> setsClass = classForName("com.google.common.collect.Sets");
@@ -2109,6 +2164,7 @@ public class $<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T> Set<T> newHashSet(Iterable<T> iterable) {
         try {
             final Class<?> setsClass = classForName("com.google.common.collect.Sets");
@@ -2122,6 +2178,7 @@ public class $<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T> Set<T> newLinkedHashSetWithExpectedSize(int size) {
         try {
             final Class<?> setsClass = classForName("com.google.common.collect.Sets");
@@ -2132,6 +2189,7 @@ public class $<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected static <K, E> Map<K, E> newLinkedHashMap() {
         try {
             final Class<?> mapsClass = classForName("com.google.common.collect.Maps");
