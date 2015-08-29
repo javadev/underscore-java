@@ -88,6 +88,7 @@ _.rest([5, 4, 3, 2, 1], 2);
 => [3, 2, 1]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void rest() {
         final List<Integer> result = $.rest(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
@@ -111,6 +112,7 @@ _.chunk(['a', 'b', 'c', 'd'], 3);
 // → [['a', 'b', 'c'], ['d']]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void chunk() {
         assertEquals("[[a, b], [c, d]]", $.chunk(asList("a", "b", "c", "d"), 2).toString());
         assertEquals("[[a, b], [c, d]]", new $(asList("a", "b", "c", "d")).chunk(2).toString());
@@ -166,6 +168,7 @@ _.initial([5, 4, 3, 2, 1], 2);
 => [5, 4, 3]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void initial() {
         final List<Integer> result = $.initial(asList(5, 4, 3, 2, 1));
         assertEquals("[5, 4, 3, 2]", result.toString());
@@ -190,6 +193,7 @@ _.last([5, 4, 3, 2, 1]);
 => 1
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void last() {
         final Integer result = $.last(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
@@ -212,6 +216,7 @@ _.compact([0, 1, false, 2, '', 3]);
 => [1, 2, 3]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void compact() {
         final List<?> result = $.compact(asList(0, 1, false, 2, "", 3));
         assertEquals("[1, 2, 3]", result.toString());
@@ -238,6 +243,7 @@ _.flatten([1, [2], [3, [[4]]]]);
 => [1, 2, 3, 4];
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void flatten() {
         final List<Integer> result = $.flatten(asList(1, asList(2, asList(3, asList(asList(4))))));
         assertEquals("[1, 2, 3, 4]", result.toString());
@@ -330,6 +336,7 @@ _.uniq([1, 2, 1, 3, 1, 4]);
 => [1, 2, 3, 4]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void uniq() {
         final List<Integer> result = $.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
@@ -378,6 +385,7 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 => [1, 2]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void intersection() {
         final List<Integer> result = $.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", result.toString());
@@ -395,6 +403,7 @@ _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 => [1, 2, 3, 101, 10]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void union() {
         final List<Integer> result = $.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", result.toString());
@@ -411,6 +420,7 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
 => [1, 3, 4]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void difference() {
         final List<Integer> result = $.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
         assertEquals("[1, 3, 4]", result.toString());
@@ -432,6 +442,7 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 => [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void zip() {
         final List<List<String>> result = $.zip(
             asList("moe", "larry", "curly"), asList("30", "40", "50"), asList("true", "false", "false"));
@@ -443,6 +454,7 @@ _.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
 => [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void unzip() {
         final List<List<String>> result = $.unzip(
             asList("moe", "30", "true"), asList("larry", "40", "false"), asList("curly", "50", "false"));

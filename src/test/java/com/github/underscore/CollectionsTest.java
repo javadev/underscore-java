@@ -42,6 +42,7 @@ _.each([1, 2, 3], alert);
 => alerts each number in turn...
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void each() {
         final List<Integer> result = new ArrayList<Integer>();
         $.<Integer>each(asList(1, 2, 3), new Block<Integer>() {
@@ -64,6 +65,7 @@ _.eachRight([1, 2, 3], alert);
 => alerts each number in turn from right to left...
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void eachRight() {
         final List<Integer> result = new ArrayList<Integer>();
         $.eachRight(asList(1, 2, 3), new Block<Integer>() {
@@ -101,6 +103,7 @@ _.forEach([1, 2, 3], alert);
 => alerts each number in turn from right to left...
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void forEachRight() {
         final List<Integer> result = new ArrayList<Integer>();
         $.forEachRight(asList(1, 2, 3), new Block<Integer>() {
@@ -123,6 +126,7 @@ _([1, 2, 3]).forEach(alert);
 => alerts each number in turn...
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void forEachObj() {
         final List<Integer> result = new ArrayList<Integer>();
         new $(asList(1, 2, 3)).forEach(new Block<Integer>() {
@@ -185,6 +189,7 @@ _.collect([1, 2, 3], function(num){ return num * 3; });
 => [3, 6, 9]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void collect() {
         List<Integer> result = $.collect(asList(1, 2, 3), new Function1<Integer, Integer>() {
             public Integer apply(Integer item) {
@@ -223,6 +228,7 @@ var flat = _.inject(list, function(a, b) { return a.concat(b); }, []);
 => [0, 1, 2, 3, 4, 5]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void inject() {
         final List<Integer> result =
         $.inject(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -244,6 +250,7 @@ var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
 => [0, 1, 2, 3, 4, 5]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void foldl() {
         final List<Integer> result =
         $.foldl(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -265,6 +272,7 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
 => [4, 5, 2, 3, 0, 1]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void reduceRight() {
         final List<Integer> result =
         $.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -286,6 +294,7 @@ var flat = _.foldr(list, function(a, b) { return a.concat(b); }, []);
 => [4, 5, 2, 3, 0, 1]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void foldr() {
         final List<Integer> result =
         $.foldr(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -306,6 +315,7 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 => 2
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void find() {
         final Optional<Integer> result = $.find(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
@@ -335,6 +345,7 @@ var even = _.findLast([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; })
 => 6
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void findLast() {
         final Optional<Integer> result = $.findLast(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
@@ -401,6 +412,7 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 => [2, 4, 6]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void select() {
         final List<Integer> result = $.select(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
@@ -423,6 +435,7 @@ var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 => [2, 4, 6]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void reject() {
         final List<Integer> result = $.reject(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
@@ -445,6 +458,7 @@ _.every([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // false
 _.every([1, 2, 3, 4], function(num) { return num < 5; }); // true
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void every() {
         final boolean result1 = $.every(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
@@ -499,6 +513,7 @@ _.all([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // false
 _.all([1, 2, 3, 4], function(num) { return num < 5; }); // true
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void all() {
         final boolean result1 = $.all(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
@@ -537,6 +552,7 @@ _.any([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // true
 _.any([1, 2, 3, 4], function(num) { return num === 5; }); // false
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void any() {
         final boolean result1 = $.any(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
@@ -575,6 +591,7 @@ _.some([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // true
 _.some([1, 2, 3, 4], function(num) { return num === 5; }); // false
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void some() {
         final boolean result1 = $.some(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
@@ -638,6 +655,7 @@ _.contains([1, 2, 3], 3);
 => true
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void contains() {
         final boolean result = $.contains(asList(1, 2, 3), 3);
         assertTrue(result);
@@ -657,6 +675,7 @@ _.contains([1, 2, 3], 3);
 _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void invoke() {
         assertEquals($.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
         assertEquals(new $(asList(" foo ", "  bar")).invoke("trim"), asList("foo", "bar"));
@@ -671,6 +690,7 @@ _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
     }
 
     @Test(expected = IllegalArgumentException.class)
+    @SuppressWarnings("unchecked")
     public void invokeError() {
         $.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));
     }
@@ -686,6 +706,7 @@ _.pluck(stooges, 'name');
 => ["moe", "larry", "curly"]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void pluck() {
         class Person {
             public final String name;
@@ -749,6 +770,7 @@ _.pluck(stooges, 'name');
     }
 
     @Test(expected = IllegalArgumentException.class)
+    @SuppressWarnings("unchecked")
     public void pluck3() {
         class Person {
             public final String name;
@@ -768,6 +790,7 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
     {title: "The Tempest", author: "Shakespeare", year: 1611}]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void where() {
         class Book {
             public final String title;
@@ -855,6 +878,7 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
 => {title: "Cymbeline", author: "Shakespeare", year: 1611}
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void findWhere() {
         class Book {
             public final String title;
@@ -930,6 +954,7 @@ _.max(numbers);
 => 1000
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void max() {
         final Integer result = $.max(asList(10, 5, 100, 2, 1000));
         assertEquals("1000", result.toString());
@@ -983,6 +1008,7 @@ _.min(numbers);
 => 2
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void min() {
         final Integer result = $.min(asList(10, 5, 100, 2, 1000));
         assertEquals("2", result.toString());
@@ -1035,6 +1061,7 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 => [5, 4, 6, 3, 1, 2]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void sortBy() {
         final List<Integer> result =
         $.sortBy(asList(1, 2, 3, 4, 5, 6),
@@ -1068,6 +1095,7 @@ _.sortBy(stooges, 'name');
 => [{name: 'curly', age: 60}, {name: 'larry', age: 50}, {name: 'moe', age: 40}];
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void sortByMap() {
         final List<Map<String, Comparable>> result = $.sortBy(asList(
             (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { {
@@ -1094,6 +1122,7 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
 => {1: [1.3], 2: [2.1, 2.4]}
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void groupBy() {
         final Map<Double, List<Double>> result =
         $.groupBy(asList(1.3, 2.1, 2.4),
@@ -1131,6 +1160,7 @@ _.indexBy(stooges, 'age');
 }
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void indexBy() {
         class Person {
             public final String name;
@@ -1164,6 +1194,7 @@ _.countBy(stooges, 'age');
 => {moe: 2, curly: 1}
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void countBy() {
         class Person {
             public final String name;
@@ -1208,6 +1239,7 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
 => [4, 1, 6, 3, 5, 2]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void shuffle() {
         final List<Integer> result = $.shuffle(asList(1, 2, 3, 4, 5, 6));
         assertEquals(6, result.size());
@@ -1224,6 +1256,7 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
 => [1, 6, 2]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void sample() {
         final Integer result = $.sample(asList(1, 2, 3, 4, 5, 6));
         assertTrue(result >= 1 && result <= 6);
@@ -1242,6 +1275,7 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
 => [2, 3, 4]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void toArray() {
         final Object[] result = $.<Integer>toArray(asList(1, 2, 3, 4));
         assertEquals("1", result[0].toString());
@@ -1250,6 +1284,7 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void toMap() {
         assertEquals("{name1=one, name2=two}", $.toMap((new LinkedHashMap<String, String>() { {
             put("name1", "one");
@@ -1266,6 +1301,7 @@ _.size({one: 1, two: 2, three: 3});
 => 3
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void size() {
         final int result = $.size(asList(1, 2, 3, 4));
         assertEquals(4, result);

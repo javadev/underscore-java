@@ -135,6 +135,7 @@ _("fabio").capitalize();
 => "Fabio"
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void mixin() {
         $.mixin("capitalize", new Function1<String, String>() {
             public String apply(final String string) {

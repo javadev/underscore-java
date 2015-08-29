@@ -26,6 +26,7 @@ package com.github.underscore;
 import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -51,6 +52,7 @@ public class UnderscoreTest {
 => ['example', 'some', 'words']
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void sort() {
         assertEquals("[example, some, words]", $.sort(asList("some", "words", "example")).toString());
         assertEquals("[example, some, words]", new $(asList("some", "words", "example")).sort().toString());
@@ -69,6 +71,7 @@ public class UnderscoreTest {
 => 'some-words-example'
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void join() {
         assertEquals("some-words-example", $.join(asList("some", "words", "example"), "-"));
         assertEquals("some-words-example", new $(asList("some", "words", "example")).join("-"));
@@ -82,7 +85,7 @@ public class UnderscoreTest {
 
     @Test
     public void compareStrings() {
-        assertEquals($.sort("CAT".split("")), $.sort("CTA".split("")));
+        assertArrayEquals($.sort("CAT".split("")), $.sort("CTA".split("")));
     }
 
 /*
@@ -90,6 +93,7 @@ _.concat([1, 2], [3, 4]);
 => [1, 2, 3, 4]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void concat() {
         assertEquals(asList(1, 2, 3, 4), asList($.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
         assertEquals(asList(1, 2, 3, 4), $.concat(asList(1, 2), asList(3, 4)));
@@ -110,6 +114,7 @@ arr.slice(-2) // => [4, 5]
 arr.slice(-3, -1) // [3, 4]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void slice() {
         assertEquals(asList(3, 4, 5), $.slice(asList(1, 2, 3, 4, 5), 2));
         assertEquals(asList(3, 4, 5), new $(asList(1, 2, 3, 4, 5)).slice(2));
@@ -131,6 +136,7 @@ arr.slice(-3, -1) // [3, 4]
 [1, 2, 3].reverse() // [3, 2, 1]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void reverse() {
         assertEquals("[3, 2, 1]", $.reverse(asList(1, 2, 3)).toString());
         assertEquals("[3, 2, 1]", new $(asList(1, 2, 3)).reverse().toString());
@@ -139,6 +145,7 @@ arr.slice(-3, -1) // [3, 4]
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void classForNameWithoutGuava() {
         $.setClassForName(new $.ClassForName() {
             public Class<?> call(final String name) throws Exception {
@@ -228,6 +235,7 @@ arr.slice(-3, -1) // [3, 4]
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void stackoverflow() {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
         assertEquals("{D=67.3, B=67.4, C=67.4, A=99.5}", $.chain((new LinkedHashMap<String, Double>() { {
@@ -243,6 +251,7 @@ arr.slice(-3, -1) // [3, 4]
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void stackoverflow2() {
         // http://stackoverflow.com/questions/12229577/java-hashmap-sorting-string-integer-how-to-sort-it?lq=1
         assertEquals("{a=5, f=5, c=4, e=3, b=2, d=2}", $.chain((new LinkedHashMap<String, Integer>() { {
@@ -260,6 +269,7 @@ arr.slice(-3, -1) // [3, 4]
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void stackoverflow3() {
 // http://stackoverflow.com/questions/11647889/sorting-the-mapkey-value-in-descending-order-based-on-the-value?lq=1
         assertEquals("{C=50, A=34, B=25}", $.chain((new LinkedHashMap<String, Integer>() { {

@@ -166,6 +166,7 @@ _.clone({name: 'moe'});
 => {name: 'moe'};
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void cloneMap() {
         Map<String, String> result = (Map<String, String>) $.clone(new LinkedHashMap<String, String>() { {
             put("name", "moe"); } });
@@ -228,6 +229,7 @@ _.isEqual('Curly', 'Curly')
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void isEmpty() {
         assertTrue($.isEmpty((List) null));
         assertTrue($.isEmpty(new ArrayList<String>()));
@@ -359,6 +361,7 @@ _.chain([1,2,3,200])
 => [4, 40000]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void tap() {
         final List<Map.Entry<String, Integer>> result = new ArrayList<Map.Entry<String, Integer>>();
         $.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),
@@ -409,6 +412,7 @@ var ready = _.matcher({selected: true, visible: true});
 var readyToGoList = _.filter(list, ready);
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void matcher() {
         List<Map<String, Object>> list = asList(
             (Map<String, Object>) new LinkedHashMap<String, Object>() { {
@@ -481,6 +485,7 @@ _.extend({name: 'moe'}, {age: 50});
 => {name: 'moe', age: 50}
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void extend() {
         assertEquals("{name=moe, age=50}", $.extend(new LinkedHashMap<String, Object>() { { put("name", "moe"); } },
             new LinkedHashMap<String, Object>() { { put("age", 50); } }).toString());

@@ -46,6 +46,7 @@ var youngest = _.chain(stooges)
 => "moe is 21"
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void chain() {
         final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
@@ -70,6 +71,7 @@ var youngest = _.chain(stooges)
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void chainSet() {
         final Set<Map<String, Object>> stooges = new HashSet<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
@@ -94,6 +96,7 @@ var youngest = _.chain(stooges)
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void chainObj() {
         final Set<Map<String, Object>> stooges = new HashSet<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
@@ -118,6 +121,7 @@ var youngest = _.chain(stooges)
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void chainArray() {
         final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
@@ -161,6 +165,7 @@ _.chain(lyrics)
 => {lumberjack: 2, all: 4, night: 2 ... }
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void chain2() {
         final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { {
@@ -218,6 +223,7 @@ _.chain(lyrics)
 => {day=2, all=4, works=1 ... }
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void chain3() {
         final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { {
@@ -280,6 +286,7 @@ _.chain(doctors)
 =>  [{ doctorNumber: "#9",  playedBy: "Christopher Eccleston", yearsPlayed: 1 }]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void chain4() {
         final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { {
@@ -330,6 +337,7 @@ _.chain(doctors)
 =>  [{ number: 9,  actor: "Christopher Eccleston", begin: 2005, end: 2005 }]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void chain5() {
         final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { {
@@ -347,6 +355,7 @@ _.chain(doctors)
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void chain6() {
         final List<String> result = $.chain($.class.getDeclaredMethods())
             .reduce(new FunctionAccum<List<String>, Method>() {
@@ -376,6 +385,7 @@ var sum = _(words)
 => 34
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void chain7() {
         String[] words = new String[] {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum = (Integer) $.chain(words)

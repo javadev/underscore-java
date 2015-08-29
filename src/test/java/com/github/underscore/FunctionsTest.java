@@ -202,6 +202,7 @@ welcome('moe');
 => 'hi: MOE!'
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void compose() {
         Function1<String, String> greet = new Function1<String, String>() {
             public String apply(final String name) {
@@ -275,6 +276,7 @@ _.map(stooges, _.iteratee('age'));
 => [25, 21, 23]
 */
     @Test
+    @SuppressWarnings("unchecked")
     public void iteratee() {
         List<Map<String, Object>> sooges = asList(
             (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } },
