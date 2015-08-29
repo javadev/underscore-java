@@ -273,7 +273,8 @@ _.result(object, 'stuff');
     public void result() {
         Map<String, Object> object = new LinkedHashMap<String, Object>() { {
             put("cheese", "crumpets");
-            put("stuff", new Function<String>() { public String apply() { return "nonsense"; } });
+            put("stuff", new Function<String>() { public String apply() {
+                return "nonsense"; } });
         } };
 
         assertEquals("crumpets", $.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {

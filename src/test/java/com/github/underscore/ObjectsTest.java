@@ -119,7 +119,8 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
         assertEquals("[(name, moe), (age, 50)]", result.toString());
         final List<Tuple<String, Object>> result2 = $.pick(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
-            new Predicate<Object>() { public Boolean apply(Object value) { return value instanceof Number; } }
+            new Predicate<Object>() { public Boolean apply(Object value) {
+                return value instanceof Number; } }
         );
         assertEquals("[(age, 50)]", result2.toString());
     }
@@ -141,7 +142,8 @@ _.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
         assertEquals("[(name, moe), (age, 50)]", result.toString());
         final List<Tuple<String, Object>> result2 = $.omit(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
-            new Predicate<Object>() { public Boolean apply(Object value) { return value instanceof Number; } }
+            new Predicate<Object>() { public Boolean apply(Object value) {
+                return value instanceof Number; } }
         );
         assertEquals("[(name, moe), (userid, moe1)]", result2.toString());
     }
@@ -182,7 +184,8 @@ _.clone({name: 'moe'});
     @Test(expected = IllegalArgumentException.class)
     public void cloneError2() {
         class Test implements Cloneable {
-            public Object clone(String arg) { return null; }
+            public Object clone(String arg) {
+                return null; }
         }
         $.clone(new Test());
     }
@@ -190,7 +193,8 @@ _.clone({name: 'moe'});
     @Test(expected = IllegalArgumentException.class)
     public void cloneError3() {
         class Test implements Cloneable {
-            public Object clone() throws CloneNotSupportedException { super.clone(); throw new RuntimeException(); }
+            public Object clone() throws CloneNotSupportedException {
+                super.clone(); throw new RuntimeException(); }
         }
         $.clone(new Test());
     }
@@ -297,7 +301,8 @@ _.isFunction(alert);
     @Test
     public void isFunction() {
         assertTrue($.isFunction(new Function1<String, Integer>() {
-            public Integer apply(final String arg) { return null; } }));
+            public Integer apply(final String arg) {
+                return null; } }));
     }
 
 /*

@@ -103,7 +103,8 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
     @Test
     public void debounce() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; } };
+        Function<Void> incr = new Function<Void>() { public Void apply() {
+            counter[0]++; return null; } };
         Function<Void> debouncedIncr = $.debounce(incr, 50);
         debouncedIncr.apply();
         debouncedIncr.apply();
@@ -124,8 +125,11 @@ _.defer(function(){ alert('deferred'); });
     @Test
     public void defer() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        $.defer(new Function<Void>() { public Void apply() { try { Thread.sleep(16); } catch (Exception e) {
-            e.getMessage();
+        $.defer(new Function<Void>() { public Void apply() {
+            try {
+                Thread.sleep(16);
+            } catch (Exception e) {
+                e.getMessage();
             }
             counter[0]++; return null; } });
         assertEquals("incr was debounced", 0, counter[0]);
@@ -142,7 +146,8 @@ initialize();
     @Test
     public void once() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() { counter[0]++; return null; } };
+        Function<Void> incr = new Function<Void>() { public Void apply() {
+            counter[0]++; return null; } };
         Function<Void> onceIncr = $.once(incr);
         onceIncr.apply();
         onceIncr.apply();
@@ -223,7 +228,8 @@ _.each(notes, function(note) {
     public void after() {
         final List<Integer> notes = asList(1, 2, 3);
         final Function<Integer> renderNotes = $.after(notes.size(),
-            new Function<Integer>() { public Integer apply() { return 4; } });
+            new Function<Integer>() { public Integer apply() {
+                return 4; } });
         final List<Integer> result = new ArrayList<Integer>();
         $.<Integer>each(notes, new Block<Integer>() {
             public void apply(Integer item) {
@@ -248,7 +254,8 @@ monthlyMeeting();
     public void before() {
         final List<Integer> notes = asList(1, 2, 3);
         final Function<Integer> renderNotes = $.before(notes.size() - 1,
-            new Function<Integer>() { public Integer apply() { return 4; } });
+            new Function<Integer>() { public Integer apply() {
+                return 4; } });
         final List<Integer> result = new ArrayList<Integer>();
         $.<Integer>each(notes, new Block<Integer>() {
             public void apply(Integer item) {
