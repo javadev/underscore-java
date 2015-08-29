@@ -1649,10 +1649,6 @@ public class $<T> {
         return new $.Chain<T>(newArrayList(iterable));
     }
 
-    public static <T> $ _(final T ... array) {
-        return new $<T>(Arrays.asList(array));
-    }
-
     public static class Chain<T> {
         private final T item;
         private final List<T> list;
