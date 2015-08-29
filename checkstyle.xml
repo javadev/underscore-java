@@ -10,12 +10,10 @@
         <property name="lineSeparator" value="lf"/>
     </module>
     <module name="SuppressionCommentFilter"/>
-<!--
     <module name="StrictDuplicateCode">
         <property name="severity" value="ignore"/>
         <property name="min" value="15"/>
     </module>
--->
     <module name="FileTabCharacter">
       <property name="eachLine" value="false"/>
     </module>
@@ -160,12 +158,10 @@
             <property name="ignoreNumbers" value="-1, 0, 0.5, 1, 10, 24, 60, 1000"/>
         </module>
         <module name="MissingSwitchDefault"/>
-<!--
         <module name="RedundantThrows">
             <property name="allowUnchecked" value="true"/>
             <property name="allowSubclasses" value="true"/>
         </module>
--->
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="StringLiteralEquality"/>
@@ -182,9 +178,7 @@
             <property name="severity" value="warning"/>
         </module>
         <module name="PackageDeclaration"/>
-<!--
         <module name="JUnitTestCase"/>
--->
         <module name="ReturnCount">
             <property name="severity" value="warning"/>
             <property name="max" value="4"/>
