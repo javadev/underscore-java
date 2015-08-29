@@ -83,8 +83,7 @@ public class $<T> {
         public Boolean apply(final E elem) {
             for (Tuple<String, T> prop : properties) {
                 try {
-                    if (!elem.getClass().getField(prop.fst()).get(elem)
-                            .equals(prop.snd())) {
+                    if (!elem.getClass().getField(prop.fst()).get(elem).equals(prop.snd())) {
                         return false;
                     }
                 } catch (Exception ex) {
@@ -93,7 +92,6 @@ public class $<T> {
                             return false;
                         }
                     } catch (Exception e) {
-                        e.getMessage();
                     }
                 }
             }
@@ -1649,6 +1647,10 @@ public class $<T> {
 
     public Chain<T> chain() {
         return new $.Chain<T>(newArrayList(iterable));
+    }
+
+    public static <T> $ _(final T ... array) {
+        return new $(Arrays.asList(array));
     }
 
     public static class Chain<T> {

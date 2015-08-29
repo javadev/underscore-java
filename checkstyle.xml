@@ -20,7 +20,7 @@
     <module name="FileLength">
       <property name="fileExtensions" value="java"/>
       <property name="severity" value="warning"/>
-      <property name="max" value="2100"/>
+      <property name="max" value="2200"/>
     </module>
     <module name="RegexpSingleline">
       <property name="format" value="\s+$"/>
@@ -64,7 +64,9 @@
         <module name="MemberName">
             <property name="format" value="^(m_|[a-z])[a-zA-Z0-9]*$"/>
         </module>
-        <module name="MethodName"/>
+        <module name="MethodName">
+            <property name="format" value="^(_|[a-z])[a-zA-Z0-9]*$"/>
+        </module>
         <module name="PackageName"/>
         <module name="ParameterName">
             <property name="format" value="^(p_|[a-z])[a-zA-Z0-9]*$"/>
@@ -127,7 +129,10 @@
         </module>
         <module name="ModifierOrder"/>
         <module name="RedundantModifier"/>
-        <module name="EmptyBlock"/>
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+            <property name="tokens" value="LITERAL_TRY"/>
+        </module>
         <module name="LeftCurly">
             <property name="maxLineLength" value="120"/>
         </module>

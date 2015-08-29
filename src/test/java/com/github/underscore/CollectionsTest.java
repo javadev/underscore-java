@@ -822,8 +822,8 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).value().toString());
         class Book2 {
             public final String title;
-            private final String author;
             public final Integer year;
+            private final String author;
             public Book2(final String title, final String author, final Integer year) {
                 this.title = title;
                 this.author = author;
@@ -894,8 +894,8 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
         class Book2 {
             public final String title;
-            private final String author;
             public final Integer year;
+            private final String author;
             public Book2(final String title, final String author, final Integer year) {
                 this.title = title;
                 this.author = author;

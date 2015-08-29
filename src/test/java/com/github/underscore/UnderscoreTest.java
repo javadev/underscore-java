@@ -43,6 +43,7 @@ public class UnderscoreTest {
         new $(asList("")).getIterable();
         new $(asList("")).value();
         new $("").getString();
+        $._(1, 2, 3).join("");
     }
 
 /*
