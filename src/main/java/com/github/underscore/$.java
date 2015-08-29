@@ -1650,7 +1650,7 @@ public class $<T> {
     }
 
     public static <T> $ _(final T ... array) {
-        return new $(Arrays.asList(array));
+        return new $<T>(Arrays.asList(array));
     }
 
     public static class Chain<T> {
@@ -1863,6 +1863,10 @@ public class $<T> {
             return new Chain<T>((List<T>) $.reverse(list));
         }
 
+        public Chain<String> join() {
+            return new Chain<String>($.join(list));
+        }
+
         public Chain<String> join(final String separator) {
             return new Chain<String>($.join(list, separator));
         }
@@ -1940,12 +1944,24 @@ public class $<T> {
         return sb.toString();
     }
 
+    public static <T> String join(final Iterable<T> iterable) {
+        return join(iterable, " ");
+    }
+
     public static <T> String join(final T[] array, final String separator) {
         return join(Arrays.asList(array), separator);
     }
 
+    public static <T> String join(final T[] array) {
+        return join(array, " ");
+    }
+
     public String join(final String separator) {
         return join(iterable, separator);
+    }
+
+    public String join() {
+        return join(iterable);
     }
 
     public static <T> T[] concat(final T[] first, final T[] ... other) {

@@ -74,6 +74,10 @@ public class UnderscoreTest {
         assertEquals("some-words-example", new $(asList("some", "words", "example")).join("-"));
         assertEquals("some-words-example", $.join(new String[] {"some", "words", "example"}, "-"));
         assertEquals("some-words-example", $.chain(asList("some", "words", "example")).join("-").item());
+        assertEquals("some words example", $.join(asList("some", "words", "example")));
+        assertEquals("some words example", new $(asList("some", "words", "example")).join());
+        assertEquals("some words example", $.join(new String[] {"some", "words", "example"}));
+        assertEquals("some words example", $.chain(asList("some", "words", "example")).join().item());
     }
 
     @Test
