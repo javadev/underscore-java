@@ -28,6 +28,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Underscore library unit test.
@@ -732,7 +733,15 @@ _.repeat('abc', 0);
 
     @Test(expected = $.ParseException.class)
     public void testDecodeUnicodeErr1() {
-        $.fromJson("[\"abc\\u0$00\"]");
+        try {
+            $.fromJson("[\"abc\\u0$00\"]");
+            fail("Expected ParseException");
+        } catch ($.ParseException ex) {
+            ex.getOffset();
+            ex.getLine();
+            ex.getColumn();
+            throw ex;
+        }
     }
 
     @Test(expected = $.ParseException.class)

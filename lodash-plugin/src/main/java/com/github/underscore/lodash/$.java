@@ -78,7 +78,7 @@ public class $<T> extends com.github.underscore.$<T> {
             super(list);
         }
 
-        public Chain<List<List<T>>> chunk(final Integer size) {
+        public Chain<List<List<T>>> chunk(final int size) {
             return new Chain<List<List<T>>>($.chunk(value(), size));
         }
 
@@ -311,7 +311,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(newArrayList(value()));
     }
 
-    public static <T> List<List<T>> chunk(final Iterable<T> iterable, final Integer size) {
+    public static <T> List<List<T>> chunk(final Iterable<T> iterable, final int size) {
         int index = 0;
         int length = size(iterable);
         final List<List<T>> result = new ArrayList<List<T>>(length / size);
@@ -322,7 +322,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return result;
     }
 
-    public List<List<T>> chunk(final Integer size) {
+    public List<List<T>> chunk(final int size) {
         return chunk(getIterable(), size);
     }
 
@@ -1139,100 +1139,51 @@ public class $<T> extends com.github.underscore.$<T> {
         public static void writeJson(Object value, StringBuilder builder) {
             if (value == null) {
                 builder.append(NULL);
-                return;
-            }
-
-            if (value instanceof String) {
+            } else if (value instanceof String) {
                 builder.append('\"');
                 builder.append(escape((String) value));
                 builder.append('\"');
-                return;
-            }
-
-            if (value instanceof Double) {
+            } else if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
                     builder.append(NULL);
                 } else {
                     builder.append(value.toString());
                 }
-                return;
-            }
-
-            if (value instanceof Float) {
+            } else if (value instanceof Float) {
                 if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
                     builder.append(NULL);
                 } else {
                     builder.append(value.toString());
                 }
-                return;
-            }
-
-            if (value instanceof Number) {
+            } else if (value instanceof Number) {
                 builder.append(value.toString());
-                return;
-            }
-
-            if (value instanceof Boolean) {
+            } else if (value instanceof Boolean) {
                 builder.append(value.toString());
-                return;
-            }
-
-            if (value instanceof Map) {
+            } else if (value instanceof Map) {
                 JsonObject.writeJson((Map) value, builder);
-                return;
-            }
-
-            if (value instanceof Collection) {
+            } else if (value instanceof Collection) {
                 JsonArray.writeJson((Collection) value, builder);
-                return;
-            }
-
-            if (value instanceof byte[]) {
+            } else if (value instanceof byte[]) {
                 JsonArray.writeJson((byte[]) value, builder);
-                return;
-            }
-
-            if (value instanceof short[]) {
+            } else if (value instanceof short[]) {
                 JsonArray.writeJson((short[]) value, builder);
-                return;
-            }
-
-            if (value instanceof int[]) {
+            } else if (value instanceof int[]) {
                 JsonArray.writeJson((int[]) value, builder);
-                return;
-            }
-
-            if (value instanceof long[]) {
+            } else if (value instanceof long[]) {
                 JsonArray.writeJson((long[]) value, builder);
-                return;
-            }
-
-            if (value instanceof float[]) {
+            } else if (value instanceof float[]) {
                 JsonArray.writeJson((float[]) value, builder);
-                return;
-            }
-
-            if (value instanceof double[]) {
+            } else if (value instanceof double[]) {
                 JsonArray.writeJson((double[]) value, builder);
-                return;
-            }
-
-            if (value instanceof boolean[]) {
+            } else if (value instanceof boolean[]) {
                 JsonArray.writeJson((boolean[]) value, builder);
-                return;
-            }
-
-            if (value instanceof char[]) {
+            } else if (value instanceof char[]) {
                 JsonArray.writeJson((char[]) value, builder);
-                return;
-            }
-
-            if (value instanceof Object[]) {
+            } else if (value instanceof Object[]) {
                 JsonArray.writeJson((Object[]) value, builder);
-                return;
+            } else {
+                builder.append(value.toString());
             }
-
-            builder.append(value.toString());
         }
 
         public static String escape(String s) {
@@ -1309,15 +1260,27 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class ParseException extends RuntimeException {
-        public final int offset;
-        public final int line;
-        public final int column;
+        private final int offset;
+        private final int line;
+        private final int column;
 
         public ParseException(String message, int offset, int line, int column) {
             super(message + " at " + line + ":" + column);
             this.offset = offset;
             this.line = line;
             this.column = column;
+        }
+
+        public int getOffset() {
+            return offset;
+        }
+
+        public int getLine() {
+            return line;
+        }
+
+        public int getColumn() {
+            return column;
         }
     }
 
@@ -1653,7 +1616,7 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         private boolean isHexDigit() {
-            return current >= '0' && current <= '9' || current >= 'a' && current <= 'f' || current >= 'A'
+            return isDigit() || current >= 'a' && current <= 'f' || current >= 'A'
                     && current <= 'F';
         }
 
