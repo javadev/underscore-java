@@ -950,15 +950,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append("[");
+                builder.append('[');
                 builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(",");
+                    builder.append(',');
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append("]");
+                builder.append(']');
             }
         }
 
@@ -968,15 +968,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append("[");
+                builder.append('[');
                 builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(",");
+                    builder.append(',');
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append("]");
+                builder.append(']');
             }
         }
 
@@ -986,15 +986,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append("[");
+                builder.append('[');
                 builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(",");
+                    builder.append(',');
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append("]");
+                builder.append(']');
             }
         }
 
@@ -1004,15 +1004,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append("[");
+                builder.append('[');
                 builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(",");
+                    builder.append(',');
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append("]");
+                builder.append(']');
             }
         }
 
@@ -1022,15 +1022,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append("[");
+                builder.append('[');
                 builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(",");
+                    builder.append(',');
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append("]");
+                builder.append(']');
             }
         }
 
@@ -1040,15 +1040,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append("[");
+                builder.append('[');
                 builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(",");
+                    builder.append(',');
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append("]");
+                builder.append(']');
             }
         }
 
@@ -1058,15 +1058,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append("[");
+                builder.append('[');
                 builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(",");
+                    builder.append(',');
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append("]");
+                builder.append(']');
             }
         }
 
@@ -1094,15 +1094,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append("[");
+                builder.append('[');
                 JsonValue.writeJson(array[0], builder);
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(",");
+                    builder.append(',');
                     JsonValue.writeJson(array[i], builder);
                 }
 
-                builder.append("]");
+                builder.append(']');
             }
         }
     }
@@ -1388,7 +1388,7 @@ public class $<T> extends com.github.underscore.$<T> {
             if (current != '"') {
                 throw expected("name");
             }
-            return readStringInternal();
+            return readString();
         }
 
         private String readNull() {
@@ -1423,10 +1423,6 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         private String readString() {
-            return readStringInternal();
-        }
-
-        private String readStringInternal() {
             read();
             startCapture();
             while (current != '"') {
