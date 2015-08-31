@@ -867,7 +867,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class JsonParser {
-        private final StringBuilder builder;
+        private final String json;
         private int bufferOffset;
         private int index;
         private int line;
@@ -877,7 +877,7 @@ public class $<T> extends com.github.underscore.$<T> {
         private int captureStart;
 
         public JsonParser(String string) {
-            this.builder = new StringBuilder(string);
+            this.json = string;
             line = 1;
             captureStart = -1;
         }
@@ -1134,7 +1134,7 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         private void read() {
-            if (index == builder.length()) {
+            if (index == json.length()) {
                 current = -1;
                 return;
             }
@@ -1142,7 +1142,7 @@ public class $<T> extends com.github.underscore.$<T> {
                 line++;
                 lineOffset = bufferOffset + index;
             }
-            current = builder.charAt(index++);
+            current = json.charAt(index++);
         }
 
         private void startCapture() {
@@ -1153,7 +1153,7 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         private void pauseCapture() {
-            captureBuffer.append(builder.substring(captureStart, index - 1));
+            captureBuffer.append(json.substring(captureStart, index - 1));
             captureStart = -1;
         }
 
@@ -1161,11 +1161,11 @@ public class $<T> extends com.github.underscore.$<T> {
             int end = current == -1 ? index : index - 1;
             String captured;
             if (captureBuffer.length() > 0) {
-                captureBuffer.append(builder.substring(captureStart, end));
+                captureBuffer.append(json.substring(captureStart, end));
                 captured = captureBuffer.toString();
                 captureBuffer.setLength(0);
             } else {
-                captured = builder.substring(captureStart, end);
+                captured = json.substring(captureStart, end);
             }
             captureStart = -1;
             return captured;

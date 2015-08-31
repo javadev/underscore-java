@@ -84,6 +84,7 @@
                   <option>-keepattributes Signature,InnerClasses</option>
                   <option>-keep public class com.github.underscore.lodash.$ { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.*$Chain { *; }</option>
+                  <option>-keep public class com.github.underscore.lodash.*$ParseException { *; }</option>
               </options>
               <libs>
                   <lib>${java.home}/lib/rt.jar</lib>
