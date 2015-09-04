@@ -1,28 +1,22 @@
 version: '{build}'
 skip_tags: true
-clone_depth: 10
+clone_depth: 30
 environment:
-  matrix:
-    - JAVA_HOME: C:\Program Files\Java\jdk1.7.0
-    - JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+  JAVA_HOME: C:\Program Files\Java\jdk1.7.0
 install:
-  - ps: >-
-      $MVNDIR = 'C:\bin\apache-maven-3.2.5\'
-      if(!(Test-Path -Path $MVNDIR )){
-        Write-Host (Test-Path -Path $MVNDIR)
-        Write-Host 'Installing Maven'
-        cinst maven -Version 3.2.5
-      } else {
-        Write-Host 'Found Maven cached installation'
+  - ps: |
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      if (!(Test-Path -Path "C:\maven\apache-maven-3.3.3" )) {
+        (new-object System.Net.WebClient).DownloadFile(
+          'http://www.us.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.zip',
+          'C:\maven-bin.zip'
+        )
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
       }
-# Note: env variables are not correctly updated by choco (setting it manually)
-# Prepend Java entry, remove Ruby entry (C:\Ruby193\bin;) from PATH
-  - cmd: SET PATH=C:\bin\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;%PATH:C:\Ruby193\bin;=%
-  - cmd: mvn --version
-  - cmd: java -version
+  - cmd: SET PATH=C:\maven\apache-maven-3.3.3\bin;%JAVA_HOME%\bin;%PATH%
 build_script:
-  - mvn clean package -B -Dmaven.test.skip=true
+  - mvn clean install -B -DskipTests
 test_script:
-  - mvn test -B
+  - mvn clean install -B
 cache:
-  - C:\bin\apache-maven-3.2.5\
+  - C:\maven\apache-maven-3.3.3
