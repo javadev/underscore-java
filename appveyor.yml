@@ -6,13 +6,23 @@ environment:
     - JAVA_HOME: C:\Program Files\Java\jdk1.7.0
     - JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 install:
-  - SET PATH=%JAVA_HOME%\bin;%PATH:C:\Ruby193\bin;=%
-  - java -version
-  - choco install maven
-  - mvn --version
-  - SET PATH=C:\bin\apache-maven-3.2.3\bin;%PATH%
-  - echo %PATH%
+  - ps: >-
+      $MVNDIR = 'C:\bin\apache-maven-3.2.5\'
+      if(!(Test-Path -Path $MVNDIR )){
+        Write-Host (Test-Path -Path $MVNDIR)
+        Write-Host 'Installing Maven'
+        cinst maven -Version 3.2.5
+      } else {
+        Write-Host 'Found Maven cached installation'
+      }
+# Note: env variables are not correctly updated by choco (setting it manually)
+# Prepend Java entry, remove Ruby entry (C:\Ruby193\bin;) from PATH
+  - cmd: SET PATH=C:\bin\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;%PATH:C:\Ruby193\bin;=%
+  - cmd: mvn --version
+  - cmd: java -version
 build_script:
-  - mvn clean package -Dmaven.test.skip=true
+  - mvn clean package -B -Dmaven.test.skip=true
 test_script:
-  - mvn test
+  - mvn test -B
+cache:
+  - C:\bin\apache-maven-3.2.5\
