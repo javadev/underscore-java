@@ -24,6 +24,7 @@
 package com.github.underscore.math;
 
 import java.util.*;
+import com.github.underscore.Function1;
 
 public class $<T> extends com.github.underscore.$<T> {
     public $(final Iterable<T> iterable) {
@@ -44,6 +45,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
         public <T extends Number> Chain<T> sum() {
             return new Chain<T>($.sum((List<T>) value()));
+        }
+
+        public <F extends Number> Chain<F> sum(final Function1<T, F> func) {
+            return new Chain<F>($.sum((List<T>) value(), func));
         }
 
         public Chain<Double> mean() {
@@ -79,8 +84,20 @@ public class $<T> extends com.github.underscore.$<T> {
         return result;
     }
 
+    public static <E, F extends  Number> F sum(final Iterable<E> iterable, final Function1<E, F> func) {
+        F result = null;
+        for (final E item : iterable) {
+            result = sum(result, func.apply(item));
+        }
+        return result;
+    }
+
     public <T extends Number> T sum() {
         return (T) sum((List<T>) getIterable());
+    }
+
+    public <E, F extends  Number> F sum(final Function1<E, F> func) {
+        return (F) sum((List<E>) getIterable(), func);
     }
 
     private static <T extends Number> T sum(final T first, final T second) {
@@ -168,7 +185,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return median((Iterable<Number>) getIterable());
     }
 
-    public static void main(String[] args) {
+    public static void main(String ... args) {
         final String message = "Underscore-java-math is a math plugin for underscore-java.\n\n"
             + "For docs, license, tests, and downloads, see: http://javadev.github.io/underscore-java";
         System.out.println(message);
