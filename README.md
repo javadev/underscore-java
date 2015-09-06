@@ -12,6 +12,7 @@ underscore-java
 [![Build Status](https://snap-ci.com/javadev/underscore-java/branch/master/build_image)](https://snap-ci.com/javadev/underscore-java/branch/master)
 [![Vexor status](https://ci.vexor.io/projects/c425aac1-1b21-4486-ac44-29a97abfb814/status.svg)](https://ci.vexor.io/ui/projects/c425aac1-1b21-4486-ac44-29a97abfb814/builds)
 [![Build status](https://ci.appveyor.com/api/projects/status/tx7icv3i08qowv6r?svg=true)](https://ci.appveyor.com/project/javadev/underscore-java)
+[![Build Status](https://semaphoreci.com/api/v1/projects/2fc09de1-52a9-4f88-8023-9da1223e64f6/532523/shields_badge.svg)](https://semaphoreci.com/javadev/underscore-java
 [![Dependency Status](https://www.versioneye.com/user/projects/55e1462bc6d8f2001d0002ea/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55e1462bc6d8f2001d0002ea)
 
 Requirements
