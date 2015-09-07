@@ -439,7 +439,7 @@ _.findKey([1, 2, 3], function(item) {return item % 2  === 0; });
                 return item % 2 == 0;
             }
         });
-        assertEquals(2, result);
+        assertEquals(2, result.intValue());
         final Integer resultNotFound = $.findKey(asList(1, 2, 3), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item > 3;
@@ -451,7 +451,7 @@ _.findKey([1, 2, 3], function(item) {return item % 2  === 0; });
                 return item % 2 == 0;
             }
         });
-        assertEquals(2, resultArray);
+        assertEquals(2, resultArray.intValue());
     }
 
 /*
@@ -465,7 +465,7 @@ _.findLastKey([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
                 return item % 2 == 0;
             }
         });
-        assertEquals(4, result);
+        assertEquals(4, result.intValue());
         final Integer resultNotFound = $.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item > 5;
@@ -477,7 +477,7 @@ _.findLastKey([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
                 return item % 2 == 0;
             }
         });
-        assertEquals(4, resultArray);
+        assertEquals(4, resultArray.intValue());
     }
 
 /*

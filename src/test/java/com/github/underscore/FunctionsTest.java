@@ -73,7 +73,7 @@ sub5(20);
             }
         }
         Function1<Integer, Integer> sub5 = new SubtractFunction(5);
-        assertEquals(15, sub5.apply(20));
+        assertEquals(15, sub5.apply(20).intValue());
     }
 
 /*
@@ -88,7 +88,7 @@ var fibonacci = _.memoize(function(n) {
                 return n < 2 ? n : apply(n - 1) + apply(n - 2);
             }
         }
-        assertEquals(55, new FibonacciFuncion1().apply(10));
+        assertEquals(55, new FibonacciFuncion1().apply(10).intValue());
     }
 
 /*
@@ -111,7 +111,7 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
         $.delay(debouncedIncr, 16);
         $.delay(new Function<Void>() {
             public Void apply() {
-                assertEquals("incr was debounced", 1, counter[0]);
+                assertEquals("incr was debounced", 1, counter[0].intValue());
                 return null;
             }
         }, 60);
@@ -132,9 +132,9 @@ _.defer(function(){ alert('deferred'); });
                 e.getMessage();
             }
             counter[0]++; return null; } });
-        assertEquals("incr was debounced", 0, counter[0]);
+        assertEquals("incr was debounced", 0, counter[0].intValue());
         Thread.sleep(60);
-        assertEquals("incr was debounced", 1, counter[0]);
+        assertEquals("incr was debounced", 1, counter[0].intValue());
     }
 
 /*
@@ -152,7 +152,7 @@ initialize();
         onceIncr.apply();
         onceIncr.apply();
         Thread.sleep(60);
-        assertEquals("incr was called only once", 1, counter[0]);
+        assertEquals("incr was called only once", 1, counter[0].intValue());
     }
 
 /*
@@ -191,7 +191,7 @@ _.find([-2, -1, 0, 1, 2], isFalsy);
             }
         });
         Optional<Integer> result = $.find(asList(-2, -1, 0, 1, 2), isFalsy);
-        assertEquals(0, result.get());
+        assertEquals(0, result.get().intValue());
     }
 
 /*

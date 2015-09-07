@@ -999,7 +999,7 @@ _.max(numbers);
             }
         });
         assertEquals("curly", resultPerson.name);
-        assertEquals(60, resultPerson.age);
+        assertEquals(60, resultPerson.age.intValue());
     }
 
 /*
@@ -1053,7 +1053,7 @@ _.min(numbers);
             }
         });
         assertEquals("moe", resultPerson.name);
-        assertEquals(40, resultPerson.age);
+        assertEquals(40, resultPerson.age.intValue());
     }
 
 /*

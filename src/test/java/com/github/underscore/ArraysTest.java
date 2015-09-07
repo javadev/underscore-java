@@ -206,7 +206,7 @@ _.last([5, 4, 3, 2, 1]);
         final Integer resultArray = $.last(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("1", resultArray.toString());
         Integer res = new $<Integer>(asList(1, 2, 3, 4, 5)).last();
-        assertEquals("last one item did not work", 5, res);
+        assertEquals("last one item did not work", 5, res.intValue());
         List<Integer> resList = new $(asList(1, 2, 3, 4, 5)).last(3);
         assertEquals("last multi item did not wok", asList(3, 4, 5), resList);
     }
@@ -284,11 +284,11 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
     @Test
     public void sortedIndex() {
         final Integer result = $.sortedIndex(asList(10, 20, 30, 40, 50), 35);
-        assertEquals(3, result);
+        assertEquals(3, result.intValue());
         final Integer result2 = $.sortedIndex(new Integer[] {10, 20, 30, 40, 50}, 35);
-        assertEquals(3, result2);
+        assertEquals(3, result2.intValue());
         final Integer result3 = $.sortedIndex(asList(10, 20, 30, 40, 50), 60);
-        assertEquals(-1, result3);
+        assertEquals(-1, result3.intValue());
     }
 
     @Test
@@ -479,9 +479,9 @@ _.indexOf([1, 2, 3], 2);
     @Test
     public void indexOf() {
         final Integer result = $.indexOf(asList(1, 2, 3), 2);
-        assertEquals(1, result);
+        assertEquals(1, result.intValue());
         final Integer resultArray = $.indexOf(new Integer[] {1, 2, 3}, 2);
-        assertEquals(1, resultArray);
+        assertEquals(1, resultArray.intValue());
     }
 
 /*
@@ -491,9 +491,9 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
     @Test
     public void lastIndexOf() {
         final Integer result = $.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);
-        assertEquals(4, result);
+        assertEquals(4, result.intValue());
         final Integer resultArray = $.lastIndexOf(new Integer[] {1, 2, 3, 1, 2, 3}, 2);
-        assertEquals(4, resultArray);
+        assertEquals(4, resultArray.intValue());
     }
 
 /*
@@ -507,19 +507,19 @@ _.findIndex([1, 2, 3], function(item) {return item % 2  === 0; });
                 return item % 2 == 0;
             }
         });
-        assertEquals(1, result);
+        assertEquals(1, result.intValue());
         final Integer resultNotFound = $.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item > 3;
             }
         });
-        assertEquals(-1, resultNotFound);
+        assertEquals(-1, resultNotFound.intValue());
         final Integer resultArray = $.findIndex(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
-        assertEquals(1, resultArray);
+        assertEquals(1, resultArray.intValue());
     }
 
 /*
@@ -533,19 +533,19 @@ _.findLastIndex([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
                 return item % 2 == 0;
             }
         });
-        assertEquals(3, result);
+        assertEquals(3, result.intValue());
         final Integer resultNotFound = $.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item > 5;
             }
         });
-        assertEquals(-1, resultNotFound);
+        assertEquals(-1, resultNotFound.intValue());
         final Integer resultArray = $.findLastIndex(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
-        assertEquals(3, resultArray);
+        assertEquals(3, resultArray.intValue());
     }
 
 /*
