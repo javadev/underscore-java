@@ -12,6 +12,7 @@
   
   <developers>
     <developer>
+      <id>javadev</id>
       <name>Valentyn Kolesnikov</name>
     </developer>
   </developers>
@@ -115,7 +116,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.3.1</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

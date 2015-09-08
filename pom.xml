@@ -54,8 +54,10 @@
           <source>1.6</source>
           <target>1.6</target>
           <encoding>UTF-8</encoding>
-          <compilerArgument>-Xlint:unchecked</compilerArgument>
-          <compilerArgument>-Xlint:deprecation</compilerArgument>
+          <compilerArgs>
+            <arg>-Xlint:unchecked</arg>
+            <arg>-Xlint:deprecation</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
