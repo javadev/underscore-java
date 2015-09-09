@@ -807,7 +807,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     sb.append("\\/");
                     break;
                 default:
-                    if (ch >= '\u0000' && ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
+                    if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
                         || ch >= '\u2000' && ch <= '\u20FF') {
                         String ss = Integer.toHexString(ch);
                         sb.append("\\u");

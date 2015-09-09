@@ -460,6 +460,7 @@ _.repeat('abc', 0);
         assertEquals("\\u2000", $.JsonValue.escape("\u2000"));
         assertEquals("\\u20FF", $.JsonValue.escape("\u20FF"));
         assertEquals("\u2100", $.JsonValue.escape("\u2100"));
+        assertEquals("\uFFFF", $.JsonValue.escape("\uFFFF"));
     }
 
     @Test
