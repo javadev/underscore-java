@@ -27,6 +27,8 @@ import com.github.underscore.Block;
 import com.github.underscore.Function1;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
+import com.github.underscore.string.$.JsonStringBuilder;
+
 import java.util.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -395,53 +397,53 @@ _.repeat('abc', 0);
 
     @Test
     public void testJsonArray() {
-        StringBuilder builder = new StringBuilder();
+        JsonStringBuilder builder = new JsonStringBuilder();
         $.JsonArray.writeJson((Collection) null, builder);
         assertEquals("null", builder.toString());
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
-        assertEquals("[null]", builder.toString());
+        assertEquals("[\n  null\n]", builder.toString());
     }
 
     @Test
     public void testJsonArrayCollection() {
-        assertEquals("[\"First item\",\"Second item\"]",
+        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]",
             $.toJson(Arrays.asList("First item", "Second item")));
-        assertEquals("[[1,2]]",
+        assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
             $.toJson(Arrays.asList(new byte[] {1, 2})));
-        assertEquals("[[1,2]]",
+        assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
             $.toJson(Arrays.asList(new short[] {1, 2})));
-        assertEquals("[[1,2]]",
+        assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
             $.toJson(Arrays.asList(new int[] {1, 2})));
-        assertEquals("[[1,2]]",
+        assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
             $.toJson(Arrays.asList(new long[] {1, 2})));
-        assertEquals("[[1.0,2.0]]",
+        assertEquals("[\n  [\n    1.0,\n    2.0\n  ]\n]",
             $.toJson(Arrays.asList(new float[] {1, 2})));
-        assertEquals("[[1.0,2.0]]",
+        assertEquals("[\n  [\n    1.0,\n    2.0\n  ]\n]",
             $.toJson(Arrays.asList(new double[] {1, 2})));
-        assertEquals("[[\"1\",\"2\"]]",
+        assertEquals("[\n  [\n    \"1\",\n    \"2\"\n  ]\n]",
             $.toJson(Arrays.asList(new char[] {'1', '2'})));
-        assertEquals("[[true,false,true]]",
+        assertEquals("[\n  [\n    true,\n    false,\n    true\n  ]\n]",
             $.toJson(Arrays.asList(new boolean[] {true, false, true})));
-        assertEquals("[1.0,2.0]",
+        assertEquals("[\n  1.0,\n  2.0\n]",
             $.toJson(Arrays.asList(new Float[] {1F, 2F})));
-        assertEquals("[1.0,2.0]",
+        assertEquals("[\n  1.0,\n  2.0\n]",
             $.toJson(Arrays.asList(new Double[] {1D, 2D})));
-        assertEquals("[true,false,true]",
+        assertEquals("[\n  true,\n  false,\n  true\n]",
             $.toJson(Arrays.asList(new Boolean[] {true, false, true})));
-        assertEquals("[[\"First item\",\"Second item\"]]",
+        assertEquals("[\n  [\n    \"First item\",\n    \"Second item\"\n  ]\n]",
             $.toJson(Arrays.asList(Arrays.asList("First item", "Second item"))));
-        assertEquals("[{\"1\":\"First item\",\"2\":\"Second item\",\"3\":null}]",
+        assertEquals("[\n  {\n    \"1\": \"First item\",\n    \"2\": \"Second item\",\n    \"3\": null\n  }\n]",
             $.toJson(Arrays.asList(new LinkedHashMap() { {
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
-        assertEquals("[null]", $.toJson(Arrays.asList(new String[] {(String) null})));
+        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(new String[] {(String) null})));
         assertEquals("null", $.toJson((Collection) null));
         class Test {
             public String toString() {
                 return "test";
             }
         }
-        assertEquals("[[test,test]]",
+        assertEquals("[\n  [\n    test,\n    test\n  ]\n]",
             $.toJson(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
     }
 
@@ -470,191 +472,191 @@ _.repeat('abc', 0);
 
     @Test
     public void testByteArrayToString() {
-        StringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson((byte[]) null, builder);
         assertEquals("null", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new byte[0], builder);
         assertEquals("[]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new byte[] { 12 }, builder);
-        assertEquals("[12]", builder.toString());
+        assertEquals("[\n  12\n]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
-        assertEquals("[-7,22,86,-99]", builder.toString());
+        assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
     @Test
     public void testShortArrayToString() {
-        StringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson((short[]) null, builder);
         assertEquals("null", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new short[0], builder);
         assertEquals("[]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new short[] { 12 }, builder);
-        assertEquals("[12]", builder.toString());
+        assertEquals("[\n  12\n]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
-        assertEquals("[-7,22,86,-99]", builder.toString());
+        assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
     @Test
     public void testIntArrayToString() {
-        StringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson((int[]) null, builder);
         assertEquals("null", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new int[0], builder);
         assertEquals("[]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new int[] { 12 }, builder);
-        assertEquals("[12]", builder.toString());
+        assertEquals("[\n  12\n]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
-        assertEquals("[-7,22,86,-99]", builder.toString());
+        assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
     @Test
     public void testLongArrayToString() {
-        StringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson((long[]) null, builder);
         assertEquals("null", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new long[0], builder);
         assertEquals("[]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new long[] { 12 }, builder);
-        assertEquals("[12]", builder.toString());
+        assertEquals("[\n  12\n]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
-        assertEquals("[-7,22,86,-99]", builder.toString());
+        assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
     @Test
     public void testFloatArrayToString() {
-        StringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson((float[]) null, builder);
         assertEquals("null", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new float[0], builder);
         assertEquals("[]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new float[] { 12.8f }, builder);
-        assertEquals("[12.8]", builder.toString());
+        assertEquals("[\n  12.8\n]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
-        assertEquals("[-7.1,22.234,86.7,-99.02]", builder.toString());
+        assertEquals("[\n  -7.1,\n  22.234,\n  86.7,\n  -99.02\n]", builder.toString());
     }
 
     @Test
     public void testDoubleArrayToString() {
-        StringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson((double[]) null, builder);
         assertEquals("null", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new double[0], builder);
         assertEquals("[]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new double[] { 12.8 }, builder);
-        assertEquals("[12.8]", builder.toString());
+        assertEquals("[\n  12.8\n]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
-        assertEquals("[-7.1,22.234,86.7,-99.02]", builder.toString());
+        assertEquals("[\n  -7.1,\n  22.234,\n  86.7,\n  -99.02\n]", builder.toString());
     }
 
     @Test
     public void testBooleanArrayToString() {
-        StringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson((boolean[]) null, builder);
         assertEquals("null", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new boolean[0], builder);
         assertEquals("[]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new boolean[] { true }, builder);
-        assertEquals("[true]", builder.toString());
+        assertEquals("[\n  true\n]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new boolean[] { true, false, true }, builder);
-        assertEquals("[true,false,true]", builder.toString());
+        assertEquals("[\n  true,\n  false,\n  true\n]", builder.toString());
     }
 
     @Test
     public void testCharArrayToString() {
-        StringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson((char[]) null, builder);
         assertEquals("null", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new char[0], builder);
         assertEquals("[]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new char[] { 'a' }, builder);
-        assertEquals("[\"a\"]", builder.toString());
+        assertEquals("[\n  \"a\"\n]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
-        assertEquals("[\"a\",\"b\",\"c\"]", builder.toString());
+        assertEquals("[\n  \"a\",\n  \"b\",\n  \"c\"\n]", builder.toString());
     }
 
     @Test
     public void testObjectArrayToString() {
-        StringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson((Object[]) null, builder);
         assertEquals("null", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new Object[0], builder);
         assertEquals("[]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new Object[] { "Hello" }, builder);
-        assertEquals("[\"Hello\"]", builder.toString());
+        assertEquals("[\n  \"Hello\"\n]", builder.toString());
 
-        builder = new StringBuilder();
+        builder = new JsonStringBuilder();
         $.JsonArray.writeJson(new Object[] { "Hello", new Integer(12), new int[] { 1, 2, 3} }, builder);
-        assertEquals("[\"Hello\",12,[1,2,3]]", builder.toString());
+        assertEquals("[\n  \"Hello\",\n  12,\n  [\n    1,\n    2,\n    3\n  ]\n]", builder.toString());
     }
 
     @Test
@@ -663,13 +665,13 @@ _.repeat('abc', 0);
         testList.add("First item");
         testList.add("Second item");
 
-        assertEquals("[\"First item\",\"Second item\"]", $.toJson(testList));
-        assertEquals("[\"First item\",\"Second item\"]", new $(testList).toJson());
-        assertEquals("[\"First item\",\"Second item\"]", $.chain(testList).toJson().item());
-        assertEquals("[null]", $.toJson(Arrays.asList(Double.NaN)));
-        assertEquals("[null]", $.toJson(Arrays.asList(Double.POSITIVE_INFINITY)));
-        assertEquals("[null]", $.toJson(Arrays.asList(Float.NaN)));
-        assertEquals("[null]", $.toJson(Arrays.asList(Float.POSITIVE_INFINITY)));
+        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", $.toJson(testList));
+        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", new $(testList).toJson());
+        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", $.chain(testList).toJson().item());
+        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(Double.NaN)));
+        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(Double.POSITIVE_INFINITY)));
+        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(Float.NaN)));
+        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(Float.POSITIVE_INFINITY)));
     }
 
     @Test
@@ -678,44 +680,64 @@ _.repeat('abc', 0);
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
 
-        assertEquals("{\"First item\":\"1\",\"Second item\":\"2\"}", $.toJson(testMap));
+        assertEquals("{\n  \"First item\": \"1\",\n  \"Second item\": \"2\"\n}", $.toJson(testMap));
         assertEquals("null", $.toJson((Map) null));
     }
 
     @Test
-    public void testDecode() {
-        String string = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
-        assertEquals("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]",
+    public void toJsonFromMapFormatted() {
+        String string =
+        "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
+        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
+        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
+        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
+        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
+        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
+        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}";
+        assertEquals(string, $.toJson((Map<String, Object>) $.fromJson(string)));
+    }
+
+    @Test
+        public void testDecode() {
+            String string = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
+        assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
+        + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
+        + "        }\n      }\n    }\n  }\n]",
             $.toJson((List<Object>) $.fromJson(string)));
-        assertEquals("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]",
+        assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
+        + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
+        + "        }\n      }\n    }\n  }\n]",
             $.toJson((List<Object>) new $(string).fromJson()));
-        assertEquals("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]",
+        assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
+        + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
+        + "        }\n      }\n    }\n  }\n]",
             $.toJson((List<Object>) $.chain(string).fromJson().value()));
     }
 
     @Test
     public void testDecode2() {
         String string = "[\"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"]";
-        assertEquals("[\"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"]",
+        assertEquals("[\n  \"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"\n]",
             $.toJson((List<Object>) $.fromJson(string)));
     }
 
     @Test
     public void testDecode3() {
-        assertEquals("[]", $.toJson((List<Object>) $.fromJson("[]")));
+        assertEquals("[\n\n]", $.toJson((List<Object>) $.fromJson("[]")));
     }
 
     @Test
     public void testDecodeMap() {
         String string = "{\"first\": 123e+10,\"second\":[{\"k1\":{\"id\":\"id1\"}},"
             + "4,5,6,{\"id\":-123E-1}],\t\n\r \"third\":789,\"id\":null}";
-        assertEquals("{\"first\":1.23E12,\"second\":[{\"k1\":{\"id\":\"id1\"}},"
-            + "4,5,6,{\"id\":-12.3}],\"third\":789,\"id\":null}", $.toJson((Map<String, Object>) $.fromJson(string)));
+        assertEquals("{\n  \"first\": 1.23E12,\n  \"second\": [\n    {\n      \"k1\": {\n        \"id\": \"id1\"\n"
+        + "      }\n    },\n    4,\n    5,\n    6,\n    {\n      \"id\": -12.3\n    }\n  ],\n  \"third\": 789,\n"
+        + "  \"id\": null\n}", $.toJson((Map<String, Object>) $.fromJson(string)));
     }
 
     @Test
     public void testDecodeMap2() {
-        assertEquals("{}", $.toJson((Map<String, Object>) $.fromJson("{}")));
+        assertEquals("{\n\n}", $.toJson((Map<String, Object>) $.fromJson("{}")));
     }
 
     @Test
@@ -726,15 +748,16 @@ _.repeat('abc', 0);
         array1.add(new Double(222.123));
         array1.add(Boolean.TRUE);
         array1.add(Boolean.FALSE);
-        assertEquals("[\"abc\\u0010a\\/\",123,222.123,true,false]", $.toJson(array1));
-        String string = "[\"abc\\u0010a\\/\",123,222.123,true,false]";
-        assertEquals("[\"abc\\u0010a\\/\",123,222.123,true,false]", $.toJson((List<Object>) $.fromJson(string)));
+        assertEquals("[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]", $.toJson(array1));
+        String string = "[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]";
+        assertEquals("[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]",
+            $.toJson((List<Object>) $.fromJson(string)));
     }
 
     @Test
     public void testDecodeUnicode() {
-        assertEquals("[\"abc\u0A00\"]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0a00\"]")));
-        assertEquals("[\"abc\u0A00\"]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0A00\"]")));
+        assertEquals("[\n  \"abc\u0A00\"\n]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0a00\"]")));
+        assertEquals("[\n  \"abc\u0A00\"\n]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0A00\"]")));
     }
 
     @Test(expected = $.ParseException.class)
