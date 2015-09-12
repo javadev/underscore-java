@@ -734,8 +734,74 @@ public class $<T> extends com.github.underscore.$<T> {
         return result + omission;
     }
 
+    public static class JsonStringBuilder {
+        private final StringBuilder builder;
+        private int ident;
+        private boolean newString;
+        private boolean newKey;
+        private boolean newLine;
+
+        public JsonStringBuilder() {
+            builder = new StringBuilder();
+        }
+
+        public JsonStringBuilder append(final char character) {
+            switch (character) {
+                case '[':
+                case '{':
+                    fillSpaces(newLine);
+                    ident += 2;
+                    break;
+                case ']':
+                case '}':
+                    ident -= 2;
+                    builder.append("\n");
+                    fillSpaces(true);
+                    break;
+                case '\"':
+                    newString = !newString;
+                    fillSpaces(newString && !newKey);
+                    break;
+                default:
+                    break;
+            }
+            builder.append(character);
+            if (character == ',' || character == '[' || character == '{') {
+                builder.append("\n");
+                newLine = true;
+            } else {
+                newLine = false;
+            }
+            if (character == ':') {
+                builder.append(' ');
+                newKey = true;
+            } else {
+                newKey = false;
+            }
+            return this;
+        }
+
+        public JsonStringBuilder append(final String string) {
+            fillSpaces(!newString && !newKey);
+            builder.append(string);
+            return this;
+        }
+
+        private void fillSpaces(final boolean condition) {
+            if (condition) {
+                for (int index = 0; index < ident; index += 1) {
+                    builder.append(' ');
+                }
+            }
+        }
+
+        public String toString() {
+            return builder.toString();
+        }
+    }
+
     public static class JsonArray {
-        public static void writeJson(Collection collection, StringBuilder builder) {
+        public static void writeJson(Collection collection, JsonStringBuilder builder) {
             if (collection == null) {
                 builder.append(NULL);
                 return;
@@ -763,7 +829,7 @@ public class $<T> extends com.github.underscore.$<T> {
             builder.append(']');
         }
 
-        public static void writeJson(byte[] array, StringBuilder builder) {
+        public static void writeJson(byte[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
             } else if (array.length == 0) {
@@ -781,7 +847,7 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJson(short[] array, StringBuilder builder) {
+        public static void writeJson(short[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
             } else if (array.length == 0) {
@@ -799,7 +865,7 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJson(int[] array, StringBuilder builder) {
+        public static void writeJson(int[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
             } else if (array.length == 0) {
@@ -817,7 +883,7 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJson(long[] array, StringBuilder builder) {
+        public static void writeJson(long[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
             } else if (array.length == 0) {
@@ -835,7 +901,7 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJson(float[] array, StringBuilder builder) {
+        public static void writeJson(float[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
             } else if (array.length == 0) {
@@ -853,7 +919,7 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJson(double[] array, StringBuilder builder) {
+        public static void writeJson(double[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
             } else if (array.length == 0) {
@@ -871,7 +937,7 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJson(boolean[] array, StringBuilder builder) {
+        public static void writeJson(boolean[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
             } else if (array.length == 0) {
@@ -889,25 +955,25 @@ public class $<T> extends com.github.underscore.$<T> {
             }
         }
 
-        public static void writeJson(char[] array, StringBuilder builder) {
+        public static void writeJson(char[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append("[\"");
+                builder.append('[').append('\"');
                 builder.append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append("\",\"");
+                    builder.append('\"').append(',').append('\"');
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append("\"]");
+                builder.append('\"').append(']');
             }
         }
 
-        public static void writeJson(Object[] array, StringBuilder builder) {
+        public static void writeJson(Object[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
             } else if (array.length == 0) {
@@ -927,7 +993,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class JsonObject {
-        public static void writeJson(Map map, StringBuilder builder) {
+        public static void writeJson(Map map, JsonStringBuilder builder) {
             if (map == null) {
                 builder.append(NULL);
                 return;
@@ -955,7 +1021,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class JsonValue {
-        public static void writeJson(Object value, StringBuilder builder) {
+        public static void writeJson(Object value, JsonStringBuilder builder) {
             if (value == null) {
                 builder.append(NULL);
             } else if (value instanceof String) {
@@ -1061,7 +1127,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static String toJson(Collection collection) {
-        final StringBuilder builder = new StringBuilder();
+        final JsonStringBuilder builder = new JsonStringBuilder();
 
         JsonArray.writeJson(collection, builder);
         return builder.toString();
@@ -1072,7 +1138,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static String toJson(Map map) {
-        final StringBuilder builder = new StringBuilder();
+        final JsonStringBuilder builder = new JsonStringBuilder();
 
         JsonObject.writeJson(map, builder);
         return builder.toString();
