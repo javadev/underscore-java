@@ -1885,6 +1885,18 @@ public class $<T> {
             return new Chain<T>($.difference(list, lists));
         }
 
+        public Chain<List<Integer>> range(final int stop) {
+            return new Chain<List<Integer>>(newIntegerList($.range(stop)));
+        }
+
+        public Chain<List<Integer>> range(final int start, final int stop) {
+            return new Chain<List<Integer>>(newIntegerList($.range(start, stop)));
+        }
+
+        public Chain<List<Integer>> range(final int start, final int stop, final int step) {
+            return new Chain<List<Integer>>(newIntegerList($.range(start, stop, step)));
+        }
+
         public Chain<List<List<T>>> chunk(final int size) {
             return new Chain<List<List<T>>>($.chunk(value(), size));
         }
@@ -2141,6 +2153,14 @@ public class $<T> {
             }
             return result;
         }
+    }
+
+    protected static List<Integer> newIntegerList(int ... array) {
+        final List<Integer> result = new ArrayList<Integer>(array.length);
+        for (final int item : array) {
+            result.add(item);
+        }
+        return result;
     }
 
     @SuppressWarnings("unchecked")
