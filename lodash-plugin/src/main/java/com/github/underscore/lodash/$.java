@@ -166,6 +166,10 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.sum((List<T>) value()));
         }
 
+        public <F extends Number> Chain<F> sum(final Function1<T, F> func) {
+            return new Chain<F>($.sum((List<T>) value(), func));
+        }
+
         public Chain<Double> mean() {
             return new Chain<Double>($.mean((List<Number>) value()));
         }
@@ -543,8 +547,20 @@ public class $<T> extends com.github.underscore.$<T> {
         return result;
     }
 
+    public static <E, F extends  Number> F sum(final Iterable<E> iterable, final Function1<E, F> func) {
+        F result = null;
+        for (final E item : iterable) {
+            result = add(result, func.apply(item));
+        }
+        return result;
+    }
+
     public <T extends Number> T sum() {
         return (T) sum((List<T>) getIterable());
+    }
+
+    public <E, F extends  Number> F sum(final Function1<E, F> func) {
+        return (F) sum((List<E>) getIterable(), func);
     }
 
     public static <T extends Number> T add(final T first, final T second) {

@@ -23,6 +23,7 @@
  */
 package com.github.underscore.lodash;
 
+import com.github.underscore.Function1;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -51,6 +52,12 @@ _.sum([-1, -2, -3]);
     public void sum() {
         final Byte result = $.sum(asList((byte) 1, (byte) 2, (byte) 3));
         assertEquals("6", result.toString());
+        final Byte resultFunc = $.sum(asList((byte) 1, (byte) 2, (byte) 3), new Function1<Byte, Byte>() {
+            public Byte apply(final Byte item) {
+                return (byte) (item * 2);
+            }
+        });
+        assertEquals("12", resultFunc.toString());
         final Double result2 = $.sum(asList((double) 1, (double) 2, (double) 3));
         assertEquals("6.0", result2.toString());
         final Float result3 = $.sum(asList((float) 1, (float) 2, (float) 3));
@@ -77,8 +84,21 @@ _.sum([-1, -2, -3]);
         assertEquals("-6", result13.toString());
         final Integer resultChain = (Integer) $.chain(asList((int) 1, (int) 2, (int) 3)).sum().item();
         assertEquals("6", resultChain.toString());
+        final Integer resultChainFunc = (Integer) $.chain(asList((int) 1, (int) 2, (int) 3)).sum(
+            new Function1<Integer, Integer>() {
+            public Integer apply(final Integer item) {
+                return item * 2;
+            }
+        }).item();
+        assertEquals("12", resultChainFunc.toString());
         final Number resultObj = new $(asList((int) 1, (int) 2, (int) 3)).sum();
         assertEquals("6", resultObj.toString());
+        final Number resultObjFunc = new $(asList((byte) 1, (byte) 2, (byte) 3)).sum(new Function1<Number, Number>() {
+            public Number apply(final Number item) {
+                return item.intValue() * 2;
+            }
+        });
+        assertEquals("12", resultObjFunc.toString());
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -149,6 +169,7 @@ _.median([0, 0, 1, 2, 3, 4]);
     public void main() throws Exception {
         $.main(new String[] {});
         new $("");
+        new $(asList()).chain();
         $.chain(new HashSet<String>());
         $.chain(new String[] {});
     }
