@@ -412,8 +412,7 @@ iterator)</code><br>Returns
 ranked in ascending order by the results
  of running each value through
 iterator. Iterator may also be the string
- name of the object key to sort by.
-Delegates to arraySort().<br></p><pre>$.sortBy(asList(1, 2, 3, 4, 5, 6),
+ name of the object key to sort by.<br></p><pre>$.sortBy(asList(1, 2, 3, 4, 5, 6),
         new Function1&lt;Integer, Integer&gt;() {
         public Integer apply(Integer item) {
             return Double.valueOf(Math.sin(item) * 1000).intValue();
@@ -782,11 +781,7 @@ properties.<br></p><pre>$.keys(new LinkedHashMap&lt;String, Object&gt;() { {
 
 <p id="pairs"><b class="header">pairs</b> <code>$.pairs(object)
 </code><br>Convert
- an object into a list of [key, value] pairs. Notes:
-Resulting item
- order is not guaranteed. Key capitalization will depend on your
-CF
- engine.<br></p><pre>$.pairs(new LinkedHashMap<String, Integer>() { {
+ an object into a list of [key, value] pairs.<br></p><pre>$.pairs(new LinkedHashMap<String, Integer>() { {
     put("one", 1); put("two", 2); put("three", 3); } });
 =&gt; [(one, 1), (two, 2), (three, 3)]</pre><p></p>
 
@@ -796,8 +791,7 @@ CF
 values and the
  values the keys. For this to work, all of your object's values
 should be
- unique and string serializable. Note: Capitalization will depend on
-your CF engine.<br></p><pre>$.invert(new LinkedHashMap&lt;String, String&gt;() { {
+ unique and string serializable.<br></p><pre>$.invert(new LinkedHashMap&lt;String, String&gt;() { {
     put(&quot;Moe&quot;, &quot;Moses&quot;); put(&quot;Larry&quot;, &quot;Louis&quot;); put(&quot;Curly&quot;, &quot;Jerome&quot;); } });
 =&gt; [(Moses, Moe), (Louis, Larry), (Jerome, Curly)]</pre><p></p>
 
@@ -856,9 +850,7 @@ objects will be copied by reference, not duplicated.<br></p>
     put(&quot;name&quot;, &quot;moe&quot;); } });<br>=&gt; {name=moe}</pre><p></p>
 
 <p id="has"><b class="header">has</b> <code>$.has(object, key)
-</code><br>Does the object contain the given key? Delegates to
-$.include() for arrays or native structKeyExists() for
-objects.<br></p><pre>$.has(new LinkedHashMap&lt;String, Integer&gt;() { {
+</code><br>Does the object contain the given key?<br></p><pre>$.has(new LinkedHashMap&lt;String, Integer&gt;() { {
     put(&quot;a&quot;, 1); put(&quot;b&quot;, 2); put(&quot;c&quot;, 3); } }, &quot;b&quot;);
 =&gt; true</pre><p></p>
 
@@ -873,17 +865,14 @@ Map&lt;String, Object&gt; clone = new LinkedHashMap&lt;String, Object&gt;() { {
 =&gt; $.isEqual(stooge, clone); // true</pre><p></p>
 
 <p id="isEmpty"><b class="header">isEmpty</b> <code>$.isEmpty(object)
-</code><br>Returns true if object contains no values. Delegates to
-ArrayLen for arrays, structIsEmpty() otherwise.<br></p>
+</code><br>Returns true if object contains no values.<br></p>
 <pre>$.isEmpty(asList(1, 2, 3, 4))<br>=&gt; false<br>$.isEmpty(new ArrayList&lt;String&gt;())<br>=&gt; true</pre><p></p>
 
 <p id="isArray"><b class="header">isArray</b> <code>$.isArray(object)</code>
-<br>Returns true if object is an Array. Delegates to native
-isArray();<br></p><pre>$.isArray("string")<br>=&gt; false<br>$.isArray(new int[] {1, 2, 3, 4, 5});<br>=&gt; true</pre><p></p>
+<br>Returns true if object is an Array.<br></p><pre>$.isArray("string")<br>=&gt; false<br>$.isArray(new int[] {1, 2, 3, 4, 5});<br>=&gt; true</pre><p></p>
 
 <p id="isObject"><b class="header">isObject</b> <code>$.isObject(object)</code>
-<br>Returns true if value is an Object. Delegates to native
-isObject()<br></p><pre>$.isObject(new LinkedHashMap&lt;String, String&gt;())<br>=&gt; true
+<br>Returns true if value is an Object.<br></p><pre>$.isObject(new LinkedHashMap&lt;String, String&gt;())<br>=&gt; true
 <br>$.isObject(null);<br>=&gt; false</pre><p></p>
 
 <p id="isFunction"><b class="header">isFunction</b> <code>$.isFunction(object)</code>
@@ -902,12 +891,10 @@ type.<br></p><pre>$.isNumber(1);<br>=&gt; true
 </pre><p></p>
 
 <p id="isBoolean"><b class="header">isBoolean</b> <code>$.isBoolean(object)
-</code><br>Returns true if object is a boolean. Delegates to native
-isBoolean()<br></p><pre>$.isBoolean(false);<br>=&gt; true</pre><p></p>
+</code><br>Returns true if object is a boolean.<br></p><pre>$.isBoolean(false);<br>=&gt; true</pre><p></p>
 
 <p id="isDate"><b class="header">isDate</b> <code>$.isDate(object)
-</code><br>Returns true if object is a date. Delegates to native
-isDate()<br></p><pre>$.isDate(new java.util.Date())<br>=&gt; true</pre><p></p>
+</code><br>Returns true if object is a date.<br></p><pre>$.isDate(new java.util.Date())<br>=&gt; true</pre><p></p>
  <h2
 id="Utilities">Utility Functions</h2>
 
@@ -950,8 +937,7 @@ Underscore<br></p><pre>$.uniqueId("c");<br>=&gt; c1</pre><p></p>
 
 <p id="escape"><b class="header">escape</b> <code>$.escape(input)
 </code><br>Escapes a string for insertion into HTML, replacing &amp;,
-&lt;, &gt;, and " characters. Delegates to
-HTMLeditFormat().<br></p><pre>$.escape("Curly, Larry &amp; Moe");
+&lt;, &gt;, and " characters.<br></p><pre>$.escape("Curly, Larry &amp; Moe");
 =&gt; &quot;Curly, Larry &amp;amp; Moe&quot;</pre><p></p>
 
 <p id="result"><b class="header">result</b> <code>$.result(object, property)
