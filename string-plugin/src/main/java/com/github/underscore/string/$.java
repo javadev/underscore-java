@@ -23,9 +23,14 @@
  */
 package com.github.underscore.string;
 
-import java.util.*;
+import com.github.underscore.Block;
 import com.github.underscore.Function1;
 import com.github.underscore.Function3;
+import com.github.underscore.FunctionAccum;
+import com.github.underscore.Predicate;
+import com.github.underscore.Tuple;
+import com.github.underscore.Optional;
+import java.util.*;
 
 public class $<T> extends com.github.underscore.$<T> {
     private static final int DEFAULT_TRUNC_LENGTH = 30;
@@ -75,6 +80,238 @@ public class $<T> extends com.github.underscore.$<T> {
         }
         public Chain(final List<T> list) {
             super(list);
+        }
+
+        public Chain<T> first() {
+            return new Chain<T>($.first(value()));
+        }
+
+        public Chain<T> first(int n) {
+            return new Chain<T>($.first(value(), n));
+        }
+
+        public Chain<T> initial() {
+            return new Chain<T>($.initial(value()));
+        }
+
+        public Chain<T> initial(int n) {
+            return new Chain<T>($.initial(value(), n));
+        }
+
+        public Chain<T> last() {
+            return new Chain<T>($.last(value()));
+        }
+
+        public Chain<T> last(int n) {
+            return new Chain<T>($.last(value(), n));
+        }
+
+        public Chain<T> rest() {
+            return new Chain<T>($.rest(value()));
+        }
+
+        public Chain<T> rest(int n) {
+            return new Chain<T>($.rest(value(), n));
+        }
+
+        @SuppressWarnings("unchecked")
+        public Chain<T> flatten() {
+            return new Chain<T>((List<T>) $.flatten(value()));
+        }
+
+        public <F> Chain<F> map(final Function1<? super T, F> func) {
+            return new Chain<F>($.map(value(), func));
+        }
+
+        public Chain<T> filter(final Predicate<T> pred) {
+            return new Chain<T>($.filter(value(), pred));
+        }
+
+        public Chain<T> reject(final Predicate<T> pred) {
+            return new Chain<T>($.reject(value(), pred));
+        }
+
+        public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {
+            return new Chain<F>($.reduce(value(), func, zeroElem));
+        }
+
+        public <F> Chain<F> reduceRight(final FunctionAccum<F, T> func, final F zeroElem) {
+            return new Chain<F>($.reduceRight(value(), func, zeroElem));
+        }
+
+        public Chain<Optional<T>> find(final Predicate<T> pred) {
+            return new Chain<Optional<T>>($.find(value(), pred));
+        }
+
+        public Chain<Optional<T>> findLast(final Predicate<T> pred) {
+            return new Chain<Optional<T>>($.findLast(value(), pred));
+        }
+
+        @SuppressWarnings("unchecked")
+        public Chain<Comparable> max() {
+            return new Chain<Comparable>($.max((Collection) value()));
+        }
+
+        public <F extends Comparable<? super F>> Chain<T> max(final Function1<T, F> func) {
+            return new Chain<T>($.max(value(), func));
+        }
+
+        @SuppressWarnings("unchecked")
+        public Chain<Comparable> min() {
+            return new Chain<Comparable>($.min((Collection) value()));
+        }
+
+        public <F extends Comparable<? super F>> Chain<T> min(final Function1<T, F> func) {
+            return new Chain<T>($.min(value(), func));
+        }
+
+        @SuppressWarnings("unchecked")
+        public Chain<Comparable> sort() {
+            return new Chain<Comparable>($.sort((List<Comparable>) value()));
+        }
+
+        public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
+            return new Chain<T>($.sortBy(value(), func));
+        }
+
+        @SuppressWarnings("unchecked")
+        public <K, V extends Comparable<? super V>> Chain<Map<K, V>> sortBy(final K key) {
+            return new Chain<Map<K, V>>($.sortBy((List<Map<K, V>>) value(), key));
+        }
+
+        public <F> Chain<Map<F, List<T>>> groupBy(final Function1<T, F> func) {
+            return new Chain<Map<F, List<T>>>($.groupBy(value(), func));
+        }
+
+        public Chain<Map<Object, List<T>>> indexBy(final String property) {
+            return new Chain<Map<Object, List<T>>>($.indexBy(value(), property));
+        }
+
+        public <F> Chain<Map<F, Integer>> countBy(final Function1<T, F> func) {
+            return new Chain<Map<F, Integer>>($.countBy(value(), func));
+        }
+
+        public Chain<T> shuffle() {
+            return new Chain<T>($.shuffle(value()));
+        }
+
+        public Chain<T> sample() {
+            return new Chain<T>($.sample(value()));
+        }
+
+        public Chain<T> sample(final int howMany) {
+            return new Chain<T>($.newArrayList($.sample(value(), howMany)));
+        }
+
+        public Chain<T> tap(final Block<T> func) {
+            $.tap(value(), func);
+            return new Chain<T>(value());
+        }
+
+        public Chain<Boolean> every(final Predicate<T> pred) {
+            return new Chain<Boolean>($.every(value(), pred));
+        }
+
+        public Chain<Boolean> some(final Predicate<T> pred) {
+            return new Chain<Boolean>($.some(value(), pred));
+        }
+
+        public Chain<Boolean> contains(final T elem) {
+            return new Chain<Boolean>($.contains(value(), elem));
+        }
+
+        public Chain<T> invoke(final String methodName, final List<Object> args) {
+            return new Chain<T>($.invoke(value(), methodName, args));
+        }
+
+        public Chain<T> invoke(final String methodName) {
+            return new Chain<T>($.invoke(value(), methodName));
+        }
+
+        public Chain<List<Object>> pluck(final String propertyName) {
+            return new Chain<List<Object>>($.pluck(value(), propertyName));
+        }
+
+        public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
+            return new Chain<T>($.where(value(), properties));
+        }
+
+        public <E> Chain<Optional<T>> findWhere(final List<Tuple<String, E>> properties) {
+            return new Chain<Optional<T>>($.findWhere(value(), properties));
+        }
+
+        public Chain<T> uniq() {
+            return new Chain<T>($.uniq(value()));
+        }
+
+        @SuppressWarnings("unchecked")
+        public <F> Chain<F> uniq(final Function1<T, F> func) {
+            return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(value(), func)));
+        }
+
+        public Chain<T> union(final List<T> ... lists) {
+            return new Chain<T>($.union(value(), lists));
+        }
+
+        public Chain<T> intersection(final List<T> ... lists) {
+            return new Chain<T>($.intersection(value(), lists));
+        }
+
+        public Chain<T> difference(final List<T> ... lists) {
+            return new Chain<T>($.difference(value(), lists));
+        }
+
+        public Chain<List<Integer>> range(final int stop) {
+            return new Chain<List<Integer>>(newIntegerList($.range(stop)));
+        }
+
+        public Chain<List<Integer>> range(final int start, final int stop) {
+            return new Chain<List<Integer>>(newIntegerList($.range(start, stop)));
+        }
+
+        public Chain<List<Integer>> range(final int start, final int stop, final int step) {
+            return new Chain<List<Integer>>(newIntegerList($.range(start, stop, step)));
+        }
+
+        public Chain<List<List<T>>> chunk(final int size) {
+            return new Chain<List<List<T>>>($.chunk(value(), size));
+        }
+
+        public Chain<T> concat(final List<T> ... lists) {
+            return new Chain<T>($.concat(value(), lists));
+        }
+
+        public Chain<T> slice(final int start) {
+            return new Chain<T>($.slice(value(), start));
+        }
+
+        public Chain<T> slice(final int start, final int end) {
+            return new Chain<T>($.slice(value(), start, end));
+        }
+
+        public Chain<T> reverse() {
+            return new Chain<T>($.reverse(value()));
+        }
+
+        public Chain<String> join() {
+            return new Chain<String>($.join(value()));
+        }
+
+        public Chain<String> join(final String separator) {
+            return new Chain<String>($.join(value(), separator));
+        }
+
+        public Chain<T> skip(final int numberToSkip) {
+            return new Chain<T>(value().subList(numberToSkip, value().size()));
+        }
+
+        public Chain<T> limit(final int size) {
+            return new Chain<T>(value().subList(0, size));
+        }
+
+        @SuppressWarnings("unchecked")
+        public <K, V> Chain<Map<K, V>> toMap() {
+            return new Chain<Map<K, V>>($.toMap((Iterable<Map.Entry<K, V>>) value()));
         }
 
         public Chain<String> camelCase() {
@@ -868,7 +1105,6 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public static class JsonParser {
         private final String json;
-        private int bufferOffset;
         private int index;
         private int line;
         private int lineOffset;
@@ -1140,7 +1376,7 @@ public class $<T> extends com.github.underscore.$<T> {
             }
             if (current == '\n') {
                 line++;
-                lineOffset = bufferOffset + index;
+                lineOffset = index;
             }
             current = json.charAt(index++);
         }
@@ -1179,7 +1415,7 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         private ParseException error(String message) {
-            int absIndex = bufferOffset + index;
+            int absIndex = index;
             int column = absIndex - lineOffset;
             int offset = isEndOfText() ? absIndex : absIndex - 1;
             return new ParseException(message, offset, line, column - 1);

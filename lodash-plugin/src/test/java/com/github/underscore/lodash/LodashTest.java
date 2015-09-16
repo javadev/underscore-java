@@ -23,9 +23,12 @@
  */
 package com.github.underscore.lodash;
 
+import com.github.underscore.Block;
+import com.github.underscore.Function1;
+import com.github.underscore.FunctionAccum;
+import com.github.underscore.Predicate;
 import java.util.*;
 import org.junit.Test;
-import com.github.underscore.Predicate;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
@@ -421,4 +424,82 @@ _.at(['a', 'b', 'c'], 0, 2);
         $.chain(new String[] {});
         $.chain("");
     }
+
+    @Test
+    public void chain() {
+        $.chain(new String[] {""}).first();
+        $.chain(new String[] {""}).first(1);
+        $.chain(new String[] {""}).initial();
+        $.chain(new String[] {""}).initial(1);
+        $.chain(new String[] {""}).last();
+        $.chain(new String[] {""}).last(1);
+        $.chain(new String[] {""}).rest();
+        $.chain(new String[] {""}).rest(1);
+        $.chain(new String[] {""}).flatten();
+        $.chain(new Integer[] {0}).map(new Function1<Integer, Integer>() {
+            public Integer apply(Integer value) { return value; } });
+        $.chain(new String[] {""}).filter(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
+        $.chain(new String[] {""}).reject(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
+        $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
+            public String apply(String accum, String str) { return null; } }, "");
+        $.chain(new String[] {""}).reduceRight(new FunctionAccum<String, String>() {
+            public String apply(String accum, String str) { return null; } }, "");
+        $.chain(new String[] {""}).find(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
+        $.chain(new String[] {""}).findLast(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
+        $.chain(new Integer[] {0}).max();
+        $.chain(new Integer[] {0}).max(new Function1<Integer, Integer>() {
+            public Integer apply(Integer value) { return value; } });
+        $.chain(new Integer[] {0}).min();
+        $.chain(new Integer[] {0}).min(new Function1<Integer, Integer>() {
+            public Integer apply(Integer value) { return value; } });
+        $.chain(new Integer[] {0}).sort();
+        $.chain(new Integer[] {0}).sortBy(new Function1<Integer, Integer>() {
+            public Integer apply(Integer value) { return value; } });
+        $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
+        $.chain(new Integer[] {0}).groupBy(new Function1<Integer, Integer>() {
+            public Integer apply(Integer value) { return value; } });
+        $.chain(new Integer[] {0}).indexBy("");
+        $.chain(new Integer[] {0}).countBy(new Function1<Integer, Integer>() {
+            public Integer apply(Integer value) { return value; } });
+        $.chain(new Integer[] {0}).shuffle();
+        $.chain(new Integer[] {0}).sample();
+        $.chain(new Integer[] {0}).sample(1);
+        $.chain(new String[] {""}).tap(new Block<String>() {
+            public void apply(String str) {
+            } });
+        $.chain(new String[] {""}).every(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
+        $.chain(new String[] {""}).some(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
+        $.chain(new String[] {""}).contains("");
+        $.chain(new String[] {""}).invoke("toString", Collections.emptyList());
+        $.chain(new String[] {""}).invoke("toString");
+        $.chain(new String[] {""}).pluck("toString");
+        $.chain(new String[] {""}).where(Collections.emptyList());
+        $.chain(new String[] {""}).findWhere(Collections.emptyList());
+        $.chain(new Integer[] {0}).uniq();
+        $.chain(new Integer[] {0}).uniq(new Function1<Integer, Integer>() {
+            public Integer apply(Integer value) { return value; } });
+        $.chain(new String[] {""}).union();
+        $.chain(new String[] {""}).intersection();
+        $.chain(new String[] {""}).difference();
+        $.chain(new String[] {""}).range(0);
+        $.chain(new String[] {""}).range(0, 0);
+        $.chain(new String[] {""}).range(0, 0, 1);
+        $.chain(new String[] {""}).chunk(1);
+        $.chain(new String[] {""}).concat();
+        $.chain(new String[] {""}).slice(0);
+        $.chain(new String[] {""}).slice(0, 0);
+        $.chain(new String[] {""}).reverse();
+        $.chain(new String[] {""}).join();
+        $.chain(new String[] {""}).join("");
+        $.chain(new String[] {""}).skip(0);
+        $.chain(new String[] {""}).limit(0);
+        $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
+    }
+
 }
