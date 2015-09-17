@@ -7,7 +7,7 @@ underscore-java
 [![Coverage Status](https://coveralls.io/repos/javadev/underscore-java/badge.svg?branch=master)](https://coveralls.io/r/javadev/underscore-java)
 [![codecov.io](http://codecov.io/github/javadev/underscore-java/coverage.svg?branch=master)](http://codecov.io/github/javadev/underscore-java?branch=master)
 [![Circle CI](https://circleci.com/gh/javadev/underscore-java.png?style=badge)](https://circleci.com/gh/javadev/underscore-java)
-[![Build Status](https://drone.io/github.com/badges/javadev/underscore-java/status.svg)](https://drone.io/github.com/javadev/underscore-java/latest)
+[![Build Status](https://drone.io/badges/javadev/underscore-java/status.svg)](https://drone.io/github.com/javadev/underscore-java/latest)
 [![Codeship Status for javadev/underscore-java](https://codeship.com/projects/c989fef0-f3ab-0132-7ca5-16cf317d1634/status?branch=master)](https://codeship.com/projects/85467)
 [![Build Status](https://buildhive.cloudbees.com/job/javadev/job/underscore-java/badge/icon)](https://buildhive.cloudbees.com/job/javadev/job/underscore-java/)
 [![wercker status](https://app.wercker.com/status/d1130226089a5bd54d205e1901cbef3b/s "wercker status")](https://app.wercker.com/project/bykey/d1130226089a5bd54d205e1901cbef3b)
