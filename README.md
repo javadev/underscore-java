@@ -3,7 +3,7 @@ underscore-java
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.javadev/underscore.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.javadev%22%20AND%20a%3A%22underscore%22)
 [![MIT License](http://img.shields.io/badge/license-MIT-green.svg) ](https://github.com/javadev/underscore-java/blob/master/LICENSE)
-[![Build Status](https://secure.travis-ci.org/javadev/underscore-java.png)](https://travis-ci.org/javadev/underscore-java)
+[![Build Status](https://secure.travis-ci.org/javadev/underscore-java.svg)](https://travis-ci.org/javadev/underscore-java)
 [![Coverage Status](https://coveralls.io/repos/javadev/underscore-java/badge.svg?branch=master)](https://coveralls.io/r/javadev/underscore-java)
 [![codecov.io](http://codecov.io/github/javadev/underscore-java/coverage.svg?branch=master)](http://codecov.io/github/javadev/underscore-java?branch=master)
 [![Circle CI](https://circleci.com/gh/javadev/underscore-java.png?style=badge)](https://circleci.com/gh/javadev/underscore-java)
