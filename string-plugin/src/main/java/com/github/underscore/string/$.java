@@ -61,7 +61,7 @@ public class $<T> extends com.github.underscore.$<T> {
         put("\u00de", "Th"); put("\u00fe", "th");
         put("\u00df", "ss");
     } };
-    private static String upper = "[A-Z\\xc0-\\xd6\\xd8-\\xde]";
+    private static String upper = "[A-Z\\xc0-\\xd6\\xd8-\\xde\\u0400-\\u04FF]";
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
     private static java.util.regex.Pattern reWords = java.util.regex.Pattern.compile(
         upper + "+(?=" + upper + lower + ")|" + upper + "?" + lower + "|" + upper + "+|[0-9]+");
