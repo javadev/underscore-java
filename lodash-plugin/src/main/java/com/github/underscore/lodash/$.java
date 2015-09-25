@@ -36,6 +36,10 @@ public class $<T> extends com.github.underscore.$<T> {
     private static final int DEFAULT_TRUNC_LENGTH = 30;
     private static final String DEFAULT_TRUNC_OMISSION = "...";
     private static final String NULL = "null";
+    private static final String ELEMENT = "<element>";
+    private static final String CLOSED_ELEMENT = "</element>";
+    private static final String EMPTY_ELEMENT = ELEMENT + CLOSED_ELEMENT;
+    private static final String NULL_ELEMENT = ELEMENT + NULL + CLOSED_ELEMENT;
     private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
         "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
     private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<String, String>() { {
@@ -540,6 +544,10 @@ public class $<T> extends com.github.underscore.$<T> {
 
         public Chain<Object> fromJson() {
             return new Chain<Object>($.fromJson((String) item()));
+        }
+
+        public Chain<String> toXml() {
+            return new Chain<String>($.toXml((Collection) value()));
         }
     }
 
@@ -1613,6 +1621,402 @@ public class $<T> extends com.github.underscore.$<T> {
         final JsonStringBuilder builder = new JsonStringBuilder();
 
         JsonObject.writeJson(map, builder);
+        return builder.toString();
+    }
+
+    public static class XmlStringBuilder {
+        private final StringBuilder builder;
+        private int ident;
+
+        public XmlStringBuilder() {
+            builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
+            ident = 2;
+        }
+
+        public XmlStringBuilder append(final String string) {
+            builder.append(string);
+            return this;
+        }
+
+        public XmlStringBuilder fillSpaces() {
+            for (int index = 0; index < ident; index += 1) {
+                builder.append(' ');
+            }
+            return this;
+        }
+
+        public XmlStringBuilder incIdent() {
+            ident += 2;
+            return this;
+        }
+
+        public XmlStringBuilder decIdent() {
+            ident -= 2;
+            return this;
+        }
+
+        public XmlStringBuilder newLine() {
+            builder.append("\n");
+            return this;
+        }
+
+        public String toString() {
+            return builder.toString() + "\n</root>";
+        }
+    }
+
+    public static class XmlArray {
+        public static void writeXml(Collection collection, XmlStringBuilder builder) {
+            if (collection == null) {
+                builder.append(NULL);
+                return;
+            }
+
+            Iterator iter = collection.iterator();
+
+            while (iter.hasNext()) {
+                Object value = iter.next();
+                if (value == null) {
+                    builder.fillSpaces().append(NULL_ELEMENT);
+                    continue;
+                }
+
+                builder.fillSpaces().append(ELEMENT);
+                XmlValue.writeXml(value, builder);
+                builder.append(CLOSED_ELEMENT);
+                if (iter.hasNext()) {
+                    builder.newLine();
+                }
+            }
+        }
+
+        public static void writeXml(byte[] array, XmlStringBuilder builder) {
+            if (array == null) {
+                builder.fillSpaces().append(NULL_ELEMENT);
+            } else if (array.length == 0) {
+                builder.fillSpaces().append(EMPTY_ELEMENT);
+            } else {
+                for (int i = 0; i < array.length; i++) {
+                    builder.fillSpaces().append(ELEMENT);
+                    builder.append(String.valueOf(array[i]));
+                    builder.append(CLOSED_ELEMENT);
+                    if (i != (array.length - 1)) {
+                        builder.newLine();
+                    }
+                }
+            }
+        }
+
+        public static void writeXml(short[] array, XmlStringBuilder builder) {
+            if (array == null) {
+                builder.fillSpaces().append(NULL_ELEMENT);
+            } else if (array.length == 0) {
+                builder.fillSpaces().append(EMPTY_ELEMENT);
+            } else {
+                for (int i = 0; i < array.length; i++) {
+                    builder.fillSpaces().append(ELEMENT);
+                    builder.append(String.valueOf(array[i]));
+                    builder.append(CLOSED_ELEMENT);
+                    if (i != (array.length - 1)) {
+                        builder.newLine();
+                    }
+                }
+            }
+        }
+
+        public static void writeXml(int[] array, XmlStringBuilder builder) {
+            if (array == null) {
+                builder.fillSpaces().append(NULL_ELEMENT);
+            } else if (array.length == 0) {
+                builder.fillSpaces().append(EMPTY_ELEMENT);
+            } else {
+                for (int i = 0; i < array.length; i++) {
+                    builder.fillSpaces().append(ELEMENT);
+                    builder.append(String.valueOf(array[i]));
+                    builder.append(CLOSED_ELEMENT);
+                    if (i != (array.length - 1)) {
+                        builder.newLine();
+                    }
+                }
+            }
+        }
+
+        public static void writeXml(long[] array, XmlStringBuilder builder) {
+            if (array == null) {
+                builder.fillSpaces().append(NULL_ELEMENT);
+            } else if (array.length == 0) {
+                builder.fillSpaces().append(EMPTY_ELEMENT);
+            } else {
+                for (int i = 0; i < array.length; i++) {
+                    builder.fillSpaces().append(ELEMENT);
+                    builder.append(String.valueOf(array[i]));
+                    builder.append(CLOSED_ELEMENT);
+                    if (i != (array.length - 1)) {
+                        builder.newLine();
+                    }
+                }
+            }
+        }
+
+        public static void writeXml(float[] array, XmlStringBuilder builder) {
+            if (array == null) {
+                builder.fillSpaces().append(NULL_ELEMENT);
+            } else if (array.length == 0) {
+                builder.fillSpaces().append(EMPTY_ELEMENT);
+            } else {
+                for (int i = 0; i < array.length; i++) {
+                    builder.fillSpaces().append(ELEMENT);
+                    builder.append(String.valueOf(array[i]));
+                    builder.append(CLOSED_ELEMENT);
+                    if (i != (array.length - 1)) {
+                        builder.newLine();
+                    }
+                }
+            }
+        }
+
+        public static void writeXml(double[] array, XmlStringBuilder builder) {
+            if (array == null) {
+                builder.fillSpaces().append(NULL_ELEMENT);
+            } else if (array.length == 0) {
+                builder.fillSpaces().append(EMPTY_ELEMENT);
+            } else {
+                for (int i = 0; i < array.length; i++) {
+                    builder.fillSpaces().append(ELEMENT);
+                    builder.append(String.valueOf(array[i]));
+                    builder.append(CLOSED_ELEMENT);
+                    if (i != (array.length - 1)) {
+                        builder.newLine();
+                    }
+                }
+            }
+        }
+
+        public static void writeXml(boolean[] array, XmlStringBuilder builder) {
+            if (array == null) {
+                builder.fillSpaces().append(NULL_ELEMENT);
+            } else if (array.length == 0) {
+                builder.fillSpaces().append(EMPTY_ELEMENT);
+            } else {
+                for (int i = 0; i < array.length; i++) {
+                    builder.fillSpaces().append(ELEMENT);
+                    builder.append(String.valueOf(array[i]));
+                    builder.append(CLOSED_ELEMENT);
+                    if (i != (array.length - 1)) {
+                        builder.newLine();
+                    }
+                }
+            }
+        }
+
+        public static void writeXml(char[] array, XmlStringBuilder builder) {
+            if (array == null) {
+                builder.fillSpaces().append(NULL_ELEMENT);
+            } else if (array.length == 0) {
+                builder.fillSpaces().append(EMPTY_ELEMENT);
+            } else {
+                for (int i = 0; i < array.length; i++) {
+                    builder.fillSpaces().append(ELEMENT);
+                    builder.append(String.valueOf(array[i]));
+                    builder.append(CLOSED_ELEMENT);
+                    if (i != (array.length - 1)) {
+                        builder.newLine();
+                    }
+                }
+            }
+        }
+
+        public static void writeXml(Object[] array, XmlStringBuilder builder) {
+            if (array == null) {
+                builder.fillSpaces().append(NULL_ELEMENT);
+            } else if (array.length == 0) {
+                builder.fillSpaces().append(EMPTY_ELEMENT);
+            } else {
+                for (int i = 0; i < array.length; i++) {
+                    builder.fillSpaces().append(ELEMENT);
+                    XmlValue.writeXml(array[i], builder);
+                    builder.append(CLOSED_ELEMENT);
+                    if (i != (array.length - 1)) {
+                        builder.newLine();
+                    }
+                }
+            }
+        }
+    }
+
+    public static class XmlObject {
+        public static void writeXml(Map map, XmlStringBuilder builder) {
+            if (map == null) {
+                builder.append(NULL);
+                return;
+            }
+
+            Iterator iter = map.entrySet().iterator();
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                builder.fillSpaces().append("<").append(escape(String.valueOf(entry.getKey()))).append(">");
+                XmlValue.writeXml(entry.getValue(), builder);
+                builder.append("</").append(escape(String.valueOf(entry.getKey()))).append(">");
+                if (iter.hasNext()) {
+                    builder.newLine();
+                }
+            }
+        }
+    }
+
+    public static class XmlValue {
+        public static void writeXml(Object value, XmlStringBuilder builder) {
+            if (value == null) {
+                builder.append(NULL);
+            } else if (value instanceof String) {
+                builder.append(escape((String) value));
+            } else if (value instanceof Double) {
+                if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
+                    builder.append(NULL);
+                } else {
+                    builder.append(value.toString());
+                }
+            } else if (value instanceof Float) {
+                if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
+                    builder.append(NULL);
+                } else {
+                    builder.append(value.toString());
+                }
+            } else if (value instanceof Number) {
+                builder.append(value.toString());
+            } else if (value instanceof Boolean) {
+                builder.append(value.toString());
+            } else if (value instanceof Map) {
+                builder.newLine().incIdent();
+                XmlObject.writeXml((Map) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof Collection) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((Collection) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof byte[]) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((byte[]) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof short[]) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((short[]) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof int[]) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((int[]) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof long[]) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((long[]) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof float[]) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((float[]) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof double[]) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((double[]) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof boolean[]) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((boolean[]) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof char[]) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((char[]) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else if (value instanceof Object[]) {
+                builder.newLine().incIdent();
+                XmlArray.writeXml((Object[]) value, builder);
+                builder.newLine().decIdent().fillSpaces();
+            } else {
+                builder.append(value.toString());
+            }
+        }
+
+        public static String escape(String s) {
+            if (s == null) {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder();
+            escape(s, sb);
+            return sb.toString();
+        }
+
+        static void escape(String s, StringBuilder sb) {
+            final int len = s.length();
+            for (int i = 0; i < len; i++) {
+                char ch = s.charAt(i);
+                switch (ch) {
+                case '"':
+                    sb.append("&quot;");
+                    break;
+                case '\'':
+                    sb.append("&apos;");
+                    break;
+                case '&':
+                    sb.append("&amp;");
+                    break;
+                case '<':
+                    sb.append("&lt;");
+                    break;
+                case '>':
+                    sb.append("&gt;");
+                    break;
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                case '\b':
+                    sb.append("\\b");
+                    break;
+                case '\f':
+                    sb.append("\\f");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                case '/':
+                    sb.append("\\/");
+                    break;
+                default:
+                    if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
+                        || ch >= '\u2000' && ch <= '\u20FF') {
+                        String ss = Integer.toHexString(ch);
+                        sb.append("&#x");
+                        for (int k = 0; k < 4 - ss.length(); k++) {
+                            sb.append('0');
+                        }
+                        sb.append(ss.toUpperCase()).append(";");
+                    } else {
+                        sb.append(ch);
+                    }
+                }
+            }
+        }
+    }
+
+    public static String toXml(Collection collection) {
+        final XmlStringBuilder builder = new XmlStringBuilder();
+
+        XmlArray.writeXml(collection, builder);
+        return builder.toString();
+    }
+
+    public String toXml() {
+        return toXml((Collection) getIterable());
+    }
+
+    public static String toXml(Map map) {
+        final XmlStringBuilder builder = new XmlStringBuilder();
+
+        XmlObject.writeXml(map, builder);
         return builder.toString();
     }
 
