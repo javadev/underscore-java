@@ -28,6 +28,7 @@ import com.github.underscore.Function1;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
 import com.github.underscore.string.$.JsonStringBuilder;
+import com.github.underscore.string.$.XmlStringBuilder;
 
 import java.util.*;
 import org.junit.Test;
@@ -63,36 +64,6 @@ _.camelCase('__foo_bar__');
         assertEquals("fooBar", $.camelCase("__foo_bar__"));
         assertEquals("", $.camelCase(null));
         assertEquals("a", $.camelCase("\u00c0"));
-    }
-
-/*
-_.lowerFirst('Fred');
-// => 'fred'
-
-_.lowerFirst('FRED');
-// => 'fRED'
-*/
-    @Test
-    public void lowerFirst() {
-        assertEquals("fred", $.lowerFirst("Fred"));
-        assertEquals("fred", new $("Fred").lowerFirst());
-        assertEquals("fred", $.chain("Fred").lowerFirst().item());
-        assertEquals("fRED", $.lowerFirst("FRED"));
-    }
-
-/*
-_.upperFirst('fred');
-// => 'Fred'
-
-_.upperFirst('FRED');
-// => 'FRED'
-*/
-    @Test
-    public void upperFirst() {
-        assertEquals("Fred", $.upperFirst("fred"));
-        assertEquals("Fred", new $("fred").upperFirst());
-        assertEquals("Fred", $.chain("fred").upperFirst().item());
-        assertEquals("FRED", $.upperFirst("FRED"));
     }
 
 /*
@@ -800,13 +771,20 @@ _.repeat('abc', 0);
         assertEquals("[\n  \"abc\u0A00\"\n]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0A00\"]")));
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testJsonDecodeCyrillic() {
+        assertEquals("[\n  \"Текст на русском\"\n]", $.toJson((List<Object>) $.fromJson("[\"Текст на русском\"]")));
+    }
+
+    @SuppressWarnings("unchecked")
     @Test
     public void testDecodeSpecialCharacter() {
         assertEquals("{\n  \"description\": \"c:\\\\userDescription.txt\"\n}", $.toJson(
-            (Map<String, Object>) $.fromJson("{\"description\":\"c:\\userDescription.txt\"}")));
+                (Map<String, Object>) $.fromJson("{\"description\":\"c:\\userDescription.txt\"}")));
         assertEquals("{description=c:\\userDescription.txt}", $.fromJson(
-            $.toJson(new LinkedHashMap<String, String>() { {
-                put("description",  "c:\\userDescription.txt"); } })).toString());
+                $.toJson(new LinkedHashMap<String, String>() { {
+                    put("description",  "c:\\userDescription.txt"); } })).toString());
     }
 
     @Test
@@ -899,6 +877,415 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void testXmlArray() {
+        XmlStringBuilder builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((Collection) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", builder.toString());
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testXmlArrayCollection() {
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>First item</element>"
+            + "\n  <element>Second item</element>\n</root>",
+            $.toXml(Arrays.asList("First item", "Second item")));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
+            + "\n    <element>2</element>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(new byte[] {1, 2})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
+            + "\n    <element>2</element>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(new short[] {1, 2})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
+            + "\n    <element>2</element>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(new int[] {1, 2})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
+            + "\n    <element>2</element>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(new long[] {1, 2})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1.0</element>"
+            + "\n    <element>2.0</element>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(new float[] {1, 2})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1.0</element>"
+            + "\n    <element>2.0</element>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(new double[] {1, 2})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
+            + "\n    <element>2</element>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(new char[] {'1', '2'})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>true</element>"
+            + "\n    <element>false</element>\n    <element>true</element>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(new boolean[] {true, false, true})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>1.0</element>"
+            + "\n  <element>2.0</element>\n</root>",
+            $.toXml(Arrays.asList(new Float[] {1F, 2F})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>1.0</element>"
+            + "\n  <element>2.0</element>\n</root>",
+            $.toXml(Arrays.asList(new Double[] {1D, 2D})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>"
+            + "\n  <element>false</element>\n  <element>true</element>\n</root>",
+            $.toXml(Arrays.asList(new Boolean[] {true, false, true})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
+            + "    <element>First item</element>\n    <element>Second item</element>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
+            + "    <1>First item</1>\n    <2>Second item</2>\n    <3>null</3>\n  </element>\n</root>",
+            $.toXml(Arrays.asList(new LinkedHashMap() { {
+                put("1", "First item"); put("2", "Second item"); put("3", null); } })));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            $.toXml(Arrays.asList(new String[] {(String) null})));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
+            $.toXml((Collection) null));
+        class Test {
+            public String toString() {
+                return "test";
+            }
+        }
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>test</element>"
+            + "\n    <element>test</element>\n  </element>\n</root>",
+            $.toXml(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
+    }
+
+    @Test
+    public void escapeXml() {
+        assertEquals(null, $.XmlValue.escape(null));
+        assertEquals("&quot;", $.XmlValue.escape("\""));
+        assertEquals("&apos;", $.XmlValue.escape("'"));
+        assertEquals("&amp;", $.XmlValue.escape("&"));
+        assertEquals("&lt;", $.XmlValue.escape("<"));
+        assertEquals("&gt;", $.XmlValue.escape(">"));
+        assertEquals("\\\\", $.XmlValue.escape("\\"));
+        assertEquals("\\b", $.XmlValue.escape("\b"));
+        assertEquals("\\f", $.XmlValue.escape("\f"));
+        assertEquals("\\n", $.XmlValue.escape("\n"));
+        assertEquals("\\r", $.XmlValue.escape("\r"));
+        assertEquals("\\t", $.XmlValue.escape("\t"));
+        assertEquals("\\/", $.XmlValue.escape("/"));
+        assertEquals("&#x0000;", $.XmlValue.escape("\u0000"));
+        assertEquals("&#x001F;", $.XmlValue.escape("\u001F"));
+        assertEquals("\u0020", $.XmlValue.escape("\u0020"));
+        assertEquals("&#x007F;", $.XmlValue.escape("\u007F"));
+        assertEquals("&#x009F;", $.XmlValue.escape("\u009F"));
+        assertEquals("\u00A0", $.XmlValue.escape("\u00A0"));
+        assertEquals("&#x2000;", $.XmlValue.escape("\u2000"));
+        assertEquals("&#x20FF;", $.XmlValue.escape("\u20FF"));
+        assertEquals("\u2100", $.XmlValue.escape("\u2100"));
+        assertEquals("\uFFFF", $.XmlValue.escape("\uFFFF"));
+    }
+
+    @Test
+    public void testXmlByteArrayToString() {
+        XmlStringBuilder builder;
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((byte[]) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new byte[0], builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new byte[] { 12 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new byte[] { -7, 22, 86, -99 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
+            + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
+    }
+
+    @Test
+    public void testXmlShortArrayToString() {
+        XmlStringBuilder builder;
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((short[]) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new short[0], builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new short[] { 12 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new short[] { -7, 22, 86, -99 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
+            + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
+    }
+
+    @Test
+    public void testXmlIntArrayToString() {
+        XmlStringBuilder builder;
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((int[]) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new int[0], builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new int[] { 12 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new int[] { -7, 22, 86, -99 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
+            + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
+    }
+
+    @Test
+    public void testXmlLongArrayToString() {
+        XmlStringBuilder builder;
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((long[]) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new long[0], builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new long[] { 12 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new long[] { -7, 22, 86, -99 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
+            + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
+    }
+
+    @Test
+    public void testXmlFloatArrayToString() {
+        XmlStringBuilder builder;
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((float[]) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new float[0], builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new float[] { 12.8f }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12.8</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7.1</element>\n  <element>"
+            + "22.234</element>\n  <element>86.7</element>\n  <element>-99.02</element>\n</root>", builder.toString());
+    }
+
+    @Test
+    public void testXmlDoubleArrayToString() {
+        XmlStringBuilder builder;
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((double[]) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new double[0], builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new double[] { 12.8 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12.8</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7.1</element>\n  <element>"
+            + "22.234</element>\n  <element>86.7</element>\n  <element>-99.02</element>\n</root>", builder.toString());
+    }
+
+    @Test
+    public void testXmlBooleanArrayToString() {
+        XmlStringBuilder builder;
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((boolean[]) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new boolean[0], builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new boolean[] { true }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new boolean[] { true, false, true }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>\n  <element>"
+            + "false</element>\n  <element>true</element>\n</root>", builder.toString());
+    }
+
+    @Test
+    public void testXmlCharArrayToString() {
+        XmlStringBuilder builder;
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((char[]) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new char[0], builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new char[] { 'a' }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>a</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new char[] { 'a', 'b', 'c' }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>a</element>\n  <element>"
+            + "b</element>\n  <element>c</element>\n</root>", builder.toString());
+    }
+
+    @Test
+    public void testXmlObjectArrayToString() {
+        XmlStringBuilder builder;
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml((Object[]) null, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new Object[0], builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new Object[] { "Hello" }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n</root>",
+            builder.toString());
+
+        builder = new XmlStringBuilder();
+        $.XmlArray.writeXml(new Object[] { "Hello", new Integer(12), new int[] { 1, 2, 3} }, builder);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n  <element>"
+            + "12</element>\n  <element>\n    <element>1</element>\n    <element>2</element>\n    <element>3</element>"
+            + "\n  </element>\n</root>", builder.toString());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testXmlDecodeCyrillic() {
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Текст на русском</element>\n"
+            + "</root>", $.toXml((List<Object>) $.fromJson("[\"Текст на русском\"]")));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromList() {
+        final List<String> testList = new ArrayList<String>();
+        testList.add("First item");
+        testList.add("Second item");
+
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
+            + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
+            $.toXml(testList));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
+            + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
+            new $(testList).toXml());
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
+            + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
+            $.chain(testList).toXml().item());
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            $.toXml(Arrays.asList(Double.NaN)));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            $.toXml(Arrays.asList(Double.POSITIVE_INFINITY)));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            $.toXml(Arrays.asList(Float.NaN)));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+            $.toXml(Arrays.asList(Float.POSITIVE_INFINITY)));
+    }
+
+    @Test
+    public void toXmlFromMap() {
+        final Map<String, String> testMap = new LinkedHashMap<String, String>();
+        testMap.put("First item", "1");
+        testMap.put("Second item", "2");
+
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
+            + "  <First item>1</First item>\n  <Second item>2</Second item>\n</root>",
+            $.toXml(testMap));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", $.toXml((Map) null));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXml() {
+        String string =
+        "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
+        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
+        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
+        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
+        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
+        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
+        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        + "\n<root>"
+        + "\n  <glossary>"
+        + "\n    <title>example glossary</title>"
+        + "\n    <GlossDiv>"
+        + "\n      <title>S</title>"
+        + "\n      <GlossList>"
+        + "\n        <GlossEntry>"
+        + "\n          <ID>SGML</ID>"
+        + "\n          <SortAs>SGML</SortAs>"
+        + "\n          <GlossTerm>Standard Generalized Markup Language</GlossTerm>"
+        + "\n          <Acronym>SGML</Acronym>"
+        + "\n          <Abbrev>ISO 8879:1986</Abbrev>"
+        + "\n          <GlossDef>"
+        + "\n            <para>A meta-markup language, used to create markup languages such as DocBook.</para>"
+        + "\n            <GlossSeeAlso>"
+        + "\n              <element>GML</element>"
+        + "\n              <element>XML</element>"
+        + "\n            </GlossSeeAlso>"
+        + "\n          </GlossDef>"
+        + "\n          <GlossSee>markup</GlossSee>"
+        + "\n        </GlossEntry>"
+        + "\n      </GlossList>"
+        + "\n    </GlossDiv>"
+        + "\n  </glossary>"
+        + "\n</root>", $.toXml((Map<String, Object>) $.fromJson(string)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void main() throws Exception {
         $.main(new String[] {});
         new $(new ArrayList<String>());
@@ -907,6 +1294,9 @@ _.repeat('abc', 0);
         new $.JsonArray();
         new $.JsonValue();
         new $.JsonObject();
+        new $.XmlArray();
+        new $.XmlValue();
+        new $.XmlObject();
         $.chain(new ArrayList<String>());
         $.chain(new HashSet<String>());
         $.chain(new String[] {});

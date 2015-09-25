@@ -20,6 +20,7 @@
     <module name="FileLength">
       <property name="fileExtensions" value="java"/>
       <property name="severity" value="warning"/>
+      <property name="max" value="2500"/>
     </module>
     <module name="RegexpSingleline">
       <property name="format" value="\s+$"/>
