@@ -190,7 +190,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
             <version>3.5</version>
             <configuration>
-                <targetJdk>1.5</targetJdk> 
+                <targetJdk>1.6</targetJdk>
                 <rulesets>
                   <ruleset>rulesets/java/basic.xml</ruleset>
                   <ruleset>rulesets/java/design.xml</ruleset>
@@ -210,7 +210,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.2</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
