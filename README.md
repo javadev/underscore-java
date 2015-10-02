@@ -18,6 +18,8 @@ underscore-java
 [![Build Status](https://img.shields.io/shippable/55def20f1895ca44741030a2/master.svg)](https://app.shippable.com/projects/55def20f1895ca44741030a2)
 [![Dependency Status](https://www.versioneye.com/user/projects/55e1462bc6d8f2001d0002ea/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55e1462bc6d8f2001d0002ea)
 
+[![Join the chat at https://gitter.im/javadev/underscore-java](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/javadev/underscore-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Requirements
 ============
 
