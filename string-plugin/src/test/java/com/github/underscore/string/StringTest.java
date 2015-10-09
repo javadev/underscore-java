@@ -800,17 +800,28 @@ _.repeat('abc', 0);
         assertEquals("[\n  \"abc\u0A00\"\n]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0A00\"]")));
     }
 
-    @Test(expected = $.ParseException.class)
-    public void testDecodeUnicodeErr1() {
-        try {
-            $.fromJson("[\"abc\\u0$00\"]");
-            fail("Expected ParseException");
-        } catch ($.ParseException ex) {
-            ex.getOffset();
-            ex.getLine();
-            ex.getColumn();
-            throw ex;
-        }
+    @Test
+    public void testDecodeSpecialCharacter() {
+        assertEquals("{\n  \"description\": \"c:\\\\userDescription.txt\"\n}", $.toJson(
+            (Map<String, Object>) $.fromJson("{\"description\":\"c:\\userDescription.txt\"}")));
+        assertEquals("{description=c:\\userDescription.txt}", $.fromJson(
+            $.toJson(new LinkedHashMap<String, String>() { {
+                put("description",  "c:\\userDescription.txt"); } })).toString());
+    }
+
+    @Test
+    public void testDecodeUnicode1() {
+        assertEquals("[abc\\u0$00]", $.fromJson("[\"abc\\u0$00\"]").toString());
+    }
+
+    @Test
+    public void testDecodeUnicode2() {
+        assertEquals("[abc\\u001g/]", $.fromJson("[\"abc\\u001g\\/\"]").toString());
+    }
+
+    @Test
+    public void testDecodeUnicode3() {
+        assertEquals("[abc\\u001G/]", $.fromJson("[\"abc\\u001G\\/\"]").toString());
     }
 
     @Test(expected = $.ParseException.class)
@@ -844,11 +855,6 @@ _.repeat('abc', 0);
     }
 
     @Test(expected = $.ParseException.class)
-    public void testDecodeParseErr7() {
-        $.fromJson("[\"abc\\u001g\\/\"]");
-    }
-
-    @Test(expected = $.ParseException.class)
     public void testDecodeParseErr8() {
         $.fromJson("[\"\\abc\"]");
     }
@@ -860,7 +866,15 @@ _.repeat('abc', 0);
 
     @Test(expected = $.ParseException.class)
     public void testDecodeParseErr10() {
-        $.fromJson("[123.a]");
+        try {
+            $.fromJson("[123.a]");
+            fail("Expected ParseException");
+        } catch ($.ParseException ex) {
+            ex.getOffset();
+            ex.getLine();
+            ex.getColumn();
+            throw ex;
+        }
     }
 
     @Test(expected = $.ParseException.class)
@@ -881,11 +895,6 @@ _.repeat('abc', 0);
     @Test(expected = $.ParseException.class)
     public void testDecodeParseErr14() {
         $.fromJson("[\"abc\"][]");
-    }
-
-    @Test(expected = $.ParseException.class)
-    public void testDecodeParseErr15() {
-        $.fromJson("[\"abc\\u001G\\/\"]");
     }
 
     @SuppressWarnings("unchecked")

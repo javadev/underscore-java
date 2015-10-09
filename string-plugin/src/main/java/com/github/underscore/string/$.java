@@ -1379,14 +1379,20 @@ public class $<T> extends com.github.underscore.$<T> {
                 break;
             case 'u':
                 char[] hexChars = new char[4];
+                boolean isHexCharsDigits = true;
                 for (int i = 0; i < 4; i++) {
                     read();
                     if (!isHexDigit()) {
-                        throw expected("hexadecimal digit");
+                        isHexCharsDigits = false;
                     }
                     hexChars[i] = (char) current;
                 }
-                captureBuffer.append((char) Integer.parseInt(new String(hexChars), 16));
+                if (isHexCharsDigits) {
+                    captureBuffer.append((char) Integer.parseInt(new String(hexChars), 16));
+                } else {
+                    captureBuffer.append("\\u").append(hexChars[0]).append(hexChars[1]).append(hexChars[2])
+                        .append(hexChars[3]);
+                }
                 break;
             default:
                 throw expected("valid escape sequence");
