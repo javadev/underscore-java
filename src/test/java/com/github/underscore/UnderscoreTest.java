@@ -30,6 +30,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Underscore library unit test.
@@ -232,6 +233,17 @@ arr.slice(-3, -1) // [3, 4]
         assertEquals(Optional.of("123").hashCode(), Optional.of("123").hashCode());
         assertEquals("Optional.absent()", Optional.absent().toString());
         assertEquals("Optional.of(1)", Optional.of(1).toString());
+        assertEquals("Optional.absent()", Optional.fromNullable(null).toString());
+        assertEquals("Optional.of(1)", Optional.fromNullable(1).toString());
+        assertEquals("1", Optional.absent().or(1).toString());
+        assertEquals("1", Optional.of(1).or(2).toString());
+        assertEquals(null, Optional.absent().orNull());
+        assertEquals("1", Optional.of(1).orNull().toString());
+        try {
+            Optional.absent().get();
+            fail("IllegalStateException expected");
+        } catch (IllegalStateException ex) {
+        }
     }
 
     @Test

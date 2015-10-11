@@ -1,6 +1,7 @@
 package com.github.underscore;
 
 public final class Optional<T> {
+    private static final Optional<?> EMPTY = new Optional();
     private final T arg;
     private final boolean absent;
 
@@ -9,20 +10,43 @@ public final class Optional<T> {
         this.absent = true;
     }
 
-    private Optional(T arg) {
+    private Optional(final T arg) {
         this.arg = arg;
         this.absent = false;
     }
 
-    public static <T> Optional<T> of(T arg) {
+    public static <T> Optional<T> of(final T arg) {
         return new Optional<T>(arg);
     }
 
-    public static <T> Optional<T> absent() {
-        return new Optional<T>();
+    public static <T> Optional<T> fromNullable(final T nullableReference) {
+        return nullableReference == null ? Optional.<T>absent()
+            : new Optional<T>(nullableReference);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static<T> Optional<T> absent() {
+        return (Optional<T>) EMPTY;
     }
 
     public T get() {
+        if (absent) {
+            throw new IllegalStateException("Optional.get() cannot be called on an absent value");
+        }
+        return arg;
+    }
+
+    public T or(final T defaultValue) {
+        if (absent) {
+            return defaultValue;
+        }
+        return arg;
+    }
+
+    public T orNull() {
+        if (absent) {
+            return null;
+        }
         return arg;
     }
 
