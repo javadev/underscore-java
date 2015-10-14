@@ -1329,6 +1329,113 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void fromXml() {
+        String string =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        + "\n<root>"
+        + "\n  <glossary>"
+        + "\n    <title>example glossary</title>"
+        + "\n    <GlossDiv>"
+        + "\n      <title>S</title>"
+        + "\n      <GlossList>"
+        + "\n        <GlossEntry>"
+        + "\n          <ID>SGML</ID>"
+        + "\n          <SortAs>SGML</SortAs>"
+        + "\n          <GlossTerm>Standard Generalized Markup Language</GlossTerm>"
+        + "\n          <Acronym>SGML</Acronym>"
+        + "\n          <Abbrev>ISO 8879:1986</Abbrev>"
+        + "\n          <GlossDef>"
+        + "\n            <para>A meta-markup language, used to create markup languages such as DocBook.</para>"
+        + "\n            <GlossSeeAlso>"
+        + "\n              <element>GML</element>"
+        + "\n              <element>XML</element>"
+        + "\n            </GlossSeeAlso>"
+        + "\n          </GlossDef>"
+        + "\n          <GlossSee>markup</GlossSee>"
+        + "\n        </GlossEntry>"
+        + "\n      </GlossList>"
+        + "\n    </GlossDiv>"
+        + "\n  </glossary>"
+        + "\n</root>";
+        assertEquals("{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
+        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
+        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
+        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
+        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
+        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
+        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}",
+            $.toJson((Map<String, Object>) $.fromXml(string)));
+        assertEquals("{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
+        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
+        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
+        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
+        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
+        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
+        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}",
+            $.toJson((Map<String, Object>) new $(string).fromXml()));
+        assertEquals("{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
+        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
+        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
+        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
+        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
+        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
+        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}",
+            $.toJson((Map<String, Object>) $.chain(string).fromXml().item()));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void fromXml2() {
+        String string =
+        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+        + "\n"
+        + "\n<root>"
+        + "\n<Details>"
+        + "\n    <detail-a>"
+        + "\n"
+        + "\n        <detail> attribute 1 of detail a </detail>"
+        + "\n        <detail> attribute 2 of detail a </detail>"
+        + "\n        <detail> attribute 3 of detail a </detail>"
+        + "\n"
+        + "\n    </detail-a>"
+        + "\n"
+        + "\n    <detail-b>"
+        + "\n        <detail> attribute 1 of detail b </detail>"
+        + "\n        <detail> attribute 2 of detail b </detail>"
+        + "\n"
+        + "\n    </detail-b>"
+        + "\n"
+        + "\n"
+        + "\n</Details>"
+        + "\n</root>";
+        assertEquals(
+        "{"
+        + "\n  \"Details\": {"
+        + "\n    \"detail-a\": {"
+        + "\n      \"detail\": ["
+        + "\n        \" attribute 1 of detail a \","
+        + "\n        \" attribute 2 of detail a \","
+        + "\n        \" attribute 3 of detail a \""
+        + "\n      ]"
+        + "\n    },"
+        + "\n    \"detail-b\": {"
+        + "\n      \"detail\": ["
+        + "\n        \" attribute 1 of detail b \","
+        + "\n        \" attribute 2 of detail b \""
+        + "\n      ]"
+        + "\n    }"
+        + "\n  }"
+        + "\n}",
+            $.toJson((Map<String, Object>) $.fromXml(string)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDecodeParseXmlErr13() {
+        $.fromXml("[\"abc\u0010\"]");
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void main() throws Exception {
         $.main(new String[] {});
         new $(new ArrayList<String>());

@@ -549,6 +549,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<String> toXml() {
             return new Chain<String>($.toXml((Collection) value()));
         }
+
+        public Chain<Object> fromXml() {
+            return new Chain<Object>($.fromXml((String) item()));
+        }
     }
 
     public static Chain<String> chain(final String item) {
@@ -2365,6 +2369,67 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public Object fromJson() {
         return fromJson(getString().get());
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object getValue(final Object value) {
+        if (value instanceof Map) {
+            final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
+            if (entry.getKey().equals("#text") || entry.getKey().equals("element")) {
+                return entry.getValue();
+            }
+        }
+        return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Map<String, Object> createMap(final org.w3c.dom.Node node) {
+        final Map<String, Object> map = newLinkedHashMap();
+        final org.w3c.dom.NodeList nodeList = node.getChildNodes();
+        for (int index = 0; index < nodeList.getLength(); index++) {
+            final org.w3c.dom.Node currentNode = nodeList.item(index);
+            final String name = currentNode.getNodeName();
+            final Object value;
+            if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                value = createMap(currentNode);
+            } else {
+                value = currentNode.getTextContent();
+            }
+            if (name.equals("#text") && value.toString().startsWith("\n")) {
+                continue;
+            }
+            if (map.containsKey(name)) {
+                final Object object = map.get(name);
+                if (object instanceof List) {
+                    ((List<Object>) object).add(getValue(value));
+                } else {
+                    final List<Object> objects = newArrayList();
+                    objects.add(object);
+                    objects.add(getValue(value));
+                    map.put(name, objects);
+                }
+            } else {
+                map.put(name, getValue(value));
+            }
+        }
+        return map;
+    }
+
+    public static Object fromXml(final String xml) {
+        try {
+            final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes("UTF-8"));
+            final javax.xml.parsers.DocumentBuilderFactory factory =
+                javax.xml.parsers.DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            final org.w3c.dom.Document document = factory.newDocumentBuilder().parse(stream);
+            return createMap(document.getDocumentElement());
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
+    public Object fromXml() {
+        return fromXml(getString().get());
     }
 
     public String camelCase() {
