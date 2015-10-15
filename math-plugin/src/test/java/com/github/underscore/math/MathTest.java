@@ -51,6 +51,7 @@ _.sum([0, 14, 0.2]);
 _.sum([-1, -2, -3]);
 => -6
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void sum() {
         final Byte result = $.sum(asList((byte) 1, (byte) 2, (byte) 3));
@@ -129,6 +130,7 @@ _.mean([0, 0.5, 1]);
 _.mean([0, 1, 2]);
 => 1
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void mean() {
         final Double result = $.mean(asList((double) 0, (double) 0.5, (double) 1));
@@ -151,6 +153,7 @@ _.median([0, 0, 1, 2]);
 _.median([0, 0, 1, 2, 3, 4]);
 => 1.5
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void median() {
         final Double result = $.median(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5));
@@ -169,6 +172,7 @@ _.median([0, 0, 1, 2, 3, 4]);
     }
 
     // http://stackoverflow.com/questions/27772432/is-there-a-underscore-js-lib-for-java
+    @SuppressWarnings("unchecked")
     @Test
     public void sumOfInt() {
 /*
@@ -187,6 +191,7 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         assertEquals(34, sum);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void main() {
         $.main(new String[] {});
@@ -196,6 +201,7 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.chain(new String[] {});
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void chain() {
         $.chain(new String[] {""}).first();

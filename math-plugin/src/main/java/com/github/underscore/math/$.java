@@ -281,6 +281,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<Map<K, V>>($.toMap((Iterable<Map.Entry<K, V>>) value()));
         }
 
+        @SuppressWarnings("unchecked")
         public <T extends Number> Chain<T> sum() {
             return new Chain<T>($.sum((List<T>) value()));
         }
@@ -289,10 +290,12 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<F>($.sum(value(), func));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<Double> mean() {
             return new Chain<Double>($.mean((List<Number>) value()));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<Double> median() {
             return new Chain<Double>($.median((List<Number>) value()));
         }
@@ -310,6 +313,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(Arrays.asList(array));
     }
 
+    @SuppressWarnings("unchecked")
     public Chain chain() {
         return new $.Chain<T>(newArrayList(value()));
     }
@@ -330,14 +334,17 @@ public class $<T> extends com.github.underscore.$<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Number> T sum() {
         return (T) sum((List<T>) getIterable());
     }
 
+    @SuppressWarnings("unchecked")
     public <E, F extends  Number> F sum(final Function1<E, F> func) {
         return (F) sum((List<E>) getIterable(), func);
     }
 
+    @SuppressWarnings("unchecked")
     private static <T extends Number> T sum(final T first, final T second) {
         if (first == null) {
             return second;
@@ -406,10 +413,12 @@ public class $<T> extends com.github.underscore.$<T> {
         return result.doubleValue() / count;
     }
 
+    @SuppressWarnings("unchecked")
     public double mean() {
         return mean((Iterable<Number>) getIterable());
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Number> double median(final Iterable<T> iterable) {
         final List<T> result = newArrayList((Collection) iterable);
         final int size = size(iterable);
@@ -419,6 +428,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return (result.get(size / 2 - 1).doubleValue() + result.get(size / 2).doubleValue()) / 2;
     }
 
+    @SuppressWarnings("unchecked")
     public double median() {
         return median((Iterable<Number>) getIterable());
     }

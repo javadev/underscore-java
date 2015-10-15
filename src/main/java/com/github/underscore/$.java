@@ -678,6 +678,7 @@ public class $<T> {
         return size(iterable);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> int size(final E ... array) {
         return array.length;
     }
@@ -705,6 +706,7 @@ public class $<T> {
         return iterable.iterator().next();
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E first(final E ... array) {
         return array[0];
     }
@@ -726,6 +728,7 @@ public class $<T> {
         return first(iterable);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E head(final E ... array) {
         return first(array);
     }
@@ -750,6 +753,7 @@ public class $<T> {
         return list.subList(0, Math.max(0, list.size() - n));
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] initial(final E ... array) {
         return initial(array, 1);
     }
@@ -768,6 +772,7 @@ public class $<T> {
         return initial((List) iterable, n);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E last(final E ... array) {
         return array[array.length - 1];
     }
@@ -797,6 +802,7 @@ public class $<T> {
         return list.subList(Math.min(n, list.size()), list.size());
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] rest(final E ... array) {
         return rest(array, 1);
     }
@@ -824,6 +830,7 @@ public class $<T> {
         return rest(list, n);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] tail(final E ... array) {
         return rest(array);
     }
@@ -848,6 +855,7 @@ public class $<T> {
         return rest(list, n);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] drop(final E ... array) {
         return rest(array);
     }
@@ -926,6 +934,7 @@ public class $<T> {
         return flatten((List) iterable, shallow);
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> List<E> without(final List<E> list, E ... values) {
         final List<E> valuesList = Arrays.asList(values);
         return filter(list, new Predicate<E>() {
@@ -937,18 +946,8 @@ public class $<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <E> List<E> without(final List<E> list, final E value) {
-        return without(list, (E[]) Arrays.asList(value).toArray());
-    }
-
-    @SuppressWarnings("unchecked")
     public static <E> E[] without(final E[] array, final E ... values) {
         return (E[]) without(Arrays.asList(array), values).toArray();
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <E> E[] without(final E[] array, final E value) {
-        return without(array, (E[]) Arrays.asList(value).toArray());
     }
 
     public static <E> List<E> uniq(final List<E> list) {
@@ -974,6 +973,7 @@ public class $<T> {
         return (E[]) uniq(Arrays.asList(array), func).toArray();
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> List<E> union(final List<E> list, final List<E> ... lists) {
         final Set<E> union = newLinkedHashSet();
         union.addAll(list);
@@ -983,6 +983,7 @@ public class $<T> {
         return newArrayList(union);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> unionWith(final List<T> ... lists) {
         return union(newArrayList(iterable), lists);
     }
@@ -1005,6 +1006,7 @@ public class $<T> {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> List<E> intersection(final List<E> list, final List<E> ... lists) {
         final Stack<List<E>> stack = new Stack<List<E>>();
         stack.push(list);
@@ -1014,6 +1016,7 @@ public class $<T> {
         return stack.peek();
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> intersectionWith(final List<T> ... lists) {
         return intersection(newArrayList(iterable), lists);
     }
@@ -1037,6 +1040,7 @@ public class $<T> {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> List<E> difference(final List<E> list, final List<E> ... lists) {
         final Stack<List<E>> stack = new Stack<List<E>>();
         stack.push(list);
@@ -1046,6 +1050,7 @@ public class $<T> {
         return stack.peek();
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> differenceWith(final List<T> ... lists) {
         return difference(newArrayList(iterable), lists);
     }
@@ -1060,6 +1065,7 @@ public class $<T> {
         return (E[]) stack.peek().toArray();
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> List<List<T>> zip(final List<T> ... lists) {
         final List<List<T>> zipped = newArrayList();
         each(Arrays.asList(lists), new Block<List<T>>() {
@@ -1083,6 +1089,7 @@ public class $<T> {
         return zipped;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> List<List<T>> unzip(final List<T> ... lists) {
         final List<List<T>> unzipped = newArrayList();
         for (int index = 0; index < lists[0].size(); index += 1) {
@@ -1277,6 +1284,7 @@ public class $<T> {
         };
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Function1<T, T> compose(final Function1<T, T> ... func) {
         return new Function1<T, T>() {
             public T apply(final T arg) {
@@ -1388,6 +1396,7 @@ public class $<T> {
         return functions(object);
     }
 
+    @SuppressWarnings("unchecked")
     public static <K, V> Map<K, V> extend(final Map<K, V> destination, final Map<K, V> ... sources) {
         final Map<K, V> result = newLinkedHashMap();
         for (final Map.Entry<K, V> entry : destination.entrySet()) {
@@ -1427,6 +1436,7 @@ public class $<T> {
         return findLastKey(Arrays.asList(array), pred);
     }
 
+    @SuppressWarnings("unchecked")
     public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final V ... keys) {
         return without(map(newArrayList(object.entrySet()), new Function1<Map.Entry<K, V>, Tuple<K, V>>() {
             @Override
@@ -1453,6 +1463,7 @@ public class $<T> {
         }), (Tuple<K, V>) null);
     }
 
+    @SuppressWarnings("unchecked")
     public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final V ... keys) {
         return without(map(newArrayList(object.entrySet()), new Function1<Map.Entry<K, V>, Tuple<K, V>>() {
             @Override
@@ -1505,6 +1516,7 @@ public class $<T> {
         throw new IllegalArgumentException("Cannot clone object");
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] clone(final E ... iterable) {
         return Arrays.copyOf(iterable, iterable.length);
     }
@@ -1680,6 +1692,7 @@ public class $<T> {
         return new $.Chain<T>(newArrayList(iterable));
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Chain chain(final T ... array) {
         return new $.Chain<T>(Arrays.asList(array));
     }
@@ -1873,14 +1886,17 @@ public class $<T> {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> union(final List<T> ... lists) {
             return new Chain<T>($.union(list, lists));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> intersection(final List<T> ... lists) {
             return new Chain<T>($.intersection(list, lists));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> difference(final List<T> ... lists) {
             return new Chain<T>($.difference(list, lists));
         }
@@ -1901,6 +1917,7 @@ public class $<T> {
             return new Chain<List<List<T>>>($.chunk(value(), size));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> concat(final List<T> ... lists) {
             return new Chain<T>($.concat(list, lists));
         }
@@ -1976,6 +1993,7 @@ public class $<T> {
         return localList;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Comparable<T>> T[] sort(final T ... array) {
         final T[] localArray = array.clone();
         Arrays.<T>sort(localArray);
@@ -2020,6 +2038,7 @@ public class $<T> {
         return join(iterable);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] concat(final T[] first, final T[] ... other) {
         int length = 0;
         for (T[] otherItem : other) {
@@ -2034,6 +2053,7 @@ public class $<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> List<T> concat(final Iterable<T> first, final Iterable<T> ... other) {
         int length = 0;
         for (Iterable<T> otherItem : other) {
@@ -2049,10 +2069,12 @@ public class $<T> {
     }
 
 
+    @SuppressWarnings("unchecked")
     public List<T> concatWith(final Iterable<T> ... other) {
         return concat(iterable, other);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> List<T> slice(final Iterable<T> iterable, final int start) {
         final List<T> result;
         if (start >= 0) {
