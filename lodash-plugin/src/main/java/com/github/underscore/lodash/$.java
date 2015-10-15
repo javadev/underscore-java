@@ -338,10 +338,12 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<T>>($.dropRightWhile(value(), pred));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<List<Object>> fill(final Object value) {
             return new Chain<List<Object>>($.fill((List<Object>) value(), value));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<List<Object>> fill(final Object value, final Integer start, final Integer end) {
             return new Chain<List<Object>>($.fill((List<Object>) value(), value, start, end));
         }
@@ -350,10 +352,12 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<?>>($.flattenDeep((List<?>) value()));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<List<Object>> pull(final Object ... values) {
             return new Chain<List<Object>>($.pull((List<Object>) value(), values));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<List<Object>> pullAt(final Integer ... indexes) {
             return new Chain<List<Object>>($.pullAt((List<Object>) value(), indexes));
         }
@@ -386,6 +390,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<T>>($.takeRightWhile(value(), pred));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<List<T>> xor(final List<T> list) {
             return new Chain<List<T>>($.xor(value(), list));
         }
@@ -394,6 +399,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<T>>($.at(value(), indexes));
         }
 
+        @SuppressWarnings("unchecked")
         public <T extends Number> Chain<T> sum() {
             return new Chain<T>($.sum((List<T>) value()));
         }
@@ -402,10 +408,12 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<F>($.sum((List<T>) value(), func));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<Double> mean() {
             return new Chain<Double>($.mean((List<Number>) value()));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<Double> median() {
             return new Chain<Double>($.median((List<Number>) value()));
         }
@@ -543,7 +551,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
-    public Chain chain() {
+    public Chain<T> chain() {
         return new $.Chain<T>(newArrayList(value()));
     }
 
@@ -617,6 +625,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return list;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Object> fill(Object value) {
         return fill((List<Object>) getIterable(), value);
     }
@@ -628,6 +637,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return list;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Object> fill(Object value, Integer start, Integer end) {
         return fill((List<Object>) getIterable(), value, start, end);
     }
@@ -651,6 +661,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return list;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Object> pull(Object ... values) {
         return pull((List<Object>) getIterable(), values);
     }
@@ -670,6 +681,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Object> pullAt(final Integer ... indexes) {
         return pullAt((List<Object>) getIterable(), indexes);
     }
@@ -738,6 +750,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return takeRightWhile(getIterable(), pred);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> List<T> xor(final List<T> ... lists) {
         int index = -1;
         int length = lists.length;
@@ -749,6 +762,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return uniq(result);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> xor(final List<T> list) {
         return xor((List<T>) getIterable(), list);
     }
@@ -787,14 +801,17 @@ public class $<T> extends com.github.underscore.$<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Number> T sum() {
         return (T) sum((List<T>) getIterable());
     }
 
+    @SuppressWarnings("unchecked")
     public <E, F extends  Number> F sum(final Function1<E, F> func) {
         return (F) sum((List<E>) getIterable(), func);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Number> T add(final T first, final T second) {
         if (first == null) {
             return second;
@@ -863,10 +880,12 @@ public class $<T> extends com.github.underscore.$<T> {
         return result.doubleValue() / count;
     }
 
+    @SuppressWarnings("unchecked")
     public double mean() {
         return mean((Iterable<Number>) getIterable());
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Number> double median(final Iterable<T> iterable) {
         final List<T> result = newArrayList((Collection) iterable);
         final int size = size(iterable);
@@ -876,6 +895,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return (result.get(size / 2 - 1).doubleValue() + result.get(size / 2).doubleValue()) / 2;
     }
 
+    @SuppressWarnings("unchecked")
     public double median() {
         return median((Iterable<Number>) getIterable());
     }

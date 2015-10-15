@@ -46,6 +46,7 @@ _.chunk(['a', 'b', 'c', 'd'], 2);
 _.chunk(['a', 'b', 'c', 'd'], 3);
 // → [['a', 'b', 'c'], ['d']]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void chunk() {
         assertEquals("[[a, b], [c, d]]", $.chunk(asList("a", "b", "c", "d"), 2).toString());
@@ -67,6 +68,7 @@ _.drop([1, 2, 3], 5);
 _.drop([1, 2, 3], 0);
 // → [1, 2, 3]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void drop() {
         assertEquals("[2, 3]", $.drop(asList(1, 2, 3)).toString());
@@ -92,6 +94,7 @@ _.dropRight([1, 2, 3], 5);
 _.dropRight([1, 2, 3], 0);
 // → [1, 2, 3]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void dropRight() {
         assertEquals("[1, 2]", $.dropRight(asList(1, 2, 3)).toString());
@@ -110,6 +113,7 @@ _.dropWhile([1, 2, 3], function(n) {
 });
 // → [3]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void dropWhile() {
         assertEquals("[3]", $.dropWhile(asList(1, 2, 3), new Predicate<Integer>() {
@@ -135,6 +139,7 @@ _.dropRightWhile([1, 2, 3], function(n) {
 });
 // → [1, 2]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void dropRightWhile() {
         assertEquals("[1, 2]", $.dropRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
@@ -167,6 +172,7 @@ _.fill(Array(3), 2);
 _.fill([4, 6, 8], '*', 1, 2);
 // → [4, '*', 8]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void fill() {
         List<Object> array = new ArrayList<Object>(asList(1, 2, 3));
@@ -194,6 +200,7 @@ _.fill([4, 6, 8], '*', 1, 2);
 _.flattenDeep([1, [2, 3, [4]]]);
 // → [1, 2, 3, 4]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void flattenDeep() {
         final List<Integer> result = $.flattenDeep(asList(1, asList(2, 3, asList(asList(4)))));
@@ -211,6 +218,7 @@ _.pull(array, 2, 3);
 console.log(array);
 // → [1, 1]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void pull() {
         List<Object> array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
@@ -234,6 +242,7 @@ console.log(array);
 console.log(evens);
 // → [10, 20]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void pullAt() {
         List<Object> array = new ArrayList<Object>(asList(5, 10, 15, 20));
@@ -262,6 +271,7 @@ console.log(array);
 console.log(evens);
 // → [2, 4]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void remove() {
         List<Integer> array = new ArrayList<Integer>(asList(1, 2, 3, 4));
@@ -303,6 +313,7 @@ _.take([1, 2, 3], 5);
 _.take([1, 2, 3], 0);
 // → []
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void take() {
         assertEquals("[1]", $.take(asList(1, 2, 3)).toString());
@@ -328,6 +339,7 @@ _.takeRight([1, 2, 3], 5);
 _.takeRight([1, 2, 3], 0);
 // → []
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void takeRight() {
         assertEquals("[3]", $.takeRight(asList(1, 2, 3)).toString());
@@ -346,6 +358,7 @@ _.takeWhile([1, 2, 3], function(n) {
 });
 // → [1, 2]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void takeWhile() {
         assertEquals("[1, 2]", $.takeWhile(asList(1, 2, 3), new Predicate<Integer>() {
@@ -371,6 +384,7 @@ _.takeRightWhile([1, 2, 3], function(n) {
 });
 // → [2, 3]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void takeRightWhile() {
         assertEquals("[2, 3]", $.takeRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
@@ -394,6 +408,7 @@ _.takeRightWhile([1, 2, 3], function(n) {
 _.xor([1, 2], [4, 2]);
 // → [1, 4]
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void xor() {
         assertEquals("[1, 4]", $.xor(asList(1, 2), asList(4, 2)).toString());
@@ -406,6 +421,7 @@ _.xor([1, 2], [4, 2]);
 _.at(['a', 'b', 'c'], 0, 2);
 // → ['a', 'c']
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void at() {
         assertEquals("[a, c]", $.at(asList("a", "b", "c"), 0, 2).toString());
@@ -413,6 +429,7 @@ _.at(['a', 'b', 'c'], 0, 2);
         assertEquals("[a, c]", $.chain(asList("a", "b", "c")).at(0, 2).value().toString());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void main() {
         $.main(new String[] {});
@@ -425,6 +442,7 @@ _.at(['a', 'b', 'c'], 0, 2);
         $.chain("");
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void chain() {
         $.chain(new String[] {""}).first();

@@ -249,14 +249,17 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(value(), func)));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> union(final List<T> ... lists) {
             return new Chain<T>($.union(value(), lists));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> intersection(final List<T> ... lists) {
             return new Chain<T>($.intersection(value(), lists));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> difference(final List<T> ... lists) {
             return new Chain<T>($.difference(value(), lists));
         }
@@ -277,6 +280,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<List<T>>>($.chunk(value(), size));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> concat(final List<T> ... lists) {
             return new Chain<T>($.concat(value(), lists));
         }
@@ -443,10 +447,12 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(newArrayList(iterable));
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Chain chain(final T ... list) {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
+    @SuppressWarnings("unchecked")
     public Chain chain() {
         return new $.Chain<T>(newArrayList(value()));
     }

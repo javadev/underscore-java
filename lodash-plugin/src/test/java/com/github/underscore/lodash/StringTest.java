@@ -405,6 +405,7 @@ _.repeat('abc', 0);
         assertEquals("[\n  null\n]", builder.toString());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testJsonArrayCollection() {
         assertEquals("[\n  \"First item\",\n  \"Second item\"\n]",
@@ -659,6 +660,7 @@ _.repeat('abc', 0);
         assertEquals("[\n  \"Hello\",\n  12,\n  [\n    1,\n    2,\n    3\n  ]\n]", builder.toString());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromList() {
         final List<String> testList = new ArrayList<String>();
@@ -684,6 +686,7 @@ _.repeat('abc', 0);
         assertEquals("null", $.toJson((Map) null));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromMapFormatted() {
         String string =
@@ -697,8 +700,9 @@ _.repeat('abc', 0);
         assertEquals(string, $.toJson((Map<String, Object>) $.fromJson(string)));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-        public void testDecode() {
+    public void testDecode() {
             String string = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
         assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
         + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
@@ -714,6 +718,7 @@ _.repeat('abc', 0);
             $.toJson((List<Object>) $.chain(string).fromJson().value()));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testDecode2() {
         String string = "[\"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"]";
@@ -721,11 +726,13 @@ _.repeat('abc', 0);
             $.toJson((List<Object>) $.fromJson(string)));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testDecode3() {
         assertEquals("[\n\n]", $.toJson((List<Object>) $.fromJson("[]")));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testDecodeMap() {
         String string = "{\"first\": 123e+10,\"second\":[{\"k1\":{\"id\":\"id1\"}},"
@@ -735,11 +742,13 @@ _.repeat('abc', 0);
         + "  \"id\": null\n}", $.toJson((Map<String, Object>) $.fromJson(string)));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testDecodeMap2() {
         assertEquals("{\n\n}", $.toJson((Map<String, Object>) $.fromJson("{}")));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testDecodeTrueFalse() {
         List<Object> array1 = new ArrayList<Object>();
@@ -754,6 +763,7 @@ _.repeat('abc', 0);
             $.toJson((List<Object>) $.fromJson(string)));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testDecodeUnicode() {
         assertEquals("[\n  \"abc\u0A00\"\n]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0a00\"]")));
@@ -848,6 +858,7 @@ _.repeat('abc', 0);
         $.fromJson("[\"abc\\u001G\\/\"]");
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void main() throws Exception {
         $.main(new String[] {});
@@ -862,6 +873,7 @@ _.repeat('abc', 0);
         $.chain(new String[] {});
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void chain() {
         $.chain(new String[] {""}).first();

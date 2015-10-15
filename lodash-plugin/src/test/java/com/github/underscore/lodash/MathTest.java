@@ -24,6 +24,7 @@
 package com.github.underscore.lodash;
 
 import com.github.underscore.Function1;
+import com.github.underscore.Predicate;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -48,6 +49,7 @@ _.sum([0, 14, 0.2]);
 _.sum([-1, -2, -3]);
 => -6
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void sum() {
         final Byte result = $.sum(asList((byte) 1, (byte) 2, (byte) 3));
@@ -126,6 +128,7 @@ _.mean([0, 0.5, 1]);
 _.mean([0, 1, 2]);
 => 1
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void mean() {
         final Double result = $.mean(asList((double) 0, (double) 0.5, (double) 1));
@@ -148,6 +151,7 @@ _.median([0, 0, 1, 2]);
 _.median([0, 0, 1, 2, 3, 4]);
 => 1.5
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void median() {
         final Double result = $.median(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5));
@@ -165,8 +169,29 @@ _.median([0, 0, 1, 2, 3, 4]);
         assertEquals("1.5", result4.toString());
     }
 
+    // http://stackoverflow.com/questions/27772432/is-there-a-underscore-js-lib-for-java
+    @SuppressWarnings("unchecked")
     @Test
-    public void main() throws Exception {
+    public void sumOfInt() {
+/*
+String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
+int sum = Arrays.stream(words)
+        .filter(w -> w.startsWith("E"))
+        .mapToInt(w -> w.length())
+        .sum();
+System.out.println("Sum of letters in words starting with E... " + sum);
+*/
+        String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
+        int sum = (Integer) $.chain(asList(words))
+            .filter(new Predicate<String>() { public Boolean apply(String item) { return item.startsWith("E"); } })
+            .map(new Function1<String, Integer>() { public Integer apply(String item) { return item.length(); } })
+            .sum().item();
+        assertEquals(34, sum);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void main() {
         $.main(new String[] {});
         new $("");
         new $(asList()).chain();
