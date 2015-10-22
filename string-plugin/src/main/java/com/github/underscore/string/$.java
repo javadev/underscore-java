@@ -322,6 +322,14 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.camelCase((String) item()));
         }
 
+        public Chain<String> lowerFirst() {
+            return new Chain<String>($.lowerFirst((String) item()));
+        }
+
+        public Chain<String> upperFirst() {
+            return new Chain<String>($.upperFirst((String) item()));
+        }
+
         public Chain<String> capitalize() {
             return new Chain<String>($.capitalize((String) item()));
         }
@@ -467,16 +475,20 @@ public class $<T> extends com.github.underscore.$<T> {
         }).apply(string);
     }
 
+    public static String lowerFirst(final String string) {
+        return createCaseFirst("toLowerCase").apply(string);
+    }
+
+    public static String upperFirst(final String string) {
+        return createCaseFirst("toUpperCase").apply(string);
+    }
+
     public static String capitalize(final String string) {
-        final String localString = baseToString(string);
-        return localString.isEmpty() ? "" : localString.substring(0, 1).toUpperCase(Locale.getDefault())
-            + (localString.length() > 1 ? localString.substring(1) : "");
+        return upperFirst(baseToString(string).toLowerCase());
     }
 
     public static String uncapitalize(final String string) {
-        final String localString = baseToString(string);
-        return localString.isEmpty() ? "" : localString.substring(0, 1).toLowerCase(Locale.getDefault())
-            + (localString.length() > 1 ? localString.substring(1) : "");
+        return lowerFirst(baseToString(string).toLowerCase());
     }
 
     private static String baseToString(String value) {
@@ -519,6 +531,17 @@ public class $<T> extends com.github.underscore.$<T> {
                     result = callback.apply(result, array.get(index), index);
                 }
                 return result;
+            }
+        };
+    }
+
+    private static Function1<String, String> createCaseFirst(final String methodName) {
+        return new Function1<String, String>() {
+            public String apply(final String string) {
+                final String localString = baseToString(string);
+                final String chr = localString.isEmpty() ? "" : localString.substring(0, 1);
+                final String trailing = localString.length() > 1 ? localString.substring(1) : "";
+                return $.invoke(Arrays.asList(chr), methodName).get(0) + trailing;
             }
         };
     }
@@ -1522,6 +1545,14 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public String camelCase() {
         return camelCase(getString().get());
+    }
+
+    public String lowerFirst() {
+        return lowerFirst(getString().get());
+    }
+
+    public String upperFirst() {
+        return upperFirst(getString().get());
     }
 
     public String capitalize() {

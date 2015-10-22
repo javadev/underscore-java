@@ -66,6 +66,34 @@ _.camelCase('__foo_bar__');
     }
 
 /*
+_.lowerFirst('Fred');
+// => 'fred'
+_.lowerFirst('FRED');
+// => 'fRED'
+*/
+    @Test
+    public void lowerFirst() {
+        assertEquals("fred", $.lowerFirst("Fred"));
+        assertEquals("fred", new $("Fred").lowerFirst());
+        assertEquals("fred", $.chain("Fred").lowerFirst().item());
+        assertEquals("fRED", $.lowerFirst("FRED"));
+    }
+
+/*
+_.upperFirst('fred');
+// => 'Fred'
+_.upperFirst('FRED');
+// => 'FRED'
+*/
+    @Test
+    public void upperFirst() {
+        assertEquals("Fred", $.upperFirst("fred"));
+        assertEquals("Fred", new $("fred").upperFirst());
+        assertEquals("Fred", $.chain("fred").upperFirst().item());
+        assertEquals("FRED", $.upperFirst("FRED"));
+    }
+
+/*
 _.capitalize('fred');
 => 'Fred'
 */
