@@ -34,7 +34,7 @@ Include the following in your `pom.xml` for Maven:
   <dependency>
     <groupId>com.github.javadev</groupId>
     <artifactId>underscore</artifactId>
-    <version>1.7</version>
+    <version>1.8</version>
   </dependency>
   ...
 </dependencies>
