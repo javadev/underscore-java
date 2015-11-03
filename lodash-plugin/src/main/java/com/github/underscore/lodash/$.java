@@ -1217,62 +1217,41 @@ public class $<T> extends com.github.underscore.$<T> {
     public static class JsonStringBuilder {
         private final StringBuilder builder;
         private int ident;
-        private boolean newString;
-        private boolean newKey;
-        private boolean newLine;
 
         public JsonStringBuilder() {
             builder = new StringBuilder();
         }
 
         public JsonStringBuilder append(final char character) {
-            switch (character) {
-                case '[':
-                case '{':
-                    fillSpaces(newLine);
-                    ident += 2;
-                    break;
-                case ']':
-                case '}':
-                    ident -= 2;
-                    builder.append("\n");
-                    fillSpaces(true);
-                    break;
-                case '\"':
-                    newString = !newString;
-                    fillSpaces(newString && !newKey);
-                    break;
-                default:
-                    break;
-            }
             builder.append(character);
-            if (character == ',' || character == '[' || character == '{') {
-                builder.append("\n");
-                newLine = true;
-            } else {
-                newLine = false;
-            }
-            if (character == ':') {
-                builder.append(' ');
-                newKey = true;
-            } else {
-                newKey = false;
-            }
             return this;
         }
 
         public JsonStringBuilder append(final String string) {
-            fillSpaces(!newString && !newKey);
             builder.append(string);
             return this;
         }
 
-        private void fillSpaces(final boolean condition) {
-            if (condition) {
-                for (int index = 0; index < ident; index += 1) {
-                    builder.append(' ');
-                }
+        public JsonStringBuilder fillSpaces() {
+            for (int index = 0; index < ident; index += 1) {
+                builder.append(' ');
             }
+            return this;
+        }
+
+        public JsonStringBuilder incIdent() {
+            ident += 2;
+            return this;
+        }
+
+        public JsonStringBuilder decIdent() {
+            ident -= 2;
+            return this;
+        }
+
+        public JsonStringBuilder newLine() {
+            builder.append("\n");
+            return this;
         }
 
         public String toString() {
@@ -1287,26 +1266,23 @@ public class $<T> extends com.github.underscore.$<T> {
                 return;
             }
 
-            boolean first = true;
             Iterator iter = collection.iterator();
 
-            builder.append('[');
+            builder.append('[').incIdent().newLine();
             while (iter.hasNext()) {
-                if (first) {
-                    first = false;
-                } else {
-                    builder.append(',');
-                }
-
                 Object value = iter.next();
                 if (value == null) {
-                    builder.append(NULL);
+                    builder.fillSpaces().append(NULL);
                     continue;
                 }
 
+                builder.fillSpaces();
                 JsonValue.writeJson(value, builder);
+                if (iter.hasNext()) {
+                    builder.append(',').newLine();
+                }
             }
-            builder.append(']');
+            builder.newLine().decIdent().fillSpaces().append(']');
         }
 
         public static void writeJson(byte[] array, JsonStringBuilder builder) {
@@ -1315,15 +1291,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append('[');
-                builder.append(String.valueOf(array[0]));
+                builder.append('[').incIdent().newLine();
+                builder.fillSpaces().append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(',');
+                    builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append(']');
+                builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
 
@@ -1333,15 +1309,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append('[');
-                builder.append(String.valueOf(array[0]));
+                builder.append('[').incIdent().newLine();
+                builder.fillSpaces().append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(',');
+                    builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append(']');
+                builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
 
@@ -1351,15 +1327,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append('[');
-                builder.append(String.valueOf(array[0]));
+                builder.append('[').incIdent().newLine();
+                builder.fillSpaces().append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(',');
+                    builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append(']');
+                builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
 
@@ -1369,15 +1345,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append('[');
-                builder.append(String.valueOf(array[0]));
+                builder.append('[').incIdent().newLine();
+                builder.fillSpaces().append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(',');
+                    builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append(']');
+                builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
 
@@ -1387,15 +1363,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append('[');
-                builder.append(String.valueOf(array[0]));
+                builder.append('[').incIdent().newLine();
+                builder.fillSpaces().append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(',');
+                    builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append(']');
+                builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
 
@@ -1405,15 +1381,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append('[');
-                builder.append(String.valueOf(array[0]));
+                builder.append('[').incIdent().newLine();
+                builder.fillSpaces().append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(',');
+                    builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append(']');
+                builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
 
@@ -1423,15 +1399,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append('[');
-                builder.append(String.valueOf(array[0]));
+                builder.append('[').incIdent().newLine();
+                builder.fillSpaces().append(String.valueOf(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(',');
+                    builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
 
-                builder.append(']');
+                builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
 
@@ -1441,15 +1417,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append('[').append('\"');
-                builder.append(String.valueOf(array[0]));
+                builder.append('[').incIdent().newLine();
+                builder.fillSpaces().append('\"').append(String.valueOf(array[0])).append('\"');
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append('\"').append(',').append('\"');
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(',').newLine().fillSpaces();
+                    builder.append('\"').append(String.valueOf(array[i])).append('\"');
                 }
 
-                builder.append('\"').append(']');
+                builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
 
@@ -1459,15 +1435,15 @@ public class $<T> extends com.github.underscore.$<T> {
             } else if (array.length == 0) {
                 builder.append("[]");
             } else {
-                builder.append('[');
+                builder.append('[').newLine().incIdent().fillSpaces();
                 JsonValue.writeJson(array[0], builder);
 
                 for (int i = 1; i < array.length; i++) {
-                    builder.append(',');
+                    builder.append(',').newLine().fillSpaces();
                     JsonValue.writeJson(array[i], builder);
                 }
 
-                builder.append(']');
+                builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
     }
@@ -1479,24 +1455,21 @@ public class $<T> extends com.github.underscore.$<T> {
                 return;
             }
 
-            boolean first = true;
             Iterator iter = map.entrySet().iterator();
 
-            builder.append('{');
+            builder.append('{').newLine().incIdent();
             while (iter.hasNext()) {
-                if (first) {
-                    first = false;
-                } else {
-                    builder.append(',');
-                }
                 Map.Entry entry = (Map.Entry) iter.next();
-                builder.append('\"');
+                builder.fillSpaces().append('\"');
                 builder.append(escape(String.valueOf(entry.getKey())));
                 builder.append('\"');
-                builder.append(':');
+                builder.append(':').append(' ');
                 JsonValue.writeJson(entry.getValue(), builder);
+                if (iter.hasNext()) {
+                    builder.append(',').newLine();
+                }
             }
-            builder.append('}');
+            builder.newLine().decIdent().fillSpaces().append('}');
         }
     }
 
@@ -1505,9 +1478,7 @@ public class $<T> extends com.github.underscore.$<T> {
             if (value == null) {
                 builder.append(NULL);
             } else if (value instanceof String) {
-                builder.append('\"');
-                builder.append(escape((String) value));
-                builder.append('\"');
+                builder.append('"').append(escape((String) value)).append('"');
             } else if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
                     builder.append(NULL);
