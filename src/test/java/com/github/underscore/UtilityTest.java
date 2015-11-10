@@ -110,6 +110,13 @@ _.uniqueId('contact_');
         assertEquals("contact_1", $.uniqueId("contact_"));
     }
 
+    @Test
+    public void uniquePassword() {
+        String password = $.uniquePassword();
+        assertTrue("Password doesn't matches the pattern [A-Z]+[0-9]+.*?[a-z]+ " + password,
+            password.matches("[A-Z]+[0-9]+.*?[a-z]+.*"));
+    }
+
 /*
 _.times(3, function(n){ genie.grantWishNumber(n); });
 */

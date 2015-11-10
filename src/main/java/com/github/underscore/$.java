@@ -1682,6 +1682,24 @@ public class $<T> {
         return prefix + UNIQUE_ID.incrementAndGet();
     }
 
+    public static String uniquePassword() {
+        final String[] passwords = new String[] {
+            "ALKJVBPIQYTUIWEBVPQALZVKQRWORTUYOYISHFLKAJMZNXBVMNFGAHKJSDFALAPOQIERIUYTGSFGKMZNXBVJAHGFAKX",
+            "1234567890",
+            "qpowiealksdjzmxnvbfghsdjtreiuowiruksfhksajmzxncbvlaksjdhgqwetytopskjhfgvbcnmzxalksjdfhgbvzm",
+            ".@,-+/()#$%^&*!"
+        };
+        final StringBuilder result = new StringBuilder();
+        final long passwordLength = Math.abs(UUID.randomUUID().getLeastSignificantBits() % 7) + 8;
+        for (int index = 0; index < passwordLength; index += 1) {
+            final int passIndex = (int) (passwords.length * index / passwordLength);
+            final int charIndex = (int) Math.abs(
+                UUID.randomUUID().getLeastSignificantBits() % passwords[passIndex].length());
+            result.append(passwords[passIndex].substring(charIndex, charIndex + 1));
+        }
+        return result.toString();
+    }
+
     public static <E> Template<Set<E>> template(final String template) {
         return new TemplateImpl<E>(template);
     }
