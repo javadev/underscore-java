@@ -27,6 +27,7 @@ import com.github.underscore.Block;
 import com.github.underscore.Function1;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
+import com.github.underscore.Tuple;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -213,6 +214,10 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.chain(new String[] {""}).rest();
         $.chain(new String[] {""}).rest(1);
         $.chain(new String[] {""}).flatten();
+        $.chain(new Integer[] {0}).map(new Function1<Integer, Integer>() {
+            public Integer apply(Integer value) { return value; } });
+        $.chain(new String[] {""}).filter(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
         $.chain(new String[] {""}).reject(new Predicate<String>() {
             public Boolean apply(String str) { return true; } });
         $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
@@ -252,8 +257,8 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.chain(new String[] {""}).invoke("toString", Collections.emptyList());
         $.chain(new String[] {""}).invoke("toString");
         $.chain(new String[] {""}).pluck("toString");
-        $.chain(new String[] {""}).where(Collections.emptyList());
-        $.chain(new String[] {""}).findWhere(Collections.emptyList());
+        $.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
+        $.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
         $.chain(new Integer[] {0}).uniq();
         $.chain(new Integer[] {0}).uniq(new Function1<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });

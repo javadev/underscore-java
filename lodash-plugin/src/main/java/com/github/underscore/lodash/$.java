@@ -119,8 +119,8 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<T> flatten() {
-            return new Chain<T>((List<T>) $.flatten(value()));
+        public Chain flatten() {
+            return new Chain((List<T>) $.flatten(value()));
         }
 
         public <F> Chain<F> map(final Function1<? super T, F> func) {
@@ -179,8 +179,8 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public <K, V extends Comparable<? super V>> Chain<Map<K, V>> sortBy(final K key) {
-            return new Chain<Map<K, V>>($.sortBy((List<Map<K, V>>) value(), key));
+        public <K> Chain<Map<K, Comparable>> sortBy(final K key) {
+            return new Chain<Map<K, Comparable>>($.sortBy((List<Map<K, Comparable>>) value(), key));
         }
 
         public <F> Chain<Map<F, List<T>>> groupBy(final Function1<T, F> func) {
@@ -551,19 +551,19 @@ public class $<T> extends com.github.underscore.$<T> {
         }
     }
 
-    public static Chain chain(final String item) {
+    public static Chain<String> chain(final String item) {
         return new $.Chain<String>(item);
     }
 
-    public static <T> Chain chain(final List<T> list) {
+    public static <T> Chain<T> chain(final List<T> list) {
         return new $.Chain<T>(list);
     }
 
-    public static <T> Chain chain(final Iterable<T> iterable) {
+    public static <T> Chain<T> chain(final Iterable<T> iterable) {
         return new $.Chain<T>(newArrayList(iterable));
     }
 
-    public static <T> Chain chain(final T ... list) {
+    public static <T> Chain<T> chain(final T ... list) {
         return new $.Chain<T>(Arrays.asList(list));
     }
 

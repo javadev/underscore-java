@@ -116,7 +116,7 @@ _.chunk(['a', 'b', 'c', 'd'], 3);
     public void chunk() {
         assertEquals("[[a, b], [c, d]]", $.chunk(asList("a", "b", "c", "d"), 2).toString());
         assertEquals("[[a, b], [c, d]]", new $(asList("a", "b", "c", "d")).chunk(2).toString());
-        assertEquals("[[a, b], [c, d]]", $.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
+        assertEquals("[[a, b], [c, d]]", $.chain(asList("a", "b", "c", "d")).chunk(2).item().toString());
         assertEquals("[[a, b, c], [d]]", $.chunk(asList("a", "b", "c", "d"), 3).toString());
     }
 
@@ -361,7 +361,7 @@ _.uniq([1, 2, 1, 3, 1, 4]);
             }
         });
         assertEquals("[moe, 50, curly, 60]", resultObject.toString());
-        final List<Person> resultObjectChain =
+        final List<String> resultObjectChain =
         $.chain(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).uniq(
             new Function1<Person, String>() {
             public String apply(Person person) {
@@ -391,7 +391,7 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
         assertEquals("[1, 2]", result.toString());
         final List<Integer> resultObj = new $(asList(1, 2, 3)).intersectionWith(asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", resultObj.toString());
-        final List<Object> resultChain = $.chain(asList(1, 2, 3)).intersection(asList(101, 2, 1, 10),
+        final List<Integer> resultChain = $.chain(asList(1, 2, 3)).intersection(asList(101, 2, 1, 10),
             asList(2, 1)).value();
         assertEquals("[1, 2]", resultChain.toString());
         final Object[] resultArray = $.intersection(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
@@ -409,7 +409,7 @@ _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
         assertEquals("[1, 2, 3, 101, 10]", result.toString());
         final List<Integer> resultObj = new $(asList(1, 2, 3)).unionWith(asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", resultObj.toString());
-        final List<Object> resultChain = $.chain(asList(1, 2, 3)).union(asList(101, 2, 1, 10), asList(2, 1)).value();
+        final List<Integer> resultChain = $.chain(asList(1, 2, 3)).union(asList(101, 2, 1, 10), asList(2, 1)).value();
         assertEquals("[1, 2, 3, 101, 10]", resultChain.toString());
         final Object[] resultArray = $.union(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
         assertEquals("[1, 2, 3, 101, 10]", asList(resultArray).toString());
@@ -426,7 +426,7 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
         assertEquals("[1, 3, 4]", result.toString());
         final List<Integer> resultObj = new $(asList(1, 2, 3, 4, 5)).differenceWith(asList(5, 2, 10));
         assertEquals("[1, 3, 4]", resultObj.toString());
-        final List<Object> resultChain = $.chain(asList(1, 2, 3, 4, 5)).difference(asList(5, 2, 10)).value();
+        final List<Integer> resultChain = $.chain(asList(1, 2, 3, 4, 5)).difference(asList(5, 2, 10)).value();
         assertEquals("[1, 3, 4]", resultChain.toString());
         final List<Integer> resultList = $.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10), asList(8, 4));
         assertEquals("[1, 3]", resultList.toString());
@@ -566,19 +566,19 @@ _.range(0);
         assertArrayEquals(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, result);
         final int[] resultObj = new $("").range(10);
         assertArrayEquals(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, resultObj);
-        final List resultChain = $.chain("").range(10).value();
+        final List resultChain = $.chain("").range(10).item();
         assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", resultChain.toString());
         final int[] result2 = $.range(1, 11);
         assertArrayEquals(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, result2);
         final int[] result2Obj = new $("").range(1, 11);
         assertArrayEquals(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, result2Obj);
-        final List result2Chain = $.chain("").range(1, 11).value();
+        final List result2Chain = $.chain("").range(1, 11).item();
         assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]", result2Chain.toString());
         final int[] result3 = $.range(0, 30, 5);
         assertArrayEquals(new int[] {0, 5, 10, 15, 20, 25}, result3);
         final int[] result3Obj = new $("").range(0, 30, 5);
         assertArrayEquals(new int[] {0, 5, 10, 15, 20, 25}, result3Obj);
-        final List result3Chain = $.chain("").range(0, 30, 5).value();
+        final List result3Chain = $.chain("").range(0, 30, 5).item();
         assertEquals("[0, 5, 10, 15, 20, 25]", result3Chain.toString());
         final int[] result4 = $.range(0, -10, -1);
         assertArrayEquals(new int[] {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}, result4);

@@ -741,7 +741,7 @@ _.pluck(stooges, 'name');
         new $(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name");
         assertEquals("[moe, larry, curly]", resultObj.toString());
         final List<?> resultChain =
-        $.chain(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name").value();
+        $.chain(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name").item();
         assertEquals("[moe, larry, curly]", resultChain.toString());
         final Set<?> resultEmpty2 =
         $.pluck(new LinkedHashSet(asList()), "name");
@@ -1179,8 +1179,8 @@ _.indexBy(stooges, 'age');
         final Map<String, List<Person>> resultObj =
         new $(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60))).indexBy("age");
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", resultObj.toString());
-        final Map<String, List<Person>> resultChain =
-        (Map<String, List<Person>>) $.chain(asList(new Person("moe", 40), new Person("larry", 50),
+        final Map<Object, List<Person>> resultChain =
+        (Map<Object, List<Person>>) $.chain(asList(new Person("moe", 40), new Person("larry", 50),
             new Person("curly", 60))).indexBy("age").item();
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", resultChain.toString());
         final Map<String, List<Person>> result2 =

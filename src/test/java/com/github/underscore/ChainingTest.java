@@ -128,7 +128,7 @@ var youngest = _.chain(stooges)
             add(new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } });
             add(new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } });
         } };
-        final String youngest = $.chain(stooges.toArray())
+        final String youngest = $.chain($.toArray(stooges))
             .sortBy(
                 new Function1<Map<String, Object>, Integer>() {
                 public Integer apply(Map<String, Object> item) {
@@ -357,13 +357,13 @@ _.chain(doctors)
     @Test
     @SuppressWarnings("unchecked")
     public void chain6() {
-        final List<String> result = $.chain($.class.getDeclaredMethods())
+        final List<Comparable> result = $.chain($.chain($.class.getDeclaredMethods())
             .reduce(new FunctionAccum<List<String>, Method>() {
                 public List<String> apply(final List<String> accum, final Method method) {
                     accum.add(method.getName());
                     return accum;
                 }
-            }, new ArrayList<String>())
+            }, new ArrayList<String>()).item())
             .reject(new Predicate<String>() {
                 public Boolean apply(final String name) {
                     return name.contains("$");

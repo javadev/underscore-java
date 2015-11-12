@@ -27,6 +27,7 @@ import com.github.underscore.Block;
 import com.github.underscore.Function1;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
+import com.github.underscore.Tuple;
 import com.github.underscore.lodash.$.JsonStringBuilder;
 import com.github.underscore.lodash.$.XmlStringBuilder;
 
@@ -337,7 +338,7 @@ _.words('fred, barney, & pebbles');
     public void words() {
         assertEquals("[fred, barney, pebbles]", $.words("fred, barney, & pebbles").toString());
         assertEquals("[fred, barney, pebbles]", new $("fred, barney, & pebbles").words().toString());
-        assertEquals("[fred, barney, pebbles]", $.chain("fred, barney, & pebbles").words().value().toString());
+        assertEquals("[fred, barney, pebbles]", $.chain("fred, barney, & pebbles").words().item().toString());
         assertEquals("[текст, на, русском]", $.words("текст, на, & русском").toString());
         assertEquals("[]", $.words(null).toString());
     }
@@ -746,7 +747,7 @@ _.repeat('abc', 0);
         assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
         + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
         + "        }\n      }\n    }\n  }\n]",
-            $.toJson((List<Object>) $.chain(string).fromJson().value()));
+            $.toJson((List<Object>) $.chain(string).fromJson().item()));
     }
 
     @SuppressWarnings("unchecked")
@@ -1387,8 +1388,8 @@ _.repeat('abc', 0);
         $.chain(new String[] {""}).invoke("toString", Collections.emptyList());
         $.chain(new String[] {""}).invoke("toString");
         $.chain(new String[] {""}).pluck("toString");
-        $.chain(new String[] {""}).where(Collections.emptyList());
-        $.chain(new String[] {""}).findWhere(Collections.emptyList());
+        $.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
+        $.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
         $.chain(new Integer[] {0}).uniq();
         $.chain(new Integer[] {0}).uniq(new Function1<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });

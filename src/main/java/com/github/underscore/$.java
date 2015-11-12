@@ -1686,16 +1686,16 @@ public class $<T> {
         return new TemplateImpl<E>(template);
     }
 
-    public static <T> Chain chain(final List<T> list) {
+    public static <T> Chain<T> chain(final List<T> list) {
         return new $.Chain<T>(list);
     }
 
-    public static <T> Chain chain(final Iterable<T> iterable) {
+    public static <T> Chain<T> chain(final Iterable<T> iterable) {
         return new $.Chain<T>(newArrayList(iterable));
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Chain chain(final T ... array) {
+    public static <T> Chain<T> chain(final T ... array) {
         return new $.Chain<T>(Arrays.asList(array));
     }
 
@@ -1708,13 +1708,8 @@ public class $<T> {
         private final List<T> list;
         @SuppressWarnings("unchecked")
         public Chain(final T item) {
-            if (item instanceof List) {
-                this.item = null;
-                this.list = (List<T>) item;
-            } else {
-                this.item = item;
-                this.list = null;
-            }
+            this.item = item;
+            this.list = null;
         }
         public Chain(final List<T> list) {
             this.item = null;
@@ -1754,8 +1749,8 @@ public class $<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<T> flatten() {
-            return new Chain<T>((List<T>) $.flatten(list));
+        public Chain flatten() {
+            return new Chain((List<T>) $.flatten(list));
         }
 
         public <F> Chain<F> map(final Function1<? super T, F> func) {
@@ -1814,8 +1809,8 @@ public class $<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public <K, V extends Comparable<? super V>> Chain<Map<K, V>> sortBy(final K key) {
-            return new Chain<Map<K, V>>($.sortBy((List<Map<K, V>>) list, key));
+        public <K> Chain<Map<K, Comparable>> sortBy(final K key) {
+            return new Chain<Map<K, Comparable>>($.sortBy((List<Map<K, Comparable>>) list, key));
         }
 
         public <F> Chain<Map<F, List<T>>> groupBy(final Function1<T, F> func) {
