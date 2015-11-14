@@ -794,6 +794,18 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void testDecodeMap3() {
+        // http://stackoverflow.com/questions/12155800/how-to-convert-hashmap-to-json-object-in-java
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("1", "a");
+        map.put("2", "b");
+        assertEquals("{\n  \"1\": \"a\",\n  \"2\": \"b\"\n}", $.toJson(map));
+        Map<String, Object> newMap = (Map<String, Object>) $.fromJson($.toJson(map));
+        assertEquals("a", newMap.get("1"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void testDecodeTrueFalse() {
         List<Object> array1 = new ArrayList<Object>();
         array1.add("abc\u0010a/");
