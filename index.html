@@ -126,6 +126,15 @@
                 href="#result">result</a></li>
              </ul>
 
+            <a class="toc_title" href="#Chaining">
+                Chaining
+            </a>
+
+            <ul class="toc_section">
+                <li>- <a href="#chain">chain</a></li><li>- <a
+                href="#value">value</a></li>
+             </ul>
+
         <a class="toc_title" href="#changelog">
             Change Log
         </a>
@@ -964,6 +973,112 @@ $.result(object.entrySet(), new Predicate&lt;Map.Entry&lt;String, Object&gt;&gt;
     }
 });
 =&gt; "nonsense"</pre><p></p>
+<p id="times"><b class="header">times</b> <code>$.times(n, iterator)
+</code><br>Invokes the given iterator function n
+times.<br></p><pre>final List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
+$.times(3, new Function&lt;Integer&gt;() {
+    public Integer apply() {
+        result.add(1);
+        return null;
+    }
+});
+=&gt; [1, 1, 1]
+</pre><p></p>
+
+ <h2
+id="Chaining">Chaining</h2>
+<p>
+        You can use Underscore-java in either an object-oriented or a functional style,
+        depending on your preference. The following two lines of code are
+        identical ways to double a list of numbers.
+</p>
+<pre>$.map(asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
+    public Integer apply(Integer item) {
+        return item * 2;
+    }
+});
+new $(asList(1, 2, 3)).map(new Function1&lt;Integer, Integer&gt;() {
+    public Integer apply(Integer item) {
+        return item * 2;
+    }
+});</pre>
+<p>
+        Calling <tt>chain</tt> will cause all future method calls to return
+        wrapped objects. When you've finished the computation, call
+        <tt>item</tt> or <tt>value</tt> to retrieve the final value. Here's an example of chaining
+        together a <b>map/flatten/reduce</b>, in order to get the word count of
+        every word in a song.
+</p>
+<pre>final List&lt;Map&lt;String, Object&gt;&gt; lyrics = new ArrayList&lt;Map&lt;String, Object&gt;&gt;() { {
+    add(new LinkedHashMap&lt;String, Object&gt;() { {
+        put(&quot;line&quot;, 1); put(&quot;words&quot;, &quot;I'm a lumberjack and I'm okay&quot;); } });
+    add(new LinkedHashMap&lt;String, Object&gt;() { {
+        put(&quot;line&quot;, 2); put(&quot;words&quot;, &quot;I sleep all night and I work all day&quot;); } });
+    add(new LinkedHashMap&lt;String, Object&gt;() { {
+        put(&quot;line&quot;, 3); put(&quot;words&quot;, &quot;He's a lumberjack and he's okay&quot;); } });
+    add(new LinkedHashMap&lt;String, Object&gt;() { {
+        put(&quot;line&quot;, 4); put(&quot;words&quot;, &quot;He sleeps all night and he works all day&quot;); } });
+} };
+final String result = $.chain(lyrics)
+    .map(
+        new Function1&lt;Map&lt;String, Object&gt;, List&lt;String&gt;&gt;() {
+        public List&lt;String&gt; apply(Map&lt;String, Object&gt; item) {
+            return asList(String.valueOf(item.get(&quot;words&quot;)).split(&quot; &quot;));
+        }
+    })
+    .flatten()
+    .reduce(
+        new FunctionAccum&lt;Map&lt;String, Integer&gt;, String&gt;() {
+        public Map&lt;String, Integer&gt; apply(Map&lt;String, Integer&gt; accum, String item) {
+            if (accum.get(item) == null) {
+                accum.put(item, 1);
+            } else {
+                accum.put(item, accum.get(item) + 1);
+            }
+            return accum;
+        }
+    },
+    new LinkedHashMap&lt;String, Integer&gt;()
+    )
+    .item();
+
+=&gt; {lumberjack: 2, all: 4, night: 2 ... }</pre>
+<p id="chain">
+        <b class="header">chain</b><code>$.chain(obj)</code>
+        <br>
+        Returns a wrapped object. Calling methods on this object will continue
+        to return wrapped objects until <tt>item</tt> or <tt>value</tt> is called.
+</p>
+<pre>final List&lt;Map&lt;String, Object&gt;&gt; stooges = new ArrayList&lt;Map&lt;String, Object&gt;&gt;() { {
+    add(new LinkedHashMap&lt;String, Object&gt;() { { put(&quot;name&quot;, &quot;curly&quot;); put(&quot;age&quot;, 25); } });
+    add(new LinkedHashMap&lt;String, Object&gt;() { { put(&quot;name&quot;, &quot;moe&quot;); put(&quot;age&quot;, 21); } });
+    add(new LinkedHashMap&lt;String, Object&gt;() { { put(&quot;name&quot;, &quot;larry&quot;); put(&quot;age&quot;, 23); } });
+} };
+final String youngest = $.chain(stooges)
+    .sortBy(
+        new Function1&lt;Map&lt;String, Object&gt;, Integer&gt;() {
+        public Integer apply(Map&lt;String, Object&gt; item) {
+            return (Integer) item.get(&quot;age&quot;);
+        }
+    })
+    .map(
+        new Function1&lt;Map&lt;String, Object&gt;, String&gt;() {
+        public String apply(Map&lt;String, Object&gt; item) {
+            return item.get(&quot;name&quot;) + &quot; is &quot; + item.get(&quot;age&quot;);
+        }
+    })
+    .first().item();
+
+=&gt; "moe is 21"
+</pre>
+<p id="value">
+        <b class="header">value</b><code>$.chain(obj).value()</code>
+        <br>
+        Extracts the value of a wrapped object.
+</p>
+<pre>$.chain(Arrays.asList(1, 2, 3)).value();
+=&gt; [1, 2, 3]
+</pre>
  <p
 id="changelog">
  </p><h2>Change Log</h2>
