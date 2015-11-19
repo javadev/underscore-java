@@ -232,8 +232,8 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.invoke(value(), methodName));
         }
 
-        public Chain<List<Object>> pluck(final String propertyName) {
-            return new Chain<List<Object>>($.pluck(value(), propertyName));
+        public Chain<Object> pluck(final String propertyName) {
+            return new Chain<Object>($.pluck(value(), propertyName));
         }
 
         public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
@@ -265,20 +265,20 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.difference(value(), lists));
         }
 
-        public Chain<List<Integer>> range(final int stop) {
-            return new Chain<List<Integer>>(newIntegerList($.range(stop)));
+        public Chain<Integer> range(final int stop) {
+            return new Chain<Integer>(newIntegerList($.range(stop)));
         }
 
-        public Chain<List<Integer>> range(final int start, final int stop) {
-            return new Chain<List<Integer>>(newIntegerList($.range(start, stop)));
+        public Chain<Integer> range(final int start, final int stop) {
+            return new Chain<Integer>(newIntegerList($.range(start, stop)));
         }
 
-        public Chain<List<Integer>> range(final int start, final int stop, final int step) {
-            return new Chain<List<Integer>>(newIntegerList($.range(start, stop, step)));
+        public Chain<Integer> range(final int start, final int stop, final int step) {
+            return new Chain<Integer>(newIntegerList($.range(start, stop, step)));
         }
 
-        public Chain<List<List<T>>> chunk(final int size) {
-            return new Chain<List<List<T>>>($.chunk(value(), size));
+        public Chain<List<T>> chunk(final int size) {
+            return new Chain<List<T>>($.chunk(value(), size));
         }
 
         public Chain<T> concat(final List<T> ... lists) {
@@ -318,89 +318,89 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<Map<K, V>>($.toMap((Iterable<Map.Entry<K, V>>) value()));
         }
 
-        public Chain<List<T>> drop() {
-            return new Chain<List<T>>($.drop(value()));
+        public Chain<T> drop() {
+            return new Chain<T>($.drop(value()));
         }
 
-        public Chain<List<T>> drop(final Integer n) {
-            return new Chain<List<T>>($.drop(value(), n));
+        public Chain<T> drop(final Integer n) {
+            return new Chain<T>($.drop(value(), n));
         }
 
-        public Chain<List<T>> dropRight() {
-            return new Chain<List<T>>($.dropRight(value()));
+        public Chain<T> dropRight() {
+            return new Chain<T>($.dropRight(value()));
         }
 
-        public Chain<List<T>> dropRight(final Integer n) {
-            return new Chain<List<T>>($.dropRight(value(), n));
+        public Chain<T> dropRight(final Integer n) {
+            return new Chain<T>($.dropRight(value(), n));
         }
 
-        public Chain<List<T>> dropWhile(final Predicate<T> pred) {
-            return new Chain<List<T>>($.dropWhile(value(), pred));
+        public Chain<T> dropWhile(final Predicate<T> pred) {
+            return new Chain<T>($.dropWhile(value(), pred));
         }
 
-        public Chain<List<T>> dropRightWhile(final Predicate<T> pred) {
-            return new Chain<List<T>>($.dropRightWhile(value(), pred));
-        }
-
-        @SuppressWarnings("unchecked")
-        public Chain<List<Object>> fill(final Object value) {
-            return new Chain<List<Object>>($.fill((List<Object>) value(), value));
+        public Chain<T> dropRightWhile(final Predicate<T> pred) {
+            return new Chain<T>($.dropRightWhile(value(), pred));
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<List<Object>> fill(final Object value, final Integer start, final Integer end) {
-            return new Chain<List<Object>>($.fill((List<Object>) value(), value, start, end));
-        }
-
-        public Chain<List<?>> flattenDeep() {
-            return new Chain<List<?>>($.flattenDeep((List<?>) value()));
+        public Chain<Object> fill(final Object value) {
+            return new Chain<Object>($.fill((List<Object>) value(), value));
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<List<Object>> pull(final Object ... values) {
-            return new Chain<List<Object>>($.pull((List<Object>) value(), values));
+        public Chain<Object> fill(final Object value, final Integer start, final Integer end) {
+            return new Chain<Object>($.fill((List<Object>) value(), value, start, end));
+        }
+
+        public Chain<Object> flattenDeep() {
+            return new Chain<Object>($.flattenDeep((List<?>) value()));
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<List<Object>> pullAt(final Integer ... indexes) {
-            return new Chain<List<Object>>($.pullAt((List<Object>) value(), indexes));
-        }
-
-        public Chain<List<T>> remove(final Predicate<T> pred) {
-            return new Chain<List<T>>($.remove(value(), pred));
-        }
-
-        public Chain<List<T>> take() {
-            return new Chain<List<T>>($.take(value()));
-        }
-
-        public Chain<List<T>> takeRight() {
-            return new Chain<List<T>>($.takeRight(value()));
-        }
-
-        public Chain<List<T>> take(final Integer n) {
-            return new Chain<List<T>>($.take(value(), n));
-        }
-
-        public Chain<List<T>> takeRight(final Integer n) {
-            return new Chain<List<T>>($.takeRight(value(), n));
-        }
-
-        public Chain<List<T>> takeWhile(final Predicate<T> pred) {
-            return new Chain<List<T>>($.takeWhile(value(), pred));
-        }
-
-        public Chain<List<T>> takeRightWhile(final Predicate<T> pred) {
-            return new Chain<List<T>>($.takeRightWhile(value(), pred));
+        public Chain<Object> pull(final Object ... values) {
+            return new Chain<Object>($.pull((List<Object>) value(), values));
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<List<T>> xor(final List<T> list) {
-            return new Chain<List<T>>($.xor(value(), list));
+        public Chain<Object> pullAt(final Integer ... indexes) {
+            return new Chain<Object>($.pullAt((List<Object>) value(), indexes));
         }
 
-        public Chain<List<T>> at(final Integer ... indexes) {
-            return new Chain<List<T>>($.at(value(), indexes));
+        public Chain<T> remove(final Predicate<T> pred) {
+            return new Chain<T>($.remove(value(), pred));
+        }
+
+        public Chain<T> take() {
+            return new Chain<T>($.take(value()));
+        }
+
+        public Chain<T> takeRight() {
+            return new Chain<T>($.takeRight(value()));
+        }
+
+        public Chain<T> take(final Integer n) {
+            return new Chain<T>($.take(value(), n));
+        }
+
+        public Chain<T> takeRight(final Integer n) {
+            return new Chain<T>($.takeRight(value(), n));
+        }
+
+        public Chain<T> takeWhile(final Predicate<T> pred) {
+            return new Chain<T>($.takeWhile(value(), pred));
+        }
+
+        public Chain<T> takeRightWhile(final Predicate<T> pred) {
+            return new Chain<T>($.takeRightWhile(value(), pred));
+        }
+
+        @SuppressWarnings("unchecked")
+        public Chain<T> xor(final List<T> list) {
+            return new Chain<T>($.xor(value(), list));
+        }
+
+        public Chain<T> at(final Integer ... indexes) {
+            return new Chain<T>($.at(value(), indexes));
         }
 
         @SuppressWarnings("unchecked")
@@ -534,8 +534,8 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.uncapitalize((String) item()));
         }
 
-        public Chain<List<String>> words() {
-            return new Chain<List<String>>($.words((String) item()));
+        public Chain<String> words() {
+            return new Chain<String>($.words((String) item()));
         }
 
         public Chain<String> toJson() {

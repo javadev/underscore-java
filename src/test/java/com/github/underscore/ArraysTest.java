@@ -116,7 +116,7 @@ _.chunk(['a', 'b', 'c', 'd'], 3);
     public void chunk() {
         assertEquals("[[a, b], [c, d]]", $.chunk(asList("a", "b", "c", "d"), 2).toString());
         assertEquals("[[a, b], [c, d]]", new $(asList("a", "b", "c", "d")).chunk(2).toString());
-        assertEquals("[[a, b], [c, d]]", $.chain(asList("a", "b", "c", "d")).chunk(2).item().toString());
+        assertEquals("[[a, b], [c, d]]", $.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
         assertEquals("[[a, b, c], [d]]", $.chunk(asList("a", "b", "c", "d"), 3).toString());
     }
 
@@ -566,19 +566,19 @@ _.range(0);
         assertArrayEquals(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, result);
         final int[] resultObj = new $("").range(10);
         assertArrayEquals(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, resultObj);
-        final List resultChain = $.chain("").range(10).item();
+        final List<Integer> resultChain = $.chain("").range(10).value();
         assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", resultChain.toString());
         final int[] result2 = $.range(1, 11);
         assertArrayEquals(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, result2);
         final int[] result2Obj = new $("").range(1, 11);
         assertArrayEquals(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, result2Obj);
-        final List result2Chain = $.chain("").range(1, 11).item();
+        final List<Integer> result2Chain = $.chain("").range(1, 11).value();
         assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]", result2Chain.toString());
         final int[] result3 = $.range(0, 30, 5);
         assertArrayEquals(new int[] {0, 5, 10, 15, 20, 25}, result3);
         final int[] result3Obj = new $("").range(0, 30, 5);
         assertArrayEquals(new int[] {0, 5, 10, 15, 20, 25}, result3Obj);
-        final List result3Chain = $.chain("").range(0, 30, 5).item();
+        final List<Integer> result3Chain = $.chain("").range(0, 30, 5).value();
         assertEquals("[0, 5, 10, 15, 20, 25]", result3Chain.toString());
         final int[] result4 = $.range(0, -10, -1);
         assertArrayEquals(new int[] {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}, result4);

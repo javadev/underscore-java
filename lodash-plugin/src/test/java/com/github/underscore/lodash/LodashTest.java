@@ -52,7 +52,7 @@ _.chunk(['a', 'b', 'c', 'd'], 3);
     public void chunk() {
         assertEquals("[[a, b], [c, d]]", $.chunk(asList("a", "b", "c", "d"), 2).toString());
         assertEquals("[[a, b], [c, d]]", new $(asList("a", "b", "c", "d")).chunk(2).toString());
-        assertEquals("[[a, b], [c, d]]", $.chain(asList("a", "b", "c", "d")).chunk(2).item().toString());
+        assertEquals("[[a, b], [c, d]]", $.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
         assertEquals("[[a, b, c], [d]]", $.chunk(asList("a", "b", "c", "d"), 3).toString());
     }
 
@@ -74,10 +74,10 @@ _.drop([1, 2, 3], 0);
     public void drop() {
         assertEquals("[2, 3]", $.drop(asList(1, 2, 3)).toString());
         assertEquals("[2, 3]", new $(asList(1, 2, 3)).drop().toString());
-        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).drop().item().toString());
+        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).drop().value().toString());
         assertEquals("[3]", $.drop(asList(1, 2, 3), 2).toString());
         assertEquals("[3]", new $(asList(1, 2, 3)).drop(2).toString());
-        assertEquals("[3]", $.chain(asList(1, 2, 3)).drop(2).item().toString());
+        assertEquals("[3]", $.chain(asList(1, 2, 3)).drop(2).value().toString());
         assertEquals("[]", $.drop(asList(1, 2, 3), 5).toString());
         assertEquals("[1, 2, 3]", $.drop(asList(1, 2, 3), 0).toString());
     }
@@ -100,10 +100,10 @@ _.dropRight([1, 2, 3], 0);
     public void dropRight() {
         assertEquals("[1, 2]", $.dropRight(asList(1, 2, 3)).toString());
         assertEquals("[1, 2]", new $(asList(1, 2, 3)).dropRight().toString());
-        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).dropRight().item().toString());
+        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).dropRight().value().toString());
         assertEquals("[1]", $.dropRight(asList(1, 2, 3), 2).toString());
         assertEquals("[1]", new $(asList(1, 2, 3)).dropRight(2).toString());
-        assertEquals("[1]", $.chain(asList(1, 2, 3)).dropRight(2).item().toString());
+        assertEquals("[1]", $.chain(asList(1, 2, 3)).dropRight(2).value().toString());
         assertEquals("[]", $.dropRight(asList(1, 2, 3), 5).toString());
         assertEquals("[1, 2, 3]", $.dropRight(asList(1, 2, 3), 0).toString());
     }
@@ -131,7 +131,7 @@ _.dropWhile([1, 2, 3], function(n) {
             public Boolean apply(Integer n) {
                 return n < 3;
             }
-        }).item().toString());
+        }).value().toString());
     }
 
 /*
@@ -157,7 +157,7 @@ _.dropRightWhile([1, 2, 3], function(n) {
             public Boolean apply(Integer n) {
                 return n > 2;
             }
-        }).item().toString());
+        }).value().toString());
     }
 
 /*
@@ -208,7 +208,7 @@ _.flattenDeep([1, [2, 3, [4]]]);
         assertEquals("[1, 2, 3, 4]", result.toString());
         final List<Integer> result2 = new $(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep();
         assertEquals("[1, 2, 3, 4]", result2.toString());
-        final List<?> resultChain = $.chain(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep().item();
+        final List<?> resultChain = $.chain(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep().value();
         assertEquals("[1, 2, 3, 4]", resultChain.toString());
     }
 
@@ -255,7 +255,7 @@ console.log(evens);
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
         array = new ArrayList<Object>(asList(5, 10, 15, 20));
-        events = $.chain(array).pullAt(1, 3).item();
+        events = $.chain(array).pullAt(1, 3).value();
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
     }
@@ -296,7 +296,7 @@ console.log(evens);
             public Boolean apply(final Integer n) {
                 return n % 2 == 0;
             }
-        }).item();
+        }).value();
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
     }
@@ -319,10 +319,10 @@ _.take([1, 2, 3], 0);
     public void take() {
         assertEquals("[1]", $.take(asList(1, 2, 3)).toString());
         assertEquals("[1]", new $(asList(1, 2, 3)).take().toString());
-        assertEquals("[1]", $.chain(asList(1, 2, 3)).take().item().toString());
+        assertEquals("[1]", $.chain(asList(1, 2, 3)).take().value().toString());
         assertEquals("[1, 2]", $.take(asList(1, 2, 3), 2).toString());
         assertEquals("[1, 2]", new $(asList(1, 2, 3)).take(2).toString());
-        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).take(2).item().toString());
+        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).take(2).value().toString());
         assertEquals("[1, 2, 3]", $.take(asList(1, 2, 3), 5).toString());
         assertEquals("[]", $.take(asList(1, 2, 3), 0).toString());
     }
@@ -345,10 +345,10 @@ _.takeRight([1, 2, 3], 0);
     public void takeRight() {
         assertEquals("[3]", $.takeRight(asList(1, 2, 3)).toString());
         assertEquals("[3]", new $(asList(1, 2, 3)).takeRight().toString());
-        assertEquals("[3]", $.chain(asList(1, 2, 3)).takeRight().item().toString());
+        assertEquals("[3]", $.chain(asList(1, 2, 3)).takeRight().value().toString());
         assertEquals("[2, 3]", $.takeRight(asList(1, 2, 3), 2).toString());
         assertEquals("[2, 3]", new $(asList(1, 2, 3)).takeRight(2).toString());
-        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).takeRight(2).item().toString());
+        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).takeRight(2).value().toString());
         assertEquals("[1, 2, 3]", $.takeRight(asList(1, 2, 3), 5).toString());
         assertEquals("[]", $.takeRight(asList(1, 2, 3), 0).toString());
     }
@@ -376,7 +376,7 @@ _.takeWhile([1, 2, 3], function(n) {
             public Boolean apply(Integer n) {
                 return n < 3;
             }
-        }).item().toString());
+        }).value().toString());
     }
 
 /*
@@ -402,7 +402,7 @@ _.takeRightWhile([1, 2, 3], function(n) {
             public Boolean apply(Integer n) {
                 return n > 1;
             }
-        }).item().toString());
+        }).value().toString());
     }
 
 /*
@@ -414,7 +414,7 @@ _.xor([1, 2], [4, 2]);
     public void xor() {
         assertEquals("[1, 4]", $.xor(asList(1, 2), asList(4, 2)).toString());
         assertEquals("[1, 4]", new $(asList(1, 2)).xor(asList(4, 2)).toString());
-        assertEquals("[1, 4]", $.chain(asList(1, 2)).xor(asList(4, 2)).item().toString());
+        assertEquals("[1, 4]", $.chain(asList(1, 2)).xor(asList(4, 2)).value().toString());
     }
 
 
@@ -427,7 +427,7 @@ _.at(['a', 'b', 'c'], 0, 2);
     public void at() {
         assertEquals("[a, c]", $.at(asList("a", "b", "c"), 0, 2).toString());
         assertEquals("[a, c]", new $(asList("a", "b", "c")).at(0, 2).toString());
-        assertEquals("[a, c]", $.chain(asList("a", "b", "c")).at(0, 2).item().toString());
+        assertEquals("[a, c]", $.chain(asList("a", "b", "c")).at(0, 2).value().toString());
     }
 
     @SuppressWarnings("unchecked")

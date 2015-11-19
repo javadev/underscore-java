@@ -195,8 +195,8 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.invoke(value(), methodName));
         }
 
-        public Chain<List<Object>> pluck(final String propertyName) {
-            return new Chain<List<Object>>($.pluck(value(), propertyName));
+        public Chain<Object> pluck(final String propertyName) {
+            return new Chain<Object>($.pluck(value(), propertyName));
         }
 
         public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
@@ -228,20 +228,20 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.difference(value(), lists));
         }
 
-        public Chain<List<Integer>> range(final int stop) {
-            return new Chain<List<Integer>>(newIntegerList($.range(stop)));
+        public Chain<Integer> range(final int stop) {
+            return new Chain<Integer>(newIntegerList($.range(stop)));
         }
 
-        public Chain<List<Integer>> range(final int start, final int stop) {
-            return new Chain<List<Integer>>(newIntegerList($.range(start, stop)));
+        public Chain<Integer> range(final int start, final int stop) {
+            return new Chain<Integer>(newIntegerList($.range(start, stop)));
         }
 
-        public Chain<List<Integer>> range(final int start, final int stop, final int step) {
-            return new Chain<List<Integer>>(newIntegerList($.range(start, stop, step)));
+        public Chain<Integer> range(final int start, final int stop, final int step) {
+            return new Chain<Integer>(newIntegerList($.range(start, stop, step)));
         }
 
-        public Chain<List<List<T>>> chunk(final int size) {
-            return new Chain<List<List<T>>>($.chunk(value(), size));
+        public Chain<List<T>> chunk(final int size) {
+            return new Chain<List<T>>($.chunk(value(), size));
         }
 
         public Chain<T> concat(final List<T> ... lists) {
