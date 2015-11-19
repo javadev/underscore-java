@@ -740,8 +740,8 @@ _.pluck(stooges, 'name');
         final List<?> resultObj =
         new $(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name");
         assertEquals("[moe, larry, curly]", resultObj.toString());
-        final List<?> resultChain =
-        $.chain(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name").item();
+        final List<Object> resultChain =
+        $.chain(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name").value();
         assertEquals("[moe, larry, curly]", resultChain.toString());
         final Set<?> resultEmpty2 =
         $.pluck(new LinkedHashSet(asList()), "name");

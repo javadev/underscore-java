@@ -338,7 +338,7 @@ _.words('fred, barney, & pebbles');
     public void words() {
         assertEquals("[fred, barney, pebbles]", $.words("fred, barney, & pebbles").toString());
         assertEquals("[fred, barney, pebbles]", new $("fred, barney, & pebbles").words().toString());
-        assertEquals("[fred, barney, pebbles]", $.chain("fred, barney, & pebbles").words().item().toString());
+        assertEquals("[fred, barney, pebbles]", $.chain("fred, barney, & pebbles").words().value().toString());
         assertEquals("[текст, на, русском]", $.words("текст, на, & русском").toString());
         assertEquals("[]", $.words(null).toString());
     }
