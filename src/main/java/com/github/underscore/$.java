@@ -1653,14 +1653,14 @@ public class $<T> {
         return new Date().getTime();
     }
 
-    public static String escape(String value) {
+    public static String escape(final String value) {
         return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-            .replaceAll("\"", "&quot;");
+            .replaceAll("\"", "&quot;").replaceAll("'", "&#x27;").replaceAll("`", "&#x60;");
     }
 
-    public static String unescape(String value) {
-        return value.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"")
-            .replaceAll("&amp;", "&");
+    public static String unescape(final String value) {
+        return value.replaceAll("&#x60;", "`").replaceAll("&#x27;", "'").replaceAll("&lt;", "<")
+            .replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&amp;", "&");
     }
 
     public static <E> Object result(final Iterable<E> iterable, final Predicate<E> pred) {

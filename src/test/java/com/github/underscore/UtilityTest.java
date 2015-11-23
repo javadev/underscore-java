@@ -155,21 +155,21 @@ _("fabio").capitalize();
     }
 
 /*
-_.escape('Curly, Larry & Moe');
-=> "Curly, Larry &amp; Moe"
+_.escape('Curly, Larry & Moe < > "\'`');
+=> "Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;"
 */
     @Test
     public void escape() {
-        assertEquals("Curly, Larry &amp; Moe", $.escape("Curly, Larry & Moe"));
+        assertEquals("Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;", $.escape("Curly, Larry & Moe < > \"'`"));
     }
 
 /*
-_.unescape('Curly, Larry &amp; Moe');
-=> "Curly, Larry & Moe"
+_.unescape('Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;');
+=> "Curly, Larry & Moe < > \"'`"
 */
     @Test
     public void unescape() {
-        assertEquals("Curly, Larry & Moe", $.unescape("Curly, Larry &amp; Moe"));
+        assertEquals("Curly, Larry & Moe < > \"'`", $.unescape("Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;"));
     }
 
 /*
