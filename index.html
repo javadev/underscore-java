@@ -40,6 +40,7 @@
                 href="#countBy">countBy</a></li><li>- <a
                 href="#sortedIndex">sortedIndex</a></li><li>- <a
                 href="#shuffle">shuffle</a></li><li>- <a
+                href="#sample">sample</a></li><li>- <a
                 href="#toArray">toArray</a></li><li>- <a
                 href="#toMap">toMap</a></li><li>- <a href="#size">size</a></li>
              </ul>
@@ -483,6 +484,13 @@ value.<br></p><pre>$.sortedIndex(asList(10, 20, 30, 40, 50), 35);<br>=&gt; 3</pr
 <p id="shuffle"><b class="header">shuffle</b> <code>$.shuffle(array)
 </code><br>Returns a shuffled copy of the array, using a version of the
 Fisher-Yates shuffle.<br></p><pre>$.shuffle(asList(1, 2, 3, 4, 5, 6)<br>=&gt; [4, 1, 6, 3, 5, 2]</pre><p></p>
+
+<p id="sample"><b class="header">sample</b> <code>$.sample(list, [n])
+</code><br>Produce a random sample from the list. Pass a number to
+return n random elements from the list. Otherwise a single random 
+item will be returned.<br></p><pre>$.sample(asList(1, 2, 3, 4, 5, 6)<br>=&gt; 4
+
+$.sample(asList(1, 2, 3, 4, 5, 6), 3)<br>=&gt; [1, 6, 2]</pre><p></p>
 
 <p id="toArray"><b class="header">toArray</b> <code>$.toArray(collection)
 </code><br>Converts the collection (object), into an array.<br>
