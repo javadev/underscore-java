@@ -320,4 +320,13 @@ arr.slice(-3, -1) // [3, 4]
         Entity entity2 = new Entity(2, "two");
         assertEquals("[1, 2]", $.pluck(asList(entity1, entity2), "getId").toString());
     }
+
+    @Test
+    public void stackoverflow5() {
+        // http://stackoverflow.com/questions/4349369/list-intersection-in-java
+        List<Integer> original = asList(12, 16, 17, 19, 101);
+        List<Integer> selected = asList(16, 19, 107, 108, 109);
+        assertEquals("[107, 108, 109]", $.difference(selected, $.intersection(original, selected)).toString());
+        assertEquals("[12, 17, 101]", $.difference(original, selected).toString());
+    }
 }
