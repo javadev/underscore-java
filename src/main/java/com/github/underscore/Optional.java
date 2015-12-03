@@ -68,10 +68,7 @@ public final class Optional<T> {
         if (absent != optional.absent) {
             return false;
         }
-        if (arg == null ? optional.arg != null : !arg.equals(optional.arg)) {
-            return false;
-        }
-        return true;
+        return !(arg == null ? optional.arg != null : !arg.equals(optional.arg));
     }
 
     @Override
