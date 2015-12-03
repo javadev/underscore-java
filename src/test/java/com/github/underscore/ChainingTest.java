@@ -23,9 +23,16 @@
  */
 package com.github.underscore;
 
-import java.lang.reflect.Method;
-import java.util.*;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
@@ -66,7 +73,7 @@ var youngest = _.chain(stooges)
                     return item.get("name") + " is " + item.get("age");
                 }
             })
-            .first().item().toString();
+            .first().item();
         assertEquals("moe is 21", youngest);
     }
 
@@ -91,7 +98,7 @@ var youngest = _.chain(stooges)
                     return item.get("name") + " is " + item.get("age");
                 }
             })
-            .first().item().toString();
+            .first().item();
         assertEquals("moe is 21", youngest);
     }
 
@@ -141,7 +148,7 @@ var youngest = _.chain(stooges)
                     return item.get("name") + " is " + item.get("age");
                 }
             })
-            .first().item().toString();
+            .first().item();
         assertEquals("moe is 21", youngest);
     }
 

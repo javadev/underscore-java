@@ -565,7 +565,7 @@ public class $<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <E, T extends Comparable<? super T>> List<E> sortBy(final Function1<E, T> func) {
+    public <E, V extends Comparable<? super V>> List<E> sortBy(final Function1<E, V> func) {
         return sortBy((Iterable<E>) iterable, func);
     }
 

@@ -23,11 +23,15 @@
  */
 package com.github.underscore;
 
-import java.util.*;
 import org.junit.Test;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Underscore library unit test.
