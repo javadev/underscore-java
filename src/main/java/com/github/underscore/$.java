@@ -1690,12 +1690,12 @@ public class $<T> {
             ".@,-+/()#$%^&*!"
         };
         final StringBuilder result = new StringBuilder();
-        final long passwordLength = Math.abs(UUID.randomUUID().getLeastSignificantBits() % 7) + 8;
+        final long passwordLength = Math.abs(UUID.randomUUID().getLeastSignificantBits() % 8) + 8;
         for (int index = 0; index < passwordLength; index += 1) {
             final int passIndex = (int) (passwords.length * index / passwordLength);
             final int charIndex = (int) Math.abs(
                 UUID.randomUUID().getLeastSignificantBits() % passwords[passIndex].length());
-            result.append(passwords[passIndex].substring(charIndex, charIndex + 1));
+            result.append(passwords[passIndex].charAt(charIndex));
         }
         return result.toString();
     }
