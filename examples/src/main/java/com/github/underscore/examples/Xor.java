@@ -82,18 +82,12 @@ public class Xor {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> List<T> concat(final List<T> first, final List<T> ... other) {
-        int length = 0;
+    public static <T> List<T> concat(final List<T> ... other) {
+        final List<T> result = new ArrayList<T>();
         for (List<T> otherItem : other) {
-            length += otherItem.size();
+            result.addAll(otherItem);
         }
-        final T[] result = (T[]) Arrays.copyOf(toArray(first), first.size() + length);
-        int index = 0;
-        for (List<T> otherItem : other) {
-            System.arraycopy(toArray(otherItem), 0, result, first.size() + index, otherItem.size());
-            index += otherItem.size();
-        }
-        return (List<T>) Arrays.asList(result);
+        return result;
     }
 
     public static <T> List<T> xor(final List<T> ... lists) {
