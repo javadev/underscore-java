@@ -1232,7 +1232,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     builder.fillSpaces().append(ELEMENT);
                     builder.append(String.valueOf(array[i]));
                     builder.append(CLOSED_ELEMENT);
-                    if (i != (array.length - 1)) {
+                    if (i != array.length - 1) {
                         builder.newLine();
                     }
                 }
@@ -1249,7 +1249,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     builder.fillSpaces().append(ELEMENT);
                     builder.append(String.valueOf(array[i]));
                     builder.append(CLOSED_ELEMENT);
-                    if (i != (array.length - 1)) {
+                    if (i != array.length - 1) {
                         builder.newLine();
                     }
                 }
@@ -1266,7 +1266,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     builder.fillSpaces().append(ELEMENT);
                     builder.append(String.valueOf(array[i]));
                     builder.append(CLOSED_ELEMENT);
-                    if (i != (array.length - 1)) {
+                    if (i != array.length - 1) {
                         builder.newLine();
                     }
                 }
@@ -1283,7 +1283,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     builder.fillSpaces().append(ELEMENT);
                     builder.append(String.valueOf(array[i]));
                     builder.append(CLOSED_ELEMENT);
-                    if (i != (array.length - 1)) {
+                    if (i != array.length - 1) {
                         builder.newLine();
                     }
                 }
@@ -1300,7 +1300,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     builder.fillSpaces().append(ELEMENT);
                     builder.append(String.valueOf(array[i]));
                     builder.append(CLOSED_ELEMENT);
-                    if (i != (array.length - 1)) {
+                    if (i != array.length - 1) {
                         builder.newLine();
                     }
                 }
@@ -1317,7 +1317,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     builder.fillSpaces().append(ELEMENT);
                     builder.append(String.valueOf(array[i]));
                     builder.append(CLOSED_ELEMENT);
-                    if (i != (array.length - 1)) {
+                    if (i != array.length - 1) {
                         builder.newLine();
                     }
                 }
@@ -1334,7 +1334,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     builder.fillSpaces().append(ELEMENT);
                     builder.append(String.valueOf(array[i]));
                     builder.append(CLOSED_ELEMENT);
-                    if (i != (array.length - 1)) {
+                    if (i != array.length - 1) {
                         builder.newLine();
                     }
                 }
@@ -1351,7 +1351,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     builder.fillSpaces().append(ELEMENT);
                     builder.append(String.valueOf(array[i]));
                     builder.append(CLOSED_ELEMENT);
-                    if (i != (array.length - 1)) {
+                    if (i != array.length - 1) {
                         builder.newLine();
                     }
                 }
@@ -1368,7 +1368,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     builder.fillSpaces().append(ELEMENT);
                     XmlValue.writeXml(array[i], builder);
                     builder.append(CLOSED_ELEMENT);
-                    if (i != (array.length - 1)) {
+                    if (i != array.length - 1) {
                         builder.newLine();
                     }
                 }
