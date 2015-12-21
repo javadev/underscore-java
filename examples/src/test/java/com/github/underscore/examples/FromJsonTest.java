@@ -34,33 +34,22 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Valentyn Kolesnikov
  */
-public class FromXmlTest {
+public class FromJsonTest {
 
     @Test
-    public void fromXml() {
+    public void fromJson() {
         String string =
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-        + "\n"
-        + "\n<root>"
-        + "\n<Details>"
-        + "\n    <detail-a>"
-        + "\n"
-        + "\n        <detail> attribute 1 of detail a </detail>"
-        + "\n        <detail> attribute 2 of detail a </detail>"
-        + "\n        <detail> attribute 3 of detail a </detail>"
-        + "\n"
-        + "\n    </detail-a>"
-        + "\n"
-        + "\n    <detail-b>"
-        + "\n        <detail> attribute 1 of detail b </detail>"
-        + "\n        <detail> attribute 2 of detail b </detail>"
-        + "\n"
-        + "\n    </detail-b>"
-        + "\n"
-        + "\n"
-        + "\n</Details>"
-        + "\n</root>";
-        assertEquals("{Details={detail-a={detail=[ attribute 1 of detail a ,  attribute 2 of detail a ,  attribute 3 of detail a ]}, "
-        + "detail-b={detail=[ attribute 1 of detail b ,  attribute 2 of detail b ]}}}", FromXml.fromXml(string).toString());
+        "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
+        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
+        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
+        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
+        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
+        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
+        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}";
+        assertEquals("{glossary={title=example glossary, GlossDiv={title=S, GlossList={GlossEntry="
+        + "{ID=SGML, SortAs=SGML, GlossTerm=Standard Generalized Markup Language, Acronym=SGML,"
+        + " Abbrev=ISO 8879:1986, GlossDef={para=A meta-markup language, used to create markup"
+        + " languages such as DocBook., GlossSeeAlso=[GML, XML]}, GlossSee=markup}}}}}",
+        FromJson.fromJson(string).toString());
     }
 }
