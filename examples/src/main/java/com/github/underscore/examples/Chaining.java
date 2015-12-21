@@ -55,6 +55,15 @@ public class Chaining {
         return sortedList;
     }
 
+/*
+var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
+var youngest = _.chain(stooges)
+  .sortBy(function(stooge){ return stooge.age; })
+  .map(function(stooge){ return stooge.name + ' is ' + stooge.age; })
+  .first()
+  .value();
+=> "moe is 21"
+*/
     public static <T> Chain<T> chain(final List<T> list) {
         return new Chaining.Chain<T>(list);
     }

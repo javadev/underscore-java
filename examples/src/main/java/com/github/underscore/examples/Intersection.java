@@ -72,6 +72,10 @@ public class Intersection {
         });
     }
 
+/*
+_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+=> [1, 2]
+*/
     @SuppressWarnings("unchecked")
     public static <E> List<E> intersection(final List<E> list, final List<E> ... lists) {
         final Stack<List<E>> stack = new Stack<List<E>>();

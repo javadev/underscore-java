@@ -105,6 +105,16 @@ public class SnakeCase {
         };
     }
 
+/*
+_.snakeCase('Foo Bar');
+=> 'foo_bar'
+
+_.snakeCase('fooBar');
+=> 'foo_bar'
+
+_.snakeCase('--foo-bar');
+=> 'foo_bar'
+*/
     public static String snakeCase(final String string) {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
