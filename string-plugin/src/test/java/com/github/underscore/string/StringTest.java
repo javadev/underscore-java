@@ -30,6 +30,7 @@ import com.github.underscore.Predicate;
 import com.github.underscore.Tuple;
 import com.github.underscore.string.$.JsonStringBuilder;
 import com.github.underscore.string.$.XmlStringBuilder;
+import com.github.underscore.string.$.JsonJavaStringBuilder;
 
 import java.util.*;
 import org.junit.Test;
@@ -1434,6 +1435,494 @@ _.repeat('abc', 0);
         $.fromXml("[\"abc\u0010\"]");
     }
 
+    @Test
+    public void testJsonJavaArray() {
+        JsonJavaStringBuilder builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((Collection) null, builder);
+        assertEquals("\"null\";", builder.toString());
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
+        assertEquals("\"[\\n\"\n + \"  null\\n\"\n + \"]\";", builder.toString());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testJsonJavaArrayCollection() {
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  \\\"First item\\\",\\n\"\n"
+                        + " + \"  \\\"Second item\\\"\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList("First item", "Second item")));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    1,\\n\"\n"
+                        + " + \"    2\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new byte[] {1, 2})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    1,\\n\"\n"
+                        + " + \"    2\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new short[] {1, 2})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    1,\\n\"\n"
+                        + " + \"    2\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new int[] {1, 2})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    1,\\n\"\n"
+                        + " + \"    2\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new long[] {1, 2})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    1.0,\\n\"\n"
+                        + " + \"    2.0\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new float[] {1, 2})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    1.0,\\n\"\n"
+                        + " + \"    2.0\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new double[] {1, 2})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    \"1\",\\n\"\n"
+                        + " + \"    \"2\"\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new char[] {'1', '2'})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    true,\\n\"\n"
+                        + " + \"    false,\\n\"\n"
+                        + " + \"    true\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new boolean[] {true, false, true})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  1.0,\\n\"\n"
+                        + " + \"  2.0\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new Float[] {1F, 2F})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  1.0,\\n\"\n"
+                        + " + \"  2.0\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new Double[] {1D, 2D})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  true,\\n\"\n"
+                        + " + \"  false,\\n\"\n"
+                        + " + \"  true\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new Boolean[] {true, false, true})));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    \\\"First item\\\",\\n\"\n"
+                        + " + \"    \\\"Second item\\\"\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(Arrays.asList("First item", "Second item"))));
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  {\\n\"\n"
+                        + " + \"    \\\"1\\\": \\\"First item\\\",\\n\"\n"
+                        + " + \"    \\\"2\\\": \\\"Second item\\\",\\n\"\n"
+                        + " + \"    \\\"3\\\": null\\n\"\n"
+                        + " + \"  }\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(Arrays.asList(new LinkedHashMap() { {
+                put("1", "First item"); put("2", "Second item"); put("3", null); } })));
+        assertEquals("\"[\\n\"\n"
+                + " + \"  null\\n\"\n"
+                + " + \"]\";", $.toJsonJavaString(Arrays.asList(new String[] {(String) null})));
+        assertEquals("\"null\";", $.toJsonJavaString((Collection) null));
+        class Test {
+            public String toString() {
+                return "test";
+            }
+        }
+        assertEquals("\"[\\n\"\n"
+                        + " + \"  [\\n\"\n"
+                        + " + \"    test,\\n\"\n"
+                        + " + \"    test\\n\"\n"
+                        + " + \"  ]\\n\"\n"
+                        + " + \"]\";",
+            $.toJsonJavaString(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
+    }
+
+    @Test
+    public void escapeJava() {
+        assertEquals(null, $.JsonJavaValue.escape(null));
+        assertEquals("\\\"", $.JsonJavaValue.escape("\""));
+        assertEquals("\\\\", $.JsonJavaValue.escape("\\"));
+        assertEquals("\\b", $.JsonJavaValue.escape("\b"));
+        assertEquals("\\f", $.JsonJavaValue.escape("\f"));
+        assertEquals("\\n", $.JsonJavaValue.escape("\n"));
+        assertEquals("\\r", $.JsonJavaValue.escape("\r"));
+        assertEquals("\\t", $.JsonJavaValue.escape("\t"));
+        assertEquals("\\/", $.JsonJavaValue.escape("/"));
+        assertEquals("\\u0000", $.JsonJavaValue.escape("\u0000"));
+        assertEquals("\\u001F", $.JsonJavaValue.escape("\u001F"));
+        assertEquals("\u0020", $.JsonJavaValue.escape("\u0020"));
+        assertEquals("\\u007F", $.JsonJavaValue.escape("\u007F"));
+        assertEquals("\\u009F", $.JsonJavaValue.escape("\u009F"));
+        assertEquals("\u00A0", $.JsonJavaValue.escape("\u00A0"));
+        assertEquals("\\u2000", $.JsonJavaValue.escape("\u2000"));
+        assertEquals("\\u20FF", $.JsonJavaValue.escape("\u20FF"));
+        assertEquals("\u2100", $.JsonJavaValue.escape("\u2100"));
+        assertEquals("\uFFFF", $.JsonJavaValue.escape("\uFFFF"));
+    }
+
+    @Test
+    public void testJavaByteArrayToString() {
+        JsonJavaStringBuilder builder;
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((byte[]) null, builder);
+        assertEquals("\"null\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new byte[0], builder);
+        assertEquals("\"[]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new byte[] { 12 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  12\\n\"\n"
+                + " + \"]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  -7,\\n\"\n"
+                + " + \"  22,\\n\"\n"
+                + " + \"  86,\\n\"\n"
+                + " + \"  -99\\n\"\n"
+                + " + \"]\";", builder.toString());
+    }
+
+    @Test
+    public void testJavaShortArrayToString() {
+        JsonJavaStringBuilder builder;
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((short[]) null, builder);
+        assertEquals("\"null\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new short[0], builder);
+        assertEquals("\"[]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new short[] { 12 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  12\\n\"\n"
+                + " + \"]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  -7,\\n\"\n"
+                + " + \"  22,\\n\"\n"
+                + " + \"  86,\\n\"\n"
+                + " + \"  -99\\n\"\n"
+                + " + \"]\";", builder.toString());
+    }
+
+    @Test
+    public void testJavaIntArrayToString() {
+        JsonJavaStringBuilder builder;
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((int[]) null, builder);
+        assertEquals("\"null\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new int[0], builder);
+        assertEquals("\"[]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new int[] { 12 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  12\\n\"\n"
+                + " + \"]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  -7,\\n\"\n"
+                + " + \"  22,\\n\"\n"
+                + " + \"  86,\\n\"\n"
+                + " + \"  -99\\n\"\n"
+                + " + \"]\";", builder.toString());
+    }
+
+    @Test
+    public void testJavaLongArrayToString() {
+        JsonJavaStringBuilder builder;
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((long[]) null, builder);
+        assertEquals("\"null\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new long[0], builder);
+        assertEquals("\"[]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new long[] { 12 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  12\\n\"\n"
+                + " + \"]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  -7,\\n\"\n"
+                + " + \"  22,\\n\"\n"
+                + " + \"  86,\\n\"\n"
+                + " + \"  -99\\n\"\n"
+                + " + \"]\";", builder.toString());
+    }
+
+    @Test
+    public void testJavaFloatArrayToString() {
+        JsonJavaStringBuilder builder;
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((float[]) null, builder);
+        assertEquals("\"null\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new float[0], builder);
+        assertEquals("\"[]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new float[] { 12.8f }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  12.8\\n\"\n"
+                + " + \"]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  -7.1,\\n\"\n"
+                + " + \"  22.234,\\n\"\n"
+                + " + \"  86.7,\\n\"\n"
+                + " + \"  -99.02\\n\"\n"
+                + " + \"]\";", builder.toString());
+    }
+
+    @Test
+    public void testJavaDoubleArrayToString() {
+        JsonJavaStringBuilder builder;
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((double[]) null, builder);
+        assertEquals("\"null\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new double[0], builder);
+        assertEquals("\"[]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new double[] { 12.8 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  12.8\\n\"\n"
+                + " + \"]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  -7.1,\\n\"\n"
+                + " + \"  22.234,\\n\"\n"
+                + " + \"  86.7,\\n\"\n"
+                + " + \"  -99.02\\n\"\n"
+                + " + \"]\";", builder.toString());
+    }
+
+    @Test
+    public void testJavaBooleanArrayToString() {
+        JsonJavaStringBuilder builder;
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((boolean[]) null, builder);
+        assertEquals("\"null\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new boolean[0], builder);
+        assertEquals("\"[]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new boolean[] { true }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  true\\n\"\n"
+                + " + \"]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new boolean[] { true, false, true }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  true,\\n\"\n"
+                + " + \"  false,\\n\"\n"
+                + " + \"  true\\n\"\n"
+                + " + \"]\";", builder.toString());
+    }
+
+    @Test
+    public void testJavaCharArrayToString() {
+        JsonJavaStringBuilder builder;
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((char[]) null, builder);
+        assertEquals("\"null\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new char[0], builder);
+        assertEquals("\"[]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new char[] { 'a' }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  \"a\"\\n\"\n"
+                + " + \"]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  \"a\",\\n\"\n"
+                + " + \"  \"b\",\\n\"\n"
+                + " + \"  \"c\"\\n\"\n"
+                + " + \"]\";", builder.toString());
+    }
+
+    @Test
+    public void testJavaObjectArrayToString() {
+        JsonJavaStringBuilder builder;
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson((Object[]) null, builder);
+        assertEquals("\"null\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new Object[0], builder);
+        assertEquals("\"[]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new Object[] { "Hello" }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  \\\"Hello\\\"\\n\"\n"
+                + " + \"]\";", builder.toString());
+
+        builder = new JsonJavaStringBuilder();
+        $.JsonJavaArray.writeJson(new Object[] { "Hello", new Integer(12), new int[] { 1, 2, 3} }, builder);
+        assertEquals("\"[\\n\"\n"
+                + " + \"  \\\"Hello\\\",\\n\"\n"
+                + " + \"  12,\\n\"\n"
+                + " + \"  [\\n\"\n"
+                + " + \"    1,\\n\"\n"
+                + " + \"    2,\\n\"\n"
+                + " + \"    3\\n\"\n"
+                + " + \"  ]\\n\"\n"
+                + " + \"]\";", builder.toString());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toJsonJavaFromList() {
+        final List<String> testList = new ArrayList<String>();
+        testList.add("First item");
+        testList.add("Second item");
+
+        assertEquals("\"[\\n\"\n"
+                + " + \"  \\\"First item\\\",\\n\"\n"
+                + " + \"  \\\"Second item\\\"\\n\"\n"
+                + " + \"]\";", $.toJsonJavaString(testList));
+        assertEquals("\"[\\n\"\n"
+                + " + \"  \\\"First item\\\",\\n\"\n"
+                + " + \"  \\\"Second item\\\"\\n\"\n"
+                + " + \"]\";", new $(testList).toJsonJavaString());
+        assertEquals("\"[\\n\"\n"
+                + " + \"  \\\"First item\\\",\\n\"\n"
+                + " + \"  \\\"Second item\\\"\\n\"\n"
+                + " + \"]\";", $.chain(testList).toJsonJavaString().item());
+        assertEquals("\"[\\n\"\n"
+                + " + \"  null\\n\"\n"
+                + " + \"]\";", $.toJsonJavaString(Arrays.asList(Double.NaN)));
+        assertEquals("\"[\\n\"\n"
+                + " + \"  null\\n\"\n"
+                + " + \"]\";", $.toJsonJavaString(Arrays.asList(Double.POSITIVE_INFINITY)));
+        assertEquals("\"[\\n\"\n"
+                + " + \"  null\\n\"\n"
+                + " + \"]\";", $.toJsonJavaString(Arrays.asList(Float.NaN)));
+        assertEquals("\"[\\n\"\n"
+                + " + \"  null\\n\"\n"
+                + " + \"]\";", $.toJsonJavaString(Arrays.asList(Float.POSITIVE_INFINITY)));
+    }
+
+    @Test
+    public void toJsonJavaFromMap() {
+        final Map<String, String> testMap = new LinkedHashMap<String, String>();
+        testMap.put("First item", "1");
+        testMap.put("Second item", "2");
+
+        assertEquals("\"{\\n\"\n"
+                + " + \"  \\\"First item\\\": \\\"1\\\",\\n\"\n"
+                + " + \"  \\\"Second item\\\": \\\"2\\\"\\n\"\n"
+                + " + \"}\";", $.toJsonJavaString(testMap));
+        assertEquals("\"null\";", $.toJsonJavaString((Map) null));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toJsonJavaString() {
+        String javaString =
+            "\"{\\n\"\n"
+            + " + \"  \\\"glossary\\\": {\\n\"\n"
+            + " + \"    \\\"title\\\": \\\"example glossary\\\",\\n\"\n"
+            + " + \"    \\\"GlossDiv\\\": {\\n\"\n"
+            + " + \"      \\\"title\\\": \\\"S\\\",\\n\"\n"
+            + " + \"      \\\"GlossList\\\": {\\n\"\n"
+            + " + \"        \\\"GlossEntry\\\": {\\n\"\n"
+            + " + \"          \\\"ID\\\": \\\"SGML\\\",\\n\"\n"
+            + " + \"          \\\"SortAs\\\": \\\"SGML\\\",\\n\"\n"
+            + " + \"          \\\"GlossTerm\\\": \\\"Standard Generalized Markup Language\\\",\\n\"\n"
+            + " + \"          \\\"Acronym\\\": \\\"SGML\\\",\\n\"\n"
+            + " + \"          \\\"Abbrev\\\": \\\"ISO 8879:1986\\\",\\n\"\n"
+            + " + \"          \\\"GlossDef\\\": {\\n\"\n"
+            + " + \"            \\\"para\\\": \\\"A meta-markup language, used to create markup"
+            + " languages such as DocBook.\\\",\\n\"\n"
+            + " + \"            \\\"GlossSeeAlso\\\": [\\n\"\n"
+            + " + \"              \\\"GML\\\",\\n\"\n"
+            + " + \"              \\\"XML\\\"\\n\"\n"
+            + " + \"            ]\\n\"\n"
+            + " + \"          },\\n\"\n"
+            + " + \"          \\\"GlossSee\\\": \\\"markup\\\"\\n\"\n"
+            + " + \"        }\\n\"\n"
+            + " + \"      }\\n\"\n"
+            + " + \"    }\\n\"\n"
+            + " + \"  }\\n\"\n"
+            + " + \"}\";";
+        String string =
+        "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
+        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
+        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
+        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
+        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
+        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
+        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}";
+        assertEquals(javaString, $.toJsonJavaString((Map<String, Object>) $.fromJson(string)));
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void main() throws Exception {
@@ -1447,6 +1936,9 @@ _.repeat('abc', 0);
         new $.XmlArray();
         new $.XmlValue();
         new $.XmlObject();
+        new $.JsonJavaArray();
+        new $.JsonJavaValue();
+        new $.JsonJavaObject();
         $.chain(new ArrayList<String>());
         $.chain(new HashSet<String>());
         $.chain(new String[] {});
