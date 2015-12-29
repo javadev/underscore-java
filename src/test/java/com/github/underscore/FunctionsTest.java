@@ -278,12 +278,12 @@ _.map(stooges, _.iteratee('age'));
     @Test
     @SuppressWarnings("unchecked")
     public void iteratee() {
-        List<Map<String, Object>> sooges = asList(
-            (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } },
-            (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } },
-            (Map<String, Object>) new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } }
+        List<Map<String, Object>> stooges = Arrays.<Map<String, Object>>asList(
+            new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } },
+            new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } },
+            new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } }
         );
-        final List<Object> result = $.map(sooges, $.iteratee("age"));
+        final List<Object> result = $.map(stooges, $.iteratee("age"));
         assertEquals("[25, 21, 23]", result.toString());
     }
 }

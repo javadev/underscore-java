@@ -395,7 +395,7 @@ var sum = _(words)
     @SuppressWarnings("unchecked")
     public void chain7() {
         String[] words = new String[] {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
-        int sum = (Integer) $.chain(words)
+        int sum = $.chain(words)
           .filter(new Predicate<String>() {
               public Boolean apply(String w) {
                   return w.startsWith("E");

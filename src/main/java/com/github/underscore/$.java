@@ -1768,7 +1768,7 @@ public class $<T> {
 
         @SuppressWarnings("unchecked")
         public Chain flatten() {
-            return new Chain((List<T>) $.flatten(list));
+            return new Chain($.flatten(list));
         }
 
         public <F> Chain<F> map(final Function1<? super T, F> func) {
@@ -1893,7 +1893,7 @@ public class $<T> {
         }
 
         public Chain<T> uniq() {
-            return new Chain<T>((List<T>) $.uniq(list));
+            return new Chain<T>($.uniq(list));
         }
 
         @SuppressWarnings("unchecked")
@@ -1938,15 +1938,15 @@ public class $<T> {
         }
 
         public Chain<T> slice(final int start) {
-            return new Chain<T>((List<T>) $.slice(list, start));
+            return new Chain<T>($.slice(list, start));
         }
 
         public Chain<T> slice(final int start, final int end) {
-            return new Chain<T>((List<T>) $.slice(list, start, end));
+            return new Chain<T>($.slice(list, start, end));
         }
 
         public Chain<T> reverse() {
-            return new Chain<T>((List<T>) $.reverse(list));
+            return new Chain<T>($.reverse(list));
         }
 
         public Chain<String> join() {
@@ -1958,11 +1958,11 @@ public class $<T> {
         }
 
         public Chain<T> skip(final int numberToSkip) {
-            return new Chain<T>((List<T>) list.subList(numberToSkip, list.size()));
+            return new Chain<T>(list.subList(numberToSkip, list.size()));
         }
 
         public Chain<T> limit(final int size) {
-            return new Chain<T>((List<T>) list.subList(0, size));
+            return new Chain<T>(list.subList(0, size));
         }
 
         @SuppressWarnings("unchecked")
@@ -2074,13 +2074,13 @@ public class $<T> {
         for (Iterable<T> otherItem : other) {
             length += size(otherItem);
         }
-        final T[] result = (T[]) Arrays.copyOf(toArray(first), size(first) + length);
+        final T[] result = Arrays.copyOf(toArray(first), size(first) + length);
         int index = 0;
         for (Iterable<T> otherItem : other) {
             System.arraycopy(toArray(otherItem), 0, result, size(first) + index, size(otherItem));
             index += size(otherItem);
         }
-        return (List<T>) Arrays.asList(result);
+        return Arrays.asList(result);
     }
 
 

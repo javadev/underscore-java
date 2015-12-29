@@ -171,7 +171,7 @@ _.clone({name: 'moe'});
         Map<String, String> result = (Map<String, String>) $.clone(new LinkedHashMap<String, String>() { {
             put("name", "moe"); } });
         assertEquals("{name=moe}", result.toString());
-        Integer[] result2 = (Integer[]) $.clone(new Integer[] { 1, 2, 3, 4, 5 });
+        Integer[] result2 = $.clone(new Integer[] { 1, 2, 3, 4, 5 });
         assertEquals("[1, 2, 3, 4, 5]", asList(result2).toString());
     }
 
@@ -414,12 +414,12 @@ var readyToGoList = _.filter(list, ready);
     @Test
     @SuppressWarnings("unchecked")
     public void matcher() {
-        List<Map<String, Object>> list = asList(
-            (Map<String, Object>) new LinkedHashMap<String, Object>() { {
+        List<Map<String, Object>> list = Arrays.<Map<String, Object>>asList(
+            new LinkedHashMap<String, Object>() { {
                 put("name", "moe"); put("selected", true); put("visible", true); } },
-            (Map<String, Object>) new LinkedHashMap<String, Object>() { {
+            new LinkedHashMap<String, Object>() { {
                 put("name", "larry"); put("selected", true); put("visible", false); } },
-            (Map<String, Object>) new LinkedHashMap<String, Object>() { {
+            new LinkedHashMap<String, Object>() { {
                 put("name", "curly"); } }
         );
         Predicate<Map<String, Object>> ready = $.matcher(new LinkedHashMap<String, Object>() { {

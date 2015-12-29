@@ -324,14 +324,14 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
             }
         });
         assertEquals("Optional.of(2)", result.toString());
-        final Optional<Integer> resultChain = (Optional<Integer>) $.chain(asList(1, 2, 3, 4, 5, 6)).find(
+        final Optional<Integer> resultChain = $.chain(asList(1, 2, 3, 4, 5, 6)).find(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         }).item();
         assertEquals("Optional.of(2)", resultChain.toString());
-        final Optional<Integer> resultChain2 = (Optional<Integer>) $.chain(asList(1, 2, 3, 4, 5, 6)).find(
+        final Optional<Integer> resultChain2 = $.chain(asList(1, 2, 3, 4, 5, 6)).find(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item > 6;
@@ -361,14 +361,14 @@ var even = _.findLast([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; })
             }
         });
         assertEquals("Optional.absent()", result2.toString());
-        final Optional<Integer> resultChain = (Optional<Integer>) $.chain(asList(1, 2, 3, 4, 5, 6)).findLast(
+        final Optional<Integer> resultChain = $.chain(asList(1, 2, 3, 4, 5, 6)).findLast(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         }).item();
         assertEquals("Optional.of(6)", resultChain.toString());
-        final Optional<Integer> resultChain2 = (Optional<Integer>) $.chain(asList(1, 2, 3, 4, 5, 6)).findLast(
+        final Optional<Integer> resultChain2 = $.chain(asList(1, 2, 3, 4, 5, 6)).findLast(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item > 6;
@@ -473,7 +473,7 @@ _.every([1, 2, 3, 4], function(num) { return num < 5; }); // true
                 return item % 2 == 0;
             }
         });
-        final boolean result1chain = (Boolean) $.chain(asList(1, 2, 3, 4))
+        final boolean result1chain = $.chain(asList(1, 2, 3, 4))
             .every(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
@@ -493,7 +493,7 @@ _.every([1, 2, 3, 4], function(num) { return num < 5; }); // true
                 return item < 5;
             }
         });
-        final boolean result2chain = (Boolean) $.chain(asList(1, 2, 3, 4))
+        final boolean result2chain = $.chain(asList(1, 2, 3, 4))
             .every(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
@@ -606,7 +606,7 @@ _.some([1, 2, 3, 4], function(num) { return num === 5; }); // false
                 return item % 2 == 0;
             }
         });
-        final boolean result1chain = (Boolean) $.chain(asList(1, 2, 3, 4))
+        final boolean result1chain = $.chain(asList(1, 2, 3, 4))
             .some(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
@@ -626,7 +626,7 @@ _.some([1, 2, 3, 4], function(num) { return num === 5; }); // false
                 return item == 5;
             }
         });
-        final boolean result2chain = (Boolean) $.chain(asList(1, 2, 3, 4))
+        final boolean result2chain = $.chain(asList(1, 2, 3, 4))
             .some(
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
@@ -661,7 +661,7 @@ _.contains([1, 2, 3], 3);
         assertTrue(result);
         final boolean resultObj = new $(asList(1, 2, 3)).contains(3);
         assertTrue(resultObj);
-        final boolean resultChain = (Boolean) $.chain(asList(1, 2, 3)).contains(3).item();
+        final boolean resultChain = $.chain(asList(1, 2, 3)).contains(3).item();
         assertTrue(resultChain);
         final boolean result2 = $.contains(asList(1, 2, 3), 3, 1);
         assertTrue(result2);
@@ -908,7 +908,7 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
-            ((Optional<Book>) $.chain(listOfPlays).findWhere(asList(
+            ($.chain(listOfPlays).findWhere(asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).item()).get().toString());
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
@@ -942,7 +942,7 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
             $.findWhere(listOfPlays2, asList(
             Tuple.<String, Object>create("getAuthor", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
-        assertEquals(Optional.absent(),
+        assertEquals(Optional.<Book2>absent(),
             $.findWhere(listOfPlays2, asList(
             Tuple.<String, Object>create("getAuthor", "Shakespeare2"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))));
