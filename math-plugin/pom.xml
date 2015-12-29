@@ -5,7 +5,7 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore-math</artifactId>
   <packaging>jar</packaging>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.6-SNAPSHOT</version>
   <name>Math plugin for underscore-java</name>
   <description>The math plugin for underscore-java</description>
   <url>https://github.com/javadev/underscore-java</url>
@@ -190,7 +190,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.3</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -206,7 +206,7 @@
     <dependency>
       <groupId>com.github.javadev</groupId>
       <artifactId>underscore</artifactId>
-      <version>1.9-SNAPSHOT</version>
+      <version>1.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

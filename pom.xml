@@ -5,7 +5,7 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore</artifactId>
   <packaging>jar</packaging>
-  <version>1.9-SNAPSHOT</version>
+  <version>1.10-SNAPSHOT</version>
   <name>java port of Underscore.js</name>
   <description>The java port of Underscore.js</description>
   <url>https://github.com/javadev/underscore-java</url>
@@ -215,7 +215,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.3</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
