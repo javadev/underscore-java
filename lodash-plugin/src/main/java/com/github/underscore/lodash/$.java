@@ -120,7 +120,7 @@ public class $<T> extends com.github.underscore.$<T> {
 
         @SuppressWarnings("unchecked")
         public Chain flatten() {
-            return new Chain((List<T>) $.flatten(value()));
+            return new Chain($.flatten(value()));
         }
 
         public <F> Chain<F> map(final Function1<? super T, F> func) {
@@ -353,7 +353,7 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         public Chain<Object> flattenDeep() {
-            return new Chain<Object>($.flattenDeep((List<?>) value()));
+            return new Chain<Object>($.flattenDeep(value()));
         }
 
         @SuppressWarnings("unchecked")
@@ -404,12 +404,12 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public <T extends Number> Chain<T> sum() {
-            return new Chain<T>($.sum((List<T>) value()));
+        public <F extends Number> Chain<F> sum() {
+            return new Chain<F>($.sum((List<F>) value()));
         }
 
         public <F extends Number> Chain<F> sum(final Function1<T, F> func) {
-            return new Chain<F>($.sum((List<T>) value(), func));
+            return new Chain<F>($.sum(value(), func));
         }
 
         @SuppressWarnings("unchecked")
@@ -822,13 +822,13 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Number> T sum() {
-        return (T) sum((List<T>) getIterable());
+    public <F extends Number> F sum() {
+        return sum((List<F>) getIterable());
     }
 
     @SuppressWarnings("unchecked")
     public <E, F extends  Number> F sum(final Function1<E, F> func) {
-        return (F) sum((List<E>) getIterable(), func);
+        return sum((List<E>) getIterable(), func);
     }
 
     @SuppressWarnings("unchecked")

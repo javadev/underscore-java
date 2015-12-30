@@ -235,11 +235,11 @@ _.startsWith('abc', 'b', 1);
     public void startsWith() {
         assertTrue($.startsWith("abc", "a"));
         assertTrue(new $("abc").startsWith("a"));
-        assertTrue((Boolean) $.chain("abc").startsWith("a").item());
+        assertTrue($.chain("abc").startsWith("a").item());
         assertFalse($.startsWith("abc", "b"));
         assertTrue($.startsWith("abc", "b", 1));
         assertTrue(new $("abc").startsWith("b", 1));
-        assertTrue((Boolean) $.chain("abc").startsWith("b", 1).item());
+        assertTrue($.chain("abc").startsWith("b", 1).item());
         assertFalse($.startsWith("abc", "c", -4));
         assertFalse($.startsWith((String) null, (String) null));
         assertFalse($.startsWith("1", (String) null));
