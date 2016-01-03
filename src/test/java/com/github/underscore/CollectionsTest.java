@@ -1294,6 +1294,10 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
             put("name1", "one");
             put("name2", "two");
         } }).entrySet()).toMap().toString());
+        assertEquals("{name1=one, name2=two}", $.toMap(new ArrayList<Tuple<String, String>>() { {
+            add(Tuple.create("name1", "one"));
+            add(Tuple.create("name2", "two"));
+        } }).toString());
     }
 
 /*

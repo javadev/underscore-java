@@ -662,6 +662,14 @@ public class $<T> {
         return toMap((Iterable<Map.Entry<K, V>>) iterable);
     }
 
+    public static <K, V> Map<K, V> toMap(final List<Tuple<K, V>> tuples) {
+        final Map<K, V> result = newLinkedHashMap();
+        for (final Tuple<K, V> entry : tuples) {
+            result.put(entry.fst(), entry.snd());
+        }
+        return result;
+    }
+
     public static int size(final Iterable<?> iterable) {
         if (iterable instanceof Collection) {
             return ((Collection) iterable).size();
