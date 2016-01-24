@@ -1774,6 +1774,14 @@ public class $<T> {
             return new Chain<T>($.rest(list, n));
         }
 
+        public Chain<T> compact() {
+            return new Chain<T>($.compact(list));
+        }
+
+        public Chain<T> compact(final T falsyValue) {
+            return new Chain<T>($.compact(list, falsyValue));
+        }
+
         @SuppressWarnings("unchecked")
         public Chain flatten() {
             return new Chain($.flatten(list));

@@ -213,6 +213,8 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.chain(new String[] {""}).last(1);
         $.chain(new String[] {""}).rest();
         $.chain(new String[] {""}).rest(1);
+        $.chain(new String[] {""}).compact();
+        $.chain(new String[] {""}).compact("1");
         $.chain(new String[] {""}).flatten();
         $.chain(new Integer[] {0}).map(new Function1<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });

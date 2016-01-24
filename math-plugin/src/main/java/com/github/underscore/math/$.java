@@ -81,6 +81,14 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.rest(value(), n));
         }
 
+        public Chain<T> compact() {
+            return new Chain<T>($.compact(value()));
+        }
+
+        public Chain<T> compact(final T falsyValue) {
+            return new Chain<T>($.compact(value(), falsyValue));
+        }
+
         @SuppressWarnings("unchecked")
         public Chain flatten() {
             return new Chain((List<T>) $.flatten(value()));
