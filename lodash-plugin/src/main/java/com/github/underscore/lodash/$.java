@@ -583,21 +583,6 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(newArrayList(value()));
     }
 
-    public static <T> List<List<T>> chunk(final Iterable<T> iterable, final int size) {
-        int index = 0;
-        int length = size(iterable);
-        final List<List<T>> result = new ArrayList<List<T>>(length / size);
-        while (index < length) {
-            result.add(newArrayList(iterable).subList(index, Math.min(length, index + size)));
-            index += size;
-        }
-        return result;
-    }
-
-    public List<List<T>> chunk(final int size) {
-        return chunk(getIterable(), size);
-    }
-
     public static <T> List<T> drop(final Iterable<T> iterable) {
         return rest(newArrayList(iterable));
     }
