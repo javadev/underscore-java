@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2016 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -1344,13 +1344,14 @@ public class $<T> {
     public static <T> Function<T> once(final Function<T> function) {
         return new Function<T>() {
             private volatile boolean executed;
+            private T result;
             @Override
             public T apply() {
                 if (!executed) {
                     executed = true;
-                    delay(function, 0);
+                    result = function.apply();
                 }
-                return null;
+                return result;
             }
         };
     }

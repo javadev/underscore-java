@@ -146,13 +146,14 @@ initialize();
     @Test
     public void once() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() {
-            counter[0]++; return null; } };
-        Function<Void> onceIncr = $.once(incr);
+        Function<Integer> incr = new Function<Integer>() { public Integer apply() {
+            counter[0]++; return counter[0]; } };
+        Function<Integer> onceIncr = $.once(incr);
         onceIncr.apply();
         onceIncr.apply();
         Thread.sleep(60);
         assertEquals("incr was called only once", 1, counter[0].intValue());
+        assertEquals("stores a memo to the last value", 1, onceIncr.apply().intValue());
     }
 
 /*
