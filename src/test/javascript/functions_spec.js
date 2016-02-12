@@ -62,3 +62,13 @@
     _.delay(debouncedIncr, 16);
     _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
   });
+
+  describe('once', function() {
+    var num = 0;
+    var increment = _.once(function(){ return ++num; });
+    increment();
+    increment();
+    equal(num, 1);
+
+    equal(increment(), 1, 'stores a memo to the last value');
+  });
