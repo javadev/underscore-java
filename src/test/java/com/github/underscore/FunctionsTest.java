@@ -267,7 +267,7 @@ monthlyMeeting();
                 }
             }
         });
-        assertEquals("[1, 4, 2, 4, 3]", result.toString());
+        assertEquals("[1, 4, 2, 4, 3, 4]", result.toString());
     }
 
 /*

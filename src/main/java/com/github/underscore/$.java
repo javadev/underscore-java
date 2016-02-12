@@ -1309,15 +1309,15 @@ public class $<T> {
         class AfterFunction implements Function<E> {
             private final int count;
             private int index;
+            private E result;
             public AfterFunction(final int count) {
                 this.count = count;
             }
             public E apply() {
                 if (++index >= count) {
-                    return function.apply();
-                } else {
-                    return null;
+                    result = function.apply();
                 }
+                return result;
             }
         }
         return new AfterFunction(count);
@@ -1327,15 +1327,15 @@ public class $<T> {
         class BeforeFunction implements Function<E> {
             private final int count;
             private int index;
+            private E result;
             public BeforeFunction(final int count) {
                 this.count = count;
             }
             public E apply() {
                 if (++index <= count) {
-                    return function.apply();
-                } else {
-                    return null;
+                    result = function.apply();
                 }
+                return result;
             }
         }
         return new BeforeFunction(count);
