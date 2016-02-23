@@ -82,6 +82,7 @@
                 href="#once">once</a></li><li>- <a
                 href="#debounce">debounce</a></li><li>- <a
                 href="#after">after</a></li><li>- <a
+                href="#before">before</a></li><li>- <a
                 href="#wrap">wrap</a></li><li>- <a
                 href="#compose">compose</a></li>
              </ul>
@@ -693,8 +694,9 @@ struct.<br></p>
 </code><br>Returns a function that will be executed at most one time, no
 matter how often you call it. Useful for lazy initialization.<br></p>
 <pre>final Integer[] counter = new Integer[] {0};
-Function&lt;Void&gt; incr = new Function&lt;Void&gt;() { public Void apply() { counter[0]++; return null; } };
-Function&lt;Void&gt; onceIncr = $.once(incr);
+Function&lt;Integer&gt; incr = new Function&lt;Integer&gt;() { public Integer apply() {
+    counter[0]++; return counter[0]; } };
+Function&lt;Integer&gt; onceIncr = $.once(incr);
 onceIncr.apply();
 onceIncr.apply();
 =&gt; counter[0] == 1</pre><p></p>
@@ -729,7 +731,8 @@ N times. When
 returned.<br></p>
 <pre>final List&lt;Integer&gt; notes = asList(1, 2, 3);
 final Function&lt;Integer&gt; renderNotes = $.after(notes.size(),
-    new Function&lt;Integer&gt;() { public Integer apply() { return 4; } });
+    new Function&lt;Integer&gt;() { public Integer apply() {
+        return 4; } });
 final List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
 $.&lt;Integer&gt;each(notes, new Block&lt;Integer&gt;() {
     public void apply(Integer item) {
@@ -741,6 +744,28 @@ $.&lt;Integer&gt;each(notes, new Block&lt;Integer&gt;() {
     }
 });
 =&gt; [1, 2, 3, 4]</pre><p></p>
+
+<p id="before"><b class="header">before</b>
+<code>$.before(count, function)</code><br>Returns
+ a function that will only be executed after being called
+N times. When
+ count &lt;= 0, the result of calling the function immediately is
+returned.<br></p>
+<pre>final List&lt;Integer&gt; notes = asList(1, 2, 3);
+final Function&lt;Integer&gt; renderNotes = $.before(notes.size() - 1,
+    new Function&lt;Integer&gt;() { public Integer apply() {
+        return 4; } });
+final List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
+$.&lt;Integer&gt;each(notes, new Block&lt;Integer&gt;() {
+    public void apply(Integer item) {
+        result.add(item);
+        Integer afterResult = renderNotes.apply();
+        if (afterResult != null) {
+            result.add(afterResult);
+        }
+    }
+});
+=&gt; [1, 4, 2, 4, 3, 4]</pre><p></p>
 
 <p id="wrap"><b class="header">wrap</b> <code>$.wrap(function, wrapper)
 </code><br>Returns
