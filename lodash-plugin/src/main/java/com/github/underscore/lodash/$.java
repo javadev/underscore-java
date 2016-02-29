@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2016 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -474,20 +474,20 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.pad((String) item(), length, chars));
         }
 
-        public Chain<String> padLeft(final int length) {
-            return new Chain<String>($.padLeft((String) item(), length));
+        public Chain<String> padStart(final int length) {
+            return new Chain<String>($.padStart((String) item(), length));
         }
 
-        public Chain<String> padLeft(final int length, final String chars) {
-            return new Chain<String>($.padLeft((String) item(), length, chars));
+        public Chain<String> padStart(final int length, final String chars) {
+            return new Chain<String>($.padStart((String) item(), length, chars));
         }
 
-        public Chain<String> padRight(final int length) {
-            return new Chain<String>($.padRight((String) item(), length));
+        public Chain<String> padEnd(final int length) {
+            return new Chain<String>($.padEnd((String) item(), length));
         }
 
-        public Chain<String> padRight(final int length, final String chars) {
-            return new Chain<String>($.padRight((String) item(), length, chars));
+        public Chain<String> padEnd(final int length, final String chars) {
+            return new Chain<String>($.padEnd((String) item(), length, chars));
         }
 
         public Chain<String> snakeCase() {
@@ -514,16 +514,16 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.trim((String) item(), chars));
         }
 
-        public Chain<String> trimLeft() {
-            return new Chain<String>($.trimLeft((String) item()));
+        public Chain<String> trimStart() {
+            return new Chain<String>($.trimStart((String) item()));
         }
 
-        public Chain<String> trimLeft(final String chars) {
-            return new Chain<String>($.trimLeft((String) item(), chars));
+        public Chain<String> trimStart(final String chars) {
+            return new Chain<String>($.trimStart((String) item(), chars));
         }
 
-        public Chain<String> trimRight() {
-            return new Chain<String>($.trimRight((String) item()));
+        public Chain<String> trimEnd() {
+            return new Chain<String>($.trimEnd((String) item()));
         }
 
         public Chain<String> trunc() {
@@ -534,8 +534,8 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<String>($.trunc((String) item(), length));
         }
 
-        public Chain<String> trimRight(final String chars) {
-            return new Chain<String>($.trimRight((String) item(), chars));
+        public Chain<String> trimEnd(final String chars) {
+            return new Chain<String>($.trimEnd((String) item(), chars));
         }
 
         public Chain<String> uncapitalize() {
@@ -1071,19 +1071,19 @@ public class $<T> extends com.github.underscore.$<T> {
         };
     }
 
-    public static String padLeft(final String string, final Integer length) {
+    public static String padStart(final String string, final Integer length) {
          return createPadDir(false).apply(string, length, null);
     }
 
-    public static String padLeft(final String string, final Integer length, final String chars) {
+    public static String padStart(final String string, final Integer length, final String chars) {
          return createPadDir(false).apply(string, length, chars);
     }
 
-    public static String padRight(final String string, final Integer length) {
+    public static String padEnd(final String string, final Integer length) {
          return createPadDir(true).apply(string, length, null);
     }
 
-    public static String padRight(final String string, final Integer length, final String chars) {
+    public static String padEnd(final String string, final Integer length, final String chars) {
          return createPadDir(true).apply(string, length, chars);
     }
 
@@ -1158,11 +1158,11 @@ public class $<T> extends com.github.underscore.$<T> {
         return leftIndex > -1 ? localString.substring(leftIndex, rightIndex + 1) : localString;
     }
 
-    public static String trimLeft(final String string) {
-        return trimLeft(string, null);
+    public static String trimStart(final String string) {
+        return trimStart(string, null);
     }
 
-    public static String trimLeft(final String string, final String chars) {
+    public static String trimStart(final String string, final String chars) {
         final String localString = baseToString(string);
         if (localString.isEmpty()) {
             return localString;
@@ -1177,11 +1177,11 @@ public class $<T> extends com.github.underscore.$<T> {
         return leftIndex > -1 ? localString.substring(leftIndex, localString.length()) : localString;
     }
 
-    public static String trimRight(final String string) {
-        return trimRight(string, null);
+    public static String trimEnd(final String string) {
+        return trimEnd(string, null);
     }
 
-    public static String trimRight(final String string, final String chars) {
+    public static String trimEnd(final String string, final String chars) {
         final String localString = baseToString(string);
         if (localString.isEmpty()) {
             return localString;
@@ -2469,20 +2469,20 @@ public class $<T> extends com.github.underscore.$<T> {
         return pad(getString().get(), length, chars);
     }
 
-    public String padLeft(final int length) {
-        return padLeft(getString().get(), length);
+    public String padStart(final int length) {
+        return padStart(getString().get(), length);
     }
 
-    public String padLeft(final int length, final String chars) {
-        return padLeft(getString().get(), length, chars);
+    public String padStart(final int length, final String chars) {
+        return padStart(getString().get(), length, chars);
     }
 
-    public String padRight(final int length) {
-        return padRight(getString().get(), length);
+    public String padEnd(final int length) {
+        return padEnd(getString().get(), length);
     }
 
-    public String padRight(final int length, final String chars) {
-        return padRight(getString().get(), length, chars);
+    public String padEnd(final int length, final String chars) {
+        return padEnd(getString().get(), length, chars);
     }
 
     public String snakeCase() {
@@ -2509,20 +2509,20 @@ public class $<T> extends com.github.underscore.$<T> {
         return trim(getString().get(), chars);
     }
 
-    public String trimLeft() {
-        return trimLeft(getString().get());
+    public String trimStart() {
+        return trimStart(getString().get());
     }
 
-    public String trimLeftWith(final String chars) {
-        return trimLeft(getString().get(), chars);
+    public String trimStartWith(final String chars) {
+        return trimStart(getString().get(), chars);
     }
 
-    public String trimRight() {
-        return trimRight(getString().get());
+    public String trimEnd() {
+        return trimEnd(getString().get());
     }
 
-    public String trimRightWith(final String chars) {
-        return trimRight(getString().get(), chars);
+    public String trimEndWith(final String chars) {
+        return trimEnd(getString().get(), chars);
     }
 
     public String trunc() {

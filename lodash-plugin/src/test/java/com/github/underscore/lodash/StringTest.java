@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2016 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -268,45 +268,45 @@ _.trim('-_-abc-_-', '_-');
     }
 
 /*
-_.trimLeft('  abc  ');
+_.trimStart('  abc  ');
 => 'abc  '
 
-_.trimLeft('-_-abc-_-', '_-');
+_.trimStart('-_-abc-_-', '_-');
 => 'abc-_-'
 */
 
     @Test
-    public void trimLeft() {
-        assertEquals("abc  ", $.trimLeft("  abc  "));
-        assertEquals("abc  ", new $("  abc  ").trimLeft());
-        assertEquals("abc  ", $.chain("  abc  ").trimLeft().item());
-        assertEquals("", $.trimLeft(""));
-        assertEquals(" ", $.trimLeft(" ", ""));
-        assertEquals("abc-_-", $.trimLeft("-_-abc-_-", "_-"));
-        assertEquals("abc-_-", new $("-_-abc-_-").trimLeftWith("_-"));
-        assertEquals("abc-_-", $.chain("-_-abc-_-").trimLeft("_-").item());
-        assertEquals("    ", $.trimLeft("    ", " "));
+    public void trimStart() {
+        assertEquals("abc  ", $.trimStart("  abc  "));
+        assertEquals("abc  ", new $("  abc  ").trimStart());
+        assertEquals("abc  ", $.chain("  abc  ").trimStart().item());
+        assertEquals("", $.trimStart(""));
+        assertEquals(" ", $.trimStart(" ", ""));
+        assertEquals("abc-_-", $.trimStart("-_-abc-_-", "_-"));
+        assertEquals("abc-_-", new $("-_-abc-_-").trimStartWith("_-"));
+        assertEquals("abc-_-", $.chain("-_-abc-_-").trimStart("_-").item());
+        assertEquals("    ", $.trimStart("    ", " "));
     }
 
 /*
-_.trimRight('  abc  ');
+_.trimEnd('  abc  ');
 => '  abc'
 
-_.trimRight('-_-abc-_-', '_-');
+_.trimEnd('-_-abc-_-', '_-');
 => '-_-abc'
 */
 
     @Test
-    public void trimRight() {
-        assertEquals("  abc", $.trimRight("  abc  "));
-        assertEquals("  abc", new $("  abc  ").trimRight());
-        assertEquals("  abc", $.chain("  abc  ").trimRight().item());
-        assertEquals("", $.trimRight(""));
-        assertEquals(" ", $.trimRight(" ", ""));
-        assertEquals("-_-abc", $.trimRight("-_-abc-_-", "_-"));
-        assertEquals("-_-abc", new $("-_-abc-_-").trimRightWith("_-"));
-        assertEquals("-_-abc", $.chain("-_-abc-_-").trimRight("_-").item());
-        assertEquals("    ", $.trimRight("    ", " "));
+    public void trimEnd() {
+        assertEquals("  abc", $.trimEnd("  abc  "));
+        assertEquals("  abc", new $("  abc  ").trimEnd());
+        assertEquals("  abc", $.chain("  abc  ").trimEnd().item());
+        assertEquals("", $.trimEnd(""));
+        assertEquals(" ", $.trimEnd(" ", ""));
+        assertEquals("-_-abc", $.trimEnd("-_-abc-_-", "_-"));
+        assertEquals("-_-abc", new $("-_-abc-_-").trimEndWith("_-"));
+        assertEquals("-_-abc", $.chain("-_-abc-_-").trimEnd("_-").item());
+        assertEquals("    ", $.trimEnd("    ", " "));
     }
 
 /*
@@ -366,45 +366,45 @@ _.pad('abc', 3);
     }
 
 /*
-_.padLeft('abc', 6);
+_.padStart('abc', 6);
 => '   abc'
 
-_.padLeft('abc', 6, '_-');
+_.padStart('abc', 6, '_-');
 => '_-_abc'
 
-_.padLeft('abc', 3);
+_.padStart('abc', 3);
 => 'abc'
 */
     @Test
-    public void padLeft() {
-        assertEquals("   abc", $.padLeft("abc", 6));
-        assertEquals("   abc", new $("abc").padLeft(6));
-        assertEquals("   abc", $.chain("abc").padLeft(6).item());
-        assertEquals("_-_abc", $.padLeft("abc", 6, "_-"));
-        assertEquals("_-_abc", new $("abc").padLeft(6, "_-"));
-        assertEquals("_-_abc", $.chain("abc").padLeft(6, "_-").item());
-        assertEquals("abc", $.padLeft("abc", 3));
+    public void padStart() {
+        assertEquals("   abc", $.padStart("abc", 6));
+        assertEquals("   abc", new $("abc").padStart(6));
+        assertEquals("   abc", $.chain("abc").padStart(6).item());
+        assertEquals("_-_abc", $.padStart("abc", 6, "_-"));
+        assertEquals("_-_abc", new $("abc").padStart(6, "_-"));
+        assertEquals("_-_abc", $.chain("abc").padStart(6, "_-").item());
+        assertEquals("abc", $.padStart("abc", 3));
     }
 
 /*
-_.padRight('abc', 6);
+_.padEnd('abc', 6);
 // → 'abc   '
 
-_.padRight('abc', 6, '_-');
+_.padEnd('abc', 6, '_-');
 // → 'abc_-_'
 
-_.padRight('abc', 3);
+_.padEnd('abc', 3);
 // → 'abc'
 */
     @Test
-    public void padRight() {
-        assertEquals("abc   ", $.padRight("abc", 6));
-        assertEquals("abc   ", new $("abc").padRight(6));
-        assertEquals("abc   ", $.chain("abc").padRight(6).item());
-        assertEquals("abc_-_", $.padRight("abc", 6, "_-"));
-        assertEquals("abc_-_", new $("abc").padRight(6, "_-"));
-        assertEquals("abc_-_", $.chain("abc").padRight(6, "_-").item());
-        assertEquals("abc", $.padRight("abc", 3));
+    public void padEnd() {
+        assertEquals("abc   ", $.padEnd("abc", 6));
+        assertEquals("abc   ", new $("abc").padEnd(6));
+        assertEquals("abc   ", $.chain("abc").padEnd(6).item());
+        assertEquals("abc_-_", $.padEnd("abc", 6, "_-"));
+        assertEquals("abc_-_", new $("abc").padEnd(6, "_-"));
+        assertEquals("abc_-_", $.chain("abc").padEnd(6, "_-").item());
+        assertEquals("abc", $.padEnd("abc", 3));
     }
 
 /*
