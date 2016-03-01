@@ -10,7 +10,7 @@
 <body>
     <div id="sidebar" class="interface">
         <a class="toc_title" href="#">
-            Underscore-java <span class="version">(1.11)</span>
+            Underscore-java <span class="version">(1.12)</span>
         </a>
         <a class="toc_title" href="#">
             Introduction
@@ -154,7 +154,7 @@ equality testing, and so on. It delegates to built-in functions where
 applicable.<br><br>Underscore-java is compatible with Java 6 and later.<br><br>The project is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a>. Contributions are welcome.<br>
         </p>
         <h2>Download</h2>
-        <div><a href="https://github.com/javadev/underscore-java/archive/v1.11.zip">Version 1.11</a> - <i>~2.1Mb, Includes all development files</i></div>
+        <div><a href="https://github.com/javadev/underscore-java/archive/v1.12.zip">Version 1.12</a> - <i>~2.3Mb, Includes all development files</i></div>
         <h2 id="Collections">Collection Functions (Arrays, Structs, Queries, or Objects)</h2>
 
 
@@ -1115,6 +1115,16 @@ final String youngest = $.chain(stooges)
  <p
 id="changelog">
  </p><h2>Change Log</h2>
+ <p>
+ <b class="header">1.12</b> --
+<small><i>Mar 1st, 2016</i></small><br>
+ </p>
+ <ul>
+ <li>Renamed trimLeft, trimRight, padLeft, padRight to the trimStart, trimEnd, padStart, padLeft in string and lodash plugins</li>
+ <li>Improved once(), after() and before() methods. They returned last stored result for now</li>
+ </ul>
+ <p>
+ </p><p>
  <p>
  <b class="header">1.11</b> --
 <small><i>Feb 4th, 2016</i></small><br>
