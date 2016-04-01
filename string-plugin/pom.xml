@@ -230,7 +230,7 @@
     <dependency>
       <groupId>com.github.javadev</groupId>
       <artifactId>underscore</artifactId>
-      <version>1.11-SNAPSHOT</version>
+      <version>1.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

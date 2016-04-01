@@ -287,4 +287,48 @@ _.map(stooges, _.iteratee('age'));
         final List<Object> result = $.map(stooges, $.iteratee("age"));
         assertEquals("[25, 21, 23]", result.toString());
     }
+
+    @Test
+    public void setTimeout() throws Exception {
+        final Integer[] counter = new Integer[] {0};
+        Function<Void> incr = new Function<Void>() { public Void apply() {
+            counter[0]++; return null; } };
+        $.setTimeout(incr, 0);
+        Thread.sleep(40);
+        assertEquals(1, counter[0].intValue());
+    }
+
+    @Test
+    public void clearTimeout() throws Exception {
+        final Integer[] counter = new Integer[] {0};
+        Function<Void> incr = new Function<Void>() { public Void apply() {
+            counter[0]++; return null; } };
+        java.util.concurrent.ScheduledFuture future = $.setTimeout(incr, 10);
+        $.clearTimeout(future);
+        $.clearTimeout(null);
+        Thread.sleep(40);
+        assertEquals(0, counter[0].intValue());
+    }
+
+    @Test
+    public void setInterval() throws Exception {
+        final Integer[] counter = new Integer[] {0};
+        Function<Void> incr = new Function<Void>() { public Void apply() {
+            counter[0]++; return null; } };
+        $.setInterval(incr, 10);
+        Thread.sleep(45);
+        assertEquals(4, counter[0].intValue());
+    }
+
+    @Test
+    public void clearInterval() throws Exception {
+        final Integer[] counter = new Integer[] {0};
+        Function<Void> incr = new Function<Void>() { public Void apply() {
+            counter[0]++; return null; } };
+        java.util.concurrent.ScheduledFuture future = $.setInterval(incr, 10);
+        $.clearInterval(future);
+        $.clearInterval(null);
+        Thread.sleep(40);
+        assertEquals(0, counter[0].intValue());
+    }
 }

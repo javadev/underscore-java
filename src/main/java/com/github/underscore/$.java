@@ -2180,6 +2180,45 @@ public class $<T> {
         return string;
     }
 
+    public static <T> java.util.concurrent.ScheduledFuture setTimeout(final Function<T> function,
+        final int delayMilliseconds) {
+        final java.util.concurrent.ScheduledExecutorService scheduler =
+            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
+        final java.util.concurrent.ScheduledFuture future = scheduler.schedule(
+            new Runnable() {
+                public void run() {
+                    function.apply();
+                }
+            }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+        scheduler.shutdown();
+        return future;
+    }
+
+    public static void clearTimeout(java.util.concurrent.ScheduledFuture scheduledFuture) {
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(true);
+        }
+    }
+
+    public static <T> java.util.concurrent.ScheduledFuture setInterval(final Function<T> function,
+        final int delayMilliseconds) {
+        final java.util.concurrent.ScheduledExecutorService scheduler =
+            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
+        final java.util.concurrent.ScheduledFuture future = scheduler.scheduleAtFixedRate(
+            new Runnable() {
+                public void run() {
+                    function.apply();
+                }
+            }, delayMilliseconds, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+        return future;
+    }
+
+    public static void clearInterval(java.util.concurrent.ScheduledFuture scheduledFuture) {
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(true);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList() {
         try {
