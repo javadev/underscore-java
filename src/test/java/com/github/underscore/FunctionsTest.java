@@ -27,6 +27,7 @@ import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Underscore library unit test.
@@ -317,7 +318,7 @@ _.map(stooges, _.iteratee('age'));
             counter[0]++; return null; } };
         $.setInterval(incr, 10);
         Thread.sleep(45);
-        assertEquals(4, counter[0].intValue());
+        assertTrue(counter[0].intValue() == 4 || counter[0].intValue() == 5);
     }
 
     @Test
