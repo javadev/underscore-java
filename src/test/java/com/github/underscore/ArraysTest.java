@@ -26,12 +26,14 @@ package com.github.underscore;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Underscore library unit test.
@@ -58,6 +60,50 @@ _.first([5, 4, 3, 2, 1], 2);
         assertEquals("[5, 4]", resultList.toString());
         final int resultInt = $.first(new Integer[] {5, 4, 3, 2, 1});
         assertEquals(5, resultInt);
+        final int resultPred = $.first(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(4, resultPred);
+        final int resultPredObj = new $<Integer>(asList(5, 4, 3, 2, 1)).first(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(4, resultPredObj);
+    }
+
+    @Test
+    public void firstOrNull() {
+        final Integer result = $.firstOrNull(asList(5, 4, 3, 2, 1));
+        assertEquals("5", result.toString());
+        final Integer resultObj = new $<Integer>(asList(5, 4, 3, 2, 1)).firstOrNull();
+        assertEquals("5", resultObj.toString());
+        assertNull($.firstOrNull(Collections.emptyList()));
+        assertNull(new $<Integer>(Collections.<Integer>emptyList()).firstOrNull());
+        final int resultPred = $.firstOrNull(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(4, resultPred);
+        assertNull($.firstOrNull(Collections.<Integer>emptyList(), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }));
+        final int resultPredObj = new $<Integer>(asList(5, 4, 3, 2, 1)).firstOrNull(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(4, resultPredObj);
+        assertNull(new $<Integer>(Collections.<Integer>emptyList()).firstOrNull(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }));
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -213,8 +259,51 @@ _.last([5, 4, 3, 2, 1]);
         assertEquals("last one item did not work", 5, res.intValue());
         List<Integer> resList = new $(asList(1, 2, 3, 4, 5)).last(3);
         assertEquals("last multi item did not wok", asList(3, 4, 5), resList);
+        final int resultPred = $.last(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(2, resultPred);
+        final int resultPredObj = new $<Integer>(asList(5, 4, 3, 2, 1)).last(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(2, resultPredObj);
     }
 
+    @Test
+    public void lastOrNull() {
+        final Integer result = $.lastOrNull(asList(5, 4, 3, 2, 1));
+        assertEquals("1", result.toString());
+        final Integer resultObj = new $<Integer>(asList(5, 4, 3, 2, 1)).lastOrNull();
+        assertEquals("1", resultObj.toString());
+        assertNull($.lastOrNull(Collections.emptyList()));
+        assertNull(new $<Integer>(Collections.<Integer>emptyList()).lastOrNull());
+        final int resultPred = $.lastOrNull(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(2, resultPred);
+        assertNull($.lastOrNull(Collections.<Integer>emptyList(), new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }));
+        final int resultPredObj = new $<Integer>(asList(5, 4, 3, 2, 1)).lastOrNull(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals(2, resultPredObj);
+        assertNull(new $<Integer>(Collections.<Integer>emptyList()).lastOrNull(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }));
+    }
 /*
 _.compact([0, 1, false, 2, '', 3]);
 => [1, 2, 3]

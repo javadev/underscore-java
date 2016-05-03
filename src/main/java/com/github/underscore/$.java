@@ -732,6 +732,34 @@ public class $<T> {
         return ((List) iterable).subList(0, n);
     }
 
+    public static <E> E first(final Iterable<E> iterable, final Predicate<E> pred) {
+        return filter(newArrayList(iterable), pred).iterator().next();
+    }
+
+    public T first(final Predicate<T> pred) {
+        return filter(newArrayList(iterable), pred).iterator().next();
+    }
+
+    public static <E> E firstOrNull(final Iterable<E> iterable) {
+        final Iterator<E> iterator = iterable.iterator();
+        return iterator.hasNext() ? iterator.next() : null;
+    }
+
+    public T firstOrNull() {
+        final Iterator<T> iterator = iterable.iterator();
+        return iterator.hasNext() ? iterator.next() : null;
+    }
+
+    public static <E> E firstOrNull(final Iterable<E> iterable, final Predicate<E> pred) {
+        final Iterator<E> iterator = filter(newArrayList(iterable), pred).iterator();
+        return iterator.hasNext() ? iterator.next() : null;
+    }
+
+    public T firstOrNull(final Predicate<T> pred) {
+        final Iterator<T> iterator = filter(newArrayList(iterable), pred).iterator();
+        return iterator.hasNext() ? iterator.next() : null;
+    }
+
     public static <E> E head(final Iterable<E> iterable) {
         return first(iterable);
     }
@@ -800,6 +828,32 @@ public class $<T> {
     @SuppressWarnings("unchecked")
     public List<T> last(final int n) {
         return last((List) iterable, n);
+    }
+
+    public static <E> E last(final List<E> list, final Predicate<E> pred) {
+        final List<E> filteredList = filter(list, pred);
+        return filteredList.get(filteredList.size() - 1);
+    }
+
+    public T last(final Predicate<T> pred) {
+        return last((List<T>) iterable, pred);
+    }
+
+    public static <E> E lastOrNull(final List<E> list) {
+        return list.isEmpty() ? null : list.get(list.size() - 1);
+    }
+
+    public T lastOrNull() {
+        return lastOrNull((List<T>) iterable);
+    }
+
+    public static <E> E lastOrNull(final List<E> list, final Predicate<E> pred) {
+        final List<E> filteredList = filter(list, pred);
+        return filteredList.isEmpty() ? null : filteredList.get(filteredList.size() - 1);
+    }
+
+    public T lastOrNull(final Predicate<T> pred) {
+        return lastOrNull((List<T>) iterable, pred);
     }
 
     public static <E> List<E> rest(final List<E> list) {
