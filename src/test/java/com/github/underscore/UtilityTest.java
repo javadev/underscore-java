@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2016 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -90,6 +90,27 @@ _.random(0, 100);
         int result = $.random(0, 100);
         assertTrue(result >= 0);
         assertTrue(result <= 100);
+    }
+
+/*
+_.random(0, 1);
+=> 0 or 1
+*/
+    @Test
+    public void random2() {
+        int result = $.random(0, 1);
+        assertTrue(result >= 0);
+        assertTrue(result <= 1);
+    }
+
+/*
+_.random(0);
+=> 0
+*/
+    @Test
+    public void random3() {
+        int result = $.random(0);
+        assertEquals(0, result);
     }
 
 /*

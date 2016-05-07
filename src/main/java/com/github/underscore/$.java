@@ -1708,8 +1708,12 @@ public class $<T> {
         }
     }
 
-    public static int random(final int from, final int to) {
-        return new Random().nextInt(to - from) + from;
+    public static int random(final int min, final int max) {
+        return min + new Random().nextInt(max - min + 1);
+    }
+
+    public static int random(final int max) {
+        return new Random().nextInt(max + 1);
     }
 
     public static long now() {
