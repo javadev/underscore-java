@@ -257,6 +257,19 @@ _.template(list, {people: ['moe', 'curly', 'larry']});
             put("evaluate", "<%([\\s\\S]+?)%>"); } });
     }
 
+    @Test
+    public void templateEach2() {
+        $.templateSettings(new HashMap<String, String>() { { put("interpolate", "\\$\\{([\\s\\S]+?)\\}");
+            put("evaluate", "\\{\\{([\\s\\S]+?)\\}\\}"); } });
+        String list = "{{ _.each(items, function(item) { }} <li>${ item }</li> {{ }); }}";
+        Template<Set<Map.Entry<String, Object>>> compiled3 = $.template(list);
+        assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
+            compiled3.apply((new LinkedHashMap<String, Object>() { {
+                put("items", asList("moe", "curly", "larry")); } }).entrySet()));
+        $.templateSettings(new HashMap<String, String>() { { put("interpolate", "<%=([\\s\\S]+?)%>");
+            put("evaluate", "<%([\\s\\S]+?)%>"); } });
+    }
+
 /*
 var template = _.template("<b><%- value %></b>");
 template({value: '<script>'});
