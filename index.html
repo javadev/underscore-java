@@ -953,13 +953,12 @@ $.times(3, new Function&lt;Integer&gt;() {
 =&gt; [1, 1, 1]
 </pre><p></p>
 
-<p id="random"><b class="header">random</b> <code>$.random(min, max)
+<p id="random"><b class="header">random</b> <code>$.random([min], max)
 </code><br>Returns
  a random integer between min and max, inclusive. If
 you only pass one
  argument, it will return a number between 0 and that number.
-Delegates
- to RandRange().<br></p><pre>$.random(0, 100);
+<br></p><pre>$.random(0, 100);
 =&gt; 42</pre><p></p>
 
 <p id="mixin"><b class="header">mixin</b> <code>$.mixin(object)
