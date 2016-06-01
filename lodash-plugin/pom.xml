@@ -5,7 +5,7 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore-lodash</artifactId>
   <packaging>jar</packaging>
-  <version>1.10-SNAPSHOT</version>
+  <version>1.11-SNAPSHOT</version>
   <name>Lodash plugin for underscore-java</name>
   <description>The lodash plugin for underscore-java</description>
   <url>https://github.com/javadev/underscore-java</url>
@@ -230,7 +230,7 @@
     <dependency>
       <groupId>com.github.javadev</groupId>
       <artifactId>underscore</artifactId>
-      <version>1.14-SNAPSHOT</version>
+      <version>1.15-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
