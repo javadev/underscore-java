@@ -3,3 +3,4 @@ build:
   steps:
     - xenoterracide/maven:
         goals: test
+
