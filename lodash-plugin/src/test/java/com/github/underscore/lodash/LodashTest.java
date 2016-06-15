@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2016 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Underscore library unit test.
@@ -428,6 +429,42 @@ _.at(['a', 'b', 'c'], 0, 2);
         assertEquals("[a, c]", $.at(asList("a", "b", "c"), 0, 2).toString());
         assertEquals("[a, c]", new $(asList("a", "b", "c")).at(0, 2).toString());
         assertEquals("[a, c]", $.chain(asList("a", "b", "c")).at(0, 2).value().toString());
+    }
+
+/*
+_.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
+// → "d"
+*/
+    @SuppressWarnings("unchecked")
+    @Test
+    public void get() {
+        assertEquals("d", $.<String>get(
+            (Map<String, Object>) $.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.c").toString());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getNull() {
+        assertNull($.<String>get((Map<String, Object>) null, "a[0].b.c"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void baseGetNull() {
+        assertNull($.<String>baseGet((Map<String, Object>) null, "a[0].b.c"));
+        assertNull($.<String>baseGet(new LinkedHashMap<String, Object>() { {
+            put("b", LodashTest.class); } }, "a[0].b.c"));
+        assertNull($.<String>baseGet(new LinkedHashMap<String, Object>() { {
+            put("a", LodashTest.class); } }, "a[0].b.c"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getNotFound() {
+        assertNull($.<String>get(
+            (Map<String, Object>) $.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.d"));
+        assertNull($.<String>get(
+            (Map<String, Object>) $.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].d.c"));
     }
 
     @SuppressWarnings("unchecked")

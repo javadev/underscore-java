@@ -42,6 +42,8 @@ public class $<T> extends com.github.underscore.$<T> {
     private static final String NULL_ELEMENT = ELEMENT + NULL + CLOSED_ELEMENT;
     private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
         "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
+    private static final java.util.regex.Pattern RE_PROP_NAME = java.util.regex.Pattern.compile(
+        "[^.\\[\\]]+|\\[(?:(-?\\d+(?:\\.\\d+)?)|([\"'])((?:(?!\2)\\[^\\]|\\.)*?)\2)\\]|(?=(\\.|\\[\\])(?:\4|$))");
     private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<String, String>() { {
         put("\u00c0", "A"); put("\u00c1", "A"); put("\u00c2", "A"); put("\u00c3", "A");
         put("\u00c4", "A"); put("\u00c5", "A");
@@ -1209,6 +1211,46 @@ public class $<T> extends com.github.underscore.$<T> {
         final int end = length - omission.length();
         final String result = string.substring(0, end);
         return result + omission;
+    }
+
+    public static List<String> stringToPath(final String string) {
+        final List<String> result = new ArrayList<String>();
+        final java.util.regex.Matcher matcher = RE_PROP_NAME.matcher(baseToString(string));
+        while (matcher.find()) {
+            result.add(matcher.group(1) == null ? matcher.group(0) : matcher.group(1));
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T baseGet(final Map<String, Object> object, final String path) {
+        final List<String> paths = stringToPath(path);
+        int index = 0;
+        final int length = paths.size();
+
+        Object localObject = object;
+        while (localObject != null && index < length) {
+            if (localObject instanceof Map) {
+                localObject = ((Map) localObject).get(paths.get(index));
+            } else if (localObject instanceof List) {
+                localObject = ((List) localObject).get(Integer.parseInt(paths.get(index)));
+            } else {
+                break;
+            }
+            index += 1;
+        }
+        if (index > 0 && index == length) {
+            return (T) localObject;
+        }
+        return null;
+    }
+
+    public static <T> T get(final Map<String, Object> object, final String path) {
+        if (object == null) {
+            return null;
+        }
+        final T result = baseGet(object, path);
+        return result;
     }
 
     public static class JsonStringBuilder {
