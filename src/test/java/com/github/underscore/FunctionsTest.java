@@ -304,7 +304,7 @@ _.map(stooges, _.iteratee('age'));
         final Integer[] counter = new Integer[] {0};
         Function<Void> incr = new Function<Void>() { public Void apply() {
             counter[0]++; return null; } };
-        java.util.concurrent.ScheduledFuture future = $.setTimeout(incr, 10);
+        java.util.concurrent.ScheduledFuture future = $.setTimeout(incr, 20);
         $.clearTimeout(future);
         $.clearTimeout(null);
         Thread.sleep(40);
@@ -326,7 +326,7 @@ _.map(stooges, _.iteratee('age'));
         final Integer[] counter = new Integer[] {0};
         Function<Void> incr = new Function<Void>() { public Void apply() {
             counter[0]++; return null; } };
-        java.util.concurrent.ScheduledFuture future = $.setInterval(incr, 10);
+        java.util.concurrent.ScheduledFuture future = $.setInterval(incr, 20);
         $.clearInterval(future);
         $.clearInterval(null);
         Thread.sleep(40);
