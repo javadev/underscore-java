@@ -84,12 +84,19 @@ var fibonacci = _.memoize(function(n) {
 */
     @Test
     public void memoize() {
-        class FibonacciFuncion1 extends MemoizeFunction1<Integer> {
+        class FibonacciFuncion1 extends MemoizeFunction1<Integer, Integer> {
             public Integer calc(final Integer n) {
                 return n < 2 ? n : apply(n - 1) + apply(n - 2);
             }
         }
         assertEquals(55, new FibonacciFuncion1().apply(10).intValue());
+        Function1<Integer, Integer> memoizeFunction = $.memoize(
+            new Function1<Integer, Integer>() {
+                public Integer apply(final Integer n) {
+                    return n < 2 ? n : apply(n - 1) + apply(n - 2);
+                }
+            });
+        assertEquals(55, memoizeFunction.apply(10).intValue());
     }
 
 /*
