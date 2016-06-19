@@ -446,15 +446,9 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     @Test
     public void getNull() {
         assertNull($.<String>get((Map<String, Object>) null, "a[0].b.c"));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void baseGetNull() {
-        assertNull($.<String>baseGet((Map<String, Object>) null, "a[0].b.c"));
-        assertNull($.<String>baseGet(new LinkedHashMap<String, Object>() { {
+        assertNull($.<String>get(new LinkedHashMap<String, Object>() { {
             put("b", LodashTest.class); } }, "a[0].b.c"));
-        assertNull($.<String>baseGet(new LinkedHashMap<String, Object>() { {
+        assertNull($.<String>get(new LinkedHashMap<String, Object>() { {
             put("a", LodashTest.class); } }, "a[0].b.c"));
     }
 

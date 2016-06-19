@@ -1223,7 +1223,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T baseGet(final Map<String, Object> object, final String path) {
+    private static <T> T baseGet(final Map<String, Object> object, final String path) {
         final List<String> paths = stringToPath(path);
         int index = 0;
         final int length = paths.size();
@@ -1246,11 +1246,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static <T> T get(final Map<String, Object> object, final String path) {
-        if (object == null) {
-            return null;
-        }
-        final T result = baseGet(object, path);
-        return result;
+        return baseGet(object, path);
     }
 
     public static class JsonStringBuilder {
