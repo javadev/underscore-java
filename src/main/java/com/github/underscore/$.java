@@ -1294,10 +1294,19 @@ public class $<T> {
         return chunk(getIterable(), size);
     }
 
-    public static <T, F> Function1<T, F> bind(final Function1<T, F> function) {
-        return new Function1<T, F>() {
+    public static <T, F> Function1<F, T> bind(final Function1<F, T> function) {
+        return new Function1<F, T>() {
             @Override
-            public F apply(T arg) {
+            public T apply(F arg) {
+                return function.apply(arg);
+            }
+        };
+    }
+
+    public static <T, F> Function1<F, T> memoize(final Function1<F, T> function) {
+        return new MemoizeFunction1<F, T>() {
+            @Override
+            public T calc(F arg) {
                 return function.apply(arg);
             }
         };
