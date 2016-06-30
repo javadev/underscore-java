@@ -5,7 +5,7 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore-string</artifactId>
   <packaging>jar</packaging>
-  <version>1.11</version>
+  <version>1.12</version>
   <name>String plugin for underscore-java</name>
   <description>The string plugin for underscore-java</description>
   <url>https://github.com/javadev/underscore-java</url>
@@ -117,7 +117,7 @@
     <dependency>
       <groupId>com.github.javadev</groupId>
       <artifactId>underscore</artifactId>
-      <version>1.15</version>
+      <version>1.16</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
