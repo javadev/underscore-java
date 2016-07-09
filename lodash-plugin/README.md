@@ -3,6 +3,7 @@ The lodash plugin for underscore-java
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.javadev/underscore-lodash.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.javadev%22%20AND%20a%3A%22underscore-lodash%22)
 [![Build Status](https://secure.travis-ci.org/javadev/underscore-java.svg)](https://travis-ci.org/javadev/underscore-java)
+[![Dependency Status](https://www.versioneye.com/user/projects/5781049f5bb1390040177e08/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5781049f5bb1390040177e08)
 
 Requirements
 ============
