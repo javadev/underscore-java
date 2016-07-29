@@ -2286,6 +2286,57 @@ public class $<T> {
         }
     }
 
+    public static <T> List<T> copyOf(final Iterable<T> iterable) {
+        return newArrayList(iterable);
+    }
+
+    public List<T> copyOf() {
+        return newArrayList(value());
+    }
+
+    public static <T> List<T> copyOfRange(final Iterable<T> iterable, final int start, final int end) {
+        return slice(iterable, start, end);
+    }
+
+    public List<T> copyOfRange(final int start, final int end) {
+        return slice(value(), start, end);
+    }
+
+    public static <T> T elementAt(final List<T> list, final int index) {
+        return list.get(index);
+    }
+
+    @SuppressWarnings("unchecked")
+    public T elementAt(final int index) {
+        return elementAt((List<T>) value(), index);
+    }
+
+    public static <T> T elementAtOrElse(final List<T> list, final int index, T defaultValue) {
+        try {
+            return list.get(index);
+        } catch (IndexOutOfBoundsException ex) {
+            return defaultValue;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public T elementAtOrElse(final int index, T defaultValue) {
+        return elementAtOrElse((List<T>) value(), index, defaultValue);
+    }
+
+    public static <T> T elementAtOrNull(final List<T> list, final int index) {
+        try {
+            return list.get(index);
+        } catch (IndexOutOfBoundsException ex) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public T elementAtOrNull(final int index) {
+        return elementAtOrNull((List<T>) value(), index);
+    }
+
     @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList() {
         try {

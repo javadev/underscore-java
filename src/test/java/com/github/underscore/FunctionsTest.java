@@ -325,7 +325,7 @@ _.map(stooges, _.iteratee('age'));
             counter[0]++; return null; } };
         $.setInterval(incr, 10);
         Thread.sleep(45);
-        assertTrue(counter[0].intValue() == 4 || counter[0].intValue() == 5);
+        assertTrue(asList(3, 4, 5).contains(counter[0]));
     }
 
     @Test
