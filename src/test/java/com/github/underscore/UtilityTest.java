@@ -229,6 +229,13 @@ compiled({name: 'moe'});
         $.templateSettings(new HashMap<String, String>() { { put("interpolate", "<%=([\\s\\S]+?)%>"); } });
     }
 
+    @Test
+    public void template5() {
+        Template<Map<String, Object>> compiled = $.templateMap("hello: <%= name %>");
+        assertEquals("hello: moe", compiled.apply(new LinkedHashMap<String, Object>() { {
+            put("name", "moe"); } }));
+    }
+
 /*
 var list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
 _.template(list, {people: ['moe', 'curly', 'larry']});

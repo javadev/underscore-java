@@ -325,7 +325,7 @@ _.map(stooges, _.iteratee('age'));
             counter[0]++; return null; } };
         $.setInterval(incr, 10);
         Thread.sleep(45);
-        assertTrue(asList(3, 4, 5).contains(counter[0]));
+        assertTrue("Counter is not in range [4, 5, 6] " + counter[0], asList(4, 5, 6).contains(counter[0]));
     }
 
     @Test
