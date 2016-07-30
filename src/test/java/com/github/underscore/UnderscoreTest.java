@@ -30,6 +30,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 /**
@@ -131,6 +132,68 @@ arr.slice(-3, -1) // [3, 4]
         assertEquals(asList(2, 3, 4), $.chain(asList(1, 2, 3, 4, 5)).slice(1, 4).value());
         assertEquals(asList(3, 4, 5), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, 2)));
         assertEquals(asList(2, 3, 4), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, 1, 4)));
+    }
+
+/*
+var arr = [ 1, 2, 3 ]
+_.copyOf(arr) // => [1, 2, 3]
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void copyOf() {
+        assertEquals(asList(1, 2, 3), $.copyOf(asList(1, 2, 3)));
+        assertEquals(asList(1, 2, 3), new $(asList(1, 2, 3)).copyOf());
+        assertFalse(asList(1, 2, 3) == $.copyOf(asList(1, 2, 3)));
+        assertEquals(asList("a", "b"), $.copyOfRange(asList("a", "b", "c", "d"), 0, 2));
+        assertEquals(asList("a", "b"), new $(asList("a", "b", "c", "d")).copyOfRange(0, 2));
+    }
+
+/*
+var arr = [ 1, 2, 3 ]
+_.elementAt(arr, 1) // => 2
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void elementAt() {
+        assertEquals(2, $.<Integer>elementAt(asList(1, 2, 3), 1).intValue());
+        assertEquals(2, new $<Integer>(asList(1, 2, 3)).elementAt(1).intValue());
+    }
+
+/*
+var arr = [ 1, 2, 3 ]
+_.elementAt(arr, 3) // => IndexOutOfBoundsException
+*/
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void elementAtOutOfBounds() {
+        $.<Integer>elementAt(asList(1, 2, 3), 3);
+    }
+
+/*
+var arr = [ 1, 2, 3 ]
+_.elementAtOrElse(arr, 1, 0) // => 2
+_.elementAtOrElse(arr, 3, 0) // => 0
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void elementAtOrElse() {
+        assertEquals(2, $.<Integer>elementAtOrElse(asList(1, 2, 3), 1, 0).intValue());
+        assertEquals(2, new $<Integer>(asList(1, 2, 3)).elementAtOrElse(1, 0).intValue());
+        assertEquals(0, $.<Integer>elementAtOrElse(asList(1, 2, 3), 3, 0).intValue());
+        assertEquals(0, new $<Integer>(asList(1, 2, 3)).elementAtOrElse(3, 0).intValue());
+    }
+
+/*
+var arr = [ 1, 2, 3 ]
+_.elementAtOrNull(arr, 1) // => 2
+_.elementAtOrNull(arr, 3) // => null
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void elementAtOrNull() {
+        assertEquals(2, $.<Integer>elementAtOrNull(asList(1, 2, 3), 1).intValue());
+        assertEquals(2, new $<Integer>(asList(1, 2, 3)).elementAtOrNull(1).intValue());
+        assertNull($.<Integer>elementAtOrNull(asList(1, 2, 3), 3));
+        assertNull(new $<Integer>(asList(1, 2, 3)).elementAtOrNull(3));
     }
 
 /*
