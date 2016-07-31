@@ -99,20 +99,7 @@ public class $<T> {
         }
     }
 
-    private static final class TemplateMapImpl<K, V> implements Template<Map<K, V>> {
-        private final TemplateImpl<Map.Entry<K, V>> templateImpl;
-
-        private TemplateMapImpl(String template) {
-            this.templateImpl = new TemplateImpl<Map.Entry<K, V>>(template);
-        }
-
-        @Override
-        public String apply(Map<K, V> value) {
-            return templateImpl.apply(value.entrySet());
-        }
-    }
-
-    private static final class TemplateImpl<E> implements Template<Set<E>> {
+    private static final class TemplateImpl<K, V> implements Template<Map<K, V>> {
         private final String template;
 
         private TemplateImpl(String template) {
@@ -121,12 +108,12 @@ public class $<T> {
 
         @Override
         @SuppressWarnings("unchecked")
-        public String apply(Set<E> value) {
+        public String apply(Map<K, V> value) {
             final String evaluate = TEMPLATE_SETTINGS.get("evaluate");
             final String interpolate = TEMPLATE_SETTINGS.get("interpolate");
             final String escape = TEMPLATE_SETTINGS.get("escape");
             String result = template;
-            for (final E element : value) {
+            for (final Map.Entry<K, V> element : value.entrySet()) {
                 result = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
                     "\\s*\\Q" + ((Map.Entry) element).getKey()
                     + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
@@ -1789,12 +1776,8 @@ public class $<T> {
         return result.toString();
     }
 
-    public static <E> Template<Set<E>> template(final String template) {
-        return new TemplateImpl<E>(template);
-    }
-
-    public static <K, V> Template<Map<K, V>> templateMap(final String template) {
-        return new TemplateMapImpl<K, V>(template);
+    public static <K, V> Template<Map<K, V>> template(final String template) {
+        return new TemplateImpl<K, V>(template);
     }
 
     public static <T> Chain<T> chain(final List<T> list) {
