@@ -1755,7 +1755,7 @@ public class $<T> {
     }
 
     public static String uniqueId(final String prefix) {
-        return prefix + UNIQUE_ID.incrementAndGet();
+        return (prefix == null ? "" : prefix) + UNIQUE_ID.incrementAndGet();
     }
 
     public static String uniquePassword() {
