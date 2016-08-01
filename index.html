@@ -10,7 +10,7 @@
 <body>
     <div id="sidebar" class="interface">
         <a class="toc_title" href="#">
-            Underscore-java <span class="version">(1.15)</span>
+            Underscore-java <span class="version">(1.17)</span>
         </a>
         <a class="toc_title" href="#">
             Introduction
@@ -154,7 +154,7 @@ equality testing, and so on. It delegates to built-in functions where
 applicable.<br><br>Underscore-java is compatible with Java 6 and later.<br><br>The project is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a>. Contributions are welcome.<br>
         </p>
         <h2>Download</h2>
-        <div><a href="https://github.com/javadev/underscore-java/archive/v1.15.zip">Version 1.15</a> - <i>~3.0Mb, Includes all development files</i></div>
+        <div><a href="https://github.com/javadev/underscore-java/archive/v1.17.zip">Version 1.17</a> - <i>~3.51Mb, Includes all development files</i></div>
         <h2 id="Collections">Collection Functions (Arrays, Structs, Queries, or Objects)</h2>
 
 
@@ -1114,6 +1114,27 @@ final String youngest = $.chain(stooges)
  <p
 id="changelog">
  </p><h2>Change Log</h2>
+ <p>
+ <b class="header">1.17</b> --
+<small><i>Aug 1st, 2016</i></small><br>
+ </p>
+ <ul>
+ <li>Added $.push(values), $.pop(), $.shift() and $.unshift(values) methods to the lodash plugin.</li>
+ <li>Added $.copyOf(), $.copyOfRange(start, end), $.elementAt(index), $.elementAtOrElse(index, defaultValue) and $.elementAtOrNull(index) methods support.</li>
+ <li>Changed argument type for the template.apply(map) method.</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.16</b> --
+<small><i>Jul 1st, 2016</i></small><br>
+ </p>
+ <ul>
+ <li>Added $.memoize(function) method.</li>
+ <li>Added support for the get(object, path) method in lodash plugin.</li>
+ </ul>
+ <p>
+ </p><p>
  <p>
  <b class="header">1.15</b> --
 <small><i>Jun 1st, 2016</i></small><br>
