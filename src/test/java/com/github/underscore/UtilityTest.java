@@ -129,6 +129,7 @@ _.uniqueId('contact_');
     @Test
     public void uniqueId() {
         assertEquals("contact_1", $.uniqueId("contact_"));
+        assertEquals("2", $.uniqueId(null));
     }
 
     @Test
