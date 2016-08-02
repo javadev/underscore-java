@@ -211,11 +211,6 @@ _.elementAtOrNull(arr, 3) // => null
     @Test
     @SuppressWarnings("unchecked")
     public void classForNameWithoutGuava() {
-        $.setClassForName(new $.ClassForName() {
-            public Class<?> call(final String name) throws Exception {
-                throw new Exception("expected");
-            }
-        });
         final List<Integer> result1 = $.filter(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
@@ -274,7 +269,6 @@ _.elementAtOrNull(arr, 3) // => null
             }
         });
         assertEquals("Optional.of(6)", result8.toString());
-        $.setClassForName(new $.ClassForName());
     }
 
     @Test
