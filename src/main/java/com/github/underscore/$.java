@@ -33,7 +33,6 @@ import java.util.*;
  * @author Valentyn Kolesnikov
  */
 public class $<T> {
-    private static ClassForName classForName = new ClassForName();
     private static final Map<String, Function1<String, String>> FUNCTIONS = newLinkedHashMap();
     private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<String, String>() { {
         put("evaluate", "<%([\\s\\S]+?)%>");
@@ -54,10 +53,6 @@ public class $<T> {
     public $(final String string) {
         this.iterable = null;
         this.string = Optional.of(string);
-    }
-
-    public static void setClassForName(final ClassForName classForName) {
-        $.classForName = classForName;
     }
 
     private static void setTemplateKey(final Map<String, String> templateSettings, final String key) {
@@ -145,16 +140,6 @@ public class $<T> {
             }
             return result;
         }
-    }
-
-    public static class ClassForName {
-        public Class<?> call(final String name) throws Exception {
-            return Class.forName(name);
-        }
-    }
-
-    private static Class<?> classForName(final String name) throws Exception {
-        return classForName.call(name);
     }
 
     public static <K, V> Function1<Map<K, V>, V> iteratee(final K key) {
@@ -2339,31 +2324,21 @@ public class $<T> {
 
     @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList() {
-        try {
-            final Class<?> listsClass = classForName("com.google.common.collect.Lists");
-            return (List<T>) listsClass.getDeclaredMethod("newArrayList").invoke(null);
-        } catch (Exception e) {
-            return new ArrayList<T>();
-        }
+        return new ArrayList<T>();
     }
 
     @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList(Iterable<T> iterable) {
-        try {
-            final Class<?> listsClass = classForName("com.google.common.collect.Lists");
-            return (List<T>) listsClass.getDeclaredMethod("newArrayList", Iterable.class).invoke(null, iterable);
-        } catch (Exception e) {
-            final List<T> result;
-            if (iterable instanceof Collection) {
-                result = new ArrayList<T>((Collection) iterable);
-            } else {
-                result = new ArrayList<T>();
-                for (final T item : iterable) {
-                    result.add(item);
-                }
+        final List<T> result;
+        if (iterable instanceof Collection) {
+            result = new ArrayList<T>((Collection) iterable);
+        } else {
+            result = new ArrayList<T>();
+            for (final T item : iterable) {
+                result.add(item);
             }
-            return result;
         }
+        return result;
     }
 
     protected static List<Integer> newIntegerList(int ... array) {
@@ -2376,58 +2351,31 @@ public class $<T> {
 
     @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayListWithExpectedSize(int size) {
-        try {
-            final Class<?> listsClass = classForName("com.google.common.collect.Lists");
-            return (List<T>) listsClass.getDeclaredMethod("newArrayListWithExpectedSize", Integer.TYPE)
-                .invoke(null, size);
-        } catch (Exception e) {
-            return new ArrayList<T>(size);
-        }
+        return new ArrayList<T>((int) (5L + size + (size / 10)));
     }
 
     @SuppressWarnings("unchecked")
     protected static <T> Set<T> newLinkedHashSet() {
-        try {
-            final Class<?> setsClass = classForName("com.google.common.collect.Sets");
-            return (Set<T>) setsClass.getDeclaredMethod("newLinkedHashSet").invoke(null);
-        } catch (Exception e) {
-            return new LinkedHashSet<T>();
-        }
+        return new LinkedHashSet<T>();
     }
 
     @SuppressWarnings("unchecked")
     protected static <T> Set<T> newHashSet(Iterable<T> iterable) {
-        try {
-            final Class<?> setsClass = classForName("com.google.common.collect.Sets");
-            return (Set<T>) setsClass.getDeclaredMethod("newHashSet", Iterable.class).invoke(null, iterable);
-        } catch (Exception e) {
-            final Set<T> result = new HashSet<T>();
-            for (final T item : iterable) {
-                result.add(item);
-            }
-            return result;
+        final Set<T> result = new HashSet<T>();
+        for (final T item : iterable) {
+            result.add(item);
         }
+        return result;
     }
 
     @SuppressWarnings("unchecked")
     protected static <T> Set<T> newLinkedHashSetWithExpectedSize(int size) {
-        try {
-            final Class<?> setsClass = classForName("com.google.common.collect.Sets");
-            return (Set<T>) setsClass.getDeclaredMethod("newLinkedHashSetWithExpectedSize", Integer.TYPE)
-                .invoke(null, size);
-        } catch (Exception e) {
-            return new LinkedHashSet<T>(size);
-        }
+        return new LinkedHashSet<T>((int) Math.max(size * 2L, 16L));
     }
 
     @SuppressWarnings("unchecked")
     protected static <K, E> Map<K, E> newLinkedHashMap() {
-        try {
-            final Class<?> mapsClass = classForName("com.google.common.collect.Maps");
-            return (Map<K, E>) mapsClass.getDeclaredMethod("newLinkedHashMap").invoke(null);
-        } catch (Exception e) {
-            return new LinkedHashMap<K, E>();
-        }
+        return new LinkedHashMap<K, E>();
     }
 
     public static void main(String ... args) {
