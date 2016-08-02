@@ -172,6 +172,11 @@ _.median([0, 0, 1, 2, 3, 4]);
         assertEquals("1.5", result4.toString());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void medianForEmpty() {
+        $.median(new ArrayList<Double>());
+    }
+
     // http://stackoverflow.com/questions/27772432/is-there-a-underscore-js-lib-for-java
     @SuppressWarnings("unchecked")
     @Test

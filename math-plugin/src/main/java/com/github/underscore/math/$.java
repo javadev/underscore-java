@@ -430,6 +430,9 @@ public class $<T> extends com.github.underscore.$<T> {
     public static <T extends Number> double median(final Iterable<T> iterable) {
         final List<T> result = newArrayList((Collection) iterable);
         final int size = size(iterable);
+        if (size == 0) {
+            throw new IllegalArgumentException("Iterable cannot be empty");
+        }
         if (size % 2 != 0) {
             return result.get(size / 2).doubleValue();
         }
