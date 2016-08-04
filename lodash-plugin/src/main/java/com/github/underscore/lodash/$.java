@@ -2011,7 +2011,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return sb.toString();
         }
 
-        static void escape(String s, StringBuilder sb) {
+        private static void escape(String s, StringBuilder sb) {
             final int len = s.length();
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
@@ -2064,6 +2064,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     } else {
                         sb.append(ch);
                     }
+                    break;
                 }
             }
         }
@@ -2487,7 +2488,7 @@ public class $<T> extends com.github.underscore.$<T> {
             } else {
                 value = currentNode.getTextContent();
             }
-            if (name.equals("#text") && value.toString().startsWith("\n")) {
+            if ("#text".equals(name) && value.toString().startsWith("\n")) {
                 continue;
             }
             if (map.containsKey(name)) {
