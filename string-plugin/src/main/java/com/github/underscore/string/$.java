@@ -2361,6 +2361,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     } else {
                         sb.append(ch);
                     }
+                    break;
                 }
             }
         }
