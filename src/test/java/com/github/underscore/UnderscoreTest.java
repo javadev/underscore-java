@@ -210,42 +210,7 @@ _.elementAtOrNull(arr, 3) // => null
 
     @Test
     @SuppressWarnings("unchecked")
-    public void classForNameWithoutGuava() {
-        final List<Integer> result1 = $.filter(asList(1, 2, 3, 4, 5, 6),
-            new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
-                return item % 2 == 0;
-            }
-        });
-        assertEquals("[2, 4, 6]", result1.toString());
-        final List<Integer> result2 = $.shuffle(asList(1, 2, 3, 4, 5, 6));
-        assertEquals(6, result2.size());
-        List<Integer> result3 = $.map(asList(1, 2, 3), new Function1<Integer, Integer>() {
-            public Integer apply(Integer item) {
-                return item * 3;
-            }
-        });
-        assertEquals("[3, 6, 9]", result3.toString());
-        final Set<Integer> result4 =
-        $.map((new LinkedHashMap<Integer, String>() { { put(1, "one"); put(2, "two"); put(3, "three"); } }).entrySet(),
-            new Function1<Map.Entry<Integer, String>, Integer>() {
-            public Integer apply(Map.Entry<Integer, String> item) {
-                return item.getKey() * 3;
-            }
-        });
-        assertEquals("[3, 6, 9]", result4.toString());
-        final List<Integer> result5 = $.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
-        assertEquals("[1, 2, 3, 101, 10]", result5.toString());
-        final Map<Double, List<Double>> result6 =
-        $.groupBy(asList(1.3, 2.1, 2.4),
-            new Function1<Double, Double>() {
-            public Double apply(Double num) {
-                return Math.floor(num);
-            }
-        });
-        assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result6.toString());
-        final List<Integer> result7 = $.uniq(asList(1, 2, 1, 3, 1, 4));
-        assertEquals("[1, 2, 3, 4]", result7.toString());
+    public void findLastWithCustomIterable() {
         final int[] array = new int[] {1, 2, 3, 4, 5, 6};
         Iterable<Integer> iterable = new Iterable<Integer>() {
             public Iterator<Integer> iterator() {
@@ -262,13 +227,13 @@ _.elementAtOrNull(arr, 3) // => null
                 };
             }
         };
-        final Optional<Integer> result8 = $.findLast(iterable,
+        final Optional<Integer> result = $.findLast(iterable,
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
             }
         });
-        assertEquals("Optional.of(6)", result8.toString());
+        assertEquals("Optional.of(6)", result.toString());
     }
 
     @Test
