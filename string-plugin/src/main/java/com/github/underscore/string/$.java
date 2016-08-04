@@ -1104,7 +1104,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return sb.toString();
         }
 
-        static void escape(String s, StringBuilder sb) {
+        private static void escape(String s, StringBuilder sb) {
             final int len = s.length();
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
@@ -1145,6 +1145,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     } else {
                         sb.append(ch);
                     }
+                    break;
                 }
             }
         }
