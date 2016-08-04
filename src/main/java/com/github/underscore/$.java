@@ -39,6 +39,13 @@ public class $<T> {
         put("interpolate", "<%=([\\s\\S]+?)%>");
         put("escape", "<%-([\\s\\S]+?)%>");
     } };
+    private static final int GROUP_INDEX_2 = 2;
+    private static final int GROUP_INDEX_3 = 3;
+    private static final int ARRAY_SIZE_2 = 2;
+    private static final int MIN_PASSWORD_LENGTH_8 = 8;
+    private static final long CAPACITY_SIZE_5 = 5L;
+    private static final long CAPACITY_COEFF_2 = 2L;
+    private static final long CAPACITY_SIZE_16 = 16L;
     private static final java.util.concurrent.atomic.AtomicInteger UNIQUE_ID =
         new java.util.concurrent.atomic.AtomicInteger(0);
     private static final String ALL_SYMBOLS = "([\\s\\S]+?)";
@@ -125,15 +132,15 @@ public class $<T> {
                     StringBuilder repeatResult = new StringBuilder();
                     for (String item : (List<String>) ((Map.Entry) element).getValue()) {
                         repeatResult.append(java.util.regex.Pattern.compile(
-                            interpolate.replace(ALL_SYMBOLS, "\\s*\\Q" + matcher.group(2)
-                            + "\\E\\s*")).matcher(matcher.group(3)).replaceAll(item));
+                            interpolate.replace(ALL_SYMBOLS, "\\s*\\Q" + matcher.group(GROUP_INDEX_2)
+                            + "\\E\\s*")).matcher(matcher.group(GROUP_INDEX_3)).replaceAll(item));
                     }
                     result = matcher.replaceFirst(repeatResult.toString());
                 }
                 java.util.regex.Matcher matcherPrint = java.util.regex.Pattern.compile(
                     evaluate.replace(ALL_SYMBOLS,
                     "\\s*print\\('([^']*)'\\s*\\+\\s*(\\w+)\\);\\s*")).matcher(result);
-                if (matcherPrint.find() && ((Map.Entry) element).getKey().equals(matcherPrint.group(2))) {
+                if (matcherPrint.find() && ((Map.Entry) element).getKey().equals(matcherPrint.group(GROUP_INDEX_2))) {
                     result = matcherPrint.replaceFirst(matcherPrint.group(1)
                         + ((Map.Entry) element).getValue());
                 }
@@ -692,7 +699,7 @@ public class $<T> {
 
     @SuppressWarnings("unchecked")
     public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
-        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[2]);
+        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[ARRAY_SIZE_2]);
     }
 
     public static <E> E first(final Iterable<E> iterable) {
@@ -1751,7 +1758,8 @@ public class $<T> {
             ".@,-+/()#$%^&*!"
         };
         final StringBuilder result = new StringBuilder();
-        final long passwordLength = Math.abs(UUID.randomUUID().getLeastSignificantBits() % 8) + 8;
+        final long passwordLength = Math.abs(UUID.randomUUID().getLeastSignificantBits() % MIN_PASSWORD_LENGTH_8)
+            + MIN_PASSWORD_LENGTH_8;
         for (int index = 0; index < passwordLength; index += 1) {
             final int passIndex = (int) (passwords.length * index / passwordLength);
             final int charIndex = (int) Math.abs(
@@ -2351,7 +2359,7 @@ public class $<T> {
 
     @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayListWithExpectedSize(int size) {
-        return new ArrayList<T>((int) (5L + size + (size / 10)));
+        return new ArrayList<T>((int) (CAPACITY_SIZE_5 + size + (size / 10)));
     }
 
     @SuppressWarnings("unchecked")
@@ -2370,7 +2378,7 @@ public class $<T> {
 
     @SuppressWarnings("unchecked")
     protected static <T> Set<T> newLinkedHashSetWithExpectedSize(int size) {
-        return new LinkedHashSet<T>((int) Math.max(size * 2L, 16L));
+        return new LinkedHashSet<T>((int) Math.max(size * CAPACITY_COEFF_2, CAPACITY_SIZE_16));
     }
 
     @SuppressWarnings("unchecked")
