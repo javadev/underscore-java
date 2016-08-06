@@ -33,6 +33,9 @@ a.toc_title, a.toc_title:visited {
     font-size: 10px;
     font-weight: normal;
   }
+  input#function_filter {
+      width: 80%;
+  }
 ul.toc_section {
   font-size: 11px;
   line-height: 14px;

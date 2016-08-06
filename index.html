@@ -10,136 +10,162 @@
 <body>
     <div id="sidebar" class="interface">
         <a class="toc_title" href="#">
-            Underscore-java <span class="version">(1.17)</span>
-        </a>
+                Underscore-java <span class="version">(1.17)</span>
+            </a>
+    <ul class="toc_section">
+      <li>» <a href="https://github.com/javadev/underscore-java">GitHub Repository</a></li>
+    </ul>
+
+    <input id="function_filter" placeholder="Filter" type="text" autofocus="">
+
+        <div class="searchable_section">
         <a class="toc_title" href="#">
-            Introduction
-        </a>
-
-            <a class="toc_title" href="#Collections">
-                Collections
+                Introduction
             </a>
-
-            <ul class="toc_section">
-                <li>- <a href="#each">each</a></li><li>- <a
-                href="#map">map</a></li><li>- <a
-                href="#reduce">reduce</a></li><li>- <a
-                href="#reduceRight">reduceRight</a></li><li>- <a
-                href="#find">find</a></li><li>- <a
-                href="#filter">filter</a></li><li>- <a
-                href="#where">where</a></li><li>- <a
-                href="#findWhere">findWhere</a></li><li>- <a
-                href="#reject">reject</a></li><li>- <a
-                href="#all">all</a></li><li>- <a href="#any">any</a></li><li>-
-                <a href="#include">include</a></li><li>- <a
-                href="#invoke">invoke</a></li><li>- <a
-                href="#pluck">pluck</a></li><li>- <a
-                href="#max">max</a></li><li>- <a href="#min">min</a></li><li>-
-                <a href="#sortBy">sortBy</a></li><li>- <a
-                href="#groupBy">groupBy</a></li><li>- <a
-                href="#countBy">countBy</a></li><li>- <a
-                href="#sortedIndex">sortedIndex</a></li><li>- <a
-                href="#shuffle">shuffle</a></li><li>- <a
-                href="#sample">sample</a></li><li>- <a
-                href="#toArray">toArray</a></li><li>- <a
-                href="#toMap">toMap</a></li><li>- <a href="#size">size</a></li>
-             </ul>
-
-            <a class="toc_title" href="#Arrays">
-                Arrays
-            </a>
-
-            <ul class="toc_section">
-                <li>- <a href="#first">first</a></li><li>- <a
-                href="#initial">initial</a></li><li>- <a
-                href="#last">last</a></li><li>- <a
-                href="#rest">rest</a></li><li>- <a
-                href="#compact">compact</a></li><li>- <a
-                href="#flatten">flatten</a></li><li>- <a
-                href="#without">without</a></li><li>- <a
-                href="#union">union</a></li><li>- <a
-                href="#intersection">intersection</a></li><li>- <a
-                href="#difference">difference</a></li><li>- <a
-                href="#uniq">uniq</a></li><li>- <a href="#zip">zip</a></li><li>-
-                <a href="#object">object</a></li><li>- <a
-                href="#indexOf">indexOf</a></li><li>- <a
-                href="#lastIndexOf">lastIndexOf</a></li><li>- <a
-                href="#range">range</a></li><li>- <a
-                href="#concat">concat</a></li><li>- <a
-                href="#reverse">reverse</a></li><li>- <a
-                href="#join">join</a></li><li>- <a
-                href="#slice">slice</a></li>
-             </ul>
-
-            <a class="toc_title" href="#Functions">
-                Functions
-            </a>
-
-            <ul class="toc_section">
-                <li>- <a href="#bind">bind</a></li><li>- <a
-                href="#memoize">memoize</a></li><li>- <a
-                href="#delay">delay</a></li><li>- <a
-                href="#once">once</a></li><li>- <a
-                href="#debounce">debounce</a></li><li>- <a
-                href="#after">after</a></li><li>- <a
-                href="#before">before</a></li><li>- <a
-                href="#wrap">wrap</a></li><li>- <a
-                href="#compose">compose</a></li>
-             </ul>
-
-            <a class="toc_title" href="#Objects">
-                Objects
-            </a>
-
-            <ul class="toc_section">
-                <li>- <a href="#keys">keys</a></li><li>- <a
-                href="#values">values</a></li><li>- <a
-                href="#pairs">pairs</a></li><li>- <a
-                href="#invert">invert</a></li><li>- <a
-                href="#functions">functions</a></li><li>- <a
-                href="#extend">extend</a></li><li>- <a
-                href="#pick">pick</a></li><li>- <a
-                href="#omit">omit</a></li><li>- <a
-                href="#defaults">defaults</a></li><li>- <a
-                href="#clone">clone</a></li><li>- <a
-                href="#has">has</a></li><li>- <a
-                href="#isEqual">isEqual</a></li><li>- <a
-                href="#isEmpty">isEmpty</a></li><li>- <a
-                href="#isArray">isArray</a></li><li>- <a
-                href="#isObject">isObject</a></li><li>- <a
-                href="#isFunction">isFunction</a></li><li>- <a
-                href="#isString">isString</a></li><li>- <a
-                href="#isNumber">isNumber</a></li><li>- <a
-                href="#isBoolean">isBoolean</a></li><li>- <a
-                href="#isDate">isDate</a></li>
-             </ul>
-
-            <a class="toc_title" href="#Utilities">
-                Utilities
-            </a>
-
-            <ul class="toc_section">
-                <li>- <a href="#times">times</a></li><li>- <a
-                href="#random">random</a></li><li>- <a
-                href="#mixin">mixin</a></li><li>- <a
-                href="#uniqueId">uniqueId</a></li><li>- <a
-                href="#uniquePassword">uniquePassword</a></li><li>- <a
-                href="#escape">escape</a></li><li>- <a
-                href="#result">result</a></li>
-             </ul>
-
-            <a class="toc_title" href="#Chaining">
-                Chaining
-            </a>
-
-            <ul class="toc_section">
-                <li>- <a href="#chain">chain</a></li><li>- <a
-                href="#value">value</a></li>
-             </ul>
-
+        </div>
+    
+        <div class="searchable_section">
+        <a class="toc_title" href="#Collections">
+                    Collections
+                </a>
+    
+        <ul class="toc_section">
+            <li data-name="each">- <a href="#each">each</a></li>
+            <li data-name="map">- <a href="#map">map</a></li>
+            <li data-name="reduce">- <a href="#reduce">reduce</a></li>
+            <li data-name="reduceRight">- <a href="#reduceRight">reduceRight</a></li>
+            <li data-name="find">- <a href="#find">find</a></li>
+            <li data-name="filter">- <a href="#filter">filter</a></li>
+            <li data-name="where">- <a href="#where">where</a></li>
+            <li data-name="findWhere">- <a href="#findWhere">findWhere</a></li>
+            <li data-name="reject">- <a href="#reject">reject</a></li>
+            <li data-name="all">- <a href="#all">all</a></li>
+            <li data-name="any">- <a href="#any">any</a></li>
+            <li data-name="include">- <a href="#include">include</a></li>
+            <li data-name="invoke">- <a href="#invoke">invoke</a></li>
+            <li data-name="pluck">- <a href="#pluck">pluck</a></li>
+            <li data-name="max">- <a href="#max">max</a></li>
+            <li data-name="min">- <a href="#min">min</a></li>
+            <li data-name="sortBy">- <a href="#sortBy">sortBy</a></li>
+            <li data-name="groupBy">- <a href="#groupBy">groupBy</a></li>
+            <li data-name="countBy">- <a href="#countBy">countBy</a></li>
+            <li data-name="sortedIndex">- <a href="#sortedIndex">sortedIndex</a></li>
+            <li data-name="shuffle">- <a href="#shuffle">shuffle</a></li>
+            <li data-name="sample">- <a href="#sample">sample</a></li>
+            <li data-name="toArray">- <a href="#toArray">toArray</a></li>
+            <li data-name="toMap">- <a href="#toMap">toMap</a></li>
+            <li data-name="size">- <a href="#size">size</a></li>
+        </ul>
+        </div>
+    
+        <div class="searchable_section">
+        <a class="toc_title" href="#Arrays">
+                    Arrays
+                </a>
+    
+        <ul class="toc_section">
+            <li data-name="first">- <a href="#first">first</a></li>
+            <li data-name="initial">- <a href="#initial">initial</a></li>
+            <li data-name="last">- <a href="#last">last</a></li>
+            <li data-name="rest">- <a href="#rest">rest</a></li>
+            <li data-name="compact">- <a href="#compact">compact</a></li>
+            <li data-name="flatten">- <a href="#flatten">flatten</a></li>
+            <li data-name="without">- <a href="#without">without</a></li>
+            <li data-name="union">- <a href="#union">union</a></li>
+            <li data-name="intersection">- <a href="#intersection">intersection</a></li>
+            <li data-name="difference">- <a href="#difference">difference</a></li>
+            <li data-name="uniq">- <a href="#uniq">uniq</a></li>
+            <li data-name="zip">- <a href="#zip">zip</a></li>
+            <li data-name="object">- <a href="#object">object</a></li>
+            <li data-name="indexOf">- <a href="#indexOf">indexOf</a></li>
+            <li data-name="lastIndexOf">- <a href="#lastIndexOf">lastIndexOf</a></li>
+            <li data-name="range">- <a href="#range">range</a></li>
+            <li data-name="concat">- <a href="#concat">concat</a></li>
+            <li data-name="reverse">- <a href="#reverse">reverse</a></li>
+            <li data-name="join">- <a href="#join">join</a></li>
+            <li data-name="slice">- <a href="#slice">slice</a></li>
+        </ul>
+        </div>
+    
+        <div class="searchable_section">
+        <a class="toc_title" href="#Functions">
+                    Functions
+                </a>
+    
+        <ul class="toc_section">
+            <li data-name="bind">- <a href="#bind">bind</a></li>
+            <li data-name="memoize">- <a href="#memoize">memoize</a></li>
+            <li data-name="delay">- <a href="#delay">delay</a></li>
+            <li data-name="once">- <a href="#once">once</a></li>
+            <li data-name="debounce">- <a href="#debounce">debounce</a></li>
+            <li data-name="after">- <a href="#after">after</a></li>
+            <li data-name="before">- <a href="#before">before</a></li>
+            <li data-name="wrap">- <a href="#wrap">wrap</a></li>
+            <li data-name="compose">- <a href="#compose">compose</a></li>
+        </ul>
+        </div>
+    
+        <div class="searchable_section">
+        <a class="toc_title" href="#Objects">
+                    Objects
+                </a>
+    
+        <ul class="toc_section">
+            <li data-name="keys">- <a href="#keys">keys</a></li>
+            <li data-name="values">- <a href="#values">values</a></li>
+            <li data-name="pairs">- <a href="#pairs">pairs</a></li>
+            <li data-name="invert">- <a href="#invert">invert</a></li>
+            <li data-name="functions">- <a href="#functions">functions</a></li>
+            <li data-name="extend">- <a href="#extend">extend</a></li>
+            <li data-name="pick">- <a href="#pick">pick</a></li>
+            <li data-name="omit">- <a href="#omit">omit</a></li>
+            <li data-name="defaults">- <a href="#defaults">defaults</a></li>
+            <li data-name="clone">- <a href="#clone">clone</a></li>
+            <li data-name="has">- <a href="#has">has</a></li>
+            <li data-name="isEqual">- <a href="#isEqual">isEqual</a></li>
+            <li data-name="isEmpty">- <a href="#isEmpty">isEmpty</a></li>
+            <li data-name="isArray">- <a href="#isArray">isArray</a></li>
+            <li data-name="isObject">- <a href="#isObject">isObject</a></li>
+            <li data-name="isFunction">- <a href="#isFunction">isFunction</a></li>
+            <li data-name="isString">- <a href="#isString">isString</a></li>
+            <li data-name="isNumber">- <a href="#isNumber">isNumber</a></li>
+            <li data-name="isBoolean">- <a href="#isBoolean">isBoolean</a></li>
+            <li data-name="isDate">- <a href="#isDate">isDate</a></li>
+        </ul>
+        </div>
+    
+        <div class="searchable_section">
+        <a class="toc_title" href="#Utilities">
+                    Utilities
+                </a>
+    
+        <ul class="toc_section">
+            <li data-name="times">- <a href="#times">times</a></li>
+            <li data-name="random">- <a href="#random">random</a></li>
+            <li data-name="mixin">- <a href="#mixin">mixin</a></li>
+            <li data-name="uniqueId">- <a href="#uniqueId">uniqueId</a></li>
+            <li data-name="uniquePassword">- <a href="#uniquePassword">uniquePassword</a></li>
+            <li data-name="escape">- <a href="#escape">escape</a></li>
+            <li data-name="result">- <a href="#result">result</a></li>
+        </ul>
+        </div>
+    
+        <div class="searchable_section">
+        <a class="toc_title" href="#Chaining">
+                    Chaining
+                </a>
+    
+        <ul class="toc_section">
+            <li data-name="chain">- <a href="#chain">chain</a></li>
+            <li data-name="value">- <a href="#value">value</a></li>
+        </ul>
+        </div>
+    
+        <div class="searchable_section">
         <a class="toc_title" href="#changelog">
-            Change Log
+                Change Log
         </a>
+        </div>
     </div>
     <div class="container">
         <h1>Underscore-java</h1>
@@ -1305,4 +1331,6 @@ href="http://github.com/javadev/underscore-java"><img style="position: absolute;
 top: 0; right: 0; border: 0;" src="./files/forkme_right_darkblue_121621.png"
 alt="Fork me on GitHub"></a>
 
+  <script type="text/javascript" src="./files/underscore.js"></script>
+  <script type="text/javascript" src="./files/main.js"></script>
 </body></html>
