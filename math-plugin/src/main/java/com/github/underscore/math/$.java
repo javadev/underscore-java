@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2015, 2016 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -307,6 +307,11 @@ public class $<T> extends com.github.underscore.$<T> {
         public Chain<Double> median() {
             return new Chain<Double>($.median((List<Number>) value()));
         }
+
+        @SuppressWarnings("unchecked")
+        public Chain<List<T>> createPermutationWithRepetition(final int permutationLength) {
+            return new Chain<List<T>>($.createPermutationWithRepetition((List<T>) value(), permutationLength));
+        }
     }
 
     public static <T> Chain<T> chain(final List<T> list) {
@@ -442,6 +447,33 @@ public class $<T> extends com.github.underscore.$<T> {
     @SuppressWarnings("unchecked")
     public double median() {
         return median((Iterable<Number>) getIterable());
+    }
+
+    public static <T> List<List<T>> createPermutationWithRepetition(final List<T> list, final int permutationLength) {
+        final long resultSize = (long) Math.pow(list.size(), permutationLength);
+        final List<List<T>> result = new ArrayList<List<T>>((int) resultSize);
+        final int[] bitVector = new int[permutationLength];
+        for (int index = 0; index < resultSize; index += 1) {
+            List<T> result2 = new ArrayList<T>(permutationLength);
+            for (int index2 = 0; index2 < permutationLength; index2 += 1) {
+                result2.add(list.get(bitVector[index2]));
+            }
+            int index3 = 0;
+            while (index3 < permutationLength && bitVector[index3] == list.size() - 1) {
+                bitVector[index3] = 0;
+                index3 += 1;
+            }
+            if (index3 < permutationLength) {
+                bitVector[index3] += 1;
+            }
+            result.add(result2);
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<List<T>> createPermutationWithRepetition(final int permutationLength) {
+        return createPermutationWithRepetition((List<T>) value(), permutationLength);
     }
 
     public static void main(String ... args) {
