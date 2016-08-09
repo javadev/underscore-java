@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2015, 2016 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -195,6 +195,38 @@ System.out.println("Sum of letters in words starting with E... " + sum);
             .map(new Function1<String, Integer>() { public Integer apply(String item) { return item.length(); } })
             .sum().item();
         assertEquals(34, sum);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void createPermutationWithRepetition() {
+        List<List<String>> result = $.createPermutationWithRepetition(asList("apple", "orange"), 3);
+        assertEquals("[[apple, apple, apple],"
+                   + " [orange, apple, apple],"
+                   + " [apple, orange, apple],"
+                   + " [orange, orange, apple],"
+                   + " [apple, apple, orange],"
+                   + " [orange, apple, orange],"
+                   + " [apple, orange, orange],"
+                   + " [orange, orange, orange]]", result.toString());
+        List<List<String>> result2 = new $(asList("apple", "orange")).createPermutationWithRepetition(3);
+        assertEquals("[[apple, apple, apple],"
+                   + " [orange, apple, apple],"
+                   + " [apple, orange, apple],"
+                   + " [orange, orange, apple],"
+                   + " [apple, apple, orange],"
+                   + " [orange, apple, orange],"
+                   + " [apple, orange, orange],"
+                   + " [orange, orange, orange]]", result2.toString());
+        List<List<String>> resultChain = $.chain(asList("apple", "orange")).createPermutationWithRepetition(3).value();
+        assertEquals("[[apple, apple, apple],"
+                   + " [orange, apple, apple],"
+                   + " [apple, orange, apple],"
+                   + " [orange, orange, apple],"
+                   + " [apple, apple, orange],"
+                   + " [orange, apple, orange],"
+                   + " [apple, orange, orange],"
+                   + " [orange, orange, orange]]", resultChain.toString());
     }
 
     @SuppressWarnings("unchecked")
