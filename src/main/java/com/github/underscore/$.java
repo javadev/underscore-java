@@ -1304,20 +1304,22 @@ public class $<T> {
         };
     }
 
-    public static <T> void delay(final Function<T> function, final int delayMilliseconds) {
+    public static <T> java.util.concurrent.ScheduledFuture<T> delay(final Function<T> function,
+        final int delayMilliseconds) {
         final java.util.concurrent.ScheduledExecutorService scheduler =
             java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
-        scheduler.schedule(
-            new Runnable() {
-                public void run() {
-                    function.apply();
+        final java.util.concurrent.ScheduledFuture<T> future = scheduler.schedule(
+            new java.util.concurrent.Callable<T>() {
+                public T call() {
+                    return function.apply();
                 }
             }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
         scheduler.shutdown();
+        return future;
     }
 
-    public static <T> void defer(final Function<T> function) {
-        delay(function, 0);
+    public static <T> java.util.concurrent.ScheduledFuture<T> defer(final Function<T> function) {
+        return delay(function, 0);
     }
 
     public static <T> Function<T> debounce(final Function<T> function, final int delayMilliseconds) {
@@ -2240,18 +2242,9 @@ public class $<T> {
         return string;
     }
 
-    public static <T> java.util.concurrent.ScheduledFuture setTimeout(final Function<T> function,
+    public static <T> java.util.concurrent.ScheduledFuture<T> setTimeout(final Function<T> function,
         final int delayMilliseconds) {
-        final java.util.concurrent.ScheduledExecutorService scheduler =
-            java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
-        final java.util.concurrent.ScheduledFuture future = scheduler.schedule(
-            new Runnable() {
-                public void run() {
-                    function.apply();
-                }
-            }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
-        scheduler.shutdown();
-        return future;
+        return delay(function, delayMilliseconds);
     }
 
     public static void clearTimeout(java.util.concurrent.ScheduledFuture scheduledFuture) {
