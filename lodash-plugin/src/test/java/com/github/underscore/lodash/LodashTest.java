@@ -601,4 +601,20 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         $.chain(new String[] {""}).limit(0);
         $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
     }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void stackoverflow() {
+        // http://stackoverflow.com/questions/443499/convert-json-to-map
+        String json = "{"
+            + "    \"data\" :"
+            + "    {"
+            + "        \"field1\" : \"value1\","
+            + "        \"field2\" : \"value2\""
+            + "    }"
+            + "}";
+
+        Map<String, Object> data = (Map) $.get((Map<String, Object>) $.fromJson(json), "data");
+        assertEquals("{field1=value1, field2=value2}", data.toString());
+    }
 }
