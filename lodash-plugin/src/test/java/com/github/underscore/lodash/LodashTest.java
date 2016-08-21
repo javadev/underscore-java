@@ -617,4 +617,16 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         Map<String, Object> data = (Map) $.get((Map<String, Object>) $.fromJson(json), "data");
         assertEquals("{field1=value1, field2=value2}", data.toString());
     }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void stackoverflow2() {
+        // http://stackoverflow.com/questions/21720759/convert-a-json-string-to-a-hashmap
+        String json = "{"
+            + "\"name\" : \"abc\" ,"
+            + "\"email id \" : [\"abc@gmail.com\",\"def@gmail.com\",\"ghi@gmail.com\"]"
+            + "}";
+        String data = (String) $.get((Map<String, Object>) $.fromJson(json), "email id .1");
+        assertEquals("def@gmail.com", data);
+    }
 }
