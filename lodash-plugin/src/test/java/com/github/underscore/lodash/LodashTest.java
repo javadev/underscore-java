@@ -629,4 +629,11 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         String data = (String) $.get((Map<String, Object>) $.fromJson(json), "email id .1");
         assertEquals("def@gmail.com", data);
     }
+
+    @Test
+    public void stackoverflow3() {
+        // http://stackoverflow.com/questions/4550662/how-do-you-find-the-sum-of-all-the-numbers-in-an-array-in-java
+        int sum = $.sum(Arrays.asList(1, 2, 3, 4));
+        assertEquals(10, sum);
+    }
 }
