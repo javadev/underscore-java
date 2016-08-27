@@ -89,6 +89,7 @@
                   <option>-keep public class com.github.underscore.lodash.$ { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.*$Chain { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.*$ParseException { *; }</option>
+                  <option>-keep public class com.github.underscore.lodash.*$FetchResponse { *; }</option>
               </options>
               <libs>
                   <lib>${java.home}/lib/rt.jar</lib>

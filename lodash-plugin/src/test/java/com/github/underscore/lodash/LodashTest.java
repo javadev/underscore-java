@@ -31,6 +31,7 @@ import com.github.underscore.Tuple;
 import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -509,6 +510,87 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             (Map<String, Object>) $.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].d.c"));
     }
 
+    @Test
+    public void fetchGet() {
+        $.FetchResponse result = $.fetch("http://www.dragonsofmugloar.com/api/game/483159");
+        assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
+            + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
+            result.text());
+        $.Chain resultChain = $.chain("http://www.dragonsofmugloar.com/api/game/483159").fetch();
+        assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
+            + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
+            resultChain.item());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void fetchResponseError() {
+        java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream() {
+            public String toString(String encoding) throws java.io.UnsupportedEncodingException {
+                throw new java.io.UnsupportedEncodingException();
+            }
+        };
+        new $.FetchResponse(true, 100, null, stream).text();
+    }
+
+    @Test
+    public void fetchResponseBlob() {
+        java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream();
+        assertArrayEquals(new byte[0], new $.FetchResponse(true, 100, null, stream).blob());
+        assertNull(new $.FetchResponse(true, 100, null, stream).getHeaderFields());
+        assertEquals(true, new $.FetchResponse(true, 100, null, stream).isOk());
+        assertEquals(100, new $.FetchResponse(true, 100, null, stream).getStatus());
+    }
+
+    @Test
+    public void fetchGetHttps() {
+        $.FetchResponse result = $.fetch("https://api.lob.com/v1/addresses");
+        assertEquals("{\n"
+            + "    \"error\": {\n"
+            + "        \"message\": \"Missing authentication\",\n"
+            + "        \"status_code\": 401\n"
+            + "    }\n"
+            + "}", result.text());
+    }
+
+    @Test
+    public void fetchPut() {
+        $.FetchResponse result = $.fetch("http://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
+            + "    \"dragon\": {"
+            + "        \"scaleThickness\": 4,"
+            + "        \"clawSharpness\": 2,"
+            + "        \"wingStrength\": 4,"
+            + "        \"fireBreath\": 10"
+            + "    }"
+            + "}");
+        assertEquals("{\"status\":\"Victory\",\"message\":\"Dragon was successful in a glorious battle\"}",
+            result.text());
+        $.FetchResponse result2 = $.fetch("http://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
+            + "    \"dragon\": {"
+            + "        \"scaleThickness\": 4,"
+            + "        \"clawSharpness\": 2,"
+            + "        \"wingStrength\": 4,"
+            + "        \"fireBreath\": 10"
+            + "    }"
+            + "}", null);
+        assertEquals("{\"status\":\"Defeat\",\"message\":"
+            + "\"No dragon showed up, knight dealt his deeds as he pleased.\"}", result2.text());
+        $.Chain resultChain = $.chain("http://www.dragonsofmugloar.com/api/game/31906/solution").fetch("PUT", "{"
+            + "    \"dragon\": {"
+            + "        \"scaleThickness\": 4,"
+            + "        \"clawSharpness\": 2,"
+            + "        \"wingStrength\": 4,"
+            + "        \"fireBreath\": 10"
+            + "    }"
+            + "}");
+        assertEquals("{\"status\":\"Victory\",\"message\":\"Dragon was successful in a glorious battle\"}",
+            resultChain.item());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void fetchWrongUrl() {
+        $.fetch("ttt");
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void main() {
@@ -602,8 +684,8 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
     }
 
-    @Test
     @SuppressWarnings("unchecked")
+    @Test
     public void stackoverflow() {
         // http://stackoverflow.com/questions/443499/convert-json-to-map
         String json = "{"
@@ -618,8 +700,8 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         assertEquals("{field1=value1, field2=value2}", data.toString());
     }
 
-    @Test
     @SuppressWarnings("unchecked")
+    @Test
     public void stackoverflow2() {
         // http://stackoverflow.com/questions/21720759/convert-a-json-string-to-a-hashmap
         String json = "{"
