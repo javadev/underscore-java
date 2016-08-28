@@ -2578,6 +2578,10 @@ public class $<T> extends com.github.underscore.$<T> {
                 throw new UnsupportedOperationException(ex);
             }
         }
+
+        public Object json() {
+            return $.fromJson(text());
+        }
     }
 
     public static FetchResponse fetch(final String url) {
