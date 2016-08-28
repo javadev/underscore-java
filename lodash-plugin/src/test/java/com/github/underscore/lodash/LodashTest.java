@@ -510,12 +510,15 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             (Map<String, Object>) $.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].d.c"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void fetchGet() {
         $.FetchResponse result = $.fetch("http://www.dragonsofmugloar.com/api/game/483159");
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
             result.text());
+        assertEquals("Sir. Russell Jones of Alberta",
+            (String) $.get((Map<String, Object>) result.json(), "knight.name"));
         $.Chain resultChain = $.chain("http://www.dragonsofmugloar.com/api/game/483159").fetch();
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
