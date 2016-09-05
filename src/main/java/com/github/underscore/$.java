@@ -1052,12 +1052,13 @@ public class $<T> {
     }
 
     public static <E> List<E> intersection(final List<E> list1, final List<E> list2) {
-        return filter(list1, new Predicate<E>() {
-            @Override
-            public Boolean apply(E elem) {
-                return contains(list2, elem);
+        final List<E> result = newArrayList();
+        for (final E item : list1) {
+            if (list2.contains(item)) {
+                result.add(item);
             }
-        });
+        }
+        return result;
     }
 
     @SuppressWarnings("unchecked")
@@ -1086,12 +1087,13 @@ public class $<T> {
     }
 
     public static <E> List<E> difference(final List<E> list1, final List<E> list2) {
-        return filter(list1, new Predicate<E>() {
-            @Override
-            public Boolean apply(E elem) {
-                return !contains(list2, elem);
+        final List<E> result = newArrayList();
+        for (final E item : list1) {
+            if (!list2.contains(item)) {
+                result.add(item);
             }
-        });
+        }
+        return result;
     }
 
     @SuppressWarnings("unchecked")
