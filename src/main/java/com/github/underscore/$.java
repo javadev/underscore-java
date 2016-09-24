@@ -1324,11 +1324,44 @@ public class $<T> {
         return delay(function, 0);
     }
 
-    public static <T> Function<T> debounce(final Function<T> function, final int delayMilliseconds) {
-        return new Function<T>() {
+    public static <T> Function<T> throttle(final Function<T> function, final int waitMilliseconds) {
+        class ThrottleFunction<T> implements Function<T> {
+            private final Function<T> localFunction;
+            private long previous;
+            private java.util.concurrent.ScheduledFuture<T> timeout;
+
+            ThrottleFunction(final Function<T> function) {
+                this.localFunction = function;
+            }
+
             @Override
             public T apply() {
-                delay(function, delayMilliseconds);
+                final long now = now();
+                if (previous == 0L) {
+                    previous = now;
+                }
+                final long remaining = waitMilliseconds - (now - previous);
+                if (remaining <= 0) {
+                    clearTimeout(timeout);
+                    previous = now;
+                    localFunction.apply();
+                } else {
+                    timeout = delay(localFunction, waitMilliseconds);
+                }
+                return null;
+            }
+        }
+        return new ThrottleFunction<T>(function);
+    }
+
+    public static <T> Function<T> debounce(final Function<T> function, final int delayMilliseconds) {
+        return new Function<T>() {
+            private java.util.concurrent.ScheduledFuture<T> timeout;
+
+            @Override
+            public T apply() {
+                clearTimeout(timeout);
+                timeout = delay(function, delayMilliseconds);
                 return null;
             }
         };
@@ -1365,39 +1398,45 @@ public class $<T> {
     }
 
     public static <E> Function<E> after(final int count, final Function<E> function) {
-        class AfterFunction implements Function<E> {
+        class AfterFunction<E> implements Function<E> {
             private final int count;
+            private final Function<E> localFunction;
             private int index;
             private E result;
-            public AfterFunction(final int count) {
+
+            AfterFunction(final int count, final Function<E> function) {
                 this.count = count;
+                this.localFunction = function;
             }
             public E apply() {
                 if (++index >= count) {
-                    result = function.apply();
+                    result = localFunction.apply();
                 }
                 return result;
             }
         }
-        return new AfterFunction(count);
+        return new AfterFunction<E>(count, function);
     }
 
     public static <E> Function<E> before(final int count, final Function<E> function) {
-        class BeforeFunction implements Function<E> {
+        class BeforeFunction<E> implements Function<E> {
             private final int count;
+            private final Function<E> localFunction;
             private int index;
             private E result;
-            public BeforeFunction(final int count) {
+
+            BeforeFunction(final int count, final Function<E> function) {
                 this.count = count;
+                this.localFunction = function;
             }
             public E apply() {
                 if (++index <= count) {
-                    result = function.apply();
+                    result = localFunction.apply();
                 }
                 return result;
             }
         }
-        return new BeforeFunction(count);
+        return new BeforeFunction<E>(count, function);
     }
 
     public static <T> Function<T> once(final Function<T> function) {
