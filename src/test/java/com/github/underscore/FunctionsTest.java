@@ -102,6 +102,34 @@ var fibonacci = _.memoize(function(n) {
 /*
 var counter = 0;
 var incr = function(){ counter++; };
+var throttleIncr = _.throttle(incr, 32);
+throttleIncr(); throttleIncr();
+_.delay(throttleIncr, 16);
+_.delay(function(){ equal(counter, 1, 'incr was throttled'); }, 96);
+*/
+
+    @Test
+    public void throttle() throws Exception {
+        final Integer[] counter = new Integer[] {0};
+        Function<Void> incr = new Function<Void>() { public Void apply() {
+            counter[0]++; return null; } };
+        Function<Void> throttleIncr = $.throttle(incr, 50);
+        throttleIncr.apply();
+        throttleIncr.apply();
+        $.delay(throttleIncr, 16);
+        $.delay(new Function<Void>() {
+            public Void apply() {
+                assertEquals("incr was throttled", 1, counter[0].intValue());
+                return null;
+            }
+        }, 60);
+        Thread.sleep(120);
+        throttleIncr.apply();
+    }
+
+/*
+var counter = 0;
+var incr = function(){ counter++; };
 var debouncedIncr = _.debounce(incr, 32);
 debouncedIncr(); debouncedIncr();
 _.delay(debouncedIncr, 16);
