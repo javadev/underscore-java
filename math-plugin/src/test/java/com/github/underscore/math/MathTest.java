@@ -288,6 +288,12 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.chain(new String[] {""}).tap(new Block<String>() {
             public void apply(String str) {
             } });
+        $.chain(new String[] {""}).forEach(new Block<String>() {
+            public void apply(String str) {
+            } });
+        $.chain(new String[] {""}).forEachRight(new Block<String>() {
+            public void apply(String str) {
+            } });
         $.chain(new String[] {""}).every(new Predicate<String>() {
             public Boolean apply(String str) { return true; } });
         $.chain(new String[] {""}).some(new Predicate<String>() {

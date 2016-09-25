@@ -656,6 +656,12 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         $.chain(new String[] {""}).tap(new Block<String>() {
             public void apply(String str) {
             } });
+        $.chain(new String[] {""}).forEach(new Block<String>() {
+            public void apply(String str) {
+            } });
+        $.chain(new String[] {""}).forEachRight(new Block<String>() {
+            public void apply(String str) {
+            } });
         $.chain(new String[] {""}).every(new Predicate<String>() {
             public Boolean apply(String str) { return true; } });
         $.chain(new String[] {""}).some(new Predicate<String>() {

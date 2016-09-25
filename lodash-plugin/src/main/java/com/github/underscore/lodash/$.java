@@ -229,6 +229,16 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>(value());
         }
 
+        public Chain<T> forEach(final Block<T> func) {
+            $.forEach(value(), func);
+            return new Chain<T>(value());
+        }
+
+        public Chain<T> forEachRight(final Block<T> func) {
+            $.forEachRight(value(), func);
+            return new Chain<T>(value());
+        }
+
         public Chain<Boolean> every(final Predicate<T> pred) {
             return new Chain<Boolean>($.every(value(), pred));
         }
