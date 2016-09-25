@@ -1631,9 +1631,7 @@ public class $<T> {
     }
 
     public static <T> void tap(final Iterable<T> iterable, final Block<? super T> func) {
-        for (T element : iterable) {
-            func.apply(element);
-        }
+        each(iterable, func);
     }
 
     public static <K, V> boolean isMatch(final Map<K, V> object, final Map<K, V> properties) {
@@ -1976,7 +1974,17 @@ public class $<T> {
         }
 
         public Chain<T> tap(final Block<T> func) {
-            $.tap(list, func);
+            $.each(list, func);
+            return new Chain<T>(list);
+        }
+
+        public Chain<T> forEach(final Block<T> func) {
+            $.each(list, func);
+            return new Chain<T>(list);
+        }
+
+        public Chain<T> forEachRight(final Block<T> func) {
+            $.eachRight(list, func);
             return new Chain<T>(list);
         }
 
