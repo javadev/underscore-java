@@ -96,6 +96,14 @@ _.forEach([1, 2, 3], alert);
             }
         });
         assertEquals("[1, 2, 3]", result.toString());
+        final List<Map.Entry<String, Integer>> resultChain = new ArrayList<Map.Entry<String, Integer>>();
+        $.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
+            .forEach(new Block<Map.Entry<String, Integer>>() {
+                public void apply(final Map.Entry<String, Integer> item) {
+                    resultChain.add(item);
+                }
+            });
+        assertEquals("[a=1, b=2, c=3]", resultChain.toString());
     }
 
 /*
@@ -119,6 +127,14 @@ _.forEach([1, 2, 3], alert);
             }
         });
         assertEquals("[3, 2, 1]", result2.toString());
+        final List<Map.Entry<String, Integer>> resultChain = new ArrayList<Map.Entry<String, Integer>>();
+        $.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
+            .forEachRight(new Block<Map.Entry<String, Integer>>() {
+                public void apply(final Map.Entry<String, Integer> item) {
+                    resultChain.add(item);
+                }
+            });
+        assertEquals("[c=3, b=2, a=1]", resultChain.toString());
     }
 
 /*
