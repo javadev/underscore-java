@@ -17,8 +17,6 @@ underscore-java
 [![Run Status](https://api.shippable.com/projects/55def20f1895ca44741030a2/badge?branch=master)](https://app.shippable.com/projects/55def20f1895ca44741030a2)
 [![Dependency Status](https://www.versioneye.com/user/projects/55e1462bc6d8f2001d0002ea/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55e1462bc6d8f2001d0002ea)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6e30751dc17c452f8524ae7eff474ce1)](https://www.codacy.com/app/javadev75/underscore-java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=javadev/underscore-java&amp;utm_campaign=Badge_Grade)
-[![Issue Stats](http://issuestats.com/github/javadev/underscore-java/badge/pr?style=flat-square)](http://issuestats.com/github/javadev/underscore-java)
-[![Issue Stats](http://issuestats.com/github/javadev/underscore-java/badge/issue?style=flat-square)](http://issuestats.com/github/javadev/underscore-java)
 
 [![Join the chat at https://gitter.im/javadev/underscore-java](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/javadev/underscore-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
