@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2015, 2016 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -83,6 +83,7 @@ public class UnderscoreTest {
         assertEquals("some words example", new $(asList("some", "words", "example")).join());
         assertEquals("some words example", $.join(new String[] {"some", "words", "example"}));
         assertEquals("some words example", $.chain(asList("some", "words", "example")).join().item());
+        assertEquals("--", $.join(asList("", "", ""), "-"));
     }
 
     @Test
