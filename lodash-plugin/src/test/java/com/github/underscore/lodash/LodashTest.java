@@ -727,4 +727,46 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         int sum = $.sum(Arrays.asList(1, 2, 3, 4));
         assertEquals(10, sum);
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void sqlrujava() {
+        // http://www.sql.ru/forum/1232207/kak-pravilno-razobrat-json-org-json-simple
+        String json =
+        "{"
+        + "  \"from_excel\":["
+        + "    {"
+        + "      \"solution\":\"Fisrt\","
+        + "      \"num\":\"1\""
+        + "    },"
+        + "    {"
+        + "      \"solution\":\"Second\","
+        + "      \"num\":\"2\""
+        + "    },"
+        + "    {"
+        + "      \"solution\":\"third\","
+        + "      \"num\":\"3\""
+        + "    },"
+        + "    {"
+        + "      \"solution\":\"fourth\","
+        + "      \"num\":\"4\""
+        + "    },"
+        + "    {"
+        + "      \"solution\":\"fifth\","
+        + "      \"num\":\"5\""
+        + "    }"
+        + "  ]"
+        + "}";
+
+        List<Map<String, Object>> fromExcelData = (List<Map<String, Object>>) $.get(
+            (Map<String, Object>) $.fromJson(json), "from_excel");
+        assertEquals("[{solution=Fisrt, num=1}, {solution=Second, num=2}, {solution=third, num=3}, "
+            + "{solution=fourth, num=4}, {solution=fifth, num=5}]", fromExcelData.toString());
+        List<String> solutions = $.map(fromExcelData, new Function1<Map<String, Object>, String>() {
+            public String apply(Map<String, Object> item) {
+                return (String) item.get("solution");
+            }
+        });
+        assertEquals("[Fisrt, Second, third, fourth, fifth]", solutions.toString());
+    }
 }
