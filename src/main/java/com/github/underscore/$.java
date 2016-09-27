@@ -2150,14 +2150,14 @@ public class $<T> {
 
     public static <T> String join(final Iterable<T> iterable, final String separator) {
         final StringBuilder sb = new StringBuilder();
-        each(iterable, new Block<T>() {
-            public void apply(T item) {
-                if (!sb.toString().isEmpty()) {
-                    sb.append(separator);
-                }
-                sb.append(item.toString());
+        int index = 0;
+        for (final T item : iterable) {
+            if (index > 0) {
+                sb.append(separator);
             }
-        });
+            sb.append(item.toString());
+            index += 1;
+        }
         return sb.toString();
     }
 
