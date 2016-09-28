@@ -352,4 +352,46 @@ _.elementAtOrNull(arr, 3) // => null
         assertEquals("[107, 108, 109]", $.difference(selected, $.intersection(original, selected)).toString());
         assertEquals("[12, 17, 101]", $.difference(original, selected).toString());
     }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void jobtest() {
+        String[] strings = {
+            "Sound boy proceed to blast into the galaxy",
+            "Go back rocket man into the sky you'll see",
+            "Hear it all the time, come back rewind",
+            "Aliens are watching up in the sky",
+            "Sound boy process to blast into the galaxy",
+            "No one gonna harm you",
+            "They all want you to play I watch the birds of prey"
+        };
+        List<Map<String, Object>> result = (List<Map<String, Object>>) $.chain(asList(strings))
+            .map(
+                new Function1<String, Map<String, Object>>() {
+                public Map<String, Object> apply(String item) {
+                    Map<String, Object> resultItem = new LinkedHashMap<String, Object>();
+                    resultItem.put("string", item);
+                    resultItem.put("longestWord", $.chain(asList(item.split("\\s+"))).map(
+                        new Function1<String, Integer>() {
+                            public Integer apply(String item) {
+                                return item.length();
+                            }
+                        })
+                        .max().item());
+                    return resultItem;
+                }
+            })
+            .sortBy(new Function1<Map<String, Object>, Integer>() {
+                public Integer apply(Map<String, Object> item) {
+                    return -((Integer) item.get("longestWord"));
+                }
+            })
+            .limit(5)
+            .value();
+        assertEquals("[{string=Aliens are watching up in the sky, longestWord=8}, "
+            + "{string=Sound boy proceed to blast into the galaxy, longestWord=7}, "
+            + "{string=Sound boy process to blast into the galaxy, longestWord=7}, "
+            + "{string=Go back rocket man into the sky you'll see, longestWord=6}, "
+            + "{string=Hear it all the time, come back rewind, longestWord=6}]", result.toString());
+    }
 }
