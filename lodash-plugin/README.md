@@ -19,7 +19,7 @@ Include the following in your `pom.xml` for Maven:
   <dependency>
     <groupId>com.github.javadev</groupId>
     <artifactId>underscore-lodash</artifactId>
-    <version>1.14</version>
+    <version>1.15</version>
   </dependency>
   ...
 </dependencies>
