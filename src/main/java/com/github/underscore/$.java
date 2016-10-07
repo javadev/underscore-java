@@ -2090,7 +2090,7 @@ public class $<T> {
         }
 
         public Chain<T> limit(final int size) {
-            return new Chain<T>(list.subList(0, size));
+            return new Chain<T>($.first(list, size));
         }
 
         @SuppressWarnings("unchecked")
