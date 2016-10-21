@@ -2602,6 +2602,12 @@ public class $<T> extends com.github.underscore.$<T> {
         return fetch(url, method, body, DEFAULT_HEADER_FIELDS);
     }
 
+    static class NoHostnameVerifier implements javax.net.ssl.HostnameVerifier {
+        public boolean verify(String hostname, javax.net.ssl.SSLSession session) {
+              return true;
+        }
+    }
+
     public static FetchResponse fetch(final String url, final String method, final String body,
         final Map<String, List<String>> headerFields) {
         final String localMethod;
@@ -2614,6 +2620,9 @@ public class $<T> extends com.github.underscore.$<T> {
             final java.net.URL localUrl = new java.net.URL(url);
             final java.net.HttpURLConnection connection = (java.net.HttpURLConnection) localUrl.openConnection();
             connection.setRequestMethod(localMethod);
+            if (connection instanceof javax.net.ssl.HttpsURLConnection) {
+                ((javax.net.ssl.HttpsURLConnection) connection).setHostnameVerifier(new NoHostnameVerifier());
+            }
             if (headerFields != null) {
                 for (final Map.Entry<String, List<String>> header : headerFields.entrySet()) {
                     connection.setRequestProperty(header.getKey(), join(header.getValue(), ";"));
