@@ -589,6 +589,12 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             resultChain.item());
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void noHostnameVerifier() {
+        new $.NoHostnameVerifier().verify("", (javax.net.ssl.SSLSession) null);
+    }
+
     @Test(expected = UnsupportedOperationException.class)
     public void fetchWrongUrl() {
         $.fetch("ttt");
