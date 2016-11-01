@@ -2592,6 +2592,10 @@ public class $<T> extends com.github.underscore.$<T> {
         public Object json() {
             return $.fromJson(text());
         }
+
+        public Object xml() {
+            return $.fromXml(text());
+        }
     }
 
     public static FetchResponse fetch(final String url) {
