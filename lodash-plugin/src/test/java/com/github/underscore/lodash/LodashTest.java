@@ -525,6 +525,15 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             resultChain.item());
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void fetchGetWithTimeouts() {
+        $.FetchResponse result = $.fetch("http://www.dragonsofmugloar.com/api/game/483159", 30000, 30000);
+        assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
+            + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
+            result.text());
+    }
+
     @Test(expected = UnsupportedOperationException.class)
     public void fetchResponseError() {
         java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream() {
@@ -574,7 +583,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             + "        \"wingStrength\": 4,"
             + "        \"fireBreath\": 10"
             + "    }"
-            + "}", null);
+            + "}", null, null, null);
         assertEquals("{\"status\":\"Defeat\",\"message\":"
             + "\"No dragon showed up, knight dealt his deeds as he pleased.\"}", result2.text());
         $.Chain resultChain = $.chain("http://www.dragonsofmugloar.com/api/game/31906/solution").fetch("PUT", "{"

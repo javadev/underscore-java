@@ -2595,11 +2595,15 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static FetchResponse fetch(final String url) {
-        return fetch(url, null, null);
+        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, null, null);
+    }
+
+    public static FetchResponse fetch(final String url, final Integer connectTimeout, final Integer readTimeout) {
+        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, connectTimeout, readTimeout);
     }
 
     public static FetchResponse fetch(final String url, final String method, final String body) {
-        return fetch(url, method, body, DEFAULT_HEADER_FIELDS);
+        return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null);
     }
 
     static class NoHostnameVerifier implements javax.net.ssl.HostnameVerifier {
@@ -2609,7 +2613,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static FetchResponse fetch(final String url, final String method, final String body,
-        final Map<String, List<String>> headerFields) {
+        final Map<String, List<String>> headerFields, final Integer connectTimeout, final Integer readTimeout) {
         final String localMethod;
         if (SUPPORTED_HTTP_METHODS.contains(method)) {
             localMethod = method;
@@ -2620,6 +2624,12 @@ public class $<T> extends com.github.underscore.$<T> {
             final java.net.URL localUrl = new java.net.URL(url);
             final java.net.HttpURLConnection connection = (java.net.HttpURLConnection) localUrl.openConnection();
             connection.setRequestMethod(localMethod);
+            if (connectTimeout != null) {
+                connection.setConnectTimeout(connectTimeout);
+            }
+            if (readTimeout != null) {
+                connection.setReadTimeout(readTimeout);
+            }
             if (connection instanceof javax.net.ssl.HttpsURLConnection) {
                 ((javax.net.ssl.HttpsURLConnection) connection).setHostnameVerifier(new NoHostnameVerifier());
             }
