@@ -185,6 +185,20 @@ _.map([1, 2, 3], function(num){ return num * 3; });
     }
 
 /*
+_.map(_.range(3), function(num){ return (num + 1) * 3; });
+=> [3, 6, 9]
+*/
+    @Test
+    public void mapArray() {
+        List<Integer> result = $.map($.range(3), new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return (item + 1) * 3;
+            }
+        });
+        assertEquals("[3, 6, 9]", result.toString());
+    }
+
+/*
 _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
 => [3, 6, 9]
 */
