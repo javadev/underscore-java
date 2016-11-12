@@ -231,6 +231,22 @@ public class $<T> {
         return accum;
     }
 
+    public static <E> E reduce(final int[] array, final FunctionAccum<E, ? super Integer> func, final E zeroElem) {
+        E accum = zeroElem;
+        for (int element : array) {
+            accum = func.apply(accum, element);
+        }
+        return accum;
+    }
+
+    public static <T, E> E reduce(final T[] array, final FunctionAccum<E, T> func, final E zeroElem) {
+        E accum = zeroElem;
+        for (T element : array) {
+            accum = func.apply(accum, element);
+        }
+        return accum;
+    }
+
     public static <T, E> E foldl(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
         return reduce(iterable, func, zeroElem);
     }
@@ -241,6 +257,18 @@ public class $<T> {
 
     public static <T, E> E reduceRight(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
         return reduce(reverse(iterable), func, zeroElem);
+    }
+
+    public static <E> E reduceRight(final int[] array, final FunctionAccum<E, ? super Integer> func, final E zeroElem) {
+        E accum = zeroElem;
+        for (Integer element : reverse(array)) {
+            accum = func.apply(accum, element);
+        }
+        return accum;
+    }
+
+    public static <T, E> E reduceRight(final T[] array, final FunctionAccum<E, T> func, final E zeroElem) {
+        return reduce(reverse(array), func, zeroElem);
     }
 
     public static <T, E> E foldr(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
@@ -2281,6 +2309,12 @@ public class $<T> {
     @SuppressWarnings("unchecked")
     public static <T> T[] reverse(final T ... array) {
         return (T[]) reverse(Arrays.asList(array)).toArray();
+    }
+
+    public static List<Integer> reverse(final int[] array) {
+        final List<Integer> result = newIntegerList(array);
+        Collections.reverse(result);
+        return result;
     }
 
     public List<T> reverse() {

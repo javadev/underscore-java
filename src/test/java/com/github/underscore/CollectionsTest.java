@@ -253,6 +253,40 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     }
 
 /*
+var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
+=> 6
+*/
+    @Test
+    public void reduceIntArray() {
+        final Integer result =
+        $.reduce(new int[]{1, 2, 3},
+            new FunctionAccum<Integer, Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        },
+        0);
+        assertEquals("6", result.toString());
+    }
+
+/*
+var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
+=> 6
+*/
+    @Test
+    public void reduceArray() {
+        final Integer result =
+        $.reduce(new Integer[]{1, 2, 3},
+            new FunctionAccum<Integer, Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        },
+        0);
+        assertEquals("6", result.toString());
+    }
+
+/*
 var list = [[0, 1], [2, 3], [4, 5]];
 var flat = _.inject(list, function(a, b) { return a.concat(b); }, []);
 => [0, 1, 2, 3, 4, 5]
@@ -316,6 +350,40 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
         Collections.<Integer>emptyList()
         );
         assertEquals("[4, 5, 2, 3, 0, 1]", result.toString());
+    }
+
+/*
+var sum = _.reduceRight([1, 2, 3], function(memo, num){ return memo + num; }, 0);
+=> 6
+*/
+    @Test
+    public void reduceRightIntArray() {
+        final Integer result =
+        $.reduceRight(new int[]{1, 2, 3},
+            new FunctionAccum<Integer, Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        },
+        0);
+        assertEquals("6", result.toString());
+    }
+
+/*
+var sum = _.reduceRight([1, 2, 3], function(memo, num){ return memo + num; }, 0);
+=> 6
+*/
+    @Test
+    public void reduceRightArray() {
+        final Integer result =
+        $.reduceRight(new Integer[]{1, 2, 3},
+            new FunctionAccum<Integer, Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        },
+        0);
+        assertEquals("6", result.toString());
     }
 
 /*
