@@ -494,6 +494,10 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(Arrays.asList(list));
     }
 
+    public static Chain<Integer> chain(final int[] array) {
+        return new $.Chain<Integer>(newIntegerList(array));
+    }
+
     @SuppressWarnings("unchecked")
     public Chain<T> chain() {
         return new $.Chain<T>(newArrayList(value()));

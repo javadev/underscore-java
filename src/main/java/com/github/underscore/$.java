@@ -1863,6 +1863,10 @@ public class $<T> {
         return new $.Chain<T>(Arrays.asList(array));
     }
 
+    public static Chain<Integer> chain(final int[] array) {
+        return new $.Chain<Integer>(newIntegerList(array));
+    }
+
     public Chain<T> chain() {
         return new $.Chain<T>(newArrayList(iterable));
     }
