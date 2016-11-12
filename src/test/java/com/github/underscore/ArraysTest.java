@@ -478,6 +478,55 @@ _.uniq([1, 2, 1, 3, 1, 4]);
     }
 
 /*
+_.distinct([1, 2, 1, 3, 1, 4]);
+=> [1, 2, 3, 4]
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void distinct() {
+        final List<Integer> result = $.distinct(asList(1, 2, 1, 3, 1, 4));
+        assertEquals("[1, 2, 3, 4]", result.toString());
+        final Object[] resultArray = $.distinct(new Integer[] {1, 2, 1, 3, 1, 4});
+        assertEquals("[1, 2, 3, 4]", asList(resultArray).toString());
+        class Person {
+            public final String name;
+            public final Integer age;
+            public Person(final String name, final Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+            public String toString() {
+                return name + ", " + age;
+            }
+        }
+        final Collection<Person> resultObject =
+        $.distinctBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        });
+        assertEquals("[moe, 50, curly, 60]", resultObject.toString());
+        final List<String> resultObjectChain =
+        $.chain(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).distinctBy(
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        }).value();
+        assertEquals("[moe, 50, curly, 60]", resultObjectChain.toString());
+        assertEquals("[1, 2, 3, 4, 5]", $.chain(asList(1, 2, 3, 3, 4, 5)).distinct().value().toString());
+        final Object[] resultObjectArray =
+        $.distinctBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)).toArray(new Person[]{}),
+            new Function1<Person, String>() {
+            public String apply(Person person) {
+                return person.name;
+            }
+        });
+        assertEquals("[moe, 50, curly, 60]", asList(resultObjectArray).toString());
+    }
+
+/*
 _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 => [1, 2]
 */
@@ -675,5 +724,16 @@ _.range(0);
         assertArrayEquals(new int[] {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}, result4);
         final int[] result5 = $.range(0);
         assertArrayEquals(new int[] {}, result5);
+    }
+
+/*
+_.lastIndex([1, 2, 3, 4, 5]);
+=> 4
+*/
+    @Test
+    public void lastIndex() {
+        assertEquals(4, $.lastIndex(asList(1, 2, 3, 4, 5)));
+        assertEquals(4, $.lastIndex(new Integer[]{1, 2, 3, 4, 5}));
+        assertEquals(4, $.lastIndex(new int[]{1, 2, 3, 4, 5}));
     }
 }

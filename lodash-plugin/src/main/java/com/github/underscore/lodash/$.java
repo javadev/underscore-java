@@ -280,6 +280,15 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(value(), func)));
         }
 
+        public Chain<T> distinct() {
+            return new Chain<T>($.uniq(value()));
+        }
+
+        @SuppressWarnings("unchecked")
+        public <F> Chain<F> distinctBy(final Function1<T, F> func) {
+            return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(value(), func)));
+        }
+
         public Chain<T> union(final List<T> ... lists) {
             return new Chain<T>($.union(value(), lists));
         }
