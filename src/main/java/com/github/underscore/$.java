@@ -1063,6 +1063,24 @@ public class $<T> {
         return (E[]) uniq(Arrays.asList(array), func).toArray();
     }
 
+    public static <E> List<E> distinct(final List<E> list) {
+        return uniq(list);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <E> E[] distinct(final E ... array) {
+        return (E[]) uniq(array);
+    }
+
+    public static <K, E> Collection<E> distinctBy(final Iterable<E> iterable, final Function1<E, K> func) {
+        return uniq(iterable, func);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <K, E> E[] distinctBy(final E[] array, final Function1<E, K> func) {
+        return (E[]) uniq(array, func);
+    }
+
     @SuppressWarnings("unchecked")
     public static <E> List<E> union(final List<E> list, final List<E> ... lists) {
         final Set<E> union = newLinkedHashSet();
@@ -2069,6 +2087,15 @@ public class $<T> {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
         }
 
+        public Chain<T> distinct() {
+            return new Chain<T>($.uniq(list));
+        }
+
+        @SuppressWarnings("unchecked")
+        public <F> Chain<F> distinctBy(final Function1<T, F> func) {
+            return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
+        }
+
         @SuppressWarnings("unchecked")
         public Chain<T> union(final List<T> ... lists) {
             return new Chain<T>($.union(list, lists));
@@ -2416,6 +2443,18 @@ public class $<T> {
     @SuppressWarnings("unchecked")
     public T elementAtOrNull(final int index) {
         return elementAtOrNull((List<T>) value(), index);
+    }
+
+    public static <T> int lastIndex(final Iterable<T> iterable) {
+        return size(iterable) - 1;
+    }
+
+    public static <T> int lastIndex(final T[] array) {
+        return array.length - 1;
+    }
+
+    public static int lastIndex(final int[] array) {
+        return array.length - 1;
     }
 
     @SuppressWarnings("unchecked")
