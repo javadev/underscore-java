@@ -674,6 +674,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         $.chain(new Integer[] {0}).shuffle();
         $.chain(new Integer[] {0}).sample();
         $.chain(new Integer[] {0}).sample(1);
+        $.chain(new int[] {0}).value();
         $.chain(new String[] {""}).tap(new Block<String>() {
             public void apply(String str) {
             } });

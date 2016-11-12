@@ -285,6 +285,7 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.chain(new Integer[] {0}).shuffle();
         $.chain(new Integer[] {0}).sample();
         $.chain(new Integer[] {0}).sample(1);
+        $.chain(new int[] {0}).value();
         $.chain(new String[] {""}).tap(new Block<String>() {
             public void apply(String str) {
             } });

@@ -421,4 +421,10 @@ var sum = _(words)
             put("name2", "two");
         } }).entrySet()).toMap().item().toString());
     }
+
+    @Test
+    public void chainRange() {
+        assertEquals("[0, 1, 2]", $.chain($.range(3)).value().toString());
+    }
+
 }
