@@ -1041,7 +1041,7 @@ public class $<T> {
     }
 
     public static <E> List<E> uniq(final List<E> list) {
-        return newArrayList(newHashSet(list));
+        return newArrayList(newLinkedHashSet(list));
     }
 
     @SuppressWarnings("unchecked")
@@ -2495,8 +2495,8 @@ public class $<T> {
     }
 
     @SuppressWarnings("unchecked")
-    protected static <T> Set<T> newHashSet(Iterable<T> iterable) {
-        final Set<T> result = new HashSet<T>();
+    protected static <T> Set<T> newLinkedHashSet(Iterable<T> iterable) {
+        final Set<T> result = new LinkedHashSet<T>();
         for (final T item : iterable) {
             result.add(item);
         }

@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class Xor {
     public static <E> List<E> uniq(final List<E> list) {
-        return new ArrayList<E>(new HashSet<E>(list));
+        return new ArrayList<E>(new LinkedHashSet<E>(list));
     }
 
     public static <E> Optional<E> find(final Iterable<E> iterable, final Predicate<E> pred) {
