@@ -25,6 +25,12 @@ Include the following in your `pom.xml` for Maven:
 </dependencies>
 ```
 
+Gradle:
+
+```groovy
+compile 'com.github.javadev:underscore-lodash:1.16'
+```
+
 Underscore-lodash is a java port of [lodash.com](https://lodash.com/docs).
 
 In addition to porting Lodash's functionality, Underscore-lodash includes matching unit tests.

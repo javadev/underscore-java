@@ -40,6 +40,12 @@ Include the following in your `pom.xml` for Maven:
 </dependencies>
 ```
 
+Gradle:
+
+```groovy
+compile 'com.github.javadev:underscore:1.20'
+```
+
 Underscore-java is a java port of [Underscore.js](http://underscorejs.org/).
 
 In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.
