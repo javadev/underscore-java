@@ -263,11 +263,59 @@ _.elementAtOrNull(arr, 3) // => null
         assertEquals("1", Optional.of(1).or(2).toString());
         assertEquals(null, Optional.absent().orNull());
         assertEquals("1", Optional.of(1).orNull().toString());
+        assertFalse(Optional.<Integer>absent().map(new Function1<Integer, String>() {
+                public String apply(Integer arg) {
+                    return "" + arg;
+                }
+            }).isPresent());
+        assertEquals("1", Optional.of(1).map(new Function1<Integer, String>() {
+                public String apply(Integer arg) {
+                    return "" + arg;
+                }
+            }).get().toString());
         try {
             Optional.absent().get();
             fail("IllegalStateException expected");
         } catch (IllegalStateException ex) {
         }
+    }
+
+    @Test(expected = Exception.class)
+    public void optionalOrThrow() throws RuntimeException {
+        Optional.absent().orThrow(new Function<RuntimeException>() {
+            public RuntimeException apply() {
+                return new RuntimeException();
+            }
+        });
+    }
+
+    @Test
+    public void optionalOrThrowWithValue() {
+        assertEquals("1", Optional.of(1).orThrow(new Function<RuntimeException>() {
+            public RuntimeException apply() {
+                return new RuntimeException();
+            }
+        }).toString());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void checkNotNull() {
+        $.checkNotNull(null);
+    }
+
+    @Test
+    public void checkNotNullWithObject() {
+        assertEquals("123", $.checkNotNull("123"));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void checkNotNullWithMessage() {
+        $.checkNotNull(null, "Error message");
+    }
+
+    @Test
+    public void checkNotNullWithObjectAndMessage() {
+        assertEquals("123", $.checkNotNull("123", "Error message"));
     }
 
     @Test

@@ -54,6 +54,23 @@ public final class Optional<T> {
         return !absent;
     }
 
+    public <U> Optional<U> map(Function1<? super T, ? extends U> mapper) {
+        $.checkNotNull(mapper);
+        if (!isPresent()) {
+            return absent();
+        } else {
+            return Optional.fromNullable(mapper.apply(arg));
+        }
+    }
+
+    public <X extends Throwable> T orThrow(Function<? extends X> exceptionFunction) throws X {
+        if (absent) {
+            throw exceptionFunction.apply();
+        } else {
+            return arg;
+        }
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
