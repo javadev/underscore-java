@@ -57,6 +57,14 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.first(value(), n));
         }
 
+        public Chain<T> firstOrNull() {
+            return new Chain<T>($.firstOrNull(value()));
+        }
+
+        public Chain<T> firstOrNull(final Predicate<T> pred) {
+            return new Chain<T>($.firstOrNull(value(), pred));
+        }
+
         public Chain<T> initial() {
             return new Chain<T>($.initial(value()));
         }
@@ -71,6 +79,14 @@ public class $<T> extends com.github.underscore.$<T> {
 
         public Chain<T> last(int n) {
             return new Chain<T>($.last(value(), n));
+        }
+
+        public Chain<T> lastOrNull() {
+            return new Chain<T>($.lastOrNull(value()));
+        }
+
+        public Chain<T> lastOrNull(final Predicate<T> pred) {
+            return new Chain<T>($.lastOrNull(value(), pred));
         }
 
         public Chain<T> rest() {

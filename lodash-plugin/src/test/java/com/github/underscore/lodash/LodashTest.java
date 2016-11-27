@@ -633,10 +633,16 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     public void chain() {
         $.chain(new String[] {""}).first();
         $.chain(new String[] {""}).first(1);
+        $.chain(new String[] {""}).firstOrNull();
+        $.chain(new String[] {""}).firstOrNull(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
         $.chain(new String[] {""}).initial();
         $.chain(new String[] {""}).initial(1);
         $.chain(new String[] {""}).last();
         $.chain(new String[] {""}).last(1);
+        $.chain(new String[] {""}).lastOrNull();
+        $.chain(new String[] {""}).lastOrNull(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
         $.chain(new String[] {""}).rest();
         $.chain(new String[] {""}).rest(1);
         $.chain(new String[] {""}).compact();

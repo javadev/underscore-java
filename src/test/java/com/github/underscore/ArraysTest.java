@@ -80,6 +80,8 @@ _.first([5, 4, 3, 2, 1], 2);
         assertEquals("5", result.toString());
         final Integer resultObj = new $<Integer>(asList(5, 4, 3, 2, 1)).firstOrNull();
         assertEquals("5", resultObj.toString());
+        final Integer resultChain = $.chain(asList(5, 4, 3, 2, 1)).firstOrNull().item();
+        assertEquals("5", resultChain.toString());
         assertNull($.firstOrNull(Collections.emptyList()));
         assertNull(new $<Integer>(Collections.<Integer>emptyList()).firstOrNull());
         final int resultPred = $.firstOrNull(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
@@ -88,6 +90,12 @@ _.first([5, 4, 3, 2, 1], 2);
             }
         });
         assertEquals(4, resultPred);
+        final int resultPredChain = $.chain(asList(5, 4, 3, 2, 1)).firstOrNull(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }).item();
+        assertEquals(4, resultPredChain);
         assertNull($.firstOrNull(Collections.<Integer>emptyList(), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;
@@ -279,6 +287,8 @@ _.last([5, 4, 3, 2, 1]);
         assertEquals("1", result.toString());
         final Integer resultObj = new $<Integer>(asList(5, 4, 3, 2, 1)).lastOrNull();
         assertEquals("1", resultObj.toString());
+        final Integer resultChain = $.chain(asList(5, 4, 3, 2, 1)).lastOrNull().item();
+        assertEquals("1", resultChain.toString());
         assertNull($.lastOrNull(Collections.emptyList()));
         assertNull(new $<Integer>(Collections.<Integer>emptyList()).lastOrNull());
         final int resultPred = $.lastOrNull(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
@@ -287,6 +297,12 @@ _.last([5, 4, 3, 2, 1]);
             }
         });
         assertEquals(2, resultPred);
+        final int resultPredChain = $.chain(asList(5, 4, 3, 2, 1)).lastOrNull(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        }).item();
+        assertEquals(2, resultPredChain);
         assertNull($.lastOrNull(Collections.<Integer>emptyList(), new Predicate<Integer>() {
             public Boolean apply(Integer item) {
                 return item % 2 == 0;

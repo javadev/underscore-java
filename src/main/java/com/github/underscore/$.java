@@ -773,8 +773,7 @@ public class $<T> {
     }
 
     public T firstOrNull() {
-        final Iterator<T> iterator = iterable.iterator();
-        return iterator.hasNext() ? iterator.next() : null;
+        return firstOrNull((List<T>) iterable);
     }
 
     public static <E> E firstOrNull(final Iterable<E> iterable, final Predicate<E> pred) {
@@ -783,8 +782,7 @@ public class $<T> {
     }
 
     public T firstOrNull(final Predicate<T> pred) {
-        final Iterator<T> iterator = filter(newArrayList(iterable), pred).iterator();
-        return iterator.hasNext() ? iterator.next() : null;
+        return firstOrNull((List<T>) iterable, pred);
     }
 
     public static <E> E head(final Iterable<E> iterable) {
@@ -1900,6 +1898,14 @@ public class $<T> {
             return new Chain<T>($.first(list, n));
         }
 
+        public Chain<T> firstOrNull() {
+            return new Chain<T>($.firstOrNull(list));
+        }
+
+        public Chain<T> firstOrNull(final Predicate<T> pred) {
+            return new Chain<T>($.firstOrNull(list, pred));
+        }
+
         public Chain<T> initial() {
             return new Chain<T>($.initial(list));
         }
@@ -1914,6 +1920,14 @@ public class $<T> {
 
         public Chain<T> last(int n) {
             return new Chain<T>($.last(list, n));
+        }
+
+        public Chain<T> lastOrNull() {
+            return new Chain<T>($.lastOrNull(list));
+        }
+
+        public Chain<T> lastOrNull(final Predicate<T> pred) {
+            return new Chain<T>($.lastOrNull(list, pred));
         }
 
         public Chain<T> rest() {
