@@ -755,9 +755,8 @@ public class $<T> {
         return iterable.iterator().next();
     }
 
-    @SuppressWarnings("unchecked")
     public List<T> first(final int n) {
-        return ((List) iterable).subList(0, n);
+        return ((List<T>) iterable).subList(0, n);
     }
 
     public static <E> E first(final Iterable<E> iterable, final Predicate<E> pred) {
@@ -792,7 +791,6 @@ public class $<T> {
         return first(iterable);
     }
 
-    @SuppressWarnings("unchecked")
     public static <E> E head(final E ... array) {
         return first(array);
     }
@@ -826,17 +824,14 @@ public class $<T> {
         return Arrays.copyOf(array, array.length - n);
     }
 
-    @SuppressWarnings("unchecked")
     public List<T> initial() {
-        return initial((List) iterable, 1);
+        return initial((List<T>) iterable, 1);
     }
 
-    @SuppressWarnings("unchecked")
     public List<T> initial(final int n) {
-        return initial((List) iterable, n);
+        return initial((List<T>) iterable, n);
     }
 
-    @SuppressWarnings("unchecked")
     public static <E> E last(final E ... array) {
         return array[array.length - 1];
     }
@@ -853,9 +848,8 @@ public class $<T> {
         return last((List<T>) iterable);
     }
 
-    @SuppressWarnings("unchecked")
     public List<T> last(final int n) {
-        return last((List) iterable, n);
+        return last((List<T>) iterable, n);
     }
 
     public static <E> E last(final List<E> list, final Predicate<E> pred) {
@@ -902,14 +896,12 @@ public class $<T> {
         return (E[]) rest(Arrays.asList(array), n).toArray();
     }
 
-    @SuppressWarnings("unchecked")
     public List<T> rest() {
-        return rest((List) iterable);
+        return rest((List<T>) iterable);
     }
 
-    @SuppressWarnings("unchecked")
     public List<T> rest(int n) {
-        return rest((List) iterable, n);
+        return rest((List<T>) iterable, n);
     }
 
     public static <E> List<E> tail(final List<E> list) {
@@ -920,7 +912,6 @@ public class $<T> {
         return rest(list, n);
     }
 
-    @SuppressWarnings("unchecked")
     public static <E> E[] tail(final E ... array) {
         return rest(array);
     }
@@ -983,14 +974,13 @@ public class $<T> {
         return (E[]) compact(Arrays.asList(array), falsyValue).toArray();
     }
 
-    @SuppressWarnings("unchecked")
     public List<T> compact() {
-        return compact((List) iterable);
+        return compact((List<T>) iterable);
     }
 
     @SuppressWarnings("unchecked")
     public List<T> compact(final T falsyValue) {
-        return compact((List) iterable, falsyValue);
+        return compact((List<T>) iterable, falsyValue);
     }
 
     public static <E> List<E> flatten(final List<?> list) {
@@ -1017,11 +1007,11 @@ public class $<T> {
     }
 
     public List<T> flatten() {
-        return flatten((List) iterable);
+        return flatten((List<T>) iterable);
     }
 
     public List<T> flatten(final boolean shallow) {
-        return flatten((List) iterable, shallow);
+        return flatten((List<T>) iterable, shallow);
     }
 
     @SuppressWarnings("unchecked")
