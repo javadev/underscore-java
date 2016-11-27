@@ -115,6 +115,7 @@ _.first([5, 4, 3, 2, 1], 2);
     }
 
     @Test(expected = NoSuchElementException.class)
+    @SuppressWarnings("unchecked")
     public void firstEmpty() {
         $.first(asList());
     }
