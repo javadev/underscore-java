@@ -20,7 +20,7 @@
     <module name="FileLength">
       <property name="fileExtensions" value="java"/>
       <property name="severity" value="warning"/>
-      <property name="max" value="2500"/>
+      <property name="max" value="2600"/>
     </module>
     <module name="RegexpSingleline">
       <property name="format" value="\s+$"/>
@@ -124,7 +124,9 @@
         </module>
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>
-        <!-- <module name="TabCharacter"/> -->        <module name="WhitespaceAfter"/>        <module name="WhitespaceAround">
+        <!-- <module name="TabCharacter"/> -->
+        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAround">
             <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, EQUAL, GE, GT, LAND, LCURLY, LE, LITERAL_ASSERT, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, RCURLY, SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, STAR_ASSIGN, TYPE_EXTENSION_AND"/>
         </module>
         <module name="ModifierOrder"/>
@@ -192,7 +194,8 @@
         <module name="ParameterAssignment">
             <property name="severity" value="warning"/>
         </module>
-        <module name="ExplicitInitialization"/>        <module name="DefaultComesLast"/>
+        <module name="ExplicitInitialization"/>
+        <module name="DefaultComesLast"/>
         <module name="FallThrough"/>
         <module name="MultipleVariableDeclarations"/>
         <module name="UnnecessaryParentheses"/>
