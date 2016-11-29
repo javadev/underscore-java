@@ -163,7 +163,7 @@
       <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>3.6</version>
           <configuration>
             <reportPlugins>
       <plugin>
