@@ -800,4 +800,27 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         });
         assertEquals("[Fisrt, Second, third, fourth, fifth]", solutions.toString());
     }
+
+    @Test
+    public void stackoverflow4() {
+        // http://stackoverflow.com/questions/25085399/converting-xml-into-java-mapstring-integer
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
+        + "<root>"
+        + "   <Durapipe type=\"int\">1</Durapipe>"
+        + "   <EXPLAIN type=\"int\">2</EXPLAIN>"
+        + "   <woods type=\"int\">2</woods>"
+        + "   <hanging type=\"int\">3</hanging>"
+        + "   <hastily type=\"int\">2</hastily>"
+        + "   <localized type=\"int\">1</localized>"
+        + "   <Schuster type=\"int\">5</Schuster>"
+        + "   <regularize type=\"int\">1</regularize>"
+        + "   <LASR type=\"int\">1</LASR>"
+        + "   <LAST type=\"int\">22</LAST>"
+        + "   <Gelch type=\"int\">2</Gelch>"
+        + "   <Gelco type=\"int\">26</Gelco>"
+        + "</root>";
+
+        assertEquals("{Durapipe=1, EXPLAIN=2, woods=2, hanging=3, hastily=2, localized=1, "
+            + "Schuster=5, regularize=1, LASR=1, LAST=22, Gelch=2, Gelco=26}", $.fromXml(xml).toString());
+    }
 }
