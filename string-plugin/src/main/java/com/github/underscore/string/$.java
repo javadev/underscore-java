@@ -2005,7 +2005,7 @@ public class $<T> extends com.github.underscore.$<T> {
             } else {
                 value = currentNode.getTextContent();
             }
-            if ("#text".equals(name) && value.toString().startsWith("\n")) {
+            if ("#text".equals(name) && value.toString().trim().isEmpty()) {
                 continue;
             }
             if (map.containsKey(name)) {
