@@ -1985,6 +1985,8 @@ _.repeat('abc', 0);
         $.chain(new Integer[] {0}).min(new Function1<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).sort();
+        $.chain(new Integer[] {0}).sortWith(new Comparator<Integer>() {
+            public int compare(Integer value1, Integer value2) { return value1; } });
         $.chain(new Integer[] {0}).sortBy(new Function1<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
