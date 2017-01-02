@@ -580,6 +580,18 @@ public class $<T> {
         return samples;
     }
 
+    public static <T extends Comparable<? super T>> List<T> sortWith(final Iterable<T> iterable,
+        final Comparator<T> comparator) {
+        final List<T> sortedList = newArrayList(iterable);
+        Collections.sort(sortedList, comparator);
+        return sortedList;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Comparable<? super T>> List<T> sortWith(final Comparator<T> comparator) {
+        return sortWith((Iterable<T>) iterable, comparator);
+    }
+
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final Iterable<E> iterable,
         final Function1<E, T> func) {
         final List<E> sortedList = newArrayList(iterable);
@@ -2000,6 +2012,11 @@ public class $<T> {
         @SuppressWarnings("unchecked")
         public Chain<Comparable> sort() {
             return new Chain<Comparable>($.sort((List<Comparable>) list));
+        }
+
+        @SuppressWarnings("unchecked")
+        public <F extends Comparable<? super F>> Chain<F> sortWith(final Comparator<F> comparator) {
+            return new Chain<F>($.sortWith((List<F>) list, comparator));
         }
 
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {

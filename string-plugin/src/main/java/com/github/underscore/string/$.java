@@ -198,6 +198,11 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<Comparable>($.sort((List<Comparable>) value()));
         }
 
+        @SuppressWarnings("unchecked")
+        public <F extends Comparable<? super F>> Chain<F> sortWith(final Comparator<F> comparator) {
+            return new Chain<F>($.sortWith((List<F>) value(), comparator));
+        }
+
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
             return new Chain<T>($.sortBy(value(), func));
         }

@@ -1155,6 +1155,42 @@ _.min(numbers);
     }
 
 /*
+_.sortWith([1, 2, 3, 4, 5, 6], function(num1, num2){ return Math.sin(num1) - Math.sin(num2); });
+=> [5, 4, 6, 3, 1, 2]
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void sortWith() {
+        final List<Integer> result =
+        $.sortWith(asList(1, 2, 3, 4, 5, 6),
+            new Comparator<Integer>() {
+            public int compare(Integer item1, Integer item2) {
+                return Double.valueOf(Math.sin(item1) * 1000).intValue()
+                    - Double.valueOf(Math.sin(item2) * 1000).intValue();
+            }
+        });
+        assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
+        final List<Integer> resultObj =
+        new $(asList(1, 2, 3, 4, 5, 6)).sortWith(
+            new Comparator<Integer>() {
+            public int compare(Integer item1, Integer item2) {
+                return Double.valueOf(Math.sin(item1) * 1000).intValue()
+                    - Double.valueOf(Math.sin(item2) * 1000).intValue();
+            }
+        });
+        assertEquals("[5, 4, 6, 3, 1, 2]", resultObj.toString());
+        final List<Integer> resultChain =
+        $.chain(asList(1, 2, 3, 4, 5, 6)).sortWith(
+            new Comparator<Integer>() {
+            public int compare(Integer item1, Integer item2) {
+                return Double.valueOf(Math.sin(item1) * 1000).intValue()
+                    - Double.valueOf(Math.sin(item2) * 1000).intValue();
+            }
+        }).value();
+        assertEquals("[5, 4, 6, 3, 1, 2]", resultChain.toString());
+    }
+
+/*
 _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 => [5, 4, 6, 3, 1, 2]
 */
