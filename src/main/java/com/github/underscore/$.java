@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2016 Valentyn Kolesnikov
+ * Copyright 2015-2017 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -123,27 +123,6 @@ public class $<T> {
                     "\\s*\\Q" + ((Map.Entry) element).getKey()
                     + "\\E\\s*")).matcher(result).replaceAll(escape(String.valueOf(((Map.Entry) element)
                     .getValue())));
-                java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(
-                    evaluate.replace(ALL_SYMBOLS,
-                    "\\s*_\\.each\\((\\w+),\\s*function\\((\\w+)\\)\\s*\\{\\s*") + "(.*?)"
-                    + evaluate.replace(ALL_SYMBOLS, "\\s*\\}\\);\\s*"))
-                    .matcher(result);
-                if (matcher.find() && ((Map.Entry) element).getKey().equals(matcher.group(1))) {
-                    StringBuilder repeatResult = new StringBuilder();
-                    for (String item : (List<String>) ((Map.Entry) element).getValue()) {
-                        repeatResult.append(java.util.regex.Pattern.compile(
-                            interpolate.replace(ALL_SYMBOLS, "\\s*\\Q" + matcher.group(GROUP_INDEX_2)
-                            + "\\E\\s*")).matcher(matcher.group(GROUP_INDEX_3)).replaceAll(item));
-                    }
-                    result = matcher.replaceFirst(repeatResult.toString());
-                }
-                java.util.regex.Matcher matcherPrint = java.util.regex.Pattern.compile(
-                    evaluate.replace(ALL_SYMBOLS,
-                    "\\s*print\\('([^']*)'\\s*\\+\\s*(\\w+)\\);\\s*")).matcher(result);
-                if (matcherPrint.find() && ((Map.Entry) element).getKey().equals(matcherPrint.group(GROUP_INDEX_2))) {
-                    result = matcherPrint.replaceFirst(matcherPrint.group(1)
-                        + ((Map.Entry) element).getValue());
-                }
             }
             return result;
         }
@@ -409,15 +388,13 @@ public class $<T> {
         try {
             final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(
                 new Class[argTypes.size()]));
-            each(iterable, new Block<E>() {
-                public void apply(E arg) {
-                    try {
-                        result.add((E) method.invoke(arg, args.toArray(new Object[args.size()])));
-                    } catch (Exception e) {
-                        throw new IllegalArgumentException(e);
-                    }
+            for (E arg : iterable) {
+                try {
+                    result.add((E) method.invoke(arg, args.toArray(new Object[args.size()])));
+                } catch (Exception e) {
+                    throw new IllegalArgumentException(e);
                 }
-            });
+            }
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException(e);
         }
@@ -1181,19 +1158,15 @@ public class $<T> {
         each(Arrays.asList(lists), new Block<List<T>>() {
             @Override
             public void apply(final List<T> list) {
-                $.each(list, new Block<T>() {
-                    private int index;
-
-                    @Override
-                    public void apply(T elem) {
-                        final List<T> nTuple = index >= zipped.size() ? $.<T>newArrayList() : zipped.get(index);
-                        if (index >= zipped.size()) {
-                            zipped.add(nTuple);
-                        }
-                        index += 1;
-                        nTuple.add(elem);
+                int index = 0;
+                for (T elem : list) {
+                    final List<T> nTuple = index >= zipped.size() ? $.<T>newArrayList() : zipped.get(index);
+                    if (index >= zipped.size()) {
+                        zipped.add(nTuple);
                     }
-                });
+                    index += 1;
+                    nTuple.add(elem);
+                }
             }
         });
         return zipped;
