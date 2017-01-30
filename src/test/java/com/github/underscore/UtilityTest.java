@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2016 Valentyn Kolesnikov
+ * Copyright 2015-2017 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -231,47 +231,6 @@ compiled({name: 'moe'});
     }
 
 /*
-var list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
-_.template(list, {people: ['moe', 'curly', 'larry']});
-=> "<li>moe</li><li>curly</li><li>larry</li>"
-*/
-    @Test
-    public void templateEach() {
-        String list = "<% _.each(people, function(name) { %> <li><%= name %></li> <% }); %>";
-        Template<Map<String, Object>> compiled = $.template(list);
-        assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
-            compiled.apply(new LinkedHashMap<String, Object>() { {
-                put("people", asList("moe", "curly", "larry")); } }));
-        String list2 = "<% _.each(people2, function(name) { %> <li><%= name %></li> <% }); %>";
-        Template<Map<String, Object>> compiled2 = $.template(list2);
-        assertEquals("<% _.each(people2, function(name) { %> <li><%= name %></li> <% }); %>",
-            compiled2.apply(new LinkedHashMap<String, Object>() { {
-                put("people", asList("moe", "curly", "larry")); } }));
-        $.templateSettings(new HashMap<String, String>() { { put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}");
-            put("evaluate", "\\{\\{([\\s\\S]+?)\\}\\}"); } });
-        String list3 = "{{ _.each(people, function(name) { }} <li>{{= name }}</li> {{ }); }}";
-        Template<Map<String, Object>> compiled3 = $.template(list3);
-        assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
-            compiled3.apply(new LinkedHashMap<String, Object>() { {
-                put("people", asList("moe", "curly", "larry")); } }));
-        $.templateSettings(new HashMap<String, String>() { { put("interpolate", "<%=([\\s\\S]+?)%>");
-            put("evaluate", "<%([\\s\\S]+?)%>"); } });
-    }
-
-    @Test
-    public void templateEach2() {
-        $.templateSettings(new HashMap<String, String>() { { put("interpolate", "\\$\\{([\\s\\S]+?)\\}");
-            put("evaluate", "\\{\\{([\\s\\S]+?)\\}\\}"); } });
-        String list = "{{ _.each(items, function(item) { }} <li>${ item }</li> {{ }); }}";
-        Template<Map<String, Object>> compiled3 = $.template(list);
-        assertEquals(" <li>moe</li>  <li>curly</li>  <li>larry</li> ",
-            compiled3.apply(new LinkedHashMap<String, Object>() { {
-                put("items", asList("moe", "curly", "larry")); } }));
-        $.templateSettings(new HashMap<String, String>() { { put("interpolate", "<%=([\\s\\S]+?)%>");
-            put("evaluate", "<%([\\s\\S]+?)%>"); } });
-    }
-
-/*
 var template = _.template("<b><%- value %></b>");
 template({value: '<script>'});
 => "<b>&lt;script&gt;</b>"
@@ -289,20 +248,6 @@ template({value: '<script>'});
         assertEquals("hello: moe, <b>&lt;script&gt;</b>",
             template.apply(new LinkedHashMap<String, Object>() { {
                 put("name", "moe"); put("value", "<script>"); } }));
-    }
-/*
-var compiled = _.template("<% print('Hello ' + epithet); %>");
-compiled({epithet: "stooge"});
-=> "Hello stooge"
-*/
-    @Test
-    public void templatePrint() {
-        Template<Map<String, Object>> compiled = $.template("<% print('Hello ' + epithet); %>");
-        assertEquals("Hello stooge",
-            compiled.apply(new LinkedHashMap<String, Object>() { { put("epithet", "stooge"); } }));
-        Template<Map<String, Object>> compiled2 = $.template("<% print('Hello ' + epithet2); %>");
-        assertEquals("<% print('Hello ' + epithet2); %>",
-            compiled2.apply(new LinkedHashMap<String, Object>() { { put("epithet", "stooge"); } }));
     }
 
 /*
