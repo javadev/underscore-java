@@ -250,6 +250,14 @@ template({value: '<script>'});
                 put("name", "moe"); put("value", "<script>"); } }));
     }
 
+    @Test
+    public void templateValue3() {
+        Template<Map<String, Object>> template = $.template("hello: <% name %>, <b><%- value %></b>");
+        assertEquals("hello: moe, <b>&lt;script&gt;</b>",
+            template.apply(new LinkedHashMap<String, Object>() { {
+                put("name", "moe"); put("value", "<script>"); } }));
+    }
+
 /*
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
 _.result(object, 'cheese');

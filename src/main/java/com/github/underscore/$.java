@@ -39,8 +39,6 @@ public class $<T> {
         put("interpolate", "<%=([\\s\\S]+?)%>");
         put("escape", "<%-([\\s\\S]+?)%>");
     } };
-    private static final int GROUP_INDEX_2 = 2;
-    private static final int GROUP_INDEX_3 = 3;
     private static final int ARRAY_SIZE_2 = 2;
     private static final int MIN_PASSWORD_LENGTH_8 = 8;
     private static final long CAPACITY_SIZE_5 = 5L;
@@ -123,6 +121,10 @@ public class $<T> {
                     "\\s*\\Q" + ((Map.Entry) element).getKey()
                     + "\\E\\s*")).matcher(result).replaceAll(escape(String.valueOf(((Map.Entry) element)
                     .getValue())));
+                result = java.util.regex.Pattern.compile(evaluate.replace(ALL_SYMBOLS,
+                    "\\s*\\Q" + ((Map.Entry) element).getKey()
+                    + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(((Map.Entry) element)
+                    .getValue()));
             }
             return result;
         }
