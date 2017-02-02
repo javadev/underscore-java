@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2016 Valentyn Kolesnikov
+ * Copyright 2015-2017 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -460,22 +460,6 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.at(value(), indexes));
         }
 
-        public Chain<T> push(final T ... values) {
-            return new Chain<T>($.push(value(), values));
-        }
-
-        public Chain<Tuple<T, List<T>>> pop() {
-            return new Chain<Tuple<T, List<T>>>($.pop(value()));
-        }
-
-        public Chain<Tuple<T, List<T>>> shift() {
-            return new Chain<Tuple<T, List<T>>>($.shift(value()));
-        }
-
-        public Chain<T> unshift(final T ... values) {
-            return new Chain<T>($.unshift(value(), values));
-        }
-
         @SuppressWarnings("unchecked")
         public <F extends Number> Chain<F> sum() {
             return new Chain<F>($.sum((List<F>) value()));
@@ -873,48 +857,6 @@ public class $<T> extends com.github.underscore.$<T> {
 
     public List<T> at(final Integer ... indexes) {
         return at((List<T>) getIterable(), indexes);
-    }
-
-    public static <T> List<T> push(final List<T> list, final T ... values) {
-        final List<T> result = newArrayList(list);
-        for (T value : values) {
-            result.add(value);
-        }
-        return result;
-    }
-
-    public List<T> push(final T ... values) {
-        return push((List<T>) getIterable(), values);
-    }
-
-    public static <T> Tuple<T, List<T>> pop(final List<T> list) {
-        return Tuple.create(last(list), initial(list));
-    }
-
-    public Tuple<T, List<T>> pop() {
-        return pop((List<T>) getIterable());
-    }
-
-    public static <T> List<T> unshift(final List<T> list, final T ... values) {
-        final List<T> result = newArrayList(list);
-        int index = 0;
-        for (T value : values) {
-            result.add(index, value);
-            index += 1;
-        }
-        return result;
-    }
-
-    public List<T> unshift(final T ... values) {
-        return unshift((List<T>) getIterable(), values);
-    }
-
-    public static <T> Tuple<T, List<T>> shift(final List<T> list) {
-        return Tuple.create(first(list), rest(list));
-    }
-
-    public Tuple<T, List<T>> shift() {
-        return shift((List<T>) getIterable());
     }
 
     public static <T extends Number> T sum(final Iterable<T> iterable) {

@@ -86,6 +86,54 @@ public class UnderscoreTest {
         assertEquals("--", $.join(asList("", "", ""), "-"));
     }
 
+/*
+_.push(['a', 'b', 'c'], 0, 2);
+// → ['a', 'b', 'c', 0, 2]
+*/
+    @SuppressWarnings("unchecked")
+    @Test
+    public void push() {
+        assertEquals("[a, b, c, 0, 2]", $.push(asList("a", "b", "c"), "0", "2").toString());
+        assertEquals("[a, b, c, 0, 2]", new $(asList("a", "b", "c")).push("0", "2").toString());
+        assertEquals("[a, b, c, 0, 2]", $.chain(asList("a", "b", "c")).push("0", "2").value().toString());
+    }
+
+/*
+_.pop(['a', 'b', 'c']);
+// → 'c'
+*/
+    @SuppressWarnings("unchecked")
+    @Test
+    public void pop() {
+        assertEquals("c", $.pop(asList("a", "b", "c")).fst().toString());
+        assertEquals("c", new $(asList("a", "b", "c")).pop().fst().toString());
+        assertEquals("c", $.chain(asList("a", "b", "c")).pop().item().fst().toString());
+    }
+
+/*
+_.shift(['a', 'b', 'c']);
+// → 'a'
+*/
+    @SuppressWarnings("unchecked")
+    @Test
+    public void shift() {
+        assertEquals("a", $.shift(asList("a", "b", "c")).fst().toString());
+        assertEquals("a", new $(asList("a", "b", "c")).shift().fst().toString());
+        assertEquals("a", $.chain(asList("a", "b", "c")).shift().item().fst().toString());
+    }
+
+/*
+_.unshift(['a', 'b', 'c'], 0, 2);
+// → [0, 2, 'a', 'b', 'c']
+*/
+    @SuppressWarnings("unchecked")
+    @Test
+    public void unshift() {
+        assertEquals("[0, 2, a, b, c]", $.unshift(asList("a", "b", "c"), "0", "2").toString());
+        assertEquals("[0, 2, a, b, c]", new $(asList("a", "b", "c")).unshift("0", "2").toString());
+        assertEquals("[0, 2, a, b, c]", $.chain(asList("a", "b", "c")).unshift("0", "2").value().toString());
+    }
+
     @Test
     public void compareStrings() {
         assertArrayEquals($.sort("CAT".split("")), $.sort("CTA".split("")));
