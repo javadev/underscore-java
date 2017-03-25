@@ -2468,7 +2468,7 @@ public class $<T> extends com.github.underscore.$<T> {
 
     @SuppressWarnings("unchecked")
     private static Object getValue(final Object value) {
-        if (value instanceof Map) {
+        if (value instanceof Map && ((Map<String, Object>) value).entrySet().iterator().hasNext()) {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
             if (entry.getKey().equals("#text") || entry.getKey().equals("element")) {
                 return entry.getValue();
