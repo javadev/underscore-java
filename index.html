@@ -10,7 +10,7 @@
 <body>
     <div id="sidebar" class="interface">
         <a class="toc_title" href="#">
-                Underscore-java <span class="version">(1.20)</span>
+                Underscore-java <span class="version">(1.23)</span>
             </a>
     <ul class="toc_section">
       <li>» <a href="https://github.com/javadev/underscore-java">GitHub Repository</a></li>
@@ -180,7 +180,7 @@ equality testing, and so on. It delegates to built-in functions where
 applicable.<br><br>Underscore-java is compatible with Java 6 and later.<br><br>The project is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a>. Contributions are welcome.<br>
         </p>
         <h2>Download</h2>
-        <div><a href="https://github.com/javadev/underscore-java/archive/v1.20.zip">Version 1.20</a> - <i>~4.2Mb, Includes all development files</i></div>
+        <div><a href="https://github.com/javadev/underscore-java/archive/v1.23.zip">Version 1.23</a> - <i>~4.9Mb, Includes all development files</i></div>
         <h2 id="Collections">Collection Functions (Arrays, Structs, Queries, or Objects)</h2>
 
 
@@ -1140,6 +1140,38 @@ final String youngest = $.chain(stooges)
  <p
 id="changelog">
  </p><h2>Change Log</h2>
+ <p>
+ <b class="header">1.23</b> --
+<small><i>Feb 2nd, 2017</i></small><br>
+ </p>
+ <ul>
+ <li>Moved push(), pop(), shift() and unshift() to the underscore library.</li>
+ <li>Removed each and print support from template.</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.22</b> --
+<small><i>Jan 2nd, 2017</i></small><br>
+ </p>
+ <ul>
+ <li>Added support for the $.sortWith(list, comparator) method.</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.21</b> --
+<small><i>Dec 1st, 2016</i></small><br>
+ </p>
+ <ul>
+ <li>Added methods firstOrNull(list), firstOrNull(list, pred), lastOrNull(list) and lastOrNull(list, pred) for chain.</li>
+ <li>Added methods $.checkNotNull(), Optional.map(function1) and Optional.orThrow(function).</li>
+ <li>Changed newHashSet with newLinkedHashSet for uniq/distinct methods.</li>
+ <li>Added lastIndex(array), distinct(array) and distinctBy(array, func) methods.</li>
+ <li>Added support for the $.chain(int[]) and $.map(int[], function) methods.</li>
+ </ul>
+ <p>
+ </p><p>
  <p>
  <b class="header">1.20</b> --
 <small><i>Nov 1st, 2016</i></small><br>
