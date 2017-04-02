@@ -415,6 +415,33 @@ var sum = _(words)
     }
 
     @Test
+    @SuppressWarnings("unchecked")
+    public void chain8() {
+        final List<Comparable> result = $.chain($.class.getDeclaredMethods())
+            .map(new Function1<Method, String>() {
+                public String apply(final Method method) {
+                    return method.getName();
+                }
+            })
+            .reject(new Predicate<String>() {
+                public Boolean apply(final String name) {
+                    return name.contains("$");
+                }
+            })
+            .uniq(new Function1<String, Character>() {
+                public Character apply(final String name) {
+                    // Contrived example to test that .uniq returns
+                    // a Chain<String> rather than a Chain<Character>.
+                    return name.charAt(0);
+                }
+            })
+            .sort()
+            .first(4)
+            .value();
+        assertEquals(4, result.size());
+    }
+
+    @Test
     public void chainToMap() {
         assertEquals("{name1=one, name2=two}", $.chain((new LinkedHashMap<String, String>() { {
             put("name1", "one");

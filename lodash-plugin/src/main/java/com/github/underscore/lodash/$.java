@@ -297,8 +297,8 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public <F> Chain<F> uniq(final Function1<T, F> func) {
-            return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(value(), func)));
+        public <F> Chain<T> uniq(final Function1<T, F> func) {
+            return new Chain<T>($.newArrayList($.uniq(value(), func)));
         }
 
         public Chain<T> distinct() {
