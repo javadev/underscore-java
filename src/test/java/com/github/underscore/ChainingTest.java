@@ -417,13 +417,12 @@ var sum = _(words)
     @Test
     @SuppressWarnings("unchecked")
     public void chain8() {
-        final List<Comparable> result = $.chain($.chain($.class.getDeclaredMethods())
-            .reduce(new FunctionAccum<List<String>, Method>() {
-                public List<String> apply(final List<String> accum, final Method method) {
-                    accum.add(method.getName());
-                    return accum;
+        final List<Comparable> result = $.chain($.class.getDeclaredMethods())
+            .map(new Function1<Method, String>() {
+                public String apply(final Method method) {
+                    return method.getName();
                 }
-            }, new ArrayList<String>()).item())
+            })
             .reject(new Predicate<String>() {
                 public Boolean apply(final String name) {
                     return name.contains("$");
