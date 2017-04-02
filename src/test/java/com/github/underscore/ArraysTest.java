@@ -475,7 +475,7 @@ _.uniq([1, 2, 1, 3, 1, 4]);
             }
         });
         assertEquals("[moe, 50, curly, 60]", resultObject.toString());
-        final List<String> resultObjectChain =
+        final List<Person> resultObjectChain =
         $.chain(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).uniq(
             new Function1<Person, String>() {
             public String apply(Person person) {
