@@ -287,6 +287,19 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
+    public void iterate() {
+        Iterable<long[]> iterable = $.<long[]>iterate(new long[] {1, 1}, new UnaryOperator<long[]>() {
+                public long[] apply(long[] arg) {
+                    return new long[] {arg[1], arg[0] + arg[1]};
+                }
+            });
+        iterable.iterator().remove();
+        assertTrue(iterable.iterator().hasNext());
+        assertArrayEquals(new long[] {1, 1}, iterable.iterator().next());
+        assertArrayEquals(new long[] {1, 2}, iterable.iterator().next());
+    }
+
+    @Test
     public void optional() {
         assertTrue(Optional.absent().equals(Optional.absent()));
         assertTrue(Optional.of(1).equals(Optional.of(1)));

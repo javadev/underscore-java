@@ -130,6 +130,35 @@ public class $<T> {
         }
     }
 
+    private static final class MyIterable<T> implements Iterable<T> {
+        private final UnaryOperator<T> unaryOperator;
+        private boolean firstRun = true;
+        private T value;
+
+        public MyIterable(final T seed, final UnaryOperator<T> unaryOperator) {
+            this.value = seed;
+            this.unaryOperator = unaryOperator;
+        }
+
+        public Iterator<T> iterator() {
+            return new Iterator<T>() {
+                public boolean hasNext() {
+                    return true;
+                }
+                public T next() {
+                    if (firstRun) {
+                        firstRun = false;
+                    } else {
+                        value = unaryOperator.apply(value);
+                    }
+                    return value;
+                }
+                public void remove() {
+                }
+            };
+        }
+    }
+
     public static <K, V> Function1<Map<K, V>, V> iteratee(final K key) {
         return new Function1<Map<K, V>, V>() {
             public V apply(Map<K, V> item) {
@@ -1841,6 +1870,10 @@ public class $<T> {
 
     public static <K, V> Template<Map<K, V>> template(final String template) {
         return new TemplateImpl<K, V>(template);
+    }
+
+    public static <T> Iterable<T> iterate(final T seed, final UnaryOperator<T> unaryOperator) {
+        return new MyIterable<T>(seed, unaryOperator);
     }
 
     public static <T> Chain<T> chain(final List<T> list) {
