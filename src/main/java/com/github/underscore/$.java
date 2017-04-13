@@ -135,16 +135,18 @@ public class $<T> {
         private boolean firstRun = true;
         private T value;
 
-        public MyIterable(final T seed, final UnaryOperator<T> unaryOperator) {
+        MyIterable(final T seed, final UnaryOperator<T> unaryOperator) {
             this.value = seed;
             this.unaryOperator = unaryOperator;
         }
 
         public Iterator<T> iterator() {
             return new Iterator<T>() {
+                @Override
                 public boolean hasNext() {
                     return true;
                 }
+                @Override
                 public T next() {
                     if (firstRun) {
                         firstRun = false;
@@ -153,7 +155,9 @@ public class $<T> {
                     }
                     return value;
                 }
+                @Override
                 public void remove() {
+                    throw new UnsupportedOperationException("Remove is not supported");
                 }
             };
         }
