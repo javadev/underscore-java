@@ -362,6 +362,10 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(newArrayList(iterable));
     }
 
+    public static <T> Chain<T> chain(final Iterable<T> iterable, int size) {
+        return new $.Chain<T>(newArrayList(iterable, size));
+    }
+
     public static <T> Chain<T> chain(final T ... array) {
         return new $.Chain<T>(Arrays.asList(array));
     }

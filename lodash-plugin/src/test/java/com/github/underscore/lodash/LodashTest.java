@@ -575,6 +575,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         new $("");
         new $(asList()).chain();
         $.chain(new ArrayList<String>());
+        $.chain(new ArrayList<String>(), 1);
         $.chain(new HashSet<String>());
         $.chain(new String[] {});
         $.chain("");

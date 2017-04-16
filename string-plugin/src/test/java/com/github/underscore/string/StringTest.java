@@ -1950,6 +1950,7 @@ _.repeat('abc', 0);
         new $.JsonJavaValue();
         new $.JsonJavaObject();
         $.chain(new ArrayList<String>());
+        $.chain(new ArrayList<String>(), 1);
         $.chain(new HashSet<String>());
         $.chain(new String[] {});
     }

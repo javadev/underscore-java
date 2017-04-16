@@ -300,6 +300,34 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
+    public void iterateChain() {
+        Iterable<long[]> iterable = $.<long[]>iterate(new long[] {1, 1}, new UnaryOperator<long[]>() {
+                public long[] apply(long[] arg) {
+                    return new long[] {arg[1], arg[0] + arg[1]};
+                }
+            });
+        assertEquals(1L, $.chain(iterable, 5).first().item()[0]);
+        class MyIterable<T> implements Iterable<T> {
+            public Iterator<T> iterator() {
+                return new Iterator<T>() {
+                    @Override
+                    public boolean hasNext() {
+                        return false;
+                    }
+                    @Override
+                    public T next() {
+                        return null;
+                    }
+                    @Override
+                    public void remove() {
+                    }
+                };
+            }
+        }
+        assertTrue($.chain(new MyIterable<Integer>(), 5).isEmpty());
+    }
+
+    @Test
     public void optional() {
         assertTrue(Optional.absent().equals(Optional.absent()));
         assertTrue(Optional.of(1).equals(Optional.of(1)));

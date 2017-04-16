@@ -1887,6 +1887,10 @@ public class $<T> {
         return new $.Chain<T>(newArrayList(iterable));
     }
 
+    public static <T> Chain<T> chain(final Iterable<T> iterable, int size) {
+        return new $.Chain<T>(newArrayList(iterable, size));
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> Chain<T> chain(final T ... array) {
         return new $.Chain<T>(Arrays.asList(array));
@@ -2567,7 +2571,7 @@ public class $<T> {
     }
 
     @SuppressWarnings("unchecked")
-    protected static <T> List<T> newArrayList(Iterable<T> iterable) {
+    protected static <T> List<T> newArrayList(final Iterable<T> iterable) {
         final List<T> result;
         if (iterable instanceof Collection) {
             result = new ArrayList<T>((Collection) iterable);
@@ -2576,6 +2580,14 @@ public class $<T> {
             for (final T item : iterable) {
                 result.add(item);
             }
+        }
+        return result;
+    }
+
+    protected static <T> List<T> newArrayList(final Iterable<T> iterable, final int size) {
+        final List<T> result = new ArrayList<T>();
+        for (int index = 0; iterable.iterator().hasNext() && index < size; index += 1) {
+            result.add(iterable.iterator().next());
         }
         return result;
     }

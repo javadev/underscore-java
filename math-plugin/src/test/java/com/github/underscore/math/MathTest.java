@@ -235,6 +235,7 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.main(new String[] {});
         new $("");
         new $(asList()).chain();
+        $.chain(new ArrayList<String>(), 1);
         $.chain(new HashSet<String>());
         $.chain(new String[] {});
     }
