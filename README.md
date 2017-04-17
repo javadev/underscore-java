@@ -1,6 +1,8 @@
 underscore-java 
 ===============
 
+[![Join the chat at https://gitter.im/javadev/underscore-java](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/javadev/underscore-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.javadev/underscore.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.javadev%22%20AND%20a%3A%22underscore%22)
 [![MIT License](http://img.shields.io/badge/license-MIT-green.svg) ](https://github.com/javadev/underscore-java/blob/master/LICENSE.txt)
 [![Build Status](https://secure.travis-ci.org/javadev/underscore-java.svg)](https://travis-ci.org/javadev/underscore-java)
