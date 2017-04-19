@@ -27,6 +27,7 @@ import com.github.underscore.Block;
 import com.github.underscore.Function1;
 import com.github.underscore.Function3;
 import com.github.underscore.FunctionAccum;
+import com.github.underscore.MemoizeFunction1;
 import com.github.underscore.Predicate;
 import com.github.underscore.Tuple;
 import com.github.underscore.Optional;
@@ -78,6 +79,16 @@ public class $<T> extends com.github.underscore.$<T> {
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
     private static java.util.regex.Pattern reWords = java.util.regex.Pattern.compile(
         upper + "+(?=" + upper + lower + ")|" + upper + "?" + lower + "|" + upper + "+|[0-9]+");
+    private static Function1<String, List<String>> memoizeFunction = new MemoizeFunction1<String, List<String>>() {
+        public List<String> calc(final String string) {
+            final List<String> result = new ArrayList<String>();
+            final java.util.regex.Matcher matcher = RE_PROP_NAME.matcher(baseToString(string));
+            while (matcher.find()) {
+                result.add(matcher.group(1) == null ? matcher.group(0) : matcher.group(1));
+            }
+            return result;
+        }
+    };
 
     public $(final Iterable<T> iterable) {
         super(iterable);
@@ -1280,12 +1291,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static List<String> stringToPath(final String string) {
-        final List<String> result = new ArrayList<String>();
-        final java.util.regex.Matcher matcher = RE_PROP_NAME.matcher(baseToString(string));
-        while (matcher.find()) {
-            result.add(matcher.group(1) == null ? matcher.group(0) : matcher.group(1));
-        }
-        return result;
+        return memoizeFunction.apply(string);
     }
 
     @SuppressWarnings("unchecked")
