@@ -47,6 +47,7 @@ public class $<T> {
     private static final java.util.concurrent.atomic.AtomicInteger UNIQUE_ID =
         new java.util.concurrent.atomic.AtomicInteger(0);
     private static final String ALL_SYMBOLS = "([\\s\\S]+?)";
+    private static final java.util.regex.Pattern FORMAT_PATTERN = java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*\\}");
     private final Iterable<T> iterable;
     private final Optional<String> string;
 
@@ -1875,6 +1876,28 @@ public class $<T> {
         return new TemplateImpl<K, V>(template);
     }
 
+    public static String format(final String template, final Object ... params) {
+        final java.util.regex.Matcher matcher = FORMAT_PATTERN.matcher(template);
+        final StringBuffer buffer = new StringBuffer();
+        int index = 0;
+        while (matcher.find()) {
+            if (matcher.group(1).isEmpty()) {
+                matcher.appendReplacement(buffer, "<%" + index++ + "%>");
+            } else {
+                matcher.appendReplacement(buffer, "<%" + matcher.group(1) + "%>");
+            }
+        }
+        matcher.appendTail(buffer);
+        final String newTemplate = buffer.toString();
+        final Map<Integer, String> args = newLinkedHashMap();
+        index = 0;
+        for (Object param : params) {
+            args.put(index, param.toString());
+            index += 1;
+        }
+        return new TemplateImpl<Integer, String>(newTemplate).apply(args);
+    }
+
     public static <T> Iterable<T> iterate(final T seed, final UnaryOperator<T> unaryOperator) {
         return new MyIterable<T>(seed, unaryOperator);
     }
@@ -2624,7 +2647,6 @@ public class $<T> {
         return new LinkedHashSet<T>((int) Math.max(size * CAPACITY_COEFF_2, CAPACITY_SIZE_16));
     }
 
-    @SuppressWarnings("unchecked")
     protected static <K, E> Map<K, E> newLinkedHashMap() {
         return new LinkedHashMap<K, E>();
     }

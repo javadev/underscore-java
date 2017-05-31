@@ -259,6 +259,22 @@ template({value: '<script>'});
     }
 
 /*
+var fortmatted = _.format("hello: {}", "moe");
+=> "hello: moe"
+*/
+    @Test
+    public void format() {
+        String fortmatted = $.format("hello: {0}", "moe");
+        assertEquals("hello: moe", fortmatted);
+        String fortmatted2 = $.format("hello: {}", "moe");
+        assertEquals("hello: moe", fortmatted2);
+        String fortmatted3 = $.format("hello: {}, {}", "moe", 123);
+        assertEquals("hello: moe, 123", fortmatted3);
+        String fortmatted4 = $.format("hello: {1}, {0}", "moe", 123);
+        assertEquals("hello: 123, moe", fortmatted4);
+    }
+
+/*
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
 _.result(object, 'cheese');
 => "crumpets"
