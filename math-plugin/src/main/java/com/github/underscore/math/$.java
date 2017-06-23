@@ -27,6 +27,7 @@ import com.github.underscore.Block;
 import com.github.underscore.Function1;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
+import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import com.github.underscore.Optional;
 import java.util.*;
@@ -116,6 +117,14 @@ public class $<T> extends com.github.underscore.$<T> {
 
         public Chain<T> filter(final Predicate<T> pred) {
             return new Chain<T>($.filter(value(), pred));
+        }
+
+        public Chain<T> filterIndexed(final PredicateIndexed<T> pred) {
+            return new Chain<T>($.filterIndexed(value(), pred));
+        }
+
+        public Chain<T> rejectIndexed(final PredicateIndexed<T> pred) {
+            return new Chain<T>($.rejectIndexed(value(), pred));
         }
 
         public Chain<T> reject(final Predicate<T> pred) {

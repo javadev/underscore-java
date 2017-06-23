@@ -316,6 +316,18 @@ public class $<T> {
         return filtered;
     }
 
+    public static <E> List<E> filterIndexed(final List<E> list, final PredicateIndexed<E> pred) {
+        final List<E> filtered = newArrayList();
+        int index = 0;
+        for (E element : list) {
+            if (pred.apply(index, element)) {
+                filtered.add(element);
+            }
+            index += 1;
+        }
+        return filtered;
+    }
+
     public static <E> Set<E> filter(final Set<E> set, final Predicate<E> pred) {
         final Set<E> filtered = newLinkedHashSet();
         for (E element : set) {
@@ -339,6 +351,15 @@ public class $<T> {
             @Override
             public Boolean apply(E input) {
                 return !pred.apply(input);
+            }
+        });
+    }
+
+    public static <E> List<E> rejectIndexed(final List<E> list, final PredicateIndexed<E> pred) {
+        return filterIndexed(list, new PredicateIndexed<E>() {
+            @Override
+            public boolean apply(int index, E input) {
+                return !pred.apply(index, input);
             }
         });
     }
@@ -2009,8 +2030,16 @@ public class $<T> {
             return new Chain<T>($.filter(list, pred));
         }
 
+        public Chain<T> filterIndexed(final PredicateIndexed<T> pred) {
+            return new Chain<T>($.filterIndexed(list, pred));
+        }
+
         public Chain<T> reject(final Predicate<T> pred) {
             return new Chain<T>($.reject(list, pred));
+        }
+
+        public Chain<T> rejectIndexed(final PredicateIndexed<T> pred) {
+            return new Chain<T>($.rejectIndexed(list, pred));
         }
 
         public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {
