@@ -199,8 +199,8 @@ called with
 // 1,2,3,
 
 int multiplier = 2;
-int index = 0;
 $.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
+    int index = 0;
     public void apply(Integer item) {
         System.out.println(index + &quot;=&quot; + (item * multiplier) + &quot;,&quot;);
         index += 1;
