@@ -213,6 +213,10 @@ public class $<T> {
         return transformed;
     }
 
+    public <F> List<F> map(final Function1<? super T, F> func) {
+        return map(newArrayList(iterable), func);
+    }
+
     public static <T> List<T> map(final int[] array, final Function1<? super Integer, T> func) {
         final List<T> transformed = newArrayListWithExpectedSize(array.length);
         for (int element : array) {
