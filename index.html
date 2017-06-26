@@ -1055,7 +1055,7 @@ id="Chaining">Chaining</h2>
         return item * 2;
     }
 });
-new $(asList(1, 2, 3)).map(new Function1&lt;Integer, Integer&gt;() {
+new $&lt;Integer&gt;(asList(1, 2, 3)).map(new Function1&lt;Integer, Integer&gt;() {
     public Integer apply(Integer item) {
         return item * 2;
     }
