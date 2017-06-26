@@ -150,6 +150,7 @@
                   <option>-keep public class com.github.underscore.MemoizeFunction1 { *; }</option>
                   <option>-keep public class com.github.underscore.Optional { *; }</option>
                   <option>-keep public class com.github.underscore.Predicate { *; }</option>
+                  <option>-keep public class com.github.underscore.PredicateIndexed { *; }</option>
                   <option>-keep public class com.github.underscore.Template { *; }</option>
                   <option>-keep public class com.github.underscore.Tuple { *; }</option>
                   <option>-keep public class com.github.underscore.UnaryOperator { *; }</option>

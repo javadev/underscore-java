@@ -506,6 +506,29 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     }
 
 /*
+var evens = _.filterIndexed([1, 2, 3, 4, 5, 6], function(index, num){ return index !== 1 && num % 2 == 0; });
+=> [4, 6]
+*/
+    @Test
+    public void filterIndexed() {
+        final List<Integer> result = $.filterIndexed(asList(1, 2, 3, 4, 5, 6),
+            new PredicateIndexed<Integer>() {
+            public boolean apply(int index, Integer item) {
+                return index != 1 && item % 2 == 0;
+            }
+        });
+        assertEquals("[4, 6]", result.toString());
+        final List<Integer> resultChain = $.chain(asList(1, 2, 3, 4, 5, 6))
+            .filterIndexed(
+            new PredicateIndexed<Integer>() {
+            public boolean apply(int index, Integer item) {
+                return index != 1 && item % 2 == 0;
+            }
+        }).value();
+        assertEquals("[4, 6]", resultChain.toString());
+    }
+
+/*
 var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 => [2, 4, 6]
 */
@@ -549,6 +572,29 @@ var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
             }
         });
         assertEquals("[1, 3, 5]", resultSet.toString());
+    }
+
+/*
+var evens = _.rejectIndexed([1, 2, 3, 4, 5, 6], function(index, num){ return index !== 1 && num % 2 == 0; });
+=> [1, 2, 3, 5]
+*/
+    @Test
+    public void rejectIndexed() {
+        final List<Integer> result = $.rejectIndexed(asList(1, 2, 3, 4, 5, 6),
+            new PredicateIndexed<Integer>() {
+            public boolean apply(int index, Integer item) {
+                return index != 1 && item % 2 == 0;
+            }
+        });
+        assertEquals("[1, 2, 3, 5]", result.toString());
+        final List<Integer> resultChain = $.chain(asList(1, 2, 3, 4, 5, 6))
+            .rejectIndexed(
+            new PredicateIndexed<Integer>() {
+            public boolean apply(int index, Integer item) {
+                return index != 1 && item % 2 == 0;
+            }
+        }).value();
+        assertEquals("[1, 2, 3, 5]", resultChain.toString());
     }
 
 /*

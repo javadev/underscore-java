@@ -27,6 +27,7 @@ import com.github.underscore.Block;
 import com.github.underscore.Function1;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
+import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import com.github.underscore.string.$.JsonStringBuilder;
 import com.github.underscore.string.$.XmlStringBuilder;
@@ -1979,8 +1980,12 @@ _.repeat('abc', 0);
             public Integer apply(Integer value) { return value; } });
         $.chain(new String[] {""}).filter(new Predicate<String>() {
             public Boolean apply(String str) { return true; } });
+        $.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
+            public boolean apply(int index, String str) { return true; } });
         $.chain(new String[] {""}).reject(new Predicate<String>() {
             public Boolean apply(String str) { return true; } });
+        $.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
+            public boolean apply(int index, String str) { return true; } });
         $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).reduceRight(new FunctionAccum<String, String>() {

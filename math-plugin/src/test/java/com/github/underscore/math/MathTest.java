@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015, 2016 Valentyn Kolesnikov
+ * Copyright 2015-2017 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import com.github.underscore.Block;
 import com.github.underscore.Function1;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
+import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -264,8 +265,12 @@ System.out.println("Sum of letters in words starting with E... " + sum);
             public Integer apply(Integer value) { return value; } });
         $.chain(new String[] {""}).filter(new Predicate<String>() {
             public Boolean apply(String str) { return true; } });
+        $.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
+            public boolean apply(int index, String str) { return true; } });
         $.chain(new String[] {""}).reject(new Predicate<String>() {
             public Boolean apply(String str) { return true; } });
+        $.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
+            public boolean apply(int index, String str) { return true; } });
         $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).reduceRight(new FunctionAccum<String, String>() {
