@@ -182,6 +182,12 @@ _.map([1, 2, 3], function(num){ return num * 3; });
             }
         });
         assertEquals("[3, 6, 9]", result.toString());
+        List<Integer> resultObject = new $<Integer>(asList(1, 2, 3)).map(new Function1<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return item * 3;
+            }
+        });
+        assertEquals("[3, 6, 9]", resultObject.toString());
     }
 
 /*
