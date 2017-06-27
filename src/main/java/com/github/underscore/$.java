@@ -320,6 +320,16 @@ public class $<T> {
         return filtered;
     }
 
+    public List<T> filter(final Predicate<T> pred) {
+        final List<T> filtered = newArrayList();
+        for (final T element : value()) {
+            if (pred.apply(element)) {
+                filtered.add(element);
+            }
+        }
+        return filtered;
+    }
+
     public static <E> List<E> filterIndexed(final List<E> list, final PredicateIndexed<E> pred) {
         final List<E> filtered = newArrayList();
         int index = 0;
@@ -354,6 +364,15 @@ public class $<T> {
         return filter(list, new Predicate<E>() {
             @Override
             public Boolean apply(E input) {
+                return !pred.apply(input);
+            }
+        });
+    }
+
+    public List<T> reject(final Predicate<T> pred) {
+        return filter(new Predicate<T>() {
+            @Override
+            public Boolean apply(T input) {
                 return !pred.apply(input);
             }
         });
