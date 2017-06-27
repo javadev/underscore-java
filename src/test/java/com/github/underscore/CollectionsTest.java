@@ -509,6 +509,13 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
             }
         });
         assertEquals("[2, 4, 6]", result.toString());
+        final List<Integer> resultObject = new $<Integer>(asList(1, 2, 3, 4, 5, 6))
+            .filter(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[2, 4, 6]", resultObject.toString());
     }
 
 /*
@@ -571,6 +578,13 @@ var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
             }
         });
         assertEquals("[1, 3, 5]", result.toString());
+        final List<Integer> resultObject = new $<Integer>(asList(1, 2, 3, 4, 5, 6))
+            .reject(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[1, 3, 5]", resultObject.toString());
         final Set<Integer> resultSet = $.reject(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
             new Predicate<Integer>() {
             public Boolean apply(Integer item) {
