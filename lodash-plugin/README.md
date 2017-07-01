@@ -19,7 +19,7 @@ Include the following in your `pom.xml` for Maven:
   <dependency>
     <groupId>com.github.javadev</groupId>
     <artifactId>underscore-lodash</artifactId>
-    <version>1.22</version>
+    <version>1.23</version>
   </dependency>
   ...
 </dependencies>
@@ -28,7 +28,7 @@ Include the following in your `pom.xml` for Maven:
 Gradle:
 
 ```groovy
-compile 'com.github.javadev:underscore-lodash:1.22'
+compile 'com.github.javadev:underscore-lodash:1.23'
 ```
 
 Underscore-lodash is a java port of [lodash.com](https://lodash.com/docs).
