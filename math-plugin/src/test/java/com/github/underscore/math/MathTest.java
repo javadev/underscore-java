@@ -35,6 +35,7 @@ import java.util.*;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Underscore library unit test.
@@ -228,6 +229,21 @@ System.out.println("Sum of letters in words starting with E... " + sum);
                    + " [orange, apple, orange],"
                    + " [apple, orange, orange],"
                    + " [orange, orange, orange]]", resultChain.toString());
+    }
+
+    @Test
+    public void createLRUCache() {
+        new $.LRUCache<Integer, String>(0);
+        $.LRUCache<Integer, String> cache = $.<Integer, String>createLRUCache(2);
+        cache.set(0, "Value 0");
+        assertEquals("Value 0", cache.get(0));
+        assertNull(cache.get(1));
+        cache.set(1, "Value 1");
+        assertEquals("Value 1", cache.get(1));
+        cache.set(1, "Value 1+");
+        assertEquals("Value 1+", cache.get(1));
+        cache.set(2, "Value 2");
+        assertEquals("Value 2", cache.get(2));
     }
 
     @SuppressWarnings("unchecked")

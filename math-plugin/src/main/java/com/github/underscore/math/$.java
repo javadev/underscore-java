@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015, 2016 Valentyn Kolesnikov
+ * Copyright 2015-2017 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -531,6 +531,87 @@ public class $<T> extends com.github.underscore.$<T> {
     @SuppressWarnings("unchecked")
     public List<List<T>> createPermutationWithRepetition(final int permutationLength) {
         return createPermutationWithRepetition((List<T>) value(), permutationLength);
+    }
+
+    public static class LRUCache<K, V> {
+        int capacity;
+        HashMap<K, Node<K, V>> map = new HashMap<K, Node<K, V>>();
+        Node head;
+        Node end;
+
+        public LRUCache(int capacity) {
+            this.capacity = capacity;
+        }
+
+        public V get(K key) {
+            if (map.containsKey(key)) {
+                Node<K, V> n = map.get(key);
+                remove(n);
+                setHead(n);
+                return n.value;
+            }
+            return null;
+        }
+
+        public void remove(Node n) {
+            if (n.pre != null) {
+                n.pre.next = n.next;
+            } else {
+                head = n.next;
+            }
+            if (n.next != null) {
+                n.next.pre = n.pre;
+            } else {
+                end = n.pre;
+            }
+        }
+
+        public void setHead(Node n) {
+            n.next = head;
+            n.pre = null;
+            if (head != null) {
+                head.pre = n;
+            }
+            head = n;
+            if (end == null) {
+                end = head;
+            }
+        }
+
+        public void set(K key, V value) {
+            if (map.containsKey(key)) {
+                Node<K, V> old = map.get(key);
+                old.value = value;
+                remove(old);
+                setHead(old);
+            } else {
+                Node<K, V> created = new Node<K, V>(key, value);
+                if (map.size() >= capacity) {
+                    map.remove(end.key);
+                    remove(end);
+                    setHead(created);
+                } else {
+                    setHead(created);
+                }
+                map.put(key, created);
+            }
+        }
+    }
+
+    static class Node<K, V> {
+        K key;
+        V value;
+        Node pre;
+        Node next;
+
+        public Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    public static <K, V> LRUCache<K, V> createLRUCache(int capacity) {
+        return new LRUCache<K, V>(capacity);
     }
 
     public static void main(String ... args) {

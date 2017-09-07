@@ -88,6 +88,7 @@
                   <option>-keepattributes Signature,InnerClasses</option>
                   <option>-keep public class com.github.underscore.math.$ { *; }</option>
                   <option>-keep public class com.github.underscore.math.*$Chain { *; }</option>
+                  <option>-keep public class com.github.underscore.math.*$LRUCache { *; }</option>
               </options>
               <libs>
                   <lib>${java.home}/lib/rt.jar</lib>
