@@ -7,6 +7,11 @@ jdk:
   - oraclejdk8
   - oraclejdk9
 
+addons:
+  apt:
+    packages:
+      - oracle-java9-installer
+
 script:
   - mvn clean install jacoco:report coveralls:report
   - mvn -f math-plugin/pom.xml clean package jacoco:report
