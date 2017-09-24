@@ -1,11 +1,10 @@
 language: java
-dist: trusty
+dist: precise
 
 jdk:
   - openjdk7
   - oraclejdk7
   - oraclejdk8
-  - oraclejdk9
 
 script:
   - mvn clean install jacoco:report coveralls:report
@@ -18,9 +17,6 @@ addons:
    hosts:
        - travis
    hostname: travis
-   apt:
-    packages:
-      - oracle-java9-installer
 
 before_script:
   - pip install --user codecov
@@ -28,4 +24,3 @@ before_script:
 after_success:
   - codecov
   - python <(curl -s https://raw.githubusercontent.com/TouK/sputnik-ci/master/sputnik-ci.py)
-  
