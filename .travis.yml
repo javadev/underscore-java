@@ -1,16 +1,13 @@
 language: java
+sudo: required
 dist: precise
+group: edge
 
 jdk:
   - openjdk7
   - oraclejdk7
   - oraclejdk8
   - oraclejdk9
-
-addons:
-  apt:
-    packages:
-      - oracle-java9-installer
 
 script:
   - mvn clean install jacoco:report coveralls:report
@@ -23,6 +20,9 @@ addons:
    hosts:
        - travis
    hostname: travis
+   apt:
+    packages:
+      - oracle-java9-installer
 
 before_script:
   - pip install --user codecov
