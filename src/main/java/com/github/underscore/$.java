@@ -396,6 +396,18 @@ public class $<T> {
         });
     }
 
+    public static <E> List<E> filterFalse(final List<E> list, final Predicate<E> pred) {
+        return reject(list, pred);
+    }
+
+    public List<T> filterFalse(final Predicate<T> pred) {
+        return reject(pred);
+    }
+
+    public static <E> Set<E> filterFalse(final Set<E> set, final Predicate<E> pred) {
+        return reject(set, pred);
+    }
+
     public static <E> boolean every(final Iterable<E> iterable, final Predicate<E> pred) {
         return !find(iterable, new Predicate<E>() {
             @Override
@@ -2063,6 +2075,10 @@ public class $<T> {
 
         public Chain<T> rejectIndexed(final PredicateIndexed<T> pred) {
             return new Chain<T>($.rejectIndexed(list, pred));
+        }
+
+        public Chain<T> filterFalse(final Predicate<T> pred) {
+            return new Chain<T>($.reject(list, pred));
         }
 
         public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {

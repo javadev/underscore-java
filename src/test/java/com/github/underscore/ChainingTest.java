@@ -442,6 +442,28 @@ var sum = _(words)
     }
 
     @Test
+    @SuppressWarnings("unchecked")
+    public void chain9() {
+        final List<Comparable> result = $.chain($.chain($.class.getDeclaredMethods())
+            .reduce(new FunctionAccum<List<String>, Method>() {
+                public List<String> apply(final List<String> accum, final Method method) {
+                    accum.add(method.getName());
+                    return accum;
+                }
+            }, new ArrayList<String>()).item())
+            .filterFalse(new Predicate<String>() {
+                public Boolean apply(final String name) {
+                    return name.contains("$");
+                }
+            })
+            .uniq()
+            .sort()
+            .first(4)
+            .value();
+        assertEquals(4, result.size());
+    }
+
+    @Test
     public void chainToMap() {
         assertEquals("{name1=one, name2=two}", $.chain((new LinkedHashMap<String, String>() { {
             put("name1", "one");

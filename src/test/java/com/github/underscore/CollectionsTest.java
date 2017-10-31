@@ -519,6 +519,36 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     }
 
 /*
+var evens = _.filterFalse([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+=> [1, 3, 5]
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void filterFalse() {
+        final List<Integer> result = $.filterFalse(asList(1, 2, 3, 4, 5, 6),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[1, 3, 5]", result.toString());
+        final List<Integer> resultObject = new $<Integer>(asList(1, 2, 3, 4, 5, 6))
+            .filterFalse(new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[1, 3, 5]", resultObject.toString());
+        final Set<Integer> resultSet = $.filterFalse(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
+            new Predicate<Integer>() {
+            public Boolean apply(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[1, 3, 5]", resultSet.toString());
+    }
+
+/*
 var evens = _.filterIndexed([1, 2, 3, 4, 5, 6], function(index, num){ return index !== 1 && num % 2 == 0; });
 => [4, 6]
 */
