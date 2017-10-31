@@ -612,6 +612,8 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             public Boolean apply(String str) { return true; } });
         $.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
             public boolean apply(int index, String str) { return true; } });
+        $.chain(new String[] {""}).filterFalse(new Predicate<String>() {
+            public Boolean apply(String str) { return true; } });
         $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).reduceRight(new FunctionAccum<String, String>() {

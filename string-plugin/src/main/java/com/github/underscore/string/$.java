@@ -168,6 +168,10 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.reject(value(), pred));
         }
 
+        public Chain<T> filterFalse(final Predicate<T> pred) {
+            return new Chain<T>($.filterFalse(value(), pred));
+        }
+
         public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {
             return new Chain<F>($.reduce(value(), func, zeroElem));
         }
