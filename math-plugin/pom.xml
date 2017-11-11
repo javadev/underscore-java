@@ -89,6 +89,10 @@
                   <option>-keep public class com.github.underscore.math.$ { *; }</option>
                   <option>-keep public class com.github.underscore.math.*$Chain { *; }</option>
                   <option>-keep public class com.github.underscore.math.*$LRUCache { *; }</option>
+                  <option>-keep public class com.github.underscore.math.*$Node { *; }</option>
+                  <option>-keep public class com.github.underscore.math.Directory { *; }</option>
+                  <option>-keep public class com.github.underscore.math.Entry { *; }</option>
+                  <option>-keep public class com.github.underscore.math.File { *; }</option>
               </options>
               <libs>
                   <lib>${java.home}/lib/rt.jar</lib>
