@@ -602,7 +602,7 @@ public class $<T> extends com.github.underscore.$<T> {
         }
     }
 
-    static class Node<K, V> {
+    public static class Node<K, V> {
         K key;
         V value;
         Node pre;
