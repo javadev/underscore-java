@@ -246,6 +246,21 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         assertEquals("Value 2", cache.get(2));
     }
 
+    @Test
+    public void findByName() {
+        File file = new File("name", null, 0L);
+        assertEquals(1, $.findByName(file, "name").size());
+        assertEquals(0, $.findByName(file, "name1").size());
+        Directory directory = new Directory("name", null);
+        directory.addEntry(file);
+        assertEquals(1, $.findByName(directory, "name").size());
+        Directory directory2 = new Directory("name", null);
+        directory2.addEntry(file);
+        directory.addEntry(directory2);
+        assertEquals(2, $.findByName(directory, "name").size());
+        assertEquals(0, $.findByName(directory, "name1").size());
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void main() {
