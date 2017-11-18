@@ -538,10 +538,10 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class LRUCache<K, V> {
-        int capacity;
-        HashMap<K, Node<K, V>> map = new HashMap<K, Node<K, V>>();
-        Node head;
-        Node end;
+        private int capacity;
+        private Map<K, Node<K, V>> map = new HashMap<K, Node<K, V>>();
+        private Node head;
+        private Node end;
 
         public LRUCache(int capacity) {
             this.capacity = capacity;
@@ -614,8 +614,30 @@ public class $<T> extends com.github.underscore.$<T> {
         }
     }
 
-    public static <K, V> LRUCache<K, V> createLRUCache(int capacity) {
+    public static <K, V> LRUCache<K, V> createLRUCache(final int capacity) {
         return new LRUCache<K, V>(capacity);
+    }
+
+    public static List<Entry> findByName(final Entry entry, final String name) {
+        final List<Entry> result = new ArrayList<Entry>();
+        final Queue<Entry> allFiles = new LinkedList<Entry>();
+        allFiles.add(entry);
+        while (!allFiles.isEmpty()) {
+            final Entry localEntry = allFiles.poll();
+            if (localEntry instanceof Directory) {
+                final List<Entry> files = ((Directory) localEntry).getContents();
+                for (final Entry innerFile : files) {
+                    if (innerFile instanceof Directory) {
+                        allFiles.add(innerFile);
+                    } else if (innerFile.getName().equals(name)) {
+                        result.add(innerFile);
+                    }
+                }
+            } else if (localEntry.getName().equals(name)) {
+                result.add(localEntry);
+            }
+        }
+        return result;
     }
 
     public static void main(String ... args) {
