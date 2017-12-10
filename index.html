@@ -1031,17 +1031,6 @@ $.result(object.entrySet(), new Predicate&lt;Map.Entry&lt;String, Object&gt;&gt;
     }
 });
 =&gt; "nonsense"</pre><p></p>
-<p id="times"><b class="header">times</b> <code>$.times(n, iterator)
-</code><br>Invokes the given iterator function n
-times.<br></p><pre>final List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
-$.times(3, new Function&lt;Integer&gt;() {
-    public Integer apply() {
-        result.add(1);
-        return null;
-    }
-});
-=&gt; [1, 1, 1]
-</pre><p></p>
 
  <h2
 id="Chaining">Chaining</h2>
