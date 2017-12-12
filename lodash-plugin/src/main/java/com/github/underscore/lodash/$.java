@@ -2534,7 +2534,7 @@ public class $<T> extends com.github.underscore.$<T> {
                 javax.xml.parsers.DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
             final org.w3c.dom.Document document = factory.newDocumentBuilder().parse(stream);
-            return createMap(document.getDocumentElement());
+            return createMap(document);
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }

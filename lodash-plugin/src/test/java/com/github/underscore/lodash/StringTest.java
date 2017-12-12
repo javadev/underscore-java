@@ -1331,6 +1331,91 @@ _.repeat('abc', 0);
     @Test
     public void fromXml() {
         String string =
+        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+        + "\n"
+        + "\n<root>"
+        + "\n<Details>"
+        + "\n    <detail-a>"
+        + "\n"
+        + "\n        <detail> attribute 1 of detail a </detail>"
+        + "\n        <detail> attribute 2 of detail a </detail>"
+        + "\n        <detail> attribute 3 of detail a </detail>"
+        + "\n"
+        + "\n    </detail-a>"
+        + "\n"
+        + "\n    <detail-b>"
+        + "\n        <detail> attribute 1 of detail b </detail>"
+        + "\n        <detail> attribute 2 of detail b </detail>"
+        + "\n"
+        + "\n    </detail-b>"
+        + "\n"
+        + "\n"
+        + "\n</Details>"
+        + "\n</root>";
+        assertEquals(
+        "{"
+        + "\n  \"root\": {"
+        + "\n    \"Details\": {"
+        + "\n      \"detail-a\": {"
+        + "\n        \"detail\": ["
+        + "\n          \" attribute 1 of detail a \","
+        + "\n          \" attribute 2 of detail a \","
+        + "\n          \" attribute 3 of detail a \""
+        + "\n        ]"
+        + "\n      },"
+        + "\n      \"detail-b\": {"
+        + "\n        \"detail\": ["
+        + "\n          \" attribute 1 of detail b \","
+        + "\n          \" attribute 2 of detail b \""
+        + "\n        ]"
+        + "\n      }"
+        + "\n    }"
+        + "\n  }"
+        + "\n}",
+            $.toJson((Map<String, Object>) $.fromXml(string)));
+        assertEquals(
+        "{"
+        + "\n  \"root\": {"
+        + "\n    \"Details\": {"
+        + "\n      \"detail-a\": {"
+        + "\n        \"detail\": ["
+        + "\n          \" attribute 1 of detail a \","
+        + "\n          \" attribute 2 of detail a \","
+        + "\n          \" attribute 3 of detail a \""
+        + "\n        ]"
+        + "\n      },"
+        + "\n      \"detail-b\": {"
+        + "\n        \"detail\": ["
+        + "\n          \" attribute 1 of detail b \","
+        + "\n          \" attribute 2 of detail b \""
+        + "\n        ]"
+        + "\n      }"
+        + "\n    }"
+        + "\n  }"
+        + "\n}",
+            $.toJson((Map<String, Object>) new $(string).fromXml()));
+        assertEquals(
+        "{"
+        + "\n  \"root\": {"
+        + "\n    \"Details\": {"
+        + "\n      \"detail-a\": {"
+        + "\n        \"detail\": ["
+        + "\n          \" attribute 1 of detail a \","
+        + "\n          \" attribute 2 of detail a \","
+        + "\n          \" attribute 3 of detail a \""
+        + "\n        ]"
+        + "\n      },"
+        + "\n      \"detail-b\": {"
+        + "\n        \"detail\": ["
+        + "\n          \" attribute 1 of detail b \","
+        + "\n          \" attribute 2 of detail b \""
+        + "\n        ]"
+        + "\n      }"
+        + "\n    }"
+        + "\n  }"
+        + "\n}",
+            $.toJson((Map<String, Object>) $.chain(string).fromXml().item()));
+        String stringXml =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         + "\n<root>"
         + "\n  <glossary>"
@@ -1357,76 +1442,7 @@ _.repeat('abc', 0);
         + "\n    </GlossDiv>"
         + "\n  </glossary>"
         + "\n</root>";
-        assertEquals("{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
-        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
-        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
-        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
-        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
-        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
-        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}",
-            $.toJson((Map<String, Object>) $.fromXml(string)));
-        assertEquals("{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
-        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
-        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
-        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
-        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
-        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
-        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}",
-            $.toJson((Map<String, Object>) new $(string).fromXml()));
-        assertEquals("{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
-        + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
-        + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
-        + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
-        + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
-        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
-        + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}",
-            $.toJson((Map<String, Object>) $.chain(string).fromXml().item()));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void fromXml2() {
-        String string =
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-        + "\n"
-        + "\n<root>"
-        + "\n<Details>"
-        + "\n    <detail-a>"
-        + "\n"
-        + "\n        <detail> attribute 1 of detail a </detail>"
-        + "\n        <detail> attribute 2 of detail a </detail>"
-        + "\n        <detail> attribute 3 of detail a </detail>"
-        + "\n"
-        + "\n    </detail-a>"
-        + "\n"
-        + "\n    <detail-b>"
-        + "\n        <detail> attribute 1 of detail b </detail>"
-        + "\n        <detail> attribute 2 of detail b </detail>"
-        + "\n"
-        + "\n    </detail-b>"
-        + "\n"
-        + "\n"
-        + "\n</Details>"
-        + "\n</root>";
-        assertEquals(
-        "{"
-        + "\n  \"Details\": {"
-        + "\n    \"detail-a\": {"
-        + "\n      \"detail\": ["
-        + "\n        \" attribute 1 of detail a \","
-        + "\n        \" attribute 2 of detail a \","
-        + "\n        \" attribute 3 of detail a \""
-        + "\n      ]"
-        + "\n    },"
-        + "\n    \"detail-b\": {"
-        + "\n      \"detail\": ["
-        + "\n        \" attribute 1 of detail b \","
-        + "\n        \" attribute 2 of detail b \""
-        + "\n      ]"
-        + "\n    }"
-        + "\n  }"
-        + "\n}",
-            $.toJson((Map<String, Object>) $.fromXml(string)));
+        $.fromXml(stringXml);
     }
 
     @Test(expected = IllegalArgumentException.class)
