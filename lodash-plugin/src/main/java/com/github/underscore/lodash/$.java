@@ -1711,12 +1711,17 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class XmlStringBuilder {
-        private final StringBuilder builder;
+        protected final StringBuilder builder;
         private int ident;
 
         public XmlStringBuilder() {
             builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
             ident = 2;
+        }
+
+        public XmlStringBuilder(StringBuilder builder, int ident) {
+            this.builder = builder;
+            this.ident = ident;
         }
 
         public XmlStringBuilder append(final String string) {
@@ -1748,6 +1753,16 @@ public class $<T> extends com.github.underscore.$<T> {
 
         public String toString() {
             return builder.toString() + "\n</root>";
+        }
+    }
+
+    public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
+        public XmlStringBuilderWithoutRoot() {
+            super(new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"), 0);
+        }
+
+        public String toString() {
+            return builder.toString();
         }
     }
 
@@ -2101,7 +2116,12 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static String toXml(Map map) {
-        final XmlStringBuilder builder = new XmlStringBuilder();
+        final XmlStringBuilder builder;
+        if (map != null && map.size() == 1) {
+            builder = new XmlStringBuilderWithoutRoot();
+        } else {
+            builder = new XmlStringBuilder();
+        }
 
         XmlObject.writeXml(map, builder);
         return builder.toString();
