@@ -210,6 +210,32 @@ _.elementAt(arr, 1) // => 2
 
 /*
 var arr = [ 1, 2, 3 ]
+_.get(arr, 1) // => 2
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void get() {
+        assertEquals(2, $.<Integer>get(asList(1, 2, 3), 1).intValue());
+        assertEquals(2, new $<Integer>(asList(1, 2, 3)).get(1).intValue());
+    }
+
+/*
+var arr = [ 1, 2, 3 ]
+_.set(arr, 1, 100) // => 2
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void set() {
+        Tuple<Integer, List<Integer>> result = $.<Integer>set(asList(1, 2, 3), 1, 100);
+        assertEquals(2, result.fst().intValue());
+        assertEquals(100, $.<Integer>get(result.snd(), 1).intValue());
+        Tuple<Integer, List<Integer>> result2 = new $<Integer>(asList(1, 2, 3)).set(2, 200);
+        assertEquals(3, result2.fst().intValue());
+        assertEquals(200, result2.snd().get(2).intValue());
+    }
+
+/*
+var arr = [ 1, 2, 3 ]
 _.elementAt(arr, 3) // => IndexOutOfBoundsException
 */
     @Test(expected = IndexOutOfBoundsException.class)

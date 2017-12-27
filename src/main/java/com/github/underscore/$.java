@@ -2604,6 +2604,25 @@ public class $<T> {
         return elementAt((List<T>) value(), index);
     }
 
+    public static <T> T get(final List<T> list, final int index) {
+        return elementAt(list, index);
+    }
+
+    @SuppressWarnings("unchecked")
+    public T get(final int index) {
+        return elementAt((List<T>) value(), index);
+    }
+
+    public static <T> Tuple<T, List<T>> set(final List<T> list, final int index, final T value) {
+        final List<T> newList = newArrayList(list);
+        return Tuple.create(newList.set(index, value), newList);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Tuple<T, List<T>> set(final int index, final T value) {
+        return set((List<T>) value(), index, value);
+    }
+
     public static <T> T elementAtOrElse(final List<T> list, final int index, T defaultValue) {
         try {
             return list.get(index);
