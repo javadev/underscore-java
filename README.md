@@ -6,7 +6,7 @@ underscore-java
 [![Build Status](https://secure.travis-ci.org/javadev/underscore-java.svg)](https://travis-ci.org/javadev/underscore-java)
 [![Coverage Status](https://coveralls.io/repos/javadev/underscore-java/badge.svg?branch=master)](https://coveralls.io/r/javadev/underscore-java)
 [![codecov.io](http://codecov.io/github/javadev/underscore-java/coverage.svg?branch=master)](http://codecov.io/github/javadev/underscore-java?branch=master)
-[![Circle CI](https://circleci.com/gh/javadev/underscore-java.svg?style=badge)](https://circleci.com/gh/javadev/underscore-java)
+[![CircleCI](https://circleci.com/gh/javadev/underscore-java.svg?style=svg)](https://circleci.com/gh/javadev/underscore-java)
 [![Codeship Status for javadev/underscore-java](https://codeship.com/projects/c989fef0-f3ab-0132-7ca5-16cf317d1634/status?branch=master)](https://codeship.com/projects/85467)
 [![wercker status](https://app.wercker.com/status/d1130226089a5bd54d205e1901cbef3b/s "wercker status")](https://app.wercker.com/project/bykey/d1130226089a5bd54d205e1901cbef3b)
 [![Vexor status](https://ci.vexor.io/projects/c425aac1-1b21-4486-ac44-29a97abfb814/status.svg)](https://ci.vexor.io/ui/projects/c425aac1-1b21-4486-ac44-29a97abfb814/builds)
