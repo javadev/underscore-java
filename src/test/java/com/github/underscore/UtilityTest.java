@@ -258,6 +258,14 @@ template({value: '<script>'});
                 put("name", "moe"); put("value", "<script>"); } }));
     }
 
+    @Test
+    public void templateCheck() {
+        Template<Map<String, Object>> compiled = $.template("hello: <%= name %>");
+        assertTrue(compiled.check(new LinkedHashMap<String, Object>() { {
+            put("name", "moe"); } }).isEmpty());
+        assertEquals("name2", compiled.check(new LinkedHashMap<String, Object>() { {
+            put("name2", "moe"); } }).get(0));
+    }
 /*
 var fortmatted = _.format("hello: {}", "moe");
 => "hello: moe"
