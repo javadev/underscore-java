@@ -1316,6 +1316,20 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson() {
+        final String json = "{\n"
+            + "  \"root\": {\n"
+            + "    \"FirstItem\": \"1\",\n"
+            + "    \"SecondItem\": \"2\"\n"
+            + "  }\n"
+            + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
+            + "  <FirstItem>1</FirstItem>\n  <SecondItem>2</SecondItem>\n</root>",
+            $.toXml((Map<String, Object>) $.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
