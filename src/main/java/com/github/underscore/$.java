@@ -129,6 +129,33 @@ public class $<T> {
             }
             return result;
         }
+
+        @Override
+        public List<String> check(Map<K, V> value) {
+            final String evaluate = TEMPLATE_SETTINGS.get("evaluate");
+            final String interpolate = TEMPLATE_SETTINGS.get("interpolate");
+            final String escape = TEMPLATE_SETTINGS.get("escape");
+            String result = template;
+            final List<String> notFound = new ArrayList<String>();
+            for (final Map.Entry<K, V> element : value.entrySet()) {
+                java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
+                    "\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*")).matcher(result);
+                boolean isFound = matcher.find();
+                result = matcher.replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                matcher = java.util.regex.Pattern.compile(escape.replace(ALL_SYMBOLS,
+                    "\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*")).matcher(result);
+                isFound |= matcher.find();
+                result = matcher.replaceAll(escape(String.valueOf(((Map.Entry) element).getValue())));
+                matcher = java.util.regex.Pattern.compile(evaluate.replace(ALL_SYMBOLS,
+                    "\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*")).matcher(result);
+                isFound |= matcher.find();
+                result = matcher.replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                if (!isFound) {
+                    notFound.add("" + ((Map.Entry) element).getKey());
+                }
+            }
+            return notFound;
+        }
     }
 
     private static final class MyIterable<T> implements Iterable<T> {
