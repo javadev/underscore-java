@@ -137,23 +137,42 @@ public class $<T> {
             final String escape = TEMPLATE_SETTINGS.get("escape");
             String result = template;
             final List<String> notFound = new ArrayList<String>();
+            final List<String> valueKeys = new ArrayList<String>();
             for (final Map.Entry<K, V> element : value.entrySet()) {
+                final String key = "" + ((Map.Entry) element).getKey();
                 java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*")).matcher(result);
+                    "\\s*\\Q" + key + "\\E\\s*")).matcher(result);
                 boolean isFound = matcher.find();
                 result = matcher.replaceAll(String.valueOf(((Map.Entry) element).getValue()));
                 matcher = java.util.regex.Pattern.compile(escape.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*")).matcher(result);
+                    "\\s*\\Q" + key + "\\E\\s*")).matcher(result);
                 isFound |= matcher.find();
                 result = matcher.replaceAll(escape(String.valueOf(((Map.Entry) element).getValue())));
                 matcher = java.util.regex.Pattern.compile(evaluate.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + ((Map.Entry) element).getKey() + "\\E\\s*")).matcher(result);
+                    "\\s*\\Q" + key + "\\E\\s*")).matcher(result);
                 isFound |= matcher.find();
                 result = matcher.replaceAll(String.valueOf(((Map.Entry) element).getValue()));
                 if (!isFound) {
-                    notFound.add("" + ((Map.Entry) element).getKey());
+                    notFound.add(key);
                 }
+                valueKeys.add(key);
             }
+            final List<String> templateVars = new ArrayList<String>();
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(interpolate).matcher(result);
+            while (matcher.find()) {
+                templateVars.add(matcher.group(1).trim());
+            }
+            result = matcher.replaceAll("");
+            matcher = java.util.regex.Pattern.compile(escape).matcher(result);
+            while (matcher.find()) {
+                templateVars.add(matcher.group(1).trim());
+            }
+            result = matcher.replaceAll("");
+            matcher = java.util.regex.Pattern.compile(evaluate).matcher(result);
+            while (matcher.find()) {
+                templateVars.add(matcher.group(1).trim());
+            }
+            notFound.addAll(difference(templateVars, valueKeys));
             return notFound;
         }
     }

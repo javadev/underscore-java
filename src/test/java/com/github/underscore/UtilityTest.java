@@ -266,6 +266,20 @@ template({value: '<script>'});
         assertEquals("name2", compiled.check(new LinkedHashMap<String, Object>() { {
             put("name2", "moe"); } }).get(0));
     }
+
+    @Test
+    public void templateCheck2() {
+        Template<Map<String, Object>> compiled = $.template("hello: <%= name %> <%= name2 %>");
+        assertEquals("name2", compiled.check(new LinkedHashMap<String, Object>() { {
+            put("name", "moe"); } }).get(0));
+        Template<Map<String, Object>> compiled2 = $.template("hello: <%- name %> <%- name2 %>");
+        assertEquals("name2", compiled2.check(new LinkedHashMap<String, Object>() { {
+            put("name", "moe"); } }).get(0));
+        Template<Map<String, Object>> compiled3 = $.template("hello: <% name %> <% name2 %>");
+        assertEquals("name2", compiled3.check(new LinkedHashMap<String, Object>() { {
+            put("name", "moe"); } }).get(0));
+    }
+
 /*
 var fortmatted = _.format("hello: {}", "moe");
 => "hello: moe"
