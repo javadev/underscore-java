@@ -56,7 +56,7 @@ stooge === _.constant(stooge)();
     @Test
     public void constant() {
         Map<String, String> object = new LinkedHashMap<String, String>() { { put("name", "moe"); } };
-        assertEquals(object, $.constant(object).apply());
+        assertEquals(object, $.constant(object).get());
     }
 
 /*
@@ -145,8 +145,8 @@ _.times(3, function(n){ genie.grantWishNumber(n); });
     @Test
     public void times() {
         final List<Integer> result = new ArrayList<Integer>();
-        $.times(3, new Function<Integer>() {
-            public Integer apply() {
+        $.times(3, new Supplier<Integer>() {
+            public Integer get() {
                 result.add(1);
                 return null;
             }
@@ -166,7 +166,7 @@ _("fabio").capitalize();
     @Test
     @SuppressWarnings("unchecked")
     public void mixin() {
-        $.mixin("capitalize", new Function1<String, String>() {
+        $.mixin("capitalize", new Function<String, String>() {
             public String apply(final String string) {
                 return String.valueOf(string.charAt(0)).toUpperCase() + string.substring(1).toLowerCase();
             }
@@ -307,27 +307,27 @@ _.result(object, 'stuff');
     public void result() {
         Map<String, Object> object = new LinkedHashMap<String, Object>() { {
             put("cheese", "crumpets");
-            put("stuff", new Function<String>() { public String apply() {
+            put("stuff", new Supplier<String>() { public String get() {
                 return "nonsense"; } });
         } };
 
         assertEquals("crumpets", $.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
-            public Boolean apply(Map.Entry<String, Object> item) {
+            public boolean test(Map.Entry<String, Object> item) {
                 return item.getKey().equals("cheese");
             }
         }));
         assertEquals("nonsense", $.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
-            public Boolean apply(Map.Entry<String, Object> item) {
+            public boolean test(Map.Entry<String, Object> item) {
                 return item.getKey().equals("stuff");
             }
         }));
         assertEquals("result1", $.result(asList("result1", "result2"), new Predicate<String>() {
-            public Boolean apply(String item) {
+            public boolean test(String item) {
                 return item.equals("result1");
             }
         }));
         assertEquals(null, $.result(asList("result1", "result2"), new Predicate<String>() {
-            public Boolean apply(String item) {
+            public boolean test(String item) {
                 return item.equals("result3");
             }
         }));

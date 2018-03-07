@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2016 Valentyn Kolesnikov
+ * Copyright 2016-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,8 @@
  */
 package com.github.underscore.lodash;
 
-import com.github.underscore.Block;
-import com.github.underscore.Function1;
+import com.github.underscore.Consumer;
+import com.github.underscore.Function;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
@@ -121,17 +121,17 @@ _.dropWhile([1, 2, 3], function(n) {
     @Test
     public void dropWhile() {
         assertEquals("[3]", $.dropWhile(asList(1, 2, 3), new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n < 3;
             }
         }).toString());
         assertEquals("[3]", new $(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n < 3;
             }
         }).toString());
         assertEquals("[3]", $.chain(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n < 3;
             }
         }).value().toString());
@@ -147,17 +147,17 @@ _.dropRightWhile([1, 2, 3], function(n) {
     @Test
     public void dropRightWhile() {
         assertEquals("[1, 2]", $.dropRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n > 2;
             }
         }).toString());
         assertEquals("[1, 2]", new $(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n > 2;
             }
         }).toString());
         assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n > 2;
             }
         }).value().toString());
@@ -280,7 +280,7 @@ console.log(evens);
     public void remove() {
         List<Integer> array = new ArrayList<Integer>(asList(1, 2, 3, 4));
         List<Integer> evens = $.remove(array, new Predicate<Integer>() {
-            public Boolean apply(final Integer n) {
+            public boolean test(final Integer n) {
                 return n % 2 == 0;
             }
         });
@@ -288,7 +288,7 @@ console.log(evens);
         assertEquals("[2, 4]", evens.toString());
         array = new ArrayList<Integer>(asList(1, 2, 3, 4));
         evens = new $(array).remove(new Predicate<Integer>() {
-            public Boolean apply(final Integer n) {
+            public boolean test(final Integer n) {
                 return n % 2 == 0;
             }
         });
@@ -296,7 +296,7 @@ console.log(evens);
         assertEquals("[2, 4]", evens.toString());
         array = new ArrayList<Integer>(asList(1, 2, 3, 4));
         evens = $.chain(array).remove(new Predicate<Integer>() {
-            public Boolean apply(final Integer n) {
+            public boolean test(final Integer n) {
                 return n % 2 == 0;
             }
         }).value();
@@ -366,17 +366,17 @@ _.takeWhile([1, 2, 3], function(n) {
     @Test
     public void takeWhile() {
         assertEquals("[1, 2]", $.takeWhile(asList(1, 2, 3), new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n < 3;
             }
         }).toString());
         assertEquals("[1, 2]", new $(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n < 3;
             }
         }).toString());
         assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n < 3;
             }
         }).value().toString());
@@ -392,17 +392,17 @@ _.takeRightWhile([1, 2, 3], function(n) {
     @Test
     public void takeRightWhile() {
         assertEquals("[2, 3]", $.takeRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n > 1;
             }
         }).toString());
         assertEquals("[2, 3]", new $(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n > 1;
             }
         }).toString());
         assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
-            public Boolean apply(Integer n) {
+            public boolean test(Integer n) {
                 return n > 1;
             }
         }).value().toString());
@@ -589,73 +589,73 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         $.chain(new String[] {""}).first(1);
         $.chain(new String[] {""}).firstOrNull();
         $.chain(new String[] {""}).firstOrNull(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).initial();
         $.chain(new String[] {""}).initial(1);
         $.chain(new String[] {""}).last();
         $.chain(new String[] {""}).last(1);
         $.chain(new String[] {""}).lastOrNull();
         $.chain(new String[] {""}).lastOrNull(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).rest();
         $.chain(new String[] {""}).rest(1);
         $.chain(new String[] {""}).compact();
         $.chain(new String[] {""}).compact("1");
         $.chain(new String[] {""}).flatten();
-        $.chain(new Integer[] {0}).map(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new String[] {""}).filter(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
-            public boolean apply(int index, String str) { return true; } });
+            public boolean test(int index, String str) { return true; } });
         $.chain(new String[] {""}).reject(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
-            public boolean apply(int index, String str) { return true; } });
+            public boolean test(int index, String str) { return true; } });
         $.chain(new String[] {""}).filterFalse(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).reduceRight(new FunctionAccum<String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).find(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).findLast(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new Integer[] {0}).max();
-        $.chain(new Integer[] {0}).max(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).max(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).min();
-        $.chain(new Integer[] {0}).min(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).min(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).sort();
         $.chain(new Integer[] {0}).sortWith(new Comparator<Integer>() {
             public int compare(Integer value1, Integer value2) { return value1; } });
-        $.chain(new Integer[] {0}).sortBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).sortBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
-        $.chain(new Integer[] {0}).groupBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).indexBy("");
-        $.chain(new Integer[] {0}).countBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).shuffle();
         $.chain(new Integer[] {0}).sample();
         $.chain(new Integer[] {0}).sample(1);
         $.chain(new int[] {0}).value();
-        $.chain(new String[] {""}).tap(new Block<String>() {
-            public void apply(String str) {
+        $.chain(new String[] {""}).tap(new Consumer<String>() {
+            public void accept(String str) {
             } });
-        $.chain(new String[] {""}).forEach(new Block<String>() {
-            public void apply(String str) {
+        $.chain(new String[] {""}).forEach(new Consumer<String>() {
+            public void accept(String str) {
             } });
-        $.chain(new String[] {""}).forEachRight(new Block<String>() {
-            public void apply(String str) {
+        $.chain(new String[] {""}).forEachRight(new Consumer<String>() {
+            public void accept(String str) {
             } });
         $.chain(new String[] {""}).every(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).some(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).contains("");
         $.chain(new String[] {""}).invoke("toString", Collections.emptyList());
         $.chain(new String[] {""}).invoke("toString");
@@ -663,10 +663,10 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         $.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
         $.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
         $.chain(new Integer[] {0}).uniq();
-        $.chain(new Integer[] {0}).uniq(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).uniq(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).distinct();
-        $.chain(new Integer[] {0}).distinctBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).distinctBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new String[] {""}).union();
         $.chain(new String[] {""}).intersection();
@@ -755,7 +755,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             (Map<String, Object>) $.fromJson(json), "from_excel");
         assertEquals("[{solution=Fisrt, num=1}, {solution=Second, num=2}, {solution=third, num=3}, "
             + "{solution=fourth, num=4}, {solution=fifth, num=5}]", fromExcelData.toString());
-        List<String> solutions = $.map(fromExcelData, new Function1<Map<String, Object>, String>() {
+        List<String> solutions = $.map(fromExcelData, new Function<Map<String, Object>, String>() {
             public String apply(Map<String, Object> item) {
                 return (String) item.get("solution");
             }

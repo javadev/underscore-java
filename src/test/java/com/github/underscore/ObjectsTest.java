@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2015-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -119,7 +119,7 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
         assertEquals("[(name, moe), (age, 50)]", result.toString());
         final List<Tuple<String, Object>> result2 = $.pick(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
-            new Predicate<Object>() { public Boolean apply(Object value) {
+            new Predicate<Object>() { public boolean test(Object value) {
                 return value instanceof Number; } }
         );
         assertEquals("[(age, 50)]", result2.toString());
@@ -142,7 +142,7 @@ _.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
         assertEquals("[(name, moe), (age, 50)]", result.toString());
         final List<Tuple<String, Object>> result2 = $.omit(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
-            new Predicate<Object>() { public Boolean apply(Object value) {
+            new Predicate<Object>() { public boolean test(Object value) {
                 return value instanceof Number; } }
         );
         assertEquals("[(name, moe), (userid, moe1)]", result2.toString());
@@ -302,7 +302,7 @@ _.isFunction(alert);
 */
     @Test
     public void isFunction() {
-        assertTrue($.isFunction(new Function1<String, Integer>() {
+        assertTrue($.isFunction(new Function<String, Integer>() {
             public Integer apply(final String arg) {
                 return null; } }));
     }
@@ -365,16 +365,16 @@ _.chain([1,2,3,200])
     public void tap() {
         final List<Map.Entry<String, Integer>> result = new ArrayList<Map.Entry<String, Integer>>();
         $.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),
-            new Block<Map.Entry<String, Integer>>() {
-                public void apply(final Map.Entry<String, Integer> item) {
+            new Consumer<Map.Entry<String, Integer>>() {
+                public void accept(final Map.Entry<String, Integer> item) {
                     result.add(item);
                 }
             });
         assertEquals("[a=1, b=2, c=3]", result.toString());
         final List<Map.Entry<String, Integer>> resultChain = new ArrayList<Map.Entry<String, Integer>>();
         $.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
-            .tap(new Block<Map.Entry<String, Integer>>() {
-                public void apply(final Map.Entry<String, Integer> item) {
+            .tap(new Consumer<Map.Entry<String, Integer>>() {
+                public void accept(final Map.Entry<String, Integer> item) {
                     resultChain.add(item);
                 }
             });
@@ -435,19 +435,19 @@ _.findKey([1, 2, 3], function(item) {return item % 2  === 0; });
     @Test
     public void findKey() {
         final Integer result = $.findKey(asList(1, 2, 3), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(2, result.intValue());
         final Integer resultNotFound = $.findKey(asList(1, 2, 3), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item > 3;
             }
         });
         assertNull(resultNotFound);
         final Integer resultArray = $.findKey(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
@@ -461,19 +461,19 @@ _.findLastKey([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
     @Test
     public void findLastKey() {
         final Integer result = $.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(4, result.intValue());
         final Integer resultNotFound = $.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item > 5;
             }
         });
         assertNull(resultNotFound);
         final Integer resultArray = $.findLastKey(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
@@ -500,7 +500,7 @@ _.mapObject({start: 5, end: 12}, function(val, key) {
     @Test
     public void mapObject() {
         List<Tuple<String, Integer>> result = $.mapObject(new LinkedHashMap<String, Integer>() { {
-            put("start", 5); put("end", 12); } }, new Function1<Integer, Integer>() {
+            put("start", 5); put("end", 12); } }, new Function<Integer, Integer>() {
             public Integer apply(Integer item) {
                 return item + 5;
             }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2015-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,13 +61,13 @@ _.first([5, 4, 3, 2, 1], 2);
         final int resultInt = $.first(new Integer[] {5, 4, 3, 2, 1});
         assertEquals(5, resultInt);
         final int resultPred = $.first(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(4, resultPred);
         final int resultPredObj = new $<Integer>(asList(5, 4, 3, 2, 1)).first(new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
@@ -85,30 +85,30 @@ _.first([5, 4, 3, 2, 1], 2);
         assertNull($.firstOrNull(Collections.emptyList()));
         assertNull(new $<Integer>(Collections.<Integer>emptyList()).firstOrNull());
         final int resultPred = $.firstOrNull(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(4, resultPred);
         final int resultPredChain = $.chain(asList(5, 4, 3, 2, 1)).firstOrNull(new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         }).item();
         assertEquals(4, resultPredChain);
         assertNull($.firstOrNull(Collections.<Integer>emptyList(), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         }));
         final int resultPredObj = new $<Integer>(asList(5, 4, 3, 2, 1)).firstOrNull(new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(4, resultPredObj);
         assertNull(new $<Integer>(Collections.<Integer>emptyList()).firstOrNull(new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         }));
@@ -269,13 +269,13 @@ _.last([5, 4, 3, 2, 1]);
         List<Integer> resList = new $(asList(1, 2, 3, 4, 5)).last(3);
         assertEquals("last multi item did not wok", asList(3, 4, 5), resList);
         final int resultPred = $.last(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(2, resultPred);
         final int resultPredObj = new $<Integer>(asList(5, 4, 3, 2, 1)).last(new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
@@ -293,30 +293,30 @@ _.last([5, 4, 3, 2, 1]);
         assertNull($.lastOrNull(Collections.emptyList()));
         assertNull(new $<Integer>(Collections.<Integer>emptyList()).lastOrNull());
         final int resultPred = $.lastOrNull(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(2, resultPred);
         final int resultPredChain = $.chain(asList(5, 4, 3, 2, 1)).lastOrNull(new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         }).item();
         assertEquals(2, resultPredChain);
         assertNull($.lastOrNull(Collections.<Integer>emptyList(), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         }));
         final int resultPredObj = new $<Integer>(asList(5, 4, 3, 2, 1)).lastOrNull(new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(2, resultPredObj);
         assertNull(new $<Integer>(Collections.<Integer>emptyList()).lastOrNull(new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         }));
@@ -469,7 +469,7 @@ _.uniq([1, 2, 1, 3, 1, 4]);
         }
         final Collection<Person> resultObject =
         $.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
-            new Function1<Person, String>() {
+            new Function<Person, String>() {
             public String apply(Person person) {
                 return person.name;
             }
@@ -477,7 +477,7 @@ _.uniq([1, 2, 1, 3, 1, 4]);
         assertEquals("[moe, 50, curly, 60]", resultObject.toString());
         final List<Person> resultObjectChain =
         $.chain(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).uniq(
-            new Function1<Person, String>() {
+            new Function<Person, String>() {
             public String apply(Person person) {
                 return person.name;
             }
@@ -486,7 +486,7 @@ _.uniq([1, 2, 1, 3, 1, 4]);
         assertEquals("[1, 2, 3, 4, 5]", $.chain(asList(1, 2, 3, 3, 4, 5)).uniq().value().toString());
         final Object[] resultObjectArray =
         $.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)).toArray(new Person[]{}),
-            new Function1<Person, String>() {
+            new Function<Person, String>() {
             public String apply(Person person) {
                 return person.name;
             }
@@ -518,7 +518,7 @@ _.distinct([1, 2, 1, 3, 1, 4]);
         }
         final Collection<Person> resultObject =
         $.distinctBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
-            new Function1<Person, String>() {
+            new Function<Person, String>() {
             public String apply(Person person) {
                 return person.name;
             }
@@ -526,7 +526,7 @@ _.distinct([1, 2, 1, 3, 1, 4]);
         assertEquals("[moe, 50, curly, 60]", resultObject.toString());
         final List<String> resultObjectChain =
         $.chain(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).distinctBy(
-            new Function1<Person, String>() {
+            new Function<Person, String>() {
             public String apply(Person person) {
                 return person.name;
             }
@@ -535,7 +535,7 @@ _.distinct([1, 2, 1, 3, 1, 4]);
         assertEquals("[1, 2, 3, 4, 5]", $.chain(asList(1, 2, 3, 3, 4, 5)).distinct().value().toString());
         final Object[] resultObjectArray =
         $.distinctBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)).toArray(new Person[]{}),
-            new Function1<Person, String>() {
+            new Function<Person, String>() {
             public String apply(Person person) {
                 return person.name;
             }
@@ -666,19 +666,19 @@ _.findIndex([1, 2, 3], function(item) {return item % 2  === 0; });
     @Test
     public void findIndex() {
         final Integer result = $.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(1, result.intValue());
         final Integer resultNotFound = $.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item > 3;
             }
         });
         assertEquals(-1, resultNotFound.intValue());
         final Integer resultArray = $.findIndex(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
@@ -692,19 +692,19 @@ _.findLastIndex([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
     @Test
     public void findLastIndex() {
         final Integer result = $.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(3, result.intValue());
         final Integer resultNotFound = $.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item > 5;
             }
         });
         assertEquals(-1, resultNotFound.intValue());
         final Integer resultArray = $.findLastIndex(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
-            public Boolean apply(Integer item) {
+            public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });

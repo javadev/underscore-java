@@ -1,7 +1,7 @@
 package com.github.underscore;
 
-public interface Function1<F, T> {
-    T apply(F arg);
+public interface Supplier<T> {
+    T get();
 
     @Override
     boolean equals(Object object);

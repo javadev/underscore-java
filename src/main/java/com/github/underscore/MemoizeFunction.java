@@ -3,7 +3,7 @@ package com.github.underscore;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class MemoizeFunction1<F, T> implements Function1<F, T> {
+public abstract class MemoizeFunction<F, T> implements Function<F, T> {
     private final Map<F, T> cache = new LinkedHashMap<F, T>();
     public abstract T calc(final F n);
 

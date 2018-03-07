@@ -23,8 +23,8 @@
  */
 package com.github.underscore.math;
 
-import com.github.underscore.Block;
-import com.github.underscore.Function1;
+import com.github.underscore.Consumer;
+import com.github.underscore.Function;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
@@ -111,7 +111,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain((List<T>) $.flatten(value()));
         }
 
-        public <F> Chain<F> map(final Function1<? super T, F> func) {
+        public <F> Chain<F> map(final Function<? super T, F> func) {
             return new Chain<F>($.map(value(), func));
         }
 
@@ -156,7 +156,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<Comparable>($.max((Collection) value()));
         }
 
-        public <F extends Comparable<? super F>> Chain<T> max(final Function1<T, F> func) {
+        public <F extends Comparable<? super F>> Chain<T> max(final Function<T, F> func) {
             return new Chain<T>($.max(value(), func));
         }
 
@@ -165,7 +165,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<Comparable>($.min((Collection) value()));
         }
 
-        public <F extends Comparable<? super F>> Chain<T> min(final Function1<T, F> func) {
+        public <F extends Comparable<? super F>> Chain<T> min(final Function<T, F> func) {
             return new Chain<T>($.min(value(), func));
         }
 
@@ -179,7 +179,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<F>($.sortWith((List<F>) value(), comparator));
         }
 
-        public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
+        public <F extends Comparable<? super F>> Chain<T> sortBy(final Function<T, F> func) {
             return new Chain<T>($.sortBy(value(), func));
         }
 
@@ -188,7 +188,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<Map<K, Comparable>>($.sortBy((List<Map<K, Comparable>>) value(), key));
         }
 
-        public <F> Chain<Map<F, List<T>>> groupBy(final Function1<T, F> func) {
+        public <F> Chain<Map<F, List<T>>> groupBy(final Function<T, F> func) {
             return new Chain<Map<F, List<T>>>($.groupBy(value(), func));
         }
 
@@ -196,7 +196,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<Map<Object, List<T>>>($.indexBy(value(), property));
         }
 
-        public <F> Chain<Map<F, Integer>> countBy(final Function1<T, F> func) {
+        public <F> Chain<Map<F, Integer>> countBy(final Function<T, F> func) {
             return new Chain<Map<F, Integer>>($.countBy(value(), func));
         }
 
@@ -212,17 +212,17 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.newArrayList($.sample(value(), howMany)));
         }
 
-        public Chain<T> tap(final Block<T> func) {
+        public Chain<T> tap(final Consumer<T> func) {
             $.tap(value(), func);
             return new Chain<T>(value());
         }
 
-        public Chain<T> forEach(final Block<T> func) {
+        public Chain<T> forEach(final Consumer<T> func) {
             $.forEach(value(), func);
             return new Chain<T>(value());
         }
 
-        public Chain<T> forEachRight(final Block<T> func) {
+        public Chain<T> forEachRight(final Consumer<T> func) {
             $.forEachRight(value(), func);
             return new Chain<T>(value());
         }
@@ -264,7 +264,7 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public <F> Chain<T> uniq(final Function1<T, F> func) {
+        public <F> Chain<T> uniq(final Function<T, F> func) {
             return new Chain<T>($.newArrayList($.uniq(value(), func)));
         }
 
@@ -273,7 +273,7 @@ public class $<T> extends com.github.underscore.$<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public <F> Chain<F> distinctBy(final Function1<T, F> func) {
+        public <F> Chain<F> distinctBy(final Function<T, F> func) {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(value(), func)));
         }
 
@@ -347,7 +347,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.sum((List<T>) value()));
         }
 
-        public <F extends Number> Chain<F> sum(final Function1<T, F> func) {
+        public <F extends Number> Chain<F> sum(final Function<T, F> func) {
             return new Chain<F>($.sum(value(), func));
         }
 
@@ -400,7 +400,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return result;
     }
 
-    public static <E, F extends  Number> F sum(final Iterable<E> iterable, final Function1<E, F> func) {
+    public static <E, F extends  Number> F sum(final Iterable<E> iterable, final Function<E, F> func) {
         F result = null;
         for (final E item : iterable) {
             result = sum(result, func.apply(item));
@@ -414,7 +414,7 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <E, F extends  Number> F sum(final Function1<E, F> func) {
+    public <E, F extends  Number> F sum(final Function<E, F> func) {
         return (F) sum((List<E>) getIterable(), func);
     }
 
