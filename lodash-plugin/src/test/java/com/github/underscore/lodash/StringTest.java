@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2016 Valentyn Kolesnikov
+ * Copyright 2016-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,8 @@
  */
 package com.github.underscore.lodash;
 
-import com.github.underscore.Block;
-import com.github.underscore.Function1;
+import com.github.underscore.Consumer;
+import com.github.underscore.Function;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
 import com.github.underscore.Tuple;
@@ -1518,45 +1518,45 @@ _.repeat('abc', 0);
         $.chain(new String[] {""}).rest();
         $.chain(new String[] {""}).rest(1);
         $.chain(new String[] {""}).flatten();
-        $.chain(new Integer[] {0}).map(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new String[] {""}).filter(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).reject(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).reduceRight(new FunctionAccum<String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).find(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).findLast(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new Integer[] {0}).max();
-        $.chain(new Integer[] {0}).max(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).max(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).min();
-        $.chain(new Integer[] {0}).min(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).min(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).sort();
-        $.chain(new Integer[] {0}).sortBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).sortBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
-        $.chain(new Integer[] {0}).groupBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).indexBy("");
-        $.chain(new Integer[] {0}).countBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).shuffle();
         $.chain(new Integer[] {0}).sample();
         $.chain(new Integer[] {0}).sample(1);
-        $.chain(new String[] {""}).tap(new Block<String>() {
-            public void apply(String str) {
+        $.chain(new String[] {""}).tap(new Consumer<String>() {
+            public void accept(String str) {
             } });
         $.chain(new String[] {""}).every(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).some(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).contains("");
         $.chain(new String[] {""}).invoke("toString", Collections.emptyList());
         $.chain(new String[] {""}).invoke("toString");
@@ -1564,7 +1564,7 @@ _.repeat('abc', 0);
         $.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
         $.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
         $.chain(new Integer[] {0}).uniq();
-        $.chain(new Integer[] {0}).uniq(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).uniq(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new String[] {""}).union();
         $.chain(new String[] {""}).intersection();

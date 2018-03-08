@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2015-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ func();
 */
     @Test
     public void bind() {
-        class GreetingFunction implements Function1<String, String> {
+        class GreetingFunction implements Function<String, String> {
             private final String name;
             public GreetingFunction(final String name) {
                 this.name = name;
@@ -64,7 +64,7 @@ sub5(20);
 */
     @Test
     public void partial() {
-        class SubtractFunction implements Function1<Integer, Integer> {
+        class SubtractFunction implements Function<Integer, Integer> {
             private final Integer arg1;
             public SubtractFunction(final Integer arg1) {
                 this.arg1 = arg1;
@@ -73,7 +73,7 @@ sub5(20);
                 return arg2 - arg1;
             }
         }
-        Function1<Integer, Integer> sub5 = new SubtractFunction(5);
+        Function<Integer, Integer> sub5 = new SubtractFunction(5);
         assertEquals(15, sub5.apply(20).intValue());
     }
 
@@ -84,14 +84,14 @@ var fibonacci = _.memoize(function(n) {
 */
     @Test
     public void memoize() {
-        class FibonacciFuncion1 extends MemoizeFunction1<Integer, Integer> {
+        class FibonacciFuncion1 extends MemoizeFunction<Integer, Integer> {
             public Integer calc(final Integer n) {
                 return n < 2 ? n : apply(n - 1) + apply(n - 2);
             }
         }
         assertEquals(55, new FibonacciFuncion1().apply(10).intValue());
-        Function1<Integer, Integer> memoizeFunction = $.memoize(
-            new Function1<Integer, Integer>() {
+        Function<Integer, Integer> memoizeFunction = $.memoize(
+            new Function<Integer, Integer>() {
                 public Integer apply(final Integer n) {
                     return n < 2 ? n : apply(n - 1) + apply(n - 2);
                 }
@@ -111,20 +111,20 @@ _.delay(function(){ equal(counter, 1, 'incr was throttled'); }, 96);
     @Test
     public void throttle() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() {
+        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
             counter[0]++; return null; } };
-        Function<Void> throttleIncr = $.throttle(incr, 50);
-        throttleIncr.apply();
-        throttleIncr.apply();
+        Supplier<Void> throttleIncr = $.throttle(incr, 50);
+        throttleIncr.get();
+        throttleIncr.get();
         $.delay(throttleIncr, 16);
-        $.delay(new Function<Void>() {
-            public Void apply() {
+        $.delay(new Supplier<Void>() {
+            public Void get() {
                 assertEquals("incr was throttled", 1, counter[0].intValue());
                 return null;
             }
         }, 60);
         Thread.sleep(120);
-        throttleIncr.apply();
+        throttleIncr.get();
     }
 
 /*
@@ -139,14 +139,14 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
     @Test
     public void debounce() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() {
+        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
             counter[0]++; return null; } };
-        Function<Void> debouncedIncr = $.debounce(incr, 50);
-        debouncedIncr.apply();
-        debouncedIncr.apply();
+        Supplier<Void> debouncedIncr = $.debounce(incr, 50);
+        debouncedIncr.get();
+        debouncedIncr.get();
         $.delay(debouncedIncr, 16);
-        $.delay(new Function<Void>() {
-            public Void apply() {
+        $.delay(new Supplier<Void>() {
+            public Void get() {
                 assertEquals("incr was debounced", 1, counter[0].intValue());
                 return null;
             }
@@ -161,7 +161,7 @@ _.defer(function(){ alert('deferred'); });
     @Test
     public void defer() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        $.defer(new Function<Void>() { public Void apply() {
+        $.defer(new Supplier<Void>() { public Void get() {
             try {
                 Thread.sleep(16);
             } catch (Exception e) {
@@ -182,14 +182,14 @@ initialize();
     @Test
     public void once() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Integer> incr = new Function<Integer>() { public Integer apply() {
+        Supplier<Integer> incr = new Supplier<Integer>() { public Integer get() {
             counter[0]++; return counter[0]; } };
-        Function<Integer> onceIncr = $.once(incr);
-        onceIncr.apply();
-        onceIncr.apply();
+        Supplier<Integer> onceIncr = $.once(incr);
+        onceIncr.get();
+        onceIncr.get();
         Thread.sleep(60);
         assertEquals("incr was called only once", 1, counter[0].intValue());
-        assertEquals("stores a memo to the last value", 1, onceIncr.apply().intValue());
+        assertEquals("stores a memo to the last value", 1, onceIncr.get().intValue());
     }
 
 /*
@@ -202,13 +202,13 @@ hello();
 */
     @Test
     public void wrap() {
-        Function1<String, String> hello = new Function1<String, String>() {
+        Function<String, String> hello = new Function<String, String>() {
             public String apply(final String name) {
                 return "hello: " + name;
             }
         };
-        Function1<Void, String> result = $.wrap(hello, new Function1<Function1<String, String>, String>() {
-            public String apply(final Function1<String, String> func) {
+        Function<Void, String> result = $.wrap(hello, new Function<Function<String, String>, String>() {
+            public String apply(final Function<String, String> func) {
                 return "before, " + func.apply("moe") + ", after";
             }
         });
@@ -223,7 +223,7 @@ _.find([-2, -1, 0, 1, 2], isFalsy);
     @Test
     public void negate() {
         Predicate<Integer> isFalsy = $.negate(new Predicate<Integer>() {
-            public Boolean apply(final Integer item) {
+            public boolean test(final Integer item) {
                 return item != 0;
             }
         });
@@ -241,17 +241,17 @@ welcome('moe');
     @Test
     @SuppressWarnings("unchecked")
     public void compose() {
-        Function1<String, String> greet = new Function1<String, String>() {
+        Function<String, String> greet = new Function<String, String>() {
             public String apply(final String name) {
                 return "hi: " + name;
             }
         };
-        Function1<String, String> exclaim = new Function1<String, String>() {
+        Function<String, String> exclaim = new Function<String, String>() {
             public String apply(final String statement) {
                 return statement.toUpperCase() + "!";
             }
         };
-        Function1<String, String> welcome = $.compose(greet, exclaim);
+        Function<String, String> welcome = $.compose(greet, exclaim);
         assertEquals("hi: MOE!", welcome.apply("moe"));
     }
 
@@ -265,14 +265,14 @@ _.each(notes, function(note) {
     @Test
     public void after() {
         final List<Integer> notes = asList(1, 2, 3);
-        final Function<Integer> renderNotes = $.after(notes.size(),
-            new Function<Integer>() { public Integer apply() {
+        final Supplier<Integer> renderNotes = $.after(notes.size(),
+            new Supplier<Integer>() { public Integer get() {
                 return 4; } });
         final List<Integer> result = new ArrayList<Integer>();
-        $.<Integer>each(notes, new Block<Integer>() {
-            public void apply(Integer item) {
+        $.<Integer>each(notes, new Consumer<Integer>() {
+            public void accept(Integer item) {
                 result.add(item);
-                Integer afterResult = renderNotes.apply();
+                Integer afterResult = renderNotes.get();
                 if (afterResult != null) {
                     result.add(afterResult);
                 }
@@ -291,14 +291,14 @@ monthlyMeeting();
     @Test
     public void before() {
         final List<Integer> notes = asList(1, 2, 3);
-        final Function<Integer> renderNotes = $.before(notes.size() - 1,
-            new Function<Integer>() { public Integer apply() {
+        final Supplier<Integer> renderNotes = $.before(notes.size() - 1,
+            new Supplier<Integer>() { public Integer get() {
                 return 4; } });
         final List<Integer> result = new ArrayList<Integer>();
-        $.<Integer>each(notes, new Block<Integer>() {
-            public void apply(Integer item) {
+        $.<Integer>each(notes, new Consumer<Integer>() {
+            public void accept(Integer item) {
                 result.add(item);
-                Integer afterResult = renderNotes.apply();
+                Integer afterResult = renderNotes.get();
                 if (afterResult != null) {
                     result.add(afterResult);
                 }
@@ -327,7 +327,7 @@ _.map(stooges, _.iteratee('age'));
     @Test
     public void setTimeout() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() {
+        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
             counter[0]++; return null; } };
         $.setTimeout(incr, 0);
         Thread.sleep(40);
@@ -337,7 +337,7 @@ _.map(stooges, _.iteratee('age'));
     @Test
     public void clearTimeout() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() {
+        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
             counter[0]++; return null; } };
         java.util.concurrent.ScheduledFuture future = $.setTimeout(incr, 20);
         $.clearTimeout(future);
@@ -349,7 +349,7 @@ _.map(stooges, _.iteratee('age'));
     @Test
     public void setInterval() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() {
+        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
             counter[0]++; return null; } };
         $.setInterval(incr, 10);
         Thread.sleep(45);
@@ -359,7 +359,7 @@ _.map(stooges, _.iteratee('age'));
     @Test
     public void clearInterval() throws Exception {
         final Integer[] counter = new Integer[] {0};
-        Function<Void> incr = new Function<Void>() { public Void apply() {
+        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
             counter[0]++; return null; } };
         java.util.concurrent.ScheduledFuture future = $.setInterval(incr, 20);
         $.clearInterval(future);

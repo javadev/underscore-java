@@ -140,17 +140,15 @@
                   <option>-keepattributes Signature,InnerClasses</option>
                   <option>-keep public class com.github.underscore.$ { *; }</option>
                   <option>-keep public class com.github.underscore.*$Chain { *; }</option>
-                  <option>-keep public class com.github.underscore.Block { *; }</option>
+                  <option>-keep public class com.github.underscore.Consumer { *; }</option>
                   <option>-keep public class com.github.underscore.Function { *; }</option>
-                  <option>-keep public class com.github.underscore.Function1 { *; }</option>
-                  <option>-keep public class com.github.underscore.Function2 { *; }</option>
                   <option>-keep public class com.github.underscore.Function3 { *; }</option>
-                  <option>-keep public class com.github.underscore.Function4 { *; }</option>
                   <option>-keep public class com.github.underscore.FunctionAccum { *; }</option>
-                  <option>-keep public class com.github.underscore.MemoizeFunction1 { *; }</option>
+                  <option>-keep public class com.github.underscore.MemoizeFunction { *; }</option>
                   <option>-keep public class com.github.underscore.Optional { *; }</option>
                   <option>-keep public class com.github.underscore.Predicate { *; }</option>
                   <option>-keep public class com.github.underscore.PredicateIndexed { *; }</option>
+                  <option>-keep public class com.github.underscore.Supplier { *; }</option>
                   <option>-keep public class com.github.underscore.Template { *; }</option>
                   <option>-keep public class com.github.underscore.Tuple { *; }</option>
                   <option>-keep public class com.github.underscore.UnaryOperator { *; }</option>

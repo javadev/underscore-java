@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2017 Valentyn Kolesnikov
+ * Copyright 2015-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,8 @@
  */
 package com.github.underscore.math;
 
-import com.github.underscore.Block;
-import com.github.underscore.Function1;
+import com.github.underscore.Consumer;
+import com.github.underscore.Function;
 import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
@@ -59,7 +59,7 @@ _.sum([-1, -2, -3]);
     public void sum() {
         final Byte result = $.sum(asList((byte) 1, (byte) 2, (byte) 3));
         assertEquals("6", result.toString());
-        final Byte resultFunc = $.sum(asList((byte) 1, (byte) 2, (byte) 3), new Function1<Byte, Byte>() {
+        final Byte resultFunc = $.sum(asList((byte) 1, (byte) 2, (byte) 3), new Function<Byte, Byte>() {
             public Byte apply(final Byte item) {
                 return (byte) (item * 2);
             }
@@ -92,7 +92,7 @@ _.sum([-1, -2, -3]);
         final Integer resultChain = (Integer) $.chain(asList((int) 1, (int) 2, (int) 3)).sum().item();
         assertEquals("6", resultChain.toString());
         final Integer resultChainFunc = (Integer) $.chain(asList((int) 1, (int) 2, (int) 3)).sum(
-            new Function1<Integer, Integer>() {
+            new Function<Integer, Integer>() {
             public Integer apply(final Integer item) {
                 return item * 2;
             }
@@ -100,7 +100,7 @@ _.sum([-1, -2, -3]);
         assertEquals("12", resultChainFunc.toString());
         final Number resultObj = new $(asList((int) 1, (int) 2, (int) 3)).sum();
         assertEquals("6", resultObj.toString());
-        final Number resultObjFunc = new $(asList((byte) 1, (byte) 2, (byte) 3)).sum(new Function1<Number, Number>() {
+        final Number resultObjFunc = new $(asList((byte) 1, (byte) 2, (byte) 3)).sum(new Function<Number, Number>() {
             public Number apply(final Number item) {
                 return item.intValue() * 2;
             }
@@ -193,8 +193,8 @@ System.out.println("Sum of letters in words starting with E... " + sum);
 */
         String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum = (Integer) $.chain(asList(words))
-            .filter(new Predicate<String>() { public Boolean apply(String item) { return item.startsWith("E"); } })
-            .map(new Function1<String, Integer>() { public Integer apply(String item) { return item.length(); } })
+            .filter(new Predicate<String>() { public boolean test(String item) { return item.startsWith("E"); } })
+            .map(new Function<String, Integer>() { public Integer apply(String item) { return item.length(); } })
             .sum().item();
         assertEquals(34, sum);
     }
@@ -279,73 +279,73 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.chain(new String[] {""}).first(1);
         $.chain(new String[] {""}).firstOrNull();
         $.chain(new String[] {""}).firstOrNull(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).initial();
         $.chain(new String[] {""}).initial(1);
         $.chain(new String[] {""}).last();
         $.chain(new String[] {""}).last(1);
         $.chain(new String[] {""}).lastOrNull();
         $.chain(new String[] {""}).lastOrNull(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).rest();
         $.chain(new String[] {""}).rest(1);
         $.chain(new String[] {""}).compact();
         $.chain(new String[] {""}).compact("1");
         $.chain(new String[] {""}).flatten();
-        $.chain(new Integer[] {0}).map(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new String[] {""}).filter(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
-            public boolean apply(int index, String str) { return true; } });
+            public boolean test(int index, String str) { return true; } });
         $.chain(new String[] {""}).reject(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
-            public boolean apply(int index, String str) { return true; } });
+            public boolean test(int index, String str) { return true; } });
         $.chain(new String[] {""}).filterFalse(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).reduceRight(new FunctionAccum<String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).find(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).findLast(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new Integer[] {0}).max();
-        $.chain(new Integer[] {0}).max(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).max(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).min();
-        $.chain(new Integer[] {0}).min(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).min(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).sort();
         $.chain(new Integer[] {0}).sortWith(new Comparator<Integer>() {
             public int compare(Integer value1, Integer value2) { return value1; } });
-        $.chain(new Integer[] {0}).sortBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).sortBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
-        $.chain(new Integer[] {0}).groupBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).indexBy("");
-        $.chain(new Integer[] {0}).countBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).shuffle();
         $.chain(new Integer[] {0}).sample();
         $.chain(new Integer[] {0}).sample(1);
         $.chain(new int[] {0}).value();
-        $.chain(new String[] {""}).tap(new Block<String>() {
-            public void apply(String str) {
+        $.chain(new String[] {""}).tap(new Consumer<String>() {
+            public void accept(String str) {
             } });
-        $.chain(new String[] {""}).forEach(new Block<String>() {
-            public void apply(String str) {
+        $.chain(new String[] {""}).forEach(new Consumer<String>() {
+            public void accept(String str) {
             } });
-        $.chain(new String[] {""}).forEachRight(new Block<String>() {
-            public void apply(String str) {
+        $.chain(new String[] {""}).forEachRight(new Consumer<String>() {
+            public void accept(String str) {
             } });
         $.chain(new String[] {""}).every(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).some(new Predicate<String>() {
-            public Boolean apply(String str) { return true; } });
+            public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).contains("");
         $.chain(new String[] {""}).invoke("toString", Collections.emptyList());
         $.chain(new String[] {""}).invoke("toString");
@@ -353,10 +353,10 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
         $.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
         $.chain(new Integer[] {0}).uniq();
-        $.chain(new Integer[] {0}).uniq(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).uniq(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new Integer[] {0}).distinct();
-        $.chain(new Integer[] {0}).distinctBy(new Function1<Integer, Integer>() {
+        $.chain(new Integer[] {0}).distinctBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
         $.chain(new String[] {""}).union();
         $.chain(new String[] {""}).intersection();

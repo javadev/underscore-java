@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2015-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 package com.github.underscore.lodash;
 
-import com.github.underscore.Function1;
+import com.github.underscore.Function;
 import com.github.underscore.Predicate;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -54,7 +54,7 @@ _.sum([-1, -2, -3]);
     public void sum() {
         final Byte result = $.sum(asList((byte) 1, (byte) 2, (byte) 3));
         assertEquals("6", result.toString());
-        final Byte resultFunc = $.sum(asList((byte) 1, (byte) 2, (byte) 3), new Function1<Byte, Byte>() {
+        final Byte resultFunc = $.sum(asList((byte) 1, (byte) 2, (byte) 3), new Function<Byte, Byte>() {
             public Byte apply(final Byte item) {
                 return (byte) (item * 2);
             }
@@ -87,7 +87,7 @@ _.sum([-1, -2, -3]);
         final Integer resultChain = (Integer) $.chain(asList((int) 1, (int) 2, (int) 3)).sum().item();
         assertEquals("6", resultChain.toString());
         final Integer resultChainFunc = (Integer) $.chain(asList((int) 1, (int) 2, (int) 3)).sum(
-            new Function1<Integer, Integer>() {
+            new Function<Integer, Integer>() {
             public Integer apply(final Integer item) {
                 return item * 2;
             }
@@ -95,7 +95,7 @@ _.sum([-1, -2, -3]);
         assertEquals("12", resultChainFunc.toString());
         final Number resultObj = new $(asList((int) 1, (int) 2, (int) 3)).sum();
         assertEquals("6", resultObj.toString());
-        final Number resultObjFunc = new $(asList((byte) 1, (byte) 2, (byte) 3)).sum(new Function1<Number, Number>() {
+        final Number resultObjFunc = new $(asList((byte) 1, (byte) 2, (byte) 3)).sum(new Function<Number, Number>() {
             public Number apply(final Number item) {
                 return item.intValue() * 2;
             }
@@ -188,8 +188,8 @@ System.out.println("Sum of letters in words starting with E... " + sum);
 */
         String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum = (Integer) $.chain(asList(words))
-            .filter(new Predicate<String>() { public Boolean apply(String item) { return item.startsWith("E"); } })
-            .map(new Function1<String, Integer>() { public Integer apply(String item) { return item.length(); } })
+            .filter(new Predicate<String>() { public boolean test(String item) { return item.startsWith("E"); } })
+            .map(new Function<String, Integer>() { public Integer apply(String item) { return item.length(); } })
             .sum().item();
         assertEquals(34, sum);
     }
