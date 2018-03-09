@@ -20,7 +20,6 @@ test_script:
   - mvn clean install jacoco:report -B
   - mvn -f math-plugin/pom.xml clean package jacoco:report
   - mvn -f string-plugin/pom.xml clean package jacoco:report
-  - mvn -f lodash-plugin/pom.xml clean package jacoco:report
   - mvn -f examples/pom.xml clean package
 cache:
   - C:\maven\apache-maven-3.3.9
