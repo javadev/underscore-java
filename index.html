@@ -191,17 +191,17 @@ each in turn to an iterator
 object (component or
  struct), if one is passed. Each invocation of iterator is
 called with
- argument: (element).<br></p><pre>$.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
-    public void apply(Integer item) {
+ argument: (element).<br></p><pre>$.each(asList(1, 2, 3), new Consumer&lt;Integer&gt;() {
+    public void accept(Integer item) {
         System.out.println(item + &quot;,&quot;);
     }
 });
 // 1,2,3,
 
 int multiplier = 2;
-$.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
+$.each(asList(1, 2, 3), new Consumer&lt;Integer&gt;() {
     int index = 0;
-    public void apply(Integer item) {
+    public void accept(Integer item) {
         System.out.println(index + &quot;=&quot; + (item * multiplier) + &quot;,&quot;);
         index += 1;
     }
@@ -211,7 +211,7 @@ $.each(asList(1, 2, 3), new Block&lt;Integer&gt;() {
 <p id="map"><b class="header">map</b> <code>$.map(collection, iterator)</code><br>Produces
  a new array of values by mapping each
 value in collection through a
- transformation function (iterator).<br></p><pre>$.map(asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
+ transformation function (iterator).<br></p><pre>$.map(asList(1, 2, 3), new Function&lt;Integer, Integer&gt;() {
     public Integer apply(Integer item) {
         return item * 3;
     }
@@ -220,7 +220,7 @@ value in collection through a
 
 $.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put(2, &quot;two&quot;); put(3, &quot;three&quot;); }}
     .entrySet(),
-    new Function1&lt;Map.Entry&lt;Integer, String&gt;, Integer&gt;() {
+    new Function&lt;Map.Entry&lt;Integer, String&gt;, Integer&gt;() {
     public Integer apply(Map.Entry&lt;Integer, String&gt; item) {
         return item.getKey() * 3;
     }
@@ -266,7 +266,7 @@ soon as it finds
  an acceptable element, and doesn't traverse the entire
 collection.<br></p><pre>$.find(asList(1, 2, 3, 4, 5, 6),
     new Predicate&lt;Integer&gt;() {
-    public Boolean apply(Integer item) {
+    public boolean test(Integer item) {
         return item % 2 == 0;
     }
 }).get();
@@ -277,7 +277,7 @@ collection.<br></p><pre>$.find(asList(1, 2, 3, 4, 5, 6),
 returning an array of all the values that pass a truth test
 (iterator).<br></p><pre>$.filter(asList(1, 2, 3, 4, 5, 6),
     new Predicate&lt;Integer&gt;() {
-    public Boolean apply(Integer item) {
+    public boolean test(Integer item) {
         return item % 2 == 0;
     }
 });
@@ -346,7 +346,7 @@ $.findWhere(listOfPlays, asList(
 elements that the truth test (iterator) passes. The opposite of
 filter.<br></p><pre>$.reject(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
-    public Boolean apply(Integer item) {
+    public boolean test(Integer item) {
         return item % 2 == 0;
     }
 });
@@ -356,14 +356,14 @@ filter.<br></p><pre>$.reject(asList(1, 2, 3, 4),
 </code><br>Returns true if all of the values in the
 collection pass the iterator truth test.<br></p><pre>$.all(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
-        public Boolean apply(Integer item) {
+        public boolean test(Integer item) {
             return item % 2 == 0;
         }
     });
 // false
 $.all(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
-        public Boolean apply(Integer item) {
+        public boolean test(Integer item) {
             return item < 5;
         }
     });
@@ -374,14 +374,14 @@ $.all(asList(1, 2, 3, 4),
 test. Short-circuits and stops traversing the collection if a true
 element is found.<br></p><pre>$.any(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
-        public Boolean apply(Integer item) {
+        public boolean test(Integer item) {
             return item % 2 == 0;
         }
     });
 // true
 $.any(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
-        public Boolean apply(Integer item) {
+        public boolean test(Integer item) {
             return item == 5;
         }
     });
@@ -421,7 +421,7 @@ is passed, it will be used
 value is ranked.<br></p><pre>$.max(asList(10, 5, 100, 2, 1000));
 // 100
 $.max(asList(10, 5, 100, 2, 1000),
-        new Function1&lt;Integer, Integer&gt;() {
+        new Function&lt;Integer, Integer&gt;() {
     public Integer apply(Integer item) {
         return -item;
     }
@@ -436,7 +436,7 @@ iterator is passed, it will be used
 by which the value is ranked.<br></p><pre>$.min(asList(10, 5, 100, 2, 1000));
 // 2
 $.min(asList(10, 5, 100, 2, 1000),
-        new Function1&lt;Integer, Integer&gt;() {
+        new Function&lt;Integer, Integer&gt;() {
     public Integer apply(Integer item) {
         return -item;
     }
@@ -451,7 +451,7 @@ ranked in ascending order by the results
  of running each value through
 iterator. Iterator may also be the string
  name of the object key to sort by.<br></p><pre>$.sortBy(asList(1, 2, 3, 4, 5, 6),
-        new Function1&lt;Integer, Integer&gt;() {
+        new Function&lt;Integer, Integer&gt;() {
         public Integer apply(Integer item) {
             return Double.valueOf(Math.sin(item) * 1000).intValue();
         }
@@ -465,7 +465,7 @@ result of running each value
 of a function, groups
  by the property named by iterator on each of the
 values.<br></p><pre>$.groupBy(asList(1.3, 2.1, 2.4),
-        new Function1&lt;Double, Double&gt;() {
+        new Function&lt;Double, Double&gt;() {
         public Double apply(Double num) {
             return Math.floor(num);
         }
@@ -491,7 +491,7 @@ group.<br></p><pre>class Person {
 }
 final Map&lt;String, Integer&gt; result =
 $.countBy(asList(new Person(&quot;moe&quot;, 40), new Person(&quot;moe&quot;, 50), new Person(&quot;curly&quot;, 60)),
-    new Function1&lt;Person, String&gt;() {
+    new Function&lt;Person, String&gt;() {
     public String apply(Person person) {
         return person.name;
     }
@@ -680,7 +680,7 @@ Optionally, bind
  arguments to the function to pre-fill them, also known as
 partial
  application.<br></p>
-<pre>class GreetingFunction implements Function1&lt;String, String&gt; {
+<pre>class GreetingFunction implements Function&lt;String, String&gt; {
     private final String name;
     public GreetingFunction(final String name) {
         this.name = name;
@@ -697,7 +697,7 @@ $.bind(new GreetingFunction(&quot;moe&quot;)).apply(&quot;hi&quot;);
  a given function by caching the
 computed result. Useful for speeding up
  slow-running computations.<br></p>
-<pre>class FibonacciFuncion1 extends MemoizeFunction1&lt;Integer&gt; {
+<pre>class FibonacciFuncion1 extends MemoizeFunction&lt;Integer&gt; {
     public Integer calc(final Integer n) {
         return n &lt; 2 ? n : apply(n - 1) + apply(n - 2);
     }
@@ -709,8 +709,8 @@ fibonacci = new FibonacciFuncion1().apply(10));
 <code>$.delay(function, wait, arguments)</code><br>Delays a function for the given number of
 milliseconds, and then calls it with the arguments supplied in the args
 struct.<br></p>
-<pre>$.delay(new Function&lt;String&gt;() {
-    public String apply() {
+<pre>$.delay(new Supplier&lt;String&gt;() {
+    public String get() {
         return "hi";
     }
 }, 1000);
@@ -720,11 +720,11 @@ struct.<br></p>
 </code><br>Returns a function that will be executed at most one time, no
 matter how often you call it. Useful for lazy initialization.<br></p>
 <pre>final Integer[] counter = new Integer[] {0};
-Function&lt;Integer&gt; incr = new Function&lt;Integer&gt;() { public Integer apply() {
+Supplier&lt;Integer&gt; incr = new Supplier&lt;Integer&gt;() { public Integer get() {
     counter[0]++; return counter[0]; } };
-Function&lt;Integer&gt; onceIncr = $.once(incr);
-onceIncr.apply();
-onceIncr.apply();
+Supplier&lt;Integer&gt; onceIncr = $.once(incr);
+onceIncr.get();
+onceIncr.get();
 =&gt; counter[0] == 1</pre><p></p>
 
 <p id="debounce"><b class="header">debounce</b> 
@@ -735,13 +735,13 @@ continues to be invoked, will not be
 after it stops being called for N
  milliseconds.<br></p>
 <pre>final Integer[] counter = new Integer[] {0};
-Function&lt;Void&gt; incr = new Function&lt;Void&gt;() { public Void apply() { counter[0]++; return null; } };
-Function&lt;Void&gt; debouncedIncr = $.debounce(incr, 50);
-debouncedIncr.apply();
-debouncedIncr.apply();
+Supplier&lt;Void&gt; incr = new Supplier&lt;Void&gt;() { public Void get() { counter[0]++; return null; } };
+Supplier&lt;Void&gt; debouncedIncr = $.debounce(incr, 50);
+debouncedIncr.get();
+debouncedIncr.get();
 $.delay(debouncedIncr, 16);
-$.delay(new Function&lt;Void&gt;() {
-    public Void apply() {
+$.delay(new Supplier&lt;Void&gt;() {
+    public Void get() {
         System.out.println(counter[0]);
         return null;
     }
@@ -756,14 +756,14 @@ N times. When
  count &lt;= 0, the result of calling the function immediately is
 returned.<br></p>
 <pre>final List&lt;Integer&gt; notes = asList(1, 2, 3);
-final Function&lt;Integer&gt; renderNotes = $.after(notes.size(),
-    new Function&lt;Integer&gt;() { public Integer apply() {
+final Supplier&lt;Integer&gt; renderNotes = $.after(notes.size(),
+    new Supplier&lt;Integer&gt;() { public Integer get() {
         return 4; } });
 final List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
-$.&lt;Integer&gt;each(notes, new Block&lt;Integer&gt;() {
-    public void apply(Integer item) {
+$.&lt;Integer&gt;each(notes, new Consumer&lt;Integer&gt;() {
+    public void accept(Integer item) {
         result.add(item);
-        Integer afterResult = renderNotes.apply();
+        Integer afterResult = renderNotes.get();
         if (afterResult != null) {
             result.add(afterResult);
         }
@@ -778,14 +778,14 @@ N times. When
  count &lt;= 0, the result of calling the function immediately is
 returned.<br></p>
 <pre>final List&lt;Integer&gt; notes = asList(1, 2, 3);
-final Function&lt;Integer&gt; renderNotes = $.before(notes.size() - 1,
-    new Function&lt;Integer&gt;() { public Integer apply() {
+final Supplier&lt;Integer&gt; renderNotes = $.before(notes.size() - 1,
+    new Supplier&lt;Integer&gt;() { public Integer get() {
         return 4; } });
 final List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
-$.&lt;Integer&gt;each(notes, new Block&lt;Integer&gt;() {
-    public void apply(Integer item) {
+$.&lt;Integer&gt;each(notes, new Consumer&lt;Integer&gt;() {
+    public void accept(Integer item) {
         result.add(item);
-        Integer afterResult = renderNotes.apply();
+        Integer afterResult = renderNotes.get();
         if (afterResult != null) {
             result.add(afterResult);
         }
@@ -800,13 +800,13 @@ second, allowing you to
  adjust arguments, run code before and after, and
 conditionally execute
  the original function.<br></p>
-<pre>Function1&lt;String, String&gt; hello = new Function1&lt;String, String&gt;() {
+<pre>Function&lt;String, String&gt; hello = new Function&lt;String, String&gt;() {
     public String apply(final String name) {
         return &quot;hello: &quot; + name;
     }
 };
-Function1&lt;Void, String&gt; result = $.wrap(hello, new Function1&lt;Function1&lt;String, String&gt;, String&gt;() {
-    public String apply(final Function1&lt;String, String&gt; func) {
+Function&lt;Void, String&gt; result = $.wrap(hello, new Function&lt;Function&lt;String, String&gt;, String&gt;() {
+    public String apply(final Function&lt;String, String&gt; func) {
         return &quot;before, &quot; + func.apply(&quot;moe&quot;) + &quot;, after&quot;;
     }
 });
@@ -821,17 +821,17 @@ functions, each
 follows. In math
  terms, composing the functions f(), g(), and h() produces
 f(g(h())).<br></p>
-<pre>Function1&lt;String, String&gt; greet = new Function1&lt;String, String&gt;() {
+<pre>Function&lt;String, String&gt; greet = new Function&lt;String, String&gt;() {
     public String apply(final String name) {
         return &quot;hi: &quot; + name;
     }
 };
-Function1&lt;String, String&gt; exclaim = new Function1&lt;String, String&gt;() {
+Function&lt;String, String&gt; exclaim = new Function&lt;String, String&gt;() {
     public String apply(final String statement) {
         return statement.toUpperCase() + &quot;!&quot;;
     }
 };
-Function1&lt;String, String&gt; welcome = $.compose(greet, exclaim);
+Function&lt;String, String&gt; welcome = $.compose(greet, exclaim);
 welcome.apply(&quot;moe&quot;);
 =&gt; 'hi: MOE!';</pre><p></p>
 <h2 id="Objects">Object/Struct Functions</h2>
@@ -946,7 +946,7 @@ Map&lt;String, Object&gt; clone = new LinkedHashMap&lt;String, Object&gt;() { {
 
 <p id="isFunction"><b class="header">isFunction</b> <code>$.isFunction(object)</code>
 <br>Returns true if object is a Function.<br></p>
-<pre>$.isFunction(new Function1&lt;String, Integer&gt;() {
+<pre>$.isFunction(new Function&lt;String, Integer&gt;() {
     public Integer apply(final String arg) { return null; } })
 =&gt; true</pre><p></p>
 
@@ -970,8 +970,8 @@ id="Utilities">Utility Functions</h2>
 <p id="times"><b class="header">times</b> <code>$.times(n, iterator)
 </code><br>Invokes the given iterator function n
 times.<br></p><pre>final List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
-$.times(3, new Function&lt;Integer&gt;() {
-    public Integer apply() {
+$.times(3, new Supplier&lt;Integer&gt;() {
+    public Integer get() {
         result.add(1);
         return null;
     }
@@ -991,7 +991,7 @@ you only pass one
 </code><br>Allows
  you to extend Underscore with your own utility functions.<br></p>
 <pre>
-$.mixin(&quot;capitalize&quot;, new Function1&lt;String, String&gt;() {
+$.mixin(&quot;capitalize&quot;, new Function&lt;String, String&gt;() {
     public String apply(final String string) {
         return String.valueOf(string.charAt(0)).toUpperCase() + string.substring(1).toLowerCase();
     }
@@ -1017,16 +1017,16 @@ Underscore<br></p><pre>$.uniqueId("c");<br>=&gt; c1</pre><p></p>
 otherwise, return it.<br></p>
 <pre>Map&lt;String, Object&gt; object = new LinkedHashMap&lt;String, Object&gt;() { {
     put(&quot;cheese&quot;, &quot;crumpets&quot;);
-    put(&quot;stuff&quot;, new Function&lt;String&gt;() { public String apply() { return &quot;nonsense&quot;; } });
+    put(&quot;stuff&quot;, new Supplier&lt;String&gt;() { public String get() { return &quot;nonsense&quot;; } });
 } };
 
 $.result(object.entrySet(), new Predicate&lt;Map.Entry&lt;String, Object&gt;&gt;() {
-    public Boolean apply(Map.Entry&lt;String, Object&gt; item) {
+    public boolean test(Map.Entry&lt;String, Object&gt; item) {
         return item.getKey().equals(&quot;cheese&quot;);
     }
 });
 =&gt; "crumpets"<br>$.result(object.entrySet(), new Predicate&lt;Map.Entry&lt;String, Object&gt;&gt;() {
-    public Boolean apply(Map.Entry&lt;String, Object&gt; item) {
+    public boolean test(Map.Entry&lt;String, Object&gt; item) {
         return item.getKey().equals(&quot;stuff&quot;);
     }
 });
@@ -1039,12 +1039,12 @@ id="Chaining">Chaining</h2>
         depending on your preference. The following two lines of code are
         identical ways to double a list of numbers.
 </p>
-<pre>$.map(asList(1, 2, 3), new Function1&lt;Integer, Integer&gt;() {
+<pre>$.map(asList(1, 2, 3), new Function&lt;Integer, Integer&gt;() {
     public Integer apply(Integer item) {
         return item * 2;
     }
 });
-new $&lt;Integer&gt;(asList(1, 2, 3)).map(new Function1&lt;Integer, Integer&gt;() {
+new $&lt;Integer&gt;(asList(1, 2, 3)).map(new Function&lt;Integer, Integer&gt;() {
     public Integer apply(Integer item) {
         return item * 2;
     }
@@ -1068,7 +1068,7 @@ new $&lt;Integer&gt;(asList(1, 2, 3)).map(new Function1&lt;Integer, Integer&gt;(
 } };
 final String result = $.chain(lyrics)
     .map(
-        new Function1&lt;Map&lt;String, Object&gt;, List&lt;String&gt;&gt;() {
+        new Function&lt;Map&lt;String, Object&gt;, List&lt;String&gt;&gt;() {
         public List&lt;String&gt; apply(Map&lt;String, Object&gt; item) {
             return asList(String.valueOf(item.get(&quot;words&quot;)).split(&quot; &quot;));
         }
@@ -1103,13 +1103,13 @@ final String result = $.chain(lyrics)
 } };
 final String youngest = $.chain(stooges)
     .sortBy(
-        new Function1&lt;Map&lt;String, Object&gt;, Integer&gt;() {
+        new Function&lt;Map&lt;String, Object&gt;, Integer&gt;() {
         public Integer apply(Map&lt;String, Object&gt; item) {
             return (Integer) item.get(&quot;age&quot;);
         }
     })
     .map(
-        new Function1&lt;Map&lt;String, Object&gt;, String&gt;() {
+        new Function&lt;Map&lt;String, Object&gt;, String&gt;() {
         public String apply(Map&lt;String, Object&gt; item) {
             return item.get(&quot;name&quot;) + &quot; is &quot; + item.get(&quot;age&quot;);
         }
@@ -1187,7 +1187,7 @@ id="changelog">
  <ul>
  <li>Added method $.iterate(seed, unaryOperator).</li>
  <li>Added support for the method $.chain(iterable, size).</li>
- <li>Fixed Chain.uniq(Function1&lt;T, F&gt;) method.</li>
+ <li>Fixed Chain.uniq(Function&lt;T, F&gt;) method.</li>
  </ul>
  <p>
  </p><p>
