@@ -2799,10 +2799,4 @@ public class $<T> extends com.github.underscore.$<T> {
     public List<String> words() {
         return words(getString().get());
     }
-
-    public static void main(String ... args) {
-        final String message = "Underscore-java-lodash is a lodash plugin for underscore-java.\n\n"
-            + "For docs, license, tests, and downloads, see: http://javadev.github.io/underscore-java";
-        System.out.println(message);
-    }
 }
