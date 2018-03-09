@@ -88,9 +88,9 @@ public class SnakeCase {
         return result;
     }
 
-    private static Function1<String, String> createCompounder(
+    private static Function<String, String> createCompounder(
         final Function3<String, String, Integer, String> callback) {
-        return new Function1<String, String>() {
+        return new Function<String, String>() {
             public String apply(final String string) {
                 int index = -1;
                 List<String> array = words(deburr(string));

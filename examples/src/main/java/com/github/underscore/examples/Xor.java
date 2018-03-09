@@ -37,7 +37,7 @@ public class Xor {
 
     public static <E> Optional<E> find(final Iterable<E> iterable, final Predicate<E> pred) {
         for (E element : iterable) {
-            if (pred.apply(element)) {
+            if (pred.test(element)) {
                 return Optional.of(element);
             }
         }
@@ -51,7 +51,7 @@ public class Xor {
     public static <E> boolean contains(final Iterable<E> iterable, final E elem) {
         return some(iterable, new Predicate<E>() {
             @Override
-            public Boolean apply(E e) {
+            public boolean test(E e) {
                 return elem == null ? e == null : elem.equals(e);
             }
         });
@@ -60,7 +60,7 @@ public class Xor {
     public static <E> List<E> filter(final List<E> list, final Predicate<E> pred) {
         final List<E> filtered = new ArrayList<E>();
         for (E element : list) {
-            if (pred.apply(element)) {
+            if (pred.test(element)) {
                 filtered.add(element);
             }
         }
@@ -70,7 +70,7 @@ public class Xor {
     public static <E> List<E> difference(final List<E> list1, final List<E> list2) {
         return filter(list1, new Predicate<E>() {
             @Override
-            public Boolean apply(E elem) {
+            public boolean test(E elem) {
                 return !contains(list2, elem);
             }
         });

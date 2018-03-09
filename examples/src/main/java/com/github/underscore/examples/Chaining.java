@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015 Valentyn Kolesnikov
+ * Copyright 2015-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ public class Chaining {
         return iterable.iterator().next();
     }
 
-    public static <T, E> List<T> map(final List<E> list, final Function1<? super E, T> func) {
+    public static <T, E> List<T> map(final List<E> list, final Function<? super E, T> func) {
         final List<T> transformed = new ArrayList<T>(list.size());
         for (E element : list) {
             transformed.add(func.apply(element));
@@ -44,7 +44,7 @@ public class Chaining {
     }
 
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final List<E> iterable,
-        final Function1<E, T> func) {
+        final Function<E, T> func) {
         final List<E> sortedList = new ArrayList<E>(iterable);
         Collections.sort(sortedList, new Comparator<E>() {
             @Override
@@ -85,11 +85,11 @@ var youngest = _.chain(stooges)
             return new Chain<T>(Chaining.first(list));
         }
 
-        public <F> Chain<F> map(final Function1<? super T, F> func) {
+        public <F> Chain<F> map(final Function<? super T, F> func) {
             return new Chain<F>(Chaining.map(list, func));
         }
 
-        public <F extends Comparable<? super F>> Chain<T> sortBy(final Function1<T, F> func) {
+        public <F extends Comparable<? super F>> Chain<T> sortBy(final Function<T, F> func) {
             return new Chain<T>(Chaining.sortBy(list, func));
         }
 

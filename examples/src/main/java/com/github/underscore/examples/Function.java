@@ -1,6 +1,6 @@
 package com.github.underscore.examples;
 
-public interface Function1<F, T> {
+public interface Function<F, T> {
     T apply(F arg);
 
     @Override

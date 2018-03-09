@@ -58,13 +58,13 @@ var youngest = _.chain(stooges)
         } };
         final String youngest = Chaining.chain(stooges)
             .sortBy(
-                new Function1<Map<String, Object>, Integer>() {
+                new Function<Map<String, Object>, Integer>() {
                 public Integer apply(Map<String, Object> item) {
                     return (Integer) item.get("age");
                 }
             })
             .map(
-                new Function1<Map<String, Object>, String>() {
+                new Function<Map<String, Object>, String>() {
                 public String apply(Map<String, Object> item) {
                     return item.get("name") + " is " + item.get("age");
                 }
