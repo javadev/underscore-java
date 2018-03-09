@@ -571,7 +571,6 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     @SuppressWarnings("unchecked")
     @Test
     public void main() {
-        $.main(new String[] {});
         new $(new ArrayList<String>());
         new $("");
         new $(asList()).chain();

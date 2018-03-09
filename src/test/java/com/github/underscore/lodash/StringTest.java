@@ -688,7 +688,7 @@ _.repeat('abc', 0);
         assertEquals("[\n  \"Hello\"\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new Object[] { "Hello", new Integer(12), new int[] { 1, 2, 3} }, builder);
+        $.JsonArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
         assertEquals("[\n  \"Hello\",\n  12,\n  [\n    1,\n    2,\n    3\n  ]\n]", builder.toString());
     }
 
@@ -797,8 +797,8 @@ _.repeat('abc', 0);
     public void testDecodeTrueFalse() {
         List<Object> array1 = new ArrayList<Object>();
         array1.add("abc\u0010a/");
-        array1.add(new Integer(123));
-        array1.add(new Double(222.123));
+        array1.add(Integer.valueOf(123));
+        array1.add(Double.valueOf(222.123));
         array1.add(Boolean.TRUE);
         array1.add(Boolean.FALSE);
         assertEquals("[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]", $.toJson(array1));
@@ -1237,7 +1237,7 @@ _.repeat('abc', 0);
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new Object[] { "Hello", new Integer(12), new int[] { 1, 2, 3} }, builder);
+        $.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n  <element>"
             + "12</element>\n  <element>\n    <element>1</element>\n    <element>2</element>\n    <element>3</element>"
             + "\n  </element>\n</root>", builder.toString());
