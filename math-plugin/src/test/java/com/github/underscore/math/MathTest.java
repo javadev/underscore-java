@@ -23,9 +23,9 @@
  */
 package com.github.underscore.math;
 
+import com.github.underscore.BiFunction;
 import com.github.underscore.Consumer;
 import com.github.underscore.Function;
-import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
@@ -304,9 +304,9 @@ System.out.println("Sum of letters in words starting with E... " + sum);
             public boolean test(int index, String str) { return true; } });
         $.chain(new String[] {""}).filterFalse(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
+        $.chain(new String[] {""}).reduce(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
-        $.chain(new String[] {""}).reduceRight(new FunctionAccum<String, String>() {
+        $.chain(new String[] {""}).reduceRight(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).find(new Predicate<String>() {
             public boolean test(String str) { return true; } });

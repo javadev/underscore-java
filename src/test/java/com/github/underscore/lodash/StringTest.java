@@ -23,9 +23,9 @@
  */
 package com.github.underscore.lodash;
 
+import com.github.underscore.BiFunction;
 import com.github.underscore.Consumer;
 import com.github.underscore.Function;
-import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
 import com.github.underscore.Tuple;
 import com.github.underscore.lodash.$.JsonStringBuilder;
@@ -1524,9 +1524,9 @@ _.repeat('abc', 0);
             public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).reject(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).reduce(new FunctionAccum<String, String>() {
+        $.chain(new String[] {""}).reduce(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
-        $.chain(new String[] {""}).reduceRight(new FunctionAccum<String, String>() {
+        $.chain(new String[] {""}).reduceRight(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
         $.chain(new String[] {""}).find(new Predicate<String>() {
             public boolean test(String str) { return true; } });

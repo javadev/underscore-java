@@ -23,10 +23,10 @@
  */
 package com.github.underscore.lodash;
 
+import com.github.underscore.BiFunction;
 import com.github.underscore.Consumer;
 import com.github.underscore.Function;
 import com.github.underscore.Function3;
-import com.github.underscore.FunctionAccum;
 import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
@@ -181,11 +181,11 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<T>($.filterFalse(value(), pred));
         }
 
-        public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {
+        public <F> Chain<F> reduce(final BiFunction<F, T, F> func, final F zeroElem) {
             return new Chain<F>($.reduce(value(), func, zeroElem));
         }
 
-        public <F> Chain<F> reduceRight(final FunctionAccum<F, T> func, final F zeroElem) {
+        public <F> Chain<F> reduceRight(final BiFunction<F, T, F> func, final F zeroElem) {
             return new Chain<F>($.reduceRight(value(), func, zeroElem));
         }
 
