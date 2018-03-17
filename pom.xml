@@ -140,10 +140,10 @@
                   <option>-keepattributes Signature,InnerClasses</option>
                   <option>-keep public class com.github.underscore.$ { *; }</option>
                   <option>-keep public class com.github.underscore.*$Chain { *; }</option>
+                  <option>-keep public class com.github.underscore.BiFunction { *; }</option>
                   <option>-keep public class com.github.underscore.Consumer { *; }</option>
                   <option>-keep public class com.github.underscore.Function { *; }</option>
                   <option>-keep public class com.github.underscore.Function3 { *; }</option>
-                  <option>-keep public class com.github.underscore.FunctionAccum { *; }</option>
                   <option>-keep public class com.github.underscore.MemoizeFunction { *; }</option>
                   <option>-keep public class com.github.underscore.Optional { *; }</option>
                   <option>-keep public class com.github.underscore.Predicate { *; }</option>

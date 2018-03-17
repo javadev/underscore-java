@@ -287,7 +287,7 @@ public class $<T> {
         return map(set, func);
     }
 
-    public static <T, E> E reduce(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
+    public static <T, E> E reduce(final Iterable<T> iterable, final BiFunction<E, T, E> func, final E zeroElem) {
         E accum = zeroElem;
         for (T element : iterable) {
             accum = func.apply(accum, element);
@@ -295,7 +295,7 @@ public class $<T> {
         return accum;
     }
 
-    public static <E> E reduce(final int[] array, final FunctionAccum<E, ? super Integer> func, final E zeroElem) {
+    public static <E> E reduce(final int[] array, final BiFunction<E, ? super Integer, E> func, final E zeroElem) {
         E accum = zeroElem;
         for (int element : array) {
             accum = func.apply(accum, element);
@@ -303,7 +303,7 @@ public class $<T> {
         return accum;
     }
 
-    public static <T, E> E reduce(final T[] array, final FunctionAccum<E, T> func, final E zeroElem) {
+    public static <T, E> E reduce(final T[] array, final BiFunction<E, T, E> func, final E zeroElem) {
         E accum = zeroElem;
         for (T element : array) {
             accum = func.apply(accum, element);
@@ -311,19 +311,19 @@ public class $<T> {
         return accum;
     }
 
-    public static <T, E> E foldl(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
+    public static <T, E> E foldl(final Iterable<T> iterable, final BiFunction<E, T, E> func, final E zeroElem) {
         return reduce(iterable, func, zeroElem);
     }
 
-    public static <T, E> E inject(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
+    public static <T, E> E inject(final Iterable<T> iterable, final BiFunction<E, T, E> func, final E zeroElem) {
         return reduce(iterable, func, zeroElem);
     }
 
-    public static <T, E> E reduceRight(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
+    public static <T, E> E reduceRight(final Iterable<T> iterable, final BiFunction<E, T, E> func, final E zeroElem) {
         return reduce(reverse(iterable), func, zeroElem);
     }
 
-    public static <E> E reduceRight(final int[] array, final FunctionAccum<E, ? super Integer> func, final E zeroElem) {
+    public static <E> E reduceRight(final int[] array, final BiFunction<E, ? super Integer, E> func, final E zeroElem) {
         E accum = zeroElem;
         for (Integer element : reverse(array)) {
             accum = func.apply(accum, element);
@@ -331,11 +331,11 @@ public class $<T> {
         return accum;
     }
 
-    public static <T, E> E reduceRight(final T[] array, final FunctionAccum<E, T> func, final E zeroElem) {
+    public static <T, E> E reduceRight(final T[] array, final BiFunction<E, T, E> func, final E zeroElem) {
         return reduce(reverse(array), func, zeroElem);
     }
 
-    public static <T, E> E foldr(final Iterable<T> iterable, final FunctionAccum<E, T> func, final E zeroElem) {
+    public static <T, E> E foldr(final Iterable<T> iterable, final BiFunction<E, T, E> func, final E zeroElem) {
         return reduceRight(iterable, func, zeroElem);
     }
 
@@ -2127,11 +2127,11 @@ public class $<T> {
             return new Chain<T>($.reject(list, pred));
         }
 
-        public <F> Chain<F> reduce(final FunctionAccum<F, T> func, final F zeroElem) {
+        public <F> Chain<F> reduce(final BiFunction<F, T, F> func, final F zeroElem) {
             return new Chain<F>($.reduce(list, func, zeroElem));
         }
 
-        public <F> Chain<F> reduceRight(final FunctionAccum<F, T> func, final F zeroElem) {
+        public <F> Chain<F> reduceRight(final BiFunction<F, T, F> func, final F zeroElem) {
             return new Chain<F>($.reduceRight(list, func, zeroElem));
         }
 

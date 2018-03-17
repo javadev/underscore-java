@@ -193,7 +193,7 @@ _.chain(lyrics)
             })
             .flatten()
             .reduce(
-                new FunctionAccum<Map<String, Integer>, String>() {
+                new BiFunction<Map<String, Integer>, String, Map<String, Integer>>() {
                 public Map<String, Integer> apply(Map<String, Integer> accum, String item) {
                     if (accum.get(item) == null) {
                         accum.put(item, 1);
@@ -251,7 +251,7 @@ _.chain(lyrics)
             })
             .flatten()
             .reduceRight(
-                new FunctionAccum<Map<String, Integer>, String>() {
+                new BiFunction<Map<String, Integer>, String, Map<String, Integer>>() {
                 public Map<String, Integer> apply(Map<String, Integer> accum, String item) {
                     if (accum.get(item) == null) {
                         accum.put(item, 1);
@@ -365,7 +365,7 @@ _.chain(doctors)
     @SuppressWarnings("unchecked")
     public void chain6() {
         final List<Comparable> result = $.chain($.chain($.class.getDeclaredMethods())
-            .reduce(new FunctionAccum<List<String>, Method>() {
+            .reduce(new BiFunction<List<String>, Method, List<String>>() {
                 public List<String> apply(final List<String> accum, final Method method) {
                     accum.add(method.getName());
                     return accum;
@@ -406,7 +406,7 @@ var sum = _(words)
                   return w.length();
               }
           })
-          .reduce(new FunctionAccum<Integer, Integer>() {
+          .reduce(new BiFunction<Integer, Integer, Integer>() {
               public Integer apply(Integer accum, Integer length) {
                   return accum + length;
               }
@@ -445,7 +445,7 @@ var sum = _(words)
     @SuppressWarnings("unchecked")
     public void chain9() {
         final List<Comparable> result = $.chain($.chain($.class.getDeclaredMethods())
-            .reduce(new FunctionAccum<List<String>, Method>() {
+            .reduce(new BiFunction<List<String>, Method, List<String>>() {
                 public List<String> apply(final List<String> accum, final Method method) {
                     accum.add(method.getName());
                     return accum;
