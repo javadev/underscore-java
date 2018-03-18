@@ -2392,10 +2392,9 @@ public class $<T> {
         return localList;
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Comparable<T>> T[] sort(final T ... array) {
         final T[] localArray = array.clone();
-        Arrays.<T>sort(localArray);
+        Arrays.sort(localArray);
         return localArray;
     }
 

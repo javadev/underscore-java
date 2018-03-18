@@ -54,7 +54,7 @@ public final class Optional<T> {
         return !absent;
     }
 
-    public <U> Optional<U> map(Function<? super T, ? extends U> mapper) {
+    public <U> Optional<? extends U> map(Function<? super T, ? extends U> mapper) {
         $.checkNotNull(mapper);
         if (!isPresent()) {
             return absent();
