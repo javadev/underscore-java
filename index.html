@@ -235,7 +235,7 @@ down a collection of values
 the reduction, and
  each successive step of it should be returned by
 iterator.<br></p><pre>$.reduce(asList(1, 2, 3),
-    new FunctionAccum&lt;Integer, Integer&gt;() {
+    new BiFunction&lt;Integer, Integer, Integer&gt;() {
     public Integer apply(Integer item1, Integer item2) {
         return item1 + item2;
     }
@@ -247,7 +247,7 @@ iterator.<br></p><pre>$.reduce(asList(1, 2, 3),
 <p id="reduceRight"><b class="header">reduceRight</b>
 <code>$.reduceRight(collection, iterator, memo)</code><br>The
 right-associative version of reduce.<br></p><pre>$.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
-    new FunctionAccum&lt;List&lt;Integer&gt;, List&lt;Integer&gt;&gt;() {
+    new BiFunction&lt;List&lt;Integer&gt;, List&lt;Integer&gt;, List&lt;Integer&gt;&gt;() {
     public List&lt;Integer&gt; apply(List&lt;Integer&gt; item1, List&lt;Integer&gt; item2) {
         List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;(item1);
         list.addAll(item2);
@@ -1075,7 +1075,7 @@ final String result = $.chain(lyrics)
     })
     .flatten()
     .reduce(
-        new FunctionAccum&lt;Map&lt;String, Integer&gt;, String&gt;() {
+        new BiFunction&lt;Map&lt;String, Integer&gt;, String, Map&lt;String, Integer&gt;&gt;() {
         public Map&lt;String, Integer&gt; apply(Map&lt;String, Integer&gt; accum, String item) {
             if (accum.get(item) == null) {
                 accum.put(item, 1);
