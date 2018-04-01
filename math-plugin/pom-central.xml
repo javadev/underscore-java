@@ -5,7 +5,7 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore-math</artifactId>
   <packaging>jar</packaging>
-  <version>1.26</version>
+  <version>1.27</version>
   <name>Math plugin for underscore-java</name>
   <description>The math plugin for underscore-java</description>
   <url>https://github.com/javadev/underscore-java</url>
@@ -50,7 +50,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.7.0</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
@@ -86,7 +86,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.3</version>
+        <version>3.0.0</version>
           <executions>
               <execution>
                   <id>attach-sources</id>
@@ -117,7 +117,7 @@
     <dependency>
       <groupId>com.github.javadev</groupId>
       <artifactId>underscore</artifactId>
-      <version>1.30</version>
+      <version>1.31</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
