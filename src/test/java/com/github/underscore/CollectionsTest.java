@@ -107,6 +107,29 @@ _.forEach([1, 2, 3], alert);
     }
 
 /*
+_.forEachIndexed([1, 2, 3], alert);
+=> alerts each number in turn...
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void forEachIndexed() {
+        final List<Integer> result = new ArrayList<Integer>();
+        $.forEachIndexed(asList(1, 2, 3), new BiConsumer<Integer, Integer>() {
+            public void accept(Integer index, Integer item) {
+                result.add(item);
+            }
+        });
+        assertEquals("[1, 2, 3]", result.toString());
+        final List<Integer> resultObj = new ArrayList<Integer>();
+        new $(asList(1, 2, 3)).forEachIndexed(new BiConsumer<Integer, Integer>() {
+            public void accept(Integer index, Integer item) {
+                resultObj.add(item);
+            }
+        });
+        assertEquals("[1, 2, 3]", resultObj.toString());
+    }
+
+/*
 _.forEach([1, 2, 3], alert);
 => alerts each number in turn from right to left...
 */
@@ -218,6 +241,26 @@ _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
             }
         });
         assertEquals("[3, 6, 9]", result.toString());
+    }
+
+/*
+_.mapIndexed([1, 2, 3], function(num){ return num * 3; });
+=> [3, 6, 9]
+*/
+    @Test
+    public void mapIndexed() {
+        List<Integer> result = $.mapIndexed(asList(1, 2, 3), new BiFunction<Integer, Integer, Integer>() {
+            public Integer apply(Integer index, Integer item) {
+                return item * 3;
+            }
+        });
+        assertEquals("[3, 6, 9]", result.toString());
+        List<Integer> resultObject = new $<Integer>(asList(1, 2, 3)).mapIndexed(new BiFunction<Integer, Integer, Integer>() {
+            public Integer apply(Integer index, Integer item) {
+                return item * 3;
+            }
+        });
+        assertEquals("[3, 6, 9]", resultObject.toString());
     }
 
 /*

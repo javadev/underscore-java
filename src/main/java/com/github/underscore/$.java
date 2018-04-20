@@ -223,6 +223,14 @@ public class $<T> {
         }
     }
 
+    public static <T> void eachIndexed(final Iterable<T> iterable, final BiConsumer<Integer, ? super T> func) {
+        int index = 0;
+        for (T element : iterable) {
+            func.accept(index, element);
+            index += 1;
+        }
+    }
+
     public void each(final Consumer<? super T> func) {
         each(iterable, func);
     }
@@ -239,8 +247,16 @@ public class $<T> {
         each(iterable, func);
     }
 
+    public static <T> void forEachIndexed(final Iterable<T> iterable, final BiConsumer<Integer, ? super T> func) {
+        eachIndexed(iterable, func);
+    }
+
     public void forEach(final Consumer<? super T> func) {
         each(iterable, func);
+    }
+
+    public void forEachIndexed(final BiConsumer<Integer, ? super T> func) {
+        eachIndexed(iterable, func);
     }
 
     public static <T> void forEachRight(final Iterable<T> iterable, final Consumer<? super T> func) {
@@ -277,6 +293,20 @@ public class $<T> {
             transformed.add(func.apply(element));
         }
         return transformed;
+    }
+
+    public static <T, E> List<T> mapIndexed(final List<E> list, final BiFunction<Integer, ? super E, T> func) {
+        final List<T> transformed = newArrayListWithExpectedSize(list.size());
+        int index = 0;
+        for (E element : list) {
+            transformed.add(func.apply(index, element));
+            index += 1;
+        }
+        return transformed;
+    }
+
+    public <F> List<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
+        return mapIndexed(newArrayList(iterable), func);
     }
 
     public static <T, E> List<T> collect(final List<E> list, final Function<? super E, T> func) {
