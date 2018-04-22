@@ -115,6 +115,10 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<F>($.map(value(), func));
         }
 
+        public <F> Chain<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
+            return new Chain<F>($.mapIndexed(value(), func));
+        }
+
         public Chain<T> filter(final Predicate<T> pred) {
             return new Chain<T>($.filter(value(), pred));
         }

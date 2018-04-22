@@ -294,6 +294,8 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         $.chain(new String[] {""}).flatten();
         $.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
+        $.chain(new Integer[] {0}).mapIndexed(new BiFunction<Integer, Integer, Integer>() {
+            public Integer apply(Integer index, Integer value) { return value; } });
         $.chain(new String[] {""}).filter(new Predicate<String>() {
             public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
