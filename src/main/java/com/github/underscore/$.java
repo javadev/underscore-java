@@ -2137,6 +2137,10 @@ public class $<T> {
             return new Chain<F>($.map(list, func));
         }
 
+        public <F> Chain<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
+            return new Chain<F>($.mapIndexed(list, func));
+        }
+
         public Chain<T> filter(final Predicate<T> pred) {
             return new Chain<T>($.filter(list, pred));
         }
