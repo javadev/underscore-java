@@ -157,6 +157,8 @@
                   <option>-keep public class com.github.underscore.lodash.*$Chain { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.*$ParseException { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.*$FetchResponse { *; }</option>
+                  <option>-keep public class com.github.underscore.lodash.*$LRUCache { *; }</option>
+                  <option>-keep public class com.github.underscore.lodash.*$Node { *; }</option>
                   <option>-keepclassmembers class * { *** newArrayList(); *** newLinkedHashSet(); *** newHashSet(java.lang.Iterable); *** newLinkedHashMap(); }</option>
                   <option>-dontnote com.github.underscore.*$ClassForName</option>
               </options>
