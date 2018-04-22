@@ -2803,4 +2803,85 @@ public class $<T> extends com.github.underscore.$<T> {
     public List<String> words() {
         return words(getString().get());
     }
+
+    public static class LRUCache<K, V> {
+        private int capacity;
+        private Map<K, Node<K, V>> map = new HashMap<K, Node<K, V>>();
+        private Node head;
+        private Node end;
+
+        public LRUCache(int capacity) {
+            this.capacity = capacity;
+        }
+
+        public V get(K key) {
+            if (map.containsKey(key)) {
+                Node<K, V> node = map.get(key);
+                remove(node);
+                setHead(node);
+                return node.value;
+            }
+            return null;
+        }
+
+        public void remove(Node node) {
+            if (node.pre != null) {
+                node.pre.next = node.next;
+            } else {
+                head = node.next;
+            }
+            if (node.next != null) {
+                node.next.pre = node.pre;
+            } else {
+                end = node.pre;
+            }
+        }
+
+        public void setHead(Node node) {
+            node.next = head;
+            node.pre = null;
+            if (head != null) {
+                head.pre = node;
+            }
+            head = node;
+            if (end == null) {
+                end = head;
+            }
+        }
+
+        public void set(K key, V value) {
+            if (map.containsKey(key)) {
+                Node<K, V> old = map.get(key);
+                old.value = value;
+                remove(old);
+                setHead(old);
+            } else {
+                Node<K, V> created = new Node<K, V>(key, value);
+                if (map.size() >= capacity) {
+                    map.remove(end.key);
+                    remove(end);
+                    setHead(created);
+                } else {
+                    setHead(created);
+                }
+                map.put(key, created);
+            }
+        }
+    }
+
+    public static class Node<K, V> {
+        private K key;
+        private V value;
+        private Node pre;
+        private Node next;
+
+        public Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    public static <K, V> LRUCache<K, V> createLRUCache(final int capacity) {
+        return new LRUCache<K, V>(capacity);
+    }
 }
