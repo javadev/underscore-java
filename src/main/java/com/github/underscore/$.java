@@ -2614,9 +2614,15 @@ public class $<T> {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T[] reverse(final T ... array) {
-        return (T[]) reverse(Arrays.asList(array)).toArray();
+        T temp;
+        final T[] newArray = array.clone();
+        for (int index = 0; index < array.length / 2; index += 1) {
+            temp = newArray[index];
+            newArray[index] = newArray[array.length - 1 - index];
+            newArray[array.length - 1 - index] = temp;
+        }
+        return newArray;
     }
 
     public static List<Integer> reverse(final int[] array) {
