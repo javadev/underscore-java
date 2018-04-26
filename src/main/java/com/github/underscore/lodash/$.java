@@ -2519,7 +2519,8 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> createMap(final org.w3c.dom.Node node) {
+    private static Map<String, Object> createMap(final org.w3c.dom.Node node,
+        final Function<Object, Object> nodeMapper) {
         final Map<String, Object> map = newLinkedHashMap();
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
         for (int index = 0; index < nodeList.getLength(); index++) {
@@ -2527,7 +2528,7 @@ public class $<T> extends com.github.underscore.$<T> {
             final String name = currentNode.getNodeName();
             final Object value;
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-                value = createMap(currentNode);
+                value = createMap(currentNode, nodeMapper);
             } else {
                 value = currentNode.getTextContent();
             }
@@ -2545,7 +2546,7 @@ public class $<T> extends com.github.underscore.$<T> {
                     map.put(name, objects);
                 }
             } else {
-                map.put(name, getValue(value));
+                map.put(name, nodeMapper.apply(getValue(value)));
             }
         }
         return map;
@@ -2558,7 +2559,28 @@ public class $<T> extends com.github.underscore.$<T> {
                 javax.xml.parsers.DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
             final org.w3c.dom.Document document = factory.newDocumentBuilder().parse(stream);
-            return createMap(document);
+            return createMap(document, new Function<Object, Object>() {
+                public Object apply(Object object) {
+                    return object;
+                }
+            });
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
+    public static Object fromXmlMakeArrays(final String xml) {
+        try {
+            final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes("UTF-8"));
+            final javax.xml.parsers.DocumentBuilderFactory factory =
+                javax.xml.parsers.DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            final org.w3c.dom.Document document = factory.newDocumentBuilder().parse(stream);
+            return createMap(document, new Function<Object, Object>() {
+                public Object apply(Object object) {
+                    return object instanceof List ? object : newArrayList(Arrays.asList(object));
+                }
+            });
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
