@@ -199,14 +199,14 @@ System.out.println("Sum of letters in words starting with E... " + sum);
     public void createLRUCache() {
         new $.LRUCache<Integer, String>(0);
         $.LRUCache<Integer, String> cache = $.createLRUCache(2);
-        cache.set(0, "Value 0");
+        cache.put(0, "Value 0");
         assertEquals("Value 0", cache.get(0));
         assertNull(cache.get(1));
-        cache.set(1, "Value 1");
+        cache.put(1, "Value 1");
         assertEquals("Value 1", cache.get(1));
-        cache.set(1, "Value 1+");
+        cache.put(1, "Value 1+");
         assertEquals("Value 1+", cache.get(1));
-        cache.set(2, "Value 2");
+        cache.put(2, "Value 2");
         assertEquals("Value 2", cache.get(2));
     }
 
