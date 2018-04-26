@@ -2827,79 +2827,27 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class LRUCache<K, V> {
-        private int capacity;
-        private Map<K, Node<K, V>> map = new HashMap<K, Node<K, V>>();
-        private Node head;
-        private Node end;
+        private static final boolean SORT_BY_ACCESS = true;
+        private static final float LOAD_FACTOR = 0.75F;
+        private final LinkedHashMap<K, V> lruCacheMap;
+        private final int capacity;
 
         public LRUCache(int capacity) {
             this.capacity = capacity;
+            this.lruCacheMap = new LinkedHashMap<K, V>(capacity, LOAD_FACTOR, SORT_BY_ACCESS);
         }
 
         public V get(K key) {
-            if (map.containsKey(key)) {
-                Node<K, V> node = map.get(key);
-                remove(node);
-                setHead(node);
-                return node.value;
-            }
-            return null;
+            return lruCacheMap.get(key);
         }
 
-        public void remove(Node node) {
-            if (node.pre != null) {
-                node.pre.next = node.next;
-            } else {
-                head = node.next;
+        public void put(K key, V value) {
+            if (lruCacheMap.containsKey(key)) {
+                lruCacheMap.remove(key);
+            } else if (lruCacheMap.size() >= capacity) {
+                lruCacheMap.remove(lruCacheMap.keySet().iterator().next());
             }
-            if (node.next != null) {
-                node.next.pre = node.pre;
-            } else {
-                end = node.pre;
-            }
-        }
-
-        public void setHead(Node node) {
-            node.next = head;
-            node.pre = null;
-            if (head != null) {
-                head.pre = node;
-            }
-            head = node;
-            if (end == null) {
-                end = head;
-            }
-        }
-
-        public void set(K key, V value) {
-            if (map.containsKey(key)) {
-                Node<K, V> old = map.get(key);
-                old.value = value;
-                remove(old);
-                setHead(old);
-            } else {
-                Node<K, V> created = new Node<K, V>(key, value);
-                if (map.size() >= capacity) {
-                    map.remove(end.key);
-                    remove(end);
-                    setHead(created);
-                } else {
-                    setHead(created);
-                }
-                map.put(key, created);
-            }
-        }
-    }
-
-    public static class Node<K, V> {
-        private K key;
-        private V value;
-        private Node pre;
-        private Node next;
-
-        public Node(K key, V value) {
-            this.key = key;
-            this.value = value;
+            lruCacheMap.put(key, value);
         }
     }
 
