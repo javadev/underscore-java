@@ -1367,6 +1367,86 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void fromXmlMakeArrays() {
+        String string =
+        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+        + "\n"
+        + "\n<root>"
+        + "\n    <list>"
+        + "\n        <item>"
+        + "\n            <key1>value</key1>"
+        + "\n            <key2>value</key2>"
+        + "\n            <key3>value</key3>"
+        + "\n        </item>"
+        + "\n        <item>"
+        + "\n            <key1>value</key1>"
+        + "\n            <key2>value</key2>"
+        + "\n            <key3>value</key3>"
+        + "\n        </item>"
+        + "\n    </list>"
+        + "\n    <list>"
+        + "\n        <item>"
+        + "\n            <key1>value</key1>"
+        + "\n            <key2>value</key2>"
+        + "\n            <key3>value</key3>"
+        + "\n        </item>"
+        + "\n    </list>"
+        + "\n</root>";
+        assertEquals(
+        "{\n"
+        + "  \"root\": [\n"
+        + "    {\n"
+        + "      \"list\": [\n"
+        + "        {\n"
+        + "          \"item\": [\n"
+        + "            {\n"
+        + "              \"key1\": [\n"
+        + "                \"value\"\n"
+        + "              ],\n"
+        + "              \"key2\": [\n"
+        + "                \"value\"\n"
+        + "              ],\n"
+        + "              \"key3\": [\n"
+        + "                \"value\"\n"
+        + "              ]\n"
+        + "            },\n"
+        + "            {\n"
+        + "              \"key1\": [\n"
+        + "                \"value\"\n"
+        + "              ],\n"
+        + "              \"key2\": [\n"
+        + "                \"value\"\n"
+        + "              ],\n"
+        + "              \"key3\": [\n"
+        + "                \"value\"\n"
+        + "              ]\n"
+        + "            }\n"
+        + "          ]\n"
+        + "        },\n"
+        + "        {\n"
+        + "          \"item\": [\n"
+        + "            {\n"
+        + "              \"key1\": [\n"
+        + "                \"value\"\n"
+        + "              ],\n"
+        + "              \"key2\": [\n"
+        + "                \"value\"\n"
+        + "              ],\n"
+        + "              \"key3\": [\n"
+        + "                \"value\"\n"
+        + "              ]\n"
+        + "            }\n"
+        + "          ]\n"
+        + "        }\n"
+        + "      ]\n"
+        + "    }\n"
+        + "  ]\n"
+        + "}",
+            $.toJson((Map<String, Object>) $.fromXmlMakeArrays(string)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void fromXml() {
         String string =
         "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -1486,6 +1566,11 @@ _.repeat('abc', 0);
     @Test(expected = IllegalArgumentException.class)
     public void testDecodeParseXmlErr13() {
         $.fromXml("[\"abc\u0010\"]");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDecodeParseXmlErr14() {
+        $.fromXmlMakeArrays("[\"abc\u0010\"]");
     }
 
     @SuppressWarnings("unchecked")
