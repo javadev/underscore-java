@@ -140,6 +140,7 @@
                   <option>-keepattributes Signature,InnerClasses</option>
                   <option>-keep public class com.github.underscore.$ { *; }</option>
                   <option>-keep public class com.github.underscore.*$Chain { *; }</option>
+                  <option>-keep public class com.github.underscore.BinaryOperator { *; }</option>
                   <option>-keep public class com.github.underscore.BiConsumer { *; }</option>
                   <option>-keep public class com.github.underscore.BiFunction { *; }</option>
                   <option>-keep public class com.github.underscore.Consumer { *; }</option>

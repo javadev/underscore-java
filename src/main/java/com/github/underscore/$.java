@@ -325,6 +325,20 @@ public class $<T> {
         return accum;
     }
 
+    public static <T> Optional<T> reduce(final Iterable<T> iterable, final BinaryOperator<T> func) {
+        boolean foundAny = false;
+        T accum = null;
+        for (T element : iterable) {
+            if (!foundAny) {
+                foundAny = true;
+                accum = element;
+            } else {
+                accum = func.apply(accum, element);
+            }
+        }
+        return foundAny ? Optional.of(accum) : Optional.<T>absent();
+    }
+
     public static <E> E reduce(final int[] array, final BiFunction<E, ? super Integer, E> func, final E zeroElem) {
         E accum = zeroElem;
         for (int element : array) {
@@ -351,6 +365,10 @@ public class $<T> {
 
     public static <T, E> E reduceRight(final Iterable<T> iterable, final BiFunction<E, T, E> func, final E zeroElem) {
         return reduce(reverse(iterable), func, zeroElem);
+    }
+
+    public static <T> Optional<T> reduceRight(final Iterable<T> iterable, final BinaryOperator<T> func) {
+        return reduce(reverse(iterable), func);
     }
 
     public static <E> E reduceRight(final int[] array, final BiFunction<E, ? super Integer, E> func, final E zeroElem) {
@@ -2165,8 +2183,16 @@ public class $<T> {
             return new Chain<F>($.reduce(list, func, zeroElem));
         }
 
+        public Chain<Optional<T>> reduce(final BinaryOperator<T> func) {
+            return new Chain<Optional<T>>($.reduce(list, func));
+        }
+
         public <F> Chain<F> reduceRight(final BiFunction<F, T, F> func, final F zeroElem) {
             return new Chain<F>($.reduceRight(list, func, zeroElem));
+        }
+
+        public Chain<Optional<T>> reduceRight(final BinaryOperator<T> func) {
+            return new Chain<Optional<T>>($.reduceRight(list, func));
         }
 
         public Chain<Optional<T>> find(final Predicate<T> pred) {
