@@ -23,6 +23,7 @@
  */
 package com.github.underscore.math;
 
+import com.github.underscore.BinaryOperator;
 import com.github.underscore.BiFunction;
 import com.github.underscore.Consumer;
 import com.github.underscore.Function;
@@ -308,8 +309,12 @@ System.out.println("Sum of letters in words starting with E... " + sum);
             public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).reduce(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
+        $.chain(new String[] {""}).reduce(new BinaryOperator<String>() {
+            public String apply(String accum, String str) { return null; } });
         $.chain(new String[] {""}).reduceRight(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
+        $.chain(new String[] {""}).reduceRight(new BinaryOperator<String>() {
+            public String apply(String accum, String str) { return null; } });
         $.chain(new String[] {""}).find(new Predicate<String>() {
             public boolean test(String str) { return true; } });
         $.chain(new String[] {""}).findLast(new Predicate<String>() {

@@ -308,6 +308,62 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     }
 
 /*
+var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; });
+=> 6
+*/
+    @Test
+    public void reduceWithoutInit() {
+        final Integer result =
+        $.reduce(asList(1, 2, 3),
+            new BinaryOperator<Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        }).get();
+        assertEquals("6", result.toString());
+        final Integer resultChain =
+        $.chain(asList(1, 2, 3))
+            .reduce(
+            new BinaryOperator<Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        }).item().get();
+        assertEquals("6", resultChain.toString());
+        $.reduce(new ArrayList<Integer>(),
+            new BinaryOperator<Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        });
+    }
+
+/*
+var sum = _.reduceRight([1, 2, 3], function(memo, num){ return memo + num; });
+=> 6
+*/
+    @Test
+    public void reduceRightWithoutInit() {
+        final Integer result =
+        $.reduceRight(asList(1, 2, 3),
+            new BinaryOperator<Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        }).get();
+        assertEquals("6", result.toString());
+        final Integer resultChain =
+        $.chain(asList(1, 2, 3))
+            .reduceRight(
+            new BinaryOperator<Integer>() {
+            public Integer apply(Integer item1, Integer item2) {
+                return item1 + item2;
+            }
+        }).item().get();
+        assertEquals("6", resultChain.toString());
+    }
+
+/*
 var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 => 6
 */
