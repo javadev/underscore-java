@@ -47,7 +47,8 @@ public class $<T> {
     private static final java.util.concurrent.atomic.AtomicInteger UNIQUE_ID =
         new java.util.concurrent.atomic.AtomicInteger(0);
     private static final String ALL_SYMBOLS = "([\\s\\S]+?)";
-    private static final java.util.regex.Pattern FORMAT_PATTERN = java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*\\}");
+    private static final java.util.regex.Pattern FORMAT_PATTERN =
+        java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*\\}");
     private final Iterable<T> iterable;
     private final Optional<String> string;
 
@@ -963,6 +964,7 @@ public class $<T> {
         return first(iterable);
     }
 
+    @SafeVarargs
     public static <E> E head(final E ... array) {
         return first(array);
     }
@@ -1004,6 +1006,7 @@ public class $<T> {
         return initial((List<T>) iterable, n);
     }
 
+    @SafeVarargs
     public static <E> E last(final E ... array) {
         return array[array.length - 1];
     }
@@ -1084,6 +1087,7 @@ public class $<T> {
         return rest(list, n);
     }
 
+    @SafeVarargs
     public static <E> E[] tail(final E ... array) {
         return rest(array);
     }
@@ -2385,6 +2389,7 @@ public class $<T> {
             return new Chain<String>($.join(list, separator));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> push(final T ... values) {
             return new Chain<T>($.push(value(), values));
         }
@@ -2397,6 +2402,7 @@ public class $<T> {
             return new Chain<Tuple<T, List<T>>>($.shift(value()));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> unshift(final T ... values) {
             return new Chain<T>($.unshift(value(), values));
         }
@@ -2452,6 +2458,7 @@ public class $<T> {
         return localList;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Comparable<T>> T[] sort(final T ... array) {
         final T[] localArray = array.clone();
         Arrays.sort(localArray);
@@ -2496,6 +2503,7 @@ public class $<T> {
         return join(iterable);
     }
 
+    @SafeVarargs
     public static <T> List<T> push(final List<T> list, final T ... values) {
         final List<T> result = newArrayList(list);
         for (T value : values) {
@@ -2504,6 +2512,7 @@ public class $<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> push(final T ... values) {
         return push((List<T>) getIterable(), values);
     }
@@ -2516,6 +2525,7 @@ public class $<T> {
         return pop((List<T>) getIterable());
     }
 
+    @SafeVarargs
     public static <T> List<T> unshift(final List<T> list, final T ... values) {
         final List<T> result = newArrayList(list);
         int index = 0;
@@ -2526,6 +2536,7 @@ public class $<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> unshift(final T ... values) {
         return unshift((List<T>) getIterable(), values);
     }
@@ -2585,9 +2596,14 @@ public class $<T> {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T[] slice(final T[] array, final int start) {
-        return (T[]) slice(Arrays.asList(array), start).toArray();
+        final T[] result;
+        if (start >= 0) {
+            result = Arrays.copyOfRange(array, start, array.length);
+        } else {
+            result = Arrays.copyOfRange(array, array.length + start, array.length);
+        }
+        return result;
     }
 
     public List<T> slice(final int start) {
