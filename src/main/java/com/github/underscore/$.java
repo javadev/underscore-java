@@ -2792,6 +2792,16 @@ public class $<T> {
         return reference;
     }
 
+    public static <T> List<T> checkNotNullElements(List<T> references) {
+        if (references == null) {
+            throw new NullPointerException();
+        }
+        for (T reference : references) {
+            checkNotNull(reference);
+        }
+        return references;
+    }
+
     public static <T> T checkNotNull(T reference, Object errorMessage) {
         if (reference == null) {
             throw new NullPointerException(String.valueOf(errorMessage));
@@ -2860,6 +2870,54 @@ public class $<T> {
 
     protected static <K, E> Map<K, E> newLinkedHashMap() {
         return new LinkedHashMap<K, E>();
+    }
+
+    public static <T> Predicate<T> and(
+            final Predicate<? super T> pred1,
+            final Predicate<? super T> pred2,
+        final Predicate<? super T>... rest) {
+        checkNotNull(pred1);
+        checkNotNull(pred2);
+        checkNotNullElements(Arrays.asList(rest));
+        return new Predicate<T>() {
+            @Override
+            public boolean test(T value) {
+                boolean result = pred1.test(value) && pred2.test(value);
+                if (!result) {
+                    return false;
+                }
+                for (Predicate<? super T> predicate : rest) {
+                    if (!predicate.test(value)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+    }
+
+    public static <T> Predicate<T> or(
+            final Predicate<? super T> pred1,
+            final Predicate<? super T> pred2,
+            final Predicate<? super T>... rest) {
+        checkNotNull(pred1);
+        checkNotNull(pred2);
+        checkNotNullElements(Arrays.asList(rest));
+        return new Predicate<T>() {
+            @Override
+            public boolean test(T value) {
+                boolean result = pred1.test(value) || pred2.test(value);
+                if (result) {
+                    return true;
+                }
+                for (Predicate<? super T> predicate : rest) {
+                    if (predicate.test(value)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
     }
 
     public static void main(String ... args) {
