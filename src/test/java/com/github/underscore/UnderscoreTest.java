@@ -432,9 +432,75 @@ _.elementAtOrNull(arr, 3) // => null
         $.checkNotNull(null, "Error message");
     }
 
+    @Test(expected = NullPointerException.class)
+    public void checkNotNull2() {
+        $.checkNotNullElements(null);
+    }
+
     @Test
     public void checkNotNullWithObjectAndMessage() {
         assertEquals("123", $.checkNotNull("123", "Error message"));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void and() {
+        Predicate<Integer> predicate = $.and(
+            new Predicate<Object>() {
+                @Override
+                public boolean test(Object value) {
+                    return value != null;
+                }
+            },
+            new Predicate<Number>() {
+                @Override
+                public boolean test(Number value) {
+                    return value.intValue() > 0;
+                }
+            },
+            new Predicate<Integer>() {
+                @Override
+                public boolean test(Integer value) {
+                    return (50 <= value) && (value <= 60);
+                }
+            });
+        assertTrue(predicate.test(50));
+        assertFalse(predicate.test(null));
+        assertFalse(predicate.test(-56));
+        assertTrue(predicate.test(60));
+        assertFalse(predicate.test(62));
+        assertFalse(predicate.test(1002));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void or() {
+        Predicate<Integer> predicate = $.or(
+            new Predicate<Object>() {
+                @Override
+                public boolean test(Object value) {
+                    return value == null;
+                }
+            },
+            new Predicate<Number>() {
+                @Override
+                public boolean test(Number value) {
+                    return value.intValue() > 2000;
+                }
+            },
+            new Predicate<Integer>() {
+                @Override
+                public boolean test(Integer value) {
+                    return (50 <= value) && (value <= 60);
+                }
+            });
+        assertTrue(predicate.test(50));
+        assertTrue(predicate.test(55));
+        assertTrue(predicate.test(60));
+        assertTrue(predicate.test(null));
+        assertFalse(predicate.test(1001));
+        assertFalse(predicate.test(1001));
+        assertTrue(predicate.test(2001));
     }
 
     @Test
