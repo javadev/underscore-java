@@ -805,6 +805,32 @@ public class $<T> {
         return groupBy((Iterable<E>) iterable, func);
     }
 
+    public static <K, E> Map<K, Optional<E>> groupBy(final Iterable<E> iterable, final Function<E, K> func,
+        final BinaryOperator<E> binaryOperator) {
+        final Map<K, List<E>> retVal = newLinkedHashMap();
+        for (E e : iterable) {
+            final K key = func.apply(e);
+            List<E> val;
+            if (retVal.containsKey(key)) {
+                val = retVal.get(key);
+            } else {
+                val = newArrayList();
+            }
+            val.add(e);
+            retVal.put(key, val);
+        }
+        final Map<K, Optional<E>> retVal2 = newLinkedHashMap();
+        for (Map.Entry<K, List<E>> entry : retVal.entrySet()) {
+            retVal2.put(entry.getKey(), reduce(entry.getValue(), binaryOperator));
+        }
+        return retVal2;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <K, E> Map<K, Optional<E>> groupBy(final Function<E, K> func, final BinaryOperator<E> binaryOperator) {
+        return groupBy((Iterable<E>) iterable, func, binaryOperator);
+    }
+
     @SuppressWarnings("unchecked")
     public static <K, E> Map<K, List<E>> indexBy(final Iterable<E> iterable, final String property) {
         return groupBy(iterable, new Function<E, K>() {

@@ -1486,6 +1486,42 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
     }
 
 /*
+_.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
+=> {1: [1.3], 2: [2.1, 2.4]}
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void groupByWithSumming() {
+        final Map<Double, Optional<Double>> result =
+        $.groupBy(asList(1.3, 2.1, 2.4),
+            new Function<Double, Double>() {
+            public Double apply(Double num) {
+                return Math.floor(num);
+            }
+            },
+            new BinaryOperator<Double>() {
+            public Double apply(Double a, Double b) {
+                return a + b;
+            }
+            }
+        );
+        assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", result.toString());
+        final Map<Double, Optional<Double>> resultObj =
+        new $(asList(1.3, 2.1, 2.4)).groupBy(
+            new Function<Double, Double>() {
+            public Double apply(Double num) {
+                return Math.floor(num);
+            }
+            },
+            new BinaryOperator<Double>() {
+            public Double apply(Double a, Double b) {
+                return a + b;
+            }
+            });
+        assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", resultObj.toString());
+    }
+
+/*
 var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
 _.indexBy(stooges, 'age');
 => {
