@@ -1519,6 +1519,19 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
             }
             });
         assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", resultObj.toString());
+        final Map<Double, Optional<Double>> resultChain =
+        $.chain(asList(1.3, 2.1, 2.4)).groupBy(
+            new Function<Double, Double>() {
+            public Double apply(Double num) {
+                return Math.floor(num);
+            }
+            },
+            new BinaryOperator<Double>() {
+            public Double apply(Double a, Double b) {
+                return a + b;
+            }
+            }).item();
+        assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", resultChain.toString());
     }
 
 /*
