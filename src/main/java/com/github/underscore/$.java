@@ -807,23 +807,11 @@ public class $<T> {
 
     public static <K, E> Map<K, Optional<E>> groupBy(final Iterable<E> iterable, final Function<E, K> func,
         final BinaryOperator<E> binaryOperator) {
-        final Map<K, List<E>> retVal = newLinkedHashMap();
-        for (E e : iterable) {
-            final K key = func.apply(e);
-            List<E> val;
-            if (retVal.containsKey(key)) {
-                val = retVal.get(key);
-            } else {
-                val = newArrayList();
-            }
-            val.add(e);
-            retVal.put(key, val);
+        final Map<K, Optional<E>> retVal = newLinkedHashMap();
+        for (Map.Entry<K, List<E>> entry : groupBy(iterable, func).entrySet()) {
+            retVal.put(entry.getKey(), reduce(entry.getValue(), binaryOperator));
         }
-        final Map<K, Optional<E>> retVal2 = newLinkedHashMap();
-        for (Map.Entry<K, List<E>> entry : retVal.entrySet()) {
-            retVal2.put(entry.getKey(), reduce(entry.getValue(), binaryOperator));
-        }
-        return retVal2;
+        return retVal;
     }
 
     @SuppressWarnings("unchecked")

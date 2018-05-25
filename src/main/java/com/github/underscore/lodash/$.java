@@ -251,6 +251,11 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<Map<F, List<T>>>($.groupBy(value(), func));
         }
 
+        public <F> Chain<Map<F, Optional<T>>> groupBy(final Function<T, F> func,
+            final BinaryOperator<T> binaryOperator) {
+            return new Chain<Map<F, Optional<T>>>($.groupBy(value(), func, binaryOperator));
+        }
+
         public Chain<Map<Object, List<T>>> indexBy(final String property) {
             return new Chain<Map<Object, List<T>>>($.indexBy(value(), property));
         }

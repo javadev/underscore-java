@@ -642,6 +642,17 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
         $.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
+        $.chain(new Integer[] {0}).groupBy(
+            new Function<Integer, Integer>() {
+            public Integer apply(Integer num) {
+                return num;
+            }
+            },
+            new BinaryOperator<Integer>() {
+            public Integer apply(Integer a, Integer b) {
+                return a;
+            }
+            });
         $.chain(new Integer[] {0}).indexBy("");
         $.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
