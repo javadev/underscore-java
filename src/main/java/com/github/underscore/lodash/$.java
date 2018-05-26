@@ -341,14 +341,17 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(value(), func)));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> union(final List<T> ... lists) {
             return new Chain<T>($.union(value(), lists));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> intersection(final List<T> ... lists) {
             return new Chain<T>($.intersection(value(), lists));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> difference(final List<T> ... lists) {
             return new Chain<T>($.difference(value(), lists));
         }
@@ -369,6 +372,7 @@ public class $<T> extends com.github.underscore.$<T> {
             return new Chain<List<T>>($.chunk(value(), size));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> concat(final List<T> ... lists) {
             return new Chain<T>($.concat(value(), lists));
         }
@@ -667,6 +671,7 @@ public class $<T> extends com.github.underscore.$<T> {
         return new $.Chain<T>(newArrayList(iterable, size));
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Chain<T> chain(final T ... list) {
         return new $.Chain<T>(Arrays.asList(list));
     }
@@ -2843,7 +2848,7 @@ public class $<T> extends com.github.underscore.$<T> {
     public static class LRUCache<K, V> {
         private static final boolean SORT_BY_ACCESS = true;
         private static final float LOAD_FACTOR = 0.75F;
-        private final LinkedHashMap<K, V> lruCacheMap;
+        private final Map<K, V> lruCacheMap;
         private final int capacity;
 
         public LRUCache(int capacity) {

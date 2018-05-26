@@ -2675,6 +2675,7 @@ public class $<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] reverse(final T ... array) {
         T temp;
         final T[] newArray = array.clone();
@@ -2907,6 +2908,7 @@ public class $<T> {
         return new LinkedHashMap<K, E>();
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Predicate<T> and(
             final Predicate<? super T> pred1,
             final Predicate<? super T> pred2,
@@ -2931,6 +2933,7 @@ public class $<T> {
         };
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Predicate<T> or(
             final Predicate<? super T> pred1,
             final Predicate<? super T> pred2,
