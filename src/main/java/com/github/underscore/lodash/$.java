@@ -2674,38 +2674,43 @@ public class $<T> extends com.github.underscore.$<T> {
         }
     }
 
-    public static FetchResponse fetch(final String url, final String method, final String body,
-        final Map<String, List<String>> headerFields, final Integer connectTimeout, final Integer readTimeout) {
+    private static void setupConnection(final java.net.HttpURLConnection connection, final String method,
+        final Map<String, List<String>> headerFields, final Integer connectTimeout, final Integer readTimeout)
+        throws java.io.IOException {
         final String localMethod;
         if (SUPPORTED_HTTP_METHODS.contains(method)) {
             localMethod = method;
         } else {
             localMethod = "GET";
         }
+        connection.setRequestMethod(localMethod);
+        if (connectTimeout != null) {
+            connection.setConnectTimeout(connectTimeout);
+        }
+        if (readTimeout != null) {
+            connection.setReadTimeout(readTimeout);
+        }
+        if (connection instanceof javax.net.ssl.HttpsURLConnection) {
+            ((javax.net.ssl.HttpsURLConnection) connection).setHostnameVerifier(new NoHostnameVerifier());
+        }
+        if (headerFields != null) {
+            for (final Map.Entry<String, List<String>> header : headerFields.entrySet()) {
+                connection.setRequestProperty(header.getKey(), join(header.getValue(), ";"));
+            }
+        }
+    }
+
+    public static FetchResponse fetch(final String url, final String method, final String body,
+        final Map<String, List<String>> headerFields, final Integer connectTimeout, final Integer readTimeout) {
         try {
             final java.net.URL localUrl = new java.net.URL(url);
             final java.net.HttpURLConnection connection = (java.net.HttpURLConnection) localUrl.openConnection();
-            connection.setRequestMethod(localMethod);
-            if (connectTimeout != null) {
-                connection.setConnectTimeout(connectTimeout);
-            }
-            if (readTimeout != null) {
-                connection.setReadTimeout(readTimeout);
-            }
-            if (connection instanceof javax.net.ssl.HttpsURLConnection) {
-                ((javax.net.ssl.HttpsURLConnection) connection).setHostnameVerifier(new NoHostnameVerifier());
-            }
-            if (headerFields != null) {
-                for (final Map.Entry<String, List<String>> header : headerFields.entrySet()) {
-                    connection.setRequestProperty(header.getKey(), join(header.getValue(), ";"));
-                }
-            }
+            setupConnection(connection, method, headerFields, connectTimeout, readTimeout);
             if (body != null) {
                 connection.setDoOutput(true);
                 final java.io.DataOutputStream outputStream =
                     new java.io.DataOutputStream(connection.getOutputStream());
                 outputStream.writeBytes(body);
-                outputStream.flush();
                 outputStream.close();
             }
             final int responseCode = connection.getResponseCode();
