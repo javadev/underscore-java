@@ -9,7 +9,6 @@ underscore-java
 [![CircleCI](https://circleci.com/gh/javadev/underscore-java.svg?style=svg)](https://circleci.com/gh/javadev/underscore-java)
 [![Codeship Status for javadev/underscore-java](https://codeship.com/projects/c989fef0-f3ab-0132-7ca5-16cf317d1634/status?branch=master)](https://codeship.com/projects/85467)
 [![wercker status](https://app.wercker.com/status/d1130226089a5bd54d205e1901cbef3b/s "wercker status")](https://app.wercker.com/project/bykey/d1130226089a5bd54d205e1901cbef3b)
-[![Vexor status](https://ci.vexor.io/projects/c425aac1-1b21-4486-ac44-29a97abfb814/status.svg)](https://ci.vexor.io/ui/projects/c425aac1-1b21-4486-ac44-29a97abfb814/builds)
 [![Build status](https://ci.appveyor.com/api/projects/status/tx7icv3i08qowv6r?svg=true)](https://ci.appveyor.com/project/javadev/underscore-java)
 [![Build Status](https://semaphoreci.com/api/v1/projects/2fc09de1-52a9-4f88-8023-9da1223e64f6/532523/shields_badge.svg)](https://semaphoreci.com/javadev/underscore-java)
 [![Run Status](https://api.shippable.com/projects/55def20f1895ca44741030a2/badge?branch=master)](https://app.shippable.com/projects/55def20f1895ca44741030a2)
