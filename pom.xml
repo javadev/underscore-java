@@ -114,7 +114,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.9</version>
+        <version>0.8.1</version>
         <executions>
           <execution>
             <id>prepare-agent</id>
@@ -125,58 +125,23 @@
         </executions>
       </plugin>
       <plugin>
-          <groupId>com.github.wvengen</groupId>
-          <artifactId>proguard-maven-plugin</artifactId>
-          <version>2.0.14</version>
-          <executions>
-             <execution>
-                 <phase>package</phase>
-                 <goals><goal>proguard</goal></goals>
-             </execution>
-          </executions>
-          <configuration>
-              <options>
-                  <option>-allowaccessmodification</option>
-                  <option>-keepattributes Signature,InnerClasses</option>
-                  <option>-keep public class com.github.underscore.$ { *; }</option>
-                  <option>-keep public class com.github.underscore.*$Chain { *; }</option>
-                  <option>-keep public class com.github.underscore.BinaryOperator { *; }</option>
-                  <option>-keep public class com.github.underscore.BiConsumer { *; }</option>
-                  <option>-keep public class com.github.underscore.BiFunction { *; }</option>
-                  <option>-keep public class com.github.underscore.Consumer { *; }</option>
-                  <option>-keep public class com.github.underscore.Function { *; }</option>
-                  <option>-keep public class com.github.underscore.Function3 { *; }</option>
-                  <option>-keep public class com.github.underscore.MemoizeFunction { *; }</option>
-                  <option>-keep public class com.github.underscore.Optional { *; }</option>
-                  <option>-keep public class com.github.underscore.Predicate { *; }</option>
-                  <option>-keep public class com.github.underscore.PredicateIndexed { *; }</option>
-                  <option>-keep public class com.github.underscore.Supplier { *; }</option>
-                  <option>-keep public class com.github.underscore.Template { *; }</option>
-                  <option>-keep public class com.github.underscore.Tuple { *; }</option>
-                  <option>-keep public class com.github.underscore.UnaryOperator { *; }</option>
-                  <option>-keep public class com.github.underscore.lodash.$ { *; }</option>
-                  <option>-keep public class com.github.underscore.lodash.*$Chain { *; }</option>
-                  <option>-keep public class com.github.underscore.lodash.*$ParseException { *; }</option>
-                  <option>-keep public class com.github.underscore.lodash.*$FetchResponse { *; }</option>
-                  <option>-keep public class com.github.underscore.lodash.*$LRUCache { *; }</option>
-                  <option>-keepclassmembers class * { *** newArrayList(); *** newLinkedHashSet(); *** newHashSet(java.lang.Iterable); *** newLinkedHashMap(); }</option>
-                  <option>-dontnote com.github.underscore.*$ClassForName</option>
-              </options>
-              <libs>
-                  <lib>${java.home}/lib/rt.jar</lib>
-              </libs>
-          </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
       </plugin>
       <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.6</version>
-          <configuration>
-            <reportPlugins>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.7.1</version>
+      </plugin>
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.6</version>
+        <version>2.7</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -202,7 +167,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>3.5</version>
             <configuration>
-                <targetJdk>1.6</targetJdk> 
+                <targetJdk>1.8</targetJdk> 
                 <rulesets>
                   <ruleset>rulesets/java/basic.xml</ruleset>
                   <ruleset>rulesets/java/design.xml</ruleset>
@@ -229,11 +194,8 @@
         <artifactId>taglist-maven-plugin</artifactId>
         <version>2.4</version>
       </plugin>
-            </reportPlugins>
-          </configuration>
-        </plugin>
     </plugins>
-  </build>
+  </reporting>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -242,5 +204,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
+
 </project>

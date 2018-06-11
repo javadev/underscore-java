@@ -2,9 +2,9 @@ language: java
 dist: precise
 
 jdk:
-  - openjdk7
   - oraclejdk7
   - oraclejdk8
+  - oraclejdk10
 
 script:
   - mvn clean install jacoco:report coveralls:report
