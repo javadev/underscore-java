@@ -616,10 +616,10 @@ public class $<T> extends com.github.underscore.$<T> {
     }
 
     public static class Node<K, V> {
-        K key;
-        V value;
-        Node pre;
-        Node next;
+        private K key;
+        private V value;
+        private Node pre;
+        private Node next;
 
         public Node(K key, V value) {
             this.key = key;
