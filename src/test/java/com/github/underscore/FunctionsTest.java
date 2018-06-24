@@ -24,10 +24,10 @@
 package com.github.underscore;
 
 import java.util.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Underscore library unit test.
@@ -119,7 +119,7 @@ _.delay(function(){ equal(counter, 1, 'incr was throttled'); }, 96);
         $.delay(throttleIncr, 16);
         $.delay(new Supplier<Void>() {
             public Void get() {
-                assertEquals("incr was throttled", 1, counter[0].intValue());
+                assertEquals(1, counter[0].intValue(), "incr was throttled");
                 return null;
             }
         }, 60);
@@ -147,7 +147,7 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
         $.delay(debouncedIncr, 16);
         $.delay(new Supplier<Void>() {
             public Void get() {
-                assertEquals("incr was debounced", 1, counter[0].intValue());
+                assertEquals(1, counter[0].intValue(), "incr was debounced");
                 return null;
             }
         }, 60);
@@ -168,9 +168,9 @@ _.defer(function(){ alert('deferred'); });
                 e.getMessage();
             }
             counter[0]++; return null; } });
-        assertEquals("incr was debounced", 0, counter[0].intValue());
+        assertEquals(0, counter[0].intValue(), "incr was debounced");
         Thread.sleep(60);
-        assertEquals("incr was debounced", 1, counter[0].intValue());
+        assertEquals(1, counter[0].intValue(), "incr was debounced");
     }
 
 /*
@@ -188,8 +188,8 @@ initialize();
         onceIncr.get();
         onceIncr.get();
         Thread.sleep(60);
-        assertEquals("incr was called only once", 1, counter[0].intValue());
-        assertEquals("stores a memo to the last value", 1, onceIncr.get().intValue());
+        assertEquals(1, counter[0].intValue(), "incr was called only once");
+        assertEquals(1, onceIncr.get().intValue(), "stores a memo to the last value");
     }
 
 /*
@@ -353,7 +353,7 @@ _.map(stooges, _.iteratee('age'));
             counter[0]++; return null; } };
         $.setInterval(incr, 10);
         Thread.sleep(45);
-        assertTrue("Counter is not in range [4, 5, 6] " + counter[0], asList(4, 5, 6).contains(counter[0]));
+        assertTrue(asList(4, 5, 6).contains(counter[0]), "Counter is not in range [4, 5, 6] " + counter[0]);
     }
 
     @Test

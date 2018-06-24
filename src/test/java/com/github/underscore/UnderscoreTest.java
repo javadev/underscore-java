@@ -24,14 +24,15 @@
 package com.github.underscore;
 
 import java.util.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Underscore library unit test.
@@ -242,9 +243,9 @@ _.set(arr, 1, 100) // => 2
 var arr = [ 1, 2, 3 ]
 _.elementAt(arr, 3) // => IndexOutOfBoundsException
 */
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void elementAtOutOfBounds() {
-        $.<Integer>elementAt(asList(1, 2, 3), 3);
+        assertThrows(IndexOutOfBoundsException.class, () -> {$.<Integer>elementAt(asList(1, 2, 3), 3);});
     }
 
 /*
@@ -399,13 +400,13 @@ _.elementAtOrNull(arr, 3) // => null
         }
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void optionalOrThrow() throws RuntimeException {
-        Optional.absent().orThrow(new Supplier<RuntimeException>() {
+        assertThrows(Exception.class, () -> {Optional.absent().orThrow(new Supplier<RuntimeException>() {
             public RuntimeException get() {
                 return new RuntimeException();
             }
-        });
+        });});
     }
 
     @Test
@@ -417,9 +418,9 @@ _.elementAtOrNull(arr, 3) // => null
         }).toString());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void checkNotNull() {
-        $.checkNotNull(null);
+        assertThrows(NullPointerException.class, () -> {$.checkNotNull(null);});
     }
 
     @Test
@@ -427,14 +428,14 @@ _.elementAtOrNull(arr, 3) // => null
         assertEquals("123", $.checkNotNull("123"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void checkNotNullWithMessage() {
-        $.checkNotNull(null, "Error message");
+        assertThrows(NullPointerException.class, () -> {$.checkNotNull(null, "Error message");});
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void checkNotNull2() {
-        $.checkNotNullElements(null);
+        assertThrows(NullPointerException.class, () -> {$.checkNotNullElements(null);});
     }
 
     @Test

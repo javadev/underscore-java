@@ -28,10 +28,11 @@ import com.github.underscore.Predicate;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Underscore library unit test.
@@ -104,7 +105,7 @@ _.sum([-1, -2, -3]);
         assertEquals("12", resultObjFunc.toString());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void sumError() {
         class MyNumber extends Number {
             public int intValue() {
@@ -120,7 +121,7 @@ _.sum([-1, -2, -3]);
                 return 0;
             }
         }
-        $.sum(asList(new MyNumber(), new MyNumber()));
+        assertThrows(UnsupportedOperationException.class, () -> {$.sum(asList(new MyNumber(), new MyNumber()));});
     }
 
 /*
@@ -170,9 +171,9 @@ _.median([0, 0, 1, 2, 3, 4]);
         assertEquals("1.5", result4.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void medianForEmpty() {
-        $.median(new ArrayList<Double>());
+        assertThrows(IllegalArgumentException.class, () -> {$.median(new ArrayList<Double>());});
     }
 
     // http://stackoverflow.com/questions/27772432/is-there-a-underscore-js-lib-for-java
