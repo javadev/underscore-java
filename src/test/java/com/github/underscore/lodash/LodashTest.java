@@ -31,11 +31,12 @@ import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import java.util.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Underscore library unit test.
@@ -494,14 +495,14 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         assertEquals("NMR", (String) $.get((Map<String, Object>) result.xml(), "report.code"));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void fetchResponseError() {
         java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream() {
             public String toString(String encoding) throws java.io.UnsupportedEncodingException {
                 throw new java.io.UnsupportedEncodingException();
             }
         };
-        new $.FetchResponse(true, 100, null, stream).text();
+        assertThrows(UnsupportedOperationException.class, () -> {new $.FetchResponse(true, 100, null, stream).text();});
     }
 
     @Test
@@ -564,9 +565,9 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         new $.NoHostnameVerifier().verify("", (javax.net.ssl.SSLSession) null);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void fetchWrongUrl() {
-        $.fetch("ttt");
+        assertThrows(UnsupportedOperationException.class, () -> {$.fetch("ttt");});
     }
 
     @SuppressWarnings("unchecked")

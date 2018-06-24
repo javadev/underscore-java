@@ -32,11 +32,12 @@ import com.github.underscore.lodash.$.JsonStringBuilder;
 import com.github.underscore.lodash.$.XmlStringBuilder;
 
 import java.util.*;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Underscore library unit test.
@@ -845,49 +846,49 @@ _.repeat('abc', 0);
         assertEquals("[abc\\u001G/]", $.fromJson("[\"abc\\u001G\\/\"]").toString());
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr1() {
-        $.fromJson("$");
+        assertThrows($.ParseException.class, () -> {$.fromJson("$");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr2() {
-        $.fromJson("[\"value\"");
+        assertThrows($.ParseException.class, () -> {$.fromJson("[\"value\"");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr3() {
-        $.fromJson("{\"value\":123");
+        assertThrows($.ParseException.class, () -> {$.fromJson("{\"value\":123");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr4() {
-        $.fromJson("{\"value\"123");
+        assertThrows($.ParseException.class, () -> {$.fromJson("{\"value\"123");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr5() {
-        $.fromJson("{value");
+        assertThrows($.ParseException.class, () -> {$.fromJson("{value");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr6() {
-        $.fromJson("[ture]");
+        assertThrows($.ParseException.class, () -> {$.fromJson("[ture]");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr8() {
-        $.fromJson("[\"\\abc\"]");
+        assertThrows($.ParseException.class, () -> {$.fromJson("[\"\\abc\"]");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr9() {
-        $.fromJson("[123ea]");
+        assertThrows($.ParseException.class, () -> {$.fromJson("[123ea]");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr10() {
-        try {
+        assertThrows($.ParseException.class, () -> {try {
             $.fromJson("[123.a]");
             fail("Expected ParseException");
         } catch ($.ParseException ex) {
@@ -895,27 +896,27 @@ _.repeat('abc', 0);
             ex.getLine();
             ex.getColumn();
             throw ex;
-        }
+        }});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr11() {
-        $.fromJson("[1g]");
+        assertThrows($.ParseException.class, () -> {$.fromJson("[1g]");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr12() {
-        $.fromJson("[--1");
+        assertThrows($.ParseException.class, () -> {$.fromJson("[--1");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr13() {
-        $.fromJson("[\"abc\u0010\"]");
+        assertThrows($.ParseException.class, () -> {$.fromJson("[\"abc\u0010\"]");});
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test
     public void testDecodeParseErr14() {
-        $.fromJson("[\"abc\"][]");
+        assertThrows($.ParseException.class, () -> {$.fromJson("[\"abc\"][]");});
     }
 
     @SuppressWarnings("unchecked")
@@ -1563,14 +1564,14 @@ _.repeat('abc', 0);
         $.fromXml(stringXml);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDecodeParseXmlErr13() {
-        $.fromXml("[\"abc\u0010\"]");
+        assertThrows(IllegalArgumentException.class, () -> {$.fromXml("[\"abc\u0010\"]");});
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDecodeParseXmlErr14() {
-        $.fromXmlMakeArrays("[\"abc\u0010\"]");
+        assertThrows(IllegalArgumentException.class, () -> {$.fromXmlMakeArrays("[\"abc\u0010\"]");});
     }
 
     @SuppressWarnings("unchecked")

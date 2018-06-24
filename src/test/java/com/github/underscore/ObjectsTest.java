@@ -24,12 +24,13 @@
 package com.github.underscore;
 
 import java.util.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Underscore library unit test.
@@ -175,29 +176,29 @@ _.clone({name: 'moe'});
         assertEquals("[1, 2, 3, 4, 5]", asList(result2).toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void cloneError() {
         class Test {
         }
-        $.clone(new Test());
+        assertThrows(IllegalArgumentException.class, () -> {$.clone(new Test());});
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void cloneError2() {
         class Test implements Cloneable {
             public Object clone(String arg) {
                 return null; }
         }
-        $.clone(new Test());
+        assertThrows(IllegalArgumentException.class, () -> {$.clone(new Test());});
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void cloneError3() {
         class Test implements Cloneable {
             public Object clone() throws CloneNotSupportedException {
                 super.clone(); throw new RuntimeException(); }
         }
-        $.clone(new Test());
+        assertThrows(IllegalArgumentException.class, () -> {$.clone(new Test());});
     }
 
 /*

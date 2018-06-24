@@ -24,11 +24,12 @@
 package com.github.underscore;
 
 import java.util.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Underscore library unit test.
@@ -988,15 +989,15 @@ _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
             $.chain(asList(3, 2, 1))), "sort").toString(), asList("[1, 5, 7]", "[1, 2, 3]").toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("unchecked")
     public void invokeError() {
-        $.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));
+        assertThrows(IllegalArgumentException.class, () -> {$.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));});
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void invokeError2() {
-        $.invoke(asList(" foo ", "  bar"), "trim2");
+        assertThrows(IllegalArgumentException.class, () -> {$.invoke(asList(" foo ", "  bar"), "trim2");});
     }
 
 /*
@@ -1055,7 +1056,7 @@ _.pluck(stooges, 'name');
         assertEquals("[moe, larry, curly]", resultSet2.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void pluck2() {
         class Person {
             public final String name;
@@ -1065,10 +1066,11 @@ _.pluck(stooges, 'name');
                 this.age = age;
             }
         }
-        $.pluck(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)), "name2");
+        assertThrows(IllegalArgumentException.class, () -> {
+                $.pluck(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)), "name2");});
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("unchecked")
     public void pluck3() {
         class Person {
@@ -1079,8 +1081,8 @@ _.pluck(stooges, 'name');
                 this.age = age;
             }
         }
-        $.pluck(new LinkedHashSet(
-            asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name2");
+        assertThrows(IllegalArgumentException.class, () -> {$.pluck(new LinkedHashSet(
+            asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name2");});
     }
 
 /*
@@ -1631,6 +1633,9 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
         assertEquals(6, resultObj.size());
         final List<Integer> resultChain = $.chain(asList(1, 2, 3, 4, 5, 6)).shuffle().value();
         assertEquals(6, resultChain.size());
+        final String resultChainJoin = $.chain(asList("-inurl:.be", "-inurl:lu", "-inurl:ma", "-inurl:ch"))
+            .shuffle().join(" ").item();
+        assertTrue(resultChainJoin.contains("-inurl:.be"));
     }
 
 /*

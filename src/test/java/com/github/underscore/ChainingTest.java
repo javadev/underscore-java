@@ -23,7 +23,7 @@
  */
 package com.github.underscore;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Underscore library unit test.
@@ -135,7 +135,7 @@ var youngest = _.chain(stooges)
             add(new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } });
             add(new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } });
         } };
-        final String youngest = $.chain($.toArray(stooges))
+        final String youngest = $.chain(stooges)
             .sortBy(
                 new Function<Map<String, Object>, Integer>() {
                 public Integer apply(Map<String, Object> item) {

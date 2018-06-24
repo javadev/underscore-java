@@ -23,7 +23,7 @@
  */
 package com.github.underscore;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -31,9 +31,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Underscore library unit test.
@@ -114,10 +115,10 @@ _.first([5, 4, 3, 2, 1], 2);
         }));
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     @SuppressWarnings("unchecked")
     public void firstEmpty() {
-        $.first(asList());
+        assertThrows(NoSuchElementException.class, () -> {$.first(asList());});
     }
 
 /*
@@ -242,9 +243,9 @@ _.initial([5, 4, 3, 2, 1], 2);
         final Integer[] resultListArray = $.initial(new Integer[] {5, 4, 3, 2, 1}, 2);
         assertEquals("[5, 4, 3]", asList(resultListArray).toString());
         List<Integer> res = new $(asList(1, 2, 3, 4, 5)).initial();
-        assertEquals("initial one item did not work", asList(1, 2, 3, 4), res);
+        assertEquals(asList(1, 2, 3, 4), res, "initial one item did not work");
         res = new $(asList(1, 2, 3, 4, 5)).initial(3);
-        assertEquals("initial multi item did not wok", asList(1, 2), res);
+        assertEquals(asList(1, 2), res, "initial multi item did not wok");
     }
 
 /*
@@ -265,9 +266,9 @@ _.last([5, 4, 3, 2, 1]);
         final Integer resultArray = $.last(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("1", resultArray.toString());
         Integer res = new $<Integer>(asList(1, 2, 3, 4, 5)).last();
-        assertEquals("last one item did not work", 5, res.intValue());
+        assertEquals(5, res.intValue(), "last one item did not work");
         List<Integer> resList = new $(asList(1, 2, 3, 4, 5)).last(3);
-        assertEquals("last multi item did not wok", asList(3, 4, 5), resList);
+        assertEquals(asList(3, 4, 5), resList, "last multi item did not wok");
         final int resultPred = $.last(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
@@ -435,14 +436,14 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
         assertEquals(1, resultArray);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void sortedIndex2Error() {
         class Person implements Comparable<Person> {
             public int compareTo(Person person) {
                 return 0;
             }
         }
-        $.<Person>sortedIndex(asList(new Person()), new Person(), "age");
+        assertThrows(IllegalArgumentException.class, () -> {$.<Person>sortedIndex(asList(new Person()), new Person(), "age");});
     }
 
 /*
