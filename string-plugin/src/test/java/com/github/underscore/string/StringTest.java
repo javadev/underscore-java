@@ -30,9 +30,9 @@ import com.github.underscore.Function;
 import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
-import com.github.underscore.string.$.JsonStringBuilder;
-import com.github.underscore.string.$.XmlStringBuilder;
-import com.github.underscore.string.$.JsonJavaStringBuilder;
+import com.github.underscore.string.U.JsonStringBuilder;
+import com.github.underscore.string.U.XmlStringBuilder;
+import com.github.underscore.string.U.JsonJavaStringBuilder;
 
 import java.util.*;
 import org.junit.Test;
@@ -61,13 +61,13 @@ _.camelCase('__foo_bar__');
 
     @Test
     public void camelCase() {
-        assertEquals("fooBar", $.camelCase("Foo Bar"));
-        assertEquals("fooBar", new $("Foo Bar").camelCase());
-        assertEquals("fooBar", $.chain("Foo Bar").camelCase().item());
-        assertEquals("fooBar", $.camelCase("--foo-bar"));
-        assertEquals("fooBar", $.camelCase("__foo_bar__"));
-        assertEquals("", $.camelCase(null));
-        assertEquals("a", $.camelCase("\u00c0"));
+        assertEquals("fooBar", U.camelCase("Foo Bar"));
+        assertEquals("fooBar", new U("Foo Bar").camelCase());
+        assertEquals("fooBar", U.chain("Foo Bar").camelCase().item());
+        assertEquals("fooBar", U.camelCase("--foo-bar"));
+        assertEquals("fooBar", U.camelCase("__foo_bar__"));
+        assertEquals("", U.camelCase(null));
+        assertEquals("a", U.camelCase("\u00c0"));
     }
 
 /*
@@ -79,10 +79,10 @@ _.lowerFirst('FRED');
 */
     @Test
     public void lowerFirst() {
-        assertEquals("fred", $.lowerFirst("Fred"));
-        assertEquals("fred", new $("Fred").lowerFirst());
-        assertEquals("fred", $.chain("Fred").lowerFirst().item());
-        assertEquals("fRED", $.lowerFirst("FRED"));
+        assertEquals("fred", U.lowerFirst("Fred"));
+        assertEquals("fred", new U("Fred").lowerFirst());
+        assertEquals("fred", U.chain("Fred").lowerFirst().item());
+        assertEquals("fRED", U.lowerFirst("FRED"));
     }
 
 /*
@@ -94,10 +94,10 @@ _.upperFirst('FRED');
 */
     @Test
     public void upperFirst() {
-        assertEquals("Fred", $.upperFirst("fred"));
-        assertEquals("Fred", new $("fred").upperFirst());
-        assertEquals("Fred", $.chain("fred").upperFirst().item());
-        assertEquals("FRED", $.upperFirst("FRED"));
+        assertEquals("Fred", U.upperFirst("fred"));
+        assertEquals("Fred", new U("fred").upperFirst());
+        assertEquals("Fred", U.chain("fred").upperFirst().item());
+        assertEquals("FRED", U.upperFirst("FRED"));
     }
 
 /*
@@ -106,11 +106,11 @@ _.capitalize('fred');
 */
     @Test
     public void capitalize() {
-        assertEquals("Fred", $.capitalize("fred"));
-        assertEquals("Fred", new $("fred").capitalize());
-        assertEquals("Fred", $.chain("fred").capitalize().item());
-        assertEquals("", $.capitalize(null));
-        assertEquals("À", $.capitalize("\u00c0"));
+        assertEquals("Fred", U.capitalize("fred"));
+        assertEquals("Fred", new U("fred").capitalize());
+        assertEquals("Fred", U.chain("fred").capitalize().item());
+        assertEquals("", U.capitalize(null));
+        assertEquals("À", U.capitalize("\u00c0"));
     }
 
 /*
@@ -119,11 +119,11 @@ _.uncapitalize('Fred');
 */
     @Test
     public void uncapitalize() {
-        assertEquals("fred", $.uncapitalize("Fred"));
-        assertEquals("fred", new $("Fred").uncapitalize());
-        assertEquals("fred", $.chain("Fred").uncapitalize().item());
-        assertEquals("", $.uncapitalize(null));
-        assertEquals("à", $.uncapitalize("\u00c0"));
+        assertEquals("fred", U.uncapitalize("Fred"));
+        assertEquals("fred", new U("Fred").uncapitalize());
+        assertEquals("fred", U.chain("Fred").uncapitalize().item());
+        assertEquals("", U.uncapitalize(null));
+        assertEquals("à", U.uncapitalize("\u00c0"));
     }
 
 /*
@@ -132,11 +132,11 @@ _.deburr('déjà vu');
 */
     @Test
     public void deburr() {
-        assertEquals("deja vu", $.deburr("déjà vu"));
-        assertEquals("deja vu", new $("déjà vu").deburr());
-        assertEquals("deja vu", $.chain("déjà vu").deburr().item());
-        assertEquals("", $.deburr(null));
-        assertEquals("A", $.deburr("\u00c0"));
+        assertEquals("deja vu", U.deburr("déjà vu"));
+        assertEquals("deja vu", new U("déjà vu").deburr());
+        assertEquals("deja vu", U.chain("déjà vu").deburr().item());
+        assertEquals("", U.deburr(null));
+        assertEquals("A", U.deburr("\u00c0"));
     }
 
 /*
@@ -151,18 +151,18 @@ _.endsWith('abc', 'b', 2);
 */
     @Test
     public void endsWith() {
-        assertTrue($.endsWith("abc", "c"));
-        assertTrue(new $("abc").endsWith("c"));
-        assertTrue((Boolean) $.chain("abc").endsWith("c").item());
-        assertFalse($.endsWith("abc", "b"));
-        assertTrue($.endsWith("abc", "b", 2));
-        assertTrue(new $("abc").endsWith("b", 2));
-        assertTrue((Boolean) $.chain("abc").endsWith("b", 2).item());
-        assertFalse($.endsWith("abc", "c", -4));
-        assertFalse($.endsWith((String) null, (String) null));
-        assertFalse($.endsWith("1", (String) null));
-        assertFalse($.endsWith(null, "1"));
-        assertTrue($.endsWith("1", "1"));
+        assertTrue(U.endsWith("abc", "c"));
+        assertTrue(new U("abc").endsWith("c"));
+        assertTrue((Boolean) U.chain("abc").endsWith("c").item());
+        assertFalse(U.endsWith("abc", "b"));
+        assertTrue(U.endsWith("abc", "b", 2));
+        assertTrue(new U("abc").endsWith("b", 2));
+        assertTrue((Boolean) U.chain("abc").endsWith("b", 2).item());
+        assertFalse(U.endsWith("abc", "c", -4));
+        assertFalse(U.endsWith((String) null, (String) null));
+        assertFalse(U.endsWith("1", (String) null));
+        assertFalse(U.endsWith(null, "1"));
+        assertTrue(U.endsWith("1", "1"));
     }
 
 /*
@@ -177,13 +177,13 @@ _.kebabCase('__foo_bar__');
 */
     @Test
     public void kebabCase() {
-        assertEquals("foo-bar", $.kebabCase("Foo Bar"));
-        assertEquals("foo-bar", new $("Foo Bar").kebabCase());
-        assertEquals("foo-bar", $.chain("Foo Bar").kebabCase().item());
-        assertEquals("foo-bar", $.kebabCase("fooBar"));
-        assertEquals("foo-bar", $.kebabCase("__foo_bar__"));
-        assertEquals("", $.kebabCase(null));
-        assertEquals("a", $.kebabCase("\u00c0"));
+        assertEquals("foo-bar", U.kebabCase("Foo Bar"));
+        assertEquals("foo-bar", new U("Foo Bar").kebabCase());
+        assertEquals("foo-bar", U.chain("Foo Bar").kebabCase().item());
+        assertEquals("foo-bar", U.kebabCase("fooBar"));
+        assertEquals("foo-bar", U.kebabCase("__foo_bar__"));
+        assertEquals("", U.kebabCase(null));
+        assertEquals("a", U.kebabCase("\u00c0"));
     }
 
 /*
@@ -198,13 +198,13 @@ _.snakeCase('--foo-bar');
 */
     @Test
     public void snakeCase() {
-        assertEquals("foo_bar", $.snakeCase("Foo Bar"));
-        assertEquals("foo_bar", new $("Foo Bar").snakeCase());
-        assertEquals("foo_bar", $.chain("Foo Bar").snakeCase().item());
-        assertEquals("foo_bar", $.snakeCase("fooBar"));
-        assertEquals("foo_bar", $.snakeCase("--foo-bar"));
-        assertEquals("", $.snakeCase(null));
-        assertEquals("a", $.snakeCase("\u00c0"));
+        assertEquals("foo_bar", U.snakeCase("Foo Bar"));
+        assertEquals("foo_bar", new U("Foo Bar").snakeCase());
+        assertEquals("foo_bar", U.chain("Foo Bar").snakeCase().item());
+        assertEquals("foo_bar", U.snakeCase("fooBar"));
+        assertEquals("foo_bar", U.snakeCase("--foo-bar"));
+        assertEquals("", U.snakeCase(null));
+        assertEquals("a", U.snakeCase("\u00c0"));
     }
 
 /*
@@ -219,9 +219,9 @@ _.startCase('__foo_bar__');
 */
     @Test
     public void startCase() {
-        assertEquals("Foo Bar", $.startCase("--foo-bar"));
-        assertEquals("Foo Bar", new $("--foo-bar").startCase());
-        assertEquals("Foo Bar", $.chain("--foo-bar").startCase().item());
+        assertEquals("Foo Bar", U.startCase("--foo-bar"));
+        assertEquals("Foo Bar", new U("--foo-bar").startCase());
+        assertEquals("Foo Bar", U.chain("--foo-bar").startCase().item());
     }
 
 /*
@@ -236,18 +236,18 @@ _.startsWith('abc', 'b', 1);
 */
     @Test
     public void startsWith() {
-        assertTrue($.startsWith("abc", "a"));
-        assertTrue(new $("abc").startsWith("a"));
-        assertTrue((Boolean) $.chain("abc").startsWith("a").item());
-        assertFalse($.startsWith("abc", "b"));
-        assertTrue($.startsWith("abc", "b", 1));
-        assertTrue(new $("abc").startsWith("b", 1));
-        assertTrue((Boolean) $.chain("abc").startsWith("b", 1).item());
-        assertFalse($.startsWith("abc", "c", -4));
-        assertFalse($.startsWith((String) null, (String) null));
-        assertFalse($.startsWith("1", (String) null));
-        assertFalse($.startsWith(null, "1"));
-        assertTrue($.startsWith("1", "1"));
+        assertTrue(U.startsWith("abc", "a"));
+        assertTrue(new U("abc").startsWith("a"));
+        assertTrue((Boolean) U.chain("abc").startsWith("a").item());
+        assertFalse(U.startsWith("abc", "b"));
+        assertTrue(U.startsWith("abc", "b", 1));
+        assertTrue(new U("abc").startsWith("b", 1));
+        assertTrue((Boolean) U.chain("abc").startsWith("b", 1).item());
+        assertFalse(U.startsWith("abc", "c", -4));
+        assertFalse(U.startsWith((String) null, (String) null));
+        assertFalse(U.startsWith("1", (String) null));
+        assertFalse(U.startsWith(null, "1"));
+        assertTrue(U.startsWith("1", "1"));
     }
 
 /*
@@ -259,15 +259,15 @@ _.trim('-_-abc-_-', '_-');
 */
     @Test
     public void trim() {
-        assertEquals("abc", $.trim("  abc  "));
-        assertEquals("abc", new $("  abc  ").trim());
-        assertEquals("abc", $.chain("  abc  ").trim().item());
-        assertEquals("", $.trim(""));
-        assertEquals(" ", $.trim(" ", ""));
-        assertEquals("abc", $.trim("-_-abc-_-", "_-"));
-        assertEquals("abc", new $("-_-abc-_-").trimWith("_-"));
-        assertEquals("abc", $.chain("-_-abc-_-").trim("_-").item());
-        assertEquals("    ", $.trim("    ", " "));
+        assertEquals("abc", U.trim("  abc  "));
+        assertEquals("abc", new U("  abc  ").trim());
+        assertEquals("abc", U.chain("  abc  ").trim().item());
+        assertEquals("", U.trim(""));
+        assertEquals(" ", U.trim(" ", ""));
+        assertEquals("abc", U.trim("-_-abc-_-", "_-"));
+        assertEquals("abc", new U("-_-abc-_-").trimWith("_-"));
+        assertEquals("abc", U.chain("-_-abc-_-").trim("_-").item());
+        assertEquals("    ", U.trim("    ", " "));
     }
 
 /*
@@ -280,15 +280,15 @@ _.trimStart('-_-abc-_-', '_-');
 
     @Test
     public void trimStart() {
-        assertEquals("abc  ", $.trimStart("  abc  "));
-        assertEquals("abc  ", new $("  abc  ").trimStart());
-        assertEquals("abc  ", $.chain("  abc  ").trimStart().item());
-        assertEquals("", $.trimStart(""));
-        assertEquals(" ", $.trimStart(" ", ""));
-        assertEquals("abc-_-", $.trimStart("-_-abc-_-", "_-"));
-        assertEquals("abc-_-", new $("-_-abc-_-").trimStartWith("_-"));
-        assertEquals("abc-_-", $.chain("-_-abc-_-").trimStart("_-").item());
-        assertEquals("    ", $.trimStart("    ", " "));
+        assertEquals("abc  ", U.trimStart("  abc  "));
+        assertEquals("abc  ", new U("  abc  ").trimStart());
+        assertEquals("abc  ", U.chain("  abc  ").trimStart().item());
+        assertEquals("", U.trimStart(""));
+        assertEquals(" ", U.trimStart(" ", ""));
+        assertEquals("abc-_-", U.trimStart("-_-abc-_-", "_-"));
+        assertEquals("abc-_-", new U("-_-abc-_-").trimStartWith("_-"));
+        assertEquals("abc-_-", U.chain("-_-abc-_-").trimStart("_-").item());
+        assertEquals("    ", U.trimStart("    ", " "));
     }
 
 /*
@@ -301,15 +301,15 @@ _.trimEnd('-_-abc-_-', '_-');
 
     @Test
     public void trimEnd() {
-        assertEquals("  abc", $.trimEnd("  abc  "));
-        assertEquals("  abc", new $("  abc  ").trimEnd());
-        assertEquals("  abc", $.chain("  abc  ").trimEnd().item());
-        assertEquals("", $.trimEnd(""));
-        assertEquals(" ", $.trimEnd(" ", ""));
-        assertEquals("-_-abc", $.trimEnd("-_-abc-_-", "_-"));
-        assertEquals("-_-abc", new $("-_-abc-_-").trimEndWith("_-"));
-        assertEquals("-_-abc", $.chain("-_-abc-_-").trimEnd("_-").item());
-        assertEquals("    ", $.trimEnd("    ", " "));
+        assertEquals("  abc", U.trimEnd("  abc  "));
+        assertEquals("  abc", new U("  abc  ").trimEnd());
+        assertEquals("  abc", U.chain("  abc  ").trimEnd().item());
+        assertEquals("", U.trimEnd(""));
+        assertEquals(" ", U.trimEnd(" ", ""));
+        assertEquals("-_-abc", U.trimEnd("-_-abc-_-", "_-"));
+        assertEquals("-_-abc", new U("-_-abc-_-").trimEndWith("_-"));
+        assertEquals("-_-abc", U.chain("-_-abc-_-").trimEnd("_-").item());
+        assertEquals("    ", U.trimEnd("    ", " "));
     }
 
 /*
@@ -322,15 +322,15 @@ _.trunc('hi-diddly-ho there, neighborino', 24);
 
     @Test
     public void trunc() {
-        assertEquals("hi-diddly-ho there, neighbo...", $.trunc("hi-diddly-ho there, neighborino"));
-        assertEquals("hi-diddly-ho there, n...", $.trunc("hi-diddly-ho there, neighborino", 24));
-        assertEquals("hi-diddly-ho there, neighborino", $.trunc("hi-diddly-ho there, neighborino", 31));
-        assertEquals("hi-", $.trunc("hi-"));
-        assertEquals("hi-", new $("hi-").trunc());
-        assertEquals("hi-", $.chain("hi-").trunc().item());
-        assertEquals("...", $.trunc("hi-did", 3));
-        assertEquals("...", new $("hi-did").trunc(3));
-        assertEquals("...", $.chain("hi-did").trunc(3).item());
+        assertEquals("hi-diddly-ho there, neighbo...", U.trunc("hi-diddly-ho there, neighborino"));
+        assertEquals("hi-diddly-ho there, n...", U.trunc("hi-diddly-ho there, neighborino", 24));
+        assertEquals("hi-diddly-ho there, neighborino", U.trunc("hi-diddly-ho there, neighborino", 31));
+        assertEquals("hi-", U.trunc("hi-"));
+        assertEquals("hi-", new U("hi-").trunc());
+        assertEquals("hi-", U.chain("hi-").trunc().item());
+        assertEquals("...", U.trunc("hi-did", 3));
+        assertEquals("...", new U("hi-did").trunc(3));
+        assertEquals("...", U.chain("hi-did").trunc(3).item());
     }
 
 /*
@@ -339,11 +339,11 @@ _.words('fred, barney, & pebbles');
 */
     @Test
     public void words() {
-        assertEquals("[fred, barney, pebbles]", $.words("fred, barney, & pebbles").toString());
-        assertEquals("[fred, barney, pebbles]", new $("fred, barney, & pebbles").words().toString());
-        assertEquals("[fred, barney, pebbles]", $.chain("fred, barney, & pebbles").words().value().toString());
-        assertEquals("[текст, на, русском]", $.words("текст, на, & русском").toString());
-        assertEquals("[]", $.words(null).toString());
+        assertEquals("[fred, barney, pebbles]", U.words("fred, barney, & pebbles").toString());
+        assertEquals("[fred, barney, pebbles]", new U("fred, barney, & pebbles").words().toString());
+        assertEquals("[fred, barney, pebbles]", U.chain("fred, barney, & pebbles").words().value().toString());
+        assertEquals("[текст, на, русском]", U.words("текст, на, & русском").toString());
+        assertEquals("[]", U.words(null).toString());
     }
 
 /*
@@ -358,14 +358,14 @@ _.pad('abc', 3);
 */
     @Test
     public void pad() {
-        assertEquals("abc", $.pad("abc", 2));
-        assertEquals("abc", new $("abc").pad(2));
-        assertEquals("abc", $.chain("abc").pad(2).item());
-        assertEquals("  abc  ", $.pad("abc", 7));
-        assertEquals("  abc   ", $.pad("abc", 8));
-        assertEquals("_-abc_-_", $.pad("abc", 8, "_-"));
-        assertEquals("_-abc_-_", new $("abc").pad(8, "_-"));
-        assertEquals("_-abc_-_", $.chain("abc").pad(8, "_-").item());
+        assertEquals("abc", U.pad("abc", 2));
+        assertEquals("abc", new U("abc").pad(2));
+        assertEquals("abc", U.chain("abc").pad(2).item());
+        assertEquals("  abc  ", U.pad("abc", 7));
+        assertEquals("  abc   ", U.pad("abc", 8));
+        assertEquals("_-abc_-_", U.pad("abc", 8, "_-"));
+        assertEquals("_-abc_-_", new U("abc").pad(8, "_-"));
+        assertEquals("_-abc_-_", U.chain("abc").pad(8, "_-").item());
     }
 
 /*
@@ -380,13 +380,13 @@ _.padStart('abc', 3);
 */
     @Test
     public void padStart() {
-        assertEquals("   abc", $.padStart("abc", 6));
-        assertEquals("   abc", new $("abc").padStart(6));
-        assertEquals("   abc", $.chain("abc").padStart(6).item());
-        assertEquals("_-_abc", $.padStart("abc", 6, "_-"));
-        assertEquals("_-_abc", new $("abc").padStart(6, "_-"));
-        assertEquals("_-_abc", $.chain("abc").padStart(6, "_-").item());
-        assertEquals("abc", $.padStart("abc", 3));
+        assertEquals("   abc", U.padStart("abc", 6));
+        assertEquals("   abc", new U("abc").padStart(6));
+        assertEquals("   abc", U.chain("abc").padStart(6).item());
+        assertEquals("_-_abc", U.padStart("abc", 6, "_-"));
+        assertEquals("_-_abc", new U("abc").padStart(6, "_-"));
+        assertEquals("_-_abc", U.chain("abc").padStart(6, "_-").item());
+        assertEquals("abc", U.padStart("abc", 3));
     }
 
 /*
@@ -401,13 +401,13 @@ _.padEnd('abc', 3);
 */
     @Test
     public void padEnd() {
-        assertEquals("abc   ", $.padEnd("abc", 6));
-        assertEquals("abc   ", new $("abc").padEnd(6));
-        assertEquals("abc   ", $.chain("abc").padEnd(6).item());
-        assertEquals("abc_-_", $.padEnd("abc", 6, "_-"));
-        assertEquals("abc_-_", new $("abc").padEnd(6, "_-"));
-        assertEquals("abc_-_", $.chain("abc").padEnd(6, "_-").item());
-        assertEquals("abc", $.padEnd("abc", 3));
+        assertEquals("abc   ", U.padEnd("abc", 6));
+        assertEquals("abc   ", new U("abc").padEnd(6));
+        assertEquals("abc   ", U.chain("abc").padEnd(6).item());
+        assertEquals("abc_-_", U.padEnd("abc", 6, "_-"));
+        assertEquals("abc_-_", new U("abc").padEnd(6, "_-"));
+        assertEquals("abc_-_", U.chain("abc").padEnd(6, "_-").item());
+        assertEquals("abc", U.padEnd("abc", 3));
     }
 
 /*
@@ -422,21 +422,21 @@ _.repeat('abc', 0);
 */
     @Test
     public void repeat() {
-        assertEquals("***", $.repeat("*", 3));
-        assertEquals("***", new $("*").repeat(3));
-        assertEquals("***", $.chain("*").repeat(3).item());
-        assertEquals("abcabc", $.repeat("abc", 2));
-        assertEquals("", $.repeat("abc", 0));
-        assertEquals("", $.repeat(null, 1));
+        assertEquals("***", U.repeat("*", 3));
+        assertEquals("***", new U("*").repeat(3));
+        assertEquals("***", U.chain("*").repeat(3).item());
+        assertEquals("abcabc", U.repeat("abc", 2));
+        assertEquals("", U.repeat("abc", 0));
+        assertEquals("", U.repeat(null, 1));
     }
 
     @Test
     public void testJsonArray() {
         JsonStringBuilder builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((Collection) null, builder);
+        U.JsonArray.writeJson((Collection) null, builder);
         assertEquals("null", builder.toString());
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
+        U.JsonArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
         assertEquals("[\n  null\n]", builder.toString());
     }
 
@@ -444,66 +444,66 @@ _.repeat('abc', 0);
     @Test
     public void testJsonArrayCollection() {
         assertEquals("[\n  \"First item\",\n  \"Second item\"\n]",
-            $.toJson(Arrays.asList("First item", "Second item")));
+            U.toJson(Arrays.asList("First item", "Second item")));
         assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
-            $.toJson(Arrays.asList(new byte[] {1, 2})));
+            U.toJson(Arrays.asList(new byte[] {1, 2})));
         assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
-            $.toJson(Arrays.asList(new short[] {1, 2})));
+            U.toJson(Arrays.asList(new short[] {1, 2})));
         assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
-            $.toJson(Arrays.asList(new int[] {1, 2})));
+            U.toJson(Arrays.asList(new int[] {1, 2})));
         assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
-            $.toJson(Arrays.asList(new long[] {1, 2})));
+            U.toJson(Arrays.asList(new long[] {1, 2})));
         assertEquals("[\n  [\n    1.0,\n    2.0\n  ]\n]",
-            $.toJson(Arrays.asList(new float[] {1, 2})));
+            U.toJson(Arrays.asList(new float[] {1, 2})));
         assertEquals("[\n  [\n    1.0,\n    2.0\n  ]\n]",
-            $.toJson(Arrays.asList(new double[] {1, 2})));
+            U.toJson(Arrays.asList(new double[] {1, 2})));
         assertEquals("[\n  [\n    \"1\",\n    \"2\"\n  ]\n]",
-            $.toJson(Arrays.asList(new char[] {'1', '2'})));
+            U.toJson(Arrays.asList(new char[] {'1', '2'})));
         assertEquals("[\n  [\n    true,\n    false,\n    true\n  ]\n]",
-            $.toJson(Arrays.asList(new boolean[] {true, false, true})));
+            U.toJson(Arrays.asList(new boolean[] {true, false, true})));
         assertEquals("[\n  1.0,\n  2.0\n]",
-            $.toJson(Arrays.asList(new Float[] {1F, 2F})));
+            U.toJson(Arrays.asList(new Float[] {1F, 2F})));
         assertEquals("[\n  1.0,\n  2.0\n]",
-            $.toJson(Arrays.asList(new Double[] {1D, 2D})));
+            U.toJson(Arrays.asList(new Double[] {1D, 2D})));
         assertEquals("[\n  true,\n  false,\n  true\n]",
-            $.toJson(Arrays.asList(new Boolean[] {true, false, true})));
+            U.toJson(Arrays.asList(new Boolean[] {true, false, true})));
         assertEquals("[\n  [\n    \"First item\",\n    \"Second item\"\n  ]\n]",
-            $.toJson(Arrays.asList(Arrays.asList("First item", "Second item"))));
+            U.toJson(Arrays.asList(Arrays.asList("First item", "Second item"))));
         assertEquals("[\n  {\n    \"1\": \"First item\",\n    \"2\": \"Second item\",\n    \"3\": null\n  }\n]",
-            $.toJson(Arrays.asList(new LinkedHashMap() { {
+            U.toJson(Arrays.asList(new LinkedHashMap() { {
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
-        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(new String[] {(String) null})));
-        assertEquals("null", $.toJson((Collection) null));
+        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(new String[] {(String) null})));
+        assertEquals("null", U.toJson((Collection) null));
         class Test {
             public String toString() {
                 return "test";
             }
         }
         assertEquals("[\n  [\n    test,\n    test\n  ]\n]",
-            $.toJson(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
+            U.toJson(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
     }
 
     @Test
     public void escape() {
-        assertEquals(null, $.JsonValue.escape(null));
-        assertEquals("\\\"", $.JsonValue.escape("\""));
-        assertEquals("\\\\", $.JsonValue.escape("\\"));
-        assertEquals("\\b", $.JsonValue.escape("\b"));
-        assertEquals("\\f", $.JsonValue.escape("\f"));
-        assertEquals("\\n", $.JsonValue.escape("\n"));
-        assertEquals("\\r", $.JsonValue.escape("\r"));
-        assertEquals("\\t", $.JsonValue.escape("\t"));
-        assertEquals("\\/", $.JsonValue.escape("/"));
-        assertEquals("\\u0000", $.JsonValue.escape("\u0000"));
-        assertEquals("\\u001F", $.JsonValue.escape("\u001F"));
-        assertEquals("\u0020", $.JsonValue.escape("\u0020"));
-        assertEquals("\\u007F", $.JsonValue.escape("\u007F"));
-        assertEquals("\\u009F", $.JsonValue.escape("\u009F"));
-        assertEquals("\u00A0", $.JsonValue.escape("\u00A0"));
-        assertEquals("\\u2000", $.JsonValue.escape("\u2000"));
-        assertEquals("\\u20FF", $.JsonValue.escape("\u20FF"));
-        assertEquals("\u2100", $.JsonValue.escape("\u2100"));
-        assertEquals("\uFFFF", $.JsonValue.escape("\uFFFF"));
+        assertEquals(null, U.JsonValue.escape(null));
+        assertEquals("\\\"", U.JsonValue.escape("\""));
+        assertEquals("\\\\", U.JsonValue.escape("\\"));
+        assertEquals("\\b", U.JsonValue.escape("\b"));
+        assertEquals("\\f", U.JsonValue.escape("\f"));
+        assertEquals("\\n", U.JsonValue.escape("\n"));
+        assertEquals("\\r", U.JsonValue.escape("\r"));
+        assertEquals("\\t", U.JsonValue.escape("\t"));
+        assertEquals("\\/", U.JsonValue.escape("/"));
+        assertEquals("\\u0000", U.JsonValue.escape("\u0000"));
+        assertEquals("\\u001F", U.JsonValue.escape("\u001F"));
+        assertEquals("\u0020", U.JsonValue.escape("\u0020"));
+        assertEquals("\\u007F", U.JsonValue.escape("\u007F"));
+        assertEquals("\\u009F", U.JsonValue.escape("\u009F"));
+        assertEquals("\u00A0", U.JsonValue.escape("\u00A0"));
+        assertEquals("\\u2000", U.JsonValue.escape("\u2000"));
+        assertEquals("\\u20FF", U.JsonValue.escape("\u20FF"));
+        assertEquals("\u2100", U.JsonValue.escape("\u2100"));
+        assertEquals("\uFFFF", U.JsonValue.escape("\uFFFF"));
     }
 
     @Test
@@ -511,19 +511,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((byte[]) null, builder);
+        U.JsonArray.writeJson((byte[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new byte[0], builder);
+        U.JsonArray.writeJson(new byte[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new byte[] { 12 }, builder);
+        U.JsonArray.writeJson(new byte[] { 12 }, builder);
         assertEquals("[\n  12\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
+        U.JsonArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
         assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
@@ -532,19 +532,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((short[]) null, builder);
+        U.JsonArray.writeJson((short[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new short[0], builder);
+        U.JsonArray.writeJson(new short[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new short[] { 12 }, builder);
+        U.JsonArray.writeJson(new short[] { 12 }, builder);
         assertEquals("[\n  12\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
+        U.JsonArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
         assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
@@ -553,19 +553,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((int[]) null, builder);
+        U.JsonArray.writeJson((int[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new int[0], builder);
+        U.JsonArray.writeJson(new int[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new int[] { 12 }, builder);
+        U.JsonArray.writeJson(new int[] { 12 }, builder);
         assertEquals("[\n  12\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
+        U.JsonArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
         assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
@@ -574,19 +574,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((long[]) null, builder);
+        U.JsonArray.writeJson((long[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new long[0], builder);
+        U.JsonArray.writeJson(new long[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new long[] { 12 }, builder);
+        U.JsonArray.writeJson(new long[] { 12 }, builder);
         assertEquals("[\n  12\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
+        U.JsonArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
         assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
@@ -595,19 +595,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((float[]) null, builder);
+        U.JsonArray.writeJson((float[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new float[0], builder);
+        U.JsonArray.writeJson(new float[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new float[] { 12.8f }, builder);
+        U.JsonArray.writeJson(new float[] { 12.8f }, builder);
         assertEquals("[\n  12.8\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
+        U.JsonArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
         assertEquals("[\n  -7.1,\n  22.234,\n  86.7,\n  -99.02\n]", builder.toString());
     }
 
@@ -616,19 +616,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((double[]) null, builder);
+        U.JsonArray.writeJson((double[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new double[0], builder);
+        U.JsonArray.writeJson(new double[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new double[] { 12.8 }, builder);
+        U.JsonArray.writeJson(new double[] { 12.8 }, builder);
         assertEquals("[\n  12.8\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
+        U.JsonArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
         assertEquals("[\n  -7.1,\n  22.234,\n  86.7,\n  -99.02\n]", builder.toString());
     }
 
@@ -637,19 +637,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((boolean[]) null, builder);
+        U.JsonArray.writeJson((boolean[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new boolean[0], builder);
+        U.JsonArray.writeJson(new boolean[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new boolean[] { true }, builder);
+        U.JsonArray.writeJson(new boolean[] { true }, builder);
         assertEquals("[\n  true\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new boolean[] { true, false, true }, builder);
+        U.JsonArray.writeJson(new boolean[] { true, false, true }, builder);
         assertEquals("[\n  true,\n  false,\n  true\n]", builder.toString());
     }
 
@@ -658,19 +658,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((char[]) null, builder);
+        U.JsonArray.writeJson((char[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new char[0], builder);
+        U.JsonArray.writeJson(new char[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new char[] { 'a' }, builder);
+        U.JsonArray.writeJson(new char[] { 'a' }, builder);
         assertEquals("[\n  \"a\"\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
+        U.JsonArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
         assertEquals("[\n  \"a\",\n  \"b\",\n  \"c\"\n]", builder.toString());
     }
 
@@ -679,19 +679,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson((Object[]) null, builder);
+        U.JsonArray.writeJson((Object[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new Object[0], builder);
+        U.JsonArray.writeJson(new Object[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new Object[] { "Hello" }, builder);
+        U.JsonArray.writeJson(new Object[] { "Hello" }, builder);
         assertEquals("[\n  \"Hello\"\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        $.JsonArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
+        U.JsonArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
         assertEquals("[\n  \"Hello\",\n  12,\n  [\n    1,\n    2,\n    3\n  ]\n]", builder.toString());
     }
 
@@ -702,13 +702,13 @@ _.repeat('abc', 0);
         testList.add("First item");
         testList.add("Second item");
 
-        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", $.toJson(testList));
-        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", new $(testList).toJson());
-        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", $.chain(testList).toJson().item());
-        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(Double.NaN)));
-        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(Double.POSITIVE_INFINITY)));
-        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(Float.NaN)));
-        assertEquals("[\n  null\n]", $.toJson(Arrays.asList(Float.POSITIVE_INFINITY)));
+        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", U.toJson(testList));
+        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", new U(testList).toJson());
+        assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", U.chain(testList).toJson().item());
+        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(Double.NaN)));
+        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(Double.POSITIVE_INFINITY)));
+        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(Float.NaN)));
+        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(Float.POSITIVE_INFINITY)));
     }
 
     @Test
@@ -717,8 +717,8 @@ _.repeat('abc', 0);
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
 
-        assertEquals("{\n  \"First item\": \"1\",\n  \"Second item\": \"2\"\n}", $.toJson(testMap));
-        assertEquals("null", $.toJson((Map) null));
+        assertEquals("{\n  \"First item\": \"1\",\n  \"Second item\": \"2\"\n}", U.toJson(testMap));
+        assertEquals("null", U.toJson((Map) null));
     }
 
     @SuppressWarnings("unchecked")
@@ -732,7 +732,7 @@ _.repeat('abc', 0);
         + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
         + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
         + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}";
-        assertEquals(string, $.toJson((Map<String, Object>) $.fromJson(string)));
+        assertEquals(string, U.toJson((Map<String, Object>) U.fromJson(string)));
     }
 
     @SuppressWarnings("unchecked")
@@ -742,15 +742,15 @@ _.repeat('abc', 0);
         assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
         + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
         + "        }\n      }\n    }\n  }\n]",
-            $.toJson((List<Object>) $.fromJson(string)));
+            U.toJson((List<Object>) U.fromJson(string)));
         assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
         + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
         + "        }\n      }\n    }\n  }\n]",
-            $.toJson((List<Object>) new $(string).fromJson()));
+            U.toJson((List<Object>) new U(string).fromJson()));
         assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
         + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
         + "        }\n      }\n    }\n  }\n]",
-            $.toJson((List<Object>) $.chain(string).fromJson().item()));
+            U.toJson((List<Object>) U.chain(string).fromJson().item()));
     }
 
     @SuppressWarnings("unchecked")
@@ -758,13 +758,13 @@ _.repeat('abc', 0);
     public void testDecode2() {
         String string = "[\"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"]";
         assertEquals("[\n  \"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"\n]",
-            $.toJson((List<Object>) $.fromJson(string)));
+            U.toJson((List<Object>) U.fromJson(string)));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testDecode3() {
-        assertEquals("[\n\n]", $.toJson((List<Object>) $.fromJson("[]")));
+        assertEquals("[\n\n]", U.toJson((List<Object>) U.fromJson("[]")));
     }
 
     @SuppressWarnings("unchecked")
@@ -774,13 +774,13 @@ _.repeat('abc', 0);
             + "4,5,6,{\"id\":-123E-1}],\t\n\r \"third\":789,\"id\":null}";
         assertEquals("{\n  \"first\": 1.23E12,\n  \"second\": [\n    {\n      \"k1\": {\n        \"id\": \"id1\"\n"
         + "      }\n    },\n    4,\n    5,\n    6,\n    {\n      \"id\": -12.3\n    }\n  ],\n  \"third\": 789,\n"
-        + "  \"id\": null\n}", $.toJson((Map<String, Object>) $.fromJson(string)));
+        + "  \"id\": null\n}", U.toJson((Map<String, Object>) U.fromJson(string)));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testDecodeMap2() {
-        assertEquals("{\n\n}", $.toJson((Map<String, Object>) $.fromJson("{}")));
+        assertEquals("{\n\n}", U.toJson((Map<String, Object>) U.fromJson("{}")));
     }
 
     @SuppressWarnings("unchecked")
@@ -790,8 +790,8 @@ _.repeat('abc', 0);
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("1", "a");
         map.put("2", "b");
-        assertEquals("{\n  \"1\": \"a\",\n  \"2\": \"b\"\n}", $.toJson(map));
-        Map<String, Object> newMap = (Map<String, Object>) $.fromJson($.toJson(map));
+        assertEquals("{\n  \"1\": \"a\",\n  \"2\": \"b\"\n}", U.toJson(map));
+        Map<String, Object> newMap = (Map<String, Object>) U.fromJson(U.toJson(map));
         assertEquals("a", newMap.get("1"));
     }
 
@@ -804,96 +804,96 @@ _.repeat('abc', 0);
         array1.add(Double.valueOf(222.123));
         array1.add(Boolean.TRUE);
         array1.add(Boolean.FALSE);
-        assertEquals("[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]", $.toJson(array1));
+        assertEquals("[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]", U.toJson(array1));
         String string = "[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]";
         assertEquals("[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]",
-            $.toJson((List<Object>) $.fromJson(string)));
+            U.toJson((List<Object>) U.fromJson(string)));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testDecodeUnicode() {
-        assertEquals("[\n  \"abc\u0A00\"\n]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0a00\"]")));
-        assertEquals("[\n  \"abc\u0A00\"\n]", $.toJson((List<Object>) $.fromJson("[\"abc\\u0A00\"]")));
+        assertEquals("[\n  \"abc\u0A00\"\n]", U.toJson((List<Object>) U.fromJson("[\"abc\\u0a00\"]")));
+        assertEquals("[\n  \"abc\u0A00\"\n]", U.toJson((List<Object>) U.fromJson("[\"abc\\u0A00\"]")));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testJsonDecodeCyrillic() {
-        assertEquals("[\n  \"Текст на русском\"\n]", $.toJson((List<Object>) $.fromJson("[\"Текст на русском\"]")));
+        assertEquals("[\n  \"Текст на русском\"\n]", U.toJson((List<Object>) U.fromJson("[\"Текст на русском\"]")));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testDecodeSpecialCharacter() {
-        assertEquals("{\n  \"description\": \"c:\\\\userDescription.txt\"\n}", $.toJson(
-                (Map<String, Object>) $.fromJson("{\"description\":\"c:\\userDescription.txt\"}")));
-        assertEquals("{description=c:\\userDescription.txt}", $.fromJson(
-                $.toJson(new LinkedHashMap<String, String>() { {
+        assertEquals("{\n  \"description\": \"c:\\\\userDescription.txt\"\n}", U.toJson(
+                (Map<String, Object>) U.fromJson("{\"description\":\"c:\\userDescription.txt\"}")));
+        assertEquals("{description=c:\\userDescription.txt}", U.fromJson(
+                U.toJson(new LinkedHashMap<String, String>() { {
                     put("description",  "c:\\userDescription.txt"); } })).toString());
     }
 
     @Test
     public void testDecodeUnicode1() {
-        assertEquals("[abc\\u0$00]", $.fromJson("[\"abc\\u0$00\"]").toString());
+        assertEquals("[abc\\u0$00]", U.fromJson("[\"abc\\u0$00\"]").toString());
     }
 
     @Test
     public void testDecodeUnicode2() {
-        assertEquals("[abc\\u001g/]", $.fromJson("[\"abc\\u001g\\/\"]").toString());
+        assertEquals("[abc\\u001g/]", U.fromJson("[\"abc\\u001g\\/\"]").toString());
     }
 
     @Test
     public void testDecodeUnicode3() {
-        assertEquals("[abc\\u001G/]", $.fromJson("[\"abc\\u001G\\/\"]").toString());
+        assertEquals("[abc\\u001G/]", U.fromJson("[\"abc\\u001G\\/\"]").toString());
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr1() {
-        $.fromJson("$");
+        U.fromJson("$");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr2() {
-        $.fromJson("[\"value\"");
+        U.fromJson("[\"value\"");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr3() {
-        $.fromJson("{\"value\":123");
+        U.fromJson("{\"value\":123");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr4() {
-        $.fromJson("{\"value\"123");
+        U.fromJson("{\"value\"123");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr5() {
-        $.fromJson("{value");
+        U.fromJson("{value");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr6() {
-        $.fromJson("[ture]");
+        U.fromJson("[ture]");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr8() {
-        $.fromJson("[\"\\abc\"]");
+        U.fromJson("[\"\\abc\"]");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr9() {
-        $.fromJson("[123ea]");
+        U.fromJson("[123ea]");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr10() {
         try {
-            $.fromJson("[123.a]");
+            U.fromJson("[123.a]");
             fail("Expected ParseException");
-        } catch ($.ParseException ex) {
+        } catch (U.ParseException ex) {
             ex.getOffset();
             ex.getLine();
             ex.getColumn();
@@ -901,34 +901,34 @@ _.repeat('abc', 0);
         }
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr11() {
-        $.fromJson("[1g]");
+        U.fromJson("[1g]");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr12() {
-        $.fromJson("[--1");
+        U.fromJson("[--1");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr13() {
-        $.fromJson("[\"abc\u0010\"]");
+        U.fromJson("[\"abc\u0010\"]");
     }
 
-    @Test(expected = $.ParseException.class)
+    @Test(expected = U.ParseException.class)
     public void testDecodeParseErr14() {
-        $.fromJson("[\"abc\"][]");
+        U.fromJson("[\"abc\"][]");
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((Collection) null, builder);
+        U.XmlArray.writeXml((Collection) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", builder.toString());
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, builder);
+        U.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
     }
@@ -938,51 +938,51 @@ _.repeat('abc', 0);
     public void testXmlArrayCollection() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>First item</element>"
             + "\n  <element>Second item</element>\n</root>",
-            $.toXml(Arrays.asList("First item", "Second item")));
+            U.toXml(Arrays.asList("First item", "Second item")));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(new byte[] {1, 2})));
+            U.toXml(Arrays.asList(new byte[] {1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(new short[] {1, 2})));
+            U.toXml(Arrays.asList(new short[] {1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(new int[] {1, 2})));
+            U.toXml(Arrays.asList(new int[] {1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(new long[] {1, 2})));
+            U.toXml(Arrays.asList(new long[] {1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1.0</element>"
             + "\n    <element>2.0</element>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(new float[] {1, 2})));
+            U.toXml(Arrays.asList(new float[] {1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1.0</element>"
             + "\n    <element>2.0</element>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(new double[] {1, 2})));
+            U.toXml(Arrays.asList(new double[] {1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(new char[] {'1', '2'})));
+            U.toXml(Arrays.asList(new char[] {'1', '2'})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>true</element>"
             + "\n    <element>false</element>\n    <element>true</element>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(new boolean[] {true, false, true})));
+            U.toXml(Arrays.asList(new boolean[] {true, false, true})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>1.0</element>"
             + "\n  <element>2.0</element>\n</root>",
-            $.toXml(Arrays.asList(new Float[] {1F, 2F})));
+            U.toXml(Arrays.asList(new Float[] {1F, 2F})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>1.0</element>"
             + "\n  <element>2.0</element>\n</root>",
-            $.toXml(Arrays.asList(new Double[] {1D, 2D})));
+            U.toXml(Arrays.asList(new Double[] {1D, 2D})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>"
             + "\n  <element>false</element>\n  <element>true</element>\n</root>",
-            $.toXml(Arrays.asList(new Boolean[] {true, false, true})));
+            U.toXml(Arrays.asList(new Boolean[] {true, false, true})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
             + "    <element>First item</element>\n    <element>Second item</element>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
+            U.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
             + "    <1>First item</1>\n    <2>Second item</2>\n    <3>null</3>\n  </element>\n</root>",
-            $.toXml(Arrays.asList(new LinkedHashMap() { {
+            U.toXml(Arrays.asList(new LinkedHashMap() { {
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
-            $.toXml(Arrays.asList(new String[] {(String) null})));
+            U.toXml(Arrays.asList(new String[] {(String) null})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
-            $.toXml((Collection) null));
+            U.toXml((Collection) null));
         class Test {
             public String toString() {
                 return "test";
@@ -990,34 +990,34 @@ _.repeat('abc', 0);
         }
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>test</element>"
             + "\n    <element>test</element>\n  </element>\n</root>",
-            $.toXml(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
+            U.toXml(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
     }
 
     @Test
     public void escapeXml() {
-        assertEquals(null, $.XmlValue.escape(null));
-        assertEquals("&quot;", $.XmlValue.escape("\""));
-        assertEquals("&apos;", $.XmlValue.escape("'"));
-        assertEquals("&amp;", $.XmlValue.escape("&"));
-        assertEquals("&lt;", $.XmlValue.escape("<"));
-        assertEquals("&gt;", $.XmlValue.escape(">"));
-        assertEquals("\\\\", $.XmlValue.escape("\\"));
-        assertEquals("\\b", $.XmlValue.escape("\b"));
-        assertEquals("\\f", $.XmlValue.escape("\f"));
-        assertEquals("\\n", $.XmlValue.escape("\n"));
-        assertEquals("\\r", $.XmlValue.escape("\r"));
-        assertEquals("\\t", $.XmlValue.escape("\t"));
-        assertEquals("\\/", $.XmlValue.escape("/"));
-        assertEquals("&#x0000;", $.XmlValue.escape("\u0000"));
-        assertEquals("&#x001F;", $.XmlValue.escape("\u001F"));
-        assertEquals("\u0020", $.XmlValue.escape("\u0020"));
-        assertEquals("&#x007F;", $.XmlValue.escape("\u007F"));
-        assertEquals("&#x009F;", $.XmlValue.escape("\u009F"));
-        assertEquals("\u00A0", $.XmlValue.escape("\u00A0"));
-        assertEquals("&#x2000;", $.XmlValue.escape("\u2000"));
-        assertEquals("&#x20FF;", $.XmlValue.escape("\u20FF"));
-        assertEquals("\u2100", $.XmlValue.escape("\u2100"));
-        assertEquals("\uFFFF", $.XmlValue.escape("\uFFFF"));
+        assertEquals(null, U.XmlValue.escape(null));
+        assertEquals("&quot;", U.XmlValue.escape("\""));
+        assertEquals("&apos;", U.XmlValue.escape("'"));
+        assertEquals("&amp;", U.XmlValue.escape("&"));
+        assertEquals("&lt;", U.XmlValue.escape("<"));
+        assertEquals("&gt;", U.XmlValue.escape(">"));
+        assertEquals("\\\\", U.XmlValue.escape("\\"));
+        assertEquals("\\b", U.XmlValue.escape("\b"));
+        assertEquals("\\f", U.XmlValue.escape("\f"));
+        assertEquals("\\n", U.XmlValue.escape("\n"));
+        assertEquals("\\r", U.XmlValue.escape("\r"));
+        assertEquals("\\t", U.XmlValue.escape("\t"));
+        assertEquals("\\/", U.XmlValue.escape("/"));
+        assertEquals("&#x0000;", U.XmlValue.escape("\u0000"));
+        assertEquals("&#x001F;", U.XmlValue.escape("\u001F"));
+        assertEquals("\u0020", U.XmlValue.escape("\u0020"));
+        assertEquals("&#x007F;", U.XmlValue.escape("\u007F"));
+        assertEquals("&#x009F;", U.XmlValue.escape("\u009F"));
+        assertEquals("\u00A0", U.XmlValue.escape("\u00A0"));
+        assertEquals("&#x2000;", U.XmlValue.escape("\u2000"));
+        assertEquals("&#x20FF;", U.XmlValue.escape("\u20FF"));
+        assertEquals("\u2100", U.XmlValue.escape("\u2100"));
+        assertEquals("\uFFFF", U.XmlValue.escape("\uFFFF"));
     }
 
     @Test
@@ -1025,22 +1025,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((byte[]) null, builder);
+        U.XmlArray.writeXml((byte[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new byte[0], builder);
+        U.XmlArray.writeXml(new byte[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new byte[] { 12 }, builder);
+        U.XmlArray.writeXml(new byte[] { 12 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new byte[] { -7, 22, 86, -99 }, builder);
+        U.XmlArray.writeXml(new byte[] { -7, 22, 86, -99 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
             + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
     }
@@ -1050,22 +1050,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((short[]) null, builder);
+        U.XmlArray.writeXml((short[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new short[0], builder);
+        U.XmlArray.writeXml(new short[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new short[] { 12 }, builder);
+        U.XmlArray.writeXml(new short[] { 12 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new short[] { -7, 22, 86, -99 }, builder);
+        U.XmlArray.writeXml(new short[] { -7, 22, 86, -99 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
             + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
     }
@@ -1075,22 +1075,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((int[]) null, builder);
+        U.XmlArray.writeXml((int[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new int[0], builder);
+        U.XmlArray.writeXml(new int[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new int[] { 12 }, builder);
+        U.XmlArray.writeXml(new int[] { 12 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new int[] { -7, 22, 86, -99 }, builder);
+        U.XmlArray.writeXml(new int[] { -7, 22, 86, -99 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
             + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
     }
@@ -1100,22 +1100,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((long[]) null, builder);
+        U.XmlArray.writeXml((long[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new long[0], builder);
+        U.XmlArray.writeXml(new long[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new long[] { 12 }, builder);
+        U.XmlArray.writeXml(new long[] { 12 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new long[] { -7, 22, 86, -99 }, builder);
+        U.XmlArray.writeXml(new long[] { -7, 22, 86, -99 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
             + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
     }
@@ -1125,22 +1125,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((float[]) null, builder);
+        U.XmlArray.writeXml((float[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new float[0], builder);
+        U.XmlArray.writeXml(new float[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new float[] { 12.8f }, builder);
+        U.XmlArray.writeXml(new float[] { 12.8f }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12.8</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
+        U.XmlArray.writeXml(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7.1</element>\n  <element>"
             + "22.234</element>\n  <element>86.7</element>\n  <element>-99.02</element>\n</root>", builder.toString());
     }
@@ -1150,22 +1150,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((double[]) null, builder);
+        U.XmlArray.writeXml((double[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new double[0], builder);
+        U.XmlArray.writeXml(new double[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new double[] { 12.8 }, builder);
+        U.XmlArray.writeXml(new double[] { 12.8 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12.8</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
+        U.XmlArray.writeXml(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7.1</element>\n  <element>"
             + "22.234</element>\n  <element>86.7</element>\n  <element>-99.02</element>\n</root>", builder.toString());
     }
@@ -1175,22 +1175,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((boolean[]) null, builder);
+        U.XmlArray.writeXml((boolean[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new boolean[0], builder);
+        U.XmlArray.writeXml(new boolean[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new boolean[] { true }, builder);
+        U.XmlArray.writeXml(new boolean[] { true }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new boolean[] { true, false, true }, builder);
+        U.XmlArray.writeXml(new boolean[] { true, false, true }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>\n  <element>"
             + "false</element>\n  <element>true</element>\n</root>", builder.toString());
     }
@@ -1200,22 +1200,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((char[]) null, builder);
+        U.XmlArray.writeXml((char[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new char[0], builder);
+        U.XmlArray.writeXml(new char[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new char[] { 'a' }, builder);
+        U.XmlArray.writeXml(new char[] { 'a' }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>a</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new char[] { 'a', 'b', 'c' }, builder);
+        U.XmlArray.writeXml(new char[] { 'a', 'b', 'c' }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>a</element>\n  <element>"
             + "b</element>\n  <element>c</element>\n</root>", builder.toString());
     }
@@ -1225,22 +1225,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml((Object[]) null, builder);
+        U.XmlArray.writeXml((Object[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new Object[0], builder);
+        U.XmlArray.writeXml(new Object[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new Object[] { "Hello" }, builder);
+        U.XmlArray.writeXml(new Object[] { "Hello" }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        $.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
+        U.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n  <element>"
             + "12</element>\n  <element>\n    <element>1</element>\n    <element>2</element>\n    <element>3</element>"
             + "\n  </element>\n</root>", builder.toString());
@@ -1250,7 +1250,7 @@ _.repeat('abc', 0);
     @Test
     public void testXmlDecodeCyrillic() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Текст на русском</element>\n"
-            + "</root>", $.toXml((List<Object>) $.fromJson("[\"Текст на русском\"]")));
+            + "</root>", U.toXml((List<Object>) U.fromJson("[\"Текст на русском\"]")));
     }
 
     @SuppressWarnings("unchecked")
@@ -1262,21 +1262,21 @@ _.repeat('abc', 0);
 
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
-            $.toXml(testList));
+            U.toXml(testList));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
-            new $(testList).toXml());
+            new U(testList).toXml());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
-            $.chain(testList).toXml().item());
+            U.chain(testList).toXml().item());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
-            $.toXml(Arrays.asList(Double.NaN)));
+            U.toXml(Arrays.asList(Double.NaN)));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
-            $.toXml(Arrays.asList(Double.POSITIVE_INFINITY)));
+            U.toXml(Arrays.asList(Double.POSITIVE_INFINITY)));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
-            $.toXml(Arrays.asList(Float.NaN)));
+            U.toXml(Arrays.asList(Float.NaN)));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
-            $.toXml(Arrays.asList(Float.POSITIVE_INFINITY)));
+            U.toXml(Arrays.asList(Float.POSITIVE_INFINITY)));
     }
 
     @Test
@@ -1287,8 +1287,8 @@ _.repeat('abc', 0);
 
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <First item>1</First item>\n  <Second item>2</Second item>\n</root>",
-            $.toXml(testMap));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", $.toXml((Map) null));
+            U.toXml(testMap));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", U.toXml((Map) null));
     }
 
     @SuppressWarnings("unchecked")
@@ -1325,7 +1325,7 @@ _.repeat('abc', 0);
         + "\n      </GlossEntry>"
         + "\n    </GlossList>"
         + "\n  </GlossDiv>"
-        + "\n</glossary>", $.toXml((Map<String, Object>) $.fromJson(string)));
+        + "\n</glossary>", U.toXml((Map<String, Object>) U.fromJson(string)));
     }
 
     @SuppressWarnings("unchecked")
@@ -1373,7 +1373,7 @@ _.repeat('abc', 0);
         + "\n    }"
         + "\n  }"
         + "\n}",
-            $.toJson((Map<String, Object>) $.fromXml(string)));
+            U.toJson((Map<String, Object>) U.fromXml(string)));
         assertEquals(
         "{"
         + "\n  \"root\": {"
@@ -1394,7 +1394,7 @@ _.repeat('abc', 0);
         + "\n    }"
         + "\n  }"
         + "\n}",
-            $.toJson((Map<String, Object>) new $(string).fromXml()));
+            U.toJson((Map<String, Object>) new U(string).fromXml()));
         assertEquals(
         "{"
         + "\n  \"root\": {"
@@ -1415,7 +1415,7 @@ _.repeat('abc', 0);
         + "\n    }"
         + "\n  }"
         + "\n}",
-            $.toJson((Map<String, Object>) $.chain(string).fromXml().item()));
+            U.toJson((Map<String, Object>) U.chain(string).fromXml().item()));
         String stringXml =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         + "\n<root>"
@@ -1443,7 +1443,7 @@ _.repeat('abc', 0);
         + "\n    </GlossDiv>"
         + "\n  </glossary>"
         + "\n</root>";
-        $.fromXml(stringXml);
+        U.fromXml(stringXml);
     }
 
     @SuppressWarnings("unchecked")
@@ -1453,21 +1453,21 @@ _.repeat('abc', 0);
             + "</coords><code>NMR</code><message>Another day of everyday normal regular weather, business as usual, unless "
             + "it’s going to be like the time of the Great Paprika Mayonnaise Incident of 2014, that was some pretty nasty "
             + "stuff.</message><varX-Rating>8</varX-Rating></report>";
-        assertEquals("NMR", (String) ((Map<String, Object>) ((Map<String, Object>) $.fromXml(xml)).get("report")).get("code"));
+        assertEquals("NMR", (String) ((Map<String, Object>) ((Map<String, Object>) U.fromXml(xml)).get("report")).get("code"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDecodeParseXmlErr13() {
-        $.fromXml("[\"abc\u0010\"]");
+        U.fromXml("[\"abc\u0010\"]");
     }
 
     @Test
     public void testJsonJavaArray() {
         JsonJavaStringBuilder builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((Collection) null, builder);
+        U.JsonJavaArray.writeJson((Collection) null, builder);
         assertEquals("\"null\";", builder.toString());
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
+        U.JsonJavaArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
         assertEquals("\"[\\n\"\n + \"  null\\n\"\n + \"]\";", builder.toString());
     }
 
@@ -1478,56 +1478,56 @@ _.repeat('abc', 0);
                         + " + \"  \\\"First item\\\",\\n\"\n"
                         + " + \"  \\\"Second item\\\"\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList("First item", "Second item")));
+            U.toJsonJavaString(Arrays.asList("First item", "Second item")));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1,\\n\"\n"
                         + " + \"    2\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new byte[] {1, 2})));
+            U.toJsonJavaString(Arrays.asList(new byte[] {1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1,\\n\"\n"
                         + " + \"    2\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new short[] {1, 2})));
+            U.toJsonJavaString(Arrays.asList(new short[] {1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1,\\n\"\n"
                         + " + \"    2\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new int[] {1, 2})));
+            U.toJsonJavaString(Arrays.asList(new int[] {1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1,\\n\"\n"
                         + " + \"    2\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new long[] {1, 2})));
+            U.toJsonJavaString(Arrays.asList(new long[] {1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1.0,\\n\"\n"
                         + " + \"    2.0\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new float[] {1, 2})));
+            U.toJsonJavaString(Arrays.asList(new float[] {1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1.0,\\n\"\n"
                         + " + \"    2.0\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new double[] {1, 2})));
+            U.toJsonJavaString(Arrays.asList(new double[] {1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    \"1\",\\n\"\n"
                         + " + \"    \"2\"\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new char[] {'1', '2'})));
+            U.toJsonJavaString(Arrays.asList(new char[] {'1', '2'})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    true,\\n\"\n"
@@ -1535,30 +1535,30 @@ _.repeat('abc', 0);
                         + " + \"    true\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new boolean[] {true, false, true})));
+            U.toJsonJavaString(Arrays.asList(new boolean[] {true, false, true})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  1.0,\\n\"\n"
                         + " + \"  2.0\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new Float[] {1F, 2F})));
+            U.toJsonJavaString(Arrays.asList(new Float[] {1F, 2F})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  1.0,\\n\"\n"
                         + " + \"  2.0\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new Double[] {1D, 2D})));
+            U.toJsonJavaString(Arrays.asList(new Double[] {1D, 2D})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  true,\\n\"\n"
                         + " + \"  false,\\n\"\n"
                         + " + \"  true\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new Boolean[] {true, false, true})));
+            U.toJsonJavaString(Arrays.asList(new Boolean[] {true, false, true})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    \\\"First item\\\",\\n\"\n"
                         + " + \"    \\\"Second item\\\"\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(Arrays.asList("First item", "Second item"))));
+            U.toJsonJavaString(Arrays.asList(Arrays.asList("First item", "Second item"))));
         assertEquals("\"[\\n\"\n"
                         + " + \"  {\\n\"\n"
                         + " + \"    \\\"1\\\": \\\"First item\\\",\\n\"\n"
@@ -1566,12 +1566,12 @@ _.repeat('abc', 0);
                         + " + \"    \\\"3\\\": null\\n\"\n"
                         + " + \"  }\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(Arrays.asList(new LinkedHashMap() { {
+            U.toJsonJavaString(Arrays.asList(new LinkedHashMap() { {
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
-                + " + \"]\";", $.toJsonJavaString(Arrays.asList(new String[] {(String) null})));
-        assertEquals("\"null\";", $.toJsonJavaString((Collection) null));
+                + " + \"]\";", U.toJsonJavaString(Arrays.asList(new String[] {(String) null})));
+        assertEquals("\"null\";", U.toJsonJavaString((Collection) null));
         class Test {
             public String toString() {
                 return "test";
@@ -1583,30 +1583,30 @@ _.repeat('abc', 0);
                         + " + \"    test\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            $.toJsonJavaString(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
+            U.toJsonJavaString(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
     }
 
     @Test
     public void escapeJava() {
-        assertEquals(null, $.JsonJavaValue.escape(null));
-        assertEquals("\\\"", $.JsonJavaValue.escape("\""));
-        assertEquals("\\\\", $.JsonJavaValue.escape("\\"));
-        assertEquals("\\b", $.JsonJavaValue.escape("\b"));
-        assertEquals("\\f", $.JsonJavaValue.escape("\f"));
-        assertEquals("\\n", $.JsonJavaValue.escape("\n"));
-        assertEquals("\\r", $.JsonJavaValue.escape("\r"));
-        assertEquals("\\t", $.JsonJavaValue.escape("\t"));
-        assertEquals("\\/", $.JsonJavaValue.escape("/"));
-        assertEquals("\\u0000", $.JsonJavaValue.escape("\u0000"));
-        assertEquals("\\u001F", $.JsonJavaValue.escape("\u001F"));
-        assertEquals("\u0020", $.JsonJavaValue.escape("\u0020"));
-        assertEquals("\\u007F", $.JsonJavaValue.escape("\u007F"));
-        assertEquals("\\u009F", $.JsonJavaValue.escape("\u009F"));
-        assertEquals("\u00A0", $.JsonJavaValue.escape("\u00A0"));
-        assertEquals("\\u2000", $.JsonJavaValue.escape("\u2000"));
-        assertEquals("\\u20FF", $.JsonJavaValue.escape("\u20FF"));
-        assertEquals("\u2100", $.JsonJavaValue.escape("\u2100"));
-        assertEquals("\uFFFF", $.JsonJavaValue.escape("\uFFFF"));
+        assertEquals(null, U.JsonJavaValue.escape(null));
+        assertEquals("\\\"", U.JsonJavaValue.escape("\""));
+        assertEquals("\\\\", U.JsonJavaValue.escape("\\"));
+        assertEquals("\\b", U.JsonJavaValue.escape("\b"));
+        assertEquals("\\f", U.JsonJavaValue.escape("\f"));
+        assertEquals("\\n", U.JsonJavaValue.escape("\n"));
+        assertEquals("\\r", U.JsonJavaValue.escape("\r"));
+        assertEquals("\\t", U.JsonJavaValue.escape("\t"));
+        assertEquals("\\/", U.JsonJavaValue.escape("/"));
+        assertEquals("\\u0000", U.JsonJavaValue.escape("\u0000"));
+        assertEquals("\\u001F", U.JsonJavaValue.escape("\u001F"));
+        assertEquals("\u0020", U.JsonJavaValue.escape("\u0020"));
+        assertEquals("\\u007F", U.JsonJavaValue.escape("\u007F"));
+        assertEquals("\\u009F", U.JsonJavaValue.escape("\u009F"));
+        assertEquals("\u00A0", U.JsonJavaValue.escape("\u00A0"));
+        assertEquals("\\u2000", U.JsonJavaValue.escape("\u2000"));
+        assertEquals("\\u20FF", U.JsonJavaValue.escape("\u20FF"));
+        assertEquals("\u2100", U.JsonJavaValue.escape("\u2100"));
+        assertEquals("\uFFFF", U.JsonJavaValue.escape("\uFFFF"));
     }
 
     @Test
@@ -1614,21 +1614,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((byte[]) null, builder);
+        U.JsonJavaArray.writeJson((byte[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new byte[0], builder);
+        U.JsonJavaArray.writeJson(new byte[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new byte[] { 12 }, builder);
+        U.JsonJavaArray.writeJson(new byte[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
+        U.JsonJavaArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -1642,21 +1642,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((short[]) null, builder);
+        U.JsonJavaArray.writeJson((short[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new short[0], builder);
+        U.JsonJavaArray.writeJson(new short[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new short[] { 12 }, builder);
+        U.JsonJavaArray.writeJson(new short[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
+        U.JsonJavaArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -1670,21 +1670,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((int[]) null, builder);
+        U.JsonJavaArray.writeJson((int[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new int[0], builder);
+        U.JsonJavaArray.writeJson(new int[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new int[] { 12 }, builder);
+        U.JsonJavaArray.writeJson(new int[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
+        U.JsonJavaArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -1698,21 +1698,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((long[]) null, builder);
+        U.JsonJavaArray.writeJson((long[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new long[0], builder);
+        U.JsonJavaArray.writeJson(new long[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new long[] { 12 }, builder);
+        U.JsonJavaArray.writeJson(new long[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
+        U.JsonJavaArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -1726,21 +1726,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((float[]) null, builder);
+        U.JsonJavaArray.writeJson((float[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new float[0], builder);
+        U.JsonJavaArray.writeJson(new float[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new float[] { 12.8f }, builder);
+        U.JsonJavaArray.writeJson(new float[] { 12.8f }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12.8\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
+        U.JsonJavaArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7.1,\\n\"\n"
                 + " + \"  22.234,\\n\"\n"
@@ -1754,21 +1754,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((double[]) null, builder);
+        U.JsonJavaArray.writeJson((double[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new double[0], builder);
+        U.JsonJavaArray.writeJson(new double[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new double[] { 12.8 }, builder);
+        U.JsonJavaArray.writeJson(new double[] { 12.8 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12.8\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
+        U.JsonJavaArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7.1,\\n\"\n"
                 + " + \"  22.234,\\n\"\n"
@@ -1782,21 +1782,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((boolean[]) null, builder);
+        U.JsonJavaArray.writeJson((boolean[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new boolean[0], builder);
+        U.JsonJavaArray.writeJson(new boolean[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new boolean[] { true }, builder);
+        U.JsonJavaArray.writeJson(new boolean[] { true }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  true\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new boolean[] { true, false, true }, builder);
+        U.JsonJavaArray.writeJson(new boolean[] { true, false, true }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  true,\\n\"\n"
                 + " + \"  false,\\n\"\n"
@@ -1809,21 +1809,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((char[]) null, builder);
+        U.JsonJavaArray.writeJson((char[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new char[0], builder);
+        U.JsonJavaArray.writeJson(new char[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new char[] { 'a' }, builder);
+        U.JsonJavaArray.writeJson(new char[] { 'a' }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \"a\"\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
+        U.JsonJavaArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \"a\",\\n\"\n"
                 + " + \"  \"b\",\\n\"\n"
@@ -1836,21 +1836,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson((Object[]) null, builder);
+        U.JsonJavaArray.writeJson((Object[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new Object[0], builder);
+        U.JsonJavaArray.writeJson(new Object[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new Object[] { "Hello" }, builder);
+        U.JsonJavaArray.writeJson(new Object[] { "Hello" }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"Hello\\\"\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        $.JsonJavaArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
+        U.JsonJavaArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"Hello\\\",\\n\"\n"
                 + " + \"  12,\\n\"\n"
@@ -1872,27 +1872,27 @@ _.repeat('abc', 0);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"First item\\\",\\n\"\n"
                 + " + \"  \\\"Second item\\\"\\n\"\n"
-                + " + \"]\";", $.toJsonJavaString(testList));
+                + " + \"]\";", U.toJsonJavaString(testList));
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"First item\\\",\\n\"\n"
                 + " + \"  \\\"Second item\\\"\\n\"\n"
-                + " + \"]\";", new $(testList).toJsonJavaString());
+                + " + \"]\";", new U(testList).toJsonJavaString());
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"First item\\\",\\n\"\n"
                 + " + \"  \\\"Second item\\\"\\n\"\n"
-                + " + \"]\";", $.chain(testList).toJsonJavaString().item());
+                + " + \"]\";", U.chain(testList).toJsonJavaString().item());
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
-                + " + \"]\";", $.toJsonJavaString(Arrays.asList(Double.NaN)));
+                + " + \"]\";", U.toJsonJavaString(Arrays.asList(Double.NaN)));
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
-                + " + \"]\";", $.toJsonJavaString(Arrays.asList(Double.POSITIVE_INFINITY)));
+                + " + \"]\";", U.toJsonJavaString(Arrays.asList(Double.POSITIVE_INFINITY)));
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
-                + " + \"]\";", $.toJsonJavaString(Arrays.asList(Float.NaN)));
+                + " + \"]\";", U.toJsonJavaString(Arrays.asList(Float.NaN)));
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
-                + " + \"]\";", $.toJsonJavaString(Arrays.asList(Float.POSITIVE_INFINITY)));
+                + " + \"]\";", U.toJsonJavaString(Arrays.asList(Float.POSITIVE_INFINITY)));
     }
 
     @Test
@@ -1904,8 +1904,8 @@ _.repeat('abc', 0);
         assertEquals("\"{\\n\"\n"
                 + " + \"  \\\"First item\\\": \\\"1\\\",\\n\"\n"
                 + " + \"  \\\"Second item\\\": \\\"2\\\"\\n\"\n"
-                + " + \"}\";", $.toJsonJavaString(testMap));
-        assertEquals("\"null\";", $.toJsonJavaString((Map) null));
+                + " + \"}\";", U.toJsonJavaString(testMap));
+        assertEquals("\"null\";", U.toJsonJavaString((Map) null));
     }
 
     @SuppressWarnings("unchecked")
@@ -1946,138 +1946,138 @@ _.repeat('abc', 0);
         + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
         + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
         + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}";
-        assertEquals(javaString, $.toJsonJavaString((Map<String, Object>) $.fromJson(string)));
+        assertEquals(javaString, U.toJsonJavaString((Map<String, Object>) U.fromJson(string)));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void main() throws Exception {
-        $.main(new String[] {});
-        new $(new ArrayList<String>());
-        new $("");
-        new $(Arrays.asList()).chain();
-        new $.JsonArray();
-        new $.JsonValue();
-        new $.JsonObject();
-        new $.XmlArray();
-        new $.XmlValue();
-        new $.XmlObject();
-        new $.JsonJavaArray();
-        new $.JsonJavaValue();
-        new $.JsonJavaObject();
-        $.chain(new ArrayList<String>());
-        $.chain(new ArrayList<String>(), 1);
-        $.chain(new HashSet<String>());
-        $.chain(new String[] {});
+        U.main(new String[] {});
+        new U(new ArrayList<String>());
+        new U("");
+        new U(Arrays.asList()).chain();
+        new U.JsonArray();
+        new U.JsonValue();
+        new U.JsonObject();
+        new U.XmlArray();
+        new U.XmlValue();
+        new U.XmlObject();
+        new U.JsonJavaArray();
+        new U.JsonJavaValue();
+        new U.JsonJavaObject();
+        U.chain(new ArrayList<String>());
+        U.chain(new ArrayList<String>(), 1);
+        U.chain(new HashSet<String>());
+        U.chain(new String[] {});
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void chain() {
-        $.chain(new String[] {""}).first();
-        $.chain(new String[] {""}).first(1);
-        $.chain(new String[] {""}).firstOrNull();
-        $.chain(new String[] {""}).firstOrNull(new Predicate<String>() {
+        U.chain(new String[] {""}).first();
+        U.chain(new String[] {""}).first(1);
+        U.chain(new String[] {""}).firstOrNull();
+        U.chain(new String[] {""}).firstOrNull(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).initial();
-        $.chain(new String[] {""}).initial(1);
-        $.chain(new String[] {""}).last();
-        $.chain(new String[] {""}).last(1);
-        $.chain(new String[] {""}).lastOrNull();
-        $.chain(new String[] {""}).lastOrNull(new Predicate<String>() {
+        U.chain(new String[] {""}).initial();
+        U.chain(new String[] {""}).initial(1);
+        U.chain(new String[] {""}).last();
+        U.chain(new String[] {""}).last(1);
+        U.chain(new String[] {""}).lastOrNull();
+        U.chain(new String[] {""}).lastOrNull(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).rest();
-        $.chain(new String[] {""}).rest(1);
-        $.chain(new String[] {""}).compact();
-        $.chain(new String[] {""}).compact("1");
-        $.chain(new String[] {""}).flatten();
-        $.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
+        U.chain(new String[] {""}).rest();
+        U.chain(new String[] {""}).rest(1);
+        U.chain(new String[] {""}).compact();
+        U.chain(new String[] {""}).compact("1");
+        U.chain(new String[] {""}).flatten();
+        U.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).mapIndexed(new BiFunction<Integer, Integer, Integer>() {
+        U.chain(new Integer[] {0}).mapIndexed(new BiFunction<Integer, Integer, Integer>() {
             public Integer apply(Integer index, Integer value) { return value; } });
-        $.chain(new String[] {""}).filter(new Predicate<String>() {
+        U.chain(new String[] {""}).filter(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
+        U.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
             public boolean test(int index, String str) { return true; } });
-        $.chain(new String[] {""}).reject(new Predicate<String>() {
+        U.chain(new String[] {""}).reject(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
+        U.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
             public boolean test(int index, String str) { return true; } });
-        $.chain(new String[] {""}).filterFalse(new Predicate<String>() {
+        U.chain(new String[] {""}).filterFalse(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).reduce(new BiFunction<String, String, String>() {
+        U.chain(new String[] {""}).reduce(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
-        $.chain(new String[] {""}).reduce(new BinaryOperator<String>() {
+        U.chain(new String[] {""}).reduce(new BinaryOperator<String>() {
             public String apply(String accum, String str) { return null; } });
-        $.chain(new String[] {""}).reduceRight(new BiFunction<String, String, String>() {
+        U.chain(new String[] {""}).reduceRight(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
-        $.chain(new String[] {""}).reduceRight(new BinaryOperator<String>() {
+        U.chain(new String[] {""}).reduceRight(new BinaryOperator<String>() {
             public String apply(String accum, String str) { return null; } });
-        $.chain(new String[] {""}).find(new Predicate<String>() {
+        U.chain(new String[] {""}).find(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).findLast(new Predicate<String>() {
+        U.chain(new String[] {""}).findLast(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new Integer[] {0}).max();
-        $.chain(new Integer[] {0}).max(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).max();
+        U.chain(new Integer[] {0}).max(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).min();
-        $.chain(new Integer[] {0}).min(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).min();
+        U.chain(new Integer[] {0}).min(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).sort();
-        $.chain(new Integer[] {0}).sortWith(new Comparator<Integer>() {
+        U.chain(new Integer[] {0}).sort();
+        U.chain(new Integer[] {0}).sortWith(new Comparator<Integer>() {
             public int compare(Integer value1, Integer value2) { return value1; } });
-        $.chain(new Integer[] {0}).sortBy(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).sortBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
-        $.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
+        U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
+        U.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).indexBy("");
-        $.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).indexBy("");
+        U.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).shuffle();
-        $.chain(new Integer[] {0}).sample();
-        $.chain(new Integer[] {0}).sample(1);
-        $.chain(new int[] {0}).value();
-        $.chain(new String[] {""}).tap(new Consumer<String>() {
+        U.chain(new Integer[] {0}).shuffle();
+        U.chain(new Integer[] {0}).sample();
+        U.chain(new Integer[] {0}).sample(1);
+        U.chain(new int[] {0}).value();
+        U.chain(new String[] {""}).tap(new Consumer<String>() {
             public void accept(String str) {
             } });
-        $.chain(new String[] {""}).forEach(new Consumer<String>() {
+        U.chain(new String[] {""}).forEach(new Consumer<String>() {
             public void accept(String str) {
             } });
-        $.chain(new String[] {""}).forEachRight(new Consumer<String>() {
+        U.chain(new String[] {""}).forEachRight(new Consumer<String>() {
             public void accept(String str) {
             } });
-        $.chain(new String[] {""}).every(new Predicate<String>() {
+        U.chain(new String[] {""}).every(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).some(new Predicate<String>() {
+        U.chain(new String[] {""}).some(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).contains("");
-        $.chain(new String[] {""}).invoke("toString", Collections.emptyList());
-        $.chain(new String[] {""}).invoke("toString");
-        $.chain(new String[] {""}).pluck("toString");
-        $.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
-        $.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
-        $.chain(new Integer[] {0}).uniq();
-        $.chain(new Integer[] {0}).uniq(new Function<Integer, Integer>() {
+        U.chain(new String[] {""}).contains("");
+        U.chain(new String[] {""}).invoke("toString", Collections.emptyList());
+        U.chain(new String[] {""}).invoke("toString");
+        U.chain(new String[] {""}).pluck("toString");
+        U.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
+        U.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
+        U.chain(new Integer[] {0}).uniq();
+        U.chain(new Integer[] {0}).uniq(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).distinct();
-        $.chain(new Integer[] {0}).distinctBy(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).distinct();
+        U.chain(new Integer[] {0}).distinctBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new String[] {""}).union();
-        $.chain(new String[] {""}).intersection();
-        $.chain(new String[] {""}).difference();
-        $.chain(new String[] {""}).range(0);
-        $.chain(new String[] {""}).range(0, 0);
-        $.chain(new String[] {""}).range(0, 0, 1);
-        $.chain(new String[] {""}).chunk(1);
-        $.chain(new String[] {""}).concat();
-        $.chain(new String[] {""}).slice(0);
-        $.chain(new String[] {""}).slice(0, 0);
-        $.chain(new String[] {""}).reverse();
-        $.chain(new String[] {""}).join();
-        $.chain(new String[] {""}).join("");
-        $.chain(new String[] {""}).skip(0);
-        $.chain(new String[] {""}).limit(0);
-        $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
+        U.chain(new String[] {""}).union();
+        U.chain(new String[] {""}).intersection();
+        U.chain(new String[] {""}).difference();
+        U.chain(new String[] {""}).range(0);
+        U.chain(new String[] {""}).range(0, 0);
+        U.chain(new String[] {""}).range(0, 0, 1);
+        U.chain(new String[] {""}).chunk(1);
+        U.chain(new String[] {""}).concat();
+        U.chain(new String[] {""}).slice(0);
+        U.chain(new String[] {""}).slice(0, 0);
+        U.chain(new String[] {""}).reverse();
+        U.chain(new String[] {""}).join();
+        U.chain(new String[] {""}).join("");
+        U.chain(new String[] {""}).skip(0);
+        U.chain(new String[] {""}).limit(0);
+        U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
     }
 }

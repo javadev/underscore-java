@@ -32,7 +32,7 @@ import java.util.*;
  *
  * @author Valentyn Kolesnikov
  */
-public class $<T> {
+public class U<T> {
     private static final Map<String, Function<String, String>> FUNCTIONS = newLinkedHashMap();
     private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<String, String>() { {
         put("evaluate", "<%([\\s\\S]+?)%>");
@@ -52,12 +52,12 @@ public class $<T> {
     private final Iterable<T> iterable;
     private final Optional<String> string;
 
-    public $(final Iterable<T> iterable) {
+    public U(final Iterable<T> iterable) {
         this.iterable = iterable;
         this.string = Optional.absent();
     }
 
-    public $(final String string) {
+    public U(final String string) {
         this.iterable = null;
         this.string = Optional.of(string);
     }
@@ -1363,7 +1363,7 @@ public class $<T> {
             public void accept(final List<T> list) {
                 int index = 0;
                 for (T elem : list) {
-                    final List<T> nTuple = index >= zipped.size() ? $.<T>newArrayList() : zipped.get(index);
+                    final List<T> nTuple = index >= zipped.size() ? U.<T>newArrayList() : zipped.get(index);
                     if (index >= zipped.size()) {
                         zipped.add(nTuple);
                     }
@@ -2071,28 +2071,28 @@ public class $<T> {
     }
 
     public static <T> Chain<T> chain(final List<T> list) {
-        return new $.Chain<T>(list);
+        return new U.Chain<T>(list);
     }
 
     public static <T> Chain<T> chain(final Iterable<T> iterable) {
-        return new $.Chain<T>(newArrayList(iterable));
+        return new U.Chain<T>(newArrayList(iterable));
     }
 
     public static <T> Chain<T> chain(final Iterable<T> iterable, int size) {
-        return new $.Chain<T>(newArrayList(iterable, size));
+        return new U.Chain<T>(newArrayList(iterable, size));
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Chain<T> chain(final T ... array) {
-        return new $.Chain<T>(Arrays.asList(array));
+        return new U.Chain<T>(Arrays.asList(array));
     }
 
     public static Chain<Integer> chain(final int[] array) {
-        return new $.Chain<Integer>(newIntegerList(array));
+        return new U.Chain<Integer>(newIntegerList(array));
     }
 
     public Chain<T> chain() {
-        return new $.Chain<T>(newArrayList(iterable));
+        return new U.Chain<T>(newArrayList(iterable));
     }
 
     public static class Chain<T> {
@@ -2109,321 +2109,321 @@ public class $<T> {
         }
 
         public Chain<T> first() {
-            return new Chain<T>($.first(list));
+            return new Chain<T>(U.first(list));
         }
 
         public Chain<T> first(int n) {
-            return new Chain<T>($.first(list, n));
+            return new Chain<T>(U.first(list, n));
         }
 
         public Chain<T> firstOrNull() {
-            return new Chain<T>($.firstOrNull(list));
+            return new Chain<T>(U.firstOrNull(list));
         }
 
         public Chain<T> firstOrNull(final Predicate<T> pred) {
-            return new Chain<T>($.firstOrNull(list, pred));
+            return new Chain<T>(U.firstOrNull(list, pred));
         }
 
         public Chain<T> initial() {
-            return new Chain<T>($.initial(list));
+            return new Chain<T>(U.initial(list));
         }
 
         public Chain<T> initial(int n) {
-            return new Chain<T>($.initial(list, n));
+            return new Chain<T>(U.initial(list, n));
         }
 
         public Chain<T> last() {
-            return new Chain<T>($.last(list));
+            return new Chain<T>(U.last(list));
         }
 
         public Chain<T> last(int n) {
-            return new Chain<T>($.last(list, n));
+            return new Chain<T>(U.last(list, n));
         }
 
         public Chain<T> lastOrNull() {
-            return new Chain<T>($.lastOrNull(list));
+            return new Chain<T>(U.lastOrNull(list));
         }
 
         public Chain<T> lastOrNull(final Predicate<T> pred) {
-            return new Chain<T>($.lastOrNull(list, pred));
+            return new Chain<T>(U.lastOrNull(list, pred));
         }
 
         public Chain<T> rest() {
-            return new Chain<T>($.rest(list));
+            return new Chain<T>(U.rest(list));
         }
 
         public Chain<T> rest(int n) {
-            return new Chain<T>($.rest(list, n));
+            return new Chain<T>(U.rest(list, n));
         }
 
         public Chain<T> compact() {
-            return new Chain<T>($.compact(list));
+            return new Chain<T>(U.compact(list));
         }
 
         public Chain<T> compact(final T falsyValue) {
-            return new Chain<T>($.compact(list, falsyValue));
+            return new Chain<T>(U.compact(list, falsyValue));
         }
 
         @SuppressWarnings("unchecked")
         public Chain flatten() {
-            return new Chain($.flatten(list));
+            return new Chain(U.flatten(list));
         }
 
         public <F> Chain<F> map(final Function<? super T, F> func) {
-            return new Chain<F>($.map(list, func));
+            return new Chain<F>(U.map(list, func));
         }
 
         public <F> Chain<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
-            return new Chain<F>($.mapIndexed(list, func));
+            return new Chain<F>(U.mapIndexed(list, func));
         }
 
         public Chain<T> filter(final Predicate<T> pred) {
-            return new Chain<T>($.filter(list, pred));
+            return new Chain<T>(U.filter(list, pred));
         }
 
         public Chain<T> filterIndexed(final PredicateIndexed<T> pred) {
-            return new Chain<T>($.filterIndexed(list, pred));
+            return new Chain<T>(U.filterIndexed(list, pred));
         }
 
         public Chain<T> reject(final Predicate<T> pred) {
-            return new Chain<T>($.reject(list, pred));
+            return new Chain<T>(U.reject(list, pred));
         }
 
         public Chain<T> rejectIndexed(final PredicateIndexed<T> pred) {
-            return new Chain<T>($.rejectIndexed(list, pred));
+            return new Chain<T>(U.rejectIndexed(list, pred));
         }
 
         public Chain<T> filterFalse(final Predicate<T> pred) {
-            return new Chain<T>($.reject(list, pred));
+            return new Chain<T>(U.reject(list, pred));
         }
 
         public <F> Chain<F> reduce(final BiFunction<F, T, F> func, final F zeroElem) {
-            return new Chain<F>($.reduce(list, func, zeroElem));
+            return new Chain<F>(U.reduce(list, func, zeroElem));
         }
 
         public Chain<Optional<T>> reduce(final BinaryOperator<T> func) {
-            return new Chain<Optional<T>>($.reduce(list, func));
+            return new Chain<Optional<T>>(U.reduce(list, func));
         }
 
         public <F> Chain<F> reduceRight(final BiFunction<F, T, F> func, final F zeroElem) {
-            return new Chain<F>($.reduceRight(list, func, zeroElem));
+            return new Chain<F>(U.reduceRight(list, func, zeroElem));
         }
 
         public Chain<Optional<T>> reduceRight(final BinaryOperator<T> func) {
-            return new Chain<Optional<T>>($.reduceRight(list, func));
+            return new Chain<Optional<T>>(U.reduceRight(list, func));
         }
 
         public Chain<Optional<T>> find(final Predicate<T> pred) {
-            return new Chain<Optional<T>>($.find(list, pred));
+            return new Chain<Optional<T>>(U.find(list, pred));
         }
 
         public Chain<Optional<T>> findLast(final Predicate<T> pred) {
-            return new Chain<Optional<T>>($.findLast(list, pred));
+            return new Chain<Optional<T>>(U.findLast(list, pred));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<Comparable> max() {
-            return new Chain<Comparable>($.max((Collection) list));
+            return new Chain<Comparable>(U.max((Collection) list));
         }
 
         public <F extends Comparable<? super F>> Chain<T> max(final Function<T, F> func) {
-            return new Chain<T>($.max(list, func));
+            return new Chain<T>(U.max(list, func));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<Comparable> min() {
-            return new Chain<Comparable>($.min((Collection) list));
+            return new Chain<Comparable>(U.min((Collection) list));
         }
 
         public <F extends Comparable<? super F>> Chain<T> min(final Function<T, F> func) {
-            return new Chain<T>($.min(list, func));
+            return new Chain<T>(U.min(list, func));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<Comparable> sort() {
-            return new Chain<Comparable>($.sort((List<Comparable>) list));
+            return new Chain<Comparable>(U.sort((List<Comparable>) list));
         }
 
         @SuppressWarnings("unchecked")
         public <F extends Comparable<? super F>> Chain<F> sortWith(final Comparator<F> comparator) {
-            return new Chain<F>($.sortWith((List<F>) list, comparator));
+            return new Chain<F>(U.sortWith((List<F>) list, comparator));
         }
 
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function<T, F> func) {
-            return new Chain<T>($.sortBy(list, func));
+            return new Chain<T>(U.sortBy(list, func));
         }
 
         @SuppressWarnings("unchecked")
         public <K> Chain<Map<K, Comparable>> sortBy(final K key) {
-            return new Chain<Map<K, Comparable>>($.sortBy((List<Map<K, Comparable>>) list, key));
+            return new Chain<Map<K, Comparable>>(U.sortBy((List<Map<K, Comparable>>) list, key));
         }
 
         public <F> Chain<Map<F, List<T>>> groupBy(final Function<T, F> func) {
-            return new Chain<Map<F, List<T>>>($.groupBy(list, func));
+            return new Chain<Map<F, List<T>>>(U.groupBy(list, func));
         }
 
         public <F> Chain<Map<F, Optional<T>>> groupBy(final Function<T, F> func,
             final BinaryOperator<T> binaryOperator) {
-            return new Chain<Map<F, Optional<T>>>($.groupBy(list, func, binaryOperator));
+            return new Chain<Map<F, Optional<T>>>(U.groupBy(list, func, binaryOperator));
         }
 
         public Chain<Map<Object, List<T>>> indexBy(final String property) {
-            return new Chain<Map<Object, List<T>>>($.indexBy(list, property));
+            return new Chain<Map<Object, List<T>>>(U.indexBy(list, property));
         }
 
         public <F> Chain<Map<F, Integer>> countBy(final Function<T, F> func) {
-            return new Chain<Map<F, Integer>>($.countBy(list, func));
+            return new Chain<Map<F, Integer>>(U.countBy(list, func));
         }
 
         public Chain<T> shuffle() {
-            return new Chain<T>($.shuffle(list));
+            return new Chain<T>(U.shuffle(list));
         }
 
         public Chain<T> sample() {
-            return new Chain<T>($.sample(list));
+            return new Chain<T>(U.sample(list));
         }
 
         public Chain<T> sample(final int howMany) {
-            return new Chain<T>($.newArrayList($.sample(list, howMany)));
+            return new Chain<T>(U.newArrayList(U.sample(list, howMany)));
         }
 
         public Chain<T> tap(final Consumer<T> func) {
-            $.each(list, func);
+            U.each(list, func);
             return new Chain<T>(list);
         }
 
         public Chain<T> forEach(final Consumer<T> func) {
-            $.each(list, func);
+            U.each(list, func);
             return new Chain<T>(list);
         }
 
         public Chain<T> forEachRight(final Consumer<T> func) {
-            $.eachRight(list, func);
+            U.eachRight(list, func);
             return new Chain<T>(list);
         }
 
         public Chain<Boolean> every(final Predicate<T> pred) {
-            return new Chain<Boolean>($.every(list, pred));
+            return new Chain<Boolean>(U.every(list, pred));
         }
 
         public Chain<Boolean> some(final Predicate<T> pred) {
-            return new Chain<Boolean>($.some(list, pred));
+            return new Chain<Boolean>(U.some(list, pred));
         }
 
         public Chain<Boolean> contains(final T elem) {
-            return new Chain<Boolean>($.contains(list, elem));
+            return new Chain<Boolean>(U.contains(list, elem));
         }
 
         public Chain<T> invoke(final String methodName, final List<Object> args) {
-            return new Chain<T>($.invoke(list, methodName, args));
+            return new Chain<T>(U.invoke(list, methodName, args));
         }
 
         public Chain<T> invoke(final String methodName) {
-            return new Chain<T>($.invoke(list, methodName));
+            return new Chain<T>(U.invoke(list, methodName));
         }
 
         public Chain<Object> pluck(final String propertyName) {
-            return new Chain<Object>($.pluck(list, propertyName));
+            return new Chain<Object>(U.pluck(list, propertyName));
         }
 
         public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
-            return new Chain<T>($.where(list, properties));
+            return new Chain<T>(U.where(list, properties));
         }
 
         public <E> Chain<Optional<T>> findWhere(final List<Tuple<String, E>> properties) {
-            return new Chain<Optional<T>>($.findWhere(list, properties));
+            return new Chain<Optional<T>>(U.findWhere(list, properties));
         }
 
         public Chain<T> uniq() {
-            return new Chain<T>($.uniq(list));
+            return new Chain<T>(U.uniq(list));
         }
 
         @SuppressWarnings("unchecked")
         public <F> Chain<T> uniq(final Function<T, F> func) {
-            return new Chain<T>($.newArrayList($.uniq(list, func)));
+            return new Chain<T>(U.newArrayList(U.uniq(list, func)));
         }
 
         public Chain<T> distinct() {
-            return new Chain<T>($.uniq(list));
+            return new Chain<T>(U.uniq(list));
         }
 
         @SuppressWarnings("unchecked")
         public <F> Chain<F> distinctBy(final Function<T, F> func) {
-            return new Chain<F>($.newArrayList((Iterable<F>) $.uniq(list, func)));
+            return new Chain<F>(U.newArrayList((Iterable<F>) U.uniq(list, func)));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> union(final List<T> ... lists) {
-            return new Chain<T>($.union(list, lists));
+            return new Chain<T>(U.union(list, lists));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> intersection(final List<T> ... lists) {
-            return new Chain<T>($.intersection(list, lists));
+            return new Chain<T>(U.intersection(list, lists));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> difference(final List<T> ... lists) {
-            return new Chain<T>($.difference(list, lists));
+            return new Chain<T>(U.difference(list, lists));
         }
 
         public Chain<Integer> range(final int stop) {
-            return new Chain<Integer>(newIntegerList($.range(stop)));
+            return new Chain<Integer>(newIntegerList(U.range(stop)));
         }
 
         public Chain<Integer> range(final int start, final int stop) {
-            return new Chain<Integer>(newIntegerList($.range(start, stop)));
+            return new Chain<Integer>(newIntegerList(U.range(start, stop)));
         }
 
         public Chain<Integer> range(final int start, final int stop, final int step) {
-            return new Chain<Integer>(newIntegerList($.range(start, stop, step)));
+            return new Chain<Integer>(newIntegerList(U.range(start, stop, step)));
         }
 
         public Chain<List<T>> chunk(final int size) {
-            return new Chain<List<T>>($.chunk(value(), size));
+            return new Chain<List<T>>(U.chunk(value(), size));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> concat(final List<T> ... lists) {
-            return new Chain<T>($.concat(list, lists));
+            return new Chain<T>(U.concat(list, lists));
         }
 
         public Chain<T> slice(final int start) {
-            return new Chain<T>($.slice(list, start));
+            return new Chain<T>(U.slice(list, start));
         }
 
         public Chain<T> slice(final int start, final int end) {
-            return new Chain<T>($.slice(list, start, end));
+            return new Chain<T>(U.slice(list, start, end));
         }
 
         public Chain<T> reverse() {
-            return new Chain<T>($.reverse(list));
+            return new Chain<T>(U.reverse(list));
         }
 
         public Chain<String> join() {
-            return new Chain<String>($.join(list));
+            return new Chain<String>(U.join(list));
         }
 
         public Chain<String> join(final String separator) {
-            return new Chain<String>($.join(list, separator));
+            return new Chain<String>(U.join(list, separator));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> push(final T ... values) {
-            return new Chain<T>($.push(value(), values));
+            return new Chain<T>(U.push(value(), values));
         }
 
         public Chain<Tuple<T, List<T>>> pop() {
-            return new Chain<Tuple<T, List<T>>>($.pop(value()));
+            return new Chain<Tuple<T, List<T>>>(U.pop(value()));
         }
 
         public Chain<Tuple<T, List<T>>> shift() {
-            return new Chain<Tuple<T, List<T>>>($.shift(value()));
+            return new Chain<Tuple<T, List<T>>>(U.shift(value()));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> unshift(final T ... values) {
-            return new Chain<T>($.unshift(value(), values));
+            return new Chain<T>(U.unshift(value(), values));
         }
 
         public Chain<T> skip(final int numberToSkip) {
@@ -2431,20 +2431,20 @@ public class $<T> {
         }
 
         public Chain<T> limit(final int size) {
-            return new Chain<T>($.first(list, size));
+            return new Chain<T>(U.first(list, size));
         }
 
         @SuppressWarnings("unchecked")
         public <K, V> Chain<Map<K, V>> toMap() {
-            return new Chain<Map<K, V>>($.toMap((Iterable<Map.Entry<K, V>>) list));
+            return new Chain<Map<K, V>>(U.toMap((Iterable<Map.Entry<K, V>>) list));
         }
 
         public boolean isEmpty() {
-            return $.isEmpty(list);
+            return U.isEmpty(list);
         }
 
         public int size() {
-            return $.size(list);
+            return U.size(list);
         }
 
         public T item() {

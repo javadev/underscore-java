@@ -54,10 +54,10 @@ _.chunk(['a', 'b', 'c', 'd'], 3);
     @SuppressWarnings("unchecked")
     @Test
     public void chunk() {
-        assertEquals("[[a, b], [c, d]]", $.chunk(asList("a", "b", "c", "d"), 2).toString());
-        assertEquals("[[a, b], [c, d]]", new $(asList("a", "b", "c", "d")).chunk(2).toString());
-        assertEquals("[[a, b], [c, d]]", $.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
-        assertEquals("[[a, b, c], [d]]", $.chunk(asList("a", "b", "c", "d"), 3).toString());
+        assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
+        assertEquals("[[a, b], [c, d]]", new U(asList("a", "b", "c", "d")).chunk(2).toString());
+        assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
+        assertEquals("[[a, b, c], [d]]", U.chunk(asList("a", "b", "c", "d"), 3).toString());
     }
 
 /*
@@ -76,14 +76,14 @@ _.drop([1, 2, 3], 0);
     @SuppressWarnings("unchecked")
     @Test
     public void drop() {
-        assertEquals("[2, 3]", $.drop(asList(1, 2, 3)).toString());
-        assertEquals("[2, 3]", new $(asList(1, 2, 3)).drop().toString());
-        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).drop().value().toString());
-        assertEquals("[3]", $.drop(asList(1, 2, 3), 2).toString());
-        assertEquals("[3]", new $(asList(1, 2, 3)).drop(2).toString());
-        assertEquals("[3]", $.chain(asList(1, 2, 3)).drop(2).value().toString());
-        assertEquals("[]", $.drop(asList(1, 2, 3), 5).toString());
-        assertEquals("[1, 2, 3]", $.drop(asList(1, 2, 3), 0).toString());
+        assertEquals("[2, 3]", U.drop(asList(1, 2, 3)).toString());
+        assertEquals("[2, 3]", new U(asList(1, 2, 3)).drop().toString());
+        assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).drop().value().toString());
+        assertEquals("[3]", U.drop(asList(1, 2, 3), 2).toString());
+        assertEquals("[3]", new U(asList(1, 2, 3)).drop(2).toString());
+        assertEquals("[3]", U.chain(asList(1, 2, 3)).drop(2).value().toString());
+        assertEquals("[]", U.drop(asList(1, 2, 3), 5).toString());
+        assertEquals("[1, 2, 3]", U.drop(asList(1, 2, 3), 0).toString());
     }
 
 /*
@@ -102,14 +102,14 @@ _.dropRight([1, 2, 3], 0);
     @SuppressWarnings("unchecked")
     @Test
     public void dropRight() {
-        assertEquals("[1, 2]", $.dropRight(asList(1, 2, 3)).toString());
-        assertEquals("[1, 2]", new $(asList(1, 2, 3)).dropRight().toString());
-        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).dropRight().value().toString());
-        assertEquals("[1]", $.dropRight(asList(1, 2, 3), 2).toString());
-        assertEquals("[1]", new $(asList(1, 2, 3)).dropRight(2).toString());
-        assertEquals("[1]", $.chain(asList(1, 2, 3)).dropRight(2).value().toString());
-        assertEquals("[]", $.dropRight(asList(1, 2, 3), 5).toString());
-        assertEquals("[1, 2, 3]", $.dropRight(asList(1, 2, 3), 0).toString());
+        assertEquals("[1, 2]", U.dropRight(asList(1, 2, 3)).toString());
+        assertEquals("[1, 2]", new U(asList(1, 2, 3)).dropRight().toString());
+        assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).dropRight().value().toString());
+        assertEquals("[1]", U.dropRight(asList(1, 2, 3), 2).toString());
+        assertEquals("[1]", new U(asList(1, 2, 3)).dropRight(2).toString());
+        assertEquals("[1]", U.chain(asList(1, 2, 3)).dropRight(2).value().toString());
+        assertEquals("[]", U.dropRight(asList(1, 2, 3), 5).toString());
+        assertEquals("[1, 2, 3]", U.dropRight(asList(1, 2, 3), 0).toString());
     }
 
 /*
@@ -121,17 +121,17 @@ _.dropWhile([1, 2, 3], function(n) {
     @SuppressWarnings("unchecked")
     @Test
     public void dropWhile() {
-        assertEquals("[3]", $.dropWhile(asList(1, 2, 3), new Predicate<Integer>() {
+        assertEquals("[3]", U.dropWhile(asList(1, 2, 3), new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n < 3;
             }
         }).toString());
-        assertEquals("[3]", new $(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
+        assertEquals("[3]", new U(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n < 3;
             }
         }).toString());
-        assertEquals("[3]", $.chain(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
+        assertEquals("[3]", U.chain(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n < 3;
             }
@@ -147,17 +147,17 @@ _.dropRightWhile([1, 2, 3], function(n) {
     @SuppressWarnings("unchecked")
     @Test
     public void dropRightWhile() {
-        assertEquals("[1, 2]", $.dropRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
+        assertEquals("[1, 2]", U.dropRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n > 2;
             }
         }).toString());
-        assertEquals("[1, 2]", new $(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
+        assertEquals("[1, 2]", new U(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n > 2;
             }
         }).toString());
-        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
+        assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n > 2;
             }
@@ -181,23 +181,23 @@ _.fill([4, 6, 8], '*', 1, 2);
     @Test
     public void fill() {
         List<Object> array = new ArrayList<Object>(asList(1, 2, 3));
-        $.fill(array, "a");
+        U.fill(array, "a");
         assertEquals("[a, a, a]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3));
-        new $(array).fill("a");
+        new U(array).fill("a");
         assertEquals("[a, a, a]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3));
-        $.chain(array).fill("a");
+        U.chain(array).fill("a");
         assertEquals("[a, a, a]", array.toString());
-        assertEquals("[2, 2, 2]", $.fill(new ArrayList<Object>(Collections.nCopies(3, 0)), 2).toString());
+        assertEquals("[2, 2, 2]", U.fill(new ArrayList<Object>(Collections.nCopies(3, 0)), 2).toString());
         array = new ArrayList<Object>(asList(4, 6, 8));
-        $.fill(array, "*", 1, 2);
+        U.fill(array, "*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
         array = new ArrayList<Object>(asList(4, 6, 8));
-        new $(array).fill("*", 1, 2);
+        new U(array).fill("*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
         array = new ArrayList<Object>(asList(4, 6, 8));
-        $.chain(array).fill("*", 1, 2);
+        U.chain(array).fill("*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
     }
 
@@ -208,11 +208,11 @@ _.flattenDeep([1, [2, 3, [4]]]);
     @SuppressWarnings("unchecked")
     @Test
     public void flattenDeep() {
-        final List<Integer> result = $.flattenDeep(asList(1, asList(2, 3, asList(asList(4)))));
+        final List<Integer> result = U.flattenDeep(asList(1, asList(2, 3, asList(asList(4)))));
         assertEquals("[1, 2, 3, 4]", result.toString());
-        final List<Integer> result2 = new $(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep();
+        final List<Integer> result2 = new U(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep();
         assertEquals("[1, 2, 3, 4]", result2.toString());
-        final List<?> resultChain = $.chain(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep().value();
+        final List<?> resultChain = U.chain(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep().value();
         assertEquals("[1, 2, 3, 4]", resultChain.toString());
     }
 
@@ -227,13 +227,13 @@ console.log(array);
     @Test
     public void pull() {
         List<Object> array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
-        $.pull(array, 2, 3);
+        U.pull(array, 2, 3);
         assertEquals("[1, 1]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
-        new $(array).pull(2, 3);
+        new U(array).pull(2, 3);
         assertEquals("[1, 1]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
-        $.chain(array).pull(2, 3);
+        U.chain(array).pull(2, 3);
         assertEquals("[1, 1]", array.toString());
     }
 
@@ -251,15 +251,15 @@ console.log(evens);
     @Test
     public void pullAt() {
         List<Object> array = new ArrayList<Object>(asList(5, 10, 15, 20));
-        List<Object> events = $.pullAt(array, 1, 3);
+        List<Object> events = U.pullAt(array, 1, 3);
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
         array = new ArrayList<Object>(asList(5, 10, 15, 20));
-        events = new $(array).pullAt(1, 3);
+        events = new U(array).pullAt(1, 3);
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
         array = new ArrayList<Object>(asList(5, 10, 15, 20));
-        events = $.chain(array).pullAt(1, 3).value();
+        events = U.chain(array).pullAt(1, 3).value();
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
     }
@@ -280,7 +280,7 @@ console.log(evens);
     @Test
     public void remove() {
         List<Integer> array = new ArrayList<Integer>(asList(1, 2, 3, 4));
-        List<Integer> evens = $.remove(array, new Predicate<Integer>() {
+        List<Integer> evens = U.remove(array, new Predicate<Integer>() {
             public boolean test(final Integer n) {
                 return n % 2 == 0;
             }
@@ -288,7 +288,7 @@ console.log(evens);
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
         array = new ArrayList<Integer>(asList(1, 2, 3, 4));
-        evens = new $(array).remove(new Predicate<Integer>() {
+        evens = new U(array).remove(new Predicate<Integer>() {
             public boolean test(final Integer n) {
                 return n % 2 == 0;
             }
@@ -296,7 +296,7 @@ console.log(evens);
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
         array = new ArrayList<Integer>(asList(1, 2, 3, 4));
-        evens = $.chain(array).remove(new Predicate<Integer>() {
+        evens = U.chain(array).remove(new Predicate<Integer>() {
             public boolean test(final Integer n) {
                 return n % 2 == 0;
             }
@@ -321,14 +321,14 @@ _.take([1, 2, 3], 0);
     @SuppressWarnings("unchecked")
     @Test
     public void take() {
-        assertEquals("[1]", $.take(asList(1, 2, 3)).toString());
-        assertEquals("[1]", new $(asList(1, 2, 3)).take().toString());
-        assertEquals("[1]", $.chain(asList(1, 2, 3)).take().value().toString());
-        assertEquals("[1, 2]", $.take(asList(1, 2, 3), 2).toString());
-        assertEquals("[1, 2]", new $(asList(1, 2, 3)).take(2).toString());
-        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).take(2).value().toString());
-        assertEquals("[1, 2, 3]", $.take(asList(1, 2, 3), 5).toString());
-        assertEquals("[]", $.take(asList(1, 2, 3), 0).toString());
+        assertEquals("[1]", U.take(asList(1, 2, 3)).toString());
+        assertEquals("[1]", new U(asList(1, 2, 3)).take().toString());
+        assertEquals("[1]", U.chain(asList(1, 2, 3)).take().value().toString());
+        assertEquals("[1, 2]", U.take(asList(1, 2, 3), 2).toString());
+        assertEquals("[1, 2]", new U(asList(1, 2, 3)).take(2).toString());
+        assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).take(2).value().toString());
+        assertEquals("[1, 2, 3]", U.take(asList(1, 2, 3), 5).toString());
+        assertEquals("[]", U.take(asList(1, 2, 3), 0).toString());
     }
 
 /*
@@ -347,14 +347,14 @@ _.takeRight([1, 2, 3], 0);
     @SuppressWarnings("unchecked")
     @Test
     public void takeRight() {
-        assertEquals("[3]", $.takeRight(asList(1, 2, 3)).toString());
-        assertEquals("[3]", new $(asList(1, 2, 3)).takeRight().toString());
-        assertEquals("[3]", $.chain(asList(1, 2, 3)).takeRight().value().toString());
-        assertEquals("[2, 3]", $.takeRight(asList(1, 2, 3), 2).toString());
-        assertEquals("[2, 3]", new $(asList(1, 2, 3)).takeRight(2).toString());
-        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).takeRight(2).value().toString());
-        assertEquals("[1, 2, 3]", $.takeRight(asList(1, 2, 3), 5).toString());
-        assertEquals("[]", $.takeRight(asList(1, 2, 3), 0).toString());
+        assertEquals("[3]", U.takeRight(asList(1, 2, 3)).toString());
+        assertEquals("[3]", new U(asList(1, 2, 3)).takeRight().toString());
+        assertEquals("[3]", U.chain(asList(1, 2, 3)).takeRight().value().toString());
+        assertEquals("[2, 3]", U.takeRight(asList(1, 2, 3), 2).toString());
+        assertEquals("[2, 3]", new U(asList(1, 2, 3)).takeRight(2).toString());
+        assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).takeRight(2).value().toString());
+        assertEquals("[1, 2, 3]", U.takeRight(asList(1, 2, 3), 5).toString());
+        assertEquals("[]", U.takeRight(asList(1, 2, 3), 0).toString());
     }
 
 /*
@@ -366,17 +366,17 @@ _.takeWhile([1, 2, 3], function(n) {
     @SuppressWarnings("unchecked")
     @Test
     public void takeWhile() {
-        assertEquals("[1, 2]", $.takeWhile(asList(1, 2, 3), new Predicate<Integer>() {
+        assertEquals("[1, 2]", U.takeWhile(asList(1, 2, 3), new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n < 3;
             }
         }).toString());
-        assertEquals("[1, 2]", new $(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
+        assertEquals("[1, 2]", new U(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n < 3;
             }
         }).toString());
-        assertEquals("[1, 2]", $.chain(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
+        assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n < 3;
             }
@@ -392,17 +392,17 @@ _.takeRightWhile([1, 2, 3], function(n) {
     @SuppressWarnings("unchecked")
     @Test
     public void takeRightWhile() {
-        assertEquals("[2, 3]", $.takeRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
+        assertEquals("[2, 3]", U.takeRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n > 1;
             }
         }).toString());
-        assertEquals("[2, 3]", new $(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
+        assertEquals("[2, 3]", new U(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n > 1;
             }
         }).toString());
-        assertEquals("[2, 3]", $.chain(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
+        assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n > 1;
             }
@@ -416,9 +416,9 @@ _.xor([1, 2], [4, 2]);
     @SuppressWarnings("unchecked")
     @Test
     public void xor() {
-        assertEquals("[1, 4]", $.xor(asList(1, 2), asList(4, 2)).toString());
-        assertEquals("[1, 4]", new $(asList(1, 2)).xor(asList(4, 2)).toString());
-        assertEquals("[1, 4]", $.chain(asList(1, 2)).xor(asList(4, 2)).value().toString());
+        assertEquals("[1, 4]", U.xor(asList(1, 2), asList(4, 2)).toString());
+        assertEquals("[1, 4]", new U(asList(1, 2)).xor(asList(4, 2)).toString());
+        assertEquals("[1, 4]", U.chain(asList(1, 2)).xor(asList(4, 2)).value().toString());
     }
 
 
@@ -429,9 +429,9 @@ _.at(['a', 'b', 'c'], 0, 2);
     @SuppressWarnings("unchecked")
     @Test
     public void at() {
-        assertEquals("[a, c]", $.at(asList("a", "b", "c"), 0, 2).toString());
-        assertEquals("[a, c]", new $(asList("a", "b", "c")).at(0, 2).toString());
-        assertEquals("[a, c]", $.chain(asList("a", "b", "c")).at(0, 2).value().toString());
+        assertEquals("[a, c]", U.at(asList("a", "b", "c"), 0, 2).toString());
+        assertEquals("[a, c]", new U(asList("a", "b", "c")).at(0, 2).toString());
+        assertEquals("[a, c]", U.chain(asList("a", "b", "c")).at(0, 2).value().toString());
     }
 
 /*
@@ -441,39 +441,39 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     @SuppressWarnings("unchecked")
     @Test
     public void get() {
-        assertEquals("d", $.<String>get(
-            (Map<String, Object>) $.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.c").toString());
+        assertEquals("d", U.<String>get(
+            (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.c").toString());
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void getNull() {
-        assertNull($.<String>get((Map<String, Object>) null, "a[0].b.c"));
-        assertNull($.<String>get(new LinkedHashMap<String, Object>() { {
+        assertNull(U.<String>get((Map<String, Object>) null, "a[0].b.c"));
+        assertNull(U.<String>get(new LinkedHashMap<String, Object>() { {
             put("b", LodashTest.class); } }, "a[0].b.c"));
-        assertNull($.<String>get(new LinkedHashMap<String, Object>() { {
+        assertNull(U.<String>get(new LinkedHashMap<String, Object>() { {
             put("a", LodashTest.class); } }, "a[0].b.c"));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void getNotFound() {
-        assertNull($.<String>get(
-            (Map<String, Object>) $.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.d"));
-        assertNull($.<String>get(
-            (Map<String, Object>) $.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].d.c"));
+        assertNull(U.<String>get(
+            (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.d"));
+        assertNull(U.<String>get(
+            (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].d.c"));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void fetchGet() {
-        $.FetchResponse result = $.fetch("http://www.dragonsofmugloar.com/api/game/483159");
+        U.FetchResponse result = U.fetch("http://www.dragonsofmugloar.com/api/game/483159");
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
             result.text());
         assertEquals("Sir. Russell Jones of Alberta",
-            (String) $.get((Map<String, Object>) result.json(), "knight.name"));
-        $.Chain resultChain = $.chain("http://www.dragonsofmugloar.com/api/game/483159").fetch();
+            (String) U.get((Map<String, Object>) result.json(), "knight.name"));
+        U.Chain resultChain = U.chain("http://www.dragonsofmugloar.com/api/game/483159").fetch();
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
             resultChain.item());
@@ -481,7 +481,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
 
     @Test
     public void fetchGetWithTimeouts() {
-        $.FetchResponse result = $.fetch("http://www.dragonsofmugloar.com/api/game/483159", 30000, 30000);
+        U.FetchResponse result = U.fetch("http://www.dragonsofmugloar.com/api/game/483159", 30000, 30000);
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
             result.text());
@@ -490,8 +490,8 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     @SuppressWarnings("unchecked")
     @Test
     public void fetchGetXml() {
-        $.FetchResponse result = $.fetch("http://www.dragonsofmugloar.com/weather/api/report/7614759");
-        assertEquals("NMR", (String) $.get((Map<String, Object>) result.xml(), "report.code"));
+        U.FetchResponse result = U.fetch("http://www.dragonsofmugloar.com/weather/api/report/7614759");
+        assertEquals("NMR", (String) U.get((Map<String, Object>) result.xml(), "report.code"));
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -501,21 +501,21 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
                 throw new java.io.UnsupportedEncodingException();
             }
         };
-        new $.FetchResponse(true, 100, null, stream).text();
+        new U.FetchResponse(true, 100, null, stream).text();
     }
 
     @Test
     public void fetchResponseBlob() {
         java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream();
-        assertArrayEquals(new byte[0], new $.FetchResponse(true, 100, null, stream).blob());
-        assertNull(new $.FetchResponse(true, 100, null, stream).getHeaderFields());
-        assertEquals(true, new $.FetchResponse(true, 100, null, stream).isOk());
-        assertEquals(100, new $.FetchResponse(true, 100, null, stream).getStatus());
+        assertArrayEquals(new byte[0], new U.FetchResponse(true, 100, null, stream).blob());
+        assertNull(new U.FetchResponse(true, 100, null, stream).getHeaderFields());
+        assertEquals(true, new U.FetchResponse(true, 100, null, stream).isOk());
+        assertEquals(100, new U.FetchResponse(true, 100, null, stream).getStatus());
     }
 
     @Test
     public void fetchGetHttps() {
-        $.FetchResponse result = $.fetch("https://api.lob.com/v1/addresses");
+        U.FetchResponse result = U.fetch("https://api.lob.com/v1/addresses");
         assertEquals("{\n"
             + "    \"error\": {\n"
             + "        \"message\": \"Missing authentication\",\n"
@@ -526,7 +526,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
 
     @Test
     public void fetchPut() {
-        $.FetchResponse result = $.fetch("http://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
+        U.FetchResponse result = U.fetch("http://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
             + "    \"dragon\": {"
             + "        \"scaleThickness\": 4,"
             + "        \"clawSharpness\": 2,"
@@ -536,7 +536,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             + "}");
         assertEquals("{\"status\":\"Victory\",\"message\":\"Dragon was successful in a glorious battle\"}",
             result.text());
-        $.FetchResponse result2 = $.fetch("http://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
+        U.FetchResponse result2 = U.fetch("http://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
             + "    \"dragon\": {"
             + "        \"scaleThickness\": 4,"
             + "        \"clawSharpness\": 2,"
@@ -546,7 +546,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             + "}", null, null, null);
         assertEquals("{\"status\":\"Defeat\",\"message\":"
             + "\"No dragon showed up, knight dealt his deeds as he pleased.\"}", result2.text());
-        $.Chain resultChain = $.chain("http://www.dragonsofmugloar.com/api/game/31906/solution").fetch("PUT", "{"
+        U.Chain resultChain = U.chain("http://www.dragonsofmugloar.com/api/game/31906/solution").fetch("PUT", "{"
             + "    \"dragon\": {"
             + "        \"scaleThickness\": 4,"
             + "        \"clawSharpness\": 2,"
@@ -561,88 +561,88 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     @SuppressWarnings("unchecked")
     @Test
     public void noHostnameVerifier() {
-        new $.NoHostnameVerifier().verify("", (javax.net.ssl.SSLSession) null);
+        new U.NoHostnameVerifier().verify("", (javax.net.ssl.SSLSession) null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void fetchWrongUrl() {
-        $.fetch("ttt");
+        U.fetch("ttt");
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void main() {
-        new $(new ArrayList<String>());
-        new $("");
-        new $(asList()).chain();
-        $.chain(new ArrayList<String>());
-        $.chain(new ArrayList<String>(), 1);
-        $.chain(new HashSet<String>());
-        $.chain(new String[] {});
-        $.chain("");
+        new U(new ArrayList<String>());
+        new U("");
+        new U(asList()).chain();
+        U.chain(new ArrayList<String>());
+        U.chain(new ArrayList<String>(), 1);
+        U.chain(new HashSet<String>());
+        U.chain(new String[] {});
+        U.chain("");
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void chain() {
-        $.chain(new String[] {""}).first();
-        $.chain(new String[] {""}).first(1);
-        $.chain(new String[] {""}).firstOrNull();
-        $.chain(new String[] {""}).firstOrNull(new Predicate<String>() {
+        U.chain(new String[] {""}).first();
+        U.chain(new String[] {""}).first(1);
+        U.chain(new String[] {""}).firstOrNull();
+        U.chain(new String[] {""}).firstOrNull(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).initial();
-        $.chain(new String[] {""}).initial(1);
-        $.chain(new String[] {""}).last();
-        $.chain(new String[] {""}).last(1);
-        $.chain(new String[] {""}).lastOrNull();
-        $.chain(new String[] {""}).lastOrNull(new Predicate<String>() {
+        U.chain(new String[] {""}).initial();
+        U.chain(new String[] {""}).initial(1);
+        U.chain(new String[] {""}).last();
+        U.chain(new String[] {""}).last(1);
+        U.chain(new String[] {""}).lastOrNull();
+        U.chain(new String[] {""}).lastOrNull(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).rest();
-        $.chain(new String[] {""}).rest(1);
-        $.chain(new String[] {""}).compact();
-        $.chain(new String[] {""}).compact("1");
-        $.chain(new String[] {""}).flatten();
-        $.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
+        U.chain(new String[] {""}).rest();
+        U.chain(new String[] {""}).rest(1);
+        U.chain(new String[] {""}).compact();
+        U.chain(new String[] {""}).compact("1");
+        U.chain(new String[] {""}).flatten();
+        U.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).mapIndexed(new BiFunction<Integer, Integer, Integer>() {
+        U.chain(new Integer[] {0}).mapIndexed(new BiFunction<Integer, Integer, Integer>() {
             public Integer apply(Integer index, Integer value) { return value; } });
-        $.chain(new String[] {""}).filter(new Predicate<String>() {
+        U.chain(new String[] {""}).filter(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
+        U.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
             public boolean test(int index, String str) { return true; } });
-        $.chain(new String[] {""}).reject(new Predicate<String>() {
+        U.chain(new String[] {""}).reject(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
+        U.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
             public boolean test(int index, String str) { return true; } });
-        $.chain(new String[] {""}).filterFalse(new Predicate<String>() {
+        U.chain(new String[] {""}).filterFalse(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).reduce(new BiFunction<String, String, String>() {
+        U.chain(new String[] {""}).reduce(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
-        $.chain(new String[] {""}).reduce(new BinaryOperator<String>() {
+        U.chain(new String[] {""}).reduce(new BinaryOperator<String>() {
             public String apply(String accum, String str) { return null; } });
-        $.chain(new String[] {""}).reduceRight(new BiFunction<String, String, String>() {
+        U.chain(new String[] {""}).reduceRight(new BiFunction<String, String, String>() {
             public String apply(String accum, String str) { return null; } }, "");
-        $.chain(new String[] {""}).reduceRight(new BinaryOperator<String>() {
+        U.chain(new String[] {""}).reduceRight(new BinaryOperator<String>() {
             public String apply(String accum, String str) { return null; } });
-        $.chain(new String[] {""}).find(new Predicate<String>() {
+        U.chain(new String[] {""}).find(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).findLast(new Predicate<String>() {
+        U.chain(new String[] {""}).findLast(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new Integer[] {0}).max();
-        $.chain(new Integer[] {0}).max(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).max();
+        U.chain(new Integer[] {0}).max(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).min();
-        $.chain(new Integer[] {0}).min(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).min();
+        U.chain(new Integer[] {0}).min(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).sort();
-        $.chain(new Integer[] {0}).sortWith(new Comparator<Integer>() {
+        U.chain(new Integer[] {0}).sort();
+        U.chain(new Integer[] {0}).sortWith(new Comparator<Integer>() {
             public int compare(Integer value1, Integer value2) { return value1; } });
-        $.chain(new Integer[] {0}).sortBy(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).sortBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
-        $.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
+        U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
+        U.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).groupBy(
+        U.chain(new Integer[] {0}).groupBy(
             new Function<Integer, Integer>() {
             public Integer apply(Integer num) {
                 return num;
@@ -653,54 +653,54 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
                 return a;
             }
             });
-        $.chain(new Integer[] {0}).indexBy("");
-        $.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).indexBy("");
+        U.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).shuffle();
-        $.chain(new Integer[] {0}).sample();
-        $.chain(new Integer[] {0}).sample(1);
-        $.chain(new int[] {0}).value();
-        $.chain(new String[] {""}).tap(new Consumer<String>() {
+        U.chain(new Integer[] {0}).shuffle();
+        U.chain(new Integer[] {0}).sample();
+        U.chain(new Integer[] {0}).sample(1);
+        U.chain(new int[] {0}).value();
+        U.chain(new String[] {""}).tap(new Consumer<String>() {
             public void accept(String str) {
             } });
-        $.chain(new String[] {""}).forEach(new Consumer<String>() {
+        U.chain(new String[] {""}).forEach(new Consumer<String>() {
             public void accept(String str) {
             } });
-        $.chain(new String[] {""}).forEachRight(new Consumer<String>() {
+        U.chain(new String[] {""}).forEachRight(new Consumer<String>() {
             public void accept(String str) {
             } });
-        $.chain(new String[] {""}).every(new Predicate<String>() {
+        U.chain(new String[] {""}).every(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).some(new Predicate<String>() {
+        U.chain(new String[] {""}).some(new Predicate<String>() {
             public boolean test(String str) { return true; } });
-        $.chain(new String[] {""}).contains("");
-        $.chain(new String[] {""}).invoke("toString", Collections.emptyList());
-        $.chain(new String[] {""}).invoke("toString");
-        $.chain(new String[] {""}).pluck("toString");
-        $.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
-        $.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
-        $.chain(new Integer[] {0}).uniq();
-        $.chain(new Integer[] {0}).uniq(new Function<Integer, Integer>() {
+        U.chain(new String[] {""}).contains("");
+        U.chain(new String[] {""}).invoke("toString", Collections.emptyList());
+        U.chain(new String[] {""}).invoke("toString");
+        U.chain(new String[] {""}).pluck("toString");
+        U.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
+        U.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
+        U.chain(new Integer[] {0}).uniq();
+        U.chain(new Integer[] {0}).uniq(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new Integer[] {0}).distinct();
-        $.chain(new Integer[] {0}).distinctBy(new Function<Integer, Integer>() {
+        U.chain(new Integer[] {0}).distinct();
+        U.chain(new Integer[] {0}).distinctBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
-        $.chain(new String[] {""}).union();
-        $.chain(new String[] {""}).intersection();
-        $.chain(new String[] {""}).difference();
-        $.chain(new String[] {""}).range(0);
-        $.chain(new String[] {""}).range(0, 0);
-        $.chain(new String[] {""}).range(0, 0, 1);
-        $.chain(new String[] {""}).chunk(1);
-        $.chain(new String[] {""}).concat();
-        $.chain(new String[] {""}).slice(0);
-        $.chain(new String[] {""}).slice(0, 0);
-        $.chain(new String[] {""}).reverse();
-        $.chain(new String[] {""}).join();
-        $.chain(new String[] {""}).join("");
-        $.chain(new String[] {""}).skip(0);
-        $.chain(new String[] {""}).limit(0);
-        $.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
+        U.chain(new String[] {""}).union();
+        U.chain(new String[] {""}).intersection();
+        U.chain(new String[] {""}).difference();
+        U.chain(new String[] {""}).range(0);
+        U.chain(new String[] {""}).range(0, 0);
+        U.chain(new String[] {""}).range(0, 0, 1);
+        U.chain(new String[] {""}).chunk(1);
+        U.chain(new String[] {""}).concat();
+        U.chain(new String[] {""}).slice(0);
+        U.chain(new String[] {""}).slice(0, 0);
+        U.chain(new String[] {""}).reverse();
+        U.chain(new String[] {""}).join();
+        U.chain(new String[] {""}).join("");
+        U.chain(new String[] {""}).skip(0);
+        U.chain(new String[] {""}).limit(0);
+        U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
     }
 
     @SuppressWarnings("unchecked")
@@ -715,7 +715,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             + "    }"
             + "}";
 
-        Map<String, Object> data = (Map) $.get((Map<String, Object>) $.fromJson(json), "data");
+        Map<String, Object> data = (Map) U.get((Map<String, Object>) U.fromJson(json), "data");
         assertEquals("{field1=value1, field2=value2}", data.toString());
     }
 
@@ -727,14 +727,14 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             + "\"name\" : \"abc\" ,"
             + "\"email id \" : [\"abc@gmail.com\",\"def@gmail.com\",\"ghi@gmail.com\"]"
             + "}";
-        String data = (String) $.get((Map<String, Object>) $.fromJson(json), "email id .1");
+        String data = (String) U.get((Map<String, Object>) U.fromJson(json), "email id .1");
         assertEquals("def@gmail.com", data);
     }
 
     @Test
     public void stackoverflow3() {
         // http://stackoverflow.com/questions/4550662/how-do-you-find-the-sum-of-all-the-numbers-in-an-array-in-java
-        int sum = $.sum(Arrays.asList(1, 2, 3, 4));
+        int sum = U.sum(Arrays.asList(1, 2, 3, 4));
         assertEquals(10, sum);
     }
 
@@ -768,11 +768,11 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         + "  ]"
         + "}";
 
-        List<Map<String, Object>> fromExcelData = (List<Map<String, Object>>) $.get(
-            (Map<String, Object>) $.fromJson(json), "from_excel");
+        List<Map<String, Object>> fromExcelData = (List<Map<String, Object>>) U.get(
+            (Map<String, Object>) U.fromJson(json), "from_excel");
         assertEquals("[{solution=Fisrt, num=1}, {solution=Second, num=2}, {solution=third, num=3}, "
             + "{solution=fourth, num=4}, {solution=fifth, num=5}]", fromExcelData.toString());
-        List<String> solutions = $.map(fromExcelData, new Function<Map<String, Object>, String>() {
+        List<String> solutions = U.map(fromExcelData, new Function<Map<String, Object>, String>() {
             public String apply(Map<String, Object> item) {
                 return (String) item.get("solution");
             }
@@ -800,7 +800,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         + "</root>";
 
         assertEquals("{root={Durapipe=1, EXPLAIN=2, woods=2, hanging=3, hastily=2, localized=1, "
-            + "Schuster=5, regularize=1, LASR=1, LAST=22, Gelch=2, Gelco=26}}", $.fromXml(xml).toString());
+            + "Schuster=5, regularize=1, LASR=1, LAST=22, Gelch=2, Gelco=26}}", U.fromXml(xml).toString());
     }
 
     @SuppressWarnings("unchecked")
@@ -810,6 +810,6 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         String json = "{\"memory\":[{\"alert\":\"false\",\"value\":\"50%\"}],\"cpu\":"
         + "[{\"alert\":\"true\",\"value\":\"100%\"}],\"hdd\":[{\"alert\":\"false\",\"value\":\"80%\"}]}";
 
-        assertEquals("[memory, cpu, hdd]", $.keys((Map<String, Object>) $.fromJson(json)).toString());
+        assertEquals("[memory, cpu, hdd]", U.keys((Map<String, Object>) U.fromJson(json)).toString());
     }
 }

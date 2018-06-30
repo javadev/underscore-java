@@ -44,7 +44,7 @@ _.keys({one: 1, two: 2, three: 3});
 */
     @Test
     public void keys() {
-        Set<String> result = $.keys(new LinkedHashMap<String, Object>() { {
+        Set<String> result = U.keys(new LinkedHashMap<String, Object>() { {
             put("one", 1); put("two", 2); put("three", 3); } });
         assertEquals("[one, two, three]", result.toString());
     }
@@ -55,7 +55,7 @@ _.values({one: 1, two: 2, three: 3});
 */
     @Test
     public void values() {
-        Collection<Integer> result = $.values(new LinkedHashMap<String, Integer>() { {
+        Collection<Integer> result = U.values(new LinkedHashMap<String, Integer>() { {
             put("one", 1); put("two", 2); put("three", 3); } });
         assertEquals("[1, 2, 3]", result.toString());
     }
@@ -66,7 +66,7 @@ _.pairs({one: 1, two: 2, three: 3});
 */
     @Test
     public void pairs() {
-        List<Tuple<String, Integer>> result = $.pairs(new LinkedHashMap<String, Integer>() { {
+        List<Tuple<String, Integer>> result = U.pairs(new LinkedHashMap<String, Integer>() { {
             put("one", 1); put("two", 2); put("three", 3); } });
         assertEquals("[(one, 1), (two, 2), (three, 3)]", result.toString());
     }
@@ -77,7 +77,7 @@ _.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
 */
     @Test
     public void invert() {
-        List<Tuple<String, String>> result = $.invert(new LinkedHashMap<String, String>() { {
+        List<Tuple<String, String>> result = U.invert(new LinkedHashMap<String, String>() { {
             put("Moe", "Moses"); put("Larry", "Louis"); put("Curly", "Jerome"); } });
         assertEquals("[(Moses, Moe), (Louis, Larry), (Jerome, Curly)]", result.toString());
     }
@@ -88,8 +88,8 @@ _.functions(_);
 */
     @Test
     public void functions() {
-        List<String> result = $.functions($.class);
-        assertEquals(5, $.first(result, 5).size());
+        List<String> result = U.functions(U.class);
+        assertEquals(5, U.first(result, 5).size());
     }
 
 /*
@@ -98,8 +98,8 @@ _.methods(_);
 */
     @Test
     public void methods() {
-        List<String> result = $.methods($.class);
-        assertEquals(5, $.first(result, 5).size());
+        List<String> result = U.methods(U.class);
+        assertEquals(5, U.first(result, 5).size());
     }
 
 /*
@@ -112,12 +112,12 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
 */
     @Test
     public void pick() {
-        final List<Tuple<String, Object>> result = $.pick(
+        final List<Tuple<String, Object>> result = U.pick(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             "name", "age"
         );
         assertEquals("[(name, moe), (age, 50)]", result.toString());
-        final List<Tuple<String, Object>> result2 = $.pick(
+        final List<Tuple<String, Object>> result2 = U.pick(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             new Predicate<Object>() { public boolean test(Object value) {
                 return value instanceof Number; } }
@@ -135,12 +135,12 @@ _.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
 */
     @Test
     public void omit() {
-        final List<Tuple<String, Object>> result = $.omit(
+        final List<Tuple<String, Object>> result = U.omit(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             "userid"
         );
         assertEquals("[(name, moe), (age, 50)]", result.toString());
-        final List<Tuple<String, Object>> result2 = $.omit(
+        final List<Tuple<String, Object>> result2 = U.omit(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
             new Predicate<Object>() { public boolean test(Object value) {
                 return value instanceof Number; } }
@@ -156,7 +156,7 @@ _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
     @Test
     public void defaults() {
         Map<String, String> iceCream = new LinkedHashMap<String, String>() { { put("flavor", "chocolate"); } };
-        Map<String, String> result = $.defaults(iceCream, new LinkedHashMap<String, String>() { {
+        Map<String, String> result = U.defaults(iceCream, new LinkedHashMap<String, String>() { {
             put("flavor", "vanilla"); put("sprinkles", "lots"); } });
         assertEquals("{flavor=chocolate, sprinkles=lots}", result.toString());
     }
@@ -168,10 +168,10 @@ _.clone({name: 'moe'});
     @Test
     @SuppressWarnings("unchecked")
     public void cloneMap() {
-        Map<String, String> result = (Map<String, String>) $.clone(new LinkedHashMap<String, String>() { {
+        Map<String, String> result = (Map<String, String>) U.clone(new LinkedHashMap<String, String>() { {
             put("name", "moe"); } });
         assertEquals("{name=moe}", result.toString());
-        Integer[] result2 = $.clone(new Integer[] { 1, 2, 3, 4, 5 });
+        Integer[] result2 = U.clone(new Integer[] { 1, 2, 3, 4, 5 });
         assertEquals("[1, 2, 3, 4, 5]", asList(result2).toString());
     }
 
@@ -179,7 +179,7 @@ _.clone({name: 'moe'});
     public void cloneError() {
         class Test {
         }
-        $.clone(new Test());
+        U.clone(new Test());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -188,7 +188,7 @@ _.clone({name: 'moe'});
             public Object clone(String arg) {
                 return null; }
         }
-        $.clone(new Test());
+        U.clone(new Test());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -197,7 +197,7 @@ _.clone({name: 'moe'});
             public Object clone() throws CloneNotSupportedException {
                 super.clone(); throw new RuntimeException(); }
         }
-        $.clone(new Test());
+        U.clone(new Test());
     }
 
 /*
@@ -219,30 +219,30 @@ _.isEqual('Curly', 'Curly')
         Map<String, Object> clone = new LinkedHashMap<String, Object>() { {
             put("name", "moe"); put("luckyNumbers", asList(13, 27, 34)); } };
         assertFalse(stooge == clone);
-        assertTrue($.isEqual(stooge, clone));
-        assertTrue($.isEqual(null, null));
-        assertFalse($.isEqual(stooge, null));
-        assertFalse($.isEqual(null, clone));
-        assertTrue($.isEqual("Curly", "Curly"));
-        assertTrue($.isEqual(0, -0));
-        assertTrue($.isEqual(75, 75));
+        assertTrue(U.isEqual(stooge, clone));
+        assertTrue(U.isEqual(null, null));
+        assertFalse(U.isEqual(stooge, null));
+        assertFalse(U.isEqual(null, clone));
+        assertTrue(U.isEqual("Curly", "Curly"));
+        assertTrue(U.isEqual(0, -0));
+        assertTrue(U.isEqual(75, 75));
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void isEmpty() {
-        assertTrue($.isEmpty((List) null));
-        assertTrue($.isEmpty(new ArrayList<String>()));
-        assertTrue(new $((List) null).isEmpty());
-        assertTrue(new $(new ArrayList<String>()).isEmpty());
-        assertTrue($.chain((List) null).isEmpty());
-        assertTrue($.chain(new ArrayList<String>()).isEmpty());
-        assertFalse($.isEmpty(asList("")));
-        assertFalse(new $(asList("")).isEmpty());
-        assertFalse($.chain(asList("")).isEmpty());
-        assertTrue($.isEmpty((Map) null));
-        assertTrue($.isEmpty(new HashMap<String, String>()));
-        assertFalse($.isEmpty(new HashMap<String, String>() { { put("", ""); } }));
+        assertTrue(U.isEmpty((List) null));
+        assertTrue(U.isEmpty(new ArrayList<String>()));
+        assertTrue(new U((List) null).isEmpty());
+        assertTrue(new U(new ArrayList<String>()).isEmpty());
+        assertTrue(U.chain((List) null).isEmpty());
+        assertTrue(U.chain(new ArrayList<String>()).isEmpty());
+        assertFalse(U.isEmpty(asList("")));
+        assertFalse(new U(asList("")).isEmpty());
+        assertFalse(U.chain(asList("")).isEmpty());
+        assertTrue(U.isEmpty((Map) null));
+        assertTrue(U.isEmpty(new HashMap<String, String>()));
+        assertFalse(U.isEmpty(new HashMap<String, String>() { { put("", ""); } }));
     }
 /*
 _.isObject({});
@@ -252,9 +252,9 @@ _.isObject(1);
 */
     @Test
     public void isObject() {
-        assertTrue($.isObject(new LinkedHashMap<String, String>()));
-        assertFalse($.isObject(null));
-        assertFalse($.isObject("string"));
+        assertTrue(U.isObject(new LinkedHashMap<String, String>()));
+        assertFalse(U.isObject(null));
+        assertFalse(U.isObject("string"));
     }
 
 /*
@@ -263,9 +263,9 @@ _.isArray([1,2,3]);
 */
     @Test
     public void isArray() {
-        assertTrue($.isArray(new int[] {1, 2, 3, 4, 5}));
-        assertFalse($.isArray(null));
-        assertFalse($.isArray("string"));
+        assertTrue(U.isArray(new int[] {1, 2, 3, 4, 5}));
+        assertFalse(U.isArray(null));
+        assertFalse(U.isArray("string"));
     }
 
 /*
@@ -274,7 +274,7 @@ _.isString("moe");
 */
     @Test
     public void isString() {
-        assertTrue($.isString("moe"));
+        assertTrue(U.isString("moe"));
     }
 
 /*
@@ -283,7 +283,7 @@ _.isNumber(8.4 * 5);
 */
     @Test
     public void isNumber() {
-        assertTrue($.isNumber(8.4 * 5));
+        assertTrue(U.isNumber(8.4 * 5));
     }
 
 /*
@@ -292,8 +292,8 @@ _.isBoolean(null);
 */
     @Test
     public void isBoolean() {
-        assertTrue($.isBoolean(false));
-        assertFalse($.isBoolean(null));
+        assertTrue(U.isBoolean(false));
+        assertFalse(U.isBoolean(null));
     }
 
 /*
@@ -302,7 +302,7 @@ _.isFunction(alert);
 */
     @Test
     public void isFunction() {
-        assertTrue($.isFunction(new Function<String, Integer>() {
+        assertTrue(U.isFunction(new Function<String, Integer>() {
             public Integer apply(final String arg) {
                 return null; } }));
     }
@@ -313,8 +313,8 @@ _.isDate(new Date());
 */
     @Test
     public void isDate() {
-        assertTrue($.isDate(new java.util.Date()));
-        assertFalse($.isDate(null));
+        assertTrue(U.isDate(new java.util.Date()));
+        assertFalse(U.isDate(null));
     }
 
 /*
@@ -323,8 +323,8 @@ _.isRegExp(/moe/);
 */
     @Test
     public void isRegExp() {
-        assertTrue($.isRegExp(java.util.regex.Pattern.compile("moe")));
-        assertFalse($.isRegExp(null));
+        assertTrue(U.isRegExp(java.util.regex.Pattern.compile("moe")));
+        assertFalse(U.isRegExp(null));
     }
 
 /*
@@ -333,8 +333,8 @@ _.isNull(null);
 */
     @Test
     public void isNull() {
-        assertTrue($.isNull(null));
-        assertFalse($.isNull(""));
+        assertTrue(U.isNull(null));
+        assertFalse(U.isNull(""));
     }
 
 /*
@@ -347,8 +347,8 @@ try {
 */
     @Test
     public void isError() {
-        assertTrue($.isError(new Exception()));
-        assertFalse($.isError(null));
+        assertTrue(U.isError(new Exception()));
+        assertFalse(U.isError(null));
     }
 
 /*
@@ -364,7 +364,7 @@ _.chain([1,2,3,200])
     @SuppressWarnings("unchecked")
     public void tap() {
         final List<Map.Entry<String, Integer>> result = new ArrayList<Map.Entry<String, Integer>>();
-        $.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),
+        U.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),
             new Consumer<Map.Entry<String, Integer>>() {
                 public void accept(final Map.Entry<String, Integer> item) {
                     result.add(item);
@@ -372,7 +372,7 @@ _.chain([1,2,3,200])
             });
         assertEquals("[a=1, b=2, c=3]", result.toString());
         final List<Map.Entry<String, Integer>> resultChain = new ArrayList<Map.Entry<String, Integer>>();
-        $.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
+        U.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
             .tap(new Consumer<Map.Entry<String, Integer>>() {
                 public void accept(final Map.Entry<String, Integer> item) {
                     resultChain.add(item);
@@ -387,7 +387,7 @@ _.has({a: 1, b: 2, c: 3}, "b");
 */
     @Test
     public void has() {
-        boolean result = $.has(new LinkedHashMap<String, Integer>() { {
+        boolean result = U.has(new LinkedHashMap<String, Integer>() { {
             put("a", 1); put("b", 2); put("c", 3); } }, "b");
         assertTrue(result);
     }
@@ -400,11 +400,11 @@ _.isMatch(stooge, {age: 32});
     @Test
     public void isMatch() {
         Map<String, Object> stooge = new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 32); } };
-        assertTrue($.isMatch(stooge, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
+        assertTrue(U.isMatch(stooge, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
         Map<String, Object> stooge2 = new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 33); } };
-        assertFalse($.isMatch(stooge2, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
+        assertFalse(U.isMatch(stooge2, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
         Map<String, Object> stooge3 = new LinkedHashMap<String, Object>() { { put("name", "moe"); } };
-        assertFalse($.isMatch(stooge3, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
+        assertFalse(U.isMatch(stooge3, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
     }
 
 /*
@@ -422,9 +422,9 @@ var readyToGoList = _.filter(list, ready);
             new LinkedHashMap<String, Object>() { {
                 put("name", "curly"); } }
         );
-        Predicate<Map<String, Object>> ready = $.matcher(new LinkedHashMap<String, Object>() { {
+        Predicate<Map<String, Object>> ready = U.matcher(new LinkedHashMap<String, Object>() { {
             put("selected", true); put("visible", true); } });
-        List<Map<String, Object>> result = $.filter(list, ready);
+        List<Map<String, Object>> result = U.filter(list, ready);
         assertEquals("[{name=moe, selected=true, visible=true}]", result.toString());
     }
 
@@ -434,19 +434,19 @@ _.findKey([1, 2, 3], function(item) {return item % 2  === 0; });
 */
     @Test
     public void findKey() {
-        final Integer result = $.findKey(asList(1, 2, 3), new Predicate<Integer>() {
+        final Integer result = U.findKey(asList(1, 2, 3), new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(2, result.intValue());
-        final Integer resultNotFound = $.findKey(asList(1, 2, 3), new Predicate<Integer>() {
+        final Integer resultNotFound = U.findKey(asList(1, 2, 3), new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item > 3;
             }
         });
         assertNull(resultNotFound);
-        final Integer resultArray = $.findKey(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
+        final Integer resultArray = U.findKey(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
             }
@@ -460,19 +460,19 @@ _.findLastKey([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
 */
     @Test
     public void findLastKey() {
-        final Integer result = $.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
+        final Integer result = U.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals(4, result.intValue());
-        final Integer resultNotFound = $.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
+        final Integer resultNotFound = U.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item > 5;
             }
         });
         assertNull(resultNotFound);
-        final Integer resultArray = $.findLastKey(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
+        final Integer resultArray = U.findLastKey(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
             }
@@ -487,7 +487,7 @@ _.extend({name: 'moe'}, {age: 50});
     @Test
     @SuppressWarnings("unchecked")
     public void extend() {
-        assertEquals("{name=moe, age=50}", $.extend(new LinkedHashMap<String, Object>() { { put("name", "moe"); } },
+        assertEquals("{name=moe, age=50}", U.extend(new LinkedHashMap<String, Object>() { { put("name", "moe"); } },
             new LinkedHashMap<String, Object>() { { put("age", 50); } }).toString());
     }
 
@@ -499,7 +499,7 @@ _.mapObject({start: 5, end: 12}, function(val, key) {
 */
     @Test
     public void mapObject() {
-        List<Tuple<String, Integer>> result = $.mapObject(new LinkedHashMap<String, Integer>() { {
+        List<Tuple<String, Integer>> result = U.mapObject(new LinkedHashMap<String, Integer>() { {
             put("start", 5); put("end", 12); } }, new Function<Integer, Integer>() {
             public Integer apply(Integer item) {
                 return item + 5;
