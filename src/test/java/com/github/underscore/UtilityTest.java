@@ -45,7 +45,7 @@ stooge === _.identity(stooge);
     @Test
     public void identity() {
         Map<String, String> object = new LinkedHashMap<String, String>() { { put("name", "moe"); } };
-        assertEquals(object, $.identity(object));
+        assertEquals(object, U.identity(object));
     }
 
 /*
@@ -56,7 +56,7 @@ stooge === _.constant(stooge)();
     @Test
     public void constant() {
         Map<String, String> object = new LinkedHashMap<String, String>() { { put("name", "moe"); } };
-        assertEquals(object, $.constant(object).get());
+        assertEquals(object, U.constant(object).get());
     }
 
 /*
@@ -67,7 +67,7 @@ var stooge = {name: 'moe'};
     @Test
     public void property() {
         Map<String, Object> stooge = new LinkedHashMap<String, Object>() { { put("name", "moe"); } };
-        assertEquals("moe", $.property("name").apply(stooge));
+        assertEquals("moe", U.property("name").apply(stooge));
     }
 
 /*
@@ -78,7 +78,7 @@ _.propertyOf(stooge)('name');
     @Test
     public void propertyOf() {
         Map<String, String> stooge = new LinkedHashMap<String, String>() { { put("name", "moe"); } };
-        assertEquals("moe", $.propertyOf(stooge).apply("name"));
+        assertEquals("moe", U.propertyOf(stooge).apply("name"));
     }
 
 /*
@@ -87,7 +87,7 @@ _.random(0, 100);
 */
     @Test
     public void random() {
-        int result = $.random(0, 100);
+        int result = U.random(0, 100);
         assertTrue(result >= 0);
         assertTrue(result <= 100);
     }
@@ -98,7 +98,7 @@ _.random(0, 1);
 */
     @Test
     public void random2() {
-        int result = $.random(0, 1);
+        int result = U.random(0, 1);
         assertTrue(result >= 0);
         assertTrue(result <= 1);
     }
@@ -109,7 +109,7 @@ _.random(0);
 */
     @Test
     public void random3() {
-        int result = $.random(0);
+        int result = U.random(0);
         assertEquals(0, result);
     }
 
@@ -119,7 +119,7 @@ _.now();
 */
     @Test
     public void now() {
-        assertTrue($.now() <= new Date().getTime());
+        assertTrue(U.now() <= new Date().getTime());
     }
 
 /*
@@ -128,13 +128,13 @@ _.uniqueId('contact_');
 */
     @Test
     public void uniqueId() {
-        assertEquals("contact_1", $.uniqueId("contact_"));
-        assertEquals("2", $.uniqueId(null));
+        assertEquals("contact_1", U.uniqueId("contact_"));
+        assertEquals("2", U.uniqueId(null));
     }
 
     @Test
     public void uniquePassword() {
-        String password = $.uniquePassword();
+        String password = U.uniquePassword();
         assertTrue("Password doesn't matches the pattern [A-Z]+[0-9]+.*?[a-z]+ " + password,
             password.matches("[A-Z]+[0-9]+.*?[a-z]+.*"));
     }
@@ -145,7 +145,7 @@ _.times(3, function(n){ genie.grantWishNumber(n); });
     @Test
     public void times() {
         final List<Integer> result = new ArrayList<Integer>();
-        $.times(3, new Supplier<Integer>() {
+        U.times(3, new Supplier<Integer>() {
             public Integer get() {
                 result.add(1);
                 return null;
@@ -166,14 +166,14 @@ _("fabio").capitalize();
     @Test
     @SuppressWarnings("unchecked")
     public void mixin() {
-        $.mixin("capitalize", new Function<String, String>() {
+        U.mixin("capitalize", new Function<String, String>() {
             public String apply(final String string) {
                 return String.valueOf(string.charAt(0)).toUpperCase() + string.substring(1).toLowerCase();
             }
         });
-        assertEquals("Fabio", new $("fabio").call("capitalize").get());
-        assertFalse(new $("fabio").call("capitalize2").isPresent());
-        assertFalse(new $(asList(1)).call("capitalize2").isPresent());
+        assertEquals("Fabio", new U("fabio").call("capitalize").get());
+        assertFalse(new U("fabio").call("capitalize2").isPresent());
+        assertFalse(new U(asList(1)).call("capitalize2").isPresent());
     }
 
 /*
@@ -182,7 +182,7 @@ _.escape('Curly, Larry & Moe < > "\'`');
 */
     @Test
     public void escape() {
-        assertEquals("Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;", $.escape("Curly, Larry & Moe < > \"'`"));
+        assertEquals("Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;", U.escape("Curly, Larry & Moe < > \"'`"));
     }
 
 /*
@@ -191,7 +191,7 @@ _.unescape('Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;');
 */
     @Test
     public void unescape() {
-        assertEquals("Curly, Larry & Moe < > \"'`", $.unescape("Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;"));
+        assertEquals("Curly, Larry & Moe < > \"'`", U.unescape("Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;"));
     }
 
 /*
@@ -201,33 +201,33 @@ compiled({name: 'moe'});
 */
     @Test
     public void template() {
-        Template<Map<String, Object>> compiled = $.template("hello: <%= name %>");
+        Template<Map<String, Object>> compiled = U.template("hello: <%= name %>");
         assertEquals("hello: moe", compiled.apply(new LinkedHashMap<String, Object>() { {
             put("name", "moe"); } }));
     }
 
     @Test
     public void template2() {
-        Template<Map<String, Object>> compiled = $.template("hello: <%= name %>, hello2: <%= name %>");
+        Template<Map<String, Object>> compiled = U.template("hello: <%= name %>, hello2: <%= name %>");
         assertEquals("hello: moe, hello2: moe", compiled.apply(new LinkedHashMap<String, Object>() { {
             put("name", "moe"); } }));
     }
 
     @Test
     public void template3() {
-        Template<Map<String, Object>> compiled = $.template("hello: <%= name %>, hello2: <%= name2 %>");
+        Template<Map<String, Object>> compiled = U.template("hello: <%= name %>, hello2: <%= name2 %>");
         assertEquals("hello: moe, hello2: moe2", compiled.apply(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("name2", "moe2"); } }));
     }
 
     @Test
     public void template4() {
-        $.templateSettings(new HashMap<String, String>() { { put("interpolate", ""); } });
-        $.templateSettings(new HashMap<String, String>() { { put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}"); } });
-        Template<Map<String, Object>> compiled = $.template("hello: {{= name }}");
+        U.templateSettings(new HashMap<String, String>() { { put("interpolate", ""); } });
+        U.templateSettings(new HashMap<String, String>() { { put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}"); } });
+        Template<Map<String, Object>> compiled = U.template("hello: {{= name }}");
         assertEquals("hello: moe", compiled.apply(new LinkedHashMap<String, Object>() { {
             put("name", "moe"); } }));
-        $.templateSettings(new HashMap<String, String>() { { put("interpolate", "<%=([\\s\\S]+?)%>"); } });
+        U.templateSettings(new HashMap<String, String>() { { put("interpolate", "<%=([\\s\\S]+?)%>"); } });
     }
 
 /*
@@ -237,14 +237,14 @@ template({value: '<script>'});
 */
     @Test
     public void templateValue() {
-        Template<Map<String, Object>> template = $.template("<b><%- value %></b>");
+        Template<Map<String, Object>> template = U.template("<b><%- value %></b>");
         assertEquals("<b>&lt;script&gt;</b>",
             template.apply(new LinkedHashMap<String, Object>() { { put("value", "<script>"); } }));
     }
 
     @Test
     public void templateValue2() {
-        Template<Map<String, Object>> template = $.template("hello: <%= name %>, <b><%- value %></b>");
+        Template<Map<String, Object>> template = U.template("hello: <%= name %>, <b><%- value %></b>");
         assertEquals("hello: moe, <b>&lt;script&gt;</b>",
             template.apply(new LinkedHashMap<String, Object>() { {
                 put("name", "moe"); put("value", "<script>"); } }));
@@ -252,7 +252,7 @@ template({value: '<script>'});
 
     @Test
     public void templateValue3() {
-        Template<Map<String, Object>> template = $.template("hello: <% name %>, <b><%- value %></b>");
+        Template<Map<String, Object>> template = U.template("hello: <% name %>, <b><%- value %></b>");
         assertEquals("hello: moe, <b>&lt;script&gt;</b>",
             template.apply(new LinkedHashMap<String, Object>() { {
                 put("name", "moe"); put("value", "<script>"); } }));
@@ -260,7 +260,7 @@ template({value: '<script>'});
 
     @Test
     public void templateCheck() {
-        Template<Map<String, Object>> compiled = $.template("hello: <%= name %>");
+        Template<Map<String, Object>> compiled = U.template("hello: <%= name %>");
         assertTrue(compiled.check(new LinkedHashMap<String, Object>() { {
             put("name", "moe"); } }).isEmpty());
         assertEquals("name2", compiled.check(new LinkedHashMap<String, Object>() { {
@@ -269,13 +269,13 @@ template({value: '<script>'});
 
     @Test
     public void templateCheck2() {
-        Template<Map<String, Object>> compiled = $.template("hello: <%= name %> <%= name2 %>");
+        Template<Map<String, Object>> compiled = U.template("hello: <%= name %> <%= name2 %>");
         assertEquals("name2", compiled.check(new LinkedHashMap<String, Object>() { {
             put("name", "moe"); } }).get(0));
-        Template<Map<String, Object>> compiled2 = $.template("hello: <%- name %> <%- name2 %>");
+        Template<Map<String, Object>> compiled2 = U.template("hello: <%- name %> <%- name2 %>");
         assertEquals("name2", compiled2.check(new LinkedHashMap<String, Object>() { {
             put("name", "moe"); } }).get(0));
-        Template<Map<String, Object>> compiled3 = $.template("hello: <% name %> <% name2 %>");
+        Template<Map<String, Object>> compiled3 = U.template("hello: <% name %> <% name2 %>");
         assertEquals("name2", compiled3.check(new LinkedHashMap<String, Object>() { {
             put("name", "moe"); } }).get(0));
     }
@@ -286,13 +286,13 @@ var fortmatted = _.format("hello: {}", "moe");
 */
     @Test
     public void format() {
-        String fortmatted = $.format("hello: {0}", "moe");
+        String fortmatted = U.format("hello: {0}", "moe");
         assertEquals("hello: moe", fortmatted);
-        String fortmatted2 = $.format("hello: {}", "moe");
+        String fortmatted2 = U.format("hello: {}", "moe");
         assertEquals("hello: moe", fortmatted2);
-        String fortmatted3 = $.format("hello: {}, {}", "moe", 123);
+        String fortmatted3 = U.format("hello: {}, {}", "moe", 123);
         assertEquals("hello: moe, 123", fortmatted3);
-        String fortmatted4 = $.format("hello: {1}, {0}", "moe", 123);
+        String fortmatted4 = U.format("hello: {1}, {0}", "moe", 123);
         assertEquals("hello: 123, moe", fortmatted4);
     }
 
@@ -311,22 +311,22 @@ _.result(object, 'stuff');
                 return "nonsense"; } });
         } };
 
-        assertEquals("crumpets", $.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
+        assertEquals("crumpets", U.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
             public boolean test(Map.Entry<String, Object> item) {
                 return item.getKey().equals("cheese");
             }
         }));
-        assertEquals("nonsense", $.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
+        assertEquals("nonsense", U.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
             public boolean test(Map.Entry<String, Object> item) {
                 return item.getKey().equals("stuff");
             }
         }));
-        assertEquals("result1", $.result(asList("result1", "result2"), new Predicate<String>() {
+        assertEquals("result1", U.result(asList("result1", "result2"), new Predicate<String>() {
             public boolean test(String item) {
                 return item.equals("result1");
             }
         }));
-        assertEquals(null, $.result(asList("result1", "result2"), new Predicate<String>() {
+        assertEquals(null, U.result(asList("result1", "result2"), new Predicate<String>() {
             public boolean test(String item) {
                 return item.equals("result3");
             }

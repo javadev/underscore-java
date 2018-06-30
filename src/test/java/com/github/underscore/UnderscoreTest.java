@@ -43,10 +43,10 @@ public class UnderscoreTest {
     @Test
     @SuppressWarnings("unchecked")
     public void main() {
-        $.main(new String[] {});
-        new $(asList("")).getIterable();
-        new $(asList("")).value();
-        new $("").getString();
+        U.main(new String[] {});
+        new U(asList("")).getIterable();
+        new U(asList("")).value();
+        new U("").getString();
     }
 
 /*
@@ -56,16 +56,16 @@ public class UnderscoreTest {
     @Test
     @SuppressWarnings("unchecked")
     public void sort() {
-        assertEquals("[example, some, words]", $.sort(asList("some", "words", "example")).toString());
-        assertEquals("[example, some, words]", new $(asList("some", "words", "example")).sort().toString());
-        assertEquals("[example, some, words]", $.chain(asList("some", "words", "example")).sort().value().toString());
-        assertEquals("[4, 5, 7]", $.chain(asList("some", "words", "example"))
+        assertEquals("[example, some, words]", U.sort(asList("some", "words", "example")).toString());
+        assertEquals("[example, some, words]", new U(asList("some", "words", "example")).sort().toString());
+        assertEquals("[example, some, words]", U.chain(asList("some", "words", "example")).sort().value().toString());
+        assertEquals("[4, 5, 7]", U.chain(asList("some", "words", "example"))
             .map(new Function<String, Integer>() {
                 public Integer apply(String arg) {
                     return arg.length();
                 }
             }).sort().value().toString());
-        assertEquals("[example, some, words]", asList($.sort(new String[] {"some", "words", "example"})).toString());
+        assertEquals("[example, some, words]", asList(U.sort(new String[] {"some", "words", "example"})).toString());
     }
 
 /*
@@ -75,15 +75,15 @@ public class UnderscoreTest {
     @Test
     @SuppressWarnings("unchecked")
     public void join() {
-        assertEquals("some-words-example", $.join(asList("some", "words", "example"), "-"));
-        assertEquals("some-words-example", new $(asList("some", "words", "example")).join("-"));
-        assertEquals("some-words-example", $.join(new String[] {"some", "words", "example"}, "-"));
-        assertEquals("some-words-example", $.chain(asList("some", "words", "example")).join("-").item());
-        assertEquals("some words example", $.join(asList("some", "words", "example")));
-        assertEquals("some words example", new $(asList("some", "words", "example")).join());
-        assertEquals("some words example", $.join(new String[] {"some", "words", "example"}));
-        assertEquals("some words example", $.chain(asList("some", "words", "example")).join().item());
-        assertEquals("--", $.join(asList("", "", ""), "-"));
+        assertEquals("some-words-example", U.join(asList("some", "words", "example"), "-"));
+        assertEquals("some-words-example", new U(asList("some", "words", "example")).join("-"));
+        assertEquals("some-words-example", U.join(new String[] {"some", "words", "example"}, "-"));
+        assertEquals("some-words-example", U.chain(asList("some", "words", "example")).join("-").item());
+        assertEquals("some words example", U.join(asList("some", "words", "example")));
+        assertEquals("some words example", new U(asList("some", "words", "example")).join());
+        assertEquals("some words example", U.join(new String[] {"some", "words", "example"}));
+        assertEquals("some words example", U.chain(asList("some", "words", "example")).join().item());
+        assertEquals("--", U.join(asList("", "", ""), "-"));
     }
 
 /*
@@ -93,9 +93,9 @@ _.push(['a', 'b', 'c'], 0, 2);
     @SuppressWarnings("unchecked")
     @Test
     public void push() {
-        assertEquals("[a, b, c, 0, 2]", $.push(asList("a", "b", "c"), "0", "2").toString());
-        assertEquals("[a, b, c, 0, 2]", new $(asList("a", "b", "c")).push("0", "2").toString());
-        assertEquals("[a, b, c, 0, 2]", $.chain(asList("a", "b", "c")).push("0", "2").value().toString());
+        assertEquals("[a, b, c, 0, 2]", U.push(asList("a", "b", "c"), "0", "2").toString());
+        assertEquals("[a, b, c, 0, 2]", new U(asList("a", "b", "c")).push("0", "2").toString());
+        assertEquals("[a, b, c, 0, 2]", U.chain(asList("a", "b", "c")).push("0", "2").value().toString());
     }
 
 /*
@@ -105,9 +105,9 @@ _.pop(['a', 'b', 'c']);
     @SuppressWarnings("unchecked")
     @Test
     public void pop() {
-        assertEquals("c", $.pop(asList("a", "b", "c")).fst().toString());
-        assertEquals("c", new $(asList("a", "b", "c")).pop().fst().toString());
-        assertEquals("c", $.chain(asList("a", "b", "c")).pop().item().fst().toString());
+        assertEquals("c", U.pop(asList("a", "b", "c")).fst().toString());
+        assertEquals("c", new U(asList("a", "b", "c")).pop().fst().toString());
+        assertEquals("c", U.chain(asList("a", "b", "c")).pop().item().fst().toString());
     }
 
 /*
@@ -117,9 +117,9 @@ _.shift(['a', 'b', 'c']);
     @SuppressWarnings("unchecked")
     @Test
     public void shift() {
-        assertEquals("a", $.shift(asList("a", "b", "c")).fst().toString());
-        assertEquals("a", new $(asList("a", "b", "c")).shift().fst().toString());
-        assertEquals("a", $.chain(asList("a", "b", "c")).shift().item().fst().toString());
+        assertEquals("a", U.shift(asList("a", "b", "c")).fst().toString());
+        assertEquals("a", new U(asList("a", "b", "c")).shift().fst().toString());
+        assertEquals("a", U.chain(asList("a", "b", "c")).shift().item().fst().toString());
     }
 
 /*
@@ -129,14 +129,14 @@ _.unshift(['a', 'b', 'c'], 0, 2);
     @SuppressWarnings("unchecked")
     @Test
     public void unshift() {
-        assertEquals("[0, 2, a, b, c]", $.unshift(asList("a", "b", "c"), "0", "2").toString());
-        assertEquals("[0, 2, a, b, c]", new $(asList("a", "b", "c")).unshift("0", "2").toString());
-        assertEquals("[0, 2, a, b, c]", $.chain(asList("a", "b", "c")).unshift("0", "2").value().toString());
+        assertEquals("[0, 2, a, b, c]", U.unshift(asList("a", "b", "c"), "0", "2").toString());
+        assertEquals("[0, 2, a, b, c]", new U(asList("a", "b", "c")).unshift("0", "2").toString());
+        assertEquals("[0, 2, a, b, c]", U.chain(asList("a", "b", "c")).unshift("0", "2").value().toString());
     }
 
     @Test
     public void compareStrings() {
-        assertArrayEquals($.sort("CAT".split("")), $.sort("CTA".split("")));
+        assertArrayEquals(U.sort("CAT".split("")), U.sort("CTA".split("")));
     }
 
 /*
@@ -146,14 +146,14 @@ _.concat([1, 2], [3, 4]);
     @Test
     @SuppressWarnings("unchecked")
     public void concat() {
-        assertEquals(asList(1, 2, 3, 4), asList($.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
-        assertEquals(asList(1, 2, 3, 4), $.concat(asList(1, 2), asList(3, 4)));
-        assertEquals(asList(1, 2, 3, 4), new $(asList(1, 2)).concatWith(asList(3, 4)));
-        assertEquals("[1, 2, 3, 4]", $.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
-        assertEquals("[1, 2, 3, 4, 5, 6]", $.chain(asList(1, 2)).concat(asList(3, 4), asList(5, 6)).value().toString());
-        assertEquals(asList(1, 2, 3, 4), asList($.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
-        assertEquals(asList(1, 2, 3, 4), $.concat(asList(1, 2), asList(3), asList(4)));
-        assertEquals(asList(1, 2, 3, 4), new $(asList(1, 2)).concatWith(asList(3), asList(4)));
+        assertEquals(asList(1, 2, 3, 4), asList(U.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
+        assertEquals(asList(1, 2, 3, 4), U.concat(asList(1, 2), asList(3, 4)));
+        assertEquals(asList(1, 2, 3, 4), new U(asList(1, 2)).concatWith(asList(3, 4)));
+        assertEquals("[1, 2, 3, 4]", U.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
+        assertEquals("[1, 2, 3, 4, 5, 6]", U.chain(asList(1, 2)).concat(asList(3, 4), asList(5, 6)).value().toString());
+        assertEquals(asList(1, 2, 3, 4), asList(U.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
+        assertEquals(asList(1, 2, 3, 4), U.concat(asList(1, 2), asList(3), asList(4)));
+        assertEquals(asList(1, 2, 3, 4), new U(asList(1, 2)).concatWith(asList(3), asList(4)));
     }
 
 /*
@@ -167,24 +167,24 @@ arr.slice(-3, -1) // [3, 4]
     @Test
     @SuppressWarnings("unchecked")
     public void slice() {
-        assertEquals(asList(3, 4, 5), $.slice(asList(1, 2, 3, 4, 5), 2));
-        assertEquals(asList(3, 4, 5), new $(asList(1, 2, 3, 4, 5)).slice(2));
-        assertEquals(asList(2, 3, 4), $.slice(asList(1, 2, 3, 4, 5), 1, 4));
-        assertEquals(asList("a", "b"), $.slice(asList("a", "b", "c", "d"), 0, 2));
-        assertEquals(asList(2, 3, 4), $.slice(asList(1, 2, 3, 4, 5), 1, -1));
-        assertEquals(asList(3), $.slice(asList(1, 2, 3, 4, 5), 2, 3));
-        assertEquals(asList(3), new $(asList(1, 2, 3, 4, 5)).slice(2, 3));
-        assertEquals(asList(4, 5), $.slice(asList(1, 2, 3, 4, 5), -2));
-        assertEquals(asList(3, 4), $.slice(asList(1, 2, 3, 4, 5), -3, -1));
-        assertEquals(asList(3, 4), $.slice(asList(1, 2, 3, 4, 5), -3, 4));
-        assertEquals(asList(3, 4, 5), $.chain(asList(1, 2, 3, 4, 5)).slice(2).value());
-        assertEquals(asList(2, 3, 4), $.chain(asList(1, 2, 3, 4, 5)).slice(1, 4).value());
-        assertEquals(asList(3, 4, 5), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, 2)));
-        assertEquals(asList(4, 5), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, -2)));
-        assertEquals(asList(2, 3, 4), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, 1, 4)));
-        assertEquals(asList(2, 3, 4), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, 1, -1)));
-        assertEquals(asList(3, 4), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, -3, 4)));
-        assertEquals(asList(3, 4), asList($.slice(new Integer[] {1, 2, 3, 4, 5}, -3, -1)));
+        assertEquals(asList(3, 4, 5), U.slice(asList(1, 2, 3, 4, 5), 2));
+        assertEquals(asList(3, 4, 5), new U(asList(1, 2, 3, 4, 5)).slice(2));
+        assertEquals(asList(2, 3, 4), U.slice(asList(1, 2, 3, 4, 5), 1, 4));
+        assertEquals(asList("a", "b"), U.slice(asList("a", "b", "c", "d"), 0, 2));
+        assertEquals(asList(2, 3, 4), U.slice(asList(1, 2, 3, 4, 5), 1, -1));
+        assertEquals(asList(3), U.slice(asList(1, 2, 3, 4, 5), 2, 3));
+        assertEquals(asList(3), new U(asList(1, 2, 3, 4, 5)).slice(2, 3));
+        assertEquals(asList(4, 5), U.slice(asList(1, 2, 3, 4, 5), -2));
+        assertEquals(asList(3, 4), U.slice(asList(1, 2, 3, 4, 5), -3, -1));
+        assertEquals(asList(3, 4), U.slice(asList(1, 2, 3, 4, 5), -3, 4));
+        assertEquals(asList(3, 4, 5), U.chain(asList(1, 2, 3, 4, 5)).slice(2).value());
+        assertEquals(asList(2, 3, 4), U.chain(asList(1, 2, 3, 4, 5)).slice(1, 4).value());
+        assertEquals(asList(3, 4, 5), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, 2)));
+        assertEquals(asList(4, 5), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, -2)));
+        assertEquals(asList(2, 3, 4), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, 1, 4)));
+        assertEquals(asList(2, 3, 4), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, 1, -1)));
+        assertEquals(asList(3, 4), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, -3, 4)));
+        assertEquals(asList(3, 4), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, -3, -1)));
     }
 
 /*
@@ -194,11 +194,11 @@ _.copyOf(arr) // => [1, 2, 3]
     @Test
     @SuppressWarnings("unchecked")
     public void copyOf() {
-        assertEquals(asList(1, 2, 3), $.copyOf(asList(1, 2, 3)));
-        assertEquals(asList(1, 2, 3), new $(asList(1, 2, 3)).copyOf());
-        assertFalse(asList(1, 2, 3) == $.copyOf(asList(1, 2, 3)));
-        assertEquals(asList("a", "b"), $.copyOfRange(asList("a", "b", "c", "d"), 0, 2));
-        assertEquals(asList("a", "b"), new $(asList("a", "b", "c", "d")).copyOfRange(0, 2));
+        assertEquals(asList(1, 2, 3), U.copyOf(asList(1, 2, 3)));
+        assertEquals(asList(1, 2, 3), new U(asList(1, 2, 3)).copyOf());
+        assertFalse(asList(1, 2, 3) == U.copyOf(asList(1, 2, 3)));
+        assertEquals(asList("a", "b"), U.copyOfRange(asList("a", "b", "c", "d"), 0, 2));
+        assertEquals(asList("a", "b"), new U(asList("a", "b", "c", "d")).copyOfRange(0, 2));
     }
 
 /*
@@ -208,8 +208,8 @@ _.elementAt(arr, 1) // => 2
     @Test
     @SuppressWarnings("unchecked")
     public void elementAt() {
-        assertEquals(2, $.<Integer>elementAt(asList(1, 2, 3), 1).intValue());
-        assertEquals(2, new $<Integer>(asList(1, 2, 3)).elementAt(1).intValue());
+        assertEquals(2, U.<Integer>elementAt(asList(1, 2, 3), 1).intValue());
+        assertEquals(2, new U<Integer>(asList(1, 2, 3)).elementAt(1).intValue());
     }
 
 /*
@@ -219,8 +219,8 @@ _.get(arr, 1) // => 2
     @Test
     @SuppressWarnings("unchecked")
     public void get() {
-        assertEquals(2, $.<Integer>get(asList(1, 2, 3), 1).intValue());
-        assertEquals(2, new $<Integer>(asList(1, 2, 3)).get(1).intValue());
+        assertEquals(2, U.<Integer>get(asList(1, 2, 3), 1).intValue());
+        assertEquals(2, new U<Integer>(asList(1, 2, 3)).get(1).intValue());
     }
 
 /*
@@ -230,10 +230,10 @@ _.set(arr, 1, 100) // => 2
     @Test
     @SuppressWarnings("unchecked")
     public void set() {
-        Tuple<Integer, List<Integer>> result = $.<Integer>set(asList(1, 2, 3), 1, 100);
+        Tuple<Integer, List<Integer>> result = U.<Integer>set(asList(1, 2, 3), 1, 100);
         assertEquals(2, result.fst().intValue());
-        assertEquals(100, $.<Integer>get(result.snd(), 1).intValue());
-        Tuple<Integer, List<Integer>> result2 = new $<Integer>(asList(1, 2, 3)).set(2, 200);
+        assertEquals(100, U.<Integer>get(result.snd(), 1).intValue());
+        Tuple<Integer, List<Integer>> result2 = new U<Integer>(asList(1, 2, 3)).set(2, 200);
         assertEquals(3, result2.fst().intValue());
         assertEquals(200, result2.snd().get(2).intValue());
     }
@@ -244,7 +244,7 @@ _.elementAt(arr, 3) // => IndexOutOfBoundsException
 */
     @Test(expected = IndexOutOfBoundsException.class)
     public void elementAtOutOfBounds() {
-        $.<Integer>elementAt(asList(1, 2, 3), 3);
+        U.<Integer>elementAt(asList(1, 2, 3), 3);
     }
 
 /*
@@ -255,10 +255,10 @@ _.elementAtOrElse(arr, 3, 0) // => 0
     @Test
     @SuppressWarnings("unchecked")
     public void elementAtOrElse() {
-        assertEquals(2, $.<Integer>elementAtOrElse(asList(1, 2, 3), 1, 0).intValue());
-        assertEquals(2, new $<Integer>(asList(1, 2, 3)).elementAtOrElse(1, 0).intValue());
-        assertEquals(0, $.<Integer>elementAtOrElse(asList(1, 2, 3), 3, 0).intValue());
-        assertEquals(0, new $<Integer>(asList(1, 2, 3)).elementAtOrElse(3, 0).intValue());
+        assertEquals(2, U.<Integer>elementAtOrElse(asList(1, 2, 3), 1, 0).intValue());
+        assertEquals(2, new U<Integer>(asList(1, 2, 3)).elementAtOrElse(1, 0).intValue());
+        assertEquals(0, U.<Integer>elementAtOrElse(asList(1, 2, 3), 3, 0).intValue());
+        assertEquals(0, new U<Integer>(asList(1, 2, 3)).elementAtOrElse(3, 0).intValue());
     }
 
 /*
@@ -269,10 +269,10 @@ _.elementAtOrNull(arr, 3) // => null
     @Test
     @SuppressWarnings("unchecked")
     public void elementAtOrNull() {
-        assertEquals(2, $.<Integer>elementAtOrNull(asList(1, 2, 3), 1).intValue());
-        assertEquals(2, new $<Integer>(asList(1, 2, 3)).elementAtOrNull(1).intValue());
-        assertNull($.<Integer>elementAtOrNull(asList(1, 2, 3), 3));
-        assertNull(new $<Integer>(asList(1, 2, 3)).elementAtOrNull(3));
+        assertEquals(2, U.<Integer>elementAtOrNull(asList(1, 2, 3), 1).intValue());
+        assertEquals(2, new U<Integer>(asList(1, 2, 3)).elementAtOrNull(1).intValue());
+        assertNull(U.<Integer>elementAtOrNull(asList(1, 2, 3), 3));
+        assertNull(new U<Integer>(asList(1, 2, 3)).elementAtOrNull(3));
     }
 
 /*
@@ -281,11 +281,11 @@ _.elementAtOrNull(arr, 3) // => null
     @Test
     @SuppressWarnings("unchecked")
     public void reverse() {
-        assertEquals("[3, 2, 1]", $.reverse(asList(1, 2, 3)).toString());
-        assertEquals("[3, 2, 1]", $.reverse(new int[]{1, 2, 3}).toString());
-        assertEquals("[3, 2, 1]", new $(asList(1, 2, 3)).reverse().toString());
-        assertEquals("[3, 2, 1]", asList($.reverse(new Integer[] {1, 2, 3})).toString());
-        assertEquals("[3, 2, 1]", $.chain(asList(1, 2, 3)).reverse().value().toString());
+        assertEquals("[3, 2, 1]", U.reverse(asList(1, 2, 3)).toString());
+        assertEquals("[3, 2, 1]", U.reverse(new int[]{1, 2, 3}).toString());
+        assertEquals("[3, 2, 1]", new U(asList(1, 2, 3)).reverse().toString());
+        assertEquals("[3, 2, 1]", asList(U.reverse(new Integer[] {1, 2, 3})).toString());
+        assertEquals("[3, 2, 1]", U.chain(asList(1, 2, 3)).reverse().value().toString());
     }
 
     @Test
@@ -307,7 +307,7 @@ _.elementAtOrNull(arr, 3) // => null
                 };
             }
         };
-        final Optional<Integer> result = $.findLast(iterable,
+        final Optional<Integer> result = U.findLast(iterable,
             new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
@@ -318,7 +318,7 @@ _.elementAtOrNull(arr, 3) // => null
 
     @Test
     public void iterate() {
-        Iterable<long[]> iterable = $.<long[]>iterate(new long[] {1, 1}, new UnaryOperator<long[]>() {
+        Iterable<long[]> iterable = U.<long[]>iterate(new long[] {1, 1}, new UnaryOperator<long[]>() {
                 public long[] apply(long[] arg) {
                     return new long[] {arg[1], arg[0] + arg[1]};
                 }
@@ -331,12 +331,12 @@ _.elementAtOrNull(arr, 3) // => null
 
     @Test
     public void iterateChain() {
-        Iterable<long[]> iterable = $.<long[]>iterate(new long[] {1, 1}, new UnaryOperator<long[]>() {
+        Iterable<long[]> iterable = U.<long[]>iterate(new long[] {1, 1}, new UnaryOperator<long[]>() {
                 public long[] apply(long[] arg) {
                     return new long[] {arg[1], arg[0] + arg[1]};
                 }
             });
-        assertEquals(1L, $.chain(iterable, 5).first().item()[0]);
+        assertEquals(1L, U.chain(iterable, 5).first().item()[0]);
         class MyIterable<T> implements Iterable<T> {
             public Iterator<T> iterator() {
                 return new Iterator<T>() {
@@ -354,7 +354,7 @@ _.elementAtOrNull(arr, 3) // => null
                 };
             }
         }
-        assertTrue($.chain(new MyIterable<Integer>(), 5).isEmpty());
+        assertTrue(U.chain(new MyIterable<Integer>(), 5).isEmpty());
     }
 
     @Test
@@ -419,33 +419,33 @@ _.elementAtOrNull(arr, 3) // => null
 
     @Test(expected = NullPointerException.class)
     public void checkNotNull() {
-        $.checkNotNull(null);
+        U.checkNotNull(null);
     }
 
     @Test
     public void checkNotNullWithObject() {
-        assertEquals("123", $.checkNotNull("123"));
+        assertEquals("123", U.checkNotNull("123"));
     }
 
     @Test(expected = NullPointerException.class)
     public void checkNotNullWithMessage() {
-        $.checkNotNull(null, "Error message");
+        U.checkNotNull(null, "Error message");
     }
 
     @Test(expected = NullPointerException.class)
     public void checkNotNull2() {
-        $.checkNotNullElements(null);
+        U.checkNotNullElements(null);
     }
 
     @Test
     public void checkNotNullWithObjectAndMessage() {
-        assertEquals("123", $.checkNotNull("123", "Error message"));
+        assertEquals("123", U.checkNotNull("123", "Error message"));
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void and() {
-        Predicate<Integer> predicate = $.and(
+        Predicate<Integer> predicate = U.and(
             new Predicate<Object>() {
                 @Override
                 public boolean test(Object value) {
@@ -475,7 +475,7 @@ _.elementAtOrNull(arr, 3) // => null
     @Test
     @SuppressWarnings("unchecked")
     public void or() {
-        Predicate<Integer> predicate = $.or(
+        Predicate<Integer> predicate = U.or(
             new Predicate<Object>() {
                 @Override
                 public boolean test(Object value) {
@@ -507,7 +507,7 @@ _.elementAtOrNull(arr, 3) // => null
     @SuppressWarnings("unchecked")
     public void stackoverflow() {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
-        assertEquals("{D=67.3, B=67.4, C=67.4, A=99.5}", $.chain((new LinkedHashMap<String, Double>() { {
+        assertEquals("{D=67.3, B=67.4, C=67.4, A=99.5}", U.chain((new LinkedHashMap<String, Double>() { {
             put("A", 99.5);
             put("B", 67.4);
             put("C", 67.4);
@@ -523,7 +523,7 @@ _.elementAtOrNull(arr, 3) // => null
     @SuppressWarnings("unchecked")
     public void stackoverflow2() {
         // http://stackoverflow.com/questions/12229577/java-hashmap-sorting-string-integer-how-to-sort-it?lq=1
-        assertEquals("{a=5, f=5, c=4, e=3, b=2, d=2}", $.chain((new LinkedHashMap<String, Integer>() { {
+        assertEquals("{a=5, f=5, c=4, e=3, b=2, d=2}", U.chain((new LinkedHashMap<String, Integer>() { {
             put("a", 5);
             put("b", 2);
             put("c", 4);
@@ -541,7 +541,7 @@ _.elementAtOrNull(arr, 3) // => null
     @SuppressWarnings("unchecked")
     public void stackoverflow3() {
 // http://stackoverflow.com/questions/11647889/sorting-the-mapkey-value-in-descending-order-based-on-the-value?lq=1
-        assertEquals("{C=50, A=34, B=25}", $.chain((new LinkedHashMap<String, Integer>() { {
+        assertEquals("{C=50, A=34, B=25}", U.chain((new LinkedHashMap<String, Integer>() { {
             put("A", 34);
             put("B", 25);
             put("C", 50);
@@ -575,7 +575,7 @@ _.elementAtOrNull(arr, 3) // => null
         }
         Entity entity1 = new Entity(1, "one");
         Entity entity2 = new Entity(2, "two");
-        assertEquals("[1, 2]", $.pluck(asList(entity1, entity2), "getId").toString());
+        assertEquals("[1, 2]", U.pluck(asList(entity1, entity2), "getId").toString());
     }
 
     @Test
@@ -583,8 +583,8 @@ _.elementAtOrNull(arr, 3) // => null
         // http://stackoverflow.com/questions/4349369/list-intersection-in-java
         List<Integer> original = asList(12, 16, 17, 19, 101);
         List<Integer> selected = asList(16, 19, 107, 108, 109);
-        assertEquals("[107, 108, 109]", $.difference(selected, $.intersection(original, selected)).toString());
-        assertEquals("[12, 17, 101]", $.difference(original, selected).toString());
+        assertEquals("[107, 108, 109]", U.difference(selected, U.intersection(original, selected)).toString());
+        assertEquals("[12, 17, 101]", U.difference(original, selected).toString());
     }
 
     @Test
@@ -599,13 +599,13 @@ _.elementAtOrNull(arr, 3) // => null
             "No one gonna harm you",
             "They all want you to play I watch the birds of prey"
         };
-        List<Map<String, Object>> result = (List<Map<String, Object>>) $.chain(asList(strings))
+        List<Map<String, Object>> result = (List<Map<String, Object>>) U.chain(asList(strings))
             .map(
                 new Function<String, Map<String, Object>>() {
                 public Map<String, Object> apply(String item) {
                     Map<String, Object> resultItem = new LinkedHashMap<String, Object>();
                     resultItem.put("string", item);
-                    resultItem.put("longestWord", $.chain(asList(item.split("\\s+"))).map(
+                    resultItem.put("longestWord", U.chain(asList(item.split("\\s+"))).map(
                         new Function<String, Integer>() {
                             public Integer apply(String item) {
                                 return item.length();
