@@ -67,7 +67,7 @@
           <configuration>
               <archive>
                   <manifest>
-                      <mainClass>com.github.underscore.$</mainClass>
+                      <mainClass>com.github.underscore.U</mainClass>
                   </manifest>
               </archive>
           </configuration>
