@@ -913,11 +913,8 @@ public class U<T> {
         final List<E> retVal1 = newArrayList();
         final List<E> retVal2 = newArrayList();
         for (final E e : iterable) {
-            if (pred.test(e)) {
-                retVal1.add(e);
-            } else {
-                retVal2.add(e);
-            }
+            List<E> target = pred.test(e) ? retVal1 : retVal2;
+            target.add(e);
         }
         return Arrays.asList(retVal1, retVal2);
     }
