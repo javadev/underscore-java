@@ -8,7 +8,6 @@ jdk:
 
 script:
   - mvn clean install jacoco:report coveralls:report
-  - mvn -f math-plugin/pom.xml clean package jacoco:report
   - mvn -f string-plugin/pom.xml clean package jacoco:report
   - mvn -f examples/pom.xml clean package
 

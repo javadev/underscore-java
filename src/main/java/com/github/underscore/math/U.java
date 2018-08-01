@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2017 Valentyn Kolesnikov
+ * Copyright 2015-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ import com.github.underscore.Tuple;
 import com.github.underscore.Optional;
 import java.util.*;
 
-public class U<T> extends com.github.underscore.U<T> {
+public class U<T> extends com.github.underscore.lodash.U<T> {
     public U(final Iterable<T> iterable) {
         super(iterable);
     }
@@ -42,7 +42,7 @@ public class U<T> extends com.github.underscore.U<T> {
         super(string);
     }
 
-    public static class Chain<T> extends com.github.underscore.U.Chain<T> {
+    public static class Chain<T> extends com.github.underscore.lodash.U.Chain<T> {
         public Chain(final T item) {
             super(item);
         }
@@ -405,124 +405,6 @@ public class U<T> extends com.github.underscore.U<T> {
         return new U.Chain<T>(newArrayList(value()));
     }
 
-    public static <T extends Number> T sum(final Iterable<T> iterable) {
-        T result = null;
-        for (final T item : iterable) {
-            result = sum(result, item);
-        }
-        return result;
-    }
-
-    public static <E, F extends  Number> F sum(final Iterable<E> iterable, final Function<E, F> func) {
-        F result = null;
-        for (final E item : iterable) {
-            result = sum(result, func.apply(item));
-        }
-        return result;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Number> T sum() {
-        return (T) sum((List<T>) getIterable());
-    }
-
-    @SuppressWarnings("unchecked")
-    public <E, F extends  Number> F sum(final Function<E, F> func) {
-        return (F) sum((List<E>) getIterable(), func);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T extends Number> T sum(final T first, final T second) {
-        if (first == null) {
-            return second;
-        } else if (second == null) {
-            return first;
-        } else if (first instanceof java.math.BigDecimal) {
-            return (T) sum((java.math.BigDecimal) first, (java.math.BigDecimal) second);
-        } else if (second instanceof java.math.BigInteger) {
-            return (T) sum((java.math.BigInteger) first, (java.math.BigInteger) second);
-        } else if (first instanceof Byte) {
-            return (T) sum((Byte) first, (Byte) second);
-        } else if (first instanceof Double) {
-            return (T) sum((Double) first, (Double) second);
-        } else if (first instanceof Float) {
-            return (T) sum((Float) first, (Float) second);
-        } else if (first instanceof Integer) {
-            return (T) sum((Integer) first, (Integer) second);
-        } else if (first instanceof Long) {
-            return (T) sum((Long) first, (Long) second);
-        } else if (first instanceof Short) {
-            return (T) sum((Short) first, (Short) second);
-        } else {
-            throw new UnsupportedOperationException("Sum only supports official subclasses of Number");
-        }
-    }
-
-    private static java.math.BigDecimal sum(java.math.BigDecimal first, java.math.BigDecimal second) {
-        return first.add(second);
-    }
-
-    private static java.math.BigInteger sum(java.math.BigInteger first, java.math.BigInteger second) {
-        return first.add(second);
-    }
-
-    private static Byte sum(Byte first, Byte second) {
-        return (byte) (first + second);
-    }
-
-    private static Double sum(Double first, Double second) {
-        return first + second;
-    }
-
-    private static Float sum(Float first, Float second) {
-        return first + second;
-    }
-
-    private static Integer sum(Integer first, Integer second) {
-        return first + second;
-    }
-
-    private static Long sum(Long first, Long second) {
-        return first + second;
-    }
-
-    private static Short sum(Short first, Short second) {
-        return (short) (first + second);
-    }
-
-    public static <T extends Number> double mean(final Iterable<T> iterable) {
-        T result = null;
-        int count = 0;
-        for (final T item : iterable) {
-            result = sum(result, item);
-            count += 1;
-        }
-        return result.doubleValue() / count;
-    }
-
-    @SuppressWarnings("unchecked")
-    public double mean() {
-        return mean((Iterable<Number>) getIterable());
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends Number> double median(final Iterable<T> iterable) {
-        final List<T> result = newArrayList((Collection) iterable);
-        final int size = size(iterable);
-        if (size == 0) {
-            throw new IllegalArgumentException("Iterable cannot be empty");
-        }
-        if (size % 2 != 0) {
-            return result.get(size / 2).doubleValue();
-        }
-        return (result.get(size / 2 - 1).doubleValue() + result.get(size / 2).doubleValue()) / 2;
-    }
-
-    @SuppressWarnings("unchecked")
-    public double median() {
-        return median((Iterable<Number>) getIterable());
-    }
-
     public static <T> List<List<T>> createPermutationWithRepetition(final List<T> list, final int permutationLength) {
         final long resultSize = (long) Math.pow(list.size(), permutationLength);
         final List<List<T>> result = new ArrayList<List<T>>((int) resultSize);
@@ -550,87 +432,6 @@ public class U<T> extends com.github.underscore.U<T> {
         return createPermutationWithRepetition((List<T>) value(), permutationLength);
     }
 
-    public static class LRUCache<K, V> {
-        private int capacity;
-        private Map<K, Node<K, V>> map = new HashMap<K, Node<K, V>>();
-        private Node head;
-        private Node end;
-
-        public LRUCache(int capacity) {
-            this.capacity = capacity;
-        }
-
-        public V get(K key) {
-            if (map.containsKey(key)) {
-                Node<K, V> n = map.get(key);
-                remove(n);
-                setHead(n);
-                return n.value;
-            }
-            return null;
-        }
-
-        public void remove(Node n) {
-            if (n.pre != null) {
-                n.pre.next = n.next;
-            } else {
-                head = n.next;
-            }
-            if (n.next != null) {
-                n.next.pre = n.pre;
-            } else {
-                end = n.pre;
-            }
-        }
-
-        public void setHead(Node n) {
-            n.next = head;
-            n.pre = null;
-            if (head != null) {
-                head.pre = n;
-            }
-            head = n;
-            if (end == null) {
-                end = head;
-            }
-        }
-
-        public void set(K key, V value) {
-            if (map.containsKey(key)) {
-                Node<K, V> old = map.get(key);
-                old.value = value;
-                remove(old);
-                setHead(old);
-            } else {
-                Node<K, V> created = new Node<K, V>(key, value);
-                if (map.size() >= capacity) {
-                    map.remove(end.key);
-                    remove(end);
-                    setHead(created);
-                } else {
-                    setHead(created);
-                }
-                map.put(key, created);
-            }
-        }
-    }
-
-    public static class Node<K, V> {
-        private K key;
-        private V value;
-        private Node pre;
-        private Node next;
-
-        public Node(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
-
-    public static <K, V> LRUCache<K, V> createLRUCache(final int capacity) {
-        return new LRUCache<K, V>(capacity);
-    }
-
     public static List<Entry> findByName(final Entry entry, final String name) {
         final List<Entry> result = new ArrayList<Entry>();
         final Queue<Entry> allFiles = new LinkedList<Entry>();
@@ -651,11 +452,5 @@ public class U<T> extends com.github.underscore.U<T> {
             }
         }
         return result;
-    }
-
-    public static void main(String ... args) {
-        final String message = "Underscore-java-math is a math plugin for underscore-java.\n\n"
-            + "For docs, license, tests, and downloads, see: http://javadev.github.io/underscore-java";
-        System.out.println(message);
     }
 }
