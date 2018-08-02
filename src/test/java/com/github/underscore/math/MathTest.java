@@ -205,6 +205,88 @@ public class MathTest {
         U.chain(new Integer[] {0}).mean();
         U.chain(new Integer[] {0}).median();
         U.chain(new Integer[] {0}).sum();
+        U.chain(new Integer[] {0}).at(new Integer[] {0});
+        U.chain(new String[] {""}).camelCase();
+        U.chain(new String[] {""}).capitalize();
+        U.chain(new String[] {""}).deburr();
+        U.chain(new String[] {""}).drop();
+        U.chain(new String[] {""}).drop(0);
+        U.chain(new String[] {""}).dropRight();
+        U.chain(new String[] {""}).dropRight(0);
+        U.chain(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
+            public boolean test(Integer n) {
+                return n > 2;
+            }
+        });
+        U.chain(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
+            public boolean test(Integer n) {
+                return n > 2;
+            }
+        });
+        U.chain(new String[] {""}).endsWith("");
+        U.chain(new String[] {""}).endsWith("", 0);
+        U.chain("http://www.dragonsofmugloar.com/api/game/483159").fetch();
+        U.chain("http://www.dragonsofmugloar.com/api/game/31906/solution").fetch("PUT", "{"
+            + "    \"dragon\": {"
+            + "        \"scaleThickness\": 4,"
+            + "        \"clawSharpness\": 2,"
+            + "        \"wingStrength\": 4,"
+            + "        \"fireBreath\": 10"
+            + "    }"
+            + "}");
+        U.chain(new String[] {""}).fill("");
+        U.chain(new String[] {""}).fill("", 0, 0);
+        U.chain(new String[] {""}).flattenDeep();
+        U.chain("{\"a\":[{\"b\":{\"c\":\"d\"}}]}").fromJson();
+        U.chain("<root>0</root>").fromXml();
+        U.chain(new String[] {""}).kebabCase();
+        U.chain(new String[] {""}).lowerFirst();
+        U.chain("abc").pad(2);
+        U.chain("abc").pad(8, "_-");
+        U.chain("abc").padEnd(6);
+        U.chain("abc").padEnd(6, "_-");
+        U.chain("abc").padStart(6);
+        U.chain("abc").padStart(6, "_-");
+        U.chain(new ArrayList<Object>(asList(1, 2, 3))).pull(1, 2);
+        U.chain(new ArrayList<Object>(asList(1, 2, 3))).pullAt(1, 2);
+        U.chain(new ArrayList<Object>(asList(1, 2, 3))).remove(new Predicate<Object>() {
+            public boolean test(Object n) {
+                return false;
+            }
+        });
+        U.chain(asList(1)).repeat(1);
+        U.chain("abc").snakeCase();
+        U.chain("abc").startCase();
+        U.chain("abc").startsWith("");
+        U.chain("abc").startsWith("", 0);
+        U.chain(new String[] {""}).take();
+        U.chain(new String[] {""}).take(0);
+        U.chain(new String[] {""}).takeRight();
+        U.chain(new String[] {""}).takeRight(0);
+        U.chain(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
+            public boolean test(Integer n) {
+                return n > 1;
+            }
+        });
+        U.chain(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
+            public boolean test(Integer n) {
+                return n > 1;
+            }
+        });
+        U.chain(asList(1, 2, 3)).toJson();
+        U.chain(asList(1, 2, 3)).toXml();
+        U.chain("abc").trim();
+        U.chain("abc").trim("");
+        U.chain("abc").trimEnd();
+        U.chain("abc").trimEnd("");
+        U.chain("abc").trimStart();
+        U.chain("abc").trimStart("");
+        U.chain("hi-did").trunc();
+        U.chain("hi-did").trunc(3);
+        U.chain("abc").uncapitalize();
+        U.chain("abc").upperFirst();
+        U.chain("abc").words();
+        U.chain(asList(1, 2)).xor(asList(4, 2));
         U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
     }
 }

@@ -123,6 +123,11 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <excludes>
+            <exclude>**/U$BaseHttpSSLSocketFactory*.class</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

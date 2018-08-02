@@ -355,9 +355,94 @@ public class U<T> extends com.github.underscore.lodash.U<T> {
             return new Chain<Map<K, V>>(U.toMap((Iterable<Map.Entry<K, V>>) value()));
         }
 
+        public Chain<T> drop() {
+            return new Chain<T>(U.drop(value()));
+        }
+
+        public Chain<T> drop(final Integer n) {
+            return new Chain<T>(U.drop(value(), n));
+        }
+
+        public Chain<T> dropRight() {
+            return new Chain<T>(U.dropRight(value()));
+        }
+
+        public Chain<T> dropRight(final Integer n) {
+            return new Chain<T>(U.dropRight(value(), n));
+        }
+
+        public Chain<T> dropWhile(final Predicate<T> pred) {
+            return new Chain<T>(U.dropWhile(value(), pred));
+        }
+
+        public Chain<T> dropRightWhile(final Predicate<T> pred) {
+            return new Chain<T>(U.dropRightWhile(value(), pred));
+        }
+
         @SuppressWarnings("unchecked")
-        public <T extends Number> Chain<T> sum() {
-            return new Chain<T>(U.sum((List<T>) value()));
+        public Chain<Object> fill(final Object value) {
+            return new Chain<Object>(U.fill((List<Object>) value(), value));
+        }
+
+        @SuppressWarnings("unchecked")
+        public Chain<Object> fill(final Object value, final Integer start, final Integer end) {
+            return new Chain<Object>(U.fill((List<Object>) value(), value, start, end));
+        }
+
+        public Chain<Object> flattenDeep() {
+            return new Chain<Object>(U.flattenDeep(value()));
+        }
+
+        @SuppressWarnings("unchecked")
+        public Chain<Object> pull(final Object ... values) {
+            return new Chain<Object>(U.pull((List<Object>) value(), values));
+        }
+
+        @SuppressWarnings("unchecked")
+        public Chain<Object> pullAt(final Integer ... indexes) {
+            return new Chain<Object>(U.pullAt((List<Object>) value(), indexes));
+        }
+
+        public Chain<T> remove(final Predicate<T> pred) {
+            return new Chain<T>(U.remove(value(), pred));
+        }
+
+        public Chain<T> take() {
+            return new Chain<T>(U.take(value()));
+        }
+
+        public Chain<T> takeRight() {
+            return new Chain<T>(U.takeRight(value()));
+        }
+
+        public Chain<T> take(final Integer n) {
+            return new Chain<T>(U.take(value(), n));
+        }
+
+        public Chain<T> takeRight(final Integer n) {
+            return new Chain<T>(U.takeRight(value(), n));
+        }
+
+        public Chain<T> takeWhile(final Predicate<T> pred) {
+            return new Chain<T>(U.takeWhile(value(), pred));
+        }
+
+        public Chain<T> takeRightWhile(final Predicate<T> pred) {
+            return new Chain<T>(U.takeRightWhile(value(), pred));
+        }
+
+        @SuppressWarnings("unchecked")
+        public Chain<T> xor(final List<T> list) {
+            return new Chain<T>(U.xor(value(), list));
+        }
+
+        public Chain<T> at(final Integer ... indexes) {
+            return new Chain<T>(U.at(value(), indexes));
+        }
+
+        @SuppressWarnings("unchecked")
+        public <F extends Number> Chain<F> sum() {
+            return new Chain<F>(U.sum((List<F>) value()));
         }
 
         public <F extends Number> Chain<F> sum(final Function<T, F> func) {
@@ -374,10 +459,154 @@ public class U<T> extends com.github.underscore.lodash.U<T> {
             return new Chain<Double>(U.median((List<Number>) value()));
         }
 
+        public Chain<String> camelCase() {
+            return new Chain<String>(U.camelCase((String) item()));
+        }
+
+        public Chain<String> lowerFirst() {
+            return new Chain<String>(U.lowerFirst((String) item()));
+        }
+
+        public Chain<String> upperFirst() {
+            return new Chain<String>(U.upperFirst((String) item()));
+        }
+
+        public Chain<String> capitalize() {
+            return new Chain<String>(U.capitalize((String) item()));
+        }
+
+        public Chain<String> deburr() {
+            return new Chain<String>(U.deburr((String) item()));
+        }
+
+        public Chain<Boolean> endsWith(final String target) {
+            return new Chain<Boolean>(U.endsWith((String) item(), target));
+        }
+
+        public Chain<Boolean> endsWith(final String target, final Integer position) {
+            return new Chain<Boolean>(U.endsWith((String) item(), target, position));
+        }
+
+        public Chain<String> kebabCase() {
+            return new Chain<String>(U.kebabCase((String) item()));
+        }
+
+        public Chain<String> repeat(final int length) {
+            return new Chain<String>(U.repeat((String) item(), length));
+        }
+
+        public Chain<String> pad(final int length) {
+            return new Chain<String>(U.pad((String) item(), length));
+        }
+
+        public Chain<String> pad(final int length, final String chars) {
+            return new Chain<String>(U.pad((String) item(), length, chars));
+        }
+
+        public Chain<String> padStart(final int length) {
+            return new Chain<String>(U.padStart((String) item(), length));
+        }
+
+        public Chain<String> padStart(final int length, final String chars) {
+            return new Chain<String>(U.padStart((String) item(), length, chars));
+        }
+
+        public Chain<String> padEnd(final int length) {
+            return new Chain<String>(U.padEnd((String) item(), length));
+        }
+
+        public Chain<String> padEnd(final int length, final String chars) {
+            return new Chain<String>(U.padEnd((String) item(), length, chars));
+        }
+
+        public Chain<String> snakeCase() {
+            return new Chain<String>(U.snakeCase((String) item()));
+        }
+
+        public Chain<String> startCase() {
+            return new Chain<String>(U.startCase((String) item()));
+        }
+
+        public Chain<Boolean> startsWith(final String target) {
+            return new Chain<Boolean>(U.startsWith((String) item(), target));
+        }
+
+        public Chain<Boolean> startsWith(final String target, final Integer position) {
+            return new Chain<Boolean>(U.startsWith((String) item(), target, position));
+        }
+
+        public Chain<String> trim() {
+            return new Chain<String>(U.trim((String) item()));
+        }
+
+        public Chain<String> trim(final String chars) {
+            return new Chain<String>(U.trim((String) item(), chars));
+        }
+
+        public Chain<String> trimStart() {
+            return new Chain<String>(U.trimStart((String) item()));
+        }
+
+        public Chain<String> trimStart(final String chars) {
+            return new Chain<String>(U.trimStart((String) item(), chars));
+        }
+
+        public Chain<String> trimEnd() {
+            return new Chain<String>(U.trimEnd((String) item()));
+        }
+
+        public Chain<String> trunc() {
+            return new Chain<String>(U.trunc((String) item()));
+        }
+
+        public Chain<String> trunc(final int length) {
+            return new Chain<String>(U.trunc((String) item(), length));
+        }
+
+        public Chain<String> trimEnd(final String chars) {
+            return new Chain<String>(U.trimEnd((String) item(), chars));
+        }
+
+        public Chain<String> uncapitalize() {
+            return new Chain<String>(U.uncapitalize((String) item()));
+        }
+
+        public Chain<String> words() {
+            return new Chain<String>(U.words((String) item()));
+        }
+
+        public Chain<String> toJson() {
+            return new Chain<String>(U.toJson((Collection) value()));
+        }
+
+        public Chain<Object> fromJson() {
+            return new Chain<Object>(U.fromJson((String) item()));
+        }
+
+        public Chain<String> toXml() {
+            return new Chain<String>(U.toXml((Collection) value()));
+        }
+
+        public Chain<Object> fromXml() {
+            return new Chain<Object>(U.fromXml((String) item()));
+        }
+
+        public Chain<String> fetch() {
+            return new Chain<String>(U.fetch((String) item()).text());
+        }
+
+        public Chain<String> fetch(final String method, final String body) {
+            return new Chain<String>(U.fetch((String) item(), method, body).text());
+        }
+
         @SuppressWarnings("unchecked")
         public Chain<List<T>> createPermutationWithRepetition(final int permutationLength) {
             return new Chain<List<T>>(U.createPermutationWithRepetition((List<T>) value(), permutationLength));
         }
+    }
+
+    public static Chain<String> chain(final String item) {
+        return new U.Chain<String>(item);
     }
 
     public static <T> Chain<T> chain(final List<T> list) {

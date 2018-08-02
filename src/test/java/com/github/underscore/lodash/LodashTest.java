@@ -467,13 +467,13 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     @SuppressWarnings("unchecked")
     @Test
     public void fetchGet() {
-        U.FetchResponse result = U.fetch("http://www.dragonsofmugloar.com/api/game/483159");
+        U.FetchResponse result = U.fetch("https://www.dragonsofmugloar.com/api/game/483159");
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
             result.text());
         assertEquals("Sir. Russell Jones of Alberta",
             (String) U.get((Map<String, Object>) result.json(), "knight.name"));
-        U.Chain resultChain = U.chain("http://www.dragonsofmugloar.com/api/game/483159").fetch();
+        U.Chain resultChain = U.chain("https://www.dragonsofmugloar.com/api/game/483159").fetch();
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
             resultChain.item());
@@ -481,7 +481,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
 
     @Test
     public void fetchGetWithTimeouts() {
-        U.FetchResponse result = U.fetch("http://www.dragonsofmugloar.com/api/game/483159", 30000, 30000);
+        U.FetchResponse result = U.fetch("https://www.dragonsofmugloar.com/api/game/483159", 30000, 30000);
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
             result.text());
@@ -490,7 +490,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     @SuppressWarnings("unchecked")
     @Test
     public void fetchGetXml() {
-        U.FetchResponse result = U.fetch("http://www.dragonsofmugloar.com/weather/api/report/7614759");
+        U.FetchResponse result = U.fetch("https://www.dragonsofmugloar.com/weather/api/report/7614759");
         assertEquals("NMR", (String) U.get((Map<String, Object>) result.xml(), "report.code"));
     }
 
@@ -526,7 +526,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
 
     @Test
     public void fetchPut() {
-        U.FetchResponse result = U.fetch("http://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
+        U.FetchResponse result = U.fetch("https://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
             + "    \"dragon\": {"
             + "        \"scaleThickness\": 4,"
             + "        \"clawSharpness\": 2,"
@@ -536,7 +536,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             + "}");
         assertEquals("{\"status\":\"Victory\",\"message\":\"Dragon was successful in a glorious battle\"}",
             result.text());
-        U.FetchResponse result2 = U.fetch("http://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
+        U.FetchResponse result2 = U.fetch("https://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
             + "    \"dragon\": {"
             + "        \"scaleThickness\": 4,"
             + "        \"clawSharpness\": 2,"
@@ -546,7 +546,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             + "}", null, null, null);
         assertEquals("{\"status\":\"Defeat\",\"message\":"
             + "\"No dragon showed up, knight dealt his deeds as he pleased.\"}", result2.text());
-        U.Chain resultChain = U.chain("http://www.dragonsofmugloar.com/api/game/31906/solution").fetch("PUT", "{"
+        U.Chain resultChain = U.chain("https://www.dragonsofmugloar.com/api/game/31906/solution").fetch("PUT", "{"
             + "    \"dragon\": {"
             + "        \"scaleThickness\": 4,"
             + "        \"clawSharpness\": 2,"

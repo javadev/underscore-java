@@ -2668,6 +2668,82 @@ public class U<T> extends com.github.underscore.U<T> {
         return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null);
     }
 
+    static class BaseHttpSSLSocketFactory extends javax.net.ssl.SSLSocketFactory {
+        private javax.net.ssl.SSLContext getSSLContext() {
+            return createEasySSLContext();
+        }
+
+        @Override
+        public java.net.Socket createSocket(java.net.InetAddress arg0, int arg1, java.net.InetAddress arg2,
+                        int arg3) throws java.io.IOException {
+                return getSSLContext().getSocketFactory().createSocket(arg0, arg1,
+                                arg2, arg3);
+        }
+
+        @Override
+        public java.net.Socket createSocket(String arg0, int arg1, java.net.InetAddress arg2, int arg3)
+                throws java.io.IOException, java.net.UnknownHostException {
+            return getSSLContext().getSocketFactory().createSocket(arg0, arg1,
+                    arg2, arg3);
+        }
+
+        @Override
+        public java.net.Socket createSocket(java.net.InetAddress arg0, int arg1) throws java.io.IOException {
+            return getSSLContext().getSocketFactory().createSocket(arg0, arg1);
+        }
+
+        @Override
+        public java.net.Socket createSocket(String arg0, int arg1) throws java.io.IOException,
+                java.net.UnknownHostException {
+            return getSSLContext().getSocketFactory().createSocket(arg0, arg1);
+        }
+
+        @Override
+        public String[] getSupportedCipherSuites() {
+            return null;
+        }
+
+        @Override
+        public String[] getDefaultCipherSuites() {
+            return null;
+        }
+
+        @Override
+        public java.net.Socket createSocket(java.net.Socket arg0, String arg1, int arg2, boolean arg3)
+                throws java.io.IOException {
+            return getSSLContext().getSocketFactory().createSocket(arg0, arg1,
+                    arg2, arg3);
+        }
+
+        private javax.net.ssl.SSLContext createEasySSLContext() {
+            try {
+                javax.net.ssl.SSLContext context = javax.net.ssl.SSLContext.getInstance("SSL");
+                context.init(null, new javax.net.ssl.TrustManager[] { MyX509TrustManager.manger }, null);
+                return context;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        public static class MyX509TrustManager implements javax.net.ssl.X509TrustManager {
+
+            static MyX509TrustManager manger = new MyX509TrustManager();
+
+            public MyX509TrustManager() {
+            }
+
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+            }
+
+            public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+            }
+        }
+    }
+
     static class NoHostnameVerifier implements javax.net.ssl.HostnameVerifier {
         public boolean verify(String hostname, javax.net.ssl.SSLSession session) {
               return true;
@@ -2691,6 +2767,7 @@ public class U<T> extends com.github.underscore.U<T> {
             connection.setReadTimeout(readTimeout);
         }
         if (connection instanceof javax.net.ssl.HttpsURLConnection) {
+            ((javax.net.ssl.HttpsURLConnection) connection).setSSLSocketFactory(new BaseHttpSSLSocketFactory());
             ((javax.net.ssl.HttpsURLConnection) connection).setHostnameVerifier(new NoHostnameVerifier());
         }
         if (headerFields != null) {
