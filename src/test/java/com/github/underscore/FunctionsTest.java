@@ -353,7 +353,8 @@ _.map(stooges, _.iteratee('age'));
             counter[0]++; return null; } };
         U.setInterval(incr, 10);
         Thread.sleep(45);
-        assertTrue("Counter is not in range [0, 4, 5, 6, 10] " + counter[0], asList(0, 4, 5, 6, 10).contains(counter[0]));
+        assertTrue("Counter is not in range [0, 4, 5, 6, 10] " + counter[0],
+            asList(0, 4, 5, 6, 10).contains(counter[0]));
     }
 
     @Test

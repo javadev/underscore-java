@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2017 Valentyn Kolesnikov
+ * Copyright 2017-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,50 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.math;
+package com.github.underscore.lodash;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-public class Directory extends Entry {
-    private final List<Entry> contents;
+/**
+ * Directory unit test.
+ *
+ * @author Valentyn Kolesnikov
+ */
+public class DirectoryTest {
 
-    public Directory(String name, Directory directory) {
-        super(name, directory);
-        contents = new ArrayList<Entry>();
+    private Directory directory = new Directory("name", null);
+
+    @Test
+    public void size() {
+        directory.addEntry(new File("name", null, 10L));
+        assertEquals(10L, directory.size());
     }
 
-    protected List<Entry> getContents() {
-        return contents;
-    }
-
-    public long size() {
-        long size = 0;
-        for (final Entry entry : contents) {
-            size += entry.size();
-        }
-        return size;
-    }
-
-    public long numberOfFiles() {
-        long count = 0;
-        for (final Entry entry : contents) {
-            if (entry instanceof Directory) {
-                count += 1;
-                Directory directory = (Directory) entry;
-                count += directory.numberOfFiles();
-            } else {
-                count += 1;
-            }
-        }
-        return count;
-    }
-
-    public boolean deleteEntry(Entry entry) {
-        return contents.remove(entry);
-    }
-
-    public void addEntry(Entry entry) {
-        contents.add(entry);
+    @Test
+    public void numberOfFiles() {
+        directory.addEntry(new Directory("name", null));
+        directory.addEntry(new File("name", null, 10L));
+        directory.getContents();
+        assertEquals(1L, directory.numberOfFiles() - 1);
     }
 }

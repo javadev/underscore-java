@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2017 Valentyn Kolesnikov
+ * Copyright 2017-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,34 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.math;
+package com.github.underscore.lodash;
 
-import org.junit.Test;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * File unit test.
- *
- * @author Valentyn Kolesnikov
- */
-public class FileTest {
+public class Directory extends Entry {
+    private final List<Entry> contents;
 
-    private File file = new File("name", null, 0L);
-
-    @Test
-    public void size() {
-        assertEquals(0L, file.size());
+    public Directory(String name, Directory directory) {
+        super(name, directory);
+        contents = new ArrayList<Entry>();
     }
 
-    @Test
-    public void getContents() {
-        assertArrayEquals(new byte[]{}, file.getContents());
+    protected List<Entry> getContents() {
+        return contents;
     }
 
-    @Test
-    public void setContents() {
-        file.setContents(new byte[]{ 1 });
-        assertArrayEquals(new byte[]{ 1 }, file.getContents());
+    public long size() {
+        long size = 0;
+        for (final Entry entry : contents) {
+            size += entry.size();
+        }
+        return size;
+    }
+
+    public long numberOfFiles() {
+        long count = 0;
+        for (final Entry entry : contents) {
+            if (entry instanceof Directory) {
+                count += 1;
+                Directory directory = (Directory) entry;
+                count += directory.numberOfFiles();
+            } else {
+                count += 1;
+            }
+        }
+        return count;
+    }
+
+    public boolean deleteEntry(Entry entry) {
+        return contents.remove(entry);
+    }
+
+    public void addEntry(Entry entry) {
+        contents.add(entry);
     }
 }

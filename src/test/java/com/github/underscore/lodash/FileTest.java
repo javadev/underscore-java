@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2017 Valentyn Kolesnikov
+ * Copyright 2017-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,29 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.math;
+package com.github.underscore.lodash;
 
-public class File extends Entry {
-    private final java.io.ByteArrayOutputStream stream;
-    private final long size;
+import org.junit.Test;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
-    public File(String name, Directory parent, long size) {
-        super(name, parent);
-        this.size = size;
-        this.stream = new java.io.ByteArrayOutputStream();
+/**
+ * File unit test.
+ *
+ * @author Valentyn Kolesnikov
+ */
+public class FileTest {
+
+    private File file = new File("name", null, 0L);
+
+    @Test
+    public void size() {
+        assertEquals(0L, file.size());
     }
 
-    public long size() {
-        return size;
+    @Test
+    public void getContents() {
+        assertArrayEquals(new byte[]{}, file.getContents());
     }
 
-    public byte[] getContents() {
-        setLastAccessed(System.currentTimeMillis());
-        return stream.toByteArray();
-    }
-
-    public void setContents(byte[] content) {
-        this.stream.write(content, 0, content.length);
-        setLastUpdated(System.currentTimeMillis());
+    @Test
+    public void setContents() {
+        file.setContents(new byte[]{ 1 });
+        assertArrayEquals(new byte[]{ 1 }, file.getContents());
     }
 }

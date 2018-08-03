@@ -255,7 +255,8 @@ _.mapIndexed([1, 2, 3], function(num){ return num * 3; });
             }
         });
         assertEquals("[3, 6, 9]", result.toString());
-        List<Integer> resultObject = new U<Integer>(asList(1, 2, 3)).mapIndexed(new BiFunction<Integer, Integer, Integer>() {
+        List<Integer> resultObject = new U<Integer>(asList(1, 2, 3)).mapIndexed(
+            new BiFunction<Integer, Integer, Integer>() {
             public Integer apply(Integer index, Integer item) {
                 return item * 3;
             }

@@ -653,6 +653,11 @@ public class U<T> extends com.github.underscore.U<T> {
         public Chain<String> fetch(final String method, final String body) {
             return new Chain<String>(U.fetch((String) item(), method, body).text());
         }
+
+        @SuppressWarnings("unchecked")
+        public Chain<List<T>> createPermutationWithRepetition(final int permutationLength) {
+            return new Chain<List<T>>(U.createPermutationWithRepetition((List<T>) value(), permutationLength));
+        }
     }
 
     public static Chain<String> chain(final String item) {
@@ -2954,5 +2959,54 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static <K, V> LRUCache<K, V> createLRUCache(final int capacity) {
         return new LRUCache<K, V>(capacity);
+    }
+
+    public static <T> List<List<T>> createPermutationWithRepetition(final List<T> list, final int permutationLength) {
+        final long resultSize = (long) Math.pow(list.size(), permutationLength);
+        final List<List<T>> result = new ArrayList<List<T>>((int) resultSize);
+        final int[] bitVector = new int[permutationLength];
+        for (int index = 0; index < resultSize; index += 1) {
+            List<T> result2 = new ArrayList<T>(permutationLength);
+            for (int index2 = 0; index2 < permutationLength; index2 += 1) {
+                result2.add(list.get(bitVector[index2]));
+            }
+            int index3 = 0;
+            while (index3 < permutationLength && bitVector[index3] == list.size() - 1) {
+                bitVector[index3] = 0;
+                index3 += 1;
+            }
+            if (index3 < permutationLength) {
+                bitVector[index3] += 1;
+            }
+            result.add(result2);
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<List<T>> createPermutationWithRepetition(final int permutationLength) {
+        return createPermutationWithRepetition((List<T>) value(), permutationLength);
+    }
+
+    public static List<Entry> findByName(final Entry entry, final String name) {
+        final List<Entry> result = new ArrayList<Entry>();
+        final Queue<Entry> allFiles = new LinkedList<Entry>();
+        allFiles.add(entry);
+        while (!allFiles.isEmpty()) {
+            final Entry localEntry = allFiles.poll();
+            if (localEntry instanceof Directory) {
+                final List<Entry> files = ((Directory) localEntry).getContents();
+                for (final Entry innerFile : files) {
+                    if (innerFile instanceof Directory) {
+                        allFiles.add(innerFile);
+                    } else if (innerFile.getName().equals(name)) {
+                        result.add(innerFile);
+                    }
+                }
+            } else if (localEntry.getName().equals(name)) {
+                result.add(localEntry);
+            }
+        }
+        return result;
     }
 }
