@@ -534,7 +534,8 @@ _.distinct([1, 2, 1, 3, 1, 4]);
         assertEquals("[moe, 50, curly, 60]", resultObjectChain.toString());
         assertEquals("[1, 2, 3, 4, 5]", U.chain(asList(1, 2, 3, 3, 4, 5)).distinct().value().toString());
         final Object[] resultObjectArray =
-        U.distinctBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)).toArray(new Person[]{}),
+        U.distinctBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))
+            .toArray(new Person[]{}),
             new Function<Person, String>() {
             public String apply(Person person) {
                 return person.name;

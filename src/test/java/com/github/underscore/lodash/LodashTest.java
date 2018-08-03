@@ -477,6 +477,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
             resultChain.item());
+        U.chain("http://www.dragonsofmugloar.com/api/game/483159").fetch();
     }
 
     @Test

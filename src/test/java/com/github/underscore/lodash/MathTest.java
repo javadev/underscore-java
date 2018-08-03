@@ -212,6 +212,53 @@ System.out.println("Sum of letters in words starting with E... " + sum);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void createPermutationWithRepetition() {
+        List<List<String>> result = U.createPermutationWithRepetition(asList("apple", "orange"), 3);
+        assertEquals("[[apple, apple, apple],"
+                   + " [orange, apple, apple],"
+                   + " [apple, orange, apple],"
+                   + " [orange, orange, apple],"
+                   + " [apple, apple, orange],"
+                   + " [orange, apple, orange],"
+                   + " [apple, orange, orange],"
+                   + " [orange, orange, orange]]", result.toString());
+        List<List<String>> result2 = new U(asList("apple", "orange")).createPermutationWithRepetition(3);
+        assertEquals("[[apple, apple, apple],"
+                   + " [orange, apple, apple],"
+                   + " [apple, orange, apple],"
+                   + " [orange, orange, apple],"
+                   + " [apple, apple, orange],"
+                   + " [orange, apple, orange],"
+                   + " [apple, orange, orange],"
+                   + " [orange, orange, orange]]", result2.toString());
+        List<List<String>> resultChain = U.chain(asList("apple", "orange")).createPermutationWithRepetition(3).value();
+        assertEquals("[[apple, apple, apple],"
+                   + " [orange, apple, apple],"
+                   + " [apple, orange, apple],"
+                   + " [orange, orange, apple],"
+                   + " [apple, apple, orange],"
+                   + " [orange, apple, orange],"
+                   + " [apple, orange, orange],"
+                   + " [orange, orange, orange]]", resultChain.toString());
+    }
+
+    @Test
+    public void findByName() {
+        File file = new File("name", null, 0L);
+        assertEquals(1, U.findByName(file, "name").size());
+        assertEquals(0, U.findByName(file, "name1").size());
+        Directory directory = new Directory("name", null);
+        directory.addEntry(file);
+        assertEquals(1, U.findByName(directory, "name").size());
+        Directory directory2 = new Directory("name", null);
+        directory2.addEntry(file);
+        directory.addEntry(directory2);
+        assertEquals(2, U.findByName(directory, "name").size());
+        assertEquals(0, U.findByName(directory, "name1").size());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void main() {
         U.main(new String[] {});
         new U("");

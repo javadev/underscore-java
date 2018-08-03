@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2017 Valentyn Kolesnikov
+ * Copyright 2017-2018 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,31 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.math;
+package com.github.underscore.lodash;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+public class File extends Entry {
+    private final java.io.ByteArrayOutputStream stream;
+    private final long size;
 
-/**
- * Directory unit test.
- *
- * @author Valentyn Kolesnikov
- */
-public class DirectoryTest {
-
-    private Directory directory = new Directory("name", null);
-
-    @Test
-    public void size() {
-        directory.addEntry(new File("name", null, 10L));
-        assertEquals(10L, directory.size());
+    public File(String name, Directory parent, long size) {
+        super(name, parent);
+        this.size = size;
+        this.stream = new java.io.ByteArrayOutputStream();
     }
 
-    @Test
-    public void numberOfFiles() {
-        directory.addEntry(new Directory("name", null));
-        directory.addEntry(new File("name", null, 10L));
-        directory.getContents();
-        assertEquals(1L, directory.numberOfFiles() - 1);
+    public long size() {
+        return size;
+    }
+
+    public byte[] getContents() {
+        setLastAccessed(System.currentTimeMillis());
+        return stream.toByteArray();
+    }
+
+    public void setContents(byte[] content) {
+        this.stream.write(content, 0, content.length);
+        setLastUpdated(System.currentTimeMillis());
     }
 }
