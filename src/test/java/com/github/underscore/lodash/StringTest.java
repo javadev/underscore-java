@@ -1373,6 +1373,53 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson2() {
+        final String json = "{\n"
+                + "  \"widget\": {\n"
+                + "    \"debug\": \"on\",\n"
+                + "    \"window\": {\n"
+                + "      \"-title\": \"Sample Konfabulator Widget\",\n"
+                + "      \"#text\": \"\\n    I just put some text here\\n    \",\n"
+                + "      \"name\": \"main_window\",\n"
+                + "      \"width\": \"500\",\n"
+                + "      \"height\": \"500\"\n"
+                + "    },\n"
+                + "    \"image\": {\n"
+                + "      \"-name\": \"sun1\",\n"
+                + "      \"-src\": \"Images\\/Sun.png\",\n"
+                + "      \"-test\": [],\n"
+                + "      \"hOffset\": {\n"
+                + "        \"#text\": \"250\",\n"
+                + "        \"unit\": \"mm\"\n"
+                + "      },\n"
+                + "      \"vOffset\": \"250\",\n"
+                + "      \"alignment\": \"center\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<widget>\n"
+                + "  <debug>on</debug>\n"
+                + "  <window title=\"Sample Konfabulator Widget\">\n"
+                + "    I just put some text here\n"
+                + "    <name>main_window</name>\n"
+                + "    <width>500</width>\n"
+                + "    <height>500</height>\n"
+                + "  </window>\n"
+                + "  <image name=\"sun1\" src=\"Images/Sun.png\">\n"
+                + "    <-test>\n\n"
+                + "    </-test>\n"
+                + "    <hOffset>250<unit>mm</unit>\n"
+                + "    </hOffset>\n"
+                + "    <vOffset>250</vOffset>\n"
+                + "    <alignment>center</alignment>\n"
+                + "  </image>\n"
+                + "</widget>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
