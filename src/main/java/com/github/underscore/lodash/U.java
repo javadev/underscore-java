@@ -2537,7 +2537,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     @SuppressWarnings("unchecked")
     private static Object getValue(final Object value) {
-        if (value instanceof Map && ((Map<String, Object>) value).entrySet().iterator().hasNext()) {
+        if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 1) {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
             if (entry.getKey().equals("#text") || entry.getKey().equals("element")) {
                 return entry.getValue();
@@ -2548,36 +2548,51 @@ public class U<T> extends com.github.underscore.U<T> {
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> createMap(final org.w3c.dom.Node node,
-        final Function<Object, Object> nodeMapper) {
+        final Function<Object, Object> nodeMapper, Map<String, Object> attrMap) {
         final Map<String, Object> map = newLinkedHashMap();
+        map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
         for (int index = 0; index < nodeList.getLength(); index++) {
             final org.w3c.dom.Node currentNode = nodeList.item(index);
             final String name = currentNode.getNodeName();
             final Object value;
+            final int attributesLength = currentNode.getAttributes() == null
+                    ? 0 : currentNode.getAttributes().getLength();
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-                value = createMap(currentNode, nodeMapper);
+                final Map<String, Object> attrMapLocal = newLinkedHashMap();
+                for (int indexAttr = 0; indexAttr < attributesLength; indexAttr += 1) {
+                    final org.w3c.dom.Node currentNodeAttr = currentNode.getAttributes().item(indexAttr);
+                    addNodeValue(attrMapLocal, '-' + currentNodeAttr.getNodeName(),
+                            currentNodeAttr.getTextContent(), nodeMapper);
+                }
+                value = createMap(currentNode, nodeMapper, attrMapLocal);
             } else {
                 value = currentNode.getTextContent();
             }
             if ("#text".equals(name) && value.toString().trim().isEmpty()) {
                 continue;
             }
-            if (map.containsKey(name)) {
-                final Object object = map.get(name);
-                if (object instanceof List) {
-                    ((List<Object>) object).add(getValue(value));
-                } else {
-                    final List<Object> objects = newArrayList();
-                    objects.add(object);
-                    objects.add(getValue(value));
-                    map.put(name, objects);
-                }
-            } else {
-                map.put(name, nodeMapper.apply(getValue(value)));
-            }
+            addNodeValue(map, name, value, nodeMapper);
         }
         return map;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void addNodeValue(final Map<String, Object> map, final String name, final Object value,
+            final Function<Object, Object> nodeMapper) {
+        if (map.containsKey(name)) {
+            final Object object = map.get(name);
+            if (object instanceof List) {
+                ((List<Object>) object).add(getValue(value));
+            } else {
+                final List<Object> objects = newArrayList();
+                objects.add(object);
+                objects.add(getValue(value));
+                map.put(name, objects);
+            }
+        } else {
+            map.put(name, nodeMapper.apply(getValue(value)));
+        }
     }
 
     public static Object fromXml(final String xml) {
@@ -2591,7 +2606,7 @@ public class U<T> extends com.github.underscore.U<T> {
                 public Object apply(Object object) {
                     return object;
                 }
-            });
+            }, Collections.<String, Object>emptyMap());
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
@@ -2608,7 +2623,7 @@ public class U<T> extends com.github.underscore.U<T> {
                 public Object apply(Object object) {
                     return object instanceof List ? object : newArrayList(Arrays.asList(object));
                 }
-            });
+            }, Collections.<String, Object>emptyMap());
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
