@@ -1317,6 +1317,48 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml2() {
+        final String xml = "<widget>\n"
+                + "  <debug>on</debug>\n"
+                + "  <window title=\"Sample Konfabulator Widget\">\n"
+                + "    I just put some text here\n"
+                + "    <name>main_window</name>\n"
+                + "    <width>500</width>\n"
+                + "    <height>500</height>\n"
+                + "  </window>\n"
+                + "  <image src=\"Images/Sun.png\" name=\"sun1\">\n"
+                + "    <hOffset>250<unit>mm</unit></hOffset>\n"
+                + "    <vOffset>250</vOffset>\n"
+                + "    <alignment>center</alignment>\n"
+                + "  </image>\n"
+                + "</widget>";
+        assertEquals("{\n"
+                + "  \"widget\": {\n"
+                + "    \"debug\": \"on\",\n"
+                + "    \"window\": {\n"
+                + "      \"-title\": \"Sample Konfabulator Widget\",\n"
+                + "      \"#text\": \"\\n    I just put some text here\\n    \",\n"
+                + "      \"name\": \"main_window\",\n"
+                + "      \"width\": \"500\",\n"
+                + "      \"height\": \"500\"\n"
+                + "    },\n"
+                + "    \"image\": {\n"
+                + "      \"-name\": \"sun1\",\n"
+                + "      \"-src\": \"Images\\/Sun.png\",\n"
+                + "      \"hOffset\": {\n"
+                + "        \"#text\": \"250\",\n"
+                + "        \"unit\": \"mm\"\n"
+                + "      },\n"
+                + "      \"vOffset\": \"250\",\n"
+                + "      \"alignment\": \"center\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
