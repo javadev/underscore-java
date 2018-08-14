@@ -46,6 +46,29 @@ Gradle:
 compile 'com.github.javadev:underscore:1.35'
 ```
 
+### Usage
+
+```java
+U.chain(/* array | list | set | map | anything based on Iterable interface */)
+    .filter(..)
+    .map(..)
+    ...
+    .sortWith()
+    .forEach(..);
+U.chain(value1, value2, value3)...
+U.range(0, 10)...
+
+U.chain(1, 2, 3) // or java.util.Arrays.asList(1, 2, 3) or new Integer[] {1, 2, 3}
+    .filter(v -> v > 1)
+    // 2, 3
+    .map(v -> v + 1)
+    // 3, 4
+    .sortWith((a, b) -> b.compareTo(a))
+    // 4, 3
+    .forEach(System.out::println);
+    // 4, 3
+```
+
 Underscore-java is a java port of [Underscore.js](http://underscorejs.org/).
 
 In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.
