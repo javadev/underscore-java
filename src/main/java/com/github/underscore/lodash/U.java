@@ -1745,6 +1745,8 @@ public class U<T> extends com.github.underscore.U<T> {
     public static class XmlStringBuilder {
         protected final StringBuilder builder;
         private int ident;
+        private int saveAttrPosition;
+        private int saveTextPosition;
 
         public XmlStringBuilder() {
             builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
@@ -1757,7 +1759,29 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public XmlStringBuilder append(final String string) {
+            if (">".equals(string)) {
+                saveAttrPosition = builder.length();
+                saveTextPosition = builder.length() + 1;
+            }
             builder.append(string);
+            return this;
+        }
+
+        public XmlStringBuilder insert(final String key, final String value) {
+            builder.insert(saveAttrPosition, " " + key + "=\"");
+            saveAttrPosition += (" " + key + "=\"").length();
+            saveTextPosition += (" " + key + "=\"").length();
+            builder.insert(saveAttrPosition, value + "\"");
+            saveAttrPosition += (value + "\"").length();
+            saveTextPosition += (value + "\"").length();
+            return this;
+        }
+
+        public XmlStringBuilder insert(final String value) {
+            builder.delete(saveTextPosition, saveTextPosition + 1);
+            builder.insert(saveTextPosition, value);
+            saveTextPosition += value.length();
+            saveAttrPosition += value.length();
             return this;
         }
 
@@ -1985,13 +2009,26 @@ public class U<T> extends com.github.underscore.U<T> {
             }
 
             Iterator iter = map.entrySet().iterator();
+            boolean textWasInserted = false;
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
-                builder.fillSpaces().append("<").append(escape(String.valueOf(entry.getKey()))).append(">");
-                XmlValue.writeXml(entry.getValue(), builder);
-                builder.append("</").append(escape(String.valueOf(entry.getKey()))).append(">");
-                if (iter.hasNext()) {
-                    builder.newLine();
+                if (escape(String.valueOf(entry.getKey())).startsWith("-") && entry.getValue() instanceof String) {
+                    builder.insert(escape(String.valueOf(entry.getKey())).substring(1), escape((String) entry.getValue()));
+                } else if ("#text".equals(escape(String.valueOf(entry.getKey())))) {
+                    builder.insert(escape((String) entry.getValue()));
+                    textWasInserted = true;
+                } else {
+                    if (textWasInserted) {
+                        textWasInserted = false;
+                    } else {
+                        builder.fillSpaces();
+                    }
+                    builder.append("<").append(escape(String.valueOf(entry.getKey()))).append(">");
+                    XmlValue.writeXml(entry.getValue(), builder);
+                    builder.append("</").append(escape(String.valueOf(entry.getKey()))).append(">");
+                    if (iter.hasNext()) {
+                        builder.newLine();
+                    }
                 }
             }
         }
