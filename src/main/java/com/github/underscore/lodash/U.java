@@ -1835,12 +1835,29 @@ public class U<T> extends com.github.underscore.U<T> {
                 Object value = iter.next();
                 if (value == null) {
                     builder.fillSpaces().append(NULL_ELEMENT);
-                    continue;
+                } else {
+                    builder.fillSpaces().append(ELEMENT);
+                    XmlValue.writeXml(value, builder);
+                    builder.append(CLOSED_ELEMENT);
                 }
+                if (iter.hasNext()) {
+                    builder.newLine();
+                }
+            }
+        }
 
-                builder.fillSpaces().append(ELEMENT);
-                XmlValue.writeXml(value, builder);
-                builder.append(CLOSED_ELEMENT);
+        public static void writeXml(Collection collection, String element, XmlStringBuilder builder) {
+            Iterator iter = collection.iterator();
+
+            while (iter.hasNext()) {
+                Object value = iter.next();
+                if (value == null) {
+                    builder.fillSpaces().append("<" + element + ">" + NULL + "</" + element + ">");
+                } else {
+                    builder.fillSpaces().append("<" + element + ">");
+                    XmlValue.writeXml(value, builder);
+                    builder.append("</" + element + ">");
+                }
                 if (iter.hasNext()) {
                     builder.newLine();
                 }
@@ -2017,6 +2034,13 @@ public class U<T> extends com.github.underscore.U<T> {
                 } else if ("#text".equals(escape(String.valueOf(entry.getKey())))) {
                     builder.insert(escape((String) entry.getValue()));
                     textWasInserted = true;
+                } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()
+                    && (((List) entry.getValue()).get(0) instanceof String
+                    || ((List) entry.getValue()).get(0) instanceof Number)) {
+                    XmlArray.writeXml((List) entry.getValue(), escape(String.valueOf(entry.getKey())), builder);
+                    if (iter.hasNext()) {
+                        builder.newLine();
+                    }
                 } else {
                     if (textWasInserted) {
                         textWasInserted = false;
