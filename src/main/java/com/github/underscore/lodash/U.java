@@ -2174,16 +2174,13 @@ public class U<T> extends com.github.underscore.U<T> {
                     sb.append("\\f");
                     break;
                 case '\n':
-                    sb.append("\\n");
+                    sb.append("\n");
                     break;
                 case '\r':
                     sb.append("\\r");
                     break;
                 case '\t':
                     sb.append("\\t");
-                    break;
-                case '/':
-                    sb.append("\\/");
                     break;
                 default:
                     if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
