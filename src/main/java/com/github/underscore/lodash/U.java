@@ -2213,10 +2213,11 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static String toXml(Map map) {
         final XmlStringBuilder builder;
-        if (map != null && map.size() == 1) {
-            builder = new XmlStringBuilderWithoutRoot();
-        } else {
+        if ((map == null || map.size() != 1)
+            || ((Map.Entry) map.entrySet().iterator().next()).getValue() instanceof List) {
             builder = new XmlStringBuilder();
+        } else {
+            builder = new XmlStringBuilderWithoutRoot();
         }
 
         XmlObject.writeXml(map, null, builder, false);

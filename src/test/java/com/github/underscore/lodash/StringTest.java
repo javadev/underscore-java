@@ -1290,10 +1290,15 @@ _.repeat('abc', 0);
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
 
+        final Map<String, List<String>> testMap2 = new LinkedHashMap<String, List<String>>();
+        testMap2.put("item", new ArrayList<String>());
+
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <First item>1</First item>\n  <Second item>2</Second item>\n</root>",
             U.toXml(testMap));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", U.toXml((Map) null));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <item>\n"
+                + "  </item>\n</root>", U.toXml(testMap2));
     }
 
     @SuppressWarnings("unchecked")
