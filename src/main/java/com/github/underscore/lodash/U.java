@@ -1783,6 +1783,10 @@ public class U<T> extends com.github.underscore.U<T> {
             return this;
         }
 
+        public int getIdent() {
+            return ident;
+        }
+
         public String toString() {
             return builder.toString() + "\n</root>";
         }
@@ -1798,25 +1802,45 @@ public class U<T> extends com.github.underscore.U<T> {
         }
     }
 
+    public static class XmlStringBuilderWithoutHeader extends XmlStringBuilder {
+        public XmlStringBuilderWithoutHeader(int ident) {
+            super(new StringBuilder(""), ident);
+        }
+
+        public String toString() {
+            return builder.toString();
+        }
+    }
+
     public static class XmlArray {
-        public static void writeXml(Collection collection, XmlStringBuilder builder) {
+        public static void writeXml(Collection collection, String name, XmlStringBuilder builder, boolean parentTextFound) {
             if (collection == null) {
                 builder.append(NULL);
                 return;
             }
 
-            Iterator iter = collection.iterator();
+            if (name != null) {
+                builder.fillSpaces().append("<").append(name).append(">").incIdent();
+                if (!collection.isEmpty()) {
+                    builder.newLine();
+                }
+            }
+            writeXml(collection, builder, name, parentTextFound);
+            if (name != null) {
+                builder.decIdent().newLine().fillSpaces().append("</").append(name).append(">");
+            }
+        }
 
+        private static void writeXml(Collection collection, XmlStringBuilder builder, String name, boolean parentTextFound) {
+            Iterator iter = collection.iterator();
             while (iter.hasNext()) {
                 Object value = iter.next();
                 if (value == null) {
-                    builder.fillSpaces().append(NULL_ELEMENT);
-                    continue;
+                    builder.fillSpaces().append("<" + (name == null ? "element" : name) + ">"
+                            + NULL + "</" + (name == null ? "element" : name) + ">");
+                } else {
+                    XmlValue.writeXml(value, name == null ? "element" : name, builder, parentTextFound);
                 }
-
-                builder.fillSpaces().append(ELEMENT);
-                XmlValue.writeXml(value, builder);
-                builder.append(CLOSED_ELEMENT);
                 if (iter.hasNext()) {
                     builder.newLine();
                 }
@@ -1959,16 +1983,14 @@ public class U<T> extends com.github.underscore.U<T> {
             }
         }
 
-        public static void writeXml(Object[] array, XmlStringBuilder builder) {
+        public static void writeXml(Object[] array, String name, XmlStringBuilder builder, boolean parentTextFound) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
             } else if (array.length == 0) {
                 builder.fillSpaces().append(EMPTY_ELEMENT);
             } else {
                 for (int i = 0; i < array.length; i++) {
-                    builder.fillSpaces().append(ELEMENT);
-                    XmlValue.writeXml(array[i], builder);
-                    builder.append(CLOSED_ELEMENT);
+                    XmlValue.writeXml(array[i], name == null ? "element" : name, builder, parentTextFound);
                     if (i != array.length - 1) {
                         builder.newLine();
                     }
@@ -1978,27 +2000,79 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static class XmlObject {
-        public static void writeXml(Map map, XmlStringBuilder builder) {
+        public static void writeXml(Map map, String name, XmlStringBuilder builder, boolean parentTextFound) {
             if (map == null) {
                 builder.append(NULL);
                 return;
             }
 
+            List<XmlStringBuilder> elems = newArrayList();
+            List<String> attrs = newArrayList();
             Iterator iter = map.entrySet().iterator();
+            int ident = builder.getIdent() + (name != null ? 2 : 0);
+            boolean textFoundSave = false;
+            boolean textFound = false;
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
-                builder.fillSpaces().append("<").append(escape(String.valueOf(entry.getKey()))).append(">");
-                XmlValue.writeXml(entry.getValue(), builder);
-                builder.append("</").append(escape(String.valueOf(entry.getKey()))).append(">");
-                if (iter.hasNext()) {
+                if (escape(String.valueOf(entry.getKey())).startsWith("-") && entry.getValue() instanceof String) {
+                    attrs.add(" " + escape(String.valueOf(entry.getKey())).substring(1)
+                        + "=\"" + escape((String) entry.getValue()) + "\"");
+                } else if ("#text".equals(escape(String.valueOf(entry.getKey())))) {
+                    textFoundSave = true;
+                    textFound = true;
+                    elems.add(new XmlStringBuilderWithoutHeader(ident).append(escape((String) entry.getValue())));
+                } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
+                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
+                    XmlArray.writeXml((List) entry.getValue(), localBuilder,
+                        escape(String.valueOf(entry.getKey())), textFound);
+                    if (iter.hasNext()) {
+                        localBuilder.newLine();
+                    }
+                    elems.add(localBuilder);
+                } else {
+                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
+                    XmlValue.writeXml(entry.getValue(),
+                        escape(String.valueOf(entry.getKey())), localBuilder, textFound);
+                    textFound = false;
+                    if (iter.hasNext()) {
+                        localBuilder.newLine();
+                    }
+                    elems.add(localBuilder);
+                }
+            }
+            if (name != null) {
+                builder.fillSpaces().append("<").append(name).append(U.join(attrs, "")).append(">").incIdent();
+                if (!textFoundSave) {
                     builder.newLine();
                 }
+            }
+            for (XmlStringBuilder localBuilder : elems) {
+                builder.append(localBuilder.toString());
+            }
+            if (name != null) {
+                builder.decIdent();
+                if (!textFound) {
+                    builder.newLine().fillSpaces();
+                }
+                builder.append("</").append(name).append(">");
             }
         }
     }
 
     public static class XmlValue {
-        public static void writeXml(Object value, XmlStringBuilder builder) {
+        public static void writeXml(Object value, String name, XmlStringBuilder builder, boolean parentTextFound) {
+            if (value instanceof Map) {
+                XmlObject.writeXml((Map) value,  name, builder, parentTextFound);
+                return;
+            }
+            if (value instanceof Collection) {
+                XmlArray.writeXml((Collection) value, name, builder, parentTextFound);
+                return;
+            }
+            if (!parentTextFound) {
+                builder.fillSpaces();
+            }
+            builder.append("<" + name + ">");
             if (value == null) {
                 builder.append(NULL);
             } else if (value instanceof String) {
@@ -2019,53 +2093,46 @@ public class U<T> extends com.github.underscore.U<T> {
                 builder.append(value.toString());
             } else if (value instanceof Boolean) {
                 builder.append(value.toString());
-            } else if (value instanceof Map) {
-                builder.newLine().incIdent();
-                XmlObject.writeXml((Map) value, builder);
-                builder.newLine().decIdent().fillSpaces();
-            } else if (value instanceof Collection) {
-                builder.newLine().incIdent();
-                XmlArray.writeXml((Collection) value, builder);
-                builder.newLine().decIdent().fillSpaces();
             } else if (value instanceof byte[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml((byte[]) value, builder);
-                builder.newLine().decIdent().fillSpaces();
+                builder.decIdent().newLine().fillSpaces();
             } else if (value instanceof short[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml((short[]) value, builder);
-                builder.newLine().decIdent().fillSpaces();
+                builder.decIdent().newLine().fillSpaces();
             } else if (value instanceof int[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml((int[]) value, builder);
-                builder.newLine().decIdent().fillSpaces();
+                builder.decIdent().newLine().fillSpaces();
             } else if (value instanceof long[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml((long[]) value, builder);
-                builder.newLine().decIdent().fillSpaces();
+                builder.decIdent().newLine().fillSpaces();
             } else if (value instanceof float[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml((float[]) value, builder);
-                builder.newLine().decIdent().fillSpaces();
+                builder.decIdent().newLine().fillSpaces();
             } else if (value instanceof double[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml((double[]) value, builder);
-                builder.newLine().decIdent().fillSpaces();
+                builder.decIdent().newLine().fillSpaces();
             } else if (value instanceof boolean[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml((boolean[]) value, builder);
-                builder.newLine().decIdent().fillSpaces();
+                builder.decIdent().newLine().fillSpaces();
             } else if (value instanceof char[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml((char[]) value, builder);
-                builder.newLine().decIdent().fillSpaces();
+                builder.decIdent().newLine().fillSpaces();
             } else if (value instanceof Object[]) {
                 builder.newLine().incIdent();
-                XmlArray.writeXml((Object[]) value, builder);
-                builder.newLine().decIdent().fillSpaces();
+                XmlArray.writeXml((Object[]) value, name, builder, parentTextFound);
+                builder.decIdent().newLine().fillSpaces();
             } else {
                 builder.append(value.toString());
             }
+            builder.append("</" + name + ">");
         }
 
         public static String escape(String s) {
@@ -2139,7 +2206,7 @@ public class U<T> extends com.github.underscore.U<T> {
     public static String toXml(Collection collection) {
         final XmlStringBuilder builder = new XmlStringBuilder();
 
-        XmlArray.writeXml(collection, builder);
+        XmlArray.writeXml(collection, null, builder, false);
         return builder.toString();
     }
 
@@ -2155,7 +2222,7 @@ public class U<T> extends com.github.underscore.U<T> {
             builder = new XmlStringBuilder();
         }
 
-        XmlObject.writeXml(map, builder);
+        XmlObject.writeXml(map, null, builder, false);
         return builder.toString();
     }
 

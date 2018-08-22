@@ -923,12 +923,20 @@ _.repeat('abc', 0);
     @Test
     public void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((Collection) null, builder);
+        U.XmlArray.writeXml((Collection) null, null, builder, false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", builder.toString());
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, builder);
+        U.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, null, builder, false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
+        builder = new XmlStringBuilder();
+        U.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, "name", builder, false);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <name>\n"
+            + "    <name>null</name>\n"
+            + "  </name>\n"
+            + "</root>", builder.toString());
     }
 
     @SuppressWarnings("unchecked")
@@ -1223,22 +1231,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((Object[]) null, builder);
+        U.XmlArray.writeXml((Object[]) null, null, builder, false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new Object[0], builder);
+        U.XmlArray.writeXml(new Object[0], null, builder, false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new Object[] { "Hello" }, builder);
+        U.XmlArray.writeXml(new Object[] { "Hello" }, null, builder, false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
+        U.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, null, builder, false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n  <element>"
             + "12</element>\n  <element>\n    <element>1</element>\n    <element>2</element>\n    <element>3</element>"
             + "\n  </element>\n</root>", builder.toString());
@@ -1257,7 +1265,6 @@ _.repeat('abc', 0);
         final List<String> testList = new ArrayList<String>();
         testList.add("First item");
         testList.add("Second item");
-
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
             U.toXml(testList));
@@ -1373,6 +1380,100 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson2() {
+        final String json = "{\n"
+                + "  \"widget\": {\n"
+                + "    \"debug\": \"on\",\n"
+                + "    \"window\": {\n"
+                + "      \"-title\": \"Sample Konfabulator Widget\",\n"
+                + "      \"#text\": \"\\n    I just put some text here\\n    \",\n"
+                + "      \"name\": \"main_window\",\n"
+                + "      \"width\": \"500\",\n"
+                + "      \"height\": \"500\"\n"
+                + "    },\n"
+                + "    \"image\": {\n"
+                + "      \"-name\": \"sun1\",\n"
+                + "      \"-src\": \"Images\\/Sun.png\",\n"
+                + "      \"-test\": [],\n"
+                + "      \"hOffset\": {\n"
+                + "        \"#text\": \"250\",\n"
+                + "        \"unit\": \"mm\"\n"
+                + "      },\n"
+                + "      \"vOffset\": \"250\",\n"
+                + "      \"alignment\": \"center\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<widget>\n"
+                + "  <debug>on</debug>\n"
+                + "  <window title=\"Sample Konfabulator Widget\">\n"
+                + "    I just put some text here\n"
+                + "    <name>main_window</name>\n"
+                + "    <width>500</width>\n"
+                + "    <height>500</height>\n"
+                + "  </window>\n"
+                + "  <image name=\"sun1\" src=\"Images/Sun.png\">\n"
+                + "    <-test>\n"
+                + "    </-test>\n"
+                + "    <hOffset>250<unit>mm</unit>\n"
+                + "    </hOffset>\n"
+                + "    <vOffset>250</vOffset>\n"
+                + "    <alignment>center</alignment>\n"
+                + "  </image>\n"
+                + "</widget>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson3() {
+        final String json = "{\n"
+                + "  \"process-list\": {\n"
+                + "    \"process\": [\n"
+                + "      {\n"
+                + "        \"-id\": \"process24181c2558\",\n"
+                + "        \"executionStack\": {\n"
+                + "          \"frame\": {\n"
+                + "            \"-procname\": \"zzz\",\n"
+                + "            \"#text\": \" SELECT 1  \"\n"
+                + "          }\n"
+                + "        },\n"
+                + "        \"inputbuf\": \" Proc [Database Id = 6 Object Id = 889366533] \"\n"
+                + "      },\n"
+                + "      {\n"
+                + "        \"-id\": \"process5a0b3c188\",\n"
+                + "        \"executionStack\": {\n"
+                + "          \"frame\": {\n"
+                + "            \"-procname\": \"xxx\",\n"
+                + "            \"#text\": \" SELECT 1 \"\n"
+                + "          }\n"
+                + "        },\n"
+                + "        \"inputbuf\": \" Proc [Database Id = 6 Object Id = 905366590] \"\n"
+                + "      }\n"
+                + "    ]\n"
+                + "  }\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<process-list>\n"
+                + "  <process id=\"process24181c2558\">\n"
+                + "    <executionStack>\n"
+                + "      <frame procname=\"zzz\"> SELECT 1  </frame>\n"
+                + "    </executionStack>\n"
+                + "    <inputbuf> Proc [Database Id = 6 Object Id = 889366533] </inputbuf>\n"
+                + "  </process>\n"
+                + "  <process id=\"process5a0b3c188\">\n"
+                + "    <executionStack>\n"
+                + "      <frame procname=\"xxx\"> SELECT 1 </frame>\n"
+                + "    </executionStack>\n"
+                + "    <inputbuf> Proc [Database Id = 6 Object Id = 905366590] </inputbuf>\n"
+                + "  </process>\n"
+                + "</process-list>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
@@ -1380,7 +1481,11 @@ _.repeat('abc', 0);
         + "          \"SortAs\": \"SGML\",\n          \"GlossTerm\": \"Standard Generalized Markup Language\",\n"
         + "          \"Acronym\": \"SGML\",\n          \"Abbrev\": \"ISO 8879:1986\",\n          \"GlossDef\": {\n"
         + "            \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n"
-        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              \"XML\"\n            ]\n"
+        + "            \"GlossSeeAlso\": [\n              \"GML\",\n              null,"
+        + "\n              \"GML2\"\n            ],\n"
+        + "            \"GlossSeeAlso2\": [\n              1,\n              null\n            ],\n"
+        + "            \"GlossSeeAlso3\": [\n              null\n            ],\n"
+        + "            \"GlossSeeAlso4\": [\n              1\n            ]\n"
         + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         + "\n<glossary>"
@@ -1396,10 +1501,13 @@ _.repeat('abc', 0);
         + "\n        <Abbrev>ISO 8879:1986</Abbrev>"
         + "\n        <GlossDef>"
         + "\n          <para>A meta-markup language, used to create markup languages such as DocBook.</para>"
-        + "\n          <GlossSeeAlso>"
-        + "\n            <element>GML</element>"
-        + "\n            <element>XML</element>"
-        + "\n          </GlossSeeAlso>"
+        + "\n          <GlossSeeAlso>GML</GlossSeeAlso>"
+        + "\n          <GlossSeeAlso>null</GlossSeeAlso>"
+        + "\n          <GlossSeeAlso>GML2</GlossSeeAlso>"
+        + "\n          <GlossSeeAlso2>1</GlossSeeAlso2>"
+        + "\n          <GlossSeeAlso2>null</GlossSeeAlso2>"
+        + "\n          <GlossSeeAlso3>null</GlossSeeAlso3>"
+        + "\n          <GlossSeeAlso4>1</GlossSeeAlso4>"
         + "\n        </GlossDef>"
         + "\n        <GlossSee>markup</GlossSee>"
         + "\n      </GlossEntry>"
