@@ -1603,7 +1603,10 @@ public class U<T> extends com.github.underscore.U<T> {
 
             Iterator iter = map.entrySet().iterator();
 
-            builder.append('{').newLine().incIdent();
+            builder.append('{').incIdent();
+            if (!map.isEmpty()) {
+                builder.newLine();
+            }
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
                 builder.fillSpaces().append('\"');
@@ -2009,7 +2012,7 @@ public class U<T> extends com.github.underscore.U<T> {
             List<XmlStringBuilder> elems = newArrayList();
             List<String> attrs = newArrayList();
             Iterator iter = map.entrySet().iterator();
-            int ident = builder.getIdent() + (name != null ? 2 : 0);
+            int ident = builder.getIdent() + (name == null ? 0 : 2);
             boolean textFoundSave = false;
             boolean textFound = false;
             while (iter.hasNext()) {

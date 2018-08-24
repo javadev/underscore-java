@@ -778,7 +778,7 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void testDecodeMap2() {
-        assertEquals("{\n\n}", U.toJson((Map<String, Object>) U.fromJson("{}")));
+        assertEquals("{\n}", U.toJson((Map<String, Object>) U.fromJson("{}")));
     }
 
     @SuppressWarnings("unchecked")
@@ -1371,6 +1371,17 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml3() {
+        final String xml = "<a></a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
@@ -1519,6 +1530,16 @@ _.repeat('abc', 0);
         + "\n    </GlossList>"
         + "\n  </GlossDiv>"
         + "\n</glossary>", U.toXml((Map<String, Object>) U.fromJson(string)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXml2() {
+        String string =
+        "{}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        + "\n<root>\n"
+        + "\n</root>", U.toXml((Map<String, Object>) U.fromJson(string)));
     }
 
     @SuppressWarnings("unchecked")
