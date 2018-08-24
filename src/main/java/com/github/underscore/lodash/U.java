@@ -2045,7 +2045,7 @@ public class U<T> extends com.github.underscore.U<T> {
             }
             if (name != null) {
                 builder.fillSpaces().append("<").append(name).append(U.join(attrs, "")).append(">").incIdent();
-                if (!textFoundSave) {
+                if (!textFoundSave && !map.isEmpty()) {
                     builder.newLine();
                 }
             }

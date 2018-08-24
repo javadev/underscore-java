@@ -1536,9 +1536,12 @@ _.repeat('abc', 0);
     @Test
     public void toXml2() {
         String string =
-        "{}";
+        "{\n"
+        + "  \"root\": {\n"
+        + "  }\n"
+        + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        + "\n<root>\n"
+        + "\n<root>"
         + "\n</root>", U.toXml((Map<String, Object>) U.fromJson(string)));
     }
 
