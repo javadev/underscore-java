@@ -1610,7 +1610,7 @@ public class U<T> extends com.github.underscore.U<T> {
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
                 builder.fillSpaces().append('\"');
-                builder.append(escape(String.valueOf(entry.getKey())));
+                builder.append(JsonValue.unescapeName(String.valueOf(entry.getKey())));
                 builder.append('\"');
                 builder.append(':').append(' ');
                 JsonValue.writeJson(entry.getValue(), builder);
@@ -1669,6 +1669,45 @@ public class U<T> extends com.github.underscore.U<T> {
             } else {
                 builder.append(value.toString());
             }
+        }
+
+        public static String unescapeName(final String name) {
+            final int length = name.length();
+            if (length == 0) {
+                return "";
+            }
+            StringBuilder result = new StringBuilder();
+            int underlineCount = 0;
+            StringBuilder lastChars = new StringBuilder();
+            outer:
+            for (int i = 0; i < length; ++i) {
+                char ch = name.charAt(i);
+                if (ch == '_') {
+                    lastChars.append(ch);
+                } else {
+                    if (lastChars.length() == 2) {
+                        StringBuilder nameToDecode = new StringBuilder();
+                        for (int j = i; j < length; ++j) {
+                            if (name.charAt(j) == '_') {
+                                underlineCount += 1;
+                                if (underlineCount == 2) {
+                                    result.append(Base32.decode(nameToDecode.toString()));
+                                    i = j;
+                                    underlineCount = 0;
+                                    lastChars.setLength(0);
+                                    continue outer;
+                                }
+                            } else {
+                                nameToDecode.append(name.charAt(j));
+                                underlineCount = 0;
+                            }
+                        }
+                    }
+                    result.append(lastChars).append(ch);
+                    lastChars.setLength(0);
+                }
+            }
+            return result.append(lastChars).toString();
         }
 
         public static String escape(String s) {
@@ -2018,8 +2057,8 @@ public class U<T> extends com.github.underscore.U<T> {
             boolean textFound = false;
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
-                if (escape(String.valueOf(entry.getKey())).startsWith("-") && entry.getValue() instanceof String) {
-                    attrs.add(" " + escape(String.valueOf(entry.getKey())).substring(1)
+                if (String.valueOf(entry.getKey()).startsWith("-") && entry.getValue() instanceof String) {
+                    attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1))
                         + "=\"" + escape((String) entry.getValue()) + "\"");
                 } else if ("#text".equals(escape(String.valueOf(entry.getKey())))) {
                     textFoundSave = true;
@@ -2034,7 +2073,7 @@ public class U<T> extends com.github.underscore.U<T> {
                 } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
                     XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
                     XmlArray.writeXml((List) entry.getValue(), localBuilder,
-                        escape(String.valueOf(entry.getKey())), textFound);
+                        XmlValue.escapeName(String.valueOf(entry.getKey())), textFound);
                     if (iter.hasNext()) {
                         localBuilder.newLine();
                     }
@@ -2042,7 +2081,7 @@ public class U<T> extends com.github.underscore.U<T> {
                 } else {
                     XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
                     XmlValue.writeXml(entry.getValue(),
-                        escape(String.valueOf(entry.getKey())), localBuilder, textFound);
+                        XmlValue.escapeName(String.valueOf(entry.getKey())), localBuilder, textFound);
                     textFound = false;
                     if (iter.hasNext()) {
                         localBuilder.newLine();
@@ -2143,6 +2182,29 @@ public class U<T> extends com.github.underscore.U<T> {
                 builder.append(value.toString());
             }
             builder.append("</" + name + ">");
+        }
+
+        public static String escapeName(String name) {
+            final int length = name.length();
+            if (length == 0) {
+                return "";
+            }
+            StringBuilder result = new StringBuilder();
+            char ch = name.charAt(0);
+            if (com.sun.org.apache.xerces.internal.util.XMLChar.isNameStart(ch)) {
+                result.append(ch);
+            } else {
+                result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
+            }
+            for (int i = 1; i < length; ++i) {
+                ch = name.charAt(i);
+                if (com.sun.org.apache.xerces.internal.util.XMLChar.isName(ch)) {
+                    result.append(ch);
+                } else {
+                    result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
+                }
+            }
+            return result.toString();
         }
 
         public static String escape(String s) {

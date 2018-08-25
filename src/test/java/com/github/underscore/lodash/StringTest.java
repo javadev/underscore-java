@@ -715,8 +715,16 @@ _.repeat('abc', 0);
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
 
+        final Map<String, String> testMap2 = new LinkedHashMap<String, String>();
+        testMap2.put("", "1");
+
+        final Map<String, String> testMap3 = new LinkedHashMap<String, String>();
+        testMap3.put("__FA", "1");
+
         assertEquals("{\n  \"First item\": \"1\",\n  \"Second item\": \"2\"\n}", U.toJson(testMap));
         assertEquals("null", U.toJson((Map) null));
+        assertEquals("{\n  \"\": \"1\"\n}", U.toJson(testMap2));
+        assertEquals("{\n  \"__FA\": \"1\"\n}", U.toJson(testMap3));
     }
 
     @SuppressWarnings("unchecked")
@@ -982,7 +990,7 @@ _.repeat('abc', 0);
             + "    <element>First item</element>\n    <element>Second item</element>\n  </element>\n</root>",
             U.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
-            + "    <1>First item</1>\n    <2>Second item</2>\n    <3>null</3>\n  </element>\n</root>",
+            + "    <__GE__>First item</__GE__>\n    <__GI__>Second item</__GI__>\n    <__GM__>null</__GM__>\n  </element>\n</root>",
             U.toXml(Arrays.asList(new LinkedHashMap() { {
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
@@ -1293,12 +1301,18 @@ _.repeat('abc', 0);
         final Map<String, List<String>> testMap2 = new LinkedHashMap<String, List<String>>();
         testMap2.put("item", new ArrayList<String>());
 
+        final Map<String, String> testMap3 = new LinkedHashMap<String, String>();
+        testMap3.put("", "1");
+
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
-            + "  <First item>1</First item>\n  <Second item>2</Second item>\n</root>",
+            + "  <First__EA__item>1</First__EA__item>\n  <Second__EA__item>2</Second__EA__item>\n</root>",
             U.toXml(testMap));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", U.toXml((Map) null));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <item>\n"
                 + "  </item>\n</root>", U.toXml(testMap2));
+        System.out.println(U.toXml(testMap3));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<>1"
+                + "</>", U.toXml(testMap3));
     }
 
     @SuppressWarnings("unchecked")
@@ -1382,6 +1396,42 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml4() {
+        final String xml = "<__FU__a>\n"
+                + "</__FU__a>";
+        assertEquals("{\n"
+                + "  \"-a\": {\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toJsonFromXml5() {
+        final String xml = "<__FU____EE__a>\n"
+                + "</__FU____EE__a>";
+        assertEquals("{\n"
+                + "  \"-!a\": {\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toJsonFromXml6() {
+        final String xml = "<__FU__a__EE__a>\n"
+                + "</__FU__a__EE__a>";
+        assertEquals("{\n"
+                + "  \"-a!a\": {\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
@@ -1430,8 +1480,8 @@ _.repeat('abc', 0);
                 + "    <height>500</height>\n"
                 + "  </window>\n"
                 + "  <image name=\"sun1\" src=\"Images/Sun.png\">\n"
-                + "    <-test>\n"
-                + "    </-test>\n"
+                + "    <__FU__test>\n"
+                + "    </__FU__test>\n"
                 + "    <hOffset>250<unit>mm</unit>\n"
                 + "    </hOffset>\n"
                 + "    <vOffset>250</vOffset>\n"
@@ -1511,6 +1561,19 @@ _.repeat('abc', 0);
                 + "    <unit>mm</unit>\n"
                 + "  </hOffset>\n"
                 + "</image>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson5() {
+        final String json = "{\n"
+                + "  \"\": {\n"
+                + "  }\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<>\n"
+                + "</>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
