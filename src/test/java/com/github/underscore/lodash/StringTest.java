@@ -1490,6 +1490,32 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson4() {
+        final String json = "{\n"
+                + "    \"image\": {\n"
+                + "      \"-name\": \"sun1\",\n"
+                + "      \"-src\": \"Images\\/Sun.png\",\n"
+                + "      \"hOffset\": {\n"
+                + "        \"#text\": [\n"
+                + "          \"\\n\\t\\t\\t\\t250\",\n"
+                + "          \"1\\n    \"\n"
+                + "        ],\n"
+                + "        \"unit\": \"mm\"\n"
+                + "      }\n"
+                + "  }\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<image name=\"sun1\" src=\"Images/Sun.png\">\n"
+                + "  <hOffset>\n"
+                + "\t\t\t\t2501\n"
+                + "    <unit>mm</unit>\n"
+                + "  </hOffset>\n"
+                + "</image>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"

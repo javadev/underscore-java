@@ -2003,6 +2003,7 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static class XmlObject {
+        @SuppressWarnings("unchecked")
         public static void writeXml(Map map, String name, XmlStringBuilder builder, boolean parentTextFound) {
             if (map == null) {
                 builder.append(NULL);
@@ -2023,7 +2024,13 @@ public class U<T> extends com.github.underscore.U<T> {
                 } else if ("#text".equals(escape(String.valueOf(entry.getKey())))) {
                     textFoundSave = true;
                     textFound = true;
-                    elems.add(new XmlStringBuilderWithoutHeader(ident).append(escape((String) entry.getValue())));
+                    final String value;
+                    if (entry.getValue() instanceof List) {
+                        value = U.join((List) entry.getValue(), "");
+                    } else {
+                        value = (String) entry.getValue();
+                    }
+                    elems.add(new XmlStringBuilderWithoutHeader(ident).append(escape(value)));
                 } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
                     XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
                     XmlArray.writeXml((List) entry.getValue(), localBuilder,
