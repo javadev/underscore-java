@@ -570,6 +570,19 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         U.fetch("ttt");
     }
 
+    @Test
+    public void xmlToJson() {
+        assertEquals("{\n  \"a\": {\n  }\n}", U.xmlToJson("<a></a>"));
+        assertEquals("{\n  \"a\": {\n    \"b\": [\n      {\n      },\n      {\n      }\n    ]\n  }\n}",
+            U.xmlToJson("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>"));
+    }
+
+    @Test
+    public void jsonToXml() {
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n</a>", U.jsonToXml("{\n  \"a\": {\n  }\n}"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n\n</root>", U.jsonToXml("[]"));
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void main() {
