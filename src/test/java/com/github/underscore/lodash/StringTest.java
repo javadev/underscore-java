@@ -1310,7 +1310,6 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", U.toXml((Map) null));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <item>\n"
                 + "  </item>\n</root>", U.toXml(testMap2));
-        System.out.println(U.toXml(testMap3));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<>1"
                 + "</>", U.toXml(testMap3));
     }

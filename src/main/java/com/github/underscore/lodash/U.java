@@ -3548,4 +3548,18 @@ public class U<T> extends com.github.underscore.U<T> {
         }
         return result;
     }
+
+    @SuppressWarnings("unchecked")
+    public static String jsonToXml(String json) {
+        Object result = fromJson(json);
+        if (result instanceof Map) {
+            return toXml((Map<String, Object>) result);
+        }
+        return toXml((List) result);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String xmlToJson(String xml) {
+        return toJson((Map<String, Object>) fromXml(xml));
+    }
 }
