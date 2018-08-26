@@ -330,11 +330,11 @@ public class U<T> {
         boolean foundAny = false;
         T accum = null;
         for (T element : iterable) {
-            if (!foundAny) {
+            if (foundAny) {
+                accum = func.apply(accum, element);
+            } else {
                 foundAny = true;
                 accum = element;
-            } else {
-                accum = func.apply(accum, element);
             }
         }
         return foundAny ? Optional.of(accum) : Optional.<T>absent();
