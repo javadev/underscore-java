@@ -1855,7 +1855,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static class XmlArray {
-        public static void writeXml(Collection collection, String name, XmlStringBuilder builder, boolean parentTextFound) {
+        public static void writeXml(Collection collection, String name, XmlStringBuilder builder,
+            boolean parentTextFound) {
             if (collection == null) {
                 builder.append(NULL);
                 return;
@@ -1873,7 +1874,8 @@ public class U<T> extends com.github.underscore.U<T> {
             }
         }
 
-        private static void writeXml(Collection collection, XmlStringBuilder builder, String name, boolean parentTextFound) {
+        private static void writeXml(Collection collection, XmlStringBuilder builder, String name,
+            boolean parentTextFound) {
             Iterator iter = collection.iterator();
             while (iter.hasNext()) {
                 Object value = iter.next();

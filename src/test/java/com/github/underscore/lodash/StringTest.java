@@ -990,7 +990,8 @@ _.repeat('abc', 0);
             + "    <element>First item</element>\n    <element>Second item</element>\n  </element>\n</root>",
             U.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
-            + "    <__GE__>First item</__GE__>\n    <__GI__>Second item</__GI__>\n    <__GM__>null</__GM__>\n  </element>\n</root>",
+            + "    <__GE__>First item</__GE__>\n    <__GI__>Second item</__GI__>\n"
+            + "    <__GM__>null</__GM__>\n  </element>\n</root>",
             U.toXml(Arrays.asList(new LinkedHashMap() { {
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
