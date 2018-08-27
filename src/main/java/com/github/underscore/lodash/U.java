@@ -2053,17 +2053,19 @@ public class U<T> extends com.github.underscore.U<T> {
 
             List<XmlStringBuilder> elems = newArrayList();
             List<String> attrs = newArrayList();
-            Iterator iter = map.entrySet().iterator();
             int ident = builder.getIdent() + (name == null ? 0 : 2);
             boolean textFoundSave = false;
             boolean textFound = false;
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
+            List<Map.Entry> entries = newArrayList(map.entrySet());
+            for (int index = 0; index < entries.size(); index += 1) {
+                Map.Entry entry = entries.get(index);
                 if (String.valueOf(entry.getKey()).startsWith("-") && entry.getValue() instanceof String) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1))
                         + "=\"" + escape((String) entry.getValue()) + "\"");
                 } else if ("#text".equals(escape(String.valueOf(entry.getKey())))) {
-                    textFoundSave = true;
+                    if (elems.isEmpty()) {
+                        textFoundSave = true;
+                    }
                     textFound = true;
                     final String value;
                     if (entry.getValue() instanceof List) {
@@ -2076,7 +2078,7 @@ public class U<T> extends com.github.underscore.U<T> {
                     XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
                     XmlArray.writeXml((List) entry.getValue(), localBuilder,
                         XmlValue.escapeName(String.valueOf(entry.getKey())), textFound);
-                    if (iter.hasNext()) {
+                    if (index < entries.size() - 1) {
                         localBuilder.newLine();
                     }
                     elems.add(localBuilder);
@@ -2085,7 +2087,8 @@ public class U<T> extends com.github.underscore.U<T> {
                     XmlValue.writeXml(entry.getValue(),
                         XmlValue.escapeName(String.valueOf(entry.getKey())), localBuilder, textFound);
                     textFound = false;
-                    if (iter.hasNext()) {
+                    if (index < entries.size() - 1
+                            && !"#text".equals(String.valueOf(entries.get(index + 1).getKey()))) {
                         localBuilder.newLine();
                     }
                     elems.add(localBuilder);
