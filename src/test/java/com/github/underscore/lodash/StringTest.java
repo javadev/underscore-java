@@ -1589,6 +1589,17 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson7() {
+        final String json = "{\n  \"widget\": {\n    \"debug\": \"on\",\n    \"#text\": \"выапвыап\\n  пвыапыв\",\n"
+                + "    \"image\": {\n      \"alignment\": \"center\"\n    }\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<widget>\n  <debug>on</debug>выапвыап\n  пвыапыв<image>\n"
+                + "    <alignment>center</alignment>\n  </image>\n</widget>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
