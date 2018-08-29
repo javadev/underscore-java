@@ -3535,28 +3535,6 @@ public class U<T> extends com.github.underscore.U<T> {
         return createPermutationWithRepetition((List<T>) value(), permutationLength);
     }
 
-    public static List<Entry> findByName(final Entry entry, final String name) {
-        final List<Entry> result = new ArrayList<Entry>();
-        final Queue<Entry> allFiles = new LinkedList<Entry>();
-        allFiles.add(entry);
-        while (!allFiles.isEmpty()) {
-            final Entry localEntry = allFiles.poll();
-            if (localEntry instanceof Directory) {
-                final List<Entry> files = ((Directory) localEntry).getContents();
-                for (final Entry innerFile : files) {
-                    if (innerFile instanceof Directory) {
-                        allFiles.add(innerFile);
-                    } else if (innerFile.getName().equals(name)) {
-                        result.add(innerFile);
-                    }
-                }
-            } else if (localEntry.getName().equals(name)) {
-                result.add(localEntry);
-            }
-        }
-        return result;
-    }
-
     @SuppressWarnings("unchecked")
     public static String jsonToXml(String json) {
         Object result = fromJson(json);
