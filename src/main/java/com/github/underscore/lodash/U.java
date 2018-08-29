@@ -2074,6 +2074,8 @@ public class U<T> extends com.github.underscore.U<T> {
                         value = (String) entry.getValue();
                     }
                     elems.add(new XmlStringBuilderWithoutHeader(ident).append(escape(value)));
+                } else if ("#comment".equals(escape(String.valueOf(entry.getKey())))) {
+                    addComment(entry, ident, index, entries, elems);
                 } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
                     XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
                     XmlArray.writeXml((List) entry.getValue(), localBuilder,
@@ -2112,6 +2114,27 @@ public class U<T> extends com.github.underscore.U<T> {
                     builder.newLine().fillSpaces();
                 }
                 builder.append("</").append(name).append(">");
+            }
+        }
+
+        private static void addComment(Map.Entry entry, int ident, int index, List<Map.Entry> entries,
+                List<XmlStringBuilder> elems) {
+            if (entry.getValue() instanceof List) {
+                for (Iterator iterator = ((List) entry.getValue()).iterator(); iterator.hasNext(); ) {
+                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident)
+                            .fillSpaces().append("<!--").append((String) iterator.next()).append("-->");
+                    if (iterator.hasNext() || index < entries.size() - 1) {
+                        localBuilder.newLine();
+                    }
+                    elems.add(localBuilder);
+                }
+            } else {
+                XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident)
+                        .fillSpaces().append("<!--").append((String) entry.getValue()).append("-->");
+                if (index < entries.size() - 1) {
+                    localBuilder.newLine();
+                }
+                elems.add(localBuilder);
             }
         }
     }

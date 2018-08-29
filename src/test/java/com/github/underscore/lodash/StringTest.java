@@ -1600,6 +1600,34 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson8() {
+        final String json = "{\n  \"element\": {\n    \"#comment\": \" comment &&\"\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<element>\n  <!-- comment &&-->\n</element>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String json2 = "{\n  \"element\": {\n    \"#comment\": \" comment \",\n    \"id\": \"1\"\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<element>\n  <!-- comment -->\n  <id>1</id>\n</element>",
+                U.toXml((Map<String, Object>) U.fromJson(json2)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson9() {
+        final String json = "{\n  \"element\": {\n    \"#comment\": [\n      \" comment1 \",\n"
+                + "      \" comment2 \"\n    ]\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<element>\n  <!-- comment1 -->\n  <!-- comment2 -->\n</element>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String json2 = "{\n  \"element\": {\n    \"#comment\": [\n      \" comment1 \",\n"
+                + "      \" comment2 \"\n    ]\n,    \"id\": \"1\"\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<element>\n  <!-- comment1 -->\n  <!-- comment2 -->\n  <id>1</id>\n</element>",
+                U.toXml((Map<String, Object>) U.fromJson(json2)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
