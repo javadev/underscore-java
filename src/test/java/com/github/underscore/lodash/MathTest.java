@@ -242,21 +242,6 @@ System.out.println("Sum of letters in words starting with E... " + sum);
                    + " [orange, orange, orange]]", resultChain.toString());
     }
 
-    @Test
-    public void findByName() {
-        File file = new File("name", null, 0L);
-        assertEquals(1, U.findByName(file, "name").size());
-        assertEquals(0, U.findByName(file, "name1").size());
-        Directory directory = new Directory("name", null);
-        directory.addEntry(file);
-        assertEquals(1, U.findByName(directory, "name").size());
-        Directory directory2 = new Directory("name", null);
-        directory2.addEntry(file);
-        directory.addEntry(directory2);
-        assertEquals(2, U.findByName(directory, "name").size());
-        assertEquals(0, U.findByName(directory, "name1").size());
-    }
-
     @SuppressWarnings("unchecked")
     @Test
     public void main() {
