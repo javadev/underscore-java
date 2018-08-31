@@ -1614,15 +1614,28 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toXmlFromJson9() {
-        final String json = "{\n  \"element\": {\n    \"#comment\": [\n      \" comment1 \",\n"
-                + "      \" comment2 \"\n    ]\n  }\n}";
+        final String json = "{\n  \"element\": {\n    \"#cdata-section\": [\n      \" 1 \",\n"
+                + "      \" 2 \"\n    ]\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<element>\n  <!-- comment1 -->\n  <!-- comment2 -->\n</element>",
+                + "<element>\n  <![CDATA[ 1 ]]>\n  <![CDATA[ 2 ]]>\n</element>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
-        final String json2 = "{\n  \"element\": {\n    \"#comment\": [\n      \" comment1 \",\n"
-                + "      \" comment2 \"\n    ]\n,    \"id\": \"1\"\n  }\n}";
+        final String json2 = "{\n  \"element\": {\n    \"#cdata-section\": [\n      \" 1 \",\n"
+                + "      \" 2 \"\n    ]\n,    \"id\": \"1\"\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<element>\n  <!-- comment1 -->\n  <!-- comment2 -->\n  <id>1</id>\n</element>",
+                + "<element>\n  <![CDATA[ 1 ]]>\n  <![CDATA[ 2 ]]>\n  <id>1</id>\n</element>",
+                U.toXml((Map<String, Object>) U.fromJson(json2)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson10() {
+        final String json = "{\n  \"element\": {\n    \"#cdata-section\": \"&&\"\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<element>\n  <![CDATA[&&]]>\n</element>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String json2 = "{\n  \"element\": {\n    \"#cdata-section\": \"&&\"\n,\n    \"id\": \"1\"\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<element>\n  <![CDATA[&&]]>\n  <id>1</id>\n</element>",
                 U.toXml((Map<String, Object>) U.fromJson(json2)));
     }
 

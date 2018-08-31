@@ -2075,7 +2075,9 @@ public class U<T> extends com.github.underscore.U<T> {
                     }
                     elems.add(new XmlStringBuilderWithoutHeader(ident).append(escape(value)));
                 } else if ("#comment".equals(escape(String.valueOf(entry.getKey())))) {
-                    addComment(entry, ident, index, entries, elems);
+                    addComment(entry, ident, index < entries.size() - 1, elems, "<!--", "-->");
+                } else if ("#cdata-section".equals(escape(String.valueOf(entry.getKey())))) {
+                    addComment(entry, ident, index < entries.size() - 1, elems, "<![CDATA[", "]]>");
                 } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
                     XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
                     XmlArray.writeXml((List) entry.getValue(), localBuilder,
@@ -2117,25 +2119,27 @@ public class U<T> extends com.github.underscore.U<T> {
             }
         }
 
-        private static void addComment(Map.Entry entry, int ident, int index, List<Map.Entry> entries,
-                List<XmlStringBuilder> elems) {
+        private static void addComment(Map.Entry entry, int ident, boolean addNewLine,
+                List<XmlStringBuilder> elems, String openElement, String closeElement) {
             if (entry.getValue() instanceof List) {
                 for (Iterator iterator = ((List) entry.getValue()).iterator(); iterator.hasNext(); ) {
-                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident)
-                            .fillSpaces().append("<!--").append((String) iterator.next()).append("-->");
-                    if (iterator.hasNext() || index < entries.size() - 1) {
-                        localBuilder.newLine();
-                    }
-                    elems.add(localBuilder);
+                    addCommentValue(ident, (String) iterator.next(),
+                            iterator.hasNext() || addNewLine, elems, openElement, closeElement);
                 }
             } else {
-                XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident)
-                        .fillSpaces().append("<!--").append((String) entry.getValue()).append("-->");
-                if (index < entries.size() - 1) {
-                    localBuilder.newLine();
-                }
-                elems.add(localBuilder);
+                addCommentValue(ident, (String) entry.getValue(), addNewLine, elems,
+                        openElement, closeElement);
             }
+        }
+
+        private static void addCommentValue(int ident, String value, boolean addNewLine,
+                List<XmlStringBuilder> elems, String openElement, String closeElement) {
+            XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident)
+                    .fillSpaces().append(openElement).append(value).append(closeElement);
+            if (addNewLine) {
+                localBuilder.newLine();
+            }
+            elems.add(localBuilder);
         }
     }
 
