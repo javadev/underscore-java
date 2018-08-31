@@ -1673,8 +1673,11 @@ public class U<T> extends com.github.underscore.U<T> {
 
         public static String unescapeName(final String name) {
             final int length = name.length();
-            if (length == 0) {
+            if (length == 0 || "__EE__EMPTY__EE__".equals(name)) {
                 return "";
+            }
+            if ("-__EE__EMPTY__EE__".equals(name)) {
+                return "-";
             }
             StringBuilder result = new StringBuilder();
             int underlineCount = 0;
@@ -2222,9 +2225,9 @@ public class U<T> extends com.github.underscore.U<T> {
         public static String escapeName(String name) {
             final int length = name.length();
             if (length == 0) {
-                return "";
+                return "__EE__EMPTY__EE__";
             }
-            StringBuilder result = new StringBuilder();
+            final StringBuilder result = new StringBuilder();
             char ch = name.charAt(0);
             if (com.sun.org.apache.xerces.internal.util.XMLChar.isNameStart(ch)) {
                 result.append(ch);
