@@ -2062,9 +2062,10 @@ public class U<T> extends com.github.underscore.U<T> {
             List<Map.Entry> entries = newArrayList(map.entrySet());
             for (int index = 0; index < entries.size(); index += 1) {
                 Map.Entry entry = entries.get(index);
-                if (String.valueOf(entry.getKey()).startsWith("-") && entry.getValue() instanceof String) {
+                if (String.valueOf(entry.getKey()).startsWith("-") && !(entry.getValue() instanceof Map)
+                    && !(entry.getValue() instanceof List)) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1))
-                        + "=\"" + escape((String) entry.getValue()) + "\"");
+                        + "=\"" + escape(String.valueOf(entry.getValue())) + "\"");
                 } else if ("#text".equals(escape(String.valueOf(entry.getKey())))) {
                     if (elems.isEmpty()) {
                         textFoundSave = true;

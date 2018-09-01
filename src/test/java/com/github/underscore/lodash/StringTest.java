@@ -1474,6 +1474,7 @@ _.repeat('abc', 0);
                 + "      \"-name\": \"sun1\",\n"
                 + "      \"-src\": \"Images\\/Sun.png\",\n"
                 + "      \"-test\": [],\n"
+                + "      \"-test2\": {},\n"
                 + "      \"hOffset\": {\n"
                 + "        \"#text\": \"250\",\n"
                 + "        \"unit\": \"mm\"\n"
@@ -1495,6 +1496,8 @@ _.repeat('abc', 0);
                 + "  <image name=\"sun1\" src=\"Images/Sun.png\">\n"
                 + "    <__FU__test>\n"
                 + "    </__FU__test>\n"
+                + "    <__FU__test2>\n"
+                + "    </__FU__test2>\n"
                 + "    <hOffset>250<unit>mm</unit>\n"
                 + "    </hOffset>\n"
                 + "    <vOffset>250</vOffset>\n"
@@ -1657,7 +1660,7 @@ _.repeat('abc', 0);
     public void toXmlFromJson11() {
         final String json = "{\n  \"-id\": 1\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<root>\n  <__FU__id>1</__FU__id>\n</root>",
+                + "<root id=\"1\">\n</root>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
