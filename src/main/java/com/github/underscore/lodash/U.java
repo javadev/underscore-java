@@ -2274,9 +2274,6 @@ public class U<T> extends com.github.underscore.U<T> {
                 case '>':
                     sb.append("&gt;");
                     break;
-                case '\\':
-                    sb.append("\\\\");
-                    break;
                 case '\b':
                     sb.append("\\b");
                     break;

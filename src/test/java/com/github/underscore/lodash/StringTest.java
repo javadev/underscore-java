@@ -1016,7 +1016,7 @@ _.repeat('abc', 0);
         assertEquals("&amp;", U.XmlValue.escape("&"));
         assertEquals("&lt;", U.XmlValue.escape("<"));
         assertEquals("&gt;", U.XmlValue.escape(">"));
-        assertEquals("\\\\", U.XmlValue.escape("\\"));
+        assertEquals("\\", U.XmlValue.escape("\\"));
         assertEquals("\\b", U.XmlValue.escape("\b"));
         assertEquals("\\f", U.XmlValue.escape("\f"));
         assertEquals("\n", U.XmlValue.escape("\n"));
