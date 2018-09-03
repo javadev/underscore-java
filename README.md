@@ -18,6 +18,8 @@ underscore-java
 [![Code Scene](https://img.shields.io/badge/codescene-analyzed-brightgreen.svg)](https://codescene.io/projects/1173/jobs/latest-successful/results)
 [![BCH compliance](https://bettercodehub.com/edge/badge/javadev/underscore-java?branch=master)](https://bettercodehub.com/)
 [![](http://javadoc-badge.appspot.com/com.github.javadev/underscore.svg?label=JavaDocs)](http://www.javadoc.io/doc/com.github.javadev/underscore/)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=alert_status)](https://sonarcloud.io/dashboard/index/javadev_underscore-java)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=coverage)](https://sonarcloud.io/component_measures?id=javadev_underscore-java&metric=coverage)
 
 [![Join the chat at https://gitter.im/javadev/underscore-java](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/javadev/underscore-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
