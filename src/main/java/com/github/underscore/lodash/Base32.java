@@ -47,11 +47,11 @@ public final class Base32 {
         }
     }
 
-    public static String decode(final String encoded) throws DecodingException {
+    public static String decode(final String encoded) {
         return new String(INSTANCE.decodeInternal(encoded), UTF_8);
     }
 
-    private byte[] decodeInternal(final String encoded) throws DecodingException {
+    private byte[] decodeInternal(final String encoded) {
         if (encoded.length() == 0) {
             return new byte[0];
         }

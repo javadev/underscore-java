@@ -3261,7 +3261,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
         @Override
         public java.net.Socket createSocket(String arg0, int arg1, java.net.InetAddress arg2, int arg3)
-                throws java.io.IOException, java.net.UnknownHostException {
+                throws java.io.IOException {
             return getSSLContext().getSocketFactory().createSocket(arg0, arg1,
                     arg2, arg3);
         }
@@ -3272,8 +3272,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         @Override
-        public java.net.Socket createSocket(String arg0, int arg1) throws java.io.IOException,
-                java.net.UnknownHostException {
+        public java.net.Socket createSocket(String arg0, int arg1) throws java.io.IOException {
             return getSSLContext().getSocketFactory().createSocket(arg0, arg1);
         }
 
@@ -3299,8 +3298,8 @@ public class U<T> extends com.github.underscore.U<T> {
                 javax.net.ssl.SSLContext context = javax.net.ssl.SSLContext.getInstance("SSL");
                 context.init(null, new javax.net.ssl.TrustManager[] { MyX509TrustManager.manger }, null);
                 return context;
-            } catch (Exception e) {
-                return null;
+            } catch (Exception ex) {
+                throw new UnsupportedOperationException(ex);
             }
         }
 

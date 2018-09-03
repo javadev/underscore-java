@@ -1247,7 +1247,7 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <E> E[] distinct(final E ... array) {
-        return (E[]) uniq(array);
+        return uniq(array);
     }
 
     public static <K, E> Collection<E> distinctBy(final Iterable<E> iterable, final Function<E, K> func) {
@@ -1256,7 +1256,7 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <K, E> E[] distinctBy(final E[] array, final Function<E, K> func) {
-        return (E[]) uniq(array, func);
+        return uniq(array, func);
     }
 
     @SuppressWarnings("unchecked")
