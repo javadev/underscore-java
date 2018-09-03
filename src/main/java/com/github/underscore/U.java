@@ -1490,13 +1490,12 @@ public class U<T> {
 
     public static int[] range(int start, int stop, int step) {
         int[] array = new int[Math.abs(stop - start) / Math.abs(step)];
-        int index2 = 0;
         if (start < stop) {
-            for (int index = start; index < stop; index += step, index2 += 1) {
+            for (int index = start, index2 = 0; index < stop; index += step, index2 += 1) {
                 array[index2] = index;
             }
         } else {
-            for (int index = start; index > stop; index += step, index2 += 1) {
+            for (int index = start, index2 = 0; index > stop; index += step, index2 += 1) {
                 array[index2] = index;
             }
         }
