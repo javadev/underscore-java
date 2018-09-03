@@ -1297,7 +1297,7 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <E> List<E> intersection(final List<E> list, final List<E> ... lists) {
-        final Stack<List<E>> stack = new Stack<List<E>>();
+        final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(list);
         for (int index = 0; index < lists.length; index += 1) {
           stack.push(intersection(stack.peek(), lists[index]));
@@ -1312,7 +1312,7 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <E> E[] intersection(final E[] ... arrays) {
-        final Stack<List<E>> stack = new Stack<List<E>>();
+        final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(Arrays.asList(arrays[0]));
         for (int index = 1; index < arrays.length; index += 1) {
           stack.push(intersection(stack.peek(), Arrays.asList(arrays[index])));
@@ -1332,7 +1332,7 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <E> List<E> difference(final List<E> list, final List<E> ... lists) {
-        final Stack<List<E>> stack = new Stack<List<E>>();
+        final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(list);
         for (int index = 0; index < lists.length; index += 1) {
           stack.push(difference(stack.peek(), lists[index]));
@@ -1347,7 +1347,7 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <E> E[] difference(final E[] ... arrays) {
-        final Stack<List<E>> stack = new Stack<List<E>>();
+        final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(Arrays.asList(arrays[0]));
         for (int index = 1; index < arrays.length; index += 1) {
           stack.push(difference(stack.peek(), Arrays.asList(arrays[index])));
