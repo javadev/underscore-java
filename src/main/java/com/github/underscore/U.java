@@ -2724,13 +2724,12 @@ public class U<T> {
         final int delayMilliseconds) {
         final java.util.concurrent.ScheduledExecutorService scheduler =
             java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
-        final java.util.concurrent.ScheduledFuture future = scheduler.scheduleAtFixedRate(
+        return scheduler.scheduleAtFixedRate(
             new Runnable() {
                 public void run() {
                     function.get();
                 }
             }, delayMilliseconds, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
-        return future;
     }
 
     public static void clearInterval(java.util.concurrent.ScheduledFuture scheduledFuture) {
