@@ -117,16 +117,14 @@ public class U<T> {
             String result = template;
             for (final Map.Entry<K, V> element : value.entrySet()) {
                 result = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + ((Map.Entry) element).getKey()
-                    + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                    "\\s*\\Q" + element.getKey()
+                    + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(element.getValue()));
                 result = java.util.regex.Pattern.compile(escape.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + ((Map.Entry) element).getKey()
-                    + "\\E\\s*")).matcher(result).replaceAll(escape(String.valueOf(((Map.Entry) element)
-                    .getValue())));
+                    "\\s*\\Q" + element.getKey()
+                    + "\\E\\s*")).matcher(result).replaceAll(escape(String.valueOf(element.getValue())));
                 result = java.util.regex.Pattern.compile(evaluate.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + ((Map.Entry) element).getKey()
-                    + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(((Map.Entry) element)
-                    .getValue()));
+                    "\\s*\\Q" + element.getKey()
+                    + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(element.getValue()));
             }
             return result;
         }
@@ -140,19 +138,19 @@ public class U<T> {
             final List<String> notFound = new ArrayList<String>();
             final List<String> valueKeys = new ArrayList<String>();
             for (final Map.Entry<K, V> element : value.entrySet()) {
-                final String key = "" + ((Map.Entry) element).getKey();
+                final String key = "" + element.getKey();
                 java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
                     "\\s*\\Q" + key + "\\E\\s*")).matcher(result);
                 boolean isFound = matcher.find();
-                result = matcher.replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                result = matcher.replaceAll(String.valueOf(element.getValue()));
                 matcher = java.util.regex.Pattern.compile(escape.replace(ALL_SYMBOLS,
                     "\\s*\\Q" + key + "\\E\\s*")).matcher(result);
                 isFound |= matcher.find();
-                result = matcher.replaceAll(escape(String.valueOf(((Map.Entry) element).getValue())));
+                result = matcher.replaceAll(escape(String.valueOf(element.getValue())));
                 matcher = java.util.regex.Pattern.compile(evaluate.replace(ALL_SYMBOLS,
                     "\\s*\\Q" + key + "\\E\\s*")).matcher(result);
                 isFound |= matcher.find();
-                result = matcher.replaceAll(String.valueOf(((Map.Entry) element).getValue()));
+                result = matcher.replaceAll(String.valueOf(element.getValue()));
                 if (!isFound) {
                     notFound.add(key);
                 }
