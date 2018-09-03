@@ -21,3 +21,4 @@ before_script:
 after_success:
   - codecov
   - python <(curl -s https://raw.githubusercontent.com/TouK/sputnik-ci/master/sputnik-ci.py)
+  - mvn sonar:sonar -Dsonar.projectKey=javadev_underscore-java -Dsonar.organization=javadev-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=ae9ca1a96d65855cf962d904b354cc1ceb1b584d
