@@ -1573,9 +1573,8 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<image name=\"sun1\" src=\"Images/Sun.png\">\n"
                 + "  <hOffset>\n"
-                + "\t\t\t\t2501\n"
-                + "    <unit>mm</unit>\n"
-                + "  </hOffset>\n"
+                + "\t\t\t\t250<unit>mm</unit>1\n"
+                + "    </hOffset>\n"
                 + "</image>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
     }
@@ -1662,6 +1661,28 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<root id=\"1\">\n</root>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson12() {
+        final String json = "{\n  \"a\": {\n    \"#text\": \"\\ntext\\n\",\n    \"b\": [\n"
+            + "      {\n      },\n      {\n      }\n    ]\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<a>\ntext\n<b>\n  </b>\n  <b>\n  </b>\n</a>",
+            U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson13() {
+        final String json = "{\n  \"a\": {\n    \"#text\": [\n"
+            + "      \"\\ntest\\n\",\n      \"\\ntest\\n\"\n"
+            + "    ],\n    \"b\": {\n    },\n"
+            + "    \"c\": {\n    }\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<a>\ntest\n<b>\n  </b>\ntest\n<c>\n  </c>\n</a>",
+            U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
     @SuppressWarnings("unchecked")
