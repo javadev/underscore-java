@@ -2080,7 +2080,8 @@ public class U<T> extends com.github.underscore.U<T> {
                             escape((String) entry.getValue())));
                     }
                 } else if ("#comment".equals(escape(String.valueOf(entry.getKey())))) {
-                    addComment(entry, ident, index < entries.size() - 1, elems, "<!--", "-->");
+                    addComment(entry, ident, index < entries.size() - 1
+                        && !"#text".equals(String.valueOf(entries.get(index + 1).getKey())), elems, "<!--", "-->");
                 } else if ("#cdata-section".equals(escape(String.valueOf(entry.getKey())))) {
                     addComment(entry, ident, index < entries.size() - 1, elems, "<![CDATA[", "]]>");
                 } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {

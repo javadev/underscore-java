@@ -1687,6 +1687,16 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson14() {
+        final String json = "{\n  \"a\": {\n    \"#comment\": \"&&\",\n"
+        + "    \"#text\": \"1\"\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<a>\n  <!--&&-->1</a>",
+            U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
