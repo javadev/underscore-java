@@ -1887,6 +1887,7 @@ public class U<T> extends com.github.underscore.U<T> {
                             + NULL + "</" + (name == null ? "element" : name) + ">");
                 } else {
                     XmlValue.writeXml(value, name == null ? "element" : name, builder, parentTextFound);
+                    parentTextFound = false;
                 }
                 if (iter.hasNext()) {
                     builder.newLine();
@@ -2055,10 +2056,10 @@ public class U<T> extends com.github.underscore.U<T> {
             }
 
             List<XmlStringBuilder> elems = newArrayList();
+            List<XmlStringBuilder> textElems = newArrayList();
             List<String> attrs = newArrayList();
             int ident = builder.getIdent() + (name == null ? 0 : 2);
             boolean textFoundSave = false;
-            boolean textFound = false;
             List<Map.Entry> entries = newArrayList(map.entrySet());
             for (int index = 0; index < entries.size(); index += 1) {
                 Map.Entry entry = entries.get(index);
@@ -2070,14 +2071,14 @@ public class U<T> extends com.github.underscore.U<T> {
                     if (elems.isEmpty()) {
                         textFoundSave = true;
                     }
-                    textFound = true;
-                    final String value;
                     if (entry.getValue() instanceof List) {
-                        value = U.join((List) entry.getValue(), "");
+                        for (Object value : (List) entry.getValue()) {
+                            textElems.add(new XmlStringBuilderWithoutHeader(ident).append(escape((String) value)));
+                        }
                     } else {
-                        value = (String) entry.getValue();
+                        textElems.add(new XmlStringBuilderWithoutHeader(ident).append(
+                            escape((String) entry.getValue())));
                     }
-                    elems.add(new XmlStringBuilderWithoutHeader(ident).append(escape(value)));
                 } else if ("#comment".equals(escape(String.valueOf(entry.getKey())))) {
                     addComment(entry, ident, index < entries.size() - 1, elems, "<!--", "-->");
                 } else if ("#cdata-section".equals(escape(String.valueOf(entry.getKey())))) {
@@ -2085,22 +2086,31 @@ public class U<T> extends com.github.underscore.U<T> {
                 } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
                     XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
                     XmlArray.writeXml((List) entry.getValue(), localBuilder,
-                        XmlValue.escapeName(String.valueOf(entry.getKey())), textFound);
+                        XmlValue.escapeName(String.valueOf(entry.getKey())), !textElems.isEmpty());
                     if (index < entries.size() - 1) {
                         localBuilder.newLine();
+                    }
+                    if (!textElems.isEmpty()) {
+                        elems.add(textElems.remove(0));
                     }
                     elems.add(localBuilder);
                 } else {
                     XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
                     XmlValue.writeXml(entry.getValue(),
-                        XmlValue.escapeName(String.valueOf(entry.getKey())), localBuilder, textFound);
-                    textFound = false;
+                        XmlValue.escapeName(String.valueOf(entry.getKey())), localBuilder, !textElems.isEmpty());
+                    if (!textElems.isEmpty()) {
+                        elems.add(textElems.remove(0));
+                    }
                     if (index < entries.size() - 1
-                            && !"#text".equals(String.valueOf(entries.get(index + 1).getKey()))) {
+                            && !"#text".equals(String.valueOf(entries.get(index + 1).getKey()))
+                            && textElems.isEmpty()) {
                         localBuilder.newLine();
                     }
                     elems.add(localBuilder);
                 }
+            }
+            for (XmlStringBuilder localBuilder : textElems) {
+                elems.add(localBuilder);
             }
             if (name != null) {
                 if (!parentTextFound) {
@@ -2116,7 +2126,7 @@ public class U<T> extends com.github.underscore.U<T> {
             }
             if (name != null) {
                 builder.decIdent();
-                if (!textFound) {
+                if (textElems.isEmpty()) {
                     builder.newLine().fillSpaces();
                 }
                 builder.append("</").append(name).append(">");
