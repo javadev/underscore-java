@@ -1483,7 +1483,7 @@ public class U<T> {
     }
 
     public static int[] range(int start, int stop) {
-        return range(start, stop, 1);
+        return range(start, stop, start < stop ? 1 : -1);
     }
 
     public static int[] range(int start, int stop, int step) {

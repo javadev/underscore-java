@@ -742,6 +742,8 @@ _.range(0);
         assertArrayEquals(new int[] {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}, result4);
         final int[] result5 = U.range(0);
         assertArrayEquals(new int[] {}, result5);
+        final int[] result6 = U.range(8, 5);
+        assertArrayEquals(new int[] {8, 7, 6}, result6);
     }
 
 /*
