@@ -3270,7 +3270,7 @@ public class U<T> extends com.github.underscore.U<T> {
         return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null);
     }
 
-    static class BaseHttpSSLSocketFactory extends javax.net.ssl.SSLSocketFactory {
+    private static class BaseHttpSSLSocketFactory extends javax.net.ssl.SSLSocketFactory {
         private javax.net.ssl.SSLContext getSSLContext() {
             return createEasySSLContext();
         }
@@ -3588,7 +3588,7 @@ public class U<T> extends com.github.underscore.U<T> {
     public static String jsonToXml(String json) {
         Object result = fromJson(json);
         if (result instanceof Map) {
-            return toXml((Map<String, Object>) result);
+            return toXml((Map) result);
         }
         return toXml((List) result);
     }
