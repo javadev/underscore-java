@@ -69,9 +69,7 @@ public class U<T> extends com.github.underscore.U<T> {
         put("\u00de", "Th"); put("\u00fe", "th");
         put("\u00df", "ss");
     } };
-    private static final Map<String, List<String>> DEFAULT_HEADER_FIELDS = new HashMap<String, List<String>>() { {
-        put("Content-Type", Arrays.asList("application/json", "charset=utf-8"));
-    } };
+    private static final Map<String, List<String>> DEFAULT_HEADER_FIELDS = new HashMap<String, List<String>>();
     private static final Set<String> SUPPORTED_HTTP_METHODS = new HashSet<String>(
         Arrays.asList("GET", "POST", "PUT", "DELETE"));
     private static final int BUFFER_LENGTH_1024 = 1024;
@@ -80,6 +78,10 @@ public class U<T> extends com.github.underscore.U<T> {
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
     private static java.util.regex.Pattern reWords = java.util.regex.Pattern.compile(
         upper + "+(?=" + upper + lower + ")|" + upper + "?" + lower + "|" + upper + "+|[0-9]+");
+
+    static {
+        DEFAULT_HEADER_FIELDS.put("Content-Type", Arrays.asList("application/json", "charset=utf-8"));
+    }
 
     public U(final Iterable<T> iterable) {
         super(iterable);
@@ -2778,18 +2780,28 @@ public class U<T> extends com.github.underscore.U<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static Object fromXml(final String xml) {
+        if (xml == null) {
+            return null;
+        }
         try {
             final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes("UTF-8"));
             final javax.xml.parsers.DocumentBuilderFactory factory =
                 javax.xml.parsers.DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
             final org.w3c.dom.Document document = factory.newDocumentBuilder().parse(stream);
-            return createMap(document, new Function<Object, Object>() {
+            final Object result = createMap(document, new Function<Object, Object>() {
                 public Object apply(Object object) {
                     return object;
                 }
             }, Collections.<String, Object>emptyMap());
+            if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
+                && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
+                || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
+                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
+            }
+            return result;
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
@@ -3583,6 +3595,10 @@ public class U<T> extends com.github.underscore.U<T> {
 
     @SuppressWarnings("unchecked")
     public static String xmlToJson(String xml) {
-        return toJson((Map<String, Object>) fromXml(xml));
+        Object result = fromXml(xml);
+        if (result instanceof Map) {
+            return toJson((Map) result);
+        }
+        return toJson((List) result);
     }
 }

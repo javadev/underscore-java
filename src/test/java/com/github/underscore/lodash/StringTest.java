@@ -36,6 +36,7 @@ import java.util.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -1333,10 +1334,8 @@ _.repeat('abc', 0);
         final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <FirstItem>1</FirstItem>\n  <SecondItem>2</SecondItem>\n</root>";
         assertEquals("{\n"
-            + "  \"root\": {\n"
-            + "    \"FirstItem\": \"1\",\n"
-            + "    \"SecondItem\": \"2\"\n"
-            + "  }\n"
+            + "  \"FirstItem\": \"1\",\n"
+            + "  \"SecondItem\": \"2\"\n"
             + "}",
             U.toJson((Map<String, Object>) U.fromXml(xml)));
     }
@@ -1439,6 +1438,22 @@ _.repeat('abc', 0);
                 + "  \"\": {\n"
                 + "    \"-\": \"1\"\n"
                 + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toJsonFromXml8() {
+        assertNull(U.fromXml(null));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toJsonFromXml9() {
+        final String xml = "<root>\n  <element>1</element>\n</root>";
+        assertEquals("{\n"
+                + "  \"root\": \"1\"\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
     }
@@ -1859,63 +1874,57 @@ _.repeat('abc', 0);
         + "\n</root>";
         assertEquals(
         "{"
-        + "\n  \"root\": {"
-        + "\n    \"Details\": {"
-        + "\n      \"detail-a\": {"
-        + "\n        \"detail\": ["
-        + "\n          \" attribute 1 of detail a \","
-        + "\n          \" attribute 2 of detail a \","
-        + "\n          \" attribute 3 of detail a \""
-        + "\n        ]"
-        + "\n      },"
-        + "\n      \"detail-b\": {"
-        + "\n        \"detail\": ["
-        + "\n          \" attribute 1 of detail b \","
-        + "\n          \" attribute 2 of detail b \""
-        + "\n        ]"
-        + "\n      }"
+        + "\n  \"Details\": {"
+        + "\n    \"detail-a\": {"
+        + "\n      \"detail\": ["
+        + "\n        \" attribute 1 of detail a \","
+        + "\n        \" attribute 2 of detail a \","
+        + "\n        \" attribute 3 of detail a \""
+        + "\n      ]"
+        + "\n    },"
+        + "\n    \"detail-b\": {"
+        + "\n      \"detail\": ["
+        + "\n        \" attribute 1 of detail b \","
+        + "\n        \" attribute 2 of detail b \""
+        + "\n      ]"
         + "\n    }"
         + "\n  }"
         + "\n}",
             U.toJson((Map<String, Object>) U.fromXml(string)));
         assertEquals(
         "{"
-        + "\n  \"root\": {"
-        + "\n    \"Details\": {"
-        + "\n      \"detail-a\": {"
-        + "\n        \"detail\": ["
-        + "\n          \" attribute 1 of detail a \","
-        + "\n          \" attribute 2 of detail a \","
-        + "\n          \" attribute 3 of detail a \""
-        + "\n        ]"
-        + "\n      },"
-        + "\n      \"detail-b\": {"
-        + "\n        \"detail\": ["
-        + "\n          \" attribute 1 of detail b \","
-        + "\n          \" attribute 2 of detail b \""
-        + "\n        ]"
-        + "\n      }"
+        + "\n  \"Details\": {"
+        + "\n    \"detail-a\": {"
+        + "\n      \"detail\": ["
+        + "\n        \" attribute 1 of detail a \","
+        + "\n        \" attribute 2 of detail a \","
+        + "\n        \" attribute 3 of detail a \""
+        + "\n      ]"
+        + "\n    },"
+        + "\n    \"detail-b\": {"
+        + "\n      \"detail\": ["
+        + "\n        \" attribute 1 of detail b \","
+        + "\n        \" attribute 2 of detail b \""
+        + "\n      ]"
         + "\n    }"
         + "\n  }"
         + "\n}",
             U.toJson((Map<String, Object>) new U(string).fromXml()));
         assertEquals(
         "{"
-        + "\n  \"root\": {"
-        + "\n    \"Details\": {"
-        + "\n      \"detail-a\": {"
-        + "\n        \"detail\": ["
-        + "\n          \" attribute 1 of detail a \","
-        + "\n          \" attribute 2 of detail a \","
-        + "\n          \" attribute 3 of detail a \""
-        + "\n        ]"
-        + "\n      },"
-        + "\n      \"detail-b\": {"
-        + "\n        \"detail\": ["
-        + "\n          \" attribute 1 of detail b \","
-        + "\n          \" attribute 2 of detail b \""
-        + "\n        ]"
-        + "\n      }"
+        + "\n  \"Details\": {"
+        + "\n    \"detail-a\": {"
+        + "\n      \"detail\": ["
+        + "\n        \" attribute 1 of detail a \","
+        + "\n        \" attribute 2 of detail a \","
+        + "\n        \" attribute 3 of detail a \""
+        + "\n      ]"
+        + "\n    },"
+        + "\n    \"detail-b\": {"
+        + "\n      \"detail\": ["
+        + "\n        \" attribute 1 of detail b \","
+        + "\n        \" attribute 2 of detail b \""
+        + "\n      ]"
         + "\n    }"
         + "\n  }"
         + "\n}",

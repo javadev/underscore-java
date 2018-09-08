@@ -572,7 +572,8 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
 
     @Test
     public void xmlToJson() {
-        assertEquals("{\n  \"a\": {\n  }\n}", U.xmlToJson("<a></a>"));
+        assertEquals("[\n  \"1\",\n  \"2\"\n]",
+            U.xmlToJson("<root><element>1</element><element>2</element></root>"));
         assertEquals("{\n  \"a\": {\n    \"b\": [\n      {\n      },\n      {\n      }\n    ]\n  }\n}",
             U.xmlToJson("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>"));
     }
@@ -813,12 +814,12 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         + "   <Gelco type=\"int\">26</Gelco>"
         + "</root>";
 
-        assertEquals("{root={Durapipe={-type=int, #text=1}, EXPLAIN={-type=int, #text=2}, "
+        assertEquals("{Durapipe={-type=int, #text=1}, EXPLAIN={-type=int, #text=2}, "
                 + "woods={-type=int, #text=2}, hanging={-type=int, #text=3}, "
                 + "hastily={-type=int, #text=2}, localized={-type=int, #text=1}, "
                 + "Schuster={-type=int, #text=5}, regularize={-type=int, #text=1}, "
                 + "LASR={-type=int, #text=1}, LAST={-type=int, #text=22}, "
-                + "Gelch={-type=int, #text=2}, Gelco={-type=int, #text=26}}}",
+                + "Gelch={-type=int, #text=2}, Gelco={-type=int, #text=26}}",
                 U.fromXml(xml).toString());
     }
 
