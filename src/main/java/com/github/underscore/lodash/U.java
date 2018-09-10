@@ -1002,6 +1002,9 @@ public class U<T> extends com.github.underscore.U<T> {
             result = add(result, item);
             count += 1;
         }
+        if (result == null) {
+            return 0d;
+        }
         return result.doubleValue() / count;
     }
 
@@ -1165,7 +1168,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static String pad(final String string, final int length, final String chars) {
         final String localString = baseToString(string);
-        final int strLength = string.length();
+        final int strLength = localString.length();
         if (strLength >= length) {
             return localString;
         }
@@ -1173,7 +1176,7 @@ public class U<T> extends com.github.underscore.U<T> {
         final int leftLength = (int) Math.floor(mid);
         final int rightLength = (int) Math.ceil(mid);
         final String localChars = createPadding("", rightLength, chars);
-        return localChars.substring(0, leftLength) + string + localChars;
+        return localChars.substring(0, leftLength) + localString + localChars;
     }
 
     private static Function3<String, Integer, String, String> createPadDir(final boolean fromRight) {

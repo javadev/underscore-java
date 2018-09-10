@@ -140,6 +140,8 @@ _.mean([0, 1, 2]);
         assertEquals("0.5", resultChain.toString());
         final Double result2 = U.mean(asList((long) 0, (long) 1, (long) 2));
         assertEquals("1.0", result2.toString());
+        final Double result3 = U.mean(Arrays.<Double>asList());
+        assertEquals("0.0", result3.toString());
     }
 
 /*
