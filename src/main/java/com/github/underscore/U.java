@@ -34,11 +34,7 @@ import java.util.*;
  */
 public class U<T> {
     private static final Map<String, Function<String, String>> FUNCTIONS = newLinkedHashMap();
-    private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<String, String>() { {
-        put("evaluate", "<%([\\s\\S]+?)%>");
-        put("interpolate", "<%=([\\s\\S]+?)%>");
-        put("escape", "<%-([\\s\\S]+?)%>");
-    } };
+    private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<String, String>();
     private static final int ARRAY_SIZE_2 = 2;
     private static final int MIN_PASSWORD_LENGTH_8 = 8;
     private static final long CAPACITY_SIZE_5 = 5L;
@@ -51,6 +47,12 @@ public class U<T> {
         java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*\\}");
     private final Iterable<T> iterable;
     private final Optional<String> string;
+
+    static {
+        TEMPLATE_SETTINGS.put("evaluate", "<%([\\s\\S]+?)%>");
+        TEMPLATE_SETTINGS.put("interpolate", "<%=([\\s\\S]+?)%>");
+        TEMPLATE_SETTINGS.put("escape", "<%-([\\s\\S]+?)%>");
+    }
 
     public U(final Iterable<T> iterable) {
         this.iterable = iterable;

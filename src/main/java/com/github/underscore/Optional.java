@@ -54,7 +54,7 @@ public final class Optional<T> {
         return !absent;
     }
 
-    public <F> Optional<? extends F> map(Function<? super T, ? extends F> mapper) {
+    public <F> Optional<F> map(Function<? super T, F> mapper) {
         U.checkNotNull(mapper);
         if (isPresent()) {
             return Optional.fromNullable(mapper.apply(arg));

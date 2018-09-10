@@ -1325,7 +1325,7 @@ public class U<T> extends com.github.underscore.U<T> {
             return localString;
         }
         final int end = length - omission.length();
-        final String result = string.substring(0, end);
+        final String result = localString.substring(0, end);
         return result + omission;
     }
 
