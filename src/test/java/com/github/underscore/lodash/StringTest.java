@@ -1712,6 +1712,40 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson15() {
+        final String json = "{  \"a\": {    \"b\": {      \"c\": {"
+        + "\"#cdata-section\": \"d\",        \"#text\": \"1\\n    \"      }    }  }}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<a>\n"
+        + "  <b>\n"
+        + "    <c>\n"
+        + "      <![CDATA[d]]>1\n"
+        + "    </c>\n"
+        + "  </b>\n"
+        + "</a>",
+            U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson16() {
+        final String json = "{  \"a\": {    \"b\": {      \"c\": [        {"
+        + "},        {        }      ],      \"#text\": \"\\n1\\n  \"    }  }}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<a>\n"
+        + "  <b>\n"
+        + "    <c>\n"
+        + "    </c>\n"
+        + "    <c>\n"
+        + "    </c>\n"
+        + "1\n"
+        + "  </b>\n"
+        + "</a>",
+            U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"

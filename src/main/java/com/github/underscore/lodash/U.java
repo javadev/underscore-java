@@ -2068,6 +2068,8 @@ public class U<T> extends com.github.underscore.U<T> {
             List<Map.Entry> entries = newArrayList(map.entrySet());
             for (int index = 0; index < entries.size(); index += 1) {
                 Map.Entry entry = entries.get(index);
+                final boolean addNewLine = index < entries.size() - 1
+                    && !"#text".equals(String.valueOf(entries.get(index + 1).getKey()));
                 if (String.valueOf(entry.getKey()).startsWith("-") && !(entry.getValue() instanceof Map)
                     && !(entry.getValue() instanceof List)) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1))
@@ -2085,15 +2087,14 @@ public class U<T> extends com.github.underscore.U<T> {
                             escape((String) entry.getValue())));
                     }
                 } else if ("#comment".equals(escape(String.valueOf(entry.getKey())))) {
-                    addComment(entry, ident, index < entries.size() - 1
-                        && !"#text".equals(String.valueOf(entries.get(index + 1).getKey())), elems, "<!--", "-->");
+                    addComment(entry, ident, addNewLine, elems, "<!--", "-->");
                 } else if ("#cdata-section".equals(escape(String.valueOf(entry.getKey())))) {
-                    addComment(entry, ident, index < entries.size() - 1, elems, "<![CDATA[", "]]>");
+                    addComment(entry, ident, addNewLine, elems, "<![CDATA[", "]]>");
                 } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
                     XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
                     XmlArray.writeXml((List) entry.getValue(), localBuilder,
                         XmlValue.escapeName(String.valueOf(entry.getKey())), !textElems.isEmpty());
-                    if (index < entries.size() - 1) {
+                    if (addNewLine) {
                         localBuilder.newLine();
                     }
                     if (!textElems.isEmpty()) {
@@ -2107,9 +2108,7 @@ public class U<T> extends com.github.underscore.U<T> {
                     if (!textElems.isEmpty()) {
                         elems.add(textElems.remove(0));
                     }
-                    if (index < entries.size() - 1
-                            && !"#text".equals(String.valueOf(entries.get(index + 1).getKey()))
-                            && textElems.isEmpty()) {
+                    if (addNewLine && textElems.isEmpty()) {
                         localBuilder.newLine();
                     }
                     elems.add(localBuilder);
