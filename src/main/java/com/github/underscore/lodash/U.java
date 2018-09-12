@@ -2056,7 +2056,7 @@ public class U<T> extends com.github.underscore.U<T> {
         @SuppressWarnings("unchecked")
         public static void writeXml(Map map, String name, XmlStringBuilder builder, boolean parentTextFound) {
             if (map == null) {
-                XmlValue.writeXml(map, name, builder, false);
+                XmlValue.writeXml(NULL, name, builder, false);
                 return;
             }
 
