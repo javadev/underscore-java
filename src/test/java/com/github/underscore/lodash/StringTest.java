@@ -771,7 +771,7 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void testDecode3() {
-        assertEquals("[\n\n]", U.toJson((List<Object>) U.fromJson("[]")));
+        assertEquals("[\n]", U.toJson((List<Object>) U.fromJson("[]")));
     }
 
     @SuppressWarnings("unchecked")
