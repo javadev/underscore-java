@@ -581,7 +581,28 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     @Test
     public void jsonToXml() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n</a>", U.jsonToXml("{\n  \"a\": {\n  }\n}"));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n\n</root>", U.jsonToXml("[]"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n</root>", U.jsonToXml("[]"));
+    }
+
+    @Test
+    public void formatXml() {
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n   <element>1</element>\n   <element>2</element>\n</root>",
+            U.formatXml("<root><element>1</element><element>2</element></root>"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n   <b>\n   </b>\n   <b>\n   </b>\n</a>",
+            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n    <b>\n    </b>\n    <b>\n    </b>\n</a>",
+            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", U.XmlStringBuilder.Step.FOUR_SPACES));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a><b></b><b></b></a>",
+            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", U.XmlStringBuilder.Step.COMPACT));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n\t<b>\n\t</b>\n\t<b>\n\t</b>\n</a>",
+            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", U.XmlStringBuilder.Step.TABS));
+    }
+
+    @Test
+    public void formatJson() {
+        assertEquals("{\n  \"a\": {\n  }\n}", U.formatJson("{\n  \"a\": {\n  }\n}"));
+        assertEquals("[\n]", U.formatJson("[]"));
     }
 
     @SuppressWarnings("unchecked")

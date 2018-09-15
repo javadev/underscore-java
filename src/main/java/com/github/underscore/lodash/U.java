@@ -1419,7 +1419,10 @@ public class U<T> extends com.github.underscore.U<T> {
 
             Iterator iter = collection.iterator();
 
-            builder.append('[').incIdent().newLine();
+            builder.append('[').incIdent();
+            if (!collection.isEmpty()) {
+                builder.newLine();
+            }
             while (iter.hasNext()) {
                 Object value = iter.next();
                 if (value == null) {
@@ -1793,16 +1796,38 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static class XmlStringBuilder {
+        public enum Step {
+            TWO_SPACES, THREE_SPACES, FOUR_SPACES, COMPACT, TABS;
+            public int getIdent() {
+                final int result;
+                if (this == TWO_SPACES) {
+                    result = 2;
+                } else if (this == THREE_SPACES) {
+                    result = 3;
+                } else if (this == FOUR_SPACES) {
+                    result = 4;
+                } else if (this == TABS) {
+                    result = 1;
+                } else {
+                    result = 0;
+                }
+                return result;
+            }
+        }
+
         protected final StringBuilder builder;
+        private final Step identStep;
         private int ident;
 
         public XmlStringBuilder() {
             builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
+            identStep = Step.TWO_SPACES;
             ident = 2;
         }
 
-        public XmlStringBuilder(StringBuilder builder, int ident) {
+        public XmlStringBuilder(StringBuilder builder, Step identStep, int ident) {
             this.builder = builder;
+            this.identStep = identStep;
             this.ident = ident;
         }
 
@@ -1813,28 +1838,34 @@ public class U<T> extends com.github.underscore.U<T> {
 
         public XmlStringBuilder fillSpaces() {
             for (int index = 0; index < ident; index += 1) {
-                builder.append(' ');
+                builder.append(identStep == Step.TABS ? '\t' : ' ');
             }
             return this;
         }
 
         public XmlStringBuilder incIdent() {
-            ident += 2;
+            ident += identStep.getIdent();
             return this;
         }
 
         public XmlStringBuilder decIdent() {
-            ident -= 2;
+            ident -= identStep.getIdent();
             return this;
         }
 
         public XmlStringBuilder newLine() {
-            builder.append("\n");
+            if (identStep != Step.COMPACT) {
+                builder.append("\n");
+            }
             return this;
         }
 
         public int getIdent() {
             return ident;
+        }
+
+        public Step getIdentStep() {
+            return identStep;
         }
 
         public String toString() {
@@ -1843,8 +1874,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
-        public XmlStringBuilderWithoutRoot() {
-            super(new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"), 0);
+        public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep) {
+            super(new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"), identStep, 0);
         }
 
         public String toString() {
@@ -1853,8 +1884,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static class XmlStringBuilderWithoutHeader extends XmlStringBuilder {
-        public XmlStringBuilderWithoutHeader(int ident) {
-            super(new StringBuilder(""), ident);
+        public XmlStringBuilderWithoutHeader(XmlStringBuilder.Step identStep, int ident) {
+            super(new StringBuilder(), identStep, ident);
         }
 
         public String toString() {
@@ -2068,7 +2099,8 @@ public class U<T> extends com.github.underscore.U<T> {
             final List<XmlStringBuilder> elems = newArrayList();
             final List<XmlStringBuilder> textElems = newArrayList();
             final List<String> attrs = newArrayList();
-            final int ident = builder.getIdent() + (name == null ? 0 : 2);
+            final XmlStringBuilder.Step identStep = builder.getIdentStep();
+            final int ident = builder.getIdent() + (name == null ? 0 : builder.getIdentStep().getIdent());
             boolean textFoundSave = false;
             final List<Map.Entry> entries = newArrayList(map.entrySet());
             for (int index = 0; index < entries.size(); index += 1) {
@@ -2088,18 +2120,18 @@ public class U<T> extends com.github.underscore.U<T> {
                     }
                     if (entry.getValue() instanceof List) {
                         for (Object value : (List) entry.getValue()) {
-                            textElems.add(new XmlStringBuilderWithoutHeader(ident).append(escape((String) value)));
+                            textElems.add(new XmlStringBuilderWithoutHeader(identStep, ident).append(escape((String) value)));
                         }
                     } else {
-                        textElems.add(new XmlStringBuilderWithoutHeader(ident).append(
+                        textElems.add(new XmlStringBuilderWithoutHeader(identStep, ident).append(
                             escape((String) entry.getValue())));
                     }
                 } else if ("#comment".equals(escape(String.valueOf(entry.getKey())))) {
-                    addComment(entry, ident, addNewLine, elems, "<!--", "-->");
+                    addComment(entry, identStep, ident, addNewLine, elems, "<!--", "-->");
                 } else if ("#cdata-section".equals(escape(String.valueOf(entry.getKey())))) {
-                    addComment(entry, ident, addNewLine, elems, "<![CDATA[", "]]>");
+                    addComment(entry, identStep, ident, addNewLine, elems, "<![CDATA[", "]]>");
                 } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
-                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
+                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
                     XmlArray.writeXml((List) entry.getValue(), localBuilder,
                         String.valueOf(entry.getKey()), !textElems.isEmpty(), namespaces);
                     if (addNewLine) {
@@ -2110,7 +2142,7 @@ public class U<T> extends com.github.underscore.U<T> {
                     }
                     elems.add(localBuilder);
                 } else {
-                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident);
+                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
                     XmlValue.writeXml(entry.getValue(), String.valueOf(entry.getKey()),
                             localBuilder, !textElems.isEmpty(), namespaces);
                     if (!textElems.isEmpty()) {
@@ -2147,22 +2179,22 @@ public class U<T> extends com.github.underscore.U<T> {
             }
         }
 
-        private static void addComment(Map.Entry entry, int ident, boolean addNewLine,
+        private static void addComment(Map.Entry entry, XmlStringBuilder.Step identStep, int ident, boolean addNewLine,
                 List<XmlStringBuilder> elems, String openElement, String closeElement) {
             if (entry.getValue() instanceof List) {
                 for (Iterator iterator = ((List) entry.getValue()).iterator(); iterator.hasNext(); ) {
-                    addCommentValue(ident, (String) iterator.next(),
+                    addCommentValue(identStep, ident, (String) iterator.next(),
                             iterator.hasNext() || addNewLine, elems, openElement, closeElement);
                 }
             } else {
-                addCommentValue(ident, (String) entry.getValue(), addNewLine, elems,
+                addCommentValue(identStep, ident, (String) entry.getValue(), addNewLine, elems,
                         openElement, closeElement);
             }
         }
 
-        private static void addCommentValue(int ident, String value, boolean addNewLine,
+        private static void addCommentValue(XmlStringBuilder.Step identStep, int ident, String value, boolean addNewLine,
                 List<XmlStringBuilder> elems, String openElement, String closeElement) {
-            XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(ident)
+            XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident)
                     .fillSpaces().append(openElement).append(value).append(closeElement);
             if (addNewLine) {
                 localBuilder.newLine();
@@ -2336,19 +2368,26 @@ public class U<T> extends com.github.underscore.U<T> {
         }
     }
 
-    public static String toXml(Collection collection) {
-        final XmlStringBuilder builder = new XmlStringBuilder();
-
+    public static String toXml(Collection collection, XmlStringBuilder.Step identStep) {
+        final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot(identStep);
+        builder.append("<root>").incIdent();
+        if (collection == null || !collection.isEmpty()) {
+            builder.newLine();
+        }
         XmlArray.writeXml(collection, null, builder, false, U.<String>newLinkedHashSet());
-        return builder.toString();
+        return builder.newLine().append("</root>").toString();
+    }
+
+    public static String toXml(Collection collection) {
+        return toXml(collection, XmlStringBuilder.Step.TWO_SPACES);
     }
 
     public String toXml() {
         return toXml((Collection) getIterable());
     }
 
-    public static String toXml(Map map) {
-        final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot();
+    public static String toXml(Map map, XmlStringBuilder.Step identStep) {
+        final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot(identStep);
         if (map == null || map.size() != 1
             || ((String) ((Map.Entry) map.entrySet().iterator().next()).getKey()).startsWith("-")
             || ((Map.Entry) map.entrySet().iterator().next()).getValue() instanceof List) {
@@ -2357,6 +2396,10 @@ public class U<T> extends com.github.underscore.U<T> {
             XmlObject.writeXml(map, null, builder, false, U.<String>newLinkedHashSet());
         }
         return builder.toString();
+    }
+
+    public static String toXml(Map map) {
+        return toXml(map, XmlStringBuilder.Step.TWO_SPACES);
     }
 
     public static class ParseException extends RuntimeException {
@@ -3615,5 +3658,27 @@ public class U<T> extends com.github.underscore.U<T> {
             return toJson((Map) result);
         }
         return toJson((List) result);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String formatJson(String json) {
+        Object result = fromJson(json);
+        if (result instanceof Map) {
+            return toJson((Map) result);
+        }
+        return toJson((List) result);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String formatXml(String xml, XmlStringBuilder.Step identStep) {
+        Object result = fromXml(xml);
+        if (result instanceof Map) {
+            return toXml((Map) result, identStep);
+        }
+        return toXml((List) result, identStep);
+    }
+
+    public static String formatXml(String xml) {
+        return formatXml(xml, XmlStringBuilder.Step.THREE_SPACES);
     }
 }
