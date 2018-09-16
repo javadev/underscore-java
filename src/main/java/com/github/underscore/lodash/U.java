@@ -42,6 +42,7 @@ public class U<T> extends com.github.underscore.U<T> {
     private static final String CLOSED_ELEMENT = "</element>";
     private static final String EMPTY_ELEMENT = ELEMENT + CLOSED_ELEMENT;
     private static final String NULL_ELEMENT = ELEMENT + NULL + CLOSED_ELEMENT;
+    private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
         "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
     private static final java.util.regex.Pattern RE_PROP_NAME = java.util.regex.Pattern.compile(
@@ -2870,11 +2871,7 @@ public class U<T> extends com.github.underscore.U<T> {
             return null;
         }
         try {
-            final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes("UTF-8"));
-            final javax.xml.parsers.DocumentBuilderFactory factory =
-                javax.xml.parsers.DocumentBuilderFactory.newInstance();
-            factory.setNamespaceAware(true);
-            final org.w3c.dom.Document document = factory.newDocumentBuilder().parse(stream);
+            org.w3c.dom.Document document = createDocument(xml);
             final Object result = createMap(document, new Function<Object, Object>() {
                 public Object apply(Object object) {
                     return object;
@@ -2891,13 +2888,20 @@ public class U<T> extends com.github.underscore.U<T> {
         }
     }
 
+    private static org.w3c.dom.Document createDocument(final String xml) throws java.io.IOException,
+            javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException {
+        final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes(UTF_8));
+        final javax.xml.parsers.DocumentBuilderFactory factory =
+                javax.xml.parsers.DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
+        builder.setErrorHandler(new org.xml.sax.helpers.DefaultHandler());
+        return builder.parse(stream);
+    }
+
     public static Object fromXmlMakeArrays(final String xml) {
         try {
-            final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes("UTF-8"));
-            final javax.xml.parsers.DocumentBuilderFactory factory =
-                javax.xml.parsers.DocumentBuilderFactory.newInstance();
-            factory.setNamespaceAware(true);
-            final org.w3c.dom.Document document = factory.newDocumentBuilder().parse(stream);
+            org.w3c.dom.Document document = createDocument(xml);
             return createMap(document, new Function<Object, Object>() {
                 public Object apply(Object object) {
                     return object instanceof List ? object : newArrayList(Arrays.asList(object));
