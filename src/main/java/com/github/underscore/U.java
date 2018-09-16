@@ -43,15 +43,18 @@ public class U<T> {
     private static final java.util.concurrent.atomic.AtomicInteger UNIQUE_ID =
         new java.util.concurrent.atomic.AtomicInteger(0);
     private static final String ALL_SYMBOLS = "([\\s\\S]+?)";
+    private static final String EVALUATE = "evaluate";
+    private static final String INTERPOLATE = "interpolate";
+    private static final String ESCAPE = "escape";
     private static final java.util.regex.Pattern FORMAT_PATTERN =
         java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*\\}");
     private final Iterable<T> iterable;
     private final Optional<String> string;
 
     static {
-        TEMPLATE_SETTINGS.put("evaluate", "<%([\\s\\S]+?)%>");
-        TEMPLATE_SETTINGS.put("interpolate", "<%=([\\s\\S]+?)%>");
-        TEMPLATE_SETTINGS.put("escape", "<%-([\\s\\S]+?)%>");
+        TEMPLATE_SETTINGS.put(EVALUATE, "<%([\\s\\S]+?)%>");
+        TEMPLATE_SETTINGS.put(INTERPOLATE, "<%=([\\s\\S]+?)%>");
+        TEMPLATE_SETTINGS.put(ESCAPE, "<%-([\\s\\S]+?)%>");
     }
 
     public U(final Iterable<T> iterable) {
@@ -71,9 +74,9 @@ public class U<T> {
     }
 
     public static void templateSettings(final Map<String, String> templateSettings) {
-        setTemplateKey(templateSettings, "evaluate");
-        setTemplateKey(templateSettings, "interpolate");
-        setTemplateKey(templateSettings, "escape");
+        setTemplateKey(templateSettings, EVALUATE);
+        setTemplateKey(templateSettings, INTERPOLATE);
+        setTemplateKey(templateSettings, ESCAPE);
     }
 
     private static final class WherePredicate<E, T> implements Predicate<E> {
@@ -113,9 +116,9 @@ public class U<T> {
         @Override
         @SuppressWarnings("unchecked")
         public String apply(Map<K, V> value) {
-            final String evaluate = TEMPLATE_SETTINGS.get("evaluate");
-            final String interpolate = TEMPLATE_SETTINGS.get("interpolate");
-            final String escape = TEMPLATE_SETTINGS.get("escape");
+            final String evaluate = TEMPLATE_SETTINGS.get(EVALUATE);
+            final String interpolate = TEMPLATE_SETTINGS.get(INTERPOLATE);
+            final String escape = TEMPLATE_SETTINGS.get(ESCAPE);
             String result = template;
             for (final Map.Entry<K, V> element : value.entrySet()) {
                 result = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
@@ -133,9 +136,9 @@ public class U<T> {
 
         @Override
         public List<String> check(Map<K, V> value) {
-            final String evaluate = TEMPLATE_SETTINGS.get("evaluate");
-            final String interpolate = TEMPLATE_SETTINGS.get("interpolate");
-            final String escape = TEMPLATE_SETTINGS.get("escape");
+            final String evaluate = TEMPLATE_SETTINGS.get(EVALUATE);
+            final String interpolate = TEMPLATE_SETTINGS.get(INTERPOLATE);
+            final String escape = TEMPLATE_SETTINGS.get(ESCAPE);
             String result = template;
             final List<String> notFound = new ArrayList<String>();
             final List<String> valueKeys = new ArrayList<String>();
