@@ -601,8 +601,14 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
 
     @Test
     public void formatJson() {
-        assertEquals("{\n  \"a\": {\n  }\n}", U.formatJson("{\n  \"a\": {\n  }\n}"));
+        assertEquals("{\n   \"a\": {\n   }\n}", U.formatJson("{\n  \"a\": {\n  }\n}"));
         assertEquals("[\n]", U.formatJson("[]"));
+        assertEquals("{\n    \"a\": {\n    }\n}",
+            U.formatJson("{\n  \"a\": {\n  }\n}", U.JsonStringBuilder.Step.FOUR_SPACES));
+        assertEquals("{\"a\":{}}",
+            U.formatJson("{\n  \"a\": {\n  }\n}", U.JsonStringBuilder.Step.COMPACT));
+        assertEquals("{\n\t\"a\": {\n\t}\n}",
+            U.formatJson("{\n  \"a\": {\n  }\n}", U.JsonStringBuilder.Step.TABS));
     }
 
     @SuppressWarnings("unchecked")

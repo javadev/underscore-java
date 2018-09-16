@@ -1366,11 +1366,28 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static class JsonStringBuilder {
+        public enum Step {
+            TWO_SPACES(2), THREE_SPACES(3), FOUR_SPACES(4), COMPACT(0), TABS(1);
+            private int ident;
+            Step(int ident) {
+                this.ident = ident;
+            }
+            public int getIdent() {
+                return ident;
+            }
+        }
         private final StringBuilder builder;
+        private final Step identStep;
         private int ident;
+
+        public JsonStringBuilder(Step identStep) {
+            builder = new StringBuilder();
+            this.identStep = identStep;
+        }
 
         public JsonStringBuilder() {
             builder = new StringBuilder();
+            this.identStep = Step.TWO_SPACES;
         }
 
         public JsonStringBuilder append(final char character) {
@@ -1385,24 +1402,30 @@ public class U<T> extends com.github.underscore.U<T> {
 
         public JsonStringBuilder fillSpaces() {
             for (int index = 0; index < ident; index += 1) {
-                builder.append(' ');
+                builder.append(identStep == Step.TABS ? '\t' : ' ');
             }
             return this;
         }
 
         public JsonStringBuilder incIdent() {
-            ident += 2;
+            ident += identStep.getIdent();
             return this;
         }
 
         public JsonStringBuilder decIdent() {
-            ident -= 2;
+            ident -= identStep.getIdent();
             return this;
         }
 
         public JsonStringBuilder newLine() {
-            builder.append("\n");
+            if (identStep != Step.COMPACT) {
+                builder.append("\n");
+            }
             return this;
+        }
+
+        public Step getIdentStep() {
+            return identStep;
         }
 
         public String toString() {
@@ -1620,7 +1643,10 @@ public class U<T> extends com.github.underscore.U<T> {
                 builder.fillSpaces().append('\"');
                 builder.append(JsonValue.unescapeName(String.valueOf(entry.getKey())));
                 builder.append('\"');
-                builder.append(':').append(' ');
+                builder.append(':');
+                if (builder.getIdentStep() != JsonStringBuilder.Step.COMPACT) {
+                    builder.append(' ');
+                }
                 JsonValue.writeJson(entry.getValue(), builder);
                 if (iter.hasNext()) {
                     builder.append(',').newLine();
@@ -1777,41 +1803,41 @@ public class U<T> extends com.github.underscore.U<T> {
         }
     }
 
-    public static String toJson(Collection collection) {
-        final JsonStringBuilder builder = new JsonStringBuilder();
+    public static String toJson(Collection collection, JsonStringBuilder.Step identStep) {
+        final JsonStringBuilder builder = new JsonStringBuilder(identStep);
 
         JsonArray.writeJson(collection, builder);
         return builder.toString();
+    }
+
+    public static String toJson(Collection collection) {
+        return toJson(collection, JsonStringBuilder.Step.TWO_SPACES);
     }
 
     public String toJson() {
         return toJson((Collection) getIterable());
     }
 
-    public static String toJson(Map map) {
-        final JsonStringBuilder builder = new JsonStringBuilder();
+    public static String toJson(Map map, JsonStringBuilder.Step identStep) {
+        final JsonStringBuilder builder = new JsonStringBuilder(identStep);
 
         JsonObject.writeJson(map, builder);
         return builder.toString();
     }
 
+    public static String toJson(Map map) {
+        return toJson(map, JsonStringBuilder.Step.TWO_SPACES);
+    }
+
     public static class XmlStringBuilder {
         public enum Step {
-            TWO_SPACES, THREE_SPACES, FOUR_SPACES, COMPACT, TABS;
+            TWO_SPACES(2), THREE_SPACES(3), FOUR_SPACES(4), COMPACT(0), TABS(1);
+            private int ident;
+            Step(int ident) {
+                this.ident = ident;
+            }
             public int getIdent() {
-                final int result;
-                if (this == TWO_SPACES) {
-                    result = 2;
-                } else if (this == THREE_SPACES) {
-                    result = 3;
-                } else if (this == FOUR_SPACES) {
-                    result = 4;
-                } else if (this == TABS) {
-                    result = 1;
-                } else {
-                    result = 0;
-                }
-                return result;
+                return ident;
             }
         }
 
@@ -3661,12 +3687,16 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static String formatJson(String json) {
+    public static String formatJson(String json, JsonStringBuilder.Step identStep) {
         Object result = fromJson(json);
         if (result instanceof Map) {
-            return toJson((Map) result);
+            return toJson((Map) result, identStep);
         }
-        return toJson((List) result);
+        return toJson((List) result, identStep);
+    }
+
+    public static String formatJson(String json) {
+        return formatJson(json, JsonStringBuilder.Step.THREE_SPACES);
     }
 
     @SuppressWarnings("unchecked")
