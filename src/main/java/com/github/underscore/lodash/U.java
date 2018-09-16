@@ -2894,6 +2894,7 @@ public class U<T> extends com.github.underscore.U<T> {
         final javax.xml.parsers.DocumentBuilderFactory factory =
                 javax.xml.parsers.DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
+        factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
         final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
         builder.setErrorHandler(new org.xml.sax.helpers.DefaultHandler());
         return builder.parse(stream);
