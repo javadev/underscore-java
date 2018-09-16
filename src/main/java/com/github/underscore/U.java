@@ -726,7 +726,7 @@ public class U<T> {
     }
 
     public static <E> E sample(final Iterable<E> iterable) {
-        return newArrayList(iterable).get(new Random().nextInt(size(iterable)));
+        return newArrayList(iterable).get(new java.security.SecureRandom().nextInt(size(iterable)));
     }
 
     public T sample() {
@@ -1980,11 +1980,11 @@ public class U<T> {
     }
 
     public static int random(final int min, final int max) {
-        return min + new Random().nextInt(max - min + 1);
+        return min + new java.security.SecureRandom().nextInt(max - min + 1);
     }
 
     public static int random(final int max) {
-        return new Random().nextInt(max + 1);
+        return new java.security.SecureRandom().nextInt(max + 1);
     }
 
     public static long now() {
