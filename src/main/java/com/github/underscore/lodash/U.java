@@ -38,8 +38,9 @@ public class U<T> extends com.github.underscore.U<T> {
     private static final int DEFAULT_TRUNC_LENGTH = 30;
     private static final String DEFAULT_TRUNC_OMISSION = "...";
     private static final String NULL = "null";
-    private static final String ELEMENT = "<element>";
-    private static final String CLOSED_ELEMENT = "</element>";
+    private static final String ELEMENT_TEXT = "element";
+    private static final String ELEMENT = "<" + ELEMENT_TEXT + ">";
+    private static final String CLOSED_ELEMENT = "</" + ELEMENT_TEXT + ">";
     private static final String EMPTY_ELEMENT = ELEMENT + CLOSED_ELEMENT;
     private static final String NULL_ELEMENT = ELEMENT + NULL + CLOSED_ELEMENT;
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
@@ -1948,10 +1949,10 @@ public class U<T> extends com.github.underscore.U<T> {
                 Object value = iter.next();
                 if (value == null) {
                     builder.fillSpaces()
-                            .append("<" + (name == null ? "element" : XmlValue.escapeName(name, namespaces)) + ">"
-                            + NULL + "</" + (name == null ? "element" : XmlValue.escapeName(name, namespaces)) + ">");
+                        .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)) + ">"
+                        + NULL + "</" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)) + ">");
                 } else {
-                    XmlValue.writeXml(value, name == null ? "element" : name, builder, parentTextFound,
+                    XmlValue.writeXml(value, name == null ? ELEMENT_TEXT : name, builder, parentTextFound,
                         namespaces);
                     parentTextFound = false;
                 }
@@ -2105,7 +2106,7 @@ public class U<T> extends com.github.underscore.U<T> {
                 builder.fillSpaces().append(EMPTY_ELEMENT);
             } else {
                 for (int i = 0; i < array.length; i++) {
-                    XmlValue.writeXml(array[i], name == null ? "element" : name, builder, parentTextFound, namespaces);
+                    XmlValue.writeXml(array[i], name == null ? ELEMENT_TEXT : name, builder, parentTextFound, namespaces);
                     if (i != array.length - 1) {
                         builder.newLine();
                     }
@@ -2809,7 +2810,7 @@ public class U<T> extends com.github.underscore.U<T> {
     private static Object getValue(final Object value) {
         if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 1) {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
-            if (entry.getKey().equals("#text") || entry.getKey().equals("element")) {
+            if (entry.getKey().equals("#text") || entry.getKey().equals(ELEMENT_TEXT)) {
                 return entry.getValue();
             }
         }
