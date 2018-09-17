@@ -2376,7 +2376,7 @@ public class U<T> extends com.github.underscore.U<T> {
                     sb.append("\\r");
                     break;
                 case '\t':
-                    sb.append("\\t");
+                    sb.append("\t");
                     break;
                 default:
                     if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
