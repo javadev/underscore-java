@@ -3430,12 +3430,12 @@ public class U<T> extends com.github.underscore.U<T> {
 
         @Override
         public String[] getSupportedCipherSuites() {
-            return null;
+            return new String[]{};
         }
 
         @Override
         public String[] getDefaultCipherSuites() {
-            return null;
+            return new String[]{};
         }
 
         @Override
@@ -3463,7 +3463,7 @@ public class U<T> extends com.github.underscore.U<T> {
             }
 
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return null;
+                return new java.security.cert.X509Certificate[]{};
             }
 
             public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
