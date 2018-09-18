@@ -39,6 +39,7 @@ public class U<T> extends com.github.underscore.U<T> {
     private static final String DEFAULT_TRUNC_OMISSION = "...";
     private static final String NULL = "null";
     private static final String ELEMENT_TEXT = "element";
+    private static final String TEXT = "#text";
     private static final String ELEMENT = "<" + ELEMENT_TEXT + ">";
     private static final String CLOSED_ELEMENT = "</" + ELEMENT_TEXT + ">";
     private static final String EMPTY_ELEMENT = ELEMENT + CLOSED_ELEMENT;
@@ -2117,8 +2118,8 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static class XmlObject {
         @SuppressWarnings("unchecked")
-        public static void writeXml(Map map, String name, XmlStringBuilder builder, boolean parentTextFound,
-            Set<String> namespaces) {
+        public static void writeXml(Map map, String name, final XmlStringBuilder builder,
+            final boolean parentTextFound, final Set<String> namespaces) {
             if (map == null) {
                 XmlValue.writeXml(NULL, name, builder, false, namespaces);
                 return;
@@ -2134,7 +2135,7 @@ public class U<T> extends com.github.underscore.U<T> {
             for (int index = 0; index < entries.size(); index += 1) {
                 Map.Entry entry = entries.get(index);
                 final boolean addNewLine = index < entries.size() - 1
-                    && !"#text".equals(String.valueOf(entries.get(index + 1).getKey()));
+                    && !TEXT.equals(String.valueOf(entries.get(index + 1).getKey()));
                 if (String.valueOf(entry.getKey()).startsWith("-") && !(entry.getValue() instanceof Map)
                     && !(entry.getValue() instanceof List)) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1), namespaces)
@@ -2142,46 +2143,35 @@ public class U<T> extends com.github.underscore.U<T> {
                     if (String.valueOf(entry.getKey()).startsWith("-xmlns:")) {
                         namespaces.add(String.valueOf(entry.getKey()).substring(7));
                     }
-                } else if ("#text".equals(escape(String.valueOf(entry.getKey())))) {
+                } else if (TEXT.equals(escape(String.valueOf(entry.getKey())))) {
                     if (elems.isEmpty()) {
                         textFoundSave = true;
                     }
-                    if (entry.getValue() instanceof List) {
-                        for (Object value : (List) entry.getValue()) {
-                            textElems.add(new XmlStringBuilderWithoutHeader(identStep, ident).append(escape((String) value)));
-                        }
-                    } else {
-                        textElems.add(new XmlStringBuilderWithoutHeader(identStep, ident).append(
-                            escape((String) entry.getValue())));
-                    }
-                } else if ("#comment".equals(escape(String.valueOf(entry.getKey())))) {
-                    addComment(entry, identStep, ident, addNewLine, elems, "<!--", "-->");
-                } else if ("#cdata-section".equals(escape(String.valueOf(entry.getKey())))) {
-                    addComment(entry, identStep, ident, addNewLine, elems, "<![CDATA[", "]]>");
-                } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
-                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
-                    XmlArray.writeXml((List) entry.getValue(), localBuilder,
-                        String.valueOf(entry.getKey()), !textElems.isEmpty(), namespaces);
-                    if (addNewLine) {
-                        localBuilder.newLine();
-                    }
-                    if (!textElems.isEmpty()) {
-                        elems.add(textElems.remove(0));
-                    }
-                    elems.add(localBuilder);
+                    addText(entry, textElems, identStep, ident);
                 } else {
-                    XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
-                    XmlValue.writeXml(entry.getValue(), String.valueOf(entry.getKey()),
-                            localBuilder, !textElems.isEmpty(), namespaces);
-                    if (!textElems.isEmpty()) {
-                        elems.add(textElems.remove(0));
-                    }
-                    if (addNewLine && textElems.isEmpty()) {
-                        localBuilder.newLine();
-                    }
-                    elems.add(localBuilder);
+                    processElements(entry, identStep, ident, addNewLine, elems, textElems, namespaces);
                 }
             }
+            addToBuilder(name, parentTextFound, builder, namespaces, attrs, textFoundSave, elems, textElems);
+        }
+
+        private static void processElements(Map.Entry entry, final XmlStringBuilder.Step identStep,
+                final int ident, final boolean addNewLine, final List<XmlStringBuilder> elems,
+                final List<XmlStringBuilder> textElems, final Set<String> namespaces) {
+            if ("#comment".equals(escape(String.valueOf(entry.getKey())))) {
+                addComment(entry, identStep, ident, addNewLine, elems, "<!--", "-->");
+            } else if ("#cdata-section".equals(escape(String.valueOf(entry.getKey())))) {
+                addComment(entry, identStep, ident, addNewLine, elems, "<![CDATA[", "]]>");
+            } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
+                addElements(identStep, ident, entry, textElems, namespaces, elems, addNewLine);
+            } else {
+                addElement(identStep, ident, entry, textElems, namespaces, elems, addNewLine);
+            }
+        }
+
+        private static void addToBuilder(String name, boolean parentTextFound, final XmlStringBuilder builder,
+                final Set<String> namespaces, final List<String> attrs, boolean textFoundSave,
+                final List<XmlStringBuilder> elems, final List<XmlStringBuilder> textElems) {
             for (XmlStringBuilder localBuilder : textElems) {
                 elems.add(localBuilder);
             }
@@ -2205,6 +2195,48 @@ public class U<T> extends com.github.underscore.U<T> {
                 }
                 builder.append("</").append(XmlValue.escapeName(name, namespaces)).append(">");
             }
+        }
+
+        private static void addText(final Map.Entry entry, final List<XmlStringBuilder> textElems,
+                final XmlStringBuilder.Step identStep, final int ident) {
+            if (entry.getValue() instanceof List) {
+                for (Object value : (List) entry.getValue()) {
+                    textElems.add(new XmlStringBuilderWithoutHeader(identStep, ident).append(escape((String) value)));
+                }
+            } else {
+                textElems.add(new XmlStringBuilderWithoutHeader(identStep, ident).append(
+                        escape((String) entry.getValue())));
+            }
+        }
+
+        private static void addElements(final XmlStringBuilder.Step identStep, final int ident, Map.Entry entry,
+                final List<XmlStringBuilder> textElems, Set<String> namespaces, final List<XmlStringBuilder> elems,
+                final boolean addNewLine) {
+            XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
+            XmlArray.writeXml((List) entry.getValue(), localBuilder,
+                    String.valueOf(entry.getKey()), !textElems.isEmpty(), namespaces);
+            if (addNewLine) {
+                localBuilder.newLine();
+            }
+            if (!textElems.isEmpty()) {
+                elems.add(textElems.remove(0));
+            }
+            elems.add(localBuilder);
+        }
+
+        private static void addElement(final XmlStringBuilder.Step identStep, final int ident, Map.Entry entry,
+                final List<XmlStringBuilder> textElems, Set<String> namespaces, final List<XmlStringBuilder> elems,
+                final boolean addNewLine) {
+            XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
+            XmlValue.writeXml(entry.getValue(), String.valueOf(entry.getKey()),
+                    localBuilder, !textElems.isEmpty(), namespaces);
+            if (!textElems.isEmpty()) {
+                elems.add(textElems.remove(0));
+            }
+            if (addNewLine && textElems.isEmpty()) {
+                localBuilder.newLine();
+            }
+            elems.add(localBuilder);
         }
 
         private static void addComment(Map.Entry entry, XmlStringBuilder.Step identStep, int ident, boolean addNewLine,
@@ -2262,7 +2294,15 @@ public class U<T> extends com.github.underscore.U<T> {
                 } else {
                     builder.append(value.toString());
                 }
-            } else if (value instanceof Number) {
+            } else {
+                processArrays(value, builder, name, parentTextFound, namespaces);
+            }
+            builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+        }
+
+        private static void processArrays(Object value, XmlStringBuilder builder, String name,
+                boolean parentTextFound, Set<String> namespaces) {
+            if (value instanceof Number) {
                 builder.append(value.toString());
             } else if (value instanceof Boolean) {
                 builder.append(value.toString());
@@ -2305,7 +2345,6 @@ public class U<T> extends com.github.underscore.U<T> {
             } else {
                 builder.append(value.toString());
             }
-            builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
         }
 
         public static String escapeName(String name, Set<String> namespaces) {
@@ -2810,7 +2849,7 @@ public class U<T> extends com.github.underscore.U<T> {
     private static Object getValue(final Object value) {
         if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 1) {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
-            if (entry.getKey().equals("#text") || entry.getKey().equals(ELEMENT_TEXT)) {
+            if (TEXT.equals(entry.getKey()) || entry.getKey().equals(ELEMENT_TEXT)) {
                 return entry.getValue();
             }
         }
@@ -2840,7 +2879,7 @@ public class U<T> extends com.github.underscore.U<T> {
             } else {
                 value = currentNode.getTextContent();
             }
-            if ("#text".equals(name) && value.toString().trim().isEmpty()) {
+            if (TEXT.equals(name) && value.toString().trim().isEmpty()) {
                 continue;
             }
             addNodeValue(map, name, value, nodeMapper);
