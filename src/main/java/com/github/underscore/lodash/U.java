@@ -49,29 +49,7 @@ public class U<T> extends com.github.underscore.U<T> {
         "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
     private static final java.util.regex.Pattern RE_PROP_NAME = java.util.regex.Pattern.compile(
         "[^.\\[\\]]+|\\[(?:(-?\\d+(?:\\.\\d+)?)|([\"'])((?:(?!\2)\\[^\\]|\\.)*?)\2)\\]|(?=(\\.|\\[\\])(?:\4|$))");
-    private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<String, String>() { {
-        put("\u00c0", "A"); put("\u00c1", "A"); put("\u00c2", "A"); put("\u00c3", "A");
-        put("\u00c4", "A"); put("\u00c5", "A");
-        put("\u00e0", "a"); put("\u00e1", "a"); put("\u00e2", "a"); put("\u00e3", "a");
-        put("\u00e4", "a"); put("\u00e5", "a");
-        put("\u00c7", "C"); put("\u00e7", "c");
-        put("\u00d0", "D"); put("\u00f0", "d");
-        put("\u00c8", "E"); put("\u00c9", "E"); put("\u00ca", "E"); put("\u00cb", "E");
-        put("\u00e8", "e"); put("\u00e9", "e"); put("\u00ea", "e"); put("\u00eb", "e");
-        put("\u00cC", "I"); put("\u00cd", "I"); put("\u00ce", "I"); put("\u00cf", "I");
-        put("\u00eC", "i"); put("\u00ed", "i"); put("\u00ee", "i"); put("\u00ef", "i");
-        put("\u00d1", "N"); put("\u00f1", "n");
-        put("\u00d2", "O"); put("\u00d3", "O"); put("\u00d4", "O"); put("\u00d5", "O");
-        put("\u00d6", "O"); put("\u00d8", "O");
-        put("\u00f2", "o"); put("\u00f3", "o"); put("\u00f4", "o"); put("\u00f5", "o");
-        put("\u00f6", "o"); put("\u00f8", "o");
-        put("\u00d9", "U"); put("\u00da", "U"); put("\u00db", "U"); put("\u00dc", "U");
-        put("\u00f9", "u"); put("\u00fa", "u"); put("\u00fb", "u"); put("\u00fc", "u");
-        put("\u00dd", "Y"); put("\u00fd", "y"); put("\u00ff", "y");
-        put("\u00c6", "Ae"); put("\u00e6", "ae");
-        put("\u00de", "Th"); put("\u00fe", "th");
-        put("\u00df", "ss");
-    } };
+    private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<String, String>();
     private static final Map<String, List<String>> DEFAULT_HEADER_FIELDS = new HashMap<String, List<String>>();
     private static final Set<String> SUPPORTED_HTTP_METHODS = new HashSet<String>(
         Arrays.asList("GET", "POST", "PUT", "DELETE"));
@@ -83,6 +61,31 @@ public class U<T> extends com.github.underscore.U<T> {
         upper + "+(?=" + upper + lower + ")|" + upper + "?" + lower + "|" + upper + "+|[0-9]+");
 
     static {
+        String[] deburredLetters = new String[] {
+        "\u00c0", "A", "\u00c1", "A", "\u00c2", "A", "\u00c3", "A",
+        "\u00c4", "A", "\u00c5", "A",
+        "\u00e0", "a", "\u00e1", "a", "\u00e2", "a", "\u00e3", "a",
+        "\u00e4", "a", "\u00e5", "a",
+        "\u00c7", "C", "\u00e7", "c",
+        "\u00d0", "D", "\u00f0", "d",
+        "\u00c8", "E", "\u00c9", "E", "\u00ca", "E", "\u00cb", "E",
+        "\u00e8", "e", "\u00e9", "e", "\u00ea", "e", "\u00eb", "e",
+        "\u00cC", "I", "\u00cd", "I", "\u00ce", "I", "\u00cf", "I",
+        "\u00eC", "i", "\u00ed", "i", "\u00ee", "i", "\u00ef", "i",
+        "\u00d1", "N", "\u00f1", "n",
+        "\u00d2", "O", "\u00d3", "O", "\u00d4", "O", "\u00d5", "O",
+        "\u00d6", "O", "\u00d8", "O",
+        "\u00f2", "o", "\u00f3", "o", "\u00f4", "o", "\u00f5", "o",
+        "\u00f6", "o", "\u00f8", "o",
+        "\u00d9", "U", "\u00da", "U", "\u00db", "U", "\u00dc", "U",
+        "\u00f9", "u", "\u00fa", "u", "\u00fb", "u", "\u00fc", "u",
+        "\u00dd", "Y", "\u00fd", "y", "\u00ff", "y",
+        "\u00c6", "Ae", "\u00e6", "ae",
+        "\u00de", "Th", "\u00fe", "th",
+        "\u00df", "ss"};
+        for (int index = 0; index < deburredLetters.length; index += 2) {
+            DEBURRED_LETTERS.put(deburredLetters[index], deburredLetters[index + 1]);
+        }
         DEFAULT_HEADER_FIELDS.put("Content-Type", Arrays.asList("application/json", "charset=utf-8"));
     }
 
@@ -1126,8 +1129,8 @@ public class U<T> extends com.github.underscore.U<T> {
         final String localString = baseToString(string);
 
         final int length = localString.length();
-        final int localPosition = position == null ? length
-          : Math.min(position < 0 ? 0 : position, length);
+        final int fixedPosition = position == null || position < 0 ? 0 : position;
+        final int localPosition = position == null ? length : Math.min(fixedPosition, length);
 
         final int localPosition2 = localPosition - target.length();
       return localPosition2 >= 0 && localString.indexOf(target, localPosition2) == localPosition2;

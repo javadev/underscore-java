@@ -33,7 +33,7 @@ import java.util.*;
 public class FromXml {
     @SuppressWarnings("unchecked")
     private static Object getValue(final Object value) {
-        if (value instanceof Map) {
+        if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 1) {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
             if (entry.getKey().equals("#text") || entry.getKey().equals("element")) {
                 return entry.getValue();
