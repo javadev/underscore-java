@@ -1015,7 +1015,7 @@ _.repeat('abc', 0);
     public void escapeXml() {
         assertEquals(null, U.XmlValue.escape(null));
         assertEquals("&quot;", U.XmlValue.escape("\""));
-        assertEquals("&apos;", U.XmlValue.escape("'"));
+        assertEquals("'", U.XmlValue.escape("'"));
         assertEquals("&amp;", U.XmlValue.escape("&"));
         assertEquals("&lt;", U.XmlValue.escape("<"));
         assertEquals("&gt;", U.XmlValue.escape(">"));
@@ -1463,6 +1463,33 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml10() {
+        final String xml = "<a>\n"
+                + "<!--a-->\n"
+                + "<!--a-->\n"
+                + "<b><![CDATA[a]]>\n"
+                + "<![CDATA[a]]></b>\n"
+                + "t<c/>t\n"
+                + "</a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"#comment\": \"a\",\n"
+                + "    \"#comment1\": \"a\",\n"
+                + "    \"b\": {\n"
+                + "      \"#cdata-section\": \"a\",\n"
+                + "      \"#cdata-section1\": \"a\"\n"
+                + "    },\n"
+                + "    \"#text\": \"\\nt\",\n"
+                + "    \"c\": {\n"
+                + "    },\n"
+                + "    \"#text1\": \"t\\n\"\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
@@ -1591,8 +1618,9 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<image name=\"sun1\" src=\"Images/Sun.png\">\n"
                 + "  <hOffset>\n"
-                + "\t\t\t\t250<unit>mm</unit>1\n"
-                + "    </hOffset>\n"
+                + "\t\t\t\t2501\n"
+                + "    <unit>mm</unit>\n"
+                + "  </hOffset>\n"
                 + "</image>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
     }
@@ -1699,7 +1727,7 @@ _.repeat('abc', 0);
             + "    ],\n    \"b\": {\n    },\n"
             + "    \"c\": {\n    }\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-            + "<a>\ntest\n<b>\n  </b>\ntest\n<c>\n  </c>\n</a>",
+                + "<a>\ntest\n\ntest\n<b>\n  </b>\n  <c>\n  </c>\n</a>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
@@ -1711,6 +1739,16 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + "<a>\n  <!--&&-->1</a>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String json2 = "{\n  \"a\": {\n    \"#text\": \"1\\n\",\n"
+                + "    \"#comment\": \"c\"\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a>1\n<!--c-->\n</a>",
+                U.toXml((Map<String, Object>) U.fromJson(json2)));
+        final String json3 = "{\n  \"a\": {\n    \"#text\": \"\\n1\\n  \",\n"
+                + "    \"#comment\": \"c\",\n    \"#text1\": \"\\n2\\n\"\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a>\n1\n  <!--c-->\n2\n</a>",
+                U.toXml((Map<String, Object>) U.fromJson(json3)));
     }
 
     @SuppressWarnings("unchecked")
