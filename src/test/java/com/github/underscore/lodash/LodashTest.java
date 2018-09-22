@@ -592,11 +592,11 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n   <b>\n   </b>\n   <b>\n   </b>\n</a>",
             U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>"));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n    <b>\n    </b>\n    <b>\n    </b>\n</a>",
-            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", U.XmlStringBuilder.Step.FOUR_SPACES));
+            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", Xml.XmlStringBuilder.Step.FOUR_SPACES));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a><b></b><b></b></a>",
-            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", U.XmlStringBuilder.Step.COMPACT));
+            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", Xml.XmlStringBuilder.Step.COMPACT));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n\t<b>\n\t</b>\n\t<b>\n\t</b>\n</a>",
-            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", U.XmlStringBuilder.Step.TABS));
+            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", Xml.XmlStringBuilder.Step.TABS));
     }
 
     @Test
@@ -604,11 +604,11 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         assertEquals("{\n   \"a\": {\n   }\n}", U.formatJson("{\n  \"a\": {\n  }\n}"));
         assertEquals("[\n]", U.formatJson("[]"));
         assertEquals("{\n    \"a\": {\n    }\n}",
-            U.formatJson("{\n  \"a\": {\n  }\n}", U.JsonStringBuilder.Step.FOUR_SPACES));
+            U.formatJson("{\n  \"a\": {\n  }\n}", Json.JsonStringBuilder.Step.FOUR_SPACES));
         assertEquals("{\"a\":{}}",
-            U.formatJson("{\n  \"a\": {\n  }\n}", U.JsonStringBuilder.Step.COMPACT));
+            U.formatJson("{\n  \"a\": {\n  }\n}", Json.JsonStringBuilder.Step.COMPACT));
         assertEquals("{\n\t\"a\": {\n\t}\n}",
-            U.formatJson("{\n  \"a\": {\n  }\n}", U.JsonStringBuilder.Step.TABS));
+            U.formatJson("{\n  \"a\": {\n  }\n}", Json.JsonStringBuilder.Step.TABS));
     }
 
     @SuppressWarnings("unchecked")
@@ -617,6 +617,8 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         new U(new ArrayList<String>());
         new U("");
         new U(asList()).chain();
+        new Json();
+        new Xml();
         U.chain(new ArrayList<String>());
         U.chain(new ArrayList<String>(), 1);
         U.chain(new HashSet<String>());
