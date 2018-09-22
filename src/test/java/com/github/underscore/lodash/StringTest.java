@@ -28,9 +28,9 @@ import com.github.underscore.Consumer;
 import com.github.underscore.Function;
 import com.github.underscore.Predicate;
 import com.github.underscore.Tuple;
-import com.github.underscore.lodash.U.JsonStringBuilder;
-import com.github.underscore.lodash.U.XmlStringBuilder;
-import com.github.underscore.lodash.U.JsonJavaStringBuilder;
+import com.github.underscore.lodash.Json.JsonStringBuilder;
+import com.github.underscore.lodash.Xml.XmlStringBuilder;
+import com.github.underscore.lodash.Json.JsonJavaStringBuilder;
 
 import java.util.*;
 import org.junit.Test;
@@ -432,10 +432,10 @@ _.repeat('abc', 0);
     @Test
     public void testJsonArray() {
         JsonStringBuilder builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((Collection) null, builder);
+        Json.JsonArray.writeJson((Collection) null, builder);
         assertEquals("null", builder.toString());
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
+        Json.JsonArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
         assertEquals("[\n  null\n]", builder.toString());
     }
 
@@ -484,45 +484,45 @@ _.repeat('abc', 0);
 
     @Test
     public void escape() {
-        assertEquals(null, U.JsonValue.escape(null));
-        assertEquals("\\\"", U.JsonValue.escape("\""));
-        assertEquals("\\\\", U.JsonValue.escape("\\"));
-        assertEquals("\\b", U.JsonValue.escape("\b"));
-        assertEquals("\\f", U.JsonValue.escape("\f"));
-        assertEquals("\\n", U.JsonValue.escape("\n"));
-        assertEquals("\\r", U.JsonValue.escape("\r"));
-        assertEquals("\\t", U.JsonValue.escape("\t"));
-        assertEquals("\\/", U.JsonValue.escape("/"));
-        assertEquals("\\u0000", U.JsonValue.escape("\u0000"));
-        assertEquals("\\u001F", U.JsonValue.escape("\u001F"));
-        assertEquals("\u0020", U.JsonValue.escape("\u0020"));
-        assertEquals("\\u007F", U.JsonValue.escape("\u007F"));
-        assertEquals("\\u009F", U.JsonValue.escape("\u009F"));
-        assertEquals("\u00A0", U.JsonValue.escape("\u00A0"));
-        assertEquals("\\u2000", U.JsonValue.escape("\u2000"));
-        assertEquals("\\u20FF", U.JsonValue.escape("\u20FF"));
-        assertEquals("\u2100", U.JsonValue.escape("\u2100"));
-        assertEquals("\uFFFF", U.JsonValue.escape("\uFFFF"));
+        assertNull(Json.JsonValue.escape(null));
+        assertEquals("\\\"", Json.JsonValue.escape("\""));
+        assertEquals("\\\\", Json.JsonValue.escape("\\"));
+        assertEquals("\\b", Json.JsonValue.escape("\b"));
+        assertEquals("\\f", Json.JsonValue.escape("\f"));
+        assertEquals("\\n", Json.JsonValue.escape("\n"));
+        assertEquals("\\r", Json.JsonValue.escape("\r"));
+        assertEquals("\\t", Json.JsonValue.escape("\t"));
+        assertEquals("\\/", Json.JsonValue.escape("/"));
+        assertEquals("\\u0000", Json.JsonValue.escape("\u0000"));
+        assertEquals("\\u001F", Json.JsonValue.escape("\u001F"));
+        assertEquals("\u0020", Json.JsonValue.escape("\u0020"));
+        assertEquals("\\u007F", Json.JsonValue.escape("\u007F"));
+        assertEquals("\\u009F", Json.JsonValue.escape("\u009F"));
+        assertEquals("\u00A0", Json.JsonValue.escape("\u00A0"));
+        assertEquals("\\u2000", Json.JsonValue.escape("\u2000"));
+        assertEquals("\\u20FF", Json.JsonValue.escape("\u20FF"));
+        assertEquals("\u2100", Json.JsonValue.escape("\u2100"));
+        assertEquals("\uFFFF", Json.JsonValue.escape("\uFFFF"));
     }
 
     @Test
     public void testByteArrayToString() {
-        JsonStringBuilder builder;
+        Json.JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((byte[]) null, builder);
+        Json.JsonArray.writeJson((byte[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new byte[0], builder);
+        Json.JsonArray.writeJson(new byte[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new byte[] { 12 }, builder);
+        Json.JsonArray.writeJson(new byte[] { 12 }, builder);
         assertEquals("[\n  12\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
+        Json.JsonArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
         assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
@@ -531,40 +531,40 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((short[]) null, builder);
+        Json.JsonArray.writeJson((short[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new short[0], builder);
+        Json.JsonArray.writeJson(new short[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new short[] { 12 }, builder);
+        Json.JsonArray.writeJson(new short[] { 12 }, builder);
         assertEquals("[\n  12\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
+        Json.JsonArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
         assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
     @Test
     public void testIntArrayToString() {
-        JsonStringBuilder builder;
+        Json.JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((int[]) null, builder);
+        Json.JsonArray.writeJson((int[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new int[0], builder);
+        Json.JsonArray.writeJson(new int[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new int[] { 12 }, builder);
+        Json.JsonArray.writeJson(new int[] { 12 }, builder);
         assertEquals("[\n  12\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
+        Json.JsonArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
         assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
@@ -573,19 +573,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((long[]) null, builder);
+        Json.JsonArray.writeJson((long[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new long[0], builder);
+        Json.JsonArray.writeJson(new long[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new long[] { 12 }, builder);
+        Json.JsonArray.writeJson(new long[] { 12 }, builder);
         assertEquals("[\n  12\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
+        Json.JsonArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
         assertEquals("[\n  -7,\n  22,\n  86,\n  -99\n]", builder.toString());
     }
 
@@ -594,19 +594,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((float[]) null, builder);
+        Json.JsonArray.writeJson((float[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new float[0], builder);
+        Json.JsonArray.writeJson(new float[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new float[] { 12.8f }, builder);
+        Json.JsonArray.writeJson(new float[] { 12.8f }, builder);
         assertEquals("[\n  12.8\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
+        Json.JsonArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
         assertEquals("[\n  -7.1,\n  22.234,\n  86.7,\n  -99.02\n]", builder.toString());
     }
 
@@ -615,19 +615,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((double[]) null, builder);
+        Json.JsonArray.writeJson((double[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new double[0], builder);
+        Json.JsonArray.writeJson(new double[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new double[] { 12.8 }, builder);
+        Json.JsonArray.writeJson(new double[] { 12.8 }, builder);
         assertEquals("[\n  12.8\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
+        Json.JsonArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
         assertEquals("[\n  -7.1,\n  22.234,\n  86.7,\n  -99.02\n]", builder.toString());
     }
 
@@ -636,19 +636,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((boolean[]) null, builder);
+        Json.JsonArray.writeJson((boolean[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new boolean[0], builder);
+        Json.JsonArray.writeJson(new boolean[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new boolean[] { true }, builder);
+        Json.JsonArray.writeJson(new boolean[] { true }, builder);
         assertEquals("[\n  true\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new boolean[] { true, false, true }, builder);
+        Json.JsonArray.writeJson(new boolean[] { true, false, true }, builder);
         assertEquals("[\n  true,\n  false,\n  true\n]", builder.toString());
     }
 
@@ -657,19 +657,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((char[]) null, builder);
+        Json.JsonArray.writeJson((char[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new char[0], builder);
+        Json.JsonArray.writeJson(new char[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new char[] { 'a' }, builder);
+        Json.JsonArray.writeJson(new char[] { 'a' }, builder);
         assertEquals("[\n  \"a\"\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
+        Json.JsonArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
         assertEquals("[\n  \"a\",\n  \"b\",\n  \"c\"\n]", builder.toString());
     }
 
@@ -678,19 +678,19 @@ _.repeat('abc', 0);
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson((Object[]) null, builder);
+        Json.JsonArray.writeJson((Object[]) null, builder);
         assertEquals("null", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new Object[0], builder);
+        Json.JsonArray.writeJson(new Object[0], builder);
         assertEquals("[]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new Object[] { "Hello" }, builder);
+        Json.JsonArray.writeJson(new Object[] { "Hello" }, builder);
         assertEquals("[\n  \"Hello\"\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        U.JsonArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
+        Json.JsonArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
         assertEquals("[\n  \"Hello\",\n  12,\n  [\n    1,\n    2,\n    3\n  ]\n]", builder.toString());
     }
 
@@ -855,52 +855,52 @@ _.repeat('abc', 0);
         assertEquals("[abc\\u001G/]", U.fromJson("[\"abc\\u001G\\/\"]").toString());
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr1() {
         U.fromJson("$");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr2() {
         U.fromJson("[\"value\"");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr3() {
         U.fromJson("{\"value\":123");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr4() {
         U.fromJson("{\"value\"123");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr5() {
         U.fromJson("{value");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr6() {
         U.fromJson("[ture]");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr8() {
         U.fromJson("[\"\\abc\"]");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr9() {
         U.fromJson("[123ea]");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr10() {
         try {
             U.fromJson("[123.a]");
             fail("Expected ParseException");
-        } catch (U.ParseException ex) {
+        } catch (Json.ParseException ex) {
             ex.getOffset();
             ex.getLine();
             ex.getColumn();
@@ -908,22 +908,22 @@ _.repeat('abc', 0);
         }
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr11() {
         U.fromJson("[1g]");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr12() {
         U.fromJson("[--1");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr13() {
         U.fromJson("[\"abc\u0010\"]");
     }
 
-    @Test(expected = U.ParseException.class)
+    @Test(expected = Json.ParseException.class)
     public void testDecodeParseErr14() {
         U.fromJson("[\"abc\"][]");
     }
@@ -932,15 +932,15 @@ _.repeat('abc', 0);
     @Test
     public void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((Collection) null, null, builder, false, Collections.<String>emptySet());
+        Xml.XmlArray.writeXml((Collection) null, null, builder, false, Collections.<String>emptySet());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", builder.toString());
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, null, builder, false,
+        Xml.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, null, builder, false,
             Collections.<String>emptySet());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, "name", builder, false,
+        Xml.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, "name", builder, false,
             Collections.<String>emptySet());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<root>\n"
@@ -1013,29 +1013,29 @@ _.repeat('abc', 0);
 
     @Test
     public void escapeXml() {
-        assertEquals(null, U.XmlValue.escape(null));
-        assertEquals("&quot;", U.XmlValue.escape("\""));
-        assertEquals("'", U.XmlValue.escape("'"));
-        assertEquals("&amp;", U.XmlValue.escape("&"));
-        assertEquals("&lt;", U.XmlValue.escape("<"));
-        assertEquals("&gt;", U.XmlValue.escape(">"));
-        assertEquals("\\", U.XmlValue.escape("\\"));
-        assertEquals("\\b", U.XmlValue.escape("\b"));
-        assertEquals("\\f", U.XmlValue.escape("\f"));
-        assertEquals("\n", U.XmlValue.escape("\n"));
-        assertEquals("\\r", U.XmlValue.escape("\r"));
-        assertEquals("\t", U.XmlValue.escape("\t"));
-        assertEquals("/", U.XmlValue.escape("/"));
-        assertEquals("&#x0000;", U.XmlValue.escape("\u0000"));
-        assertEquals("&#x001F;", U.XmlValue.escape("\u001F"));
-        assertEquals("\u0020", U.XmlValue.escape("\u0020"));
-        assertEquals("&#x007F;", U.XmlValue.escape("\u007F"));
-        assertEquals("&#x009F;", U.XmlValue.escape("\u009F"));
-        assertEquals("\u00A0", U.XmlValue.escape("\u00A0"));
-        assertEquals("&#x2000;", U.XmlValue.escape("\u2000"));
-        assertEquals("&#x20FF;", U.XmlValue.escape("\u20FF"));
-        assertEquals("\u2100", U.XmlValue.escape("\u2100"));
-        assertEquals("\uFFFF", U.XmlValue.escape("\uFFFF"));
+        assertEquals(null, Xml.XmlValue.escape(null));
+        assertEquals("&quot;", Xml.XmlValue.escape("\""));
+        assertEquals("'", Xml.XmlValue.escape("'"));
+        assertEquals("&amp;", Xml.XmlValue.escape("&"));
+        assertEquals("&lt;", Xml.XmlValue.escape("<"));
+        assertEquals("&gt;", Xml.XmlValue.escape(">"));
+        assertEquals("\\", Xml.XmlValue.escape("\\"));
+        assertEquals("\\b", Xml.XmlValue.escape("\b"));
+        assertEquals("\\f", Xml.XmlValue.escape("\f"));
+        assertEquals("\n", Xml.XmlValue.escape("\n"));
+        assertEquals("\\r", Xml.XmlValue.escape("\r"));
+        assertEquals("\t", Xml.XmlValue.escape("\t"));
+        assertEquals("/", Xml.XmlValue.escape("/"));
+        assertEquals("&#x0000;", Xml.XmlValue.escape("\u0000"));
+        assertEquals("&#x001F;", Xml.XmlValue.escape("\u001F"));
+        assertEquals("\u0020", Xml.XmlValue.escape("\u0020"));
+        assertEquals("&#x007F;", Xml.XmlValue.escape("\u007F"));
+        assertEquals("&#x009F;", Xml.XmlValue.escape("\u009F"));
+        assertEquals("\u00A0", Xml.XmlValue.escape("\u00A0"));
+        assertEquals("&#x2000;", Xml.XmlValue.escape("\u2000"));
+        assertEquals("&#x20FF;", Xml.XmlValue.escape("\u20FF"));
+        assertEquals("\u2100", Xml.XmlValue.escape("\u2100"));
+        assertEquals("\uFFFF", Xml.XmlValue.escape("\uFFFF"));
     }
 
     @Test
@@ -1043,22 +1043,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((byte[]) null, builder);
+        Xml.XmlArray.writeXml((byte[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new byte[0], builder);
+        Xml.XmlArray.writeXml(new byte[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new byte[] { 12 }, builder);
+        Xml.XmlArray.writeXml(new byte[] { 12 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new byte[] { -7, 22, 86, -99 }, builder);
+        Xml.XmlArray.writeXml(new byte[] { -7, 22, 86, -99 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
             + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
     }
@@ -1068,22 +1068,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((short[]) null, builder);
+        Xml.XmlArray.writeXml((short[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new short[0], builder);
+        Xml.XmlArray.writeXml(new short[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new short[] { 12 }, builder);
+        Xml.XmlArray.writeXml(new short[] { 12 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new short[] { -7, 22, 86, -99 }, builder);
+        Xml.XmlArray.writeXml(new short[] { -7, 22, 86, -99 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
             + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
     }
@@ -1093,22 +1093,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((int[]) null, builder);
+        Xml.XmlArray.writeXml((int[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new int[0], builder);
+        Xml.XmlArray.writeXml(new int[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new int[] { 12 }, builder);
+        Xml.XmlArray.writeXml(new int[] { 12 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new int[] { -7, 22, 86, -99 }, builder);
+        Xml.XmlArray.writeXml(new int[] { -7, 22, 86, -99 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
             + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
     }
@@ -1118,22 +1118,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((long[]) null, builder);
+        Xml.XmlArray.writeXml((long[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new long[0], builder);
+        Xml.XmlArray.writeXml(new long[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new long[] { 12 }, builder);
+        Xml.XmlArray.writeXml(new long[] { 12 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new long[] { -7, 22, 86, -99 }, builder);
+        Xml.XmlArray.writeXml(new long[] { -7, 22, 86, -99 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7</element>\n  <element>"
             + "22</element>\n  <element>86</element>\n  <element>-99</element>\n</root>", builder.toString());
     }
@@ -1143,22 +1143,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((float[]) null, builder);
+        Xml.XmlArray.writeXml((float[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new float[0], builder);
+        Xml.XmlArray.writeXml(new float[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new float[] { 12.8f }, builder);
+        Xml.XmlArray.writeXml(new float[] { 12.8f }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12.8</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
+        Xml.XmlArray.writeXml(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7.1</element>\n  <element>"
             + "22.234</element>\n  <element>86.7</element>\n  <element>-99.02</element>\n</root>", builder.toString());
     }
@@ -1168,22 +1168,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((double[]) null, builder);
+        Xml.XmlArray.writeXml((double[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new double[0], builder);
+        Xml.XmlArray.writeXml(new double[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new double[] { 12.8 }, builder);
+        Xml.XmlArray.writeXml(new double[] { 12.8 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>12.8</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
+        Xml.XmlArray.writeXml(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>-7.1</element>\n  <element>"
             + "22.234</element>\n  <element>86.7</element>\n  <element>-99.02</element>\n</root>", builder.toString());
     }
@@ -1193,22 +1193,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((boolean[]) null, builder);
+        Xml.XmlArray.writeXml((boolean[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new boolean[0], builder);
+        Xml.XmlArray.writeXml(new boolean[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new boolean[] { true }, builder);
+        Xml.XmlArray.writeXml(new boolean[] { true }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new boolean[] { true, false, true }, builder);
+        Xml.XmlArray.writeXml(new boolean[] { true, false, true }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>\n  <element>"
             + "false</element>\n  <element>true</element>\n</root>", builder.toString());
     }
@@ -1218,22 +1218,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((char[]) null, builder);
+        Xml.XmlArray.writeXml((char[]) null, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new char[0], builder);
+        Xml.XmlArray.writeXml(new char[0], builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new char[] { 'a' }, builder);
+        Xml.XmlArray.writeXml(new char[] { 'a' }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>a</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new char[] { 'a', 'b', 'c' }, builder);
+        Xml.XmlArray.writeXml(new char[] { 'a', 'b', 'c' }, builder);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>a</element>\n  <element>"
             + "b</element>\n  <element>c</element>\n</root>", builder.toString());
     }
@@ -1243,22 +1243,22 @@ _.repeat('abc', 0);
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml((Object[]) null, null, builder, false, Collections.<String>emptySet());
+        Xml.XmlArray.writeXml((Object[]) null, null, builder, false, Collections.<String>emptySet());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new Object[0], null, builder, false, Collections.<String>emptySet());
+        Xml.XmlArray.writeXml(new Object[0], null, builder, false, Collections.<String>emptySet());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new Object[] { "Hello" }, null, builder, false, Collections.<String>emptySet());
+        Xml.XmlArray.writeXml(new Object[] { "Hello" }, null, builder, false, Collections.<String>emptySet());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
-        U.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, null, builder, false,
+        Xml.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, null, builder, false,
             Collections.<String>emptySet());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n  <element>"
             + "12</element>\n  <element>\n    <element>1</element>\n    <element>2</element>\n    <element>3</element>"
@@ -2181,10 +2181,10 @@ _.repeat('abc', 0);
     @Test
     public void testJsonJavaArray() {
         JsonJavaStringBuilder builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((Collection) null, builder);
+        Json.JsonJavaArray.writeJson((Collection) null, builder);
         assertEquals("\"null\";", builder.toString());
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
+        Json.JsonJavaArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
         assertEquals("\"[\\n\"\n + \"  null\\n\"\n + \"]\";", builder.toString());
     }
 
@@ -2305,25 +2305,25 @@ _.repeat('abc', 0);
 
     @Test
     public void escapeJava() {
-        assertEquals(null, U.JsonJavaValue.escape(null));
-        assertEquals("\\\"", U.JsonJavaValue.escape("\""));
-        assertEquals("\\\\", U.JsonJavaValue.escape("\\"));
-        assertEquals("\\b", U.JsonJavaValue.escape("\b"));
-        assertEquals("\\f", U.JsonJavaValue.escape("\f"));
-        assertEquals("\\n", U.JsonJavaValue.escape("\n"));
-        assertEquals("\\r", U.JsonJavaValue.escape("\r"));
-        assertEquals("\\t", U.JsonJavaValue.escape("\t"));
-        assertEquals("\\/", U.JsonJavaValue.escape("/"));
-        assertEquals("\\u0000", U.JsonJavaValue.escape("\u0000"));
-        assertEquals("\\u001F", U.JsonJavaValue.escape("\u001F"));
-        assertEquals("\u0020", U.JsonJavaValue.escape("\u0020"));
-        assertEquals("\\u007F", U.JsonJavaValue.escape("\u007F"));
-        assertEquals("\\u009F", U.JsonJavaValue.escape("\u009F"));
-        assertEquals("\u00A0", U.JsonJavaValue.escape("\u00A0"));
-        assertEquals("\\u2000", U.JsonJavaValue.escape("\u2000"));
-        assertEquals("\\u20FF", U.JsonJavaValue.escape("\u20FF"));
-        assertEquals("\u2100", U.JsonJavaValue.escape("\u2100"));
-        assertEquals("\uFFFF", U.JsonJavaValue.escape("\uFFFF"));
+        assertNull(Json.JsonJavaValue.escape(null));
+        assertEquals("\\\"", Json.JsonJavaValue.escape("\""));
+        assertEquals("\\\\", Json.JsonJavaValue.escape("\\"));
+        assertEquals("\\b", Json.JsonJavaValue.escape("\b"));
+        assertEquals("\\f", Json.JsonJavaValue.escape("\f"));
+        assertEquals("\\n", Json.JsonJavaValue.escape("\n"));
+        assertEquals("\\r", Json.JsonJavaValue.escape("\r"));
+        assertEquals("\\t", Json.JsonJavaValue.escape("\t"));
+        assertEquals("\\/", Json.JsonJavaValue.escape("/"));
+        assertEquals("\\u0000", Json.JsonJavaValue.escape("\u0000"));
+        assertEquals("\\u001F", Json.JsonJavaValue.escape("\u001F"));
+        assertEquals("\u0020", Json.JsonJavaValue.escape("\u0020"));
+        assertEquals("\\u007F", Json.JsonJavaValue.escape("\u007F"));
+        assertEquals("\\u009F", Json.JsonJavaValue.escape("\u009F"));
+        assertEquals("\u00A0", Json.JsonJavaValue.escape("\u00A0"));
+        assertEquals("\\u2000", Json.JsonJavaValue.escape("\u2000"));
+        assertEquals("\\u20FF", Json.JsonJavaValue.escape("\u20FF"));
+        assertEquals("\u2100", Json.JsonJavaValue.escape("\u2100"));
+        assertEquals("\uFFFF", Json.JsonJavaValue.escape("\uFFFF"));
     }
 
     @Test
@@ -2331,21 +2331,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((byte[]) null, builder);
+        Json.JsonJavaArray.writeJson((byte[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new byte[0], builder);
+        Json.JsonJavaArray.writeJson(new byte[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new byte[] { 12 }, builder);
+        Json.JsonJavaArray.writeJson(new byte[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
+        Json.JsonJavaArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -2359,21 +2359,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((short[]) null, builder);
+        Json.JsonJavaArray.writeJson((short[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new short[0], builder);
+        Json.JsonJavaArray.writeJson(new short[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new short[] { 12 }, builder);
+        Json.JsonJavaArray.writeJson(new short[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
+        Json.JsonJavaArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -2387,21 +2387,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((int[]) null, builder);
+        Json.JsonJavaArray.writeJson((int[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new int[0], builder);
+        Json.JsonJavaArray.writeJson(new int[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new int[] { 12 }, builder);
+        Json.JsonJavaArray.writeJson(new int[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
+        Json.JsonJavaArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -2415,21 +2415,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((long[]) null, builder);
+        Json.JsonJavaArray.writeJson((long[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new long[0], builder);
+        Json.JsonJavaArray.writeJson(new long[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new long[] { 12 }, builder);
+        Json.JsonJavaArray.writeJson(new long[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
+        Json.JsonJavaArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -2443,21 +2443,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((float[]) null, builder);
+        Json.JsonJavaArray.writeJson((float[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new float[0], builder);
+        Json.JsonJavaArray.writeJson(new float[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new float[] { 12.8f }, builder);
+        Json.JsonJavaArray.writeJson(new float[] { 12.8f }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12.8\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
+        Json.JsonJavaArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7.1,\\n\"\n"
                 + " + \"  22.234,\\n\"\n"
@@ -2471,21 +2471,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((double[]) null, builder);
+        Json.JsonJavaArray.writeJson((double[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new double[0], builder);
+        Json.JsonJavaArray.writeJson(new double[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new double[] { 12.8 }, builder);
+        Json.JsonJavaArray.writeJson(new double[] { 12.8 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12.8\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
+        Json.JsonJavaArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7.1,\\n\"\n"
                 + " + \"  22.234,\\n\"\n"
@@ -2499,21 +2499,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((boolean[]) null, builder);
+        Json.JsonJavaArray.writeJson((boolean[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new boolean[0], builder);
+        Json.JsonJavaArray.writeJson(new boolean[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new boolean[] { true }, builder);
+        Json.JsonJavaArray.writeJson(new boolean[] { true }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  true\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new boolean[] { true, false, true }, builder);
+        Json.JsonJavaArray.writeJson(new boolean[] { true, false, true }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  true,\\n\"\n"
                 + " + \"  false,\\n\"\n"
@@ -2526,21 +2526,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((char[]) null, builder);
+        Json.JsonJavaArray.writeJson((char[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new char[0], builder);
+        Json.JsonJavaArray.writeJson(new char[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new char[] { 'a' }, builder);
+        Json.JsonJavaArray.writeJson(new char[] { 'a' }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \"a\"\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
+        Json.JsonJavaArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \"a\",\\n\"\n"
                 + " + \"  \"b\",\\n\"\n"
@@ -2553,21 +2553,21 @@ _.repeat('abc', 0);
         JsonJavaStringBuilder builder;
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson((Object[]) null, builder);
+        Json.JsonJavaArray.writeJson((Object[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new Object[0], builder);
+        Json.JsonJavaArray.writeJson(new Object[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new Object[] { "Hello" }, builder);
+        Json.JsonJavaArray.writeJson(new Object[] { "Hello" }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"Hello\\\"\\n\"\n"
                 + " + \"]\";", builder.toString());
 
         builder = new JsonJavaStringBuilder();
-        U.JsonJavaArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
+        Json.JsonJavaArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"Hello\\\",\\n\"\n"
                 + " + \"  12,\\n\"\n"
@@ -2673,15 +2673,15 @@ _.repeat('abc', 0);
         new U(new ArrayList<String>());
         new U("");
         new U(Arrays.asList()).chain();
-        new U.JsonArray();
-        new U.JsonValue();
-        new U.JsonObject();
-        new U.XmlArray();
-        new U.XmlValue();
-        new U.XmlObject();
-        new U.JsonJavaArray();
-        new U.JsonJavaValue();
-        new U.JsonJavaObject();
+        new Json.JsonArray();
+        new Json.JsonValue();
+        new Json.JsonObject();
+        new Xml.XmlArray();
+        new Xml.XmlValue();
+        new Xml.XmlObject();
+        new Json.JsonJavaArray();
+        new Json.JsonJavaValue();
+        new Json.JsonJavaObject();
         U.chain(new ArrayList<String>());
         U.chain(new HashSet<String>());
         U.chain(new String[] {});
