@@ -1533,11 +1533,9 @@ _.repeat('abc', 0);
                 + "      {\n"
                 + "        \"#comment\": \"d\"\n"
                 + "      },\n"
-                + "      \"c\",\n"
-                + "      {\n"
-                + "        \"#comment\": \"d\"\n"
-                + "      }\n"
-                + "    ]\n"
+                + "      \"c\"\n"
+                + "    ],\n"
+                + "    \"#comment\": \"d\"\n"
                 + "  }\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml2)));

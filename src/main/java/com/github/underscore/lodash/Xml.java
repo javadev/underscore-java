@@ -735,37 +735,35 @@ public final class Xml {
             final Function<Object, Object> nodeMapper, int[] uniqueIds) {
         if (map.containsKey(name)) {
             if (TEXT.equals(name)) {
-                addText(map, name + uniqueIds[0], value, nodeMapper);
+                map.put(name + uniqueIds[0], nodeMapper.apply(getValue(value)));
                 uniqueIds[0] += 1;
             } else if (COMMENT.equals(name)) {
-                addText(map, name + uniqueIds[1], value, nodeMapper);
+                map.put(name + uniqueIds[1], nodeMapper.apply(getValue(value)));
                 uniqueIds[1] += 1;
             } else if (CDATA.equals(name)) {
-                addText(map, name + uniqueIds[2], value, nodeMapper);
+                map.put(name + uniqueIds[2], nodeMapper.apply(getValue(value)));
                 uniqueIds[2] += 1;
             } else {
                 final Object object = map.get(name);
                 if (object instanceof List) {
-                    ((List<Object>) object).add(getValue(value));
+                    addText(map, name, (List<Object>) object, value);
                 } else {
-                    addNodeList(map, name, object, value);
+                    final List<Object> objects = U.newArrayList();
+                    objects.add(object);
+                    addText(map, name, objects, value);
+                    map.put(name, objects);
                 }
             }
         } else {
-            if (TEXT.equals(name) || COMMENT.equals(name) || CDATA.equals(name)) {
-                addText(map, name, value, nodeMapper);
-            } else {
-                map.put(name, nodeMapper.apply(getValue(value)));
-            }
+            map.put(name, nodeMapper.apply(getValue(value)));
         }
     }
 
     @SuppressWarnings("unchecked")
-    private static void addNodeList(final Map<String, Object> map, final String name, final Object oldValue,
+    private static void addText(final Map<String, Object> map, final String name, final List<Object> objects,
         final Object value) {
-        final List<Object> objects = U.newArrayList();
-        objects.add(oldValue);
         int lastIndex = map.size() - 1;
+        final int index = objects.size();
         while (true) {
             final Map.Entry lastElement = (Map.Entry) map.entrySet().toArray()[lastIndex];
             if (String.valueOf(lastElement.getKey()).startsWith(TEXT)
@@ -773,7 +771,7 @@ public final class Xml {
                 || String.valueOf(lastElement.getKey()).startsWith(CDATA)) {
                 final Map<String, Object> text = U.newLinkedHashMap();
                 text.put(String.valueOf(lastElement.getKey()), map.remove(lastElement.getKey()));
-                objects.add(1, text);
+                objects.add(index, text);
             } else {
                 if (name.equals(String.valueOf(lastElement.getKey()))) {
                     break;
@@ -782,20 +780,6 @@ public final class Xml {
             lastIndex -= 1;
         }
         objects.add(getValue(value));
-        map.put(name, objects);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static void addText(final Map<String, Object> map, final String name, final Object value,
-            final Function<Object, Object> nodeMapper) {
-        if (!map.isEmpty() && ((Map.Entry) map.entrySet().toArray()[map.size() - 1]).getValue() instanceof List) {
-            final Object lastElement = ((Map.Entry) map.entrySet().toArray()[map.size() - 1]).getValue();
-            final Map<String, Object> text = U.newLinkedHashMap();
-            text.put(name, nodeMapper.apply(getValue(value)));
-            ((List) lastElement).add(text);
-        } else {
-            map.put(name, nodeMapper.apply(getValue(value)));
-        }
     }
 
     @SuppressWarnings("unchecked")
