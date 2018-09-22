@@ -1962,8 +1962,18 @@ public class U<T> extends com.github.underscore.U<T> {
                         .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)) + ">"
                         + NULL + "</" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)) + ">");
                 } else {
-                    XmlValue.writeXml(value, name == null ? ELEMENT_TEXT : name, builder, parentTextFound,
-                        namespaces);
+                    if (value instanceof Map && ((Map) value).size() == 1
+                        && (String.valueOf(((Map.Entry) ((Map) value).entrySet().iterator()
+                            .next()).getKey()).startsWith(TEXT)
+                        || String.valueOf(((Map.Entry) ((Map) value).entrySet().iterator()
+                            .next()).getKey()).startsWith("#comment")
+                        || String.valueOf(((Map.Entry) ((Map) value).entrySet().iterator()
+                            .next()).getKey()).startsWith("#cdata-section"))) {
+                        XmlObject.writeXml((Map) value, null, builder, parentTextFound, namespaces);
+                    } else {
+                        XmlValue.writeXml(value, name == null ? ELEMENT_TEXT : name, builder, parentTextFound,
+                            namespaces);
+                    }
                     parentTextFound = false;
                 }
                 if (iter.hasNext()) {
@@ -2897,25 +2907,64 @@ public class U<T> extends com.github.underscore.U<T> {
             final Function<Object, Object> nodeMapper, int[] uniqueIds) {
         if (map.containsKey(name)) {
             if (TEXT.equals(name)) {
-                map.put(name + uniqueIds[0], nodeMapper.apply(getValue(value)));
+                addText(map, name + uniqueIds[0], value, nodeMapper);
                 uniqueIds[0] += 1;
             } else if ("#comment".equals(name)) {
-                map.put(name + uniqueIds[1], nodeMapper.apply(getValue(value)));
+                addText(map, name + uniqueIds[1], value, nodeMapper);
                 uniqueIds[1] += 1;
             } else if ("#cdata-section".equals(name)) {
-                map.put(name + uniqueIds[2], nodeMapper.apply(getValue(value)));
+                addText(map, name + uniqueIds[2], value, nodeMapper);
                 uniqueIds[2] += 1;
             } else {
                 final Object object = map.get(name);
                 if (object instanceof List) {
                     ((List<Object>) object).add(getValue(value));
                 } else {
-                    final List<Object> objects = newArrayList();
-                    objects.add(object);
-                    objects.add(getValue(value));
-                    map.put(name, objects);
+                    addNodeList(map, name, object, value);
                 }
             }
+        } else {
+            if (TEXT.equals(name) || "#comment".equals(name) || "#cdata-section".equals(name)) {
+                addText(map, name, value, nodeMapper);
+            } else {
+                map.put(name, nodeMapper.apply(getValue(value)));
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void addNodeList(final Map<String, Object> map, final String name, final Object oldValue,
+        final Object value) {
+        final List<Object> objects = newArrayList();
+        objects.add(oldValue);
+        int lastIndex = map.size() - 1;
+        while (true) {
+            final Map.Entry lastElement = (Map.Entry) map.entrySet().toArray()[lastIndex];
+            if (String.valueOf(lastElement.getKey()).startsWith(TEXT)
+                || String.valueOf(lastElement.getKey()).startsWith("#comment")
+                || String.valueOf(lastElement.getKey()).startsWith("#cdata-section")) {
+                final Map<String, Object> text = newLinkedHashMap();
+                text.put(String.valueOf(lastElement.getKey()), map.remove(lastElement.getKey()));
+                objects.add(1, text);
+            } else {
+                if (name.equals(String.valueOf(lastElement.getKey()))) {
+                    break;
+                }
+            }
+            lastIndex -= 1;
+        }
+        objects.add(getValue(value));
+        map.put(name, objects);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void addText(final Map<String, Object> map, final String name, final Object value,
+            final Function<Object, Object> nodeMapper) {
+        if (!map.isEmpty() && ((Map.Entry) map.entrySet().toArray()[map.size() - 1]).getValue() instanceof List) {
+            final Object lastElement = ((Map.Entry) map.entrySet().toArray()[map.size() - 1]).getValue();
+            final Map<String, Object> text = newLinkedHashMap();
+            text.put(name, nodeMapper.apply(getValue(value)));
+            ((List) lastElement).add(text);
         } else {
             map.put(name, nodeMapper.apply(getValue(value)));
         }

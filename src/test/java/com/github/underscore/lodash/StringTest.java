@@ -1490,6 +1490,82 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml11() {
+        final String xml = "<a>"
+                + "<b>c</b>"
+                + "<!--d-->"
+                + "<e/>"
+                + "<!--d-->"
+                + "<b>c</b>"
+                + "<!--d-->"
+                + "</a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": [\n"
+                + "      \"c\",\n"
+                + "      {\n"
+                + "        \"#comment\": \"d\"\n"
+                + "      },\n"
+                + "      {\n"
+                + "        \"#comment1\": \"d\"\n"
+                + "      },\n"
+                + "      \"c\"\n"
+                + "    ],\n"
+                + "    \"e\": {\n"
+                + "    },\n"
+                + "    \"#comment\": \"d\"\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+        final String xml2 = "<a>"
+                + "<e/>"
+                + "<b>c</b>"
+                + "<!--d-->"
+                + "<b>c</b>"
+                + "<!--d-->"
+                + "</a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"e\": {\n"
+                + "    },\n"
+                + "    \"b\": [\n"
+                + "      \"c\",\n"
+                + "      {\n"
+                + "        \"#comment\": \"d\"\n"
+                + "      },\n"
+                + "      \"c\",\n"
+                + "      {\n"
+                + "        \"#comment\": \"d\"\n"
+                + "      }\n"
+                + "    ]\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml2)));
+        final String xml3 = "<a>"
+                + "<b>c</b>"
+                + "1"
+                + "<![CDATA[2]]>"
+                + "<b>c</b>"
+                + "</a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": [\n"
+                + "      \"c\",\n"
+                + "      {\n"
+                + "        \"#text\": \"1\"\n"
+                + "      },\n"
+                + "      {\n"
+                + "        \"#cdata-section\": \"2\"\n"
+                + "      },\n"
+                + "      \"c\"\n"
+                + "    ]\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml3)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
@@ -1804,6 +1880,45 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + "<a__HI__b>\n</a__HI__b>",
             U.toXml((Map<String, Object>) U.fromJson(json3)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson18() {
+        String json = "{\n"
+        + "  \"a\": {\n"
+        + "    \"b\": [\n"
+        + "      {\n"
+        + "      },\n"
+        + "      {\n"
+        + "        \"#comment\": \"c\"\n"
+        + "      },\n"
+        + "      {\n"
+        + "        \"#text\": \"\\n1\\n\"\n"
+        + "      },\n"
+        + "      {\n"
+        + "        \"#cdata-section\": \"2\"\n"
+        + "      },\n"
+        + "      {\n"
+        + "        \"a\": 1\n"
+        + "      }\n"
+        + "    ]\n"
+        + "  }\n"
+        + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<a>\n"
+        + "  <b>\n"
+        + "  </b>\n"
+        + "  <!--c-->\n"
+        + "\n"
+        + "1\n"
+        + "\n"
+        + "  <![CDATA[2]]>\n"
+        + "  <b>\n"
+        + "    <a>1</a>\n"
+        + "  </b>\n"
+        + "</a>",
+            U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
     @SuppressWarnings("unchecked")
