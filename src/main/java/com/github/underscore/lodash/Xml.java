@@ -701,7 +701,8 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> createMap(final org.w3c.dom.Node node,
-        final Function<Object, Object> nodeMapper, Map<String, Object> attrMap, int[] uniqueIds) {
+        final Function<Object, Object> nodeMapper, Map<String, Object> attrMap, int[] uniqueIds,
+        final Function<Object, Object> valueMapper) {
         final Map<String, Object> map = U.newLinkedHashMap();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
@@ -718,11 +719,11 @@ public final class Xml {
                     addNodeValue(attrMapLocal, '-' + currentNodeAttr.getNodeName(),
                             currentNodeAttr.getTextContent(), nodeMapper, uniqueIds);
                 }
-                value = createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds);
+                value = createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, valueMapper);
             } else {
                 value = currentNode.getTextContent();
             }
-            if (TEXT.equals(name) && value.toString().trim().isEmpty()) {
+            if (TEXT.equals(name) && valueMapper.apply(value).toString().isEmpty()) {
                 continue;
             }
             addNodeValue(map, name, value, nodeMapper, uniqueIds);
@@ -783,7 +784,7 @@ public final class Xml {
     }
 
     @SuppressWarnings("unchecked")
-    public static Object fromXml(final String xml) {
+    public static Object fromXml(final String xml, final Function<Object, Object> valueMapper) {
         if (xml == null) {
             return null;
         }
@@ -793,7 +794,7 @@ public final class Xml {
                 public Object apply(Object object) {
                     return object;
                 }
-            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1});
+            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, valueMapper);
             if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
                 && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
                 || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
@@ -803,6 +804,14 @@ public final class Xml {
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
+    }
+
+    public static Object fromXml(final String xml) {
+        return fromXml(xml, new Function<Object, Object>() {
+                public Object apply(Object object) {
+                    return String.valueOf(object).trim();
+                }
+        });
     }
 
     private static org.w3c.dom.Document createDocument(final String xml) throws java.io.IOException,
@@ -824,7 +833,12 @@ public final class Xml {
                 public Object apply(Object object) {
                     return object instanceof List ? object : U.newArrayList(Arrays.asList(object));
                 }
-            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1});
+            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1},
+            new Function<Object, Object>() {
+                public Object apply(Object object) {
+                    return String.valueOf(object).trim();
+                }
+        });
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
