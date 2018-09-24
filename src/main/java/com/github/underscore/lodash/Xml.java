@@ -394,7 +394,7 @@ public final class Xml {
             }
             if (name != null) {
                 builder.decIdent();
-                if (elems.isEmpty() || !(elems.get(elems.size() - 1) instanceof XmlStringBuilderText)) {
+                if (!elems.isEmpty() && !(elems.get(elems.size() - 1) instanceof XmlStringBuilderText)) {
                     builder.newLine().fillSpaces();
                 }
                 builder.append("</").append(XmlValue.escapeName(name, namespaces)).append(">");

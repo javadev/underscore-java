@@ -1614,8 +1614,7 @@ _.repeat('abc', 0);
                 + "  <image name=\"sun1\" src=\"Images/Sun.png\">\n"
                 + "    <__FU__test>\n"
                 + "    </__FU__test>\n"
-                + "    <__FU__test2>\n"
-                + "    </__FU__test2>\n"
+                + "    <__FU__test2></__FU__test2>\n"
                 + "    <hOffset>250<unit>mm</unit>\n"
                 + "    </hOffset>\n"
                 + "    <vOffset>250</vOffset>\n"
@@ -1706,8 +1705,7 @@ _.repeat('abc', 0);
                 + "  }\n"
                 + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<__EE__EMPTY__EE__>\n"
-                + "</__EE__EMPTY__EE__>",
+                + "<__EE__EMPTY__EE__></__EE__EMPTY__EE__>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
@@ -1778,7 +1776,7 @@ _.repeat('abc', 0);
     public void toXmlFromJson11() {
         final String json = "{\n  \"-id\": 1\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<root id=\"1\">\n</root>",
+                + "<root id=\"1\"></root>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
@@ -1788,7 +1786,7 @@ _.repeat('abc', 0);
         final String json = "{\n  \"a\": {\n    \"#text\": \"\\ntext\\n\",\n    \"b\": [\n"
             + "      {\n      },\n      {\n      }\n    ]\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-            + "<a>\ntext\n<b>\n  </b>\n  <b>\n  </b>\n</a>",
+            + "<a>\ntext\n<b></b>\n  <b></b>\n</a>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
@@ -1800,7 +1798,7 @@ _.repeat('abc', 0);
             + "    ],\n    \"b\": {\n    },\n"
             + "    \"c\": {\n    }\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<a>\ntest\n\ntest\n<b>\n  </b>\n  <c>\n  </c>\n</a>",
+                + "<a>\ntest\n\ntest\n<b></b>\n  <c></c>\n</a>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
@@ -1848,10 +1846,8 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + "<a>\n"
         + "  <b>\n"
-        + "    <c>\n"
-        + "    </c>\n"
-        + "    <c>\n"
-        + "    </c>\n"
+        + "    <c></c>\n"
+        + "    <c></c>\n"
         + "1\n"
         + "  </b>\n"
         + "</a>",
@@ -1865,17 +1861,16 @@ _.repeat('abc', 0);
         + "    \"lineItem\": {\n      \"-edi:taxClass\": \"exempt\"\n    }\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + "<x xmlns:edi=\"http://ecommerce.example.org/schema\">\n"
-        + "  <lineItem edi:taxClass=\"exempt\">\n"
-        + "  </lineItem>\n"
+        + "  <lineItem edi:taxClass=\"exempt\"></lineItem>\n"
         + "</x>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
         String json2 = "{\n  \":\": {\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-        + "<__HI__>\n</__HI__>",
+        + "<__HI__></__HI__>",
             U.toXml((Map<String, Object>) U.fromJson(json2)));
         String json3 = "{\n  \"a:b\": {\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-        + "<a__HI__b>\n</a__HI__b>",
+        + "<a__HI__b></a__HI__b>",
             U.toXml((Map<String, Object>) U.fromJson(json3)));
     }
 
@@ -1904,8 +1899,7 @@ _.repeat('abc', 0);
         + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + "<a>\n"
-        + "  <b>\n"
-        + "  </b>\n"
+        + "  <b></b>\n"
         + "  <!--c-->\n"
         + "1\n"
         + "  <![CDATA[2]]>\n"
@@ -1969,8 +1963,7 @@ _.repeat('abc', 0);
         + "  }\n"
         + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        + "\n<root>"
-        + "\n</root>", U.toXml((Map<String, Object>) U.fromJson(string)));
+        + "\n<root></root>", U.toXml((Map<String, Object>) U.fromJson(string)));
     }
 
     @SuppressWarnings("unchecked")
