@@ -23,12 +23,12 @@
  */
 package com.github.underscore;
 
-import static org.awaitility.Awaitility.await;
-import java.util.concurrent.TimeUnit;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import static java.util.Arrays.asList;
-import java.util.concurrent.Callable;
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
