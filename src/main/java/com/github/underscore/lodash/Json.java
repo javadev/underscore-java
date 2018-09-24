@@ -31,7 +31,7 @@ public final class Json {
     public static class JsonStringBuilder {
         public enum Step {
             TWO_SPACES(2), THREE_SPACES(3), FOUR_SPACES(4), COMPACT(0), TABS(1);
-            private int ident;
+            private final int ident;
             Step(int ident) {
                 this.ident = ident;
             }
@@ -39,18 +39,52 @@ public final class Json {
                 return ident;
             }
         }
+        public enum Type {
+            PURE("", "\n", "", "\""), JAVA("\"", "\\n\"\n + \"", "\";", "\\\"");
+            private final String initial;
+            private final String newLine;
+            private final String tailLine;
+            private final String wrapLine;
+            Type(String initial, String newLine, String tailLine, String wrapLine) {
+                this.initial = initial;
+                this.newLine = newLine;
+                this.tailLine = tailLine;
+                this.wrapLine = wrapLine;
+            }
+            public String getInitial() {
+                return initial;
+            }
+            public String getNewLine() {
+                return newLine;
+            }
+            public String getTailLine() {
+                return tailLine;
+            }
+            public String getWrapLine() {
+                return wrapLine;
+            }
+        }
         private final StringBuilder builder;
         private final Step identStep;
+        private final Type type;
         private int ident;
 
         public JsonStringBuilder(Step identStep) {
-            builder = new StringBuilder();
+            builder = new StringBuilder(Type.PURE.getInitial());
             this.identStep = identStep;
+            this.type = Type.PURE;
+        }
+
+        public JsonStringBuilder(Type type) {
+            builder = new StringBuilder(type.getInitial());
+            this.identStep = Step.TWO_SPACES;
+            this.type = type;
         }
 
         public JsonStringBuilder() {
             builder = new StringBuilder();
             this.identStep = Step.TWO_SPACES;
+            this.type = Type.PURE;
         }
 
         public JsonStringBuilder append(final char character) {
@@ -82,7 +116,7 @@ public final class Json {
 
         public JsonStringBuilder newLine() {
             if (identStep != Step.COMPACT) {
-                builder.append("\n");
+                builder.append(type.getNewLine());
             }
             return this;
         }
@@ -92,7 +126,7 @@ public final class Json {
         }
 
         public String toString() {
-            return builder.toString();
+            return builder.toString() + type.getTailLine();
         }
     }
 
@@ -303,9 +337,9 @@ public final class Json {
             }
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
-                builder.fillSpaces().append('\"');
+                builder.fillSpaces().append(builder.type.getWrapLine());
                 builder.append(JsonValue.unescapeName(String.valueOf(entry.getKey())));
-                builder.append('\"');
+                builder.append(builder.type.getWrapLine());
                 builder.append(':');
                 if (builder.getIdentStep() != JsonStringBuilder.Step.COMPACT) {
                     builder.append(' ');
@@ -324,7 +358,8 @@ public final class Json {
             if (value == null) {
                 builder.append(NULL);
             } else if (value instanceof String) {
-                builder.append('"').append(escape((String) value)).append('"');
+                builder.append(builder.type.getWrapLine())
+                        .append(escape((String) value)).append(builder.type.getWrapLine());
             } else if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
                     builder.append(NULL);
@@ -444,395 +479,6 @@ public final class Json {
                     break;
                 case '\t':
                     sb.append("\\t");
-                    break;
-                case '/':
-                    sb.append("\\/");
-                    break;
-                default:
-                    if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
-                        || ch >= '\u2000' && ch <= '\u20FF') {
-                        String ss = Integer.toHexString(ch);
-                        sb.append("\\u");
-                        for (int k = 0; k < 4 - ss.length(); k++) {
-                            sb.append('0');
-                        }
-                        sb.append(ss.toUpperCase());
-                    } else {
-                        sb.append(ch);
-                    }
-                    break;
-                }
-            }
-        }
-    }
-
-    public static String toJson(Collection collection, JsonStringBuilder.Step identStep) {
-        final JsonStringBuilder builder = new JsonStringBuilder(identStep);
-
-        JsonArray.writeJson(collection, builder);
-        return builder.toString();
-    }
-
-    public static String toJson(Collection collection) {
-        return toJson(collection, JsonStringBuilder.Step.TWO_SPACES);
-    }
-
-    public static String toJson(Map map, JsonStringBuilder.Step identStep) {
-        final JsonStringBuilder builder = new JsonStringBuilder(identStep);
-
-        JsonObject.writeJson(map, builder);
-        return builder.toString();
-    }
-
-    public static String toJson(Map map) {
-        return toJson(map, JsonStringBuilder.Step.TWO_SPACES);
-    }
-
-    public static class JsonJavaStringBuilder {
-        private final StringBuilder builder;
-        private int ident;
-
-        public JsonJavaStringBuilder() {
-            builder = new StringBuilder("\"");
-        }
-
-        public JsonJavaStringBuilder append(final char character) {
-            builder.append(character);
-            return this;
-        }
-
-        public JsonJavaStringBuilder append(final String string) {
-            builder.append(string);
-            return this;
-        }
-
-        public JsonJavaStringBuilder fillSpaces() {
-            for (int index = 0; index < ident; index += 1) {
-                builder.append(' ');
-            }
-            return this;
-        }
-
-        public JsonJavaStringBuilder incIdent() {
-            ident += 2;
-            return this;
-        }
-
-        public JsonJavaStringBuilder decIdent() {
-            ident -= 2;
-            return this;
-        }
-
-        public JsonJavaStringBuilder newLine() {
-            builder.append("\\n\"\n + \"");
-            return this;
-        }
-
-        public String toString() {
-            return builder.toString() + "\";";
-        }
-    }
-
-    public static class JsonJavaArray {
-        public static void writeJson(Collection collection, JsonJavaStringBuilder builder) {
-            if (collection == null) {
-                builder.append(NULL);
-                return;
-            }
-
-            Iterator iter = collection.iterator();
-
-            builder.append('[').incIdent().newLine();
-            while (iter.hasNext()) {
-                Object value = iter.next();
-                if (value == null) {
-                    builder.fillSpaces().append(NULL);
-                    continue;
-                }
-
-                builder.fillSpaces();
-                JsonJavaValue.writeJson(value, builder);
-                if (iter.hasNext()) {
-                    builder.append(',').newLine();
-                }
-            }
-            builder.newLine().decIdent().fillSpaces().append(']');
-        }
-
-        public static void writeJson(byte[] array, JsonJavaStringBuilder builder) {
-            if (array == null) {
-                builder.append(NULL);
-            } else if (array.length == 0) {
-                builder.append("[]");
-            } else {
-                builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-
-                for (int i = 1; i < array.length; i++) {
-                    builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
-                }
-
-                builder.newLine().decIdent().fillSpaces().append(']');
-            }
-        }
-
-        public static void writeJson(short[] array, JsonJavaStringBuilder builder) {
-            if (array == null) {
-                builder.append(NULL);
-            } else if (array.length == 0) {
-                builder.append("[]");
-            } else {
-                builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-
-                for (int i = 1; i < array.length; i++) {
-                    builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
-                }
-
-                builder.newLine().decIdent().fillSpaces().append(']');
-            }
-        }
-
-        public static void writeJson(int[] array, JsonJavaStringBuilder builder) {
-            if (array == null) {
-                builder.append(NULL);
-            } else if (array.length == 0) {
-                builder.append("[]");
-            } else {
-                builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-
-                for (int i = 1; i < array.length; i++) {
-                    builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
-                }
-
-                builder.newLine().decIdent().fillSpaces().append(']');
-            }
-        }
-
-        public static void writeJson(long[] array, JsonJavaStringBuilder builder) {
-            if (array == null) {
-                builder.append(NULL);
-            } else if (array.length == 0) {
-                builder.append("[]");
-            } else {
-                builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-
-                for (int i = 1; i < array.length; i++) {
-                    builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
-                }
-
-                builder.newLine().decIdent().fillSpaces().append(']');
-            }
-        }
-
-        public static void writeJson(float[] array, JsonJavaStringBuilder builder) {
-            if (array == null) {
-                builder.append(NULL);
-            } else if (array.length == 0) {
-                builder.append("[]");
-            } else {
-                builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-
-                for (int i = 1; i < array.length; i++) {
-                    builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
-                }
-
-                builder.newLine().decIdent().fillSpaces().append(']');
-            }
-        }
-
-        public static void writeJson(double[] array, JsonJavaStringBuilder builder) {
-            if (array == null) {
-                builder.append(NULL);
-            } else if (array.length == 0) {
-                builder.append("[]");
-            } else {
-                builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-
-                for (int i = 1; i < array.length; i++) {
-                    builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
-                }
-
-                builder.newLine().decIdent().fillSpaces().append(']');
-            }
-        }
-
-        public static void writeJson(boolean[] array, JsonJavaStringBuilder builder) {
-            if (array == null) {
-                builder.append(NULL);
-            } else if (array.length == 0) {
-                builder.append("[]");
-            } else {
-                builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-
-                for (int i = 1; i < array.length; i++) {
-                    builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
-                }
-
-                builder.newLine().decIdent().fillSpaces().append(']');
-            }
-        }
-
-        public static void writeJson(char[] array, JsonJavaStringBuilder builder) {
-            if (array == null) {
-                builder.append(NULL);
-            } else if (array.length == 0) {
-                builder.append("[]");
-            } else {
-                builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append('\"').append(String.valueOf(array[0])).append('\"');
-
-                for (int i = 1; i < array.length; i++) {
-                    builder.append(',').newLine().fillSpaces();
-                    builder.append('\"').append(String.valueOf(array[i])).append('\"');
-                }
-
-                builder.newLine().decIdent().fillSpaces().append(']');
-            }
-        }
-
-        public static void writeJson(Object[] array, JsonJavaStringBuilder builder) {
-            if (array == null) {
-                builder.append(NULL);
-            } else if (array.length == 0) {
-                builder.append("[]");
-            } else {
-                builder.append('[').newLine().incIdent().fillSpaces();
-                JsonJavaValue.writeJson(array[0], builder);
-
-                for (int i = 1; i < array.length; i++) {
-                    builder.append(',').newLine().fillSpaces();
-                    JsonJavaValue.writeJson(array[i], builder);
-                }
-
-                builder.newLine().decIdent().fillSpaces().append(']');
-            }
-        }
-    }
-
-    public static class JsonJavaObject {
-        public static void writeJson(Map map, JsonJavaStringBuilder builder) {
-            if (map == null) {
-                builder.append(NULL);
-                return;
-            }
-
-            Iterator iter = map.entrySet().iterator();
-
-            builder.append('{').newLine().incIdent();
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
-                builder.fillSpaces().append("\\\"");
-                builder.append(U.escape(String.valueOf(entry.getKey())));
-                builder.append("\\\"");
-                builder.append(':').append(' ');
-                JsonJavaValue.writeJson(entry.getValue(), builder);
-                if (iter.hasNext()) {
-                    builder.append(',').newLine();
-                }
-            }
-            builder.newLine().decIdent().fillSpaces().append('}');
-        }
-    }
-
-    public static class JsonJavaValue {
-        public static void writeJson(Object value, JsonJavaStringBuilder builder) {
-            if (value == null) {
-                builder.append(NULL);
-            } else if (value instanceof String) {
-                builder.append("\\\"").append(escape((String) value)).append("\\\"");
-            } else if (value instanceof Double) {
-                if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
-                    builder.append(NULL);
-                } else {
-                    builder.append(value.toString());
-                }
-            } else if (value instanceof Float) {
-                if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
-                    builder.append(NULL);
-                } else {
-                    builder.append(value.toString());
-                }
-            } else if (value instanceof Number) {
-                builder.append(value.toString());
-            } else if (value instanceof Boolean) {
-                builder.append(value.toString());
-            } else if (value instanceof Map) {
-                JsonJavaObject.writeJson((Map) value, builder);
-            } else if (value instanceof Collection) {
-                JsonJavaArray.writeJson((Collection) value, builder);
-            } else if (value instanceof byte[]) {
-                JsonJavaArray.writeJson((byte[]) value, builder);
-            } else if (value instanceof short[]) {
-                JsonJavaArray.writeJson((short[]) value, builder);
-            } else if (value instanceof int[]) {
-                JsonJavaArray.writeJson((int[]) value, builder);
-            } else if (value instanceof long[]) {
-                JsonJavaArray.writeJson((long[]) value, builder);
-            } else if (value instanceof float[]) {
-                JsonJavaArray.writeJson((float[]) value, builder);
-            } else if (value instanceof double[]) {
-                JsonJavaArray.writeJson((double[]) value, builder);
-            } else if (value instanceof boolean[]) {
-                JsonJavaArray.writeJson((boolean[]) value, builder);
-            } else if (value instanceof char[]) {
-                JsonJavaArray.writeJson((char[]) value, builder);
-            } else if (value instanceof Object[]) {
-                JsonJavaArray.writeJson((Object[]) value, builder);
-            } else {
-                builder.append(value.toString());
-            }
-        }
-
-        public static String escape(String s) {
-            if (s == null) {
-                return null;
-            }
-            StringBuilder sb = new StringBuilder();
-            escape(s, sb);
-            return sb.toString();
-        }
-
-        private static void escape(String s, StringBuilder sb) {
-            final int len = s.length();
-            for (int i = 0; i < len; i++) {
-                char ch = s.charAt(i);
-                switch (ch) {
-                case '"':
-                    sb.append("\\\"");
-                    break;
-                case '\\':
-                    sb.append("\\\\");
-                    break;
-                case '\b':
-                    sb.append("\\b");
-                    break;
-                case '\f':
-                    sb.append("\\f");
-                    break;
-                case '\n':
-                    sb.append("\\n");
-                    break;
-                case '\r':
-                    sb.append("\\r");
-                    break;
-                case '\t':
-                    sb.append("\\t");
-                    break;
-                case '/':
-                    sb.append("\\/");
                     break;
                 default:
                     if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
@@ -1220,17 +866,39 @@ public final class Json {
 
     }
 
-    public static String toJsonJavaString(Collection collection) {
-        final JsonJavaStringBuilder builder = new JsonJavaStringBuilder();
+    public static String toJson(Collection collection, JsonStringBuilder.Step identStep) {
+        final JsonStringBuilder builder = new JsonStringBuilder(identStep);
 
-        JsonJavaArray.writeJson(collection, builder);
+        JsonArray.writeJson(collection, builder);
+        return builder.toString();
+    }
+
+    public static String toJson(Collection collection) {
+        return toJson(collection, JsonStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static String toJson(Map map, JsonStringBuilder.Step identStep) {
+        final JsonStringBuilder builder = new JsonStringBuilder(identStep);
+
+        JsonObject.writeJson(map, builder);
+        return builder.toString();
+    }
+
+    public static String toJson(Map map) {
+        return toJson(map, JsonStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static String toJsonJavaString(Collection collection) {
+        final JsonStringBuilder builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+
+        JsonArray.writeJson(collection, builder);
         return builder.toString();
     }
 
     public static String toJsonJavaString(Map map) {
-        final JsonJavaStringBuilder builder = new JsonJavaStringBuilder();
+        final JsonStringBuilder builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
 
-        JsonJavaObject.writeJson(map, builder);
+        JsonObject.writeJson(map, builder);
         return builder.toString();
     }
 

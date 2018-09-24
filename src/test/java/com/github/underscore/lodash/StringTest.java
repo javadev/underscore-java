@@ -30,7 +30,6 @@ import com.github.underscore.Predicate;
 import com.github.underscore.Tuple;
 import com.github.underscore.lodash.Json.JsonStringBuilder;
 import com.github.underscore.lodash.Xml.XmlStringBuilder;
-import com.github.underscore.lodash.Json.JsonJavaStringBuilder;
 
 import java.util.*;
 import org.junit.Test;
@@ -492,7 +491,7 @@ _.repeat('abc', 0);
         assertEquals("\\n", Json.JsonValue.escape("\n"));
         assertEquals("\\r", Json.JsonValue.escape("\r"));
         assertEquals("\\t", Json.JsonValue.escape("\t"));
-        assertEquals("\\/", Json.JsonValue.escape("/"));
+        assertEquals("/", Json.JsonValue.escape("/"));
         assertEquals("\\u0000", Json.JsonValue.escape("\u0000"));
         assertEquals("\\u001F", Json.JsonValue.escape("\u001F"));
         assertEquals("\u0020", Json.JsonValue.escape("\u0020"));
@@ -811,9 +810,9 @@ _.repeat('abc', 0);
         array1.add(Double.valueOf(222.123));
         array1.add(Boolean.TRUE);
         array1.add(Boolean.FALSE);
-        assertEquals("[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]", U.toJson(array1));
-        String string = "[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]";
-        assertEquals("[\n  \"abc\\u0010a\\/\",\n  123,\n  222.123,\n  true,\n  false\n]",
+        assertEquals("[\n  \"abc\\u0010a/\",\n  123,\n  222.123,\n  true,\n  false\n]", U.toJson(array1));
+        String string = "[\n  \"abc\\u0010a/\",\n  123,\n  222.123,\n  true,\n  false\n]";
+        assertEquals("[\n  \"abc\\u0010a/\",\n  123,\n  222.123,\n  true,\n  false\n]",
             U.toJson((List<Object>) U.fromJson(string)));
     }
 
@@ -1372,7 +1371,7 @@ _.repeat('abc', 0);
                 + "    },\n"
                 + "    \"image\": {\n"
                 + "      \"-name\": \"sun1\",\n"
-                + "      \"-src\": \"Images\\/Sun.png\",\n"
+                + "      \"-src\": \"Images/Sun.png\",\n"
                 + "      \"hOffset\": {\n"
                 + "        \"#text\": \"250\",\n"
                 + "        \"unit\": \"mm\"\n"
@@ -2178,11 +2177,12 @@ _.repeat('abc', 0);
 
     @Test
     public void testJsonJavaArray() {
-        JsonJavaStringBuilder builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((Collection) null, builder);
+        JsonStringBuilder builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+
+        Json.JsonArray.writeJson((Collection) null, builder);
         assertEquals("\"null\";", builder.toString());
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new ArrayList<String>() { { add((String) null); } }, builder);
         assertEquals("\"[\\n\"\n + \"  null\\n\"\n + \"]\";", builder.toString());
     }
 
@@ -2303,47 +2303,47 @@ _.repeat('abc', 0);
 
     @Test
     public void escapeJava() {
-        assertNull(Json.JsonJavaValue.escape(null));
-        assertEquals("\\\"", Json.JsonJavaValue.escape("\""));
-        assertEquals("\\\\", Json.JsonJavaValue.escape("\\"));
-        assertEquals("\\b", Json.JsonJavaValue.escape("\b"));
-        assertEquals("\\f", Json.JsonJavaValue.escape("\f"));
-        assertEquals("\\n", Json.JsonJavaValue.escape("\n"));
-        assertEquals("\\r", Json.JsonJavaValue.escape("\r"));
-        assertEquals("\\t", Json.JsonJavaValue.escape("\t"));
-        assertEquals("\\/", Json.JsonJavaValue.escape("/"));
-        assertEquals("\\u0000", Json.JsonJavaValue.escape("\u0000"));
-        assertEquals("\\u001F", Json.JsonJavaValue.escape("\u001F"));
-        assertEquals("\u0020", Json.JsonJavaValue.escape("\u0020"));
-        assertEquals("\\u007F", Json.JsonJavaValue.escape("\u007F"));
-        assertEquals("\\u009F", Json.JsonJavaValue.escape("\u009F"));
-        assertEquals("\u00A0", Json.JsonJavaValue.escape("\u00A0"));
-        assertEquals("\\u2000", Json.JsonJavaValue.escape("\u2000"));
-        assertEquals("\\u20FF", Json.JsonJavaValue.escape("\u20FF"));
-        assertEquals("\u2100", Json.JsonJavaValue.escape("\u2100"));
-        assertEquals("\uFFFF", Json.JsonJavaValue.escape("\uFFFF"));
+        assertNull(Json.JsonValue.escape(null));
+        assertEquals("\\\"", Json.JsonValue.escape("\""));
+        assertEquals("\\\\", Json.JsonValue.escape("\\"));
+        assertEquals("\\b", Json.JsonValue.escape("\b"));
+        assertEquals("\\f", Json.JsonValue.escape("\f"));
+        assertEquals("\\n", Json.JsonValue.escape("\n"));
+        assertEquals("\\r", Json.JsonValue.escape("\r"));
+        assertEquals("\\t", Json.JsonValue.escape("\t"));
+        assertEquals("/", Json.JsonValue.escape("/"));
+        assertEquals("\\u0000", Json.JsonValue.escape("\u0000"));
+        assertEquals("\\u001F", Json.JsonValue.escape("\u001F"));
+        assertEquals("\u0020", Json.JsonValue.escape("\u0020"));
+        assertEquals("\\u007F", Json.JsonValue.escape("\u007F"));
+        assertEquals("\\u009F", Json.JsonValue.escape("\u009F"));
+        assertEquals("\u00A0", Json.JsonValue.escape("\u00A0"));
+        assertEquals("\\u2000", Json.JsonValue.escape("\u2000"));
+        assertEquals("\\u20FF", Json.JsonValue.escape("\u20FF"));
+        assertEquals("\u2100", Json.JsonValue.escape("\u2100"));
+        assertEquals("\uFFFF", Json.JsonValue.escape("\uFFFF"));
     }
 
     @Test
     public void testJavaByteArrayToString() {
-        JsonJavaStringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((byte[]) null, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson((byte[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new byte[0], builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new byte[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new byte[] { 12 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new byte[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new byte[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -2354,24 +2354,24 @@ _.repeat('abc', 0);
 
     @Test
     public void testJavaShortArrayToString() {
-        JsonJavaStringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((short[]) null, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson((short[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new short[0], builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new short[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new short[] { 12 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new short[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new short[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -2382,24 +2382,24 @@ _.repeat('abc', 0);
 
     @Test
     public void testJavaIntArrayToString() {
-        JsonJavaStringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((int[]) null, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson((int[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new int[0], builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new int[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new int[] { 12 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new int[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new int[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -2410,24 +2410,24 @@ _.repeat('abc', 0);
 
     @Test
     public void testJavaLongArrayToString() {
-        JsonJavaStringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((long[]) null, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson((long[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new long[0], builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new long[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new long[] { 12 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new long[] { 12 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12\\n\"\n"
                 + " + \"]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new long[] { -7, 22, 86, -99 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7,\\n\"\n"
                 + " + \"  22,\\n\"\n"
@@ -2438,24 +2438,24 @@ _.repeat('abc', 0);
 
     @Test
     public void testJavaFloatArrayToString() {
-        JsonJavaStringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((float[]) null, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson((float[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new float[0], builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new float[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new float[] { 12.8f }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new float[] { 12.8f }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12.8\\n\"\n"
                 + " + \"]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new float[] { -7.1f, 22.234f, 86.7f, -99.02f }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7.1,\\n\"\n"
                 + " + \"  22.234,\\n\"\n"
@@ -2466,24 +2466,24 @@ _.repeat('abc', 0);
 
     @Test
     public void testJavaDoubleArrayToString() {
-        JsonJavaStringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((double[]) null, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson((double[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new double[0], builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new double[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new double[] { 12.8 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new double[] { 12.8 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  12.8\\n\"\n"
                 + " + \"]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new double[] { -7.1, 22.234, 86.7, -99.02 }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  -7.1,\\n\"\n"
                 + " + \"  22.234,\\n\"\n"
@@ -2494,24 +2494,24 @@ _.repeat('abc', 0);
 
     @Test
     public void testJavaBooleanArrayToString() {
-        JsonJavaStringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((boolean[]) null, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson((boolean[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new boolean[0], builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new boolean[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new boolean[] { true }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new boolean[] { true }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  true\\n\"\n"
                 + " + \"]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new boolean[] { true, false, true }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new boolean[] { true, false, true }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  true,\\n\"\n"
                 + " + \"  false,\\n\"\n"
@@ -2521,24 +2521,24 @@ _.repeat('abc', 0);
 
     @Test
     public void testJavaCharArrayToString() {
-        JsonJavaStringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((char[]) null, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson((char[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new char[0], builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new char[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new char[] { 'a' }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new char[] { 'a' }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \"a\"\\n\"\n"
                 + " + \"]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new char[] { 'a', 'b', 'c' }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \"a\",\\n\"\n"
                 + " + \"  \"b\",\\n\"\n"
@@ -2548,24 +2548,24 @@ _.repeat('abc', 0);
 
     @Test
     public void testJavaObjectArrayToString() {
-        JsonJavaStringBuilder builder;
+        JsonStringBuilder builder;
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson((Object[]) null, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson((Object[]) null, builder);
         assertEquals("\"null\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new Object[0], builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new Object[0], builder);
         assertEquals("\"[]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new Object[] { "Hello" }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new Object[] { "Hello" }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"Hello\\\"\\n\"\n"
                 + " + \"]\";", builder.toString());
 
-        builder = new JsonJavaStringBuilder();
-        Json.JsonJavaArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
+        builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
+        Json.JsonArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"Hello\\\",\\n\"\n"
                 + " + \"  12,\\n\"\n"
@@ -2677,9 +2677,6 @@ _.repeat('abc', 0);
         new Xml.XmlArray();
         new Xml.XmlValue();
         new Xml.XmlObject();
-        new Json.JsonJavaArray();
-        new Json.JsonJavaValue();
-        new Json.JsonJavaObject();
         U.chain(new ArrayList<String>());
         U.chain(new HashSet<String>());
         U.chain(new String[] {});
