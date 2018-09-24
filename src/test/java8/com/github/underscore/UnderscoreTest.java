@@ -43,7 +43,7 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     public void stackoverflow() {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
-        assertEquals("{D=67.3, B=67.4, C=67.4, A=99.5}", $.chain((new LinkedHashMap<String, Double>() { {
+        assertEquals("{D=67.3, B=67.4, C=67.4, A=99.5}", U.chain((new LinkedHashMap<String, Double>() { {
             put("A", 99.5);
             put("B", 67.4);
             put("C", 67.4);

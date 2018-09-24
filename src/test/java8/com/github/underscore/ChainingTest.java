@@ -53,7 +53,7 @@ var youngest = _.chain(stooges)
             add(new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } });
             add(new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } });
         } };
-        final String youngest = $.chain(stooges)
+        final String youngest = U.chain(stooges)
             .sortBy((item) -> {
                     return (Integer) ((Map<String, Object>) item).get("age");
                 }
