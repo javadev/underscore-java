@@ -1812,21 +1812,29 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static String jsonToXml(String json) {
+    public static String jsonToXml(String json, Xml.XmlStringBuilder.Step identStep) {
         Object result = Json.fromJson(json);
         if (result instanceof Map) {
-            return Xml.toXml((Map) result);
+            return Xml.toXml((Map) result, identStep);
         }
-        return Xml.toXml((List) result);
+        return Xml.toXml((List) result, identStep);
+    }
+
+    public static String jsonToXml(String json) {
+        return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
     @SuppressWarnings("unchecked")
-    public static String xmlToJson(String xml) {
+    public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep) {
         Object result = Xml.fromXml(xml);
         if (result instanceof Map) {
-            return Json.toJson((Map) result);
+            return Json.toJson((Map) result, identStep);
         }
-        return Json.toJson((List) result);
+        return Json.toJson((List) result, identStep);
+    }
+
+    public static String xmlToJson(String xml) {
+        return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES);
     }
 
     public static String formatJson(String json, Json.JsonStringBuilder.Step identStep) {
