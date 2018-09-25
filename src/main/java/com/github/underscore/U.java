@@ -981,7 +981,7 @@ public class U<T> {
         return first(iterable);
     }
 
-    @SafeVarargs
+    @SuppressWarnings("unchecked")
     public static <E> E head(final E ... array) {
         return first(array);
     }
@@ -1023,7 +1023,7 @@ public class U<T> {
         return initial((List<T>) iterable, n);
     }
 
-    @SafeVarargs
+    @SuppressWarnings("unchecked")
     public static <E> E last(final E ... array) {
         return array[array.length - 1];
     }
@@ -1104,7 +1104,7 @@ public class U<T> {
         return rest(list, n);
     }
 
-    @SafeVarargs
+    @SuppressWarnings("unchecked")
     public static <E> E[] tail(final E ... array) {
         return rest(array);
     }
@@ -2524,7 +2524,7 @@ public class U<T> {
         return join(iterable);
     }
 
-    @SafeVarargs
+    @SuppressWarnings("unchecked")
     public static <T> List<T> push(final List<T> list, final T ... values) {
         final List<T> result = newArrayList(list);
         for (T value : values) {
@@ -2546,7 +2546,7 @@ public class U<T> {
         return pop((List<T>) getIterable());
     }
 
-    @SafeVarargs
+    @SuppressWarnings("unchecked")
     public static <T> List<T> unshift(final List<T> list, final T ... values) {
         final List<T> result = newArrayList(list);
         int index = 0;

@@ -25,6 +25,7 @@ package com.github.underscore;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -330,13 +331,13 @@ _.compact([0, 1, false, 2, '', 3]);
     public void compact() {
         final List<?> result = U.compact(asList(0, 1, false, 2, "", 3));
         assertEquals("[1, 2, 3]", result.toString());
-        final List<?> result2 = U.compact(asList(0, 1, false, 2, "", 3), 1);
+        final List<?> result2 = U.compact(Arrays.<Object>asList(0, 1, false, 2, "", 3), 1);
         assertEquals("[0, false, 2, , 3]", result2.toString());
         final List<?> result3 = U.compact(asList(0, 1, null, 2, "", 3));
         assertEquals("[1, 2, 3]", result3.toString());
         final List<?> resultChain = U.chain(asList(0, 1, false, 2, "", 3)).compact().value();
         assertEquals("[1, 2, 3]", resultChain.toString());
-        final List<?> result2Chain = U.chain(asList(0, 1, false, 2, "", 3)).compact(1).value();
+        final List<?> result2Chain = U.chain(Arrays.<Object>asList(0, 1, false, 2, "", 3)).compact(1).value();
         assertEquals("[0, false, 2, , 3]", result2Chain.toString());
         final List<?> result4 = new U(asList(0, 1, false, 2, "", 3)).compact();
         assertEquals("[1, 2, 3]", result4.toString());
