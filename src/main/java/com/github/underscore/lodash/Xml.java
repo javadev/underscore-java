@@ -113,6 +113,10 @@ public final class Xml {
             super(new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"), identStep, 0);
         }
 
+        public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep, String encoding) {
+            super(new StringBuilder("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>\n"), identStep, 0);
+        }
+
         public String toString() {
             return builder.toString();
         }
@@ -673,7 +677,13 @@ public final class Xml {
     }
 
     public static String toXml(Map map, XmlStringBuilder.Step identStep) {
-        final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot(identStep);
+        final XmlStringBuilder builder;
+        if (map != null && map.containsKey("#encoding")) {
+             builder = new XmlStringBuilderWithoutRoot(identStep, String.valueOf(map.get("#encoding")));
+             map.remove("#encoding");
+        } else {
+             builder = new XmlStringBuilderWithoutRoot(identStep);
+        }
         if (map == null || map.size() != 1
             || ((String) ((Map.Entry) map.entrySet().iterator().next()).getKey()).startsWith("-")
             || ((Map.Entry) map.entrySet().iterator().next()).getValue() instanceof List) {
@@ -795,6 +805,9 @@ public final class Xml {
                     return object;
                 }
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, valueMapper);
+            if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
+                ((Map) result).put("#encoding", document.getXmlEncoding());
+            }
             if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
                 && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
                 || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {

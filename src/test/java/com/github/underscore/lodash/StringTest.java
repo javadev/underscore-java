@@ -1563,6 +1563,18 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml12() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"windows-1251\"?><a></a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "  },\n"
+                + "  \"#encoding\": \"windows-1251\"\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
