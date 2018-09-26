@@ -31,6 +31,7 @@ public final class Xml {
     private static final String ELEMENT_TEXT = "element";
     private static final String CDATA = "#cdata-section";
     private static final String COMMENT = "#comment";
+    private static final String ENCODING = "#encoding";
     private static final String TEXT = "#text";
     private static final String ELEMENT = "<" + ELEMENT_TEXT + ">";
     private static final String CLOSED_ELEMENT = "</" + ELEMENT_TEXT + ">";
@@ -109,8 +110,9 @@ public final class Xml {
     }
 
     public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
-        public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep) {
-            super(new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"), identStep, 0);
+        public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep, String encoding) {
+            super(new StringBuilder("<?xml version=\"1.0\" encoding=\""
+                + U.escape(encoding) + "\"?>\n"), identStep, 0);
         }
 
         public String toString() {
@@ -659,7 +661,7 @@ public final class Xml {
     }
 
     public static String toXml(Collection collection, XmlStringBuilder.Step identStep) {
-        final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot(identStep);
+        final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name());
         builder.append("<root>").incIdent();
         if (collection == null || !collection.isEmpty()) {
             builder.newLine();
@@ -673,13 +675,22 @@ public final class Xml {
     }
 
     public static String toXml(Map map, XmlStringBuilder.Step identStep) {
-        final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot(identStep);
-        if (map == null || map.size() != 1
-            || ((String) ((Map.Entry) map.entrySet().iterator().next()).getKey()).startsWith("-")
-            || ((Map.Entry) map.entrySet().iterator().next()).getValue() instanceof List) {
-            XmlObject.writeXml(map, "root", builder, false, U.<String>newLinkedHashSet());
+        final XmlStringBuilder builder;
+        final Map localMap;
+        if (map != null && map.containsKey(ENCODING)) {
+            builder = new XmlStringBuilderWithoutRoot(identStep, String.valueOf(map.get(ENCODING)));
+            localMap = (Map) U.clone(map);
+            localMap.remove(ENCODING);
         } else {
-            XmlObject.writeXml(map, null, builder, false, U.<String>newLinkedHashSet());
+            builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name());
+            localMap = map;
+        }
+        if (localMap == null || localMap.size() != 1
+            || ((String) ((Map.Entry) localMap.entrySet().iterator().next()).getKey()).startsWith("-")
+            || ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List) {
+            XmlObject.writeXml(localMap, "root", builder, false, U.<String>newLinkedHashSet());
+        } else {
+            XmlObject.writeXml(localMap, null, builder, false, U.<String>newLinkedHashSet());
         }
         return builder.toString();
     }
@@ -795,7 +806,9 @@ public final class Xml {
                     return object;
                 }
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, valueMapper);
-            if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
+            if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
+                ((Map) result).put(ENCODING, document.getXmlEncoding());
+            } else if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
                 && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
                 || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
@@ -814,16 +827,15 @@ public final class Xml {
         });
     }
 
-    private static org.w3c.dom.Document createDocument(final String xml) throws java.io.IOException,
-            javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException {
-        final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes(UTF_8));
+    private static org.w3c.dom.Document createDocument(final String xml)
+            throws java.io.IOException, javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException {
         final javax.xml.parsers.DocumentBuilderFactory factory =
                 javax.xml.parsers.DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
         final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
         builder.setErrorHandler(new org.xml.sax.helpers.DefaultHandler());
-        return builder.parse(stream);
+        return builder.parse(new org.xml.sax.InputSource(new java.io.StringReader(xml)));
     }
 
     public static Object fromXmlMakeArrays(final String xml) {
