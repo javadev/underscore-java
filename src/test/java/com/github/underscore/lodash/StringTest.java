@@ -1563,6 +1563,18 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml12() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"windows-1251\"?><a></a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "  },\n"
+                + "  \"#encoding\": \"windows-1251\"\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
@@ -1908,6 +1920,25 @@ _.repeat('abc', 0);
         + "  </b>\n"
         + "</a>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson19() {
+        final String json = "{\n"
+                + "  \"a\": {\n"
+                + "  },\n"
+                + "  \"#encoding\": \"windows-1251\"\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"windows-1251\"?>\n<a></a>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String json2 = "{\n"
+                + "  \"a\": {\n"
+                + "  },\n"
+                + "  \"#encoding\": \"windows-9999\"\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"windows-9999\"?>\n<a></a>",
+                U.toXml((Map<String, Object>) U.fromJson(json2)));
     }
 
     @SuppressWarnings("unchecked")
