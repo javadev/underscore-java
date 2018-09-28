@@ -171,13 +171,7 @@ public final class Xml {
                         .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)) + ">"
                         + NULL + "</" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)) + ">");
                 } else {
-                    if (value instanceof Map && ((Map) value).size() == 1
-                        && (String.valueOf(((Map.Entry) ((Map) value).entrySet().iterator()
-                            .next()).getKey()).startsWith(TEXT)
-                        || String.valueOf(((Map.Entry) ((Map) value).entrySet().iterator()
-                            .next()).getKey()).startsWith(COMMENT)
-                        || String.valueOf(((Map.Entry) ((Map) value).entrySet().iterator()
-                            .next()).getKey()).startsWith(CDATA))) {
+                    if (value instanceof Map && ((Map) value).size() == 1) {
                         XmlObject.writeXml((Map) value, null, builder, localParentTextFound, namespaces);
                         if (String.valueOf(((Map.Entry) ((Map) value).entrySet().iterator()
                             .next()).getKey()).startsWith(TEXT)) {
@@ -778,17 +772,12 @@ public final class Xml {
         final int index = objects.size();
         while (true) {
             final Map.Entry lastElement = (Map.Entry) map.entrySet().toArray()[lastIndex];
-            if (String.valueOf(lastElement.getKey()).startsWith(TEXT)
-                || String.valueOf(lastElement.getKey()).startsWith(COMMENT)
-                || String.valueOf(lastElement.getKey()).startsWith(CDATA)) {
-                final Map<String, Object> text = U.newLinkedHashMap();
-                text.put(String.valueOf(lastElement.getKey()), map.remove(lastElement.getKey()));
-                objects.add(index, text);
-            } else {
-                if (name.equals(String.valueOf(lastElement.getKey()))) {
-                    break;
-                }
+            if (name.equals(String.valueOf(lastElement.getKey()))) {
+                break;
             }
+            final Map<String, Object> text = U.newLinkedHashMap();
+            text.put(String.valueOf(lastElement.getKey()), map.remove(lastElement.getKey()));
+            objects.add(index, text);
             lastIndex -= 1;
         }
         objects.add(getValue(value));

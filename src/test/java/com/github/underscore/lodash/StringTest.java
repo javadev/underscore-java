@@ -1506,12 +1506,14 @@ _.repeat('abc', 0);
                 + "        \"#comment\": \"d\"\n"
                 + "      },\n"
                 + "      {\n"
+                + "        \"e\": {\n"
+                + "        }\n"
+                + "      },\n"
+                + "      {\n"
                 + "        \"#comment1\": \"d\"\n"
                 + "      },\n"
                 + "      \"c\"\n"
                 + "    ],\n"
-                + "    \"e\": {\n"
-                + "    },\n"
                 + "    \"#comment\": \"d\"\n"
                 + "  }\n"
                 + "}",
@@ -1910,15 +1912,13 @@ _.repeat('abc', 0);
         + "  }\n"
         + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-        + "<a>\n"
-        + "  <b></b>\n"
-        + "  <!--c-->\n"
-        + "1\n"
-        + "  <![CDATA[2]]>\n"
-        + "  <b>\n"
-        + "    <a>1</a>\n"
-        + "  </b>\n"
-        + "</a>",
+                + "<a>\n"
+                + "  <b></b>\n"
+                + "  <!--c-->\n"
+                + "1\n"
+                + "  <![CDATA[2]]>\n"
+                + "  <a>1</a>\n"
+                + "</a>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
