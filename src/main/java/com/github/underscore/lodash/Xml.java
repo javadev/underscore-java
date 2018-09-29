@@ -38,6 +38,9 @@ public final class Xml {
     private static final String EMPTY_ELEMENT = ELEMENT + CLOSED_ELEMENT;
     private static final String NULL_ELEMENT = ELEMENT + NULL + CLOSED_ELEMENT;
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
+    private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
+        "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
+        + "(?:(?<=\\\\)'|[^'])*)|(?:(?!\"|')(?:(?!\\/>|>|\\s).)+))");
 
     public static class XmlStringBuilder {
         public enum Step {
@@ -707,7 +710,7 @@ public final class Xml {
     @SuppressWarnings("unchecked")
     private static Map<String, Object> createMap(final org.w3c.dom.Node node,
         final Function<Object, Object> nodeMapper, Map<String, Object> attrMap, int[] uniqueIds,
-        final Function<Object, Object> valueMapper) {
+        final Function<Object, Object> valueMapper, String source, int sourceIndex) {
         final Map<String, Object> map = U.newLinkedHashMap();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
@@ -718,13 +721,16 @@ public final class Xml {
             final int attributesLength = currentNode.getAttributes() == null
                     ? 0 : currentNode.getAttributes().getLength();
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                final int newIndex = source.indexOf("<" + name, sourceIndex) + name.length() + 2;
                 final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
-                for (int indexAttr = 0; indexAttr < attributesLength; indexAttr += 1) {
-                    final org.w3c.dom.Node currentNodeAttr = currentNode.getAttributes().item(indexAttr);
-                    addNodeValue(attrMapLocal, '-' + currentNodeAttr.getNodeName(),
-                            currentNodeAttr.getTextContent(), nodeMapper, uniqueIds);
+                if (attributesLength > 0) {
+                    final java.util.regex.Matcher matcher = ATTRS.matcher(source.substring(
+                        newIndex, source.indexOf(">", newIndex)));
+                    while (matcher.find()) {
+                        addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2), nodeMapper, uniqueIds);
+                    }
                 }
-                value = createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, valueMapper);
+                value = createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, valueMapper, source, newIndex);
             } else {
                 value = currentNode.getTextContent();
             }
@@ -794,7 +800,7 @@ public final class Xml {
                 public Object apply(Object object) {
                     return object;
                 }
-            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, valueMapper);
+            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, valueMapper, xml, 0);
             if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
                 ((Map) result).put(ENCODING, document.getXmlEncoding());
             } else if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
@@ -839,7 +845,7 @@ public final class Xml {
                 public Object apply(Object object) {
                     return String.valueOf(object).trim();
                 }
-        });
+        }, xml, 0);
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
