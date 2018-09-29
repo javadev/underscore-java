@@ -710,7 +710,7 @@ public final class Xml {
     @SuppressWarnings("unchecked")
     private static Map<String, Object> createMap(final org.w3c.dom.Node node,
         final Function<Object, Object> nodeMapper, Map<String, Object> attrMap, int[] uniqueIds,
-        final Function<Object, Object> valueMapper, String source, int sourceIndex) {
+        final Function<Object, Object> valueMapper, String source, int[] sourceIndex) {
         final Map<String, Object> map = U.newLinkedHashMap();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
@@ -721,17 +721,22 @@ public final class Xml {
             final int attributesLength = currentNode.getAttributes() == null
                     ? 0 : currentNode.getAttributes().getLength();
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-                final int newIndex = source.indexOf("<" + name, sourceIndex) + name.length() + 2;
+                sourceIndex[0] = source.indexOf("<" + name, sourceIndex[0]) + name.length() + 2;
                 final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
                 if (attributesLength > 0) {
                     final java.util.regex.Matcher matcher = ATTRS.matcher(source.substring(
-                        newIndex, source.indexOf(">", newIndex)));
+                        sourceIndex[0], source.indexOf(">", sourceIndex[0])));
                     while (matcher.find()) {
                         addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2), nodeMapper, uniqueIds);
                     }
                 }
-                value = createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, valueMapper, source, newIndex);
+                value = createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, valueMapper, source, sourceIndex);
             } else {
+                if (COMMENT.equals(name)) {
+                    sourceIndex[0] = source.indexOf("-->", sourceIndex[0]) + 3;
+                } else if (CDATA.equals(name)) {
+                    sourceIndex[0] = source.indexOf("]]>", sourceIndex[0]) + 3;
+                }
                 value = currentNode.getTextContent();
             }
             if (TEXT.equals(name) && valueMapper.apply(value).toString().isEmpty()) {
@@ -800,7 +805,7 @@ public final class Xml {
                 public Object apply(Object object) {
                     return object;
                 }
-            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, valueMapper, xml, 0);
+            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, valueMapper, xml, new int[] {0});
             if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
                 ((Map) result).put(ENCODING, document.getXmlEncoding());
             } else if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
@@ -845,7 +850,7 @@ public final class Xml {
                 public Object apply(Object object) {
                     return String.valueOf(object).trim();
                 }
-        }, xml, 0);
+        }, xml, new int[] {0});
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
