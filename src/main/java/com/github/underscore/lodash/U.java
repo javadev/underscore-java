@@ -662,6 +662,14 @@ public class U<T> extends com.github.underscore.U<T> {
         public Chain<String> toJsonJavaString() {
             return new Chain<String>(Json.toJsonJavaString((Collection) value()));
         }
+
+        public Chain<String> xmlToJson() {
+            return new Chain<String>(U.xmlToJson((String) item()));
+        }
+
+        public Chain<String> jsonToXml() {
+            return new Chain<String>(U.jsonToXml((String) item()));
+        }
     }
 
     public static Chain<String> chain(final String item) {
