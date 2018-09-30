@@ -597,7 +597,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>"));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n    <b></b>\n    <b></b>\n</a>",
             U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", Xml.XmlStringBuilder.Step.FOUR_SPACES));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a><b></b><b></b></a>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b></b><b></b></a>",
             U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", Xml.XmlStringBuilder.Step.COMPACT));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n\t<b></b>\n\t<b></b>\n</a>",
             U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", Xml.XmlStringBuilder.Step.TABS));

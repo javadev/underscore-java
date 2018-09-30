@@ -115,7 +115,7 @@ public final class Xml {
     public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
         public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep, String encoding) {
             super(new StringBuilder("<?xml version=\"1.0\" encoding=\""
-                + U.escape(encoding) + "\"?>\n"), identStep, 0);
+                + U.escape(encoding) + "\"?>" + (identStep == Step.COMPACT ? "" : "\n")), identStep, 0);
         }
 
         public String toString() {
