@@ -1943,6 +1943,30 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson20() {
+        final String json = "{\n"
+                + "  \"a\": [\n"
+                + "   {\"#text\": \"Hello    \"},\n"
+                + "   {\"b\": \"World\"}\n"
+                + "  ]\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a>Hello      <b>World</b></a>", U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String json2 = "{\n"
+                + "  \"a\": [\n"
+                + "   {\"b\": \"World\"},\n"
+                + "   {\"#text1\": \".\"}\n"
+                + "  ]\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a>  <b>World</b>.</a>", U.toXml((Map<String, Object>) U.fromJson(json2)));
+        final String json3 = "{\n  \"a\": []\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<root>\n  <a>\n  </a>\n</root>", U.toXml((Map<String, Object>) U.fromJson(json3)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
