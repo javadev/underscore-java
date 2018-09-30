@@ -429,7 +429,14 @@ public final class Xml {
         private static void addElements(final XmlStringBuilder.Step identStep, final int ident, Map.Entry entry,
                 Set<String> namespaces, final List<XmlStringBuilder> elems, final boolean addNewLine) {
             boolean parentTextFound = !elems.isEmpty() && elems.get(elems.size() - 1) instanceof XmlStringBuilderText;
-            XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
+            final XmlStringBuilder localBuilder;
+            if (String.valueOf(((List) entry.getValue()).get(0)).startsWith("{" + TEXT)
+                || String.valueOf(((List) entry.getValue()).get(((List) entry.getValue()).size() - 1))
+                    .startsWith("{" + TEXT)) {
+                    localBuilder = new XmlStringBuilderText(identStep, ident);
+            } else {
+                localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
+            }
             XmlArray.writeXml((List) entry.getValue(), localBuilder,
                     String.valueOf(entry.getKey()), parentTextFound, namespaces);
             if (addNewLine) {
@@ -683,9 +690,17 @@ public final class Xml {
             localMap = map;
         }
         if (localMap == null || localMap.size() != 1
-            || ((String) ((Map.Entry) localMap.entrySet().iterator().next()).getKey()).startsWith("-")
+            || (String.valueOf(((Map.Entry) localMap.entrySet().iterator().next()).getKey())).startsWith("-")
             || ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List) {
-            XmlObject.writeXml(localMap, "root", builder, false, U.<String>newLinkedHashSet());
+            final String name;
+            if (localMap != null && localMap.size() == 1
+                && ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List
+                && !((List) ((Map.Entry) localMap.entrySet().iterator().next()).getValue()).isEmpty()) {
+                name = String.valueOf(((Map.Entry) localMap.entrySet().iterator().next()).getKey());
+            } else {
+                name = "root";
+            }
+            XmlObject.writeXml(localMap, name, builder, false, U.<String>newLinkedHashSet());
         } else {
             XmlObject.writeXml(localMap, null, builder, false, U.<String>newLinkedHashSet());
         }
