@@ -168,7 +168,7 @@ public final class Xml {
             for (int index = 0; index < entries.size(); index += 1) {
                 final Object value = entries.get(index);
                 final boolean addNewLine = index < entries.size() - 1
-                    && !String.valueOf(entries.get(index + 1)).startsWith("{" + TEXT);
+                    && !XmlValue.getMapKey(entries.get(index + 1)).startsWith(TEXT);
                 if (value == null) {
                     builder.fillSpaces()
                         .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)) + ">"
@@ -436,9 +436,9 @@ public final class Xml {
                 Set<String> namespaces, final List<XmlStringBuilder> elems, final boolean addNewLine) {
             boolean parentTextFound = !elems.isEmpty() && elems.get(elems.size() - 1) instanceof XmlStringBuilderText;
             final XmlStringBuilder localBuilder;
-            if (String.valueOf(((List) entry.getValue()).get(0)).startsWith("{" + TEXT)
-                || String.valueOf(((List) entry.getValue()).get(((List) entry.getValue()).size() - 1))
-                    .startsWith("{" + TEXT)) {
+            if (XmlValue.getMapKey(((List) entry.getValue()).get(0)).startsWith(TEXT)
+                || XmlValue.getMapKey(((List) entry.getValue()).get(((List) entry.getValue()).size() - 1))
+                    .startsWith(TEXT)) {
                     localBuilder = new XmlStringBuilderText(identStep, ident);
             } else {
                 localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
@@ -668,6 +668,11 @@ public final class Xml {
                 }
             }
         }
+
+        public static String getMapKey(Object map) {
+            return map instanceof Map && !((Map) map).isEmpty() ? String.valueOf(
+               ((Map.Entry) ((Map) map).entrySet().iterator().next()).getKey()) : "";
+        }
     }
 
     public static String toXml(Collection collection, XmlStringBuilder.Step identStep) {
@@ -696,7 +701,7 @@ public final class Xml {
             localMap = map;
         }
         if (localMap == null || localMap.size() != 1
-            || (String.valueOf(((Map.Entry) localMap.entrySet().iterator().next()).getKey())).startsWith("-")
+            || XmlValue.getMapKey(map).startsWith("-")
             || ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List) {
             XmlObject.writeXml(localMap, getRootName(localMap), builder, false, U.<String>newLinkedHashSet());
         } else {
