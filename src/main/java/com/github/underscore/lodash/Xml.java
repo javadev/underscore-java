@@ -36,7 +36,8 @@ public final class Xml {
     private static final String ELEMENT = "<" + ELEMENT_TEXT + ">";
     private static final String CLOSED_ELEMENT = "</" + ELEMENT_TEXT + ">";
     private static final String EMPTY_ELEMENT = ELEMENT + CLOSED_ELEMENT;
-    private static final String NULL_ELEMENT = ELEMENT + NULL + CLOSED_ELEMENT;
+    private static final String NULL_TRUE = " " + NULL + "=\"true\"/>";
+    private static final String NULL_ELEMENT = "<" + ELEMENT_TEXT + NULL_TRUE;
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
         "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
@@ -171,10 +172,11 @@ public final class Xml {
                     && !XmlValue.getMapKey(entries.get(index + 1)).startsWith(TEXT);
                 if (value == null) {
                     builder.fillSpaces()
-                        .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)) + ">"
-                        + NULL + "</" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)) + ">");
+                        .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces))
+                        + NULL_TRUE);
                 } else {
-                    if (value instanceof Map && ((Map) value).size() == 1) {
+                    if (value instanceof Map && ((Map) value).size() == 1
+                        && !XmlValue.getMapKey(value).startsWith("-")) {
                         XmlObject.writeXml((Map) value, null, builder, localParentTextFound, namespaces);
                         if (String.valueOf(((Map.Entry) ((Map) value).entrySet().iterator()
                             .next()).getKey()).startsWith(TEXT)) {
@@ -505,45 +507,53 @@ public final class Xml {
             if (!parentTextFound) {
                 builder.fillSpaces();
             }
-            builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
             if (value == null) {
-                builder.append(NULL);
+                builder.append("<" + XmlValue.escapeName(name, namespaces) + NULL_TRUE);
             } else if (value instanceof String) {
+                builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
                 builder.append(escape((String) value));
+                builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
             } else {
                 processArrays(value, builder, name, parentTextFound, namespaces);
             }
-            builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
         }
 
         private static void processArrays(Object value, XmlStringBuilder builder, String name,
                 boolean parentTextFound, Set<String> namespaces) {
             if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
-                    builder.append(NULL);
+                    builder.append(NULL_ELEMENT);
                 } else {
+                    builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
                     builder.append(value.toString());
+                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
                 }
             } else if (value instanceof Float) {
                 if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
-                    builder.append(NULL);
+                    builder.append(NULL_ELEMENT);
                 } else {
+                    builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
                     builder.append(value.toString());
+                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
                 }
-            } else if (value instanceof Number) {
-                builder.append(value.toString());
-            } else if (value instanceof Boolean) {
-                builder.append(value.toString());
-            } else if (value instanceof byte[]) {
-                builder.newLine().incIdent();
-                XmlArray.writeXml((byte[]) value, builder);
-                builder.decIdent().newLine().fillSpaces();
-            } else if (value instanceof short[]) {
-                builder.newLine().incIdent();
-                XmlArray.writeXml((short[]) value, builder);
-                builder.decIdent().newLine().fillSpaces();
             } else {
-                processArrays2(value, builder, name, parentTextFound, namespaces);
+                builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
+                if (value instanceof Number) {
+                    builder.append(value.toString());
+                } else if (value instanceof Boolean) {
+                    builder.append(value.toString());
+                } else if (value instanceof byte[]) {
+                    builder.newLine().incIdent();
+                    XmlArray.writeXml((byte[]) value, builder);
+                    builder.decIdent().newLine().fillSpaces();
+                } else if (value instanceof short[]) {
+                    builder.newLine().incIdent();
+                    XmlArray.writeXml((short[]) value, builder);
+                    builder.decIdent().newLine().fillSpaces();
+                } else {
+                    processArrays2(value, builder, name, parentTextFound, namespaces);
+                }
+                builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
             }
         }
 
@@ -740,6 +750,8 @@ public final class Xml {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
             if (TEXT.equals(entry.getKey()) || entry.getKey().equals(ELEMENT_TEXT)) {
                 return entry.getValue();
+            } else if ("-null".equals(entry.getKey()) && "true".equals(entry.getValue())) {
+                return null;
             }
         }
         return value;
@@ -747,7 +759,7 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> createMap(final org.w3c.dom.Node node,
-        final Function<Object, Object> nodeMapper, Map<String, Object> attrMap, final int[] uniqueIds,
+        final Function<Object, Object> nodeMapper, final Map<String, Object> attrMap, final int[] uniqueIds,
         final Function<Object, Object> valueMapper, final String source, final int[] sourceIndex) {
         final Map<String, Object> map = U.newLinkedHashMap();
         map.putAll(attrMap);
@@ -791,7 +803,7 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     private static void addNodeValue(final Map<String, Object> map, final String name, final Object value,
-            final Function<Object, Object> nodeMapper, int[] uniqueIds) {
+            final Function<Object, Object> nodeMapper, final int[] uniqueIds) {
         if (map.containsKey(name)) {
             if (TEXT.equals(name)) {
                 map.put(name + uniqueIds[0], nodeMapper.apply(getValue(value)));
