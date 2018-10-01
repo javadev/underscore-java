@@ -349,7 +349,7 @@ public final class Xml {
 
     public static class XmlObject {
         @SuppressWarnings("unchecked")
-        public static void writeXml(Map map, String name, final XmlStringBuilder builder,
+        public static void writeXml(final Map map, final String name, final XmlStringBuilder builder,
             final boolean parentTextFound, final Set<String> namespaces) {
             if (map == null) {
                 XmlValue.writeXml(NULL, name, builder, false, namespaces);
@@ -378,6 +378,12 @@ public final class Xml {
                     processElements(entry, identStep, ident, addNewLine, elems, namespaces);
                 }
             }
+            addToBuilder(name, parentTextFound, builder, namespaces, attrs, elems);
+        }
+
+        private static void addToBuilder(final String name, final boolean parentTextFound,
+                final XmlStringBuilder builder, final Set<String> namespaces, final List<String> attrs,
+                final List<XmlStringBuilder> elems) {
             if (name != null) {
                 if (!parentTextFound) {
                     builder.fillSpaces();
@@ -736,8 +742,8 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> createMap(final org.w3c.dom.Node node,
-        final Function<Object, Object> nodeMapper, Map<String, Object> attrMap, int[] uniqueIds,
-        final Function<Object, Object> valueMapper, String source, int[] sourceIndex) {
+        final Function<Object, Object> nodeMapper, Map<String, Object> attrMap, final int[] uniqueIds,
+        final Function<Object, Object> valueMapper, final String source, final int[] sourceIndex) {
         final Map<String, Object> map = U.newLinkedHashMap();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
@@ -745,19 +751,9 @@ public final class Xml {
             final org.w3c.dom.Node currentNode = nodeList.item(index);
             final String name = currentNode.getNodeName();
             final Object value;
-            final int attributesLength = currentNode.getAttributes() == null
-                    ? 0 : currentNode.getAttributes().getLength();
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
                 sourceIndex[0] = source.indexOf("<" + name, sourceIndex[0]) + name.length() + 2;
-                final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
-                if (attributesLength > 0) {
-                    final java.util.regex.Matcher matcher = ATTRS.matcher(source.substring(
-                        sourceIndex[0], source.indexOf(">", sourceIndex[0])));
-                    while (matcher.find()) {
-                        addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2), nodeMapper, uniqueIds);
-                    }
-                }
-                value = createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, valueMapper, source, sourceIndex);
+                value = addElement(sourceIndex, source, nodeMapper, uniqueIds, currentNode, valueMapper);
             } else {
                 if (COMMENT.equals(name)) {
                     sourceIndex[0] = source.indexOf("-->", sourceIndex[0]) + 3;
@@ -772,6 +768,20 @@ public final class Xml {
             addNodeValue(map, name, value, nodeMapper, uniqueIds);
         }
         return map;
+    }
+
+    private static Object addElement(final int[] sourceIndex, final String source,
+            final Function<Object, Object> nodeMapper, final int[] uniqueIds,
+            final org.w3c.dom.Node currentNode, final Function<Object, Object> valueMapper) {
+        final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
+        if (currentNode.getAttributes().getLength() > 0) {
+            final java.util.regex.Matcher matcher = ATTRS.matcher(source.substring(
+                    sourceIndex[0], source.indexOf(">", sourceIndex[0])));
+            while (matcher.find()) {
+                addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2), nodeMapper, uniqueIds);
+            }
+        }
+        return createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, valueMapper, source, sourceIndex);
     }
 
     @SuppressWarnings("unchecked")
