@@ -507,12 +507,12 @@ public class U<T> {
     }
 
     public static <E> boolean every(final Iterable<E> iterable, final Predicate<E> pred) {
-        return !find(iterable, new Predicate<E>() {
-            @Override
-            public boolean test(E arg) {
-                return !pred.test(arg);
+        for (E item : iterable) {
+            if (!pred.test(item)) {
+                return false;
             }
-        }).isPresent();
+        }
+        return true;
     }
 
     public boolean every(final Predicate<T> pred) {
