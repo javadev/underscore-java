@@ -692,19 +692,31 @@ public final class Xml {
         if (localMap == null || localMap.size() != 1
             || (String.valueOf(((Map.Entry) localMap.entrySet().iterator().next()).getKey())).startsWith("-")
             || ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List) {
-            final String name;
-            if (localMap != null && localMap.size() == 1
-                && ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List
-                && !((List) ((Map.Entry) localMap.entrySet().iterator().next()).getValue()).isEmpty()) {
-                name = String.valueOf(((Map.Entry) localMap.entrySet().iterator().next()).getKey());
-            } else {
-                name = "root";
-            }
-            XmlObject.writeXml(localMap, name, builder, false, U.<String>newLinkedHashSet());
+            XmlObject.writeXml(localMap, getRootName(localMap), builder, false, U.<String>newLinkedHashSet());
         } else {
             XmlObject.writeXml(localMap, null, builder, false, U.<String>newLinkedHashSet());
         }
         return builder.toString();
+    }
+
+    private static String getRootName(final Map localMap) {
+        final String name;
+        if (localMap != null && localMap.size() == 1
+                && ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List
+                && !((List) ((Map.Entry) localMap.entrySet().iterator().next()).getValue()).isEmpty()) {
+            boolean allMapItems = true;
+            for (Object item : (List) ((Map.Entry) localMap.entrySet().iterator().next()).getValue()) {
+                if (!(item instanceof Map)) {
+                    allMapItems = false;
+                    break;
+                }
+            }
+            name = allMapItems ? String.valueOf(((Map.Entry) localMap.entrySet().iterator().next()).getKey())
+                    : "root";
+        } else {
+            name = "root";
+        }
+        return name;
     }
 
     public static String toXml(Map map) {
