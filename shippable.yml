@@ -1,12 +1,10 @@
 language: java
 
 jdk:
-  - openjdk7
-  - oraclejdk7
   - oraclejdk8
 
 script:
-  - mvn clean install jacoco:report
+  - mvn clean test jacoco:report
 
 notifications:
    email: false
