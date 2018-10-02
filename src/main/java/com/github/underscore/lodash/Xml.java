@@ -793,7 +793,7 @@ public final class Xml {
         final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
         if (currentNode.getAttributes().getLength() > 0) {
             final java.util.regex.Matcher matcher = ATTRS.matcher(source.substring(
-                    sourceIndex[0], source.indexOf(">", sourceIndex[0])));
+                    sourceIndex[0], source.indexOf('>', sourceIndex[0])));
             while (matcher.find()) {
                 addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2), nodeMapper, uniqueIds);
             }
