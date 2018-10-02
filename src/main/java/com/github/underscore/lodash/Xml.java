@@ -760,7 +760,7 @@ public final class Xml {
     @SuppressWarnings("unchecked")
     private static Map<String, Object> createMap(final org.w3c.dom.Node node,
         final Function<Object, Object> nodeMapper, final Map<String, Object> attrMap, final int[] uniqueIds,
-        final Function<Object, Object> valueMapper, final String source, final int[] sourceIndex) {
+        final String source, final int[] sourceIndex) {
         final Map<String, Object> map = U.newLinkedHashMap();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
@@ -770,7 +770,7 @@ public final class Xml {
             final Object value;
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
                 sourceIndex[0] = source.indexOf("<" + name, sourceIndex[0]) + name.length() + 2;
-                value = addElement(sourceIndex, source, nodeMapper, uniqueIds, currentNode, valueMapper);
+                value = addElement(sourceIndex, source, nodeMapper, uniqueIds, currentNode);
             } else {
                 if (COMMENT.equals(name)) {
                     sourceIndex[0] = source.indexOf("-->", sourceIndex[0]) + 3;
@@ -779,7 +779,8 @@ public final class Xml {
                 }
                 value = currentNode.getTextContent();
             }
-            if (TEXT.equals(name) && valueMapper.apply(value).toString().isEmpty()) {
+            if (TEXT.equals(name) && node.getChildNodes().getLength() > 1
+                && String.valueOf(value).trim().isEmpty()) {
                 continue;
             }
             addNodeValue(map, name, value, nodeMapper, uniqueIds);
@@ -789,7 +790,7 @@ public final class Xml {
 
     private static Object addElement(final int[] sourceIndex, final String source,
             final Function<Object, Object> nodeMapper, final int[] uniqueIds,
-            final org.w3c.dom.Node currentNode, final Function<Object, Object> valueMapper) {
+            final org.w3c.dom.Node currentNode) {
         final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
         if (currentNode.getAttributes().getLength() > 0) {
             final java.util.regex.Matcher matcher = ATTRS.matcher(source.substring(
@@ -798,7 +799,7 @@ public final class Xml {
                 addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2), nodeMapper, uniqueIds);
             }
         }
-        return createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, valueMapper, source, sourceIndex);
+        return createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, source, sourceIndex);
     }
 
     @SuppressWarnings("unchecked")
@@ -849,7 +850,7 @@ public final class Xml {
     }
 
     @SuppressWarnings("unchecked")
-    public static Object fromXml(final String xml, final Function<Object, Object> valueMapper) {
+    public static Object fromXml(final String xml) {
         if (xml == null) {
             return null;
         }
@@ -859,7 +860,7 @@ public final class Xml {
                 public Object apply(Object object) {
                     return object;
                 }
-            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, valueMapper, xml, new int[] {0});
+            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0});
             if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
                 ((Map) result).put(ENCODING, document.getXmlEncoding());
             } else if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
@@ -871,14 +872,6 @@ public final class Xml {
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
-    }
-
-    public static Object fromXml(final String xml) {
-        return fromXml(xml, new Function<Object, Object>() {
-                public Object apply(Object object) {
-                    return String.valueOf(object).trim();
-                }
-        });
     }
 
     private static org.w3c.dom.Document createDocument(final String xml)
@@ -899,12 +892,7 @@ public final class Xml {
                 public Object apply(Object object) {
                     return object instanceof List ? object : U.newArrayList(Arrays.asList(object));
                 }
-            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1},
-            new Function<Object, Object>() {
-                public Object apply(Object object) {
-                    return String.valueOf(object).trim();
-                }
-        }, xml, new int[] {0});
+            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0});
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }

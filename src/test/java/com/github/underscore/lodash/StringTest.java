@@ -1398,7 +1398,7 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromXml4() {
-        final String xml = "<__FU__a>\n"
+        final String xml = "<__FU__a>"
                 + "</__FU__a>";
         assertEquals("{\n"
                 + "  \"-a\": {\n"
@@ -1410,7 +1410,7 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromXml5() {
-        final String xml = "<__FU____EE__a>\n"
+        final String xml = "<__FU____EE__a>"
                 + "</__FU____EE__a>";
         assertEquals("{\n"
                 + "  \"-!a\": {\n"
@@ -1422,7 +1422,7 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromXml6() {
-        final String xml = "<__FU__a__EE__a>\n"
+        final String xml = "<__FU__a__EE__a>"
                 + "</__FU__a__EE__a>";
         assertEquals("{\n"
                 + "  \"-a!a\": {\n"
@@ -1434,7 +1434,7 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromXml7() {
-        final String xml = "<__EE__EMPTY__EE__ __EE__EMPTY__EE__=\"1\">\n"
+        final String xml = "<__EE__EMPTY__EE__ __EE__EMPTY__EE__=\"1\">"
                 + "</__EE__EMPTY__EE__>";
         assertEquals("{\n"
                 + "  \"\": {\n"

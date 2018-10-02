@@ -577,7 +577,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         assertEquals("[\n  \"1\",\n  \"2\"\n]",
             U.chain("<root><element>1</element><element>2</element></root>").xmlToJson().item());
         assertEquals("{\n  \"a\": {\n    \"b\": [\n      {\n      },\n      {\n      }\n    ]\n  }\n}",
-            U.xmlToJson("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>"));
+            U.xmlToJson("<a>\n  <b></b>\n  <b></b>\n</a>"));
     }
 
     @Test
@@ -594,13 +594,13 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             + "<root>\n   <element>1</element>\n   <element>2</element>\n</root>",
             U.formatXml("<root><element>1</element><element>2</element></root>"));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n   <b></b>\n   <b></b>\n</a>",
-            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>"));
+            U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>"));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n    <b></b>\n    <b></b>\n</a>",
-            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", Xml.XmlStringBuilder.Step.FOUR_SPACES));
+            U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.FOUR_SPACES));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b></b><b></b></a>",
-            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", Xml.XmlStringBuilder.Step.COMPACT));
+            U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.COMPACT));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n\t<b></b>\n\t<b></b>\n</a>",
-            U.formatXml("<a>\n  <b>\n  </b>\n  <b>\n  </b>\n</a>", Xml.XmlStringBuilder.Step.TABS));
+            U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.TABS));
     }
 
     @Test
@@ -832,19 +832,19 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     public void stackoverflow4() {
         // http://stackoverflow.com/questions/25085399/converting-xml-into-java-mapstring-integer
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
-        + "<root>"
-        + "   <Durapipe type=\"int\">1</Durapipe>"
-        + "   <EXPLAIN type=\"int\">2</EXPLAIN>"
-        + "   <woods type=\"int\">2</woods>"
-        + "   <hanging type=\"int\">3</hanging>"
-        + "   <hastily type=\"int\">2</hastily>"
-        + "   <localized type=\"int\">1</localized>"
-        + "   <Schuster type=\"int\">5</Schuster>"
-        + "   <regularize type=\"int\">1</regularize>"
-        + "   <LASR type=\"int\">1</LASR>"
-        + "   <LAST type=\"int\">22</LAST>"
-        + "   <Gelch type=\"int\">2</Gelch>"
-        + "   <Gelco type=\"int\">26</Gelco>"
+        + "<root>\n"
+        + "   <Durapipe type=\"int\">1</Durapipe>\n"
+        + "   <EXPLAIN type=\"int\">2</EXPLAIN>\n"
+        + "   <woods type=\"int\">2</woods>\n"
+        + "   <hanging type=\"int\">3</hanging>\n"
+        + "   <hastily type=\"int\">2</hastily>\n"
+        + "   <localized type=\"int\">1</localized>\n"
+        + "   <Schuster type=\"int\">5</Schuster>\n"
+        + "   <regularize type=\"int\">1</regularize>\n"
+        + "   <LASR type=\"int\">1</LASR>\n"
+        + "   <LAST type=\"int\">22</LAST>\n"
+        + "   <Gelch type=\"int\">2</Gelch>\n"
+        + "   <Gelco type=\"int\">26</Gelco>\n"
         + "</root>";
 
         assertEquals("{Durapipe={-type=int, #text=1}, EXPLAIN={-type=int, #text=2}, "
