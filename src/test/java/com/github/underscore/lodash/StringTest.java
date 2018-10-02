@@ -936,7 +936,7 @@ _.repeat('abc', 0);
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, null, builder, false,
             Collections.<String>emptySet());
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, "name", builder, false,
@@ -944,7 +944,7 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<root>\n"
             + "  <name>\n"
-            + "    <name>null</name>\n"
+            + "    <name null=\"true\"/>\n"
             + "  </name>\n"
             + "</root>", builder.toString());
     }
@@ -993,10 +993,10 @@ _.repeat('abc', 0);
             U.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
             + "    <__GE__>First item</__GE__>\n    <__GI__>Second item</__GI__>\n"
-            + "    <__GM__>null</__GM__>\n  </element>\n</root>",
+            + "    <__GM__ null=\"true\"/>\n  </element>\n</root>",
             U.toXml(Arrays.asList(new LinkedHashMap() { {
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             U.toXml(Arrays.asList(new String[] {(String) null})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
             U.toXml((Collection) null));
@@ -1043,7 +1043,7 @@ _.repeat('abc', 0);
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml((byte[]) null, builder);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
@@ -1068,7 +1068,7 @@ _.repeat('abc', 0);
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml((short[]) null, builder);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
@@ -1093,7 +1093,7 @@ _.repeat('abc', 0);
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml((int[]) null, builder);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
@@ -1118,7 +1118,7 @@ _.repeat('abc', 0);
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml((long[]) null, builder);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
@@ -1143,7 +1143,7 @@ _.repeat('abc', 0);
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml((float[]) null, builder);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
@@ -1168,7 +1168,7 @@ _.repeat('abc', 0);
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml((double[]) null, builder);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
@@ -1193,7 +1193,7 @@ _.repeat('abc', 0);
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml((boolean[]) null, builder);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
@@ -1218,7 +1218,7 @@ _.repeat('abc', 0);
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml((char[]) null, builder);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
@@ -1243,7 +1243,7 @@ _.repeat('abc', 0);
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml((Object[]) null, null, builder, false, Collections.<String>emptySet());
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             builder.toString());
 
         builder = new XmlStringBuilder();
@@ -1286,13 +1286,13 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
             U.chain(testList).toXml().item());
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             U.toXml(Arrays.asList(Double.NaN)));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             U.toXml(Arrays.asList(Double.POSITIVE_INFINITY)));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             U.toXml(Arrays.asList(Float.NaN)));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>null</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             U.toXml(Arrays.asList(Float.POSITIVE_INFINITY)));
     }
 
@@ -1571,6 +1571,21 @@ _.repeat('abc', 0);
                 + "  \"a\": {\n"
                 + "  },\n"
                 + "  \"#encoding\": \"windows-1251\"\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toJsonFromXml13() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b null=\"true\"/><c null=\"a\"/></a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": null,\n"
+                + "    \"c\": {\n"
+                + "      \"-null\": \"a\"\n"
+                + "    }\n"
+                + "  }\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
     }
@@ -1978,6 +1993,17 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson22() {
+        final String json = "{  \"c\": [{    \"-id\": \"a\"  }]}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<c>\n"
+                + "  <c id=\"a\"></c>\n"
+                + "</c>",
+            U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
@@ -2006,11 +2032,11 @@ _.repeat('abc', 0);
         + "\n        <GlossDef>"
         + "\n          <para>A meta-markup language, used to create markup languages such as DocBook.</para>"
         + "\n          <GlossSeeAlso>GML</GlossSeeAlso>"
-        + "\n          <GlossSeeAlso>null</GlossSeeAlso>"
+        + "\n          <GlossSeeAlso null=\"true\"/>"
         + "\n          <GlossSeeAlso>GML2</GlossSeeAlso>"
         + "\n          <GlossSeeAlso2>1</GlossSeeAlso2>"
-        + "\n          <GlossSeeAlso2>null</GlossSeeAlso2>"
-        + "\n          <GlossSeeAlso3>null</GlossSeeAlso3>"
+        + "\n          <GlossSeeAlso2 null=\"true\"/>"
+        + "\n          <GlossSeeAlso3 null=\"true\"/>"
         + "\n          <GlossSeeAlso4>1</GlossSeeAlso4>"
         + "\n        </GlossDef>"
         + "\n        <GlossSee>markup</GlossSee>"
