@@ -510,9 +510,13 @@ public final class Xml {
             if (value == null) {
                 builder.append("<" + XmlValue.escapeName(name, namespaces) + NULL_TRUE);
             } else if (value instanceof String) {
-                builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
-                builder.append(escape((String) value));
-                builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                if (((String) value).isEmpty()) {
+                    builder.append("<" + XmlValue.escapeName(name, namespaces) + " string=\"true\"/>");
+                } else {
+                    builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
+                    builder.append(escape((String) value));
+                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                }
             } else {
                 processArrays(value, builder, name, parentTextFound, namespaces);
             }
@@ -752,6 +756,8 @@ public final class Xml {
                 return entry.getValue();
             } else if ("-null".equals(entry.getKey()) && "true".equals(entry.getValue())) {
                 return null;
+            } else if ("-string".equals(entry.getKey()) && "true".equals(entry.getValue())) {
+                return "";
             }
         }
         return value;

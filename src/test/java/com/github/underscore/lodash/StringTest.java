@@ -1592,6 +1592,21 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml14() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b string=\"true\"/><c string=\"a\"/></a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": \"\",\n"
+                + "    \"c\": {\n"
+                + "      \"-string\": \"a\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
@@ -1998,6 +2013,17 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<c>\n"
                 + "  <c id=\"a\"></c>\n"
+                + "</c>",
+            U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson23() {
+        final String json = "{  \"c\": [{    \"id\": \"\"  }]}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<c>\n"
+                + "  <id string=\"true\"/>\n"
                 + "</c>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
     }

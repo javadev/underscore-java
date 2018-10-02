@@ -145,11 +145,6 @@ public final class Json {
             }
             while (iter.hasNext()) {
                 Object value = iter.next();
-                if (value == null) {
-                    builder.fillSpaces().append(NULL);
-                    continue;
-                }
-
                 builder.fillSpaces();
                 JsonValue.writeJson(value, builder);
                 if (iter.hasNext()) {
