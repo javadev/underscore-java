@@ -998,7 +998,7 @@ _.repeat('abc', 0);
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
             U.toXml(Arrays.asList(new String[] {(String) null})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>null</root>",
             U.toXml((Collection) null));
         class Test {
             public String toString() {
@@ -1312,8 +1312,8 @@ _.repeat('abc', 0);
             + "  <First__EA__item>1</First__EA__item>\n  <Second__EA__item>2</Second__EA__item>\n</root>",
             U.toXml(testMap));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>null</root>", U.toXml((Map) null));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <item>\n"
-                + "  </item>\n</root>", U.toXml(testMap2));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <item>"
+                + "</item>\n</root>", U.toXml(testMap2));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<__EE__EMPTY__EE__>1"
                 + "</__EE__EMPTY__EE__>", U.toXml(testMap3));
     }
@@ -1656,8 +1656,7 @@ _.repeat('abc', 0);
                 + "    <height>500</height>\n"
                 + "  </window>\n"
                 + "  <image name=\"sun1\" src=\"Images/Sun.png\">\n"
-                + "    <__FU__test>\n"
-                + "    </__FU__test>\n"
+                + "    <__FU__test></__FU__test>\n"
                 + "    <__FU__test2></__FU__test2>\n"
                 + "    <hOffset>250<unit>mm</unit>\n"
                 + "    </hOffset>\n"
@@ -1992,7 +1991,7 @@ _.repeat('abc', 0);
                 + "<a>  <b>World</b>.</a>", U.toXml((Map<String, Object>) U.fromJson(json2)));
         final String json3 = "{\n  \"a\": []\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<root>\n  <a>\n  </a>\n</root>", U.toXml((Map<String, Object>) U.fromJson(json3)));
+                + "<root>\n  <a></a>\n</root>", U.toXml((Map<String, Object>) U.fromJson(json3)));
     }
 
     @SuppressWarnings("unchecked")

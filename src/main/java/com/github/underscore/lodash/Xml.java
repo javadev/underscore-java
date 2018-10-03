@@ -156,8 +156,11 @@ public final class Xml {
             }
             writeXml(collection, builder, name, parentTextFound, namespaces);
             if (name != null) {
-                builder.decIdent().newLine().fillSpaces().append("</")
-                        .append(XmlValue.escapeName(name, namespaces)).append(">");
+                builder.decIdent();
+                if (!collection.isEmpty()) {
+                    builder.newLine().fillSpaces();
+                }
+                builder.append("</").append(XmlValue.escapeName(name, namespaces)).append(">");
             }
         }
 
@@ -692,11 +695,14 @@ public final class Xml {
     public static String toXml(Collection collection, XmlStringBuilder.Step identStep) {
         final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name());
         builder.append("<root>").incIdent();
-        if (collection == null || !collection.isEmpty()) {
+        if (collection != null && !collection.isEmpty()) {
             builder.newLine();
         }
         XmlArray.writeXml(collection, null, builder, false, U.<String>newLinkedHashSet());
-        return builder.newLine().append("</root>").toString();
+        if (collection != null && !collection.isEmpty()) {
+            builder.newLine();
+        }
+        return builder.append("</root>").toString();
     }
 
     public static String toXml(Collection collection) {
