@@ -1607,6 +1607,26 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml15() {
+        final String xml = "<!DOCTYPE address [\n"
+                + "]>\n"
+                + "<address>\n"
+                + "  <name>Tanmay Patil</name>\n"
+                + "  <company>TutorialsPoint</company>\n"
+                + "  <phone>(011) 123-4567</phone>\n"
+                + "</address>";
+        assertEquals("{\n"
+                + "  \"address\": {\n"
+                + "    \"name\": \"Tanmay Patil\",\n"
+                + "    \"company\": \"TutorialsPoint\",\n"
+                + "    \"phone\": \"(011) 123-4567\"\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"

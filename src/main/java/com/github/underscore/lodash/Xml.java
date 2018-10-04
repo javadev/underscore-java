@@ -792,7 +792,8 @@ public final class Xml {
                 value = currentNode.getTextContent();
             }
             if (TEXT.equals(name) && node.getChildNodes().getLength() > 1
-                && String.valueOf(value).trim().isEmpty()) {
+                && String.valueOf(value).trim().isEmpty()
+                || currentNode.getNodeType() == org.w3c.dom.Node.DOCUMENT_TYPE_NODE) {
                 continue;
             }
             addNodeValue(map, name, value, nodeMapper, uniqueIds);
@@ -891,6 +892,7 @@ public final class Xml {
         final javax.xml.parsers.DocumentBuilderFactory factory =
                 javax.xml.parsers.DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
+        factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
         factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
         final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
         builder.setErrorHandler(new org.xml.sax.helpers.DefaultHandler());
