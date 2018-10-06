@@ -979,11 +979,11 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>true</element>"
             + "\n    <element>false</element>\n    <element>true</element>\n  </element>\n</root>",
             U.toXml(Arrays.asList(new boolean[] {true, false, true})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>1.0</element>"
-            + "\n  <element>2.0</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element number=\"true\">1.0</element>"
+            + "\n  <element number=\"true\">2.0</element>\n</root>",
             U.toXml(Arrays.asList(new Float[] {1F, 2F})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>1.0</element>"
-            + "\n  <element>2.0</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element number=\"true\">1.0</element>"
+            + "\n  <element number=\"true\">2.0</element>\n</root>",
             U.toXml(Arrays.asList(new Double[] {1D, 2D})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>"
             + "\n  <element>false</element>\n  <element>true</element>\n</root>",
@@ -1259,7 +1259,7 @@ _.repeat('abc', 0);
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, null, builder, false,
             Collections.<String>emptySet());
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n  <element>"
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n  <element number=\"true\">"
             + "12</element>\n  <element>\n    <element>1</element>\n    <element>2</element>\n    <element>3</element>"
             + "\n  </element>\n</root>", builder.toString());
     }
@@ -1650,6 +1650,44 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml17() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a number=\"true\">1</a>";
+        assertEquals("{\n"
+                + "  \"a\": 1\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+        final String xml2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a number=\"true\">1e1</a>";
+        assertEquals("{\n"
+                + "  \"a\": 10.0\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml2)));
+        final String xml3 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a number=\"true\">1E1</a>";
+        assertEquals("{\n"
+                + "  \"a\": 10.0\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml3)));
+        final String xml4 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a number=\"true\">1.1</a>";
+        assertEquals("{\n"
+                + "  \"a\": 1.1\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml4)));
+        final String xml5 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a number=\"a\">1</a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"-number\": \"a\",\n"
+                + "    \"#text\": \"1\"\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml5)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
@@ -1989,7 +2027,7 @@ _.repeat('abc', 0);
                 + "  <!--c-->\n"
                 + "1\n"
                 + "  <![CDATA[2]]>\n"
-                + "  <a>1</a>\n"
+                + "  <a number=\"true\">1</a>\n"
                 + "</a>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
     }
@@ -2042,7 +2080,7 @@ _.repeat('abc', 0);
     public void toXmlFromJson21() {
         final String json = "{\"a\": [0]}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<a>0</a>",
+                + "<a number=\"true\">0</a>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
@@ -2118,10 +2156,10 @@ _.repeat('abc', 0);
         + "\n          <GlossSeeAlso>GML</GlossSeeAlso>"
         + "\n          <GlossSeeAlso null=\"true\"/>"
         + "\n          <GlossSeeAlso>GML2</GlossSeeAlso>"
-        + "\n          <GlossSeeAlso2>1</GlossSeeAlso2>"
+        + "\n          <GlossSeeAlso2 number=\"true\">1</GlossSeeAlso2>"
         + "\n          <GlossSeeAlso2 null=\"true\"/>"
         + "\n          <GlossSeeAlso3 null=\"true\"/>"
-        + "\n          <GlossSeeAlso4>1</GlossSeeAlso4>"
+        + "\n          <GlossSeeAlso4 number=\"true\">1</GlossSeeAlso4>"
         + "\n        </GlossDef>"
         + "\n        <GlossSee>markup</GlossSee>"
         + "\n      </GlossEntry>"
