@@ -24,6 +24,7 @@
 package com.github.underscore.lodash;
 
 import com.github.underscore.Function;
+import com.github.underscore.Predicate;
 import java.util.*;
 
 public final class Xml {
@@ -713,7 +714,7 @@ public final class Xml {
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {
             builder = new XmlStringBuilderWithoutRoot(identStep, String.valueOf(map.get(ENCODING)));
-            localMap = (Map) U.clone(map);
+            localMap = (Map) ((LinkedHashMap) map).clone();
             localMap.remove(ENCODING);
         } else {
             builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name());
@@ -729,20 +730,19 @@ public final class Xml {
         return builder.toString();
     }
 
+    @SuppressWarnings("unchecked")
     private static String getRootName(final Map localMap) {
         final String name;
         if (localMap != null && localMap.size() == 1
                 && ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List
-                && !((List) ((Map.Entry) localMap.entrySet().iterator().next()).getValue()).isEmpty()) {
-            boolean allMapItems = true;
-            for (Object item : (List) ((Map.Entry) localMap.entrySet().iterator().next()).getValue()) {
-                if (!(item instanceof Map)) {
-                    allMapItems = false;
-                    break;
-                }
-            }
-            name = allMapItems ? String.valueOf(((Map.Entry) localMap.entrySet().iterator().next()).getKey())
-                    : "root";
+                && !((List) ((Map.Entry) localMap.entrySet().iterator().next()).getValue()).isEmpty()
+                && U.every((List<Object>) ((Map.Entry) localMap.entrySet().iterator().next()).getValue(),
+                    new Predicate<Object>() {
+                        public boolean test(Object item) {
+                            return item instanceof Map;
+                        }
+                    })) {
+                name = String.valueOf(((Map.Entry) localMap.entrySet().iterator().next()).getKey());
         } else {
             name = "root";
         }
