@@ -985,8 +985,8 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element number=\"true\">1.0</element>"
             + "\n  <element number=\"true\">2.0</element>\n</root>",
             U.toXml(Arrays.asList(new Double[] {1D, 2D})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>true</element>"
-            + "\n  <element>false</element>\n  <element>true</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element boolean=\"true\">true</element>"
+            + "\n  <element boolean=\"true\">false</element>\n  <element boolean=\"true\">true</element>\n</root>",
             U.toXml(Arrays.asList(new Boolean[] {true, false, true})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
             + "    <element>First item</element>\n    <element>Second item</element>\n  </element>\n</root>",
@@ -1684,6 +1684,26 @@ _.repeat('abc', 0);
                 + "  }\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml5)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toJsonFromXml18() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a boolean=\"true\">true</a>";
+        assertEquals("{\n"
+                + "  \"a\": true\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+        final String xml2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a boolean=\"a\">true</a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"-boolean\": \"a\",\n"
+                + "    \"#text\": \"true\"\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml2)));
     }
 
     @SuppressWarnings("unchecked")

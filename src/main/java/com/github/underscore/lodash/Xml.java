@@ -548,11 +548,13 @@ public final class Xml {
                     builder.append("<" + XmlValue.escapeName(name, namespaces) + NUMBER_TRUE);
                     builder.append(value.toString());
                     builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+            } else if (value instanceof Boolean) {
+                    builder.append("<" + XmlValue.escapeName(name, namespaces) + " boolean=\"true\">");
+                    builder.append(value.toString());
+                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
             } else {
                 builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
-                if (value instanceof Boolean) {
-                    builder.append(value.toString());
-                } else if (value instanceof byte[]) {
+                if (value instanceof byte[]) {
                     builder.newLine().incIdent();
                     XmlArray.writeXml((byte[]) value, builder);
                     builder.decIdent().newLine().fillSpaces();
@@ -800,6 +802,8 @@ public final class Xml {
             } else {
                 localValue = Long.valueOf(number);
             }
+        } else if ("-boolean".equals(entries.get(0).getKey()) && "true".equals(entries.get(0).getValue())) {
+            localValue = Boolean.valueOf(String.valueOf(entries.get(1).getValue()));
         } else {
             localValue = value;
         }
