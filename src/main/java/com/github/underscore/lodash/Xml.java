@@ -38,6 +38,7 @@ public final class Xml {
     private static final String CLOSED_ELEMENT = "</" + ELEMENT_TEXT + ">";
     private static final String EMPTY_ELEMENT = ELEMENT + CLOSED_ELEMENT;
     private static final String NULL_TRUE = " " + NULL + "=\"true\"/>";
+    private static final String NUMBER_TRUE = " number=\"true\">";
     private static final String NULL_ELEMENT = "<" + ELEMENT_TEXT + NULL_TRUE;
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
@@ -531,7 +532,7 @@ public final class Xml {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
                     builder.append(NULL_ELEMENT);
                 } else {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
+                    builder.append("<" + XmlValue.escapeName(name, namespaces) + NUMBER_TRUE);
                     builder.append(value.toString());
                     builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
                 }
@@ -539,15 +540,17 @@ public final class Xml {
                 if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
                     builder.append(NULL_ELEMENT);
                 } else {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
+                    builder.append("<" + XmlValue.escapeName(name, namespaces) + NUMBER_TRUE);
                     builder.append(value.toString());
                     builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
                 }
+            } else if (value instanceof Number) {
+                    builder.append("<" + XmlValue.escapeName(name, namespaces) + NUMBER_TRUE);
+                    builder.append(value.toString());
+                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
             } else {
                 builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
-                if (value instanceof Number) {
-                    builder.append(value.toString());
-                } else if (value instanceof Boolean) {
+                if (value instanceof Boolean) {
                     builder.append(value.toString());
                 } else if (value instanceof byte[]) {
                     builder.newLine().incIdent();
@@ -774,6 +777,16 @@ public final class Xml {
                 return null;
             } else if ("-string".equals(entry.getKey()) && "true".equals(entry.getValue())) {
                 return "";
+            }
+        } else if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 2) {
+            final List<Map.Entry<String, Object>> entries = U.newArrayList(((Map<String, Object>) value).entrySet());
+            if ("-number".equals(entries.get(0).getKey()) && "true".equals(entries.get(0).getValue())) {
+                final String number = String.valueOf(entries.get(1).getValue());
+                if (number.contains(".") || number.contains("e") || number.contains("E")) {
+                    return Double.valueOf(number);
+                } else {
+                    return Long.valueOf(number);
+                }
             }
         }
         return value;
