@@ -769,27 +769,41 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     private static Object getValue(final Object value) {
+        final Object localValue;
         if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 1) {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
             if (TEXT.equals(entry.getKey()) || entry.getKey().equals(ELEMENT_TEXT)) {
-                return entry.getValue();
+                localValue = entry.getValue();
             } else if ("-null".equals(entry.getKey()) && "true".equals(entry.getValue())) {
-                return null;
+                localValue = null;
             } else if ("-string".equals(entry.getKey()) && "true".equals(entry.getValue())) {
-                return "";
+                localValue = "";
+            } else {
+                localValue = value;
             }
         } else if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 2) {
-            final List<Map.Entry<String, Object>> entries = U.newArrayList(((Map<String, Object>) value).entrySet());
-            if ("-number".equals(entries.get(0).getKey()) && "true".equals(entries.get(0).getValue())) {
-                final String number = String.valueOf(entries.get(1).getValue());
-                if (number.contains(".") || number.contains("e") || number.contains("E")) {
-                    return Double.valueOf(number);
-                } else {
-                    return Long.valueOf(number);
-                }
-            }
+            localValue = getNumber(value);
+        } else {
+            localValue = value;
         }
-        return value;
+        return localValue;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object getNumber(final Object value) {
+        final Object localValue;
+        final List<Map.Entry<String, Object>> entries = U.newArrayList(((Map<String, Object>) value).entrySet());
+        if ("-number".equals(entries.get(0).getKey()) && "true".equals(entries.get(0).getValue())) {
+            final String number = String.valueOf(entries.get(1).getValue());
+            if (number.contains(".") || number.contains("e") || number.contains("E")) {
+                localValue = Double.valueOf(number);
+            } else {
+                localValue = Long.valueOf(number);
+            }
+        } else {
+            localValue = value;
+        }
+        return localValue;
     }
 
     @SuppressWarnings("unchecked")
