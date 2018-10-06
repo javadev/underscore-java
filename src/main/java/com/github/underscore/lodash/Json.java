@@ -421,7 +421,12 @@ public final class Json {
                             if (name.charAt(j) == '_') {
                                 underlineCount += 1;
                                 if (underlineCount == 2) {
-                                    result.append(JsonValue.escape(Base32.decode(nameToDecode.toString())));
+                                    try {
+                                        result.append(JsonValue.escape(Base32.decode(nameToDecode.toString())));
+                                    } catch (Base32.DecodingException ex) {
+                                        result.append(JsonValue.escape("__"
+                                            + nameToDecode.append(lastChars).toString()));
+                                    }
                                     i = j;
                                     underlineCount = 0;
                                     lastChars.setLength(0);

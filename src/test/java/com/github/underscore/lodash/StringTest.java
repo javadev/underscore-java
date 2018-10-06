@@ -1638,6 +1638,18 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml16() {
+        final String xml = "<a __n__=\"1\"/>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"-__n__\": \"1\"\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
