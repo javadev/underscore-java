@@ -387,6 +387,11 @@ _.elementAtOrNull(arr, 3) // => null
                     return "" + arg;
                 }
             }).isPresent());
+        assertTrue(Optional.<Integer>absent().map(new Function<Integer, String>() {
+                public String apply(Integer arg) {
+                    return "" + arg;
+                }
+            }).isEmpty());
         assertEquals("1", Optional.of(1).map(new Function<Integer, String>() {
                 public String apply(Integer arg) {
                     return "" + arg;

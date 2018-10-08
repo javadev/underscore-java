@@ -50,6 +50,10 @@ public final class Optional<T> {
         return arg;
     }
 
+    public boolean isEmpty() {
+        return absent;
+    }
+
     public boolean isPresent() {
         return !absent;
     }
