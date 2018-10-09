@@ -117,7 +117,7 @@ public final class Xml {
     public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
         public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep, String encoding) {
             super(new StringBuilder("<?xml version=\"1.0\" encoding=\""
-                + U.escape(encoding) + "\"?>" + (identStep == Step.COMPACT ? "" : "\n")), identStep, 0);
+                + XmlValue.escape(encoding) + "\"?>" + (identStep == Step.COMPACT ? "" : "\n")), identStep, 0);
         }
 
         public String toString() {
@@ -374,11 +374,11 @@ public final class Xml {
                 if (String.valueOf(entry.getKey()).startsWith("-") && !(entry.getValue() instanceof Map)
                     && !(entry.getValue() instanceof List)) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1), namespaces)
-                        + "=\"" + U.escape(String.valueOf(entry.getValue())) + "\"");
+                        + "=\"" + XmlValue.escape(String.valueOf(entry.getValue())) + "\"");
                     if (String.valueOf(entry.getKey()).startsWith("-xmlns:")) {
                         namespaces.add(String.valueOf(entry.getKey()).substring(7));
                     }
-                } else if (U.escape(String.valueOf(entry.getKey())).startsWith(TEXT)) {
+                } else if (XmlValue.escape(String.valueOf(entry.getKey())).startsWith(TEXT)) {
                     addText(entry, elems, identStep, ident);
                 } else {
                     processElements(entry, identStep, ident, addNewLine, elems, namespaces);
@@ -415,9 +415,9 @@ public final class Xml {
         private static void processElements(final Map.Entry entry, final XmlStringBuilder.Step identStep,
                 final int ident, final boolean addNewLine, final List<XmlStringBuilder> elems,
                 final Set<String> namespaces) {
-            if (U.escape(String.valueOf(entry.getKey())).startsWith(COMMENT)) {
+            if (XmlValue.escape(String.valueOf(entry.getKey())).startsWith(COMMENT)) {
                 addComment(entry, identStep, ident, addNewLine, elems, "<!--", "-->");
-            } else if (U.escape(String.valueOf(entry.getKey())).startsWith(CDATA)) {
+            } else if (XmlValue.escape(String.valueOf(entry.getKey())).startsWith(CDATA)) {
                 addComment(entry, identStep, ident, addNewLine, elems, "<![CDATA[", "]]>");
             } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
                 addElements(identStep, ident, entry, namespaces, elems, addNewLine);
@@ -430,11 +430,11 @@ public final class Xml {
                 final XmlStringBuilder.Step identStep, final int ident) {
             if (entry.getValue() instanceof List) {
                 for (Object value : (List) entry.getValue()) {
-                    elems.add(new XmlStringBuilderText(identStep, ident).append(U.escape(String.valueOf(value))));
+                    elems.add(new XmlStringBuilderText(identStep, ident).append(XmlValue.escape(String.valueOf(value))));
                 }
             } else {
                 elems.add(new XmlStringBuilderText(identStep, ident).append(
-                        U.escape(String.valueOf(entry.getValue()))));
+                        XmlValue.escape(String.valueOf(entry.getValue()))));
             }
         }
 
