@@ -42,7 +42,8 @@ public final class Xml {
     private static final String NULL_ELEMENT = "<" + ELEMENT_TEXT + NULL_TRUE;
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
-        "(\\S+)\\s*=\\s*[\"']?((?:.(?![\"']?\\s+(?:\\S+)=|[>\"']))?[^\"']*)[\"']?");
+        "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
+        + "(?:(?<=\\\\)'|[^'])*)|(?:(?!\"|')(?:(?!\\/>|>|\\s).)+))");
 
     public static class XmlStringBuilder {
         public enum Step {
@@ -632,7 +633,7 @@ public final class Xml {
 
         public static String escape(String s) {
             if (s == null) {
-                return null;
+                return "";
             }
             StringBuilder sb = new StringBuilder();
             escape(s, sb);
