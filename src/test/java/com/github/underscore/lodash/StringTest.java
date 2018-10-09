@@ -2016,6 +2016,20 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + "<a__HI__b></a__HI__b>",
             U.toXml((Map<String, Object>) U.fromJson(json3)));
+        final String json4 = "{\n  \"x\": {\n    \"-xmlns:edi\": [],\n"
+        + "    \"lineItem\": {\n      \"-edi:taxClass\": \"exempt\"\n    }\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<x>\n"
+        + "  <__FU__xmlns__HI__edi></__FU__xmlns__HI__edi>\n"
+        + "  <lineItem edi__HI__taxClass=\"exempt\"></lineItem>\n"
+        + "</x>", U.toXml((Map<String, Object>) U.fromJson(json4)));
+        final String json5 = "{\n  \"x\": {\n    \"-xmlns:edi\": {},\n"
+        + "    \"lineItem\": {\n      \"-edi:taxClass\": \"exempt\"\n    }\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<x>\n"
+        + "  <__FU__xmlns__HI__edi></__FU__xmlns__HI__edi>\n"
+        + "  <lineItem edi__HI__taxClass=\"exempt\"></lineItem>\n"
+        + "</x>", U.toXml((Map<String, Object>) U.fromJson(json5)));
     }
 
     @SuppressWarnings("unchecked")

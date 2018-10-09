@@ -368,6 +368,12 @@ public final class Xml {
             final XmlStringBuilder.Step identStep = builder.getIdentStep();
             final int ident = builder.getIdent() + (name == null ? 0 : builder.getIdentStep().getIdent());
             final List<Map.Entry> entries = U.newArrayList(map.entrySet());
+            for (Map.Entry entry : (Set<Map.Entry>) map.entrySet()) {
+                if (String.valueOf(entry.getKey()).startsWith("-xmlns:") && !(entry.getValue() instanceof Map)
+                    && !(entry.getValue() instanceof List)) {
+                    namespaces.add(String.valueOf(entry.getKey()).substring(7));
+                }
+            }
             for (int index = 0; index < entries.size(); index += 1) {
                 final Map.Entry entry = entries.get(index);
                 final boolean addNewLine = index < entries.size() - 1
@@ -376,9 +382,6 @@ public final class Xml {
                     && !(entry.getValue() instanceof List)) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1), namespaces)
                         + "=\"" + XmlValue.escape(String.valueOf(entry.getValue())) + "\"");
-                    if (String.valueOf(entry.getKey()).startsWith("-xmlns:")) {
-                        namespaces.add(String.valueOf(entry.getKey()).substring(7));
-                    }
                 } else if (XmlValue.escape(String.valueOf(entry.getKey())).startsWith(TEXT)) {
                     addText(entry, elems, identStep, ident);
                 } else {
