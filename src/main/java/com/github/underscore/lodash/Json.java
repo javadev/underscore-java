@@ -409,14 +409,15 @@ public final class Json {
             StringBuilder result = new StringBuilder();
             int underlineCount = 0;
             StringBuilder lastChars = new StringBuilder();
-            outer:
-            for (int i = 0; i < length; ++i) {
+            int i = 0;
+            while (i < length) {
                 char ch = name.charAt(i);
                 if (ch == '_') {
                     lastChars.append(ch);
                 } else {
                     if (lastChars.length() == 2) {
                         StringBuilder nameToDecode = new StringBuilder();
+                        boolean nameWasDecoded = false;
                         for (int j = i; j < length; ++j) {
                             if (name.charAt(j) == '_') {
                                 underlineCount += 1;
@@ -430,17 +431,23 @@ public final class Json {
                                     i = j;
                                     underlineCount = 0;
                                     lastChars.setLength(0);
-                                    continue outer;
+                                    nameWasDecoded = true;
+                                    break;
                                 }
                             } else {
                                 nameToDecode.append(name.charAt(j));
                                 underlineCount = 0;
                             }
                         }
+                        if (nameWasDecoded) {
+                            i += 1;
+                            continue;
+                        }
                     }
                     result.append(lastChars).append(ch);
                     lastChars.setLength(0);
                 }
+                i += 1;
             }
             return result.append(lastChars).toString();
         }
