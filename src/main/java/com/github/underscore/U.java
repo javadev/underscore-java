@@ -48,6 +48,7 @@ public class U<T> {
     private static final String ESCAPE = "escape";
     private static final java.util.regex.Pattern FORMAT_PATTERN =
         java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*\\}");
+    private static final Map<Character, String> ESCAPES = new HashMap<Character, String>();
     private final Iterable<T> iterable;
     private final Optional<String> string;
 
@@ -55,6 +56,12 @@ public class U<T> {
         TEMPLATE_SETTINGS.put(EVALUATE, "<%([\\s\\S]+?)%>");
         TEMPLATE_SETTINGS.put(INTERPOLATE, "<%=([\\s\\S]+?)%>");
         TEMPLATE_SETTINGS.put(ESCAPE, "<%-([\\s\\S]+?)%>");
+        ESCAPES.put('&', "&amp;");
+        ESCAPES.put('<', "&lt;");
+        ESCAPES.put('>', "&gt;");
+        ESCAPES.put('"', "&quot;");
+        ESCAPES.put('\'', "&#x27;");
+        ESCAPES.put('`', "&#x60;");
     }
 
     public U(final Iterable<T> iterable) {
@@ -1995,8 +2002,11 @@ public class U<T> {
     }
 
     public static String escape(final String value) {
-        return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-            .replaceAll("\"", "&quot;").replaceAll("'", "&#x27;").replaceAll("`", "&#x60;");
+        final StringBuilder builder = new StringBuilder();
+        for (final char ch : value.toCharArray()) {
+            builder.append(ESCAPES.containsKey(ch) ? ESCAPES.get(ch) : ch);
+        }
+        return builder.toString();
     }
 
     public static String unescape(final String value) {
