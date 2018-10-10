@@ -44,6 +44,15 @@ public final class Xml {
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
         "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
         + "(?:(?<=\\\\)'|[^'])*)|(?:(?!\"|')(?:(?!\\/>|>|\\s).)+))");
+    private static final Map<String, String> XML_UNESCAPE = new HashMap<String, String>();
+
+    static {
+        XML_UNESCAPE.put("&quot;", "\"");
+        XML_UNESCAPE.put("&amp;", "&");
+        XML_UNESCAPE.put("&lt;", "<");
+        XML_UNESCAPE.put("&gt;", ">");
+        XML_UNESCAPE.put("&apos;", "'");
+    }
 
     public static class XmlStringBuilder {
         public enum Step {
@@ -382,7 +391,7 @@ public final class Xml {
                     && !(entry.getValue() instanceof List)) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1), namespaces)
                         + "=\"" + XmlValue.escape(String.valueOf(entry.getValue())) + "\"");
-                } else if (XmlValue.escape(String.valueOf(entry.getKey())).startsWith(TEXT)) {
+                } else if (String.valueOf(entry.getKey()).startsWith(TEXT)) {
                     addText(entry, elems, identStep, ident);
                 } else {
                     processElements(entry, identStep, ident, addNewLine, elems, namespaces);
@@ -419,9 +428,9 @@ public final class Xml {
         private static void processElements(final Map.Entry entry, final XmlStringBuilder.Step identStep,
                 final int ident, final boolean addNewLine, final List<XmlStringBuilder> elems,
                 final Set<String> namespaces) {
-            if (XmlValue.escape(String.valueOf(entry.getKey())).startsWith(COMMENT)) {
+            if (String.valueOf(entry.getKey()).startsWith(COMMENT)) {
                 addComment(entry, identStep, ident, addNewLine, elems, "<!--", "-->");
-            } else if (XmlValue.escape(String.valueOf(entry.getKey())).startsWith(CDATA)) {
+            } else if (String.valueOf(entry.getKey()).startsWith(CDATA)) {
                 addComment(entry, identStep, ident, addNewLine, elems, "<![CDATA[", "]]>");
             } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
                 addElements(identStep, ident, entry, namespaces, elems, addNewLine);
@@ -695,6 +704,53 @@ public final class Xml {
             }
         }
 
+        public static String unescape(String s) {
+            if (s == null) {
+                return "";
+            }
+            StringBuilder sb = new StringBuilder();
+            unescape(s, sb);
+            return sb.toString();
+        }
+
+        private static void unescape(String s, StringBuilder sb) {
+            final int len = s.length();
+            final StringBuilder localSb = new StringBuilder();
+            int index = 0;
+            while (index < len) {
+                final int skipChars = translate(s, index, localSb);
+                if (skipChars > 0) {
+                    sb.append(localSb);
+                    localSb.setLength(0);
+                    index += skipChars;
+                } else {
+                    sb.append(s.charAt(index));
+                    index += 1;
+                }
+            }
+        }
+
+        private static int translate(final CharSequence input, final int index, final StringBuilder builder) {
+            final int shortest = 4;
+            final int longest = 6;
+
+            if ('&' == input.charAt(index)) {
+                int max = longest;
+                if (index + longest > input.length()) {
+                    max = input.length() - index;
+                }
+                for (int i = max; i >= shortest; i--) {
+                    final CharSequence subSeq = input.subSequence(index, index + i);
+                    final String result = XML_UNESCAPE.get(subSeq.toString());
+                    if (result != null) {
+                        builder.append(result);
+                        return i;
+                    }
+                }
+            }
+            return 0;
+        }
+
         public static String getMapKey(Object map) {
             return map instanceof Map && !((Map) map).isEmpty() ? String.valueOf(
                ((Map.Entry) ((Map) map).entrySet().iterator().next()).getKey()) : "";
@@ -792,7 +848,7 @@ public final class Xml {
         } else {
             localValue = value;
         }
-        return localValue;
+        return localValue instanceof String ? XmlValue.unescape((String) localValue) : localValue;
     }
 
     @SuppressWarnings("unchecked")

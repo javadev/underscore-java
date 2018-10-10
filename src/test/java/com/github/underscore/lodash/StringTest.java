@@ -1038,6 +1038,18 @@ _.repeat('abc', 0);
     }
 
     @Test
+    public void unescapeXml() {
+        assertEquals("", Xml.XmlValue.unescape(null));
+        assertEquals("\"", Xml.XmlValue.unescape("&quot;"));
+        assertEquals("\" ", Xml.XmlValue.unescape("&quot; "));
+        assertEquals("'", Xml.XmlValue.unescape("&apos;"));
+        assertEquals("&", Xml.XmlValue.unescape("&amp;"));
+        assertEquals("<", Xml.XmlValue.unescape("&lt;"));
+        assertEquals(">", Xml.XmlValue.unescape("&gt;"));
+        assertEquals("&quot", Xml.XmlValue.unescape("&quot"));
+    }
+
+    @Test
     public void testXmlByteArrayToString() {
         XmlStringBuilder builder;
 
