@@ -24,7 +24,6 @@
 package com.github.underscore.lodash;
 
 import com.github.underscore.Function;
-import com.github.underscore.Predicate;
 import java.util.*;
 
 public final class Xml {
@@ -190,10 +189,11 @@ public final class Xml {
                         + NULL_TRUE);
                 } else {
                     if (value instanceof Map && ((Map) value).size() == 1
-                        && !XmlValue.getMapKey(value).startsWith("-")) {
+                        && (XmlValue.getMapKey(value).startsWith(TEXT)
+                        || XmlValue.getMapKey(value).startsWith(COMMENT)
+                        || XmlValue.getMapKey(value).startsWith(CDATA))) {
                         XmlObject.writeXml((Map) value, null, builder, localParentTextFound, namespaces);
-                        if (String.valueOf(((Map.Entry) ((Map) value).entrySet().iterator()
-                            .next()).getKey()).startsWith(TEXT)) {
+                        if (XmlValue.getMapKey(value).startsWith(TEXT)) {
                             localParentTextFound = true;
                             continue;
                         }
@@ -454,14 +454,7 @@ public final class Xml {
         private static void addElements(final XmlStringBuilder.Step identStep, final int ident, Map.Entry entry,
                 Set<String> namespaces, final List<XmlStringBuilder> elems, final boolean addNewLine) {
             boolean parentTextFound = !elems.isEmpty() && elems.get(elems.size() - 1) instanceof XmlStringBuilderText;
-            final XmlStringBuilder localBuilder;
-            if (XmlValue.getMapKey(((List) entry.getValue()).get(0)).startsWith(TEXT)
-                || XmlValue.getMapKey(((List) entry.getValue()).get(((List) entry.getValue()).size() - 1))
-                    .startsWith(TEXT)) {
-                    localBuilder = new XmlStringBuilderText(identStep, ident);
-            } else {
-                localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
-            }
+            final XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
             XmlArray.writeXml((List) entry.getValue(), localBuilder,
                     String.valueOf(entry.getKey()), parentTextFound, namespaces);
             if (addNewLine) {
@@ -797,32 +790,19 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     private static String getRootName(final Map localMap) {
-        final String name;
-        if (localMap != null && localMap.size() == 1
-                && ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List
-                && !((List) ((Map.Entry) localMap.entrySet().iterator().next()).getValue()).isEmpty()
-                && U.every((List<Object>) ((Map.Entry) localMap.entrySet().iterator().next()).getValue(),
-                    new Predicate<Object>() {
-                        public boolean test(Object item) {
-                            return item instanceof Map;
-                        }
-                    })) {
-                name = String.valueOf(((Map.Entry) localMap.entrySet().iterator().next()).getKey());
-        } else {
-            int foundAttrs = 0;
-            int foundElements = 0;
-            if (localMap != null) {
-                for (Map.Entry entry : (Set<Map.Entry>) localMap.entrySet()) {
-                    if (String.valueOf(entry.getKey()).startsWith("-")) {
-                        foundAttrs += 1;
-                    } else if (!String.valueOf(entry.getKey()).startsWith(COMMENT)) {
-                        foundElements += 1;
-                    }
+        int foundAttrs = 0;
+        int foundElements = 0;
+        if (localMap != null) {
+            for (Map.Entry entry : (Set<Map.Entry>) localMap.entrySet()) {
+                if (String.valueOf(entry.getKey()).startsWith("-")) {
+                    foundAttrs += 1;
+                } else if (!String.valueOf(entry.getKey()).startsWith(COMMENT)
+                        && (!(entry.getValue() instanceof List) || ((List) entry.getValue()).size() <= 1)) {
+                    foundElements += 1;
                 }
             }
-            name = foundAttrs == 0 && foundElements == 1 ? null : "root";
         }
-        return name;
+        return foundAttrs == 0 && foundElements == 1 ? null : "root";
     }
 
     public static String toXml(Map map) {
