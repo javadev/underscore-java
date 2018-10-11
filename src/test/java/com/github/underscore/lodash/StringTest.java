@@ -2092,9 +2092,10 @@ _.repeat('abc', 0);
                 + "  <!--c-->\n"
                 + "1\n"
                 + "  <![CDATA[2]]>\n"
-                + "  <a number=\"true\">1</a>\n"
-                + "</a>",
-            U.toXml((Map<String, Object>) U.fromJson(json)));
+                + "  <b>\n"
+                + "    <a number=\"true\">1</a>\n"
+                + "  </b>\n"
+                + "</a>", U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
     @SuppressWarnings("unchecked")
@@ -2126,7 +2127,11 @@ _.repeat('abc', 0);
                 + "  ]\n"
                 + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<a>Hello      <b>World</b></a>", U.toXml((Map<String, Object>) U.fromJson(json)));
+                + "<root>\n"
+                + "Hello    <a>\n"
+                + "    <b>World</b>\n"
+                + "  </a>\n"
+                + "</root>", U.toXml((Map<String, Object>) U.fromJson(json)));
         final String json2 = "{\n"
                 + "  \"a\": [\n"
                 + "   {\"b\": \"World\"},\n"
@@ -2134,7 +2139,11 @@ _.repeat('abc', 0);
                 + "  ]\n"
                 + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<a>  <b>World</b>.</a>", U.toXml((Map<String, Object>) U.fromJson(json2)));
+                + "<root>\n"
+                + "  <a>\n"
+                + "    <b>World</b>\n"
+                + "  </a>.\n"
+                + "</root>", U.toXml((Map<String, Object>) U.fromJson(json2)));
         final String json3 = "{\n  \"a\": []\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<a></a>", U.toXml((Map<String, Object>) U.fromJson(json3)));
@@ -2154,9 +2163,7 @@ _.repeat('abc', 0);
     public void toXmlFromJson22() {
         final String json = "{  \"c\": [{    \"-id\": \"a\"  }]}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<c>\n"
-                + "  <c id=\"a\"></c>\n"
-                + "</c>",
+                + "<c id=\"a\"></c>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
