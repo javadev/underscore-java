@@ -746,11 +746,21 @@ public final class Json {
             readFraction();
             readExponent();
             final String number = endCapture();
+            final Number result;
             if (number.contains(".") || number.contains("e") || number.contains("E")) {
-                return Double.valueOf(number);
+                if (number.length() > 9) {
+                    result = new java.math.BigDecimal(number);
+                } else {
+                    result = Double.valueOf(number);
+                }
             } else {
-                return Long.valueOf(number);
+                if (number.length() > 20) {
+                    result = new java.math.BigInteger(number);
+                } else {
+                    result = Long.valueOf(number);
+                }
             }
+            return result;
         }
 
         private boolean readFraction() {

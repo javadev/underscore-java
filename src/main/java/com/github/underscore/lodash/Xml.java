@@ -858,9 +858,17 @@ public final class Xml {
         if ("-number".equals(entries.get(0).getKey()) && "true".equals(entries.get(0).getValue())) {
             final String number = String.valueOf(entries.get(1).getValue());
             if (number.contains(".") || number.contains("e") || number.contains("E")) {
-                localValue = Double.valueOf(number);
+                if (number.length() > 9) {
+                    localValue = new java.math.BigDecimal(number);
+                } else {
+                    localValue = Double.valueOf(number);
+                }
             } else {
-                localValue = Long.valueOf(number);
+                if (number.length() > 20) {
+                    localValue = new java.math.BigInteger(number);
+                } else {
+                    localValue = Long.valueOf(number);
+                }
             }
         } else if ("-boolean".equals(entries.get(0).getKey()) && "true".equals(entries.get(0).getValue())) {
             localValue = Boolean.valueOf(String.valueOf(entries.get(1).getValue()));

@@ -1720,6 +1720,25 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml19() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a number=\"true\">500500500500500500500</a>";
+        final String json = "{\n"
+                + "  \"a\": 500500500500500500500\n"
+                + "}";
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
+        assertEquals(xml, U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String xml2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a number=\"true\">500500500.0</a>";
+        final String json2 = "{\n"
+                + "  \"a\": 500500500.0\n"
+                + "}";
+        assertEquals(json2, U.toJson((Map<String, Object>) U.fromXml(xml2)));
+        assertEquals(xml2, U.toXml((Map<String, Object>) U.fromJson(json2)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
