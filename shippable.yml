@@ -4,7 +4,6 @@ jdk:
   - oraclejdk8
 build:
   ci:
-    - mvn install -DskipTests=true
     - mvn clean test jacoco:report
 
 integrations:                               
