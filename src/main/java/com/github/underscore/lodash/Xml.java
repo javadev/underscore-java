@@ -859,7 +859,7 @@ public final class Xml {
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> createMap(final org.w3c.dom.Node node,
+    private static Object createMap(final org.w3c.dom.Node node,
         final Function<Object, Object> nodeMapper, final Map<String, Object> attrMap, final int[] uniqueIds,
         final String source, final int[] sourceIndex) {
         final Map<String, Object> map = U.newLinkedHashMap();
@@ -870,7 +870,7 @@ public final class Xml {
             final String name = currentNode.getNodeName();
             final Object value;
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-                sourceIndex[0] = source.indexOf("<" + name, sourceIndex[0]) + name.length() + 2;
+                sourceIndex[0] = source.indexOf("<" + name, sourceIndex[0]) + name.length() + 1;
                 value = addElement(sourceIndex, source, nodeMapper, uniqueIds, currentNode);
             } else {
                 if (COMMENT.equals(name)) {
@@ -887,7 +887,8 @@ public final class Xml {
             }
             addNodeValue(map, name, value, nodeMapper, uniqueIds);
         }
-        return map;
+        return map.isEmpty() && source.substring(sourceIndex[0], source.indexOf('>', sourceIndex[0])).endsWith("/")
+            ? U.newArrayList() : map;
     }
 
     private static Object addElement(final int[] sourceIndex, final String source,
