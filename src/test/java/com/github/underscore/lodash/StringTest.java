@@ -2091,10 +2091,8 @@ _.repeat('abc', 0);
                 + "  <b></b>\n"
                 + "  <!--c-->\n"
                 + "1\n"
-                + "  <![CDATA[2]]>\n"
-                + "  <b array=\"true\">\n"
-                + "    <a number=\"true\">1</a>\n"
-                + "  </b>\n"
+                + "<![CDATA[2]]>\n"
+                + "  <a number=\"true\">1</a>\n"
                 + "</a>", U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
@@ -2128,7 +2126,7 @@ _.repeat('abc', 0);
                 + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<root>\n"
-                + "Hello    <a array=\"true\">\n"
+                + "  <a array=\"true\">Hello    </a><a array=\"true\">\n"
                 + "    <b>World</b>\n"
                 + "  </a>\n"
                 + "</root>", U.toXml((Map<String, Object>) U.fromJson(json)));
@@ -2142,7 +2140,7 @@ _.repeat('abc', 0);
                 + "<root>\n"
                 + "  <a array=\"true\">\n"
                 + "    <b>World</b>\n"
-                + "  </a>.\n"
+                + "  </a>  <a array=\"true\">.</a>\n"
                 + "</root>", U.toXml((Map<String, Object>) U.fromJson(json2)));
         final String json3 = "{\n  \"a\": []\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
