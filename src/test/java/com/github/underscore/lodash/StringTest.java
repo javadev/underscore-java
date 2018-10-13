@@ -991,7 +991,7 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
             + "    <element>First item</element>\n    <element>Second item</element>\n  </element>\n</root>",
             U.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\">\n"
             + "    <__GE__>First item</__GE__>\n    <__GI__>Second item</__GI__>\n"
             + "    <__GM__ null=\"true\"/>\n  </element>\n</root>",
             U.toXml(Arrays.asList(new LinkedHashMap() { {
@@ -1830,13 +1830,13 @@ _.repeat('abc', 0);
                 + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<process-list>\n"
-                + "  <process id=\"process24181c2558\">\n"
+                + "  <process id=\"process24181c2558\" array=\"true\">\n"
                 + "    <executionStack>\n"
                 + "      <frame procname=\"zzz\"> SELECT 1  </frame>\n"
                 + "    </executionStack>\n"
                 + "    <inputbuf> Proc [Database Id = 6 Object Id = 889366533] </inputbuf>\n"
                 + "  </process>\n"
-                + "  <process id=\"process5a0b3c188\">\n"
+                + "  <process id=\"process5a0b3c188\" array=\"true\">\n"
                 + "    <executionStack>\n"
                 + "      <frame procname=\"xxx\"> SELECT 1 </frame>\n"
                 + "    </executionStack>\n"
@@ -2092,7 +2092,7 @@ _.repeat('abc', 0);
                 + "  <!--c-->\n"
                 + "1\n"
                 + "  <![CDATA[2]]>\n"
-                + "  <b>\n"
+                + "  <b array=\"true\">\n"
                 + "    <a number=\"true\">1</a>\n"
                 + "  </b>\n"
                 + "</a>", U.toXml((Map<String, Object>) U.fromJson(json)));
@@ -2128,7 +2128,7 @@ _.repeat('abc', 0);
                 + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<root>\n"
-                + "Hello    <a>\n"
+                + "Hello    <a array=\"true\">\n"
                 + "    <b>World</b>\n"
                 + "  </a>\n"
                 + "</root>", U.toXml((Map<String, Object>) U.fromJson(json)));
@@ -2140,7 +2140,7 @@ _.repeat('abc', 0);
                 + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<root>\n"
-                + "  <a>\n"
+                + "  <a array=\"true\">\n"
                 + "    <b>World</b>\n"
                 + "  </a>.\n"
                 + "</root>", U.toXml((Map<String, Object>) U.fromJson(json2)));
@@ -2172,7 +2172,7 @@ _.repeat('abc', 0);
     public void toXmlFromJson23() {
         final String json = "{  \"c\": [{    \"id\": \"\"  }]}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<c>\n"
+                + "<c array=\"true\">\n"
                 + "  <id string=\"true\"/>\n"
                 + "</c>",
             U.toXml((Map<String, Object>) U.fromJson(json)));
@@ -2194,6 +2194,34 @@ _.repeat('abc', 0);
                 + "  <!--c-->\n\n"
                 + "</root>",
             U.toXml((Map<String, Object>) U.fromJson(json2)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void toXmlFromJson25() {
+        final String json = "{\n"
+                + "  \"a\": [\n"
+                + "    {\n"
+                + "      \"a\": 1\n"
+                + "    }\n"
+                + "  ]\n"
+                + "}";
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a array=\"true\">\n"
+                + "  <a number=\"true\">1</a>\n"
+                + "</a>";
+        assertEquals(xml, U.toXml((Map<String, Object>) U.fromJson(json)));
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
+        final String xml2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a array=\"a\">\n"
+                + "  <a number=\"true\">1</a>\n"
+                + "</a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"-array\": \"a\",\n"
+                + "    \"a\": 1\n"
+                + "  }\n"
+                + "}", U.toJson((Map<String, Object>) U.fromXml(xml2)));
     }
 
     @SuppressWarnings("unchecked")

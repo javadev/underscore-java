@@ -192,14 +192,14 @@ public final class Xml {
                         && (XmlValue.getMapKey(value).startsWith(TEXT)
                         || XmlValue.getMapKey(value).startsWith(COMMENT)
                         || XmlValue.getMapKey(value).startsWith(CDATA))) {
-                        XmlObject.writeXml((Map) value, null, builder, localParentTextFound, namespaces);
+                        XmlObject.writeXml((Map) value, null, builder, localParentTextFound, namespaces, true);
                         if (XmlValue.getMapKey(value).startsWith(TEXT)) {
                             localParentTextFound = true;
                             continue;
                         }
                     } else {
                         XmlValue.writeXml(value, name == null ? ELEMENT_TEXT : name, builder, localParentTextFound,
-                            namespaces);
+                            namespaces, true);
                     }
                     localParentTextFound = false;
                 }
@@ -354,7 +354,7 @@ public final class Xml {
             } else {
                 for (int i = 0; i < array.length; i++) {
                     XmlValue.writeXml(array[i], name == null ? ELEMENT_TEXT : name, builder,
-                        parentTextFound, namespaces);
+                        parentTextFound, namespaces, false);
                     if (i != array.length - 1) {
                         builder.newLine();
                     }
@@ -366,9 +366,9 @@ public final class Xml {
     public static class XmlObject {
         @SuppressWarnings("unchecked")
         public static void writeXml(final Map map, final String name, final XmlStringBuilder builder,
-            final boolean parentTextFound, final Set<String> namespaces) {
+            final boolean parentTextFound, final Set<String> namespaces, final boolean addArray) {
             if (map == null) {
-                XmlValue.writeXml(NULL, name, builder, false, namespaces);
+                XmlValue.writeXml(NULL, name, builder, false, namespaces, addArray);
                 return;
             }
 
@@ -396,6 +396,9 @@ public final class Xml {
                 } else {
                     processElements(entry, identStep, ident, addNewLine, elems, namespaces);
                 }
+            }
+            if (addArray && !elems.isEmpty()) {
+                attrs.add(" array=\"true\"");
             }
             addToBuilder(name, parentTextFound, builder, namespaces, attrs, elems);
         }
@@ -468,7 +471,7 @@ public final class Xml {
             boolean parentTextFound = !elems.isEmpty() && elems.get(elems.size() - 1) instanceof XmlStringBuilderText;
             XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
             XmlValue.writeXml(entry.getValue(), String.valueOf(entry.getKey()),
-                    localBuilder, parentTextFound, namespaces);
+                    localBuilder, parentTextFound, namespaces, false);
             if (addNewLine) {
                 localBuilder.newLine();
             }
@@ -505,9 +508,9 @@ public final class Xml {
 
     public static class XmlValue {
         public static void writeXml(Object value, String name, XmlStringBuilder builder, boolean parentTextFound,
-            Set<String> namespaces) {
+            Set<String> namespaces, boolean addArray) {
             if (value instanceof Map) {
-                XmlObject.writeXml((Map) value,  name, builder, parentTextFound, namespaces);
+                XmlObject.writeXml((Map) value,  name, builder, parentTextFound, namespaces, addArray);
                 return;
             }
             if (value instanceof Collection) {
@@ -781,9 +784,9 @@ public final class Xml {
         if (localMap == null || localMap.size() != 1
             || XmlValue.getMapKey(map).startsWith("-")
             || ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List) {
-            XmlObject.writeXml(localMap, getRootName(localMap), builder, false, U.<String>newLinkedHashSet());
+            XmlObject.writeXml(localMap, getRootName(localMap), builder, false, U.<String>newLinkedHashSet(), false);
         } else {
-            XmlObject.writeXml(localMap, null, builder, false, U.<String>newLinkedHashSet());
+            XmlObject.writeXml(localMap, null, builder, false, U.<String>newLinkedHashSet(), false);
         }
         return builder.toString();
     }
@@ -859,7 +862,7 @@ public final class Xml {
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> createMap(final org.w3c.dom.Node node,
+    private static Object createMap(final org.w3c.dom.Node node,
         final Function<Object, Object> nodeMapper, final Map<String, Object> attrMap, final int[] uniqueIds,
         final String source, final int[] sourceIndex) {
         final Map<String, Object> map = U.newLinkedHashMap();
@@ -886,6 +889,11 @@ public final class Xml {
                 continue;
             }
             addNodeValue(map, name, value, nodeMapper, uniqueIds);
+        }
+        if (attrMap.containsKey("-array") && "true".equals(attrMap.get("-array"))) {
+            final Map<String, Object> localMap = (Map) ((LinkedHashMap) map).clone();
+            localMap.remove("-array");
+            return U.newArrayList(Arrays.asList(localMap));
         }
         return map;
     }
