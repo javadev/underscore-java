@@ -1742,6 +1742,44 @@ _.repeat('abc', 0);
                 + "  }\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml5)));
+        final String xml6 = "<a>\n"
+                + "  <b number=\"true\"></b>\n"
+                + "</a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": {\n"
+                + "      \"-number\": \"true\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml6)));
+        final String json = "{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": {\n"
+                + "      \"-id\": \"1\",\n"
+                + "      \"#text\": 1.0\n"
+                + "    }\n"
+                + "  }\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a>\n"
+                + "  <b id=\"1\" number=\"true\">1.0</b>\n"
+                + "</a>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String json2 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": {\n"
+                + "      \"-c\": \"1\",\n"
+                + "      \"#text\": 7,\n"
+                + "      \"-number\": true\n"
+                + "    }\n"
+                + "  }\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a>\n"
+                + "  <b c=\"1\" number=\"true\">7</b>\n"
+                + "</a>",
+                U.toXml((Map<String, Object>) U.fromJson(json2)));
     }
 
     @SuppressWarnings("unchecked")
