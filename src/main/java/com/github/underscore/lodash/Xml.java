@@ -33,11 +33,13 @@ public final class Xml {
     private static final String COMMENT = "#comment";
     private static final String ENCODING = "#encoding";
     private static final String TEXT = "#text";
+    private static final String NUMBER = "-number";
     private static final String ELEMENT = "<" + ELEMENT_TEXT + ">";
     private static final String CLOSED_ELEMENT = "</" + ELEMENT_TEXT + ">";
     private static final String EMPTY_ELEMENT = ELEMENT + CLOSED_ELEMENT;
     private static final String NULL_TRUE = " " + NULL + "=\"true\"/>";
-    private static final String NUMBER_TRUE = " number=\"true\">";
+    private static final String NUMBER_TEXT = " number=\"true\"";
+    private static final String NUMBER_TRUE = NUMBER_TEXT + ">";
     private static final String NULL_ELEMENT = "<" + ELEMENT_TEXT + NULL_TRUE;
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
@@ -377,12 +379,8 @@ public final class Xml {
             final XmlStringBuilder.Step identStep = builder.getIdentStep();
             final int ident = builder.getIdent() + (name == null ? 0 : builder.getIdentStep().getIdent());
             final List<Map.Entry> entries = U.newArrayList(map.entrySet());
-            for (Map.Entry entry : (Set<Map.Entry>) map.entrySet()) {
-                if (String.valueOf(entry.getKey()).startsWith("-xmlns:") && !(entry.getValue() instanceof Map)
-                    && !(entry.getValue() instanceof List)) {
-                    namespaces.add(String.valueOf(entry.getKey()).substring(7));
-                }
-            }
+            final Set<String> attrKeys = U.newLinkedHashSet();
+            fillNamespacesAndAttrs(map, namespaces, attrKeys);
             for (int index = 0; index < entries.size(); index += 1) {
                 final Map.Entry entry = entries.get(index);
                 final boolean addNewLine = index < entries.size() - 1
@@ -392,7 +390,7 @@ public final class Xml {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1), namespaces)
                         + "=\"" + XmlValue.escape(String.valueOf(entry.getValue())) + "\"");
                 } else if (String.valueOf(entry.getKey()).startsWith(TEXT)) {
-                    addText(entry, elems, identStep, ident);
+                    addText(entry, elems, identStep, ident, attrKeys, attrs);
                 } else {
                     boolean localParentTextFound = (!elems.isEmpty()
                             && elems.get(elems.size() - 1) instanceof XmlStringBuilderText) || parentTextFound;
@@ -403,6 +401,19 @@ public final class Xml {
                 attrs.add(" array=\"true\"");
             }
             addToBuilder(name, parentTextFound, builder, namespaces, attrs, elems);
+        }
+
+        private static void fillNamespacesAndAttrs(final Map map, final Set<String> namespaces,
+                final Set<String> attrKeys) {
+            for (Map.Entry entry : (Set<Map.Entry>) map.entrySet()) {
+                if (String.valueOf(entry.getKey()).startsWith("-") && !(entry.getValue() instanceof Map)
+                        && !(entry.getValue() instanceof List)) {
+                    if (String.valueOf(entry.getKey()).startsWith("-xmlns:")) {
+                        namespaces.add(String.valueOf(entry.getKey()).substring(7));
+                    }
+                    attrKeys.add(String.valueOf(entry.getKey()));
+                }
+            }
         }
 
         private static void addToBuilder(final String name, final boolean parentTextFound,
@@ -445,12 +456,16 @@ public final class Xml {
         }
 
         private static void addText(final Map.Entry entry, final List<XmlStringBuilder> elems,
-                final XmlStringBuilder.Step identStep, final int ident) {
+                final XmlStringBuilder.Step identStep, final int ident, final Set<String> attrKeys,
+                final List<String> attrs) {
             if (entry.getValue() instanceof List) {
                 for (Object value : (List) entry.getValue()) {
                     elems.add(new XmlStringBuilderText(identStep, ident).append(XmlValue.escape(String.valueOf(value))));
                 }
             } else {
+                if (entry.getValue() instanceof Number && !attrKeys.contains(NUMBER)) {
+                    attrs.add(NUMBER_TEXT);
+                }
                 elems.add(new XmlStringBuilderText(identStep, ident).append(
                         XmlValue.escape(String.valueOf(entry.getValue()))));
             }
@@ -846,25 +861,28 @@ public final class Xml {
     private static Object getNumber(final Object value) {
         final Object localValue;
         final List<Map.Entry<String, Object>> entries = U.newArrayList(((Map<String, Object>) value).entrySet());
-        if ("-number".equals(entries.get(0).getKey()) && "true".equals(entries.get(0).getValue())) {
-            final String number = String.valueOf(entries.get(1).getValue());
-            if (number.contains(".") || number.contains("e") || number.contains("E")) {
-                if (number.length() > 9) {
-                    localValue = new java.math.BigDecimal(number);
-                } else {
-                    localValue = Double.valueOf(number);
-                }
-            } else {
-                if (number.length() > 20) {
-                    localValue = new java.math.BigInteger(number);
-                } else {
-                    localValue = Long.valueOf(number);
-                }
-            }
-        } else if ("-boolean".equals(entries.get(0).getKey()) && "true".equals(entries.get(0).getValue())) {
+        if ("-boolean".equals(entries.get(0).getKey()) && "true".equals(entries.get(0).getValue())) {
             localValue = Boolean.valueOf(String.valueOf(entries.get(1).getValue()));
         } else {
             localValue = value;
+        }
+        return localValue;
+    }
+
+    private static Object stringToNumber(String number) {
+        final Object localValue;
+        if (number.contains(".") || number.contains("e") || number.contains("E")) {
+            if (number.length() > 9) {
+                localValue = new java.math.BigDecimal(number);
+            } else {
+                localValue = Double.valueOf(number);
+            }
+        } else {
+            if (number.length() > 20) {
+                localValue = new java.math.BigInteger(number);
+            } else {
+                localValue = Long.valueOf(number);
+            }
         }
         return localValue;
     }
@@ -898,10 +916,21 @@ public final class Xml {
             }
             addNodeValue(map, name, value, nodeMapper, uniqueIds);
         }
-        if (attrMap.containsKey("-array") && "true".equals(attrMap.get("-array"))) {
+        return checkArrayAndNumber(map);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object checkArrayAndNumber(final Map<String, Object> map) {
+        if (map.containsKey("-array") && "true".equals(map.get("-array"))) {
             final Map<String, Object> localMap = (Map) ((LinkedHashMap) map).clone();
             localMap.remove("-array");
             return U.newArrayList(Arrays.asList(localMap));
+        }
+        if (map.containsKey(NUMBER) && "true".equals(map.get(NUMBER)) && map.containsKey(TEXT)) {
+            final Map<String, Object> localMap = (Map) ((LinkedHashMap) map).clone();
+            localMap.remove(NUMBER);
+            localMap.put(TEXT, stringToNumber(String.valueOf(localMap.get(TEXT))));
+            return localMap;
         }
         return map;
     }
