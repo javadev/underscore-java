@@ -1271,9 +1271,9 @@ _.repeat('abc', 0);
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, null, builder, false,
             Collections.<String>emptySet());
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n  <element number=\"true\">"
-            + "12</element>\n  <element>\n    <element>1</element>\n    <element>2</element>\n    <element>3</element>"
-            + "\n  </element>\n</root>", builder.toString());
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n"
+            + "  <element number=\"true\">12</element>\n  <element>\n    <element>1</element>\n    "
+            + "<element>2</element>\n    <element>3</element>\n  </element>\n</root>", builder.toString());
     }
 
     @SuppressWarnings("unchecked")

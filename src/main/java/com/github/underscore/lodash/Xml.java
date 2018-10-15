@@ -403,6 +403,7 @@ public final class Xml {
             addToBuilder(name, parentTextFound, builder, namespaces, attrs, elems);
         }
 
+        @SuppressWarnings("unchecked")
         private static void fillNamespacesAndAttrs(final Map map, final Set<String> namespaces,
                 final Set<String> attrKeys) {
             for (Map.Entry entry : (Set<Map.Entry>) map.entrySet()) {
@@ -460,7 +461,8 @@ public final class Xml {
                 final List<String> attrs) {
             if (entry.getValue() instanceof List) {
                 for (Object value : (List) entry.getValue()) {
-                    elems.add(new XmlStringBuilderText(identStep, ident).append(XmlValue.escape(String.valueOf(value))));
+                    elems.add(new XmlStringBuilderText(identStep, ident).append(
+                        XmlValue.escape(String.valueOf(value))));
                 }
             } else {
                 if (entry.getValue() instanceof Number && !attrKeys.contains(NUMBER)) {
@@ -500,18 +502,17 @@ public final class Xml {
                 String openElement, String closeElement) {
             if (entry.getValue() instanceof List) {
                 for (Iterator iterator = ((List) entry.getValue()).iterator(); iterator.hasNext(); ) {
-                    addCommentValue(identStep, ident, String.valueOf(iterator.next()), parentTextFound,
-                            iterator.hasNext() || addNewLine, elems, openElement, closeElement);
+                    elems.add(addCommentValue(identStep, ident, String.valueOf(iterator.next()), parentTextFound,
+                            iterator.hasNext() || addNewLine, openElement, closeElement));
                 }
             } else {
-                addCommentValue(identStep, ident, String.valueOf(entry.getValue()), parentTextFound,
-                        addNewLine, elems, openElement, closeElement);
+                elems.add(addCommentValue(identStep, ident, String.valueOf(entry.getValue()), parentTextFound,
+                        addNewLine, openElement, closeElement));
             }
         }
 
-        private static void addCommentValue(XmlStringBuilder.Step identStep, int ident, String value,
-                boolean parentTextFound, boolean addNewLine, List<XmlStringBuilder> elems, String openElement,
-                String closeElement) {
+        private static XmlStringBuilder addCommentValue(XmlStringBuilder.Step identStep, int ident, String value,
+                boolean parentTextFound, boolean addNewLine, String openElement, String closeElement) {
             XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
             if (!parentTextFound) {
                 localBuilder.fillSpaces();
@@ -520,7 +521,7 @@ public final class Xml {
             if (addNewLine) {
                 localBuilder.newLine();
             }
-            elems.add(localBuilder);
+            return localBuilder;
         }
     }
 
@@ -798,7 +799,7 @@ public final class Xml {
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {
             builder = new XmlStringBuilderWithoutRoot(identStep, String.valueOf(map.get(ENCODING)));
-            localMap = (Map) ((LinkedHashMap) map).clone();
+            localMap = (Map) U.clone(map);
             localMap.remove(ENCODING);
         } else {
             builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name());
