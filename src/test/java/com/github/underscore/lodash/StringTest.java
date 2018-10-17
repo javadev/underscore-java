@@ -1801,6 +1801,17 @@ _.repeat('abc', 0);
                 + "  }\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml2)));
+        final String xml3 = "<a>\n"
+                + "  <b boolean=\"true\"></b>\n"
+                + "</a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": {\n"
+                + "      \"-boolean\": \"true\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml3)));
     }
 
     @SuppressWarnings("unchecked")
