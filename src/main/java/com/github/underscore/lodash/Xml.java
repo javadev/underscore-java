@@ -40,6 +40,7 @@ public final class Xml {
     private static final String NULL_TRUE = " " + NULL + "=\"true\"/>";
     private static final String NUMBER_TEXT = " number=\"true\"";
     private static final String NUMBER_TRUE = NUMBER_TEXT + ">";
+    private static final String ARRAY_TRUE = " array=\"true\"";
     private static final String NULL_ELEMENT = "<" + ELEMENT_TEXT + NULL_TRUE;
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
@@ -188,7 +189,7 @@ public final class Xml {
                 if (value == null) {
                     builder.fillSpaces()
                         .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces))
-                        + NULL_TRUE);
+                            + (collection.size() == 1 ? ARRAY_TRUE : "") + NULL_TRUE);
                 } else {
                     if (value instanceof Map && ((Map) value).size() == 1
                         && XmlValue.getMapKey(value).equals("#item")
@@ -397,7 +398,7 @@ public final class Xml {
                     processElements(entry, identStep, ident, addNewLine, elems, namespaces, localParentTextFound);
                 }
             }
-            if (addArray) {
+            if (addArray && !attrKeys.contains("-array")) {
                 attrs.add(" array=\"true\"");
             }
             addToBuilder(name, parentTextFound, builder, namespaces, attrs, elems);
@@ -543,24 +544,27 @@ public final class Xml {
                 builder.append("<" + XmlValue.escapeName(name, namespaces) + NULL_TRUE);
             } else if (value instanceof String) {
                 if (((String) value).isEmpty()) {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces) + " string=\"true\"/>");
+                    builder.append("<" + XmlValue.escapeName(name, namespaces)
+                        + (addArray ? ARRAY_TRUE : "") + " string=\"true\"/>");
                 } else {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
+                    builder.append("<" + XmlValue.escapeName(name, namespaces)
+                        + (addArray ? ARRAY_TRUE : "") + ">");
                     builder.append(escape((String) value));
                     builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
                 }
             } else {
-                processArrays(value, builder, name, parentTextFound, namespaces);
+                processArrays(value, builder, name, parentTextFound, namespaces, addArray);
             }
         }
 
         private static void processArrays(Object value, XmlStringBuilder builder, String name,
-                boolean parentTextFound, Set<String> namespaces) {
+                boolean parentTextFound, Set<String> namespaces, boolean addArray) {
             if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
                     builder.append(NULL_ELEMENT);
                 } else {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces) + NUMBER_TRUE);
+                    builder.append("<" + XmlValue.escapeName(name, namespaces)
+                        + (addArray ? ARRAY_TRUE : "") + NUMBER_TRUE);
                     builder.append(value.toString());
                     builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
                 }
@@ -573,11 +577,13 @@ public final class Xml {
                     builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
                 }
             } else if (value instanceof Number) {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces) + NUMBER_TRUE);
+                    builder.append("<" + XmlValue.escapeName(name, namespaces)
+                        + (addArray ? ARRAY_TRUE : "") + NUMBER_TRUE);
                     builder.append(value.toString());
                     builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
             } else if (value instanceof Boolean) {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces) + " boolean=\"true\">");
+                    builder.append("<" + XmlValue.escapeName(name, namespaces)
+                        + (addArray ? ARRAY_TRUE : "") + " boolean=\"true\">");
                     builder.append(value.toString());
                     builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
             } else {
@@ -922,18 +928,23 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     private static Object checkArrayAndNumber(final Map<String, Object> map) {
-        if (map.containsKey("-array") && "true".equals(map.get("-array"))) {
-            final Map<String, Object> localMap = (Map) ((LinkedHashMap) map).clone();
-            localMap.remove("-array");
-            return U.newArrayList(Arrays.asList(localMap));
-        }
+        final Map<String, Object> localMap;
         if (map.containsKey(NUMBER) && "true".equals(map.get(NUMBER)) && map.containsKey(TEXT)) {
-            final Map<String, Object> localMap = (Map) ((LinkedHashMap) map).clone();
+            localMap = (Map) ((LinkedHashMap) map).clone();
             localMap.remove(NUMBER);
             localMap.put(TEXT, stringToNumber(String.valueOf(localMap.get(TEXT))));
-            return localMap;
+        } else {
+            localMap = map;
         }
-        return map;
+        final Object object;
+        if (map.containsKey("-array") && "true".equals(map.get("-array"))) {
+            final Map<String, Object> localMap2 = (Map) ((LinkedHashMap) localMap).clone();
+            localMap2.remove("-array");
+            object = U.newArrayList(Arrays.asList(getValue(localMap2)));
+        } else {
+            object = localMap;
+        }
+        return object;
     }
 
     private static Object addElement(final int[] sourceIndex, final String source,
@@ -996,7 +1007,12 @@ public final class Xml {
             objects.add(index, item);
             lastIndex -= 1;
         }
-        objects.add(getValue(value));
+        final Object newValue = getValue(value);
+        if (newValue instanceof List) {
+            objects.add(((List) newValue).get(0));
+        } else {
+            objects.add(newValue);
+        }
     }
 
     @SuppressWarnings("unchecked")
