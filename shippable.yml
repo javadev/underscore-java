@@ -1,0 +1,16 @@
+
+language: java
+jdk:
+  - oraclejdk8
+build:
+  ci:
+    - mvn clean test jacoco:report
+
+integrations:                               
+  notifications:
+    - integrationName: email
+      type: email
+      on_success: never
+      on_failure: never
+      on_cancel: never
+      on_pull_request: never
