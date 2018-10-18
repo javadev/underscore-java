@@ -1812,6 +1812,33 @@ _.repeat('abc', 0);
                 + "  }\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml3)));
+        final String json = "{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": {\n"
+                + "      \"-c\": \"1\",\n"
+                + "      \"#text\": true,\n"
+                + "      \"-boolean\": true\n"
+                + "    }\n"
+                + "  }\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a>\n"
+                + "  <b c=\"1\" boolean=\"true\">true</b>\n"
+                + "</a>",
+                U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String json2 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": {\n"
+                + "      \"-c\": \"1\",\n"
+                + "      \"#text\": true\n"
+                + "    }\n"
+                + "  }\n"
+                + "}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a>\n"
+                + "  <b c=\"1\" boolean=\"true\">true</b>\n"
+                + "</a>",
+                U.toXml((Map<String, Object>) U.fromJson(json2)));
     }
 
     @SuppressWarnings("unchecked")

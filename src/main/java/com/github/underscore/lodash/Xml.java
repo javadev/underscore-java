@@ -40,8 +40,11 @@ public final class Xml {
     private static final String NULL_TRUE = " " + NULL + "=\"true\"/>";
     private static final String NUMBER_TEXT = " number=\"true\"";
     private static final String NUMBER_TRUE = NUMBER_TEXT + ">";
+    private static final String ARRAY = "-array";
     private static final String ARRAY_TRUE = " array=\"true\"";
     private static final String NULL_ELEMENT = "<" + ELEMENT_TEXT + NULL_TRUE;
+    private static final String BOOLEAN = "-boolean";
+    private static final String TRUE = "true";
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
         "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
@@ -398,8 +401,8 @@ public final class Xml {
                     processElements(entry, identStep, ident, addNewLine, elems, namespaces, localParentTextFound);
                 }
             }
-            if (addArray && !attrKeys.contains("-array")) {
-                attrs.add(" array=\"true\"");
+            if (addArray && !attrKeys.contains(ARRAY)) {
+                attrs.add(ARRAY_TRUE);
             }
             addToBuilder(name, parentTextFound, builder, namespaces, attrs, elems);
         }
@@ -468,7 +471,7 @@ public final class Xml {
             } else {
                 if (entry.getValue() instanceof Number && !attrKeys.contains(NUMBER)) {
                     attrs.add(NUMBER_TEXT);
-                } else if (entry.getValue() instanceof Boolean && !attrKeys.contains("-boolean")) {
+                } else if (entry.getValue() instanceof Boolean && !attrKeys.contains(BOOLEAN)) {
                     attrs.add(" boolean=\"true\"");
                 }
                 elems.add(new XmlStringBuilderText(identStep, ident).append(
@@ -851,9 +854,9 @@ public final class Xml {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
             if (TEXT.equals(entry.getKey()) || entry.getKey().equals(ELEMENT_TEXT)) {
                 localValue = entry.getValue();
-            } else if ("-null".equals(entry.getKey()) && "true".equals(entry.getValue())) {
+            } else if ("-null".equals(entry.getKey()) && TRUE.equals(entry.getValue())) {
                 localValue = null;
-            } else if ("-string".equals(entry.getKey()) && "true".equals(entry.getValue())) {
+            } else if ("-string".equals(entry.getKey()) && TRUE.equals(entry.getValue())) {
                 localValue = "";
             } else {
                 localValue = value;
@@ -917,7 +920,7 @@ public final class Xml {
     @SuppressWarnings("unchecked")
     private static Object checkArrayAndNumber(final Map<String, Object> map) {
         final Map<String, Object> localMap;
-        if (map.containsKey(NUMBER) && "true".equals(map.get(NUMBER)) && map.containsKey(TEXT)) {
+        if (map.containsKey(NUMBER) && TRUE.equals(map.get(NUMBER)) && map.containsKey(TEXT)) {
             localMap = (Map) ((LinkedHashMap) map).clone();
             localMap.remove(NUMBER);
             localMap.put(TEXT, stringToNumber(String.valueOf(localMap.get(TEXT))));
@@ -925,17 +928,17 @@ public final class Xml {
             localMap = map;
         }
         final Map<String, Object> localMap2;
-        if (map.containsKey("-boolean") && "true".equals(map.get("-boolean")) && map.containsKey(TEXT)) {
+        if (map.containsKey(BOOLEAN) && TRUE.equals(map.get(BOOLEAN)) && map.containsKey(TEXT)) {
             localMap2 = (Map) ((LinkedHashMap) localMap).clone();
-            localMap2.remove("-boolean");
+            localMap2.remove(BOOLEAN);
             localMap2.put(TEXT, Boolean.valueOf(String.valueOf(localMap.get(TEXT))));
         } else {
             localMap2 = localMap;
         }
         final Object object;
-        if (map.containsKey("-array") && "true".equals(map.get("-array"))) {
+        if (map.containsKey(ARRAY) && TRUE.equals(map.get(ARRAY))) {
             final Map<String, Object> localMap3 = (Map) ((LinkedHashMap) localMap2).clone();
-            localMap3.remove("-array");
+            localMap3.remove(ARRAY);
             object = U.newArrayList(Arrays.asList(getValue(localMap3)));
         } else {
             object = localMap2;
