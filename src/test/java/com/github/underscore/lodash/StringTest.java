@@ -931,16 +931,16 @@ _.repeat('abc', 0);
     @Test
     public void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml((Collection) null, null, builder, false, Collections.<String>emptySet());
+        Xml.XmlArray.writeXml((Collection) null, null, builder, false, Collections.<String>emptySet(), false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>", builder.toString());
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, null, builder, false,
-            Collections.<String>emptySet());
+            Collections.<String>emptySet(), false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\" null=\"true\"/>\n</root>",
             builder.toString());
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, "name", builder, false,
-            Collections.<String>emptySet());
+            Collections.<String>emptySet(), false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<root>\n"
             + "  <name>\n"
@@ -988,7 +988,7 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element boolean=\"true\">true</element>"
             + "\n  <element boolean=\"true\">false</element>\n  <element boolean=\"true\">true</element>\n</root>",
             U.toXml(Arrays.asList(new Boolean[] {true, false, true})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n"
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\">\n"
             + "    <element>First item</element>\n    <element>Second item</element>\n  </element>\n</root>",
             U.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\">\n"

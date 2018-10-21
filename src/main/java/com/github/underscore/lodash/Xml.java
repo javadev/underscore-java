@@ -158,14 +158,18 @@ public final class Xml {
 
     public static class XmlArray {
         public static void writeXml(Collection collection, String name, XmlStringBuilder builder,
-            boolean parentTextFound, Set<String> namespaces) {
+            boolean parentTextFound, Set<String> namespaces, boolean addArray) {
             if (collection == null) {
                 builder.append(NULL);
                 return;
             }
 
             if (name != null) {
-                builder.fillSpaces().append("<").append(XmlValue.escapeName(name, namespaces)).append(">").incIdent();
+                builder.fillSpaces().append("<").append(XmlValue.escapeName(name, namespaces));
+                if (addArray) {
+                    builder.append(ARRAY_TRUE);
+                }
+                builder.append(">").incIdent();
                 if (!collection.isEmpty()) {
                     builder.newLine();
                 }
@@ -539,7 +543,7 @@ public final class Xml {
                 return;
             }
             if (value instanceof Collection) {
-                XmlArray.writeXml((Collection) value, name, builder, parentTextFound, namespaces);
+                XmlArray.writeXml((Collection) value, name, builder, parentTextFound, namespaces, addArray);
                 return;
             }
             if (!parentTextFound) {
@@ -794,7 +798,7 @@ public final class Xml {
         if (collection != null && !collection.isEmpty()) {
             builder.newLine();
         }
-        XmlArray.writeXml(collection, null, builder, false, U.<String>newLinkedHashSet());
+        XmlArray.writeXml(collection, null, builder, false, U.<String>newLinkedHashSet(), false);
         if (collection != null && !collection.isEmpty()) {
             builder.newLine();
         }
