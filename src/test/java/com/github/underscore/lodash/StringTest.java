@@ -1504,6 +1504,7 @@ _.repeat('abc', 0);
                 + "    },\n"
                 + "    \"#text\": \"\\nt\",\n"
                 + "    \"c\": {\n"
+                + "      \"-self-closing\": \"true\"\n"
                 + "    },\n"
                 + "    \"#text1\": \"t\\n\"\n"
                 + "  }\n"
@@ -1560,6 +1561,7 @@ _.repeat('abc', 0);
         assertEquals("{\n"
                 + "  \"a\": {\n"
                 + "    \"e\": {\n"
+                + "      \"-self-closing\": \"true\"\n"
                 + "    },\n"
                 + "    \"b\": [\n"
                 + "      \"c\",\n"
@@ -1648,13 +1650,15 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromXml13() {
-        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b null=\"true\"/><c null=\"a\"/></a>";
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b null=\"true\"></b>"
+            + "<c null=\"a\"></c><d null=\"true\">1</d></a>";
         assertEquals("{\n"
                 + "  \"a\": {\n"
                 + "    \"b\": null,\n"
                 + "    \"c\": {\n"
                 + "      \"-null\": \"a\"\n"
-                + "    }\n"
+                + "    },\n"
+                + "    \"d\": \"1\"\n"
                 + "  }\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
@@ -1663,7 +1667,8 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromXml14() {
-        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b string=\"true\"/><c string=\"a\"/></a>";
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b string=\"true\"></b>"
+                + "<c string=\"a\"></c></a>";
         assertEquals("{\n"
                 + "  \"a\": {\n"
                 + "    \"b\": \"\",\n"
@@ -1673,6 +1678,30 @@ _.repeat('abc', 0);
                 + "  }\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
+        final String xml2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b string=\"true\"/>"
+                + "<c string=\"a\"></c></a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": {\n"
+                + "      \"-self-closing\": \"true\",\n"
+                + "      \"#text\": \"\"\n"
+                + "    },\n"
+                + "    \"c\": {\n"
+                + "      \"-string\": \"a\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml2)));
+        final String xml3 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b string=\"true\">1</b><c string=\"a\"></c></a>";
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": \"1\",\n"
+                + "    \"c\": {\n"
+                + "      \"-string\": \"a\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml3)));
     }
 
     @SuppressWarnings("unchecked")
@@ -1698,13 +1727,22 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromXml16() {
-        final String xml = "<a __n__=\"1\"/>";
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a __n__=\"1\"/>";
+        final String json = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-__n__\": \"1\",\n"
+                + "    \"-self-closing\": \"true\"\n"
+                + "  }\n"
+                + "}";
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
+        assertEquals(xml, U.toXml((Map<String, Object>) U.fromJson(json)));
+        final String xml2 = "<a __n__=\"1\" self-closing=\"true\"/>";
         assertEquals("{\n"
                 + "  \"a\": {\n"
-                + "    \"-__n__\": \"1\"\n"
+                + "    \"-__n__\": \"1\",\n"
+                + "    \"-self-closing\": \"true\"\n"
                 + "  }\n"
-                + "}",
-                U.toJson((Map<String, Object>) U.fromXml(xml)));
+                + "}", U.toJson((Map<String, Object>) U.fromXml(xml2)));
     }
 
     @SuppressWarnings("unchecked")
