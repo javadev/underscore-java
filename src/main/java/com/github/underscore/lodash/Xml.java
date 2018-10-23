@@ -212,7 +212,7 @@ public final class Xml {
                         }
                     } else {
                         XmlValue.writeXml(value, name == null ? ELEMENT_TEXT : name, builder, localParentTextFound,
-                            namespaces, collection.size() == 1);
+                            namespaces, collection.size() == 1 || value instanceof Collection);
                     }
                     localParentTextFound = false;
                 }

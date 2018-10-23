@@ -2481,6 +2481,25 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toXmlFromJson27() {
+        final String json = "[\n"
+                + "  1,\n"
+                + "  [\n"
+                + "    2\n"
+                + "  ]\n"
+                + "]";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<root>\n"
+                + "  <element number=\"true\">1</element>\n"
+                + "  <element array=\"true\">\n"
+                + "    <element array=\"true\" number=\"true\">2</element>\n"
+                + "  </element>\n"
+                + "</root>",
+            U.toXml((List<Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXml() {
         String string =
         "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
