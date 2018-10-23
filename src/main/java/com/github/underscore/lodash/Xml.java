@@ -494,6 +494,12 @@ public final class Xml {
                     attrs.add(NUMBER_TEXT);
                 } else if (entry.getValue() instanceof Boolean && !attrKeys.contains(BOOLEAN)) {
                     attrs.add(" boolean=\"true\"");
+                } else if (entry.getValue() == null && !attrKeys.contains(NULL_ATTR)) {
+                    attrs.add(" null=\"true\"");
+                    return;
+                } else if ("".equals(entry.getValue()) && !attrKeys.contains(STRING)) {
+                    attrs.add(" string=\"true\"");
+                    return;
                 }
                 elems.add(new XmlStringBuilderText(identStep, ident).append(
                         XmlValue.escape(String.valueOf(entry.getValue()))));
@@ -931,11 +937,11 @@ public final class Xml {
             }
             addNodeValue(map, name, value, nodeMapper, uniqueIds);
         }
-        return checkArrayAndNumber(map);
+        return checkArrayAndNumber(map, node.getNodeName());
     }
 
     @SuppressWarnings("unchecked")
-    private static Object checkArrayAndNumber(final Map<String, Object> map) {
+    private static Object checkArrayAndNumber(final Map<String, Object> map, final String name) {
         final Map<String, Object> localMap;
         if (map.containsKey(NUMBER) && TRUE.equals(map.get(NUMBER)) && map.containsKey(TEXT)) {
             localMap = (Map) ((LinkedHashMap) map).clone();
@@ -957,7 +963,9 @@ public final class Xml {
         if (map.containsKey(ARRAY) && TRUE.equals(map.get(ARRAY))) {
             final Map<String, Object> localMap4 = (Map) ((LinkedHashMap) localMap3).clone();
             localMap4.remove(ARRAY);
-            object = U.newArrayList(Arrays.asList(getValue(localMap4)));
+            object = name.equals(XmlValue.getMapKey(localMap4))
+                ?  U.newArrayList(Arrays.asList(getValue(XmlValue.getMapValue(localMap4))))
+                : U.newArrayList(Arrays.asList(getValue(localMap4)));
         } else {
             object = localMap3;
         }
@@ -1001,7 +1009,9 @@ public final class Xml {
             }
         }
         if (source.substring(sourceIndex[0], source.indexOf('>', sourceIndex[0])).endsWith("/")
-            && !attrMapLocal.containsKey(SELF_CLOSING)) {
+                && !attrMapLocal.containsKey(SELF_CLOSING) && (attrMapLocal.size() != 1
+                || ((!attrMapLocal.containsKey(STRING) || !TRUE.equals(attrMapLocal.get(STRING)))
+                && (!attrMapLocal.containsKey(NULL_ATTR) || !TRUE.equals(attrMapLocal.get(NULL_ATTR)))))) {
             attrMapLocal.put(SELF_CLOSING, TRUE);
         }
         return createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, source, sourceIndex);

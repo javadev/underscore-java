@@ -1682,10 +1682,7 @@ _.repeat('abc', 0);
                 + "<c string=\"a\"></c></a>";
         assertEquals("{\n"
                 + "  \"a\": {\n"
-                + "    \"b\": {\n"
-                + "      \"-self-closing\": \"true\",\n"
-                + "      \"#text\": \"\"\n"
-                + "    },\n"
+                + "    \"b\": \"\",\n"
                 + "    \"c\": {\n"
                 + "      \"-string\": \"a\"\n"
                 + "    }\n"
@@ -1743,6 +1740,77 @@ _.repeat('abc', 0);
                 + "    \"-self-closing\": \"true\"\n"
                 + "  }\n"
                 + "}", U.toJson((Map<String, Object>) U.fromXml(xml2)));
+        final String xml3 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a id=\"1\" null=\"true\"/>";
+        final String json3 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-id\": \"1\",\n"
+                + "    \"-self-closing\": \"true\",\n"
+                + "    \"#text\": null\n"
+                + "  }\n"
+                + "}";
+        assertEquals(json3, U.toJson((Map<String, Object>) U.fromXml(xml3)));
+        assertEquals(xml3, U.toXml((Map<String, Object>) U.fromJson(json3)));
+        final String xml4 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a id=\"1\" string=\"true\"/>";
+        final String json4 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-id\": \"1\",\n"
+                + "    \"-self-closing\": \"true\",\n"
+                + "    \"#text\": \"\"\n"
+                + "  }\n"
+                + "}";
+        assertEquals(json4, U.toJson((Map<String, Object>) U.fromXml(xml4)));
+        assertEquals(xml4, U.toXml((Map<String, Object>) U.fromJson(json4)));
+        final String xml5 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a string=\"a\"/>";
+        final String json5 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-string\": \"a\",\n"
+                + "    \"-self-closing\": \"true\"\n"
+                + "  }\n"
+                + "}";
+        assertEquals(json5, U.toJson((Map<String, Object>) U.fromXml(xml5)));
+        assertEquals(xml5, U.toXml((Map<String, Object>) U.fromJson(json5)));
+        final String xml6 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a null=\"a\"/>";
+        final String json6 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-null\": \"a\",\n"
+                + "    \"-self-closing\": \"true\"\n"
+                + "  }\n"
+                + "}";
+        assertEquals(json6, U.toJson((Map<String, Object>) U.fromXml(xml6)));
+        assertEquals(xml6, U.toXml((Map<String, Object>) U.fromJson(json6)));
+        final String xml7 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a null=\"true\"/>";
+        final String json7 = "{\n"
+                + "  \"a\": null\n"
+                + "}";
+        assertEquals(json7, U.toJson((Map<String, Object>) U.fromXml(xml7)));
+        assertEquals(xml7, U.toXml((Map<String, Object>) U.fromJson(json7)));
+        final String xml8 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a id=\"1\" string=\"true\"/>";
+        final String json8 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-id\": \"1\",\n"
+                + "    \"-self-closing\": \"true\",\n"
+                + "    \"-string\": \"true\",\n"
+                + "    \"#text\": \"\"\n"
+                + "  }\n"
+                + "}";
+        assertEquals(xml8, U.toXml((Map<String, Object>) U.fromJson(json8)));
+        final String xml9 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<a id=\"1\" null=\"true\"/>";
+        final String json9 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-id\": \"1\",\n"
+                + "    \"-self-closing\": \"true\",\n"
+                + "    \"-null\": \"true\",\n"
+                + "    \"#text\": null\n"
+                + "  }\n"
+                + "}";
+        assertEquals(xml9, U.toXml((Map<String, Object>) U.fromJson(json9)));
     }
 
     @SuppressWarnings("unchecked")
@@ -2352,14 +2420,14 @@ _.repeat('abc', 0);
     public void toXmlFromJson25() {
         final String json = "{\n"
                 + "  \"a\": [\n"
-                + "    {\n"
-                + "      \"a\": 1\n"
-                + "    }\n"
+                + "    [\n"
+                + "      1\n"
+                + "    ]\n"
                 + "  ]\n"
                 + "}";
         final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<a array=\"true\">\n"
-                + "  <a number=\"true\">1</a>\n"
+                + "  <a array=\"true\" number=\"true\">1</a>\n"
                 + "</a>";
         assertEquals(xml, U.toXml((Map<String, Object>) U.fromJson(json)));
         assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
