@@ -46,6 +46,8 @@ public final class Xml {
     private static final String BOOLEAN = "-boolean";
     private static final String TRUE = "true";
     private static final String SELF_CLOSING = "-self-closing";
+    private static final String STRING = "-string";
+    private static final String NULL_ATTR = "-null";
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
         "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
@@ -965,9 +967,9 @@ public final class Xml {
     @SuppressWarnings("unchecked")
     private static Map<String, Object> checkNullAndString(final Map<String, Object> map) {
         final Map<String, Object> localMap;
-        if (map.containsKey("-null") && TRUE.equals(map.get("-null"))) {
+        if (map.containsKey(NULL_ATTR) && TRUE.equals(map.get(NULL_ATTR))) {
             localMap = (Map) ((LinkedHashMap) map).clone();
-            localMap.remove("-null");
+            localMap.remove(NULL_ATTR);
             if (!map.containsKey(TEXT)) {
                 localMap.put(TEXT, null);
             }
@@ -975,9 +977,9 @@ public final class Xml {
             localMap = map;
         }
         final Map<String, Object> localMap2;
-        if (map.containsKey("-string") && TRUE.equals(map.get("-string"))) {
+        if (map.containsKey(STRING) && TRUE.equals(map.get(STRING))) {
             localMap2 = (Map) ((LinkedHashMap) localMap).clone();
-            localMap2.remove("-string");
+            localMap2.remove(STRING);
             if (!map.containsKey(TEXT)) {
                 localMap2.put(TEXT, "");
             }
