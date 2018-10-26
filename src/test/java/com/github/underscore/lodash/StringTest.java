@@ -1630,7 +1630,7 @@ _.repeat('abc', 0);
                 + "  <b>\n"
                 + "    <__EM__item></__EM__item>\n"
                 + "  </b>\n"
-                + "  <![CDATA[2]]>\n"
+                + "<![CDATA[2]]>\n"
                 + "  <b>c</b>\n"
                 + "</a>", U.toXml((Map<String, Object>) U.fromJson(json4)));
     }
@@ -2145,6 +2145,14 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<element>\n  <!-- comment -->\n  <id>1</id>\n</element>",
                 U.toXml((Map<String, Object>) U.fromJson(json2)));
+        final String json3 = "{\n  \"element\": {\n    \"#comment\": [\" comment &&\", \"2\"]\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<element>\n  <!-- comment &&-->\n  <!--2-->\n</element>",
+                U.toXml((Map<String, Object>) U.fromJson(json3)));
+        final String json4 = "{\n  \"element\": {\n    \"#comment\": [\" comment \"],\n    \"id\": \"1\"\n  }\n}";
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<element>\n  <!-- comment -->\n  <id>1</id>\n</element>",
+                U.toXml((Map<String, Object>) U.fromJson(json4)));
     }
 
     @SuppressWarnings("unchecked")
@@ -2153,12 +2161,12 @@ _.repeat('abc', 0);
         final String json = "{\n  \"element\": {\n    \"#cdata-section\": [\n      \" 1 \",\n"
                 + "      \" 2 \"\n    ]\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<element>\n  <![CDATA[ 1 ]]>\n  <![CDATA[ 2 ]]>\n</element>",
+                + "<element><![CDATA[ 1 ]]>\n<![CDATA[ 2 ]]></element>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
         final String json2 = "{\n  \"element\": {\n    \"#cdata-section\": [\n      \" 1 \",\n"
                 + "      \" 2 \"\n    ]\n,    \"id\": \"1\"\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<element>\n  <![CDATA[ 1 ]]>\n  <![CDATA[ 2 ]]>\n  <id>1</id>\n</element>",
+                + "<element><![CDATA[ 1 ]]>\n<![CDATA[ 2 ]]>\n<id>1</id>\n</element>",
                 U.toXml((Map<String, Object>) U.fromJson(json2)));
     }
 
@@ -2167,11 +2175,11 @@ _.repeat('abc', 0);
     public void toXmlFromJson10() {
         final String json = "{\n  \"element\": {\n    \"#cdata-section\": \"&&\"\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<element>\n  <![CDATA[&&]]>\n</element>",
+                + "<element><![CDATA[&&]]></element>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
         final String json2 = "{\n  \"element\": {\n    \"#cdata-section\": \"&&\"\n,\n    \"id\": \"1\"\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<element>\n  <![CDATA[&&]]>\n  <id>1</id>\n</element>",
+                + "<element><![CDATA[&&]]>\n<id>1</id>\n</element>",
                 U.toXml((Map<String, Object>) U.fromJson(json2)));
     }
 
@@ -2234,8 +2242,7 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + "<a>\n"
         + "  <b>\n"
-        + "    <c>\n"
-        + "      <![CDATA[d]]>1\n"
+        + "    <c><![CDATA[d]]>1\n"
         + "    </c>\n"
         + "  </b>\n"
         + "</a>",
@@ -2311,7 +2318,7 @@ _.repeat('abc', 0);
                 + "  <!--c-->\n"
                 + "1\n"
                 + "<![CDATA[2]]>\n"
-                + "  <a number=\"true\">1</a>\n"
+                + "<a number=\"true\">1</a>\n"
                 + "</a>", U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
