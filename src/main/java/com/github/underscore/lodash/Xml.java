@@ -471,9 +471,9 @@ public final class Xml {
                 final int ident, final boolean addNewLine, final List<XmlStringBuilder> elems,
                 final Set<String> namespaces, final boolean parentTextFound) {
             if (String.valueOf(entry.getKey()).startsWith(COMMENT)) {
-                addComment(entry, identStep, ident, parentTextFound, addNewLine, elems, "<!--", "-->");
+                addComment(entry, identStep, ident, parentTextFound, addNewLine, elems);
             } else if (String.valueOf(entry.getKey()).startsWith(CDATA)) {
-                addComment(entry, identStep, ident, parentTextFound, addNewLine, elems, "<![CDATA[", "]]>");
+                addCdata(entry, identStep, ident, addNewLine, elems);
             } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
                 addElements(identStep, ident, entry, namespaces, elems, addNewLine);
             } else {
@@ -531,26 +531,47 @@ public final class Xml {
         }
 
         private static void addComment(Map.Entry entry, XmlStringBuilder.Step identStep, int ident,
-                boolean parentTextFound, boolean addNewLine, List<XmlStringBuilder> elems,
-                String openElement, String closeElement) {
+                boolean parentTextFound, boolean addNewLine, List<XmlStringBuilder> elems) {
             if (entry.getValue() instanceof List) {
                 for (Iterator iterator = ((List) entry.getValue()).iterator(); iterator.hasNext(); ) {
                     elems.add(addCommentValue(identStep, ident, String.valueOf(iterator.next()), parentTextFound,
-                            iterator.hasNext() || addNewLine, openElement, closeElement));
+                            iterator.hasNext() || addNewLine));
                 }
             } else {
                 elems.add(addCommentValue(identStep, ident, String.valueOf(entry.getValue()), parentTextFound,
-                        addNewLine, openElement, closeElement));
+                        addNewLine));
             }
         }
 
         private static XmlStringBuilder addCommentValue(XmlStringBuilder.Step identStep, int ident, String value,
-                boolean parentTextFound, boolean addNewLine, String openElement, String closeElement) {
+                boolean parentTextFound, boolean addNewLine) {
             XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
             if (!parentTextFound) {
                 localBuilder.fillSpaces();
             }
-            localBuilder.append(openElement).append(value).append(closeElement);
+            localBuilder.append("<!--").append(value).append("-->");
+            if (addNewLine) {
+                localBuilder.newLine();
+            }
+            return localBuilder;
+        }
+
+        private static void addCdata(Map.Entry entry, XmlStringBuilder.Step identStep, int ident,
+                boolean addNewLine, List<XmlStringBuilder> elems) {
+            if (entry.getValue() instanceof List) {
+                for (Iterator iterator = ((List) entry.getValue()).iterator(); iterator.hasNext(); ) {
+                    elems.add(addCdataValue(identStep, ident, String.valueOf(iterator.next()),
+                            iterator.hasNext() || addNewLine));
+                }
+            } else {
+                elems.add(addCdataValue(identStep, ident, String.valueOf(entry.getValue()), addNewLine));
+            }
+        }
+
+        private static XmlStringBuilder addCdataValue(XmlStringBuilder.Step identStep, int ident, String value,
+                boolean addNewLine) {
+            XmlStringBuilder localBuilder = new XmlStringBuilderText(identStep, ident);
+            localBuilder.append("<![CDATA[").append(value).append("]]>");
             if (addNewLine) {
                 localBuilder.newLine();
             }
