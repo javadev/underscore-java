@@ -1331,7 +1331,7 @@ _.repeat('abc', 0);
             + "  <First__EA__item>1</First__EA__item>\n  <Second__EA__item>2</Second__EA__item>\n</root>",
             U.toXml(testMap));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>null</root>", U.toXml((Map) null));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<item>"
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<item empty_array=\"true\">"
                 + "</item>", U.toXml(testMap2));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<__EE__EMPTY__EE__>1"
                 + "</__EE__EMPTY__EE__>", U.toXml(testMap3));
@@ -1628,7 +1628,7 @@ _.repeat('abc', 0);
                 + "  <b>c</b>\n"
                 + "\n"
                 + "  <b>\n"
-                + "    <__EM__item></__EM__item>\n"
+                + "    <__EM__item empty_array=\"true\"></__EM__item>\n"
                 + "  </b>\n"
                 + "<![CDATA[2]]>\n"
                 + "  <b>c</b>\n"
@@ -1968,6 +1968,52 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml20() {
+        final String xml = "<a empty_array=\"true\"></a>";
+        final String json = "{\n"
+                + "  \"a\": [\n"
+                + "  ]\n"
+                + "}";
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
+        final String xml2 = "<a empty_array=\"a\"></a>";
+        final String json2 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-empty_array\": \"a\"\n"
+                + "  }\n"
+                + "}";
+        assertEquals(json2, U.toJson((Map<String, Object>) U.fromXml(xml2)));
+        final String xml3 = "<a empty_array=\"true\">1</a>";
+        final String json3 = "{\n"
+                + "  \"a\": \"1\"\n"
+                + "}";
+        assertEquals(json3, U.toJson((Map<String, Object>) U.fromXml(xml3)));
+        final String xml4 = "<a empty_array=\"true\" array=\"true\"></a>";
+        final String json4 = "{\n"
+                + "  \"a\": [\n"
+                + "    [\n"
+                + "    ]\n"
+                + "  ]\n"
+                + "}";
+        assertEquals(json4, U.toJson((Map<String, Object>) U.fromXml(xml4)));
+        final String xml5 = "<a empty_array=\"true\" array=\"a\"></a>";
+        final String json5 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-array\": \"a\"\n"
+                + "  }\n"
+                + "}";
+        assertEquals(json5, U.toJson((Map<String, Object>) U.fromXml(xml5)));
+        final String xml6 = "<a empty_array=\"true\" array=\"true\">1</a>";
+        final String json6 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-array\": \"true\",\n"
+                + "    \"#text\": \"1\"\n"
+                + "  }\n"
+                + "}";
+        assertEquals(json6, U.toJson((Map<String, Object>) U.fromXml(xml6)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
@@ -2017,7 +2063,7 @@ _.repeat('abc', 0);
                 + "    <height>500</height>\n"
                 + "  </window>\n"
                 + "  <image name=\"sun1\" src=\"Images/Sun.png\">\n"
-                + "    <__FU__test></__FU__test>\n"
+                + "    <__FU__test empty_array=\"true\"></__FU__test>\n"
                 + "    <__FU__test2></__FU__test2>\n"
                 + "    <hOffset>250<unit>mm</unit>\n"
                 + "    </hOffset>\n"
@@ -2287,7 +2333,7 @@ _.repeat('abc', 0);
         + "    \"lineItem\": {\n      \"-edi:taxClass\": \"exempt\"\n    }\n  }\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + "<x>\n"
-        + "  <__FU__xmlns__HI__edi></__FU__xmlns__HI__edi>\n"
+        + "  <__FU__xmlns__HI__edi empty_array=\"true\"></__FU__xmlns__HI__edi>\n"
         + "  <lineItem edi__HI__taxClass=\"exempt\"></lineItem>\n"
         + "</x>", U.toXml((Map<String, Object>) U.fromJson(json4)));
         final String json5 = "{\n  \"x\": {\n    \"-xmlns:edi\": {},\n"
@@ -2372,7 +2418,7 @@ _.repeat('abc', 0);
                 + "</root>", U.toXml((Map<String, Object>) U.fromJson(json2)));
         final String json3 = "{\n  \"a\": []\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<a></a>", U.toXml((Map<String, Object>) U.fromJson(json3)));
+                + "<a empty_array=\"true\"></a>", U.toXml((Map<String, Object>) U.fromJson(json3)));
     }
 
     @SuppressWarnings("unchecked")
