@@ -1013,7 +1013,7 @@ _.repeat('abc', 0);
     @Test
     public void escapeXml() {
         assertEquals("", Xml.XmlValue.escape(null));
-        assertEquals("&quot;", Xml.XmlValue.escape("\""));
+        assertEquals("\"", Xml.XmlValue.escape("\""));
         assertEquals("'", Xml.XmlValue.escape("'"));
         assertEquals("&amp;", Xml.XmlValue.escape("&"));
         assertEquals("&lt;", Xml.XmlValue.escape("<"));

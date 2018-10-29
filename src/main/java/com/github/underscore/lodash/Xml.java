@@ -135,7 +135,8 @@ public final class Xml {
     public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
         public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep, String encoding) {
             super(new StringBuilder("<?xml version=\"1.0\" encoding=\""
-                + XmlValue.escape(encoding) + "\"?>" + (identStep == Step.COMPACT ? "" : "\n")), identStep, 0);
+                + XmlValue.escape(encoding).replace("\"", "&quot;") + "\"?>"
+                + (identStep == Step.COMPACT ? "" : "\n")), identStep, 0);
         }
 
         public String toString() {
@@ -399,7 +400,7 @@ public final class Xml {
                 if (String.valueOf(entry.getKey()).startsWith("-") && !(entry.getValue() instanceof Map)
                     && !(entry.getValue() instanceof List)) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1), namespaces)
-                        + "=\"" + XmlValue.escape(String.valueOf(entry.getValue())) + "\"");
+                        + "=\"" + XmlValue.escape(String.valueOf(entry.getValue())).replace("\"", "&quot;") + "\"");
                 } else if (String.valueOf(entry.getKey()).startsWith(TEXT)) {
                     addText(entry, elems, identStep, ident, attrKeys, attrs);
                 } else {
@@ -731,9 +732,6 @@ public final class Xml {
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
                 switch (ch) {
-                case '"':
-                    sb.append("&quot;");
-                    break;
                 case '\'':
                     sb.append("'");
                     break;
