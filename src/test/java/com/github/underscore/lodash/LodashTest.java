@@ -585,7 +585,8 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>", U.jsonToXml("{\n  \"a\": {\n  }\n}"));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>",
             U.chain("{\n  \"a\": {\n  }\n}").jsonToXml().item());
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root></root>", U.jsonToXml("[]"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root empty-array=\"true\"></root>",
+            U.jsonToXml("[]"));
     }
 
     @Test
