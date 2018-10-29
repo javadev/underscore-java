@@ -576,7 +576,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             U.xmlToJson("<root><element>1</element><element>2</element></root>"));
         assertEquals("[\n  \"1\",\n  \"2\"\n]",
             U.chain("<root><element>1</element><element>2</element></root>").xmlToJson().item());
-        assertEquals("{\n  \"a\": {\n    \"b\": [\n      {\n      },\n      {\n      }\n    ]\n  }\n}",
+        assertEquals("{\n  \"a\": {\n    \"b\": [\n      [\n      ]\n    ]\n  }\n}",
             U.xmlToJson("<a>\n  <b></b>\n  <b></b>\n</a>"));
     }
 
@@ -593,13 +593,14 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<root>\n   <element>1</element>\n   <element>2</element>\n</root>",
             U.formatXml("<root><element>1</element><element>2</element></root>"));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n   <b></b>\n   <b></b>\n</a>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n   <b array=\"true\"></b>\n</a>",
             U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>"));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n    <b></b>\n    <b></b>\n</a>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n    <b array=\"true\"></b>\n</a>",
             U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.FOUR_SPACES));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b></b><b></b></a>",
+        System.out.println(U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.TABS));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b array=\"true\"></b></a>",
             U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.COMPACT));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n\t<b></b>\n\t<b></b>\n</a>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n\t<b array=\"true\"></b>\n</a>",
             U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.TABS));
     }
 

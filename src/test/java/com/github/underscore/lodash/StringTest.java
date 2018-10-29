@@ -1413,8 +1413,8 @@ _.repeat('abc', 0);
     public void toJsonFromXml3() {
         final String xml = "<a></a>";
         assertEquals("{\n"
-                + "  \"a\": {\n"
-                + "  }\n"
+                + "  \"a\": [\n"
+                + "  ]\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
     }
@@ -1425,8 +1425,8 @@ _.repeat('abc', 0);
         final String xml = "<__FU__a>"
                 + "</__FU__a>";
         assertEquals("{\n"
-                + "  \"-a\": {\n"
-                + "  }\n"
+                + "  \"-a\": [\n"
+                + "  ]\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
     }
@@ -1437,8 +1437,8 @@ _.repeat('abc', 0);
         final String xml = "<__FU____EE__a>"
                 + "</__FU____EE__a>";
         assertEquals("{\n"
-                + "  \"-!a\": {\n"
-                + "  }\n"
+                + "  \"-!a\": [\n"
+                + "  ]\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
     }
@@ -1449,8 +1449,8 @@ _.repeat('abc', 0);
         final String xml = "<__FU__a__EE__a>"
                 + "</__FU__a__EE__a>";
         assertEquals("{\n"
-                + "  \"-a!a\": {\n"
-                + "  }\n"
+                + "  \"-a!a\": [\n"
+                + "  ]\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
     }
@@ -1535,8 +1535,8 @@ _.repeat('abc', 0);
                 + "      },\n"
                 + "      {\n"
                 + "        \"#item\": {\n"
-                + "          \"e\": {\n"
-                + "          }\n"
+                + "          \"e\": [\n"
+                + "          ]\n"
                 + "        }\n"
                 + "      },\n"
                 + "      {\n"
@@ -1640,8 +1640,8 @@ _.repeat('abc', 0);
     public void toJsonFromXml12() {
         final String xml = "<?xml version=\"1.0\" encoding=\"windows-1251\"?><a></a>";
         assertEquals("{\n"
-                + "  \"a\": {\n"
-                + "  },\n"
+                + "  \"a\": [\n"
+                + "  ],\n"
                 + "  \"#encoding\": \"windows-1251\"\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));

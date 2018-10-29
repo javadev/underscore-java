@@ -988,7 +988,7 @@ public final class Xml {
         } else {
             object = localMap3;
         }
-        return object;
+        return object instanceof Map && ((Map) object).isEmpty() ? U.newArrayList() : object;
     }
 
     @SuppressWarnings("unchecked")
@@ -1083,7 +1083,7 @@ public final class Xml {
             lastIndex -= 1;
         }
         final Object newValue = getValue(value);
-        if (newValue instanceof List) {
+        if (newValue instanceof List && !((List) newValue).isEmpty()) {
             objects.add(((List) newValue).get(0));
         } else {
             objects.add(newValue);
