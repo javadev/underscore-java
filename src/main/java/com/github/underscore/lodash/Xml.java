@@ -401,8 +401,7 @@ public final class Xml {
                 final Map.Entry entry = entries.get(index);
                 final boolean addNewLine = index < entries.size() - 1
                     && !String.valueOf(entries.get(index + 1).getKey()).startsWith(TEXT);
-                if (String.valueOf(entry.getKey()).startsWith("-") && !(entry.getValue() instanceof Map)
-                    && !(entry.getValue() instanceof List)) {
+                if (String.valueOf(entry.getKey()).startsWith("-") && (entry.getValue() instanceof String)) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1), namespaces)
                         + "=\"" + XmlValue.escape(String.valueOf(entry.getValue())).replace("\"", "&quot;") + "\"");
                 } else if (String.valueOf(entry.getKey()).startsWith(TEXT)) {
