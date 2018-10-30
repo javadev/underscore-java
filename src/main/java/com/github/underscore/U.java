@@ -46,6 +46,8 @@ public class U<T> {
     private static final String EVALUATE = "evaluate";
     private static final String INTERPOLATE = "interpolate";
     private static final String ESCAPE = "escape";
+    private static final String S_Q = "\\s*\\Q";
+    private static final String E_S = "\\E\\s*";
     private static final java.util.regex.Pattern FORMAT_PATTERN =
         java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*\\}");
     private static final Map<Character, String> ESCAPES = new HashMap<Character, String>();
@@ -129,14 +131,14 @@ public class U<T> {
             String result = template;
             for (final Map.Entry<K, V> element : value.entrySet()) {
                 result = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + element.getKey()
-                    + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(element.getValue()));
+                    S_Q + element.getKey()
+                    + E_S)).matcher(result).replaceAll(String.valueOf(element.getValue()));
                 result = java.util.regex.Pattern.compile(escape.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + element.getKey()
-                    + "\\E\\s*")).matcher(result).replaceAll(escape(String.valueOf(element.getValue())));
+                    S_Q + element.getKey()
+                    + E_S)).matcher(result).replaceAll(escape(String.valueOf(element.getValue())));
                 result = java.util.regex.Pattern.compile(evaluate.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + element.getKey()
-                    + "\\E\\s*")).matcher(result).replaceAll(String.valueOf(element.getValue()));
+                    S_Q + element.getKey()
+                    + E_S)).matcher(result).replaceAll(String.valueOf(element.getValue()));
             }
             return result;
         }
@@ -152,15 +154,15 @@ public class U<T> {
             for (final Map.Entry<K, V> element : value.entrySet()) {
                 final String key = "" + element.getKey();
                 java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + key + "\\E\\s*")).matcher(result);
+                    S_Q + key + E_S)).matcher(result);
                 boolean isFound = matcher.find();
                 result = matcher.replaceAll(String.valueOf(element.getValue()));
                 matcher = java.util.regex.Pattern.compile(escape.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + key + "\\E\\s*")).matcher(result);
+                    S_Q + key + E_S)).matcher(result);
                 isFound |= matcher.find();
                 result = matcher.replaceAll(escape(String.valueOf(element.getValue())));
                 matcher = java.util.regex.Pattern.compile(evaluate.replace(ALL_SYMBOLS,
-                    "\\s*\\Q" + key + "\\E\\s*")).matcher(result);
+                    S_Q + key + E_S)).matcher(result);
                 isFound |= matcher.find();
                 result = matcher.replaceAll(String.valueOf(element.getValue()));
                 if (!isFound) {

@@ -49,6 +49,7 @@ public final class Xml {
     private static final String STRING = "-string";
     private static final String NULL_ATTR = "-null";
     private static final String EMPTY_ARRAY = "-empty-array";
+    private static final String QUOT = "&quot;";
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
         "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
@@ -56,7 +57,7 @@ public final class Xml {
     private static final Map<String, String> XML_UNESCAPE = new HashMap<String, String>();
 
     static {
-        XML_UNESCAPE.put("&quot;", "\"");
+        XML_UNESCAPE.put(QUOT, "\"");
         XML_UNESCAPE.put("&amp;", "&");
         XML_UNESCAPE.put("&lt;", "<");
         XML_UNESCAPE.put("&gt;", ">");
@@ -136,7 +137,7 @@ public final class Xml {
     public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
         public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep, String encoding) {
             super(new StringBuilder("<?xml version=\"1.0\" encoding=\""
-                + XmlValue.escape(encoding).replace("\"", "&quot;") + "\"?>"
+                + XmlValue.escape(encoding).replace("\"", QUOT) + "\"?>"
                 + (identStep == Step.COMPACT ? "" : "\n")), identStep, 0);
         }
 
@@ -403,7 +404,7 @@ public final class Xml {
                     && !String.valueOf(entries.get(index + 1).getKey()).startsWith(TEXT);
                 if (String.valueOf(entry.getKey()).startsWith("-") && (entry.getValue() instanceof String)) {
                     attrs.add(" " + XmlValue.escapeName(String.valueOf(entry.getKey()).substring(1), namespaces)
-                        + "=\"" + XmlValue.escape(String.valueOf(entry.getValue())).replace("\"", "&quot;") + "\"");
+                        + "=\"" + XmlValue.escape(String.valueOf(entry.getValue())).replace("\"", QUOT) + "\"");
                 } else if (String.valueOf(entry.getKey()).startsWith(TEXT)) {
                     addText(entry, elems, identStep, ident, attrKeys, attrs);
                 } else {
