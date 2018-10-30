@@ -1884,7 +1884,8 @@ _.repeat('abc', 0);
                 + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<a>\n"
-                + "  <b c=\"1\" number=\"true\">7</b>\n"
+                + "  <b c=\"1\">7<__FU__number boolean=\"true\">true</__FU__number>\n"
+                + "  </b>\n"
                 + "</a>",
                 U.toXml((Map<String, Object>) U.fromJson(json2)));
     }
@@ -1929,7 +1930,8 @@ _.repeat('abc', 0);
                 + "}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<a>\n"
-                + "  <b c=\"1\" boolean=\"true\">true</b>\n"
+                + "  <b c=\"1\">true<__FU__boolean boolean=\"true\">true</__FU__boolean>\n"
+                + "  </b>\n"
                 + "</a>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
         final String json2 = "{\n"
@@ -2234,7 +2236,9 @@ _.repeat('abc', 0);
     public void toXmlFromJson11() {
         final String json = "{\n  \"-id\": 1\n}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<root id=\"1\"></root>",
+                + "<root>\n"
+                + "  <__FU__id number=\"true\">1</__FU__id>\n"
+                + "</root>",
                 U.toXml((Map<String, Object>) U.fromJson(json)));
     }
 
@@ -2462,8 +2466,9 @@ _.repeat('abc', 0);
             U.toXml((Map<String, Object>) U.fromJson(json)));
         final String json2 = "{   \"#comment\": \"c\",   \"-id\": 1}";
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<root id=\"1\">\n"
-                + "  <!--c-->\n\n"
+                + "<root>\n"
+                + "  <!--c-->\n"
+                + "  <__FU__id number=\"true\">1</__FU__id>\n"
                 + "</root>",
             U.toXml((Map<String, Object>) U.fromJson(json2)));
     }
