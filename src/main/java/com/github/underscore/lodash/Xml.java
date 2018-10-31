@@ -867,31 +867,41 @@ public final class Xml {
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {
             localMap = (Map) U.clone(map);
-            localMap.remove(ENCODING);
-            if (map.containsKey(STANDALONE)) {
-                builder = new XmlStringBuilderWithoutRoot(identStep, String.valueOf(map.get(ENCODING)),
-                " standalone=\"" + (YES.equals(map.get(STANDALONE)) ? YES : "no") + "\"");
-                localMap.remove(STANDALONE);
-            } else {
-                builder = new XmlStringBuilderWithoutRoot(identStep, String.valueOf(map.get(ENCODING)), "");
-            }
+            builder = checkStandalone(String.valueOf(localMap.remove(ENCODING)), identStep, localMap);
         } else if (map != null && map.containsKey(STANDALONE)) {
-            builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), " standalone=\""
-                + (YES.equals(map.get(STANDALONE)) ? YES : "no") + "\"");
             localMap = (Map) U.clone(map);
+            builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(),
+                " standalone=\"" + (YES.equals(map.get(STANDALONE)) ? YES : "no") + "\"");
             localMap.remove(STANDALONE);
         } else {
             builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), "");
             localMap = map;
         }
+        checkLocalMap(builder, localMap);
+        return builder.toString();
+    }
+
+    private static void checkLocalMap(final XmlStringBuilder builder, final Map localMap) {
         if (localMap == null || localMap.size() != 1
-            || XmlValue.getMapKey(map).startsWith("-")
+            || XmlValue.getMapKey(localMap).startsWith("-")
             || ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List) {
             XmlObject.writeXml(localMap, getRootName(localMap), builder, false, U.<String>newLinkedHashSet(), false);
         } else {
             XmlObject.writeXml(localMap, null, builder, false, U.<String>newLinkedHashSet(), false);
         }
-        return builder.toString();
+    }
+
+    private static XmlStringBuilder checkStandalone(String encoding, XmlStringBuilder.Step identStep,
+        final Map localMap) {
+        final XmlStringBuilder builder;
+        if (localMap.containsKey(STANDALONE)) {
+            builder = new XmlStringBuilderWithoutRoot(identStep, encoding,
+                " standalone=\"" + (YES.equals(localMap.get(STANDALONE)) ? YES : "no") + "\"");
+            localMap.remove(STANDALONE);
+        } else {
+            builder = new XmlStringBuilderWithoutRoot(identStep, encoding, "");
+        }
+        return builder;
     }
 
     @SuppressWarnings("unchecked")
