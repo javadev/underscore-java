@@ -2016,6 +2016,49 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml21() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<a/>";
+        final String json = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-self-closing\": \"true\"\n"
+                + "  },\n"
+                + "  \"#standalone\": \"yes\"\n"
+                + "}";
+        final String xml2 = "<?xml version=\"1.0\" standalone=\"yes\"?>\n<a/>";
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
+        assertEquals(xml, U.toXml((Map<String, Object>) U.fromJson(json)));
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml2)));
+        final String xml3 = "<?xml version=\"1.0\" encoding=\"windows-1251\" standalone=\"yes\"?>\n<a/>";
+        final String json3 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-self-closing\": \"true\"\n"
+                + "  },\n"
+                + "  \"#encoding\": \"windows-1251\",\n"
+                + "  \"#standalone\": \"yes\"\n"
+                + "}";
+        assertEquals(json3, U.toJson((Map<String, Object>) U.fromXml(xml3)));
+        assertEquals(xml3, U.toXml((Map<String, Object>) U.fromJson(json3)));
+        final String xml4 = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<a/>";
+        final String json4 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-self-closing\": \"true\"\n"
+                + "  },\n"
+                + "  \"#standalone\": \"no\"\n"
+                + "}";
+        assertEquals(xml4, U.toXml((Map<String, Object>) U.fromJson(json4)));
+        final String xml5 = "<?xml version=\"1.0\" encoding=\"windows-1251\" standalone=\"no\"?>\n<a/>";
+        final String json5 = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-self-closing\": \"true\"\n"
+                + "  },\n"
+                + "  \"#encoding\": \"windows-1251\",\n"
+                + "  \"#standalone\": \"no\"\n"
+                + "}";
+        assertEquals(xml5, U.toXml((Map<String, Object>) U.fromJson(json5)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
