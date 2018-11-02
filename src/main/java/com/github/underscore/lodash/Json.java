@@ -406,18 +406,20 @@ public final class Json {
             if ("-__EE__EMPTY__EE__".equals(name)) {
                 return "-";
             }
+            if (!name.contains("__")) {
+                return name;
+            }
             StringBuilder result = new StringBuilder();
             int underlineCount = 0;
             StringBuilder lastChars = new StringBuilder();
-            int i = 0;
-            while (i < length) {
+            outer:
+            for (int i = 0; i < length; ++i) {
                 char ch = name.charAt(i);
                 if (ch == '_') {
                     lastChars.append(ch);
                 } else {
                     if (lastChars.length() == 2) {
                         StringBuilder nameToDecode = new StringBuilder();
-                        boolean nameWasDecoded = false;
                         for (int j = i; j < length; ++j) {
                             if (name.charAt(j) == '_') {
                                 underlineCount += 1;
@@ -425,29 +427,23 @@ public final class Json {
                                     try {
                                         result.append(JsonValue.escape(Base32.decode(nameToDecode.toString())));
                                     } catch (Base32.DecodingException ex) {
-                                        result.append(JsonValue.escape("__"
-                                            + nameToDecode.append(lastChars).toString()));
+                                        result.append("__").append(JsonValue.escape(nameToDecode.toString()))
+                                            .append(lastChars);
                                     }
                                     i = j;
                                     underlineCount = 0;
                                     lastChars.setLength(0);
-                                    nameWasDecoded = true;
-                                    break;
+                                    continue outer;
                                 }
                             } else {
                                 nameToDecode.append(name.charAt(j));
                                 underlineCount = 0;
                             }
                         }
-                        if (nameWasDecoded) {
-                            i += 1;
-                            continue;
-                        }
                     }
                     result.append(lastChars).append(ch);
                     lastChars.setLength(0);
                 }
-                i += 1;
             }
             return result.append(lastChars).toString();
         }
