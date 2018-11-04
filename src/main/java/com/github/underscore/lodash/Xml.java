@@ -33,6 +33,7 @@ public final class Xml {
     private static final String COMMENT = "#comment";
     private static final String ENCODING = "#encoding";
     private static final String STANDALONE = "#standalone";
+    private static final String OMITXMLDECLARATION = "#omit-xml-declaration";
     private static final String YES = "yes";
     private static final String TEXT = "#text";
     private static final String NUMBER = "-number";
@@ -843,19 +844,8 @@ public final class Xml {
 
     public static String toXml(Collection collection, XmlStringBuilder.Step identStep) {
         final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), "");
-        builder.append("<root");
-        if (collection != null && collection.isEmpty()) {
-            builder.append(" empty-array=\"true\"");
-        }
-        builder.append(">").incIdent();
-        if (collection != null && !collection.isEmpty()) {
-            builder.newLine();
-        }
-        XmlArray.writeXml(collection, null, builder, false, U.<String>newLinkedHashSet(), false);
-        if (collection != null && !collection.isEmpty()) {
-            builder.newLine();
-        }
-        return builder.append("</root>").toString();
+        writeArray(collection, builder);
+        return builder.toString();
     }
 
     public static String toXml(Collection collection) {
@@ -873,6 +863,10 @@ public final class Xml {
             builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(),
                 " standalone=\"" + (YES.equals(map.get(STANDALONE)) ? YES : "no") + "\"");
             localMap.remove(STANDALONE);
+        } else if (map != null && map.containsKey(OMITXMLDECLARATION)) {
+            localMap = (Map) U.clone(map);
+            builder = new XmlStringBuilderWithoutHeader(identStep, 0);
+            localMap.remove(OMITXMLDECLARATION);
         } else {
             builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), "");
             localMap = map;
@@ -884,11 +878,32 @@ public final class Xml {
     private static void checkLocalMap(final XmlStringBuilder builder, final Map localMap) {
         if (localMap == null || localMap.size() != 1
             || XmlValue.getMapKey(localMap).startsWith("-")
-            || ((Map.Entry) localMap.entrySet().iterator().next()).getValue() instanceof List) {
-            XmlObject.writeXml(localMap, getRootName(localMap), builder, false, U.<String>newLinkedHashSet(), false);
+            || XmlValue.getMapValue(localMap) instanceof List) {
+            if ("root".equals(XmlValue.getMapKey(localMap))) {
+                writeArray((List) XmlValue.getMapValue(localMap), builder);
+            } else {
+                XmlObject.writeXml(localMap, getRootName(localMap), builder, false,
+                    U.<String>newLinkedHashSet(), false);
+            }
         } else {
             XmlObject.writeXml(localMap, null, builder, false, U.<String>newLinkedHashSet(), false);
         }
+    }
+
+    private static void writeArray(final Collection collection, final XmlStringBuilder builder) {
+        builder.append("<root");
+        if (collection != null && collection.isEmpty()) {
+            builder.append(" empty-array=\"true\"");
+        }
+        builder.append(">").incIdent();
+        if (collection != null && !collection.isEmpty()) {
+            builder.newLine();
+        }
+        XmlArray.writeXml(collection, null, builder, false, U.<String>newLinkedHashSet(), false);
+        if (collection != null && !collection.isEmpty()) {
+            builder.newLine();
+        }
+        builder.append("</root>");
     }
 
     private static XmlStringBuilder checkStandalone(String encoding, XmlStringBuilder.Step identStep,
@@ -1153,19 +1168,33 @@ public final class Xml {
                     return object;
                 }
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0});
+            final Object localMap;
             if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
                 ((Map) result).put(ENCODING, document.getXmlEncoding());
                 if (document.getXmlStandalone()) {
                     ((Map) result).put(STANDALONE, YES);
                 }
+                localMap = result;
             } else if (document.getXmlStandalone()) {
                 ((Map) result).put(STANDALONE, YES);
+                localMap = result;
             } else if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
                 && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
                 || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
-                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
+                if (!xml.startsWith("<?xml ")) {
+                    localMap = U.newLinkedHashMap();
+                    ((Map) localMap).put("root", ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue());
+                    ((Map) localMap).put(OMITXMLDECLARATION, YES);
+                } else {
+                    localMap = ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
+                }
+            } else if (!xml.startsWith("<?xml ")) {
+                ((Map) result).put(OMITXMLDECLARATION, YES);
+                localMap = result;
+            } else {
+                localMap = result;
             }
-            return result;
+            return localMap;
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
