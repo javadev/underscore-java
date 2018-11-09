@@ -492,6 +492,7 @@ _.repeat('abc', 0);
         assertEquals("\\r", Json.JsonValue.escape("\r"));
         assertEquals("\\t", Json.JsonValue.escape("\t"));
         assertEquals("/", Json.JsonValue.escape("/"));
+        assertEquals("€", Json.JsonValue.escape("€"));
         assertEquals("\\u0000", Json.JsonValue.escape("\u0000"));
         assertEquals("\\u001F", Json.JsonValue.escape("\u001F"));
         assertEquals("\u0020", Json.JsonValue.escape("\u0020"));
@@ -1014,6 +1015,7 @@ _.repeat('abc', 0);
     public void escapeXml() {
         assertEquals("", Xml.XmlValue.escape(null));
         assertEquals("\"", Xml.XmlValue.escape("\""));
+        assertEquals("€", Xml.XmlValue.escape("€"));
         assertEquals("'", Xml.XmlValue.escape("'"));
         assertEquals("&amp;", Xml.XmlValue.escape("&"));
         assertEquals("&lt;", Xml.XmlValue.escape("<"));

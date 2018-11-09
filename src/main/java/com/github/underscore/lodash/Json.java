@@ -483,6 +483,9 @@ public final class Json {
                 case '\t':
                     sb.append("\\t");
                     break;
+                case '€':
+                    sb.append("€");
+                    break;
                 default:
                     if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
                         || ch >= '\u2000' && ch <= '\u20FF') {
