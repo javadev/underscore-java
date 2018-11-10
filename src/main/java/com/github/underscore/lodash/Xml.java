@@ -1090,19 +1090,32 @@ public final class Xml {
             final org.w3c.dom.Node currentNode) {
         final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
         if (currentNode.getAttributes().getLength() > 0) {
-            final java.util.regex.Matcher matcher = ATTRS.matcher(source.substring(
-                    sourceIndex[0], source.indexOf('>', sourceIndex[0])));
+            final java.util.regex.Matcher matcher = ATTRS.matcher(getAttributes(sourceIndex[0], source));
             while (matcher.find()) {
                 addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2), nodeMapper, uniqueIds);
             }
         }
-        if (source.substring(sourceIndex[0], source.indexOf('>', sourceIndex[0])).endsWith("/")
+        if (getAttributes(sourceIndex[0], source).endsWith("/")
                 && !attrMapLocal.containsKey(SELF_CLOSING) && (attrMapLocal.size() != 1
                 || ((!attrMapLocal.containsKey(STRING) || !TRUE.equals(attrMapLocal.get(STRING)))
                 && (!attrMapLocal.containsKey(NULL_ATTR) || !TRUE.equals(attrMapLocal.get(NULL_ATTR)))))) {
             attrMapLocal.put(SELF_CLOSING, TRUE);
         }
         return createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, source, sourceIndex);
+    }
+
+    static String getAttributes(final int sourceIndex, final String source) {
+        boolean scanQuote = false;
+        for (int index = sourceIndex; index < source.length(); index += 1) {
+            if (source.charAt(index) == '"') {
+                scanQuote = !scanQuote;
+                continue;
+            }
+            if (!scanQuote && source.charAt(index) == '>') {
+                return source.substring(sourceIndex, index);
+            }
+        }
+        return "";
     }
 
     @SuppressWarnings("unchecked")

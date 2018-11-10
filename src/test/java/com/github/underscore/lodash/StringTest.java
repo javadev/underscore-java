@@ -2080,6 +2080,19 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml22() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a b=\">c\"></a>";
+        final String json = "{\n"
+                + "  \"a\": {\n"
+                + "    \"-b\": \">c\"\n"
+                + "  }\n"
+                + "}";
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
+        assertEquals("", Xml.getAttributes(0, ""));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
