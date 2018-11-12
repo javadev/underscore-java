@@ -53,6 +53,7 @@ public final class Xml {
     private static final String NULL_ATTR = "-null";
     private static final String EMPTY_ARRAY = "-empty-array";
     private static final String QUOT = "&quot;";
+    private static final String XML_HEADER = "<?xml ";
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
         "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
@@ -1184,28 +1185,41 @@ public final class Xml {
                     return object;
                 }
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0});
+            final Map<String, String> headerAttributes = getHeaderAttributes(xml);
             if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
                 ((Map) result).put(ENCODING, document.getXmlEncoding());
-                if (document.getXmlStandalone()) {
-                    ((Map) result).put(STANDALONE, YES);
+                if (headerAttributes.containsKey(STANDALONE.substring(1))) {
+                    ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
                 }
-            } else if (document.getXmlStandalone()) {
-                ((Map) result).put(STANDALONE, YES);
+            } else if (headerAttributes.containsKey(STANDALONE.substring(1))) {
+                ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
             } else if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
                 && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
                 || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
-                if (xml.startsWith("<?xml ")) {
+                if (xml.startsWith(XML_HEADER)) {
                     return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
                 } else {
                     ((Map) result).put(OMITXMLDECLARATION, YES);
                 }
-            } else if (!xml.startsWith("<?xml ")) {
+            } else if (!xml.startsWith(XML_HEADER)) {
                 ((Map) result).put(OMITXMLDECLARATION, YES);
             }
             return result;
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
+    }
+
+    private static Map<String, String> getHeaderAttributes(final String xml) {
+        final Map<String, String> result = U.newLinkedHashMap();
+        if (xml.startsWith(XML_HEADER)) {
+            final String xmlLocal = xml.substring(XML_HEADER.length(), xml.indexOf("?>", XML_HEADER.length()));
+            final java.util.regex.Matcher matcher = ATTRS.matcher(xmlLocal);
+            while (matcher.find()) {
+                result.put(matcher.group(1), matcher.group(2));
+            }
+        }
+        return result;
     }
 
     private static org.w3c.dom.Document createDocument(final String xml)
