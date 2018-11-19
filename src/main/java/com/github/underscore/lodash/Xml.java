@@ -1213,7 +1213,8 @@ public final class Xml {
     private static Map<String, String> getHeaderAttributes(final String xml) {
         final Map<String, String> result = U.newLinkedHashMap();
         if (xml.startsWith(XML_HEADER)) {
-            final String xmlLocal = xml.substring(XML_HEADER.length(), xml.indexOf("?>", XML_HEADER.length()));
+            final String xmlLocal = xml.substring(XML_HEADER.length(),
+                Math.max(XML_HEADER.length(), xml.indexOf("?>", XML_HEADER.length())));
             final java.util.regex.Matcher matcher = ATTRS.matcher(xmlLocal);
             while (matcher.find()) {
                 result.put(matcher.group(1), matcher.group(2));
