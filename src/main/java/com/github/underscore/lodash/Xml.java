@@ -23,6 +23,7 @@
  */
 package com.github.underscore.lodash;
 
+import com.github.underscore.BiFunction;
 import com.github.underscore.Function;
 import java.util.*;
 
@@ -980,8 +981,9 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     private static Object createMap(final org.w3c.dom.Node node,
-        final Function<Object, Object> nodeMapper, final Map<String, Object> attrMap, final int[] uniqueIds,
-        final String source, final int[] sourceIndex) {
+        final BiFunction<Object, Set<String>, String> elementMapper,
+        final Function<Object, Object> nodeMapper, final Map<String, Object> attrMap,
+        final int[] uniqueIds, final String source, final int[] sourceIndex, final Set<String> namespaces) {
         final Map<String, Object> map = U.newLinkedHashMap();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
@@ -991,7 +993,8 @@ public final class Xml {
             final Object value;
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
                 sourceIndex[0] = source.indexOf("<" + name, sourceIndex[0]) + name.length() + 1;
-                value = addElement(sourceIndex, source, nodeMapper, uniqueIds, currentNode);
+                value = addElement(sourceIndex, source, elementMapper, nodeMapper,
+                    uniqueIds, currentNode, namespaces);
             } else {
                 if (COMMENT.equals(name)) {
                     sourceIndex[0] = source.indexOf("-->", sourceIndex[0]) + 3;
@@ -1005,7 +1008,7 @@ public final class Xml {
                 || currentNode.getNodeType() == org.w3c.dom.Node.DOCUMENT_TYPE_NODE) {
                 continue;
             }
-            addNodeValue(map, name, value, nodeMapper, uniqueIds);
+            addNodeValue(map, name, value, elementMapper, nodeMapper, uniqueIds, namespaces);
         }
         return checkNumberAndBoolean(map, node.getNodeName());
     }
@@ -1087,13 +1090,21 @@ public final class Xml {
     }
 
     private static Object addElement(final int[] sourceIndex, final String source,
+            final BiFunction<Object, Set<String>, String> elementMapper,
             final Function<Object, Object> nodeMapper, final int[] uniqueIds,
-            final org.w3c.dom.Node currentNode) {
+            final org.w3c.dom.Node currentNode, final Set<String> namespaces) {
         final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
         if (currentNode.getAttributes().getLength() > 0) {
             final java.util.regex.Matcher matcher = ATTRS.matcher(getAttributes(sourceIndex[0], source));
             while (matcher.find()) {
-                addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2), nodeMapper, uniqueIds);
+                if (matcher.group(1).startsWith("xmlns:")) {
+                    namespaces.add(matcher.group(1).substring(6));
+                }
+            }
+            matcher.reset();
+            while (matcher.find()) {
+                addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2),
+                    elementMapper, nodeMapper, uniqueIds, namespaces);
             }
         }
         if (getAttributes(sourceIndex[0], source).endsWith("/")
@@ -1102,7 +1113,8 @@ public final class Xml {
                 && (!attrMapLocal.containsKey(NULL_ATTR) || !TRUE.equals(attrMapLocal.get(NULL_ATTR)))))) {
             attrMapLocal.put(SELF_CLOSING, TRUE);
         }
-        return createMap(currentNode, nodeMapper, attrMapLocal, uniqueIds, source, sourceIndex);
+        return createMap(currentNode, elementMapper, nodeMapper, attrMapLocal, uniqueIds, source,
+            sourceIndex, namespaces);
     }
 
     static String getAttributes(final int sourceIndex, final String source) {
@@ -1121,7 +1133,8 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     private static void addNodeValue(final Map<String, Object> map, final String name, final Object value,
-            final Function<Object, Object> nodeMapper, final int[] uniqueIds) {
+            final BiFunction<Object, Set<String>, String> elementMapper, final Function<Object, Object> nodeMapper,
+            final int[] uniqueIds, final Set<String> namespaces) {
         if (map.containsKey(name)) {
             if (TEXT.equals(name)) {
                 map.put(name + uniqueIds[0], nodeMapper.apply(getValue(value)));
@@ -1144,7 +1157,7 @@ public final class Xml {
                 }
             }
         } else {
-            map.put(name, nodeMapper.apply(getValue(value)));
+            map.put(elementMapper.apply(name, namespaces), nodeMapper.apply(getValue(value)));
         }
     }
 
@@ -1180,34 +1193,47 @@ public final class Xml {
         }
         try {
             org.w3c.dom.Document document = createDocument(xml);
-            final Object result = createMap(document, new Function<Object, Object>() {
+            final Object result = createMap(document, new BiFunction<Object, Set<String>, String>() {
+                public String apply(Object object, Set<String> namespaces) {
+                    return String.valueOf(object);
+                }
+            }, new Function<Object, Object>() {
                 public Object apply(Object object) {
                     return object;
                 }
-            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0});
-            final Map<String, String> headerAttributes = getHeaderAttributes(xml);
-            if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
-                ((Map) result).put(ENCODING, document.getXmlEncoding());
-                if (headerAttributes.containsKey(STANDALONE.substring(1))) {
-                    ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
-                }
-            } else if (headerAttributes.containsKey(STANDALONE.substring(1))) {
-                ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
-            } else if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
-                && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
-                || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
-                if (xml.startsWith(XML_HEADER)) {
-                    return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
-                } else {
-                    ((Map) result).put(OMITXMLDECLARATION, YES);
-                }
-            } else if (!xml.startsWith(XML_HEADER)) {
-                ((Map) result).put(OMITXMLDECLARATION, YES);
+            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0},
+            U.<String>newLinkedHashSet());
+            if (checkResult(xml, document, result)) {
+                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
             }
             return result;
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static boolean checkResult(final String xml, org.w3c.dom.Document document, final Object result) {
+        final Map<String, String> headerAttributes = getHeaderAttributes(xml);
+        if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
+            ((Map) result).put(ENCODING, document.getXmlEncoding());
+            if (headerAttributes.containsKey(STANDALONE.substring(1))) {
+                ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
+            }
+        } else if (headerAttributes.containsKey(STANDALONE.substring(1))) {
+            ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
+        } else if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
+                && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
+                || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
+            if (xml.startsWith(XML_HEADER)) {
+                return true;
+            } else {
+                ((Map) result).put(OMITXMLDECLARATION, YES);
+            }
+        } else if (!xml.startsWith(XML_HEADER)) {
+            ((Map) result).put(OMITXMLDECLARATION, YES);
+        }
+        return false;
     }
 
     private static Map<String, String> getHeaderAttributes(final String xml) {
@@ -1238,11 +1264,49 @@ public final class Xml {
     public static Object fromXmlMakeArrays(final String xml) {
         try {
             org.w3c.dom.Document document = createDocument(xml);
-            return createMap(document, new Function<Object, Object>() {
+            return createMap(document, new BiFunction<Object, Set<String>, String>() {
+                public String apply(Object object, Set<String> namespaces) {
+                    return String.valueOf(object);
+                }
+            }, new Function<Object, Object>() {
                 public Object apply(Object object) {
                     return object instanceof List ? object : U.newArrayList(Arrays.asList(object));
                 }
-            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0});
+            }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0},
+            U.<String>newLinkedHashSet());
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
+    public static Object fromXmlWithoutNamespaces(final String xml) {
+        try {
+            org.w3c.dom.Document document = createDocument(xml);
+            final Object result = createMap(document, new BiFunction<Object, Set<String>, String>() {
+                public String apply(Object object, Set<String> namespaces) {
+                    final String localString = String.valueOf(object);
+                    final String result;
+                    if (localString.startsWith("-") && namespaces.contains(localString
+                            .substring(1, Math.max(1, localString.indexOf(':'))))) {
+                        result = "-" + localString.substring(Math.max(0, localString.indexOf(':') + 1));
+                    } else if (namespaces.contains(localString
+                            .substring(0, Math.max(0, localString.indexOf(':'))))) {
+                        result = localString.substring(Math.max(0, localString.indexOf(':') + 1));
+                    } else {
+                        result = String.valueOf(object);
+                    }
+                    return result;
+                }
+            }, new Function<Object, Object>() {
+                public Object apply(Object object) {
+                    return object;
+                }
+            }, Collections.<String, Object>emptyMap(), new int[]{1, 1, 1}, xml, new int[]{0},
+                U.<String>newLinkedHashSet());
+            if (checkResult(xml, document, result)) {
+                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
+            }
+            return result;
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
