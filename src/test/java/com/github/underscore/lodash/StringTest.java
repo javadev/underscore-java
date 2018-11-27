@@ -2129,6 +2129,19 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml24() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n  <?b c=\"d\"?>\n</a>";
+        final String json = "{\n"
+            + "  \"a\": {\n"
+            + "    \"?b\": \"c=\\\"d\\\"\"\n"
+            + "  }\n"
+            + "}";
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
+        assertEquals(xml, U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
