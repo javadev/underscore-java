@@ -1799,6 +1799,14 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.fromXmlWithoutNamespaces(xml);
     }
 
+    public static Object fromXmlWithoutAttributes(final String xml) {
+        return Xml.fromXmlWithoutAttributes(xml);
+    }
+
+    public static Object fromXmlWithoutNamespacesAndAttributes(final String xml) {
+        return Xml.fromXmlWithoutNamespacesAndAttributes(xml);
+    }
+
     public static String toXml(Collection collection) {
         return Xml.toXml(collection);
     }

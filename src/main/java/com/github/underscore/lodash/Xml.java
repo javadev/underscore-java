@@ -1157,7 +1157,10 @@ public final class Xml {
                 }
             }
         } else {
-            map.put(elementMapper.apply(name, namespaces), nodeMapper.apply(getValue(value)));
+            final String elementName = elementMapper.apply(name, namespaces);
+            if (elementName != null) {
+                map.put(elementName, nodeMapper.apply(getValue(value)));
+            }
         }
     }
 
@@ -1264,7 +1267,7 @@ public final class Xml {
     public static Object fromXmlMakeArrays(final String xml) {
         try {
             org.w3c.dom.Document document = createDocument(xml);
-            return createMap(document, new BiFunction<Object, Set<String>, String>() {
+            final Object result = createMap(document, new BiFunction<Object, Set<String>, String>() {
                 public String apply(Object object, Set<String> namespaces) {
                     return String.valueOf(object);
                 }
@@ -1274,15 +1277,36 @@ public final class Xml {
                 }
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0},
             U.<String>newLinkedHashSet());
+            if (checkResult(xml, document, result)) {
+                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
+            }
+            return result;
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
+    public static Object fromXmlWithElementMapper(final String xml,
+        final BiFunction<Object, Set<String>, String> elementMapper) {
+        try {
+            org.w3c.dom.Document document = createDocument(xml);
+            final Object result = createMap(document, elementMapper, new Function<Object, Object>() {
+                public Object apply(Object object) {
+                    return object;
+                }
+            }, Collections.<String, Object>emptyMap(), new int[]{1, 1, 1}, xml, new int[]{0},
+                U.<String>newLinkedHashSet());
+            if (checkResult(xml, document, result)) {
+                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
+            }
+            return result;
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
     }
 
     public static Object fromXmlWithoutNamespaces(final String xml) {
-        try {
-            org.w3c.dom.Document document = createDocument(xml);
-            final Object result = createMap(document, new BiFunction<Object, Set<String>, String>() {
+        return fromXmlWithElementMapper(xml, new BiFunction<Object, Set<String>, String>() {
                 public String apply(Object object, Set<String> namespaces) {
                     final String localString = String.valueOf(object);
                     final String result;
@@ -1297,19 +1321,33 @@ public final class Xml {
                     }
                     return result;
                 }
-            }, new Function<Object, Object>() {
-                public Object apply(Object object) {
-                    return object;
+            });
+    }
+
+    public static Object fromXmlWithoutAttributes(final String xml) {
+        return fromXmlWithElementMapper(xml, new BiFunction<Object, Set<String>, String>() {
+                public String apply(Object object, Set<String> namespaces) {
+                    return String.valueOf(object).startsWith("-") ? null : String.valueOf(object);
                 }
-            }, Collections.<String, Object>emptyMap(), new int[]{1, 1, 1}, xml, new int[]{0},
-                U.<String>newLinkedHashSet());
-            if (checkResult(xml, document, result)) {
-                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
-            }
-            return result;
-        } catch (Exception ex) {
-            throw new IllegalArgumentException(ex);
-        }
+            });
+    }
+
+    public static Object fromXmlWithoutNamespacesAndAttributes(final String xml) {
+        return fromXmlWithElementMapper(xml, new BiFunction<Object, Set<String>, String>() {
+                public String apply(Object object, Set<String> namespaces) {
+                    final String localString = String.valueOf(object);
+                    final String result;
+                    if (localString.startsWith("-")) {
+                        result = null;
+                    } else if (namespaces.contains(localString
+                            .substring(0, Math.max(0, localString.indexOf(':'))))) {
+                        result = localString.substring(Math.max(0, localString.indexOf(':') + 1));
+                    } else {
+                        result = String.valueOf(object);
+                    }
+                    return result;
+                }
+            });
     }
 
     @SuppressWarnings("unchecked")

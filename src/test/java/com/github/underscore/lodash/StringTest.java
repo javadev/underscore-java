@@ -2116,6 +2116,15 @@ _.repeat('abc', 0);
         assertEquals(json3, U.toJson((Map<String, Object>) U.fromXmlWithoutNamespaces(xml3)));
         assertEquals("[\n]", U.toJson((List<Object>) U.fromXmlWithoutNamespaces(
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root empty-array=\"true\"></root>")));
+        assertEquals("[\n  {\n    \"a\": [\n      {\n      },\n      {\n      }\n    ]\n  }\n]",
+            U.toJson((List<Object>) U.fromXmlMakeArrays(
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><a></a><a></a></root>")));
+        assertEquals("{\n  \"a\": [\n    {\n    },\n    {\n    }\n  ]\n}",
+            U.toJson((Map<String, Object>) U.fromXmlWithoutAttributes(
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><a b=\"1\"></a><a></a></root>")));
+        assertEquals("{\n  \"a\": [\n    {\n    },\n    {\n    }\n  ]\n}",
+            U.toJson((Map<String, Object>) U.fromXmlWithoutNamespacesAndAttributes(
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><a></a><a></a></root>")));
     }
 
     @SuppressWarnings("unchecked")
@@ -2738,7 +2747,7 @@ _.repeat('abc', 0);
         String string =
         "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
         + "\n"
-        + "\n<root>"
+        + "\n<a>"
         + "\n    <list>"
         + "\n        <item>"
         + "\n            <key1>value</key1>"
@@ -2758,10 +2767,10 @@ _.repeat('abc', 0);
         + "\n            <key3>value</key3>"
         + "\n        </item>"
         + "\n    </list>"
-        + "\n</root>";
+        + "\n</a>";
         assertEquals(
         "{\n"
-        + "  \"root\": [\n"
+        + "  \"a\": [\n"
         + "    {\n"
         + "      \"list\": [\n"
         + "        {\n"
@@ -2839,6 +2848,32 @@ _.repeat('abc', 0);
                 + "  \"#standalone\": \"yes\"\n"
                 + "}",
             U.toJson((Map<String, Object>) U.fromXmlWithoutNamespaces(string)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void fromXmlWithoutNamespacesAndAttributes() {
+        String string = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+                + "<ns2:orders xmlns=\"http://www.demandware.com/xml/impex/inventory/2007-05-31\""
+                + " xmlns:ns2=\"http://www.demandware.com/xml/impex/order/2006-10-31\">\n"
+                + "    <ns2:order ns2:order-no=\"00250551\">\n"
+                + "        <ns2:order-date>2018-11-20T09:47:47Z</ns2:order-date>\n"
+                + "        <ns2:created-by>storefront</ns2:created-by>\n"
+                + "        <ns2:original-order-no>00250551</ns2:original-order-no>\n"
+                + "    </ns2:order>\n"
+                + "</ns2:orders>";
+        assertEquals(
+                "{\n"
+                + "  \"orders\": {\n"
+                + "    \"order\": {\n"
+                + "      \"order-date\": \"2018-11-20T09:47:47Z\",\n"
+                + "      \"created-by\": \"storefront\",\n"
+                + "      \"original-order-no\": \"00250551\"\n"
+                + "    }\n"
+                + "  },\n"
+                + "  \"#standalone\": \"yes\"\n"
+                + "}",
+            U.toJson((Map<String, Object>) U.fromXmlWithoutNamespacesAndAttributes(string)));
     }
 
     @SuppressWarnings("unchecked")
