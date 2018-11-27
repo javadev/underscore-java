@@ -612,9 +612,13 @@ public final class Xml {
                         + (addArray ? ARRAY_TRUE : "") + " string=\"true\"/>");
                 } else {
                     builder.append("<" + XmlValue.escapeName(name, namespaces)
-                        + (addArray ? ARRAY_TRUE : "") + ">");
+                        + (addArray ? ARRAY_TRUE : "") + (name.startsWith("?") ? " " : ">"));
                     builder.append(escape((String) value));
-                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                    if (name.startsWith("?")) {
+                        builder.append("?>");
+                    } else {
+                        builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                    }
                 }
             } else {
                 processArrays(value, builder, name, parentTextFound, namespaces, addArray);
@@ -709,7 +713,7 @@ public final class Xml {
             }
             final StringBuilder result = new StringBuilder();
             char ch = name.charAt(0);
-            if (com.sun.org.apache.xerces.internal.util.XMLChar.isNameStart(ch) && ch != ':') {
+            if (com.sun.org.apache.xerces.internal.util.XMLChar.isNameStart(ch) && ch != ':' || ch == '?') {
                 result.append(ch);
             } else {
                 result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
@@ -989,7 +993,12 @@ public final class Xml {
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
         for (int index = 0; index < nodeList.getLength(); index++) {
             final org.w3c.dom.Node currentNode = nodeList.item(index);
-            final String name = currentNode.getNodeName();
+            final String name;
+            if (currentNode.getNodeType() == org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE) {
+                name = "?" + currentNode.getNodeName();
+            } else {
+                name = currentNode.getNodeName();
+            }
             final Object value;
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
                 sourceIndex[0] = source.indexOf("<" + name, sourceIndex[0]) + name.length() + 1;
