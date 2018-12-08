@@ -1261,15 +1261,21 @@ public final class Xml {
         return result;
     }
 
+    private static class MyEntityResolver implements org.xml.sax.EntityResolver {
+        public org.xml.sax.InputSource resolveEntity(String publicId, String systemId) {
+            return new org.xml.sax.InputSource(new java.io.StringReader(""));
+        }
+    }
+
     private static org.w3c.dom.Document createDocument(final String xml)
             throws java.io.IOException, javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException {
         final javax.xml.parsers.DocumentBuilderFactory factory =
                 javax.xml.parsers.DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
-        factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
         factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
         final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
         builder.setErrorHandler(new org.xml.sax.helpers.DefaultHandler());
+        builder.setEntityResolver(new MyEntityResolver());
         return builder.parse(new org.xml.sax.InputSource(new java.io.StringReader(xml)));
     }
 
