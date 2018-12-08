@@ -2142,6 +2142,17 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml25() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE address SYSTEM \"address.dtd\"><a></a>";
+        final String json = "{\n"
+            + "  \"a\": {\n"
+            + "  }\n"
+            + "}";
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
