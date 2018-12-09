@@ -333,7 +333,7 @@ public final class Json {
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
                 builder.fillSpaces().append(builder.type.getWrapLine());
-                builder.append(JsonValue.unescapeName(String.valueOf(entry.getKey())));
+                builder.append(JsonValue.escape(String.valueOf(entry.getKey())));
                 builder.append(builder.type.getWrapLine());
                 builder.append(':');
                 if (builder.getIdentStep() != JsonStringBuilder.Step.COMPACT) {
@@ -396,56 +396,6 @@ public final class Json {
             } else {
                 builder.append(value.toString());
             }
-        }
-
-        public static String unescapeName(final String name) {
-            final int length = name.length();
-            if (length == 0 || "__EE__EMPTY__EE__".equals(name)) {
-                return "";
-            }
-            if ("-__EE__EMPTY__EE__".equals(name)) {
-                return "-";
-            }
-            if (!name.contains("__")) {
-                return name;
-            }
-            StringBuilder result = new StringBuilder();
-            int underlineCount = 0;
-            StringBuilder lastChars = new StringBuilder();
-            outer:
-            for (int i = 0; i < length; ++i) {
-                char ch = name.charAt(i);
-                if (ch == '_') {
-                    lastChars.append(ch);
-                } else {
-                    if (lastChars.length() == 2) {
-                        StringBuilder nameToDecode = new StringBuilder();
-                        for (int j = i; j < length; ++j) {
-                            if (name.charAt(j) == '_') {
-                                underlineCount += 1;
-                                if (underlineCount == 2) {
-                                    try {
-                                        result.append(JsonValue.escape(Base32.decode(nameToDecode.toString())));
-                                    } catch (Base32.DecodingException ex) {
-                                        result.append("__").append(JsonValue.escape(nameToDecode.toString()))
-                                            .append(lastChars);
-                                    }
-                                    i = j;
-                                    underlineCount = 0;
-                                    lastChars.setLength(0);
-                                    continue outer;
-                                }
-                            } else {
-                                nameToDecode.append(name.charAt(j));
-                                underlineCount = 0;
-                            }
-                        }
-                    }
-                    result.append(lastChars).append(ch);
-                    lastChars.setLength(0);
-                }
-            }
-            return result.append(lastChars).toString();
         }
 
         public static String escape(String s) {

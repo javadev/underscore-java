@@ -1140,6 +1140,59 @@ public final class Xml {
         return "";
     }
 
+    private static String unescapeName(final String name) {
+        if (name == null) {
+            return name;
+        }
+        final int length = name.length();
+        if ("__EE__EMPTY__EE__".equals(name)) {
+            return "";
+        }
+        if ("-__EE__EMPTY__EE__".equals(name)) {
+            return "-";
+        }
+        if (!name.contains("__")) {
+            return name;
+        }
+        StringBuilder result = new StringBuilder();
+        int underlineCount = 0;
+        StringBuilder lastChars = new StringBuilder();
+        outer:
+        for (int i = 0; i < length; ++i) {
+            char ch = name.charAt(i);
+            if (ch == '_') {
+                lastChars.append(ch);
+            } else {
+                if (lastChars.length() == 2) {
+                    StringBuilder nameToDecode = new StringBuilder();
+                    for (int j = i; j < length; ++j) {
+                        if (name.charAt(j) == '_') {
+                            underlineCount += 1;
+                            if (underlineCount == 2) {
+                                try {
+                                    result.append(Base32.decode(nameToDecode.toString()));
+                                } catch (Base32.DecodingException ex) {
+                                    result.append("__").append(nameToDecode.toString())
+                                        .append(lastChars);
+                                }
+                                i = j;
+                                underlineCount = 0;
+                                lastChars.setLength(0);
+                                continue outer;
+                            }
+                        } else {
+                            nameToDecode.append(name.charAt(j));
+                            underlineCount = 0;
+                        }
+                    }
+                }
+                result.append(lastChars).append(ch);
+                lastChars.setLength(0);
+            }
+        }
+        return result.append(lastChars).toString();
+    }
+
     @SuppressWarnings("unchecked")
     private static void addNodeValue(final Map<String, Object> map, final String name, final Object value,
             final BiFunction<Object, Set<String>, String> elementMapper, final Function<Object, Object> nodeMapper,
@@ -1166,7 +1219,7 @@ public final class Xml {
                 }
             }
         } else {
-            final String elementName = elementMapper.apply(name, namespaces);
+            final String elementName = unescapeName(elementMapper.apply(name, namespaces));
             if (elementName != null) {
                 map.put(elementName, nodeMapper.apply(getValue(value)));
             }
