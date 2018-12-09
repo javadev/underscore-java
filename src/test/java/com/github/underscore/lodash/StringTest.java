@@ -1435,6 +1435,14 @@ _.repeat('abc', 0);
                 + "  \"#omit-xml-declaration\": \"yes\"\n"
                 + "}",
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
+        final String xml2 = "<__FUa>"
+                + "</__FUa>";
+        assertEquals("{\n"
+                + "  \"__FUa\": {\n"
+                + "  },\n"
+                + "  \"#omit-xml-declaration\": \"yes\"\n"
+                + "}",
+                U.toJson((Map<String, Object>) U.fromXml(xml2)));
     }
 
     @SuppressWarnings("unchecked")
