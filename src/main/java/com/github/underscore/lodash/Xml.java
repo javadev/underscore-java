@@ -937,6 +937,7 @@ public final class Xml {
                 if (String.valueOf(entry.getKey()).startsWith("-")) {
                     foundAttrs += 1;
                 } else if (!String.valueOf(entry.getKey()).startsWith(COMMENT)
+                        && !String.valueOf(entry.getKey()).startsWith("?")
                         && (!(entry.getValue() instanceof List) || ((List) entry.getValue()).size() <= 1)) {
                     foundElements += 1;
                 }
