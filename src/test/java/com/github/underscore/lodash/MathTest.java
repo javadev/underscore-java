@@ -198,9 +198,9 @@ System.out.println("Sum of letters in words starting with E... " + sum);
     }
 
     @Test
-    public void createLRUCache() {
-        new U.LRUCache<Integer, String>(0);
-        U.LRUCache<Integer, String> cache = U.createLRUCache(2);
+    public void createLruCache() {
+        new U.LruCache<Integer, String>(0);
+        U.LruCache<Integer, String> cache = U.createLruCache(2);
         cache.put(0, "Value 0");
         assertEquals("Value 0", cache.get(0));
         assertNull(cache.get(1));

@@ -645,15 +645,15 @@ public final class Xml {
                     builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
                 }
             } else if (value instanceof Number) {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces)
-                        + (addArray ? ARRAY_TRUE : "") + NUMBER_TRUE);
-                    builder.append(value.toString());
-                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                builder.append("<" + XmlValue.escapeName(name, namespaces)
+                    + (addArray ? ARRAY_TRUE : "") + NUMBER_TRUE);
+                builder.append(value.toString());
+                builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
             } else if (value instanceof Boolean) {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces)
-                        + (addArray ? ARRAY_TRUE : "") + " boolean=\"true\">");
-                    builder.append(value.toString());
-                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                builder.append("<" + XmlValue.escapeName(name, namespaces)
+                    + (addArray ? ARRAY_TRUE : "") + " boolean=\"true\">");
+                builder.append(value.toString());
+                builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
             } else {
                 builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
                 if (value instanceof byte[]) {
@@ -746,49 +746,49 @@ public final class Xml {
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
                 switch (ch) {
-                case '\'':
-                    sb.append("'");
-                    break;
-                case '&':
-                    sb.append("&amp;");
-                    break;
-                case '<':
-                    sb.append("&lt;");
-                    break;
-                case '>':
-                    sb.append("&gt;");
-                    break;
-                case '\b':
-                    sb.append("\\b");
-                    break;
-                case '\f':
-                    sb.append("\\f");
-                    break;
-                case '\n':
-                    sb.append("\n");
-                    break;
-                case '\r':
-                    sb.append("\\r");
-                    break;
-                case '\t':
-                    sb.append("\t");
-                    break;
-                case '€':
-                    sb.append("€");
-                    break;
-                default:
-                    if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
-                        || ch >= '\u2000' && ch <= '\u20FF') {
-                        String ss = Integer.toHexString(ch);
-                        sb.append("&#x");
-                        for (int k = 0; k < 4 - ss.length(); k++) {
-                            sb.append('0');
+                    case '\'':
+                        sb.append("'");
+                        break;
+                    case '&':
+                        sb.append("&amp;");
+                        break;
+                    case '<':
+                        sb.append("&lt;");
+                        break;
+                    case '>':
+                        sb.append("&gt;");
+                        break;
+                    case '\b':
+                        sb.append("\\b");
+                        break;
+                    case '\f':
+                        sb.append("\\f");
+                        break;
+                    case '\n':
+                        sb.append("\n");
+                        break;
+                    case '\r':
+                        sb.append("\\r");
+                        break;
+                    case '\t':
+                        sb.append("\t");
+                        break;
+                    case '€':
+                        sb.append("€");
+                        break;
+                    default:
+                        if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
+                            || ch >= '\u2000' && ch <= '\u20FF') {
+                            String ss = Integer.toHexString(ch);
+                            sb.append("&#x");
+                            for (int k = 0; k < 4 - ss.length(); k++) {
+                                sb.append('0');
+                            }
+                            sb.append(ss.toUpperCase()).append(";");
+                        } else {
+                            sb.append(ch);
                         }
-                        sb.append(ss.toUpperCase()).append(";");
-                    } else {
-                        sb.append(ch);
-                    }
-                    break;
+                        break;
                 }
             }
         }

@@ -125,7 +125,7 @@
         </executions>
         <configuration>
           <excludes>
-            <exclude>**/U$BaseHttpSSLSocketFactory*.class</exclude>
+            <exclude>**/U$BaseHttpSslSocketFactory*.class</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -149,7 +149,7 @@
         <version>0.8.2</version>
         <configuration>
           <excludes>
-            <exclude>**/U$BaseHttpSSLSocketFactory*.class</exclude>
+            <exclude>**/U$BaseHttpSslSocketFactory*.class</exclude>
           </excludes>
         </configuration>
       </plugin>

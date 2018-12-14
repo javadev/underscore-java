@@ -54,27 +54,27 @@ public class U<T> extends com.github.underscore.U<T> {
 
     static {
         String[] deburredLetters = new String[] {
-        "\u00c0", "A", "\u00c1", "A", "\u00c2", "A", "\u00c3", "A",
-        "\u00c4", "A", "\u00c5", "A",
-        "\u00e0", "a", "\u00e1", "a", "\u00e2", "a", "\u00e3", "a",
-        "\u00e4", "a", "\u00e5", "a",
-        "\u00c7", "C", "\u00e7", "c",
-        "\u00d0", "D", "\u00f0", "d",
-        "\u00c8", "E", "\u00c9", "E", "\u00ca", "E", "\u00cb", "E",
-        "\u00e8", "e", "\u00e9", "e", "\u00ea", "e", "\u00eb", "e",
-        "\u00cC", "I", "\u00cd", "I", "\u00ce", "I", "\u00cf", "I",
-        "\u00eC", "i", "\u00ed", "i", "\u00ee", "i", "\u00ef", "i",
-        "\u00d1", "N", "\u00f1", "n",
-        "\u00d2", "O", "\u00d3", "O", "\u00d4", "O", "\u00d5", "O",
-        "\u00d6", "O", "\u00d8", "O",
-        "\u00f2", "o", "\u00f3", "o", "\u00f4", "o", "\u00f5", "o",
-        "\u00f6", "o", "\u00f8", "o",
-        "\u00d9", "U", "\u00da", "U", "\u00db", "U", "\u00dc", "U",
-        "\u00f9", "u", "\u00fa", "u", "\u00fb", "u", "\u00fc", "u",
-        "\u00dd", "Y", "\u00fd", "y", "\u00ff", "y",
-        "\u00c6", "Ae", "\u00e6", "ae",
-        "\u00de", "Th", "\u00fe", "th",
-        "\u00df", "ss"};
+            "\u00c0", "A", "\u00c1", "A", "\u00c2", "A", "\u00c3", "A",
+            "\u00c4", "A", "\u00c5", "A",
+            "\u00e0", "a", "\u00e1", "a", "\u00e2", "a", "\u00e3", "a",
+            "\u00e4", "a", "\u00e5", "a",
+            "\u00c7", "C", "\u00e7", "c",
+            "\u00d0", "D", "\u00f0", "d",
+            "\u00c8", "E", "\u00c9", "E", "\u00ca", "E", "\u00cb", "E",
+            "\u00e8", "e", "\u00e9", "e", "\u00ea", "e", "\u00eb", "e",
+            "\u00cC", "I", "\u00cd", "I", "\u00ce", "I", "\u00cf", "I",
+            "\u00eC", "i", "\u00ed", "i", "\u00ee", "i", "\u00ef", "i",
+            "\u00d1", "N", "\u00f1", "n",
+            "\u00d2", "O", "\u00d3", "O", "\u00d4", "O", "\u00d5", "O",
+            "\u00d6", "O", "\u00d8", "O",
+            "\u00f2", "o", "\u00f3", "o", "\u00f4", "o", "\u00f5", "o",
+            "\u00f6", "o", "\u00f8", "o",
+            "\u00d9", "U", "\u00da", "U", "\u00db", "U", "\u00dc", "U",
+            "\u00f9", "u", "\u00fa", "u", "\u00fb", "u", "\u00fc", "u",
+            "\u00dd", "Y", "\u00fd", "y", "\u00ff", "y",
+            "\u00c6", "Ae", "\u00e6", "ae",
+            "\u00de", "Th", "\u00fe", "th",
+            "\u00df", "ss"};
         for (int index = 0; index < deburredLetters.length; index += 2) {
             DEBURRED_LETTERS.put(deburredLetters[index], deburredLetters[index + 1]);
         }
@@ -1133,7 +1133,7 @@ public class U<T> extends com.github.underscore.U<T> {
         final int localPosition = position == null ? length : Math.min(fixedPosition, length);
 
         final int localPosition2 = localPosition - target.length();
-      return localPosition2 >= 0 && localString.indexOf(target, localPosition2) == localPosition2;
+        return localPosition2 >= 0 && localString.indexOf(target, localPosition2) == localPosition2;
     }
 
     public static String kebabCase(final String string) {
@@ -1196,19 +1196,19 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static String padStart(final String string, final Integer length) {
-         return createPadDir(false).apply(string, length, null);
+        return createPadDir(false).apply(string, length, null);
     }
 
     public static String padStart(final String string, final Integer length, final String chars) {
-         return createPadDir(false).apply(string, length, chars);
+        return createPadDir(false).apply(string, length, chars);
     }
 
     public static String padEnd(final String string, final Integer length) {
-         return createPadDir(true).apply(string, length, null);
+        return createPadDir(true).apply(string, length, null);
     }
 
     public static String padEnd(final String string, final Integer length, final String chars) {
-         return createPadDir(true).apply(string, length, chars);
+        return createPadDir(true).apply(string, length, chars);
     }
 
     public static String snakeCase(final String string) {
@@ -1240,7 +1240,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
         final int length = localString.length();
         final int localPosition = position == null ? 0
-          : Math.min(position < 0 ? 0 : position, length);
+            : Math.min(position < 0 ? 0 : position, length);
 
         return localString.lastIndexOf(target, localPosition) == localPosition;
     }
@@ -1430,33 +1430,33 @@ public class U<T> extends com.github.underscore.U<T> {
         return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null);
     }
 
-    private static class BaseHttpSSLSocketFactory extends javax.net.ssl.SSLSocketFactory {
-        private javax.net.ssl.SSLContext getSSLContext() {
-            return createEasySSLContext();
+    private static class BaseHttpSslSocketFactory extends javax.net.ssl.SSLSocketFactory {
+        private javax.net.ssl.SSLContext getSslContext() {
+            return createEasySslContext();
         }
 
         @Override
         public java.net.Socket createSocket(java.net.InetAddress arg0, int arg1, java.net.InetAddress arg2,
                         int arg3) throws java.io.IOException {
-                return getSSLContext().getSocketFactory().createSocket(arg0, arg1,
+            return getSslContext().getSocketFactory().createSocket(arg0, arg1,
                                 arg2, arg3);
         }
 
         @Override
         public java.net.Socket createSocket(String arg0, int arg1, java.net.InetAddress arg2, int arg3)
                 throws java.io.IOException {
-            return getSSLContext().getSocketFactory().createSocket(arg0, arg1,
+            return getSslContext().getSocketFactory().createSocket(arg0, arg1,
                     arg2, arg3);
         }
 
         @Override
         public java.net.Socket createSocket(java.net.InetAddress arg0, int arg1) throws java.io.IOException {
-            return getSSLContext().getSocketFactory().createSocket(arg0, arg1);
+            return getSslContext().getSocketFactory().createSocket(arg0, arg1);
         }
 
         @Override
         public java.net.Socket createSocket(String arg0, int arg1) throws java.io.IOException {
-            return getSSLContext().getSocketFactory().createSocket(arg0, arg1);
+            return getSslContext().getSocketFactory().createSocket(arg0, arg1);
         }
 
         @Override
@@ -1472,11 +1472,11 @@ public class U<T> extends com.github.underscore.U<T> {
         @Override
         public java.net.Socket createSocket(java.net.Socket arg0, String arg1, int arg2, boolean arg3)
                 throws java.io.IOException {
-            return getSSLContext().getSocketFactory().createSocket(arg0, arg1,
+            return getSslContext().getSocketFactory().createSocket(arg0, arg1,
                     arg2, arg3);
         }
 
-        private javax.net.ssl.SSLContext createEasySSLContext() {
+        private javax.net.ssl.SSLContext createEasySslContext() {
             try {
                 javax.net.ssl.SSLContext context = javax.net.ssl.SSLContext.getInstance("SSL");
                 context.init(null, new javax.net.ssl.TrustManager[] { MyX509TrustManager.manger }, null);
@@ -1507,7 +1507,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     static class NoHostnameVerifier implements javax.net.ssl.HostnameVerifier {
         public boolean verify(String hostname, javax.net.ssl.SSLSession session) {
-              return true;
+            return true;
         }
     }
 
@@ -1528,7 +1528,7 @@ public class U<T> extends com.github.underscore.U<T> {
             connection.setReadTimeout(readTimeout);
         }
         if (connection instanceof javax.net.ssl.HttpsURLConnection) {
-            ((javax.net.ssl.HttpsURLConnection) connection).setSSLSocketFactory(new BaseHttpSSLSocketFactory());
+            ((javax.net.ssl.HttpsURLConnection) connection).setSSLSocketFactory(new BaseHttpSslSocketFactory());
             ((javax.net.ssl.HttpsURLConnection) connection).setHostnameVerifier(new NoHostnameVerifier());
         }
         if (headerFields != null) {
@@ -1688,13 +1688,13 @@ public class U<T> extends com.github.underscore.U<T> {
         return words(getString().get());
     }
 
-    public static class LRUCache<K, V> {
+    public static class LruCache<K, V> {
         private static final boolean SORT_BY_ACCESS = true;
         private static final float LOAD_FACTOR = 0.75F;
         private final Map<K, V> lruCacheMap;
         private final int capacity;
 
-        public LRUCache(int capacity) {
+        public LruCache(int capacity) {
             this.capacity = capacity;
             this.lruCacheMap = new LinkedHashMap<K, V>(capacity, LOAD_FACTOR, SORT_BY_ACCESS);
         }
@@ -1713,8 +1713,8 @@ public class U<T> extends com.github.underscore.U<T> {
         }
     }
 
-    public static <K, V> LRUCache<K, V> createLRUCache(final int capacity) {
-        return new LRUCache<K, V>(capacity);
+    public static <K, V> LruCache<K, V> createLruCache(final int capacity) {
+        return new LruCache<K, V>(capacity);
     }
 
     public static <T> List<List<T>> createPermutationWithRepetition(final List<T> list, final int permutationLength) {

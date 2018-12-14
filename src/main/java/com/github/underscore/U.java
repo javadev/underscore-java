@@ -1312,7 +1312,7 @@ public class U<T> {
         final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(list);
         for (int index = 0; index < lists.length; index += 1) {
-          stack.push(intersection(stack.peek(), lists[index]));
+            stack.push(intersection(stack.peek(), lists[index]));
         }
         return stack.peek();
     }
@@ -1327,7 +1327,7 @@ public class U<T> {
         final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(Arrays.asList(arrays[0]));
         for (int index = 1; index < arrays.length; index += 1) {
-          stack.push(intersection(stack.peek(), Arrays.asList(arrays[index])));
+            stack.push(intersection(stack.peek(), Arrays.asList(arrays[index])));
         }
         return (E[]) stack.peek().toArray();
     }
@@ -1347,7 +1347,7 @@ public class U<T> {
         final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(list);
         for (int index = 0; index < lists.length; index += 1) {
-          stack.push(difference(stack.peek(), lists[index]));
+            stack.push(difference(stack.peek(), lists[index]));
         }
         return stack.peek();
     }
@@ -1362,7 +1362,7 @@ public class U<T> {
         final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(Arrays.asList(arrays[0]));
         for (int index = 1; index < arrays.length; index += 1) {
-          stack.push(difference(stack.peek(), Arrays.asList(arrays[index])));
+            stack.push(difference(stack.peek(), Arrays.asList(arrays[index])));
         }
         return (E[]) stack.peek().toArray();
     }
