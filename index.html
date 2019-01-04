@@ -7,12 +7,12 @@
     <link rel="stylesheet" type="text/css" href="./files/style.css">
     <link rel="shortcut icon" href="./files/favicon.ico" type="image/x-icon" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131544728-1"></script>
-    <script type="text/javascript">function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-131544728-1");</script>
+    <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-131544728-1");</script>
 </head>
 <body>
     <div id="sidebar" class="interface">
         <a class="toc_title" href="#">
-                Underscore-java <span class="version">(1.38)</span>
+                Underscore-java <span class="version">(1.40)</span>
             </a>
     <ul class="toc_section">
       <li>» <a href="https://github.com/javadev/underscore-java">GitHub Repository</a></li>
@@ -182,7 +182,7 @@ equality testing, and so on. It delegates to built-in functions where
 applicable.<br><br>Underscore-java is compatible with Java 6 and later.<br><br>The project is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a>. Contributions are welcome.<br>
         </p>
         <h2>Download</h2>
-        <div><a href="https://github.com/javadev/underscore-java/archive/v1.38.zip">Version 1.38</a> - <i>~177Kb, Includes all development files</i></div>
+        <div><a href="https://github.com/javadev/underscore-java/archive/v1.40.zip">Version 1.40</a> - <i>~179Kb, Includes all development files</i></div>
         <h2 id="Collections">Collection Functions (Arrays, Structs, Queries, or Objects)</h2>
 
 
@@ -366,7 +366,7 @@ collection pass the iterator truth test.<br></p><pre>U.all(asList(1, 2, 3, 4),
 U.all(asList(1, 2, 3, 4),
     new Predicate&lt;Integer&gt;() {
         public boolean test(Integer item) {
-            return item < 5;
+            return item &lt; 5;
         }
     });
 // true</pre><p></p>
@@ -523,7 +523,7 @@ U.sample(asList(1, 2, 3, 4, 5, 6), 3)<br>=&gt; [1, 6, 2]</pre><p></p>
 
 <p id="toArray"><b class="header">toArray</b> <code>U.toArray(collection)
 </code><br>Converts the collection (object), into an array.<br>
-</p><pre>U.<Integer>toArray(asList(1, 2, 3, 4));<br>=&gt; [1, 2, 3, 4]</pre><p></p>
+</p><pre>U.&lt;Integer&gt;toArray(asList(1, 2, 3, 4));<br>=&gt; [1, 2, 3, 4]</pre><p></p>
 
 <p id="toMap"><b class="header">toMap</b> <code>U.toMap(collection)</code><br>Converts
  the collection to a map object.<br></p><pre>U.toMap((new LinkedHashMap&lt;String, String&gt;() { {
@@ -852,7 +852,7 @@ properties.<br></p><pre>U.keys(new LinkedHashMap&lt;String, Object&gt;() { {
 
 <p id="pairs"><b class="header">pairs</b> <code>U.pairs(object)
 </code><br>Convert
- an object into a list of [key, value] pairs.<br></p><pre>U.pairs(new LinkedHashMap<String, Integer>() { {
+ an object into a list of [key, value] pairs.<br></p><pre>U.pairs(new LinkedHashMap&lt;String, Integer&gt;() { {
     put("one", 1); put("two", 2); put("three", 3); } });
 =&gt; [(one, 1), (two, 2), (three, 3)]</pre><p></p>
 
@@ -1131,6 +1131,30 @@ final String youngest = U.chain(stooges)
  <p
 id="changelog">
  </p><h2>Change Log</h2>
+ <p>
+ <b class="header">1.40</b> --
+<small><i>January 1st, 2019</i></small><br>
+ </p>
+ <ul>
+ <li>Improved processing instruction node support.</li>
+ <li>Improved external dtd processing in U.fromXml(string).</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.39</b> --
+<small><i>December 1st, 2018</i></small><br>
+ </p>
+ <ul>
+ <li>Improved format xml without header.</li>
+ <li>Improved Euro generation in U.toXml(map).</li>
+ <li>Improved standalone parser in xml header.</li>
+ <li>Added Xml.fromXmlWithoutNamespaces(string).</li>
+ <li>Added U.fromXmlWithoutAttributes(string) and U.fromXmlWithoutNamespacesAndAttributes(string).</li>
+ <li>Added processing instruction node support.</li>
+ </ul>
+ <p>
+ </p><p>
  <p>
  <b class="header">1.38</b> --
 <small><i>November 1st, 2018</i></small><br>
@@ -1551,6 +1575,6 @@ href="http://github.com/javadev/underscore-java"><img style="position: absolute;
 top: 0; right: 0; border: 0;" src="./files/forkme_right_darkblue_121621.png"
 alt="Fork me on GitHub"></a>
 
-  <script type="text/javascript" src="./files/underscore.js"></script>
-  <script type="text/javascript" src="./files/main.js"></script>
+  <script src="./files/underscore.js"></script>
+  <script src="./files/main.js"></script>
 </body></html>
