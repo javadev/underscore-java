@@ -951,6 +951,61 @@ _.include([1, 2, 3], 3); // true
     }
 
 /*
+_.count([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // 2
+_.count([1, 2, 3, 4], function(num) { return num < 5; }); // 4
+*/
+    @Test
+    @SuppressWarnings("unchecked")
+    public void count() {
+        final int result1 = U.count(asList(1, 2, 3, 4),
+            new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final int result1obj = new U(asList(1, 2, 3, 4))
+            .count(
+            new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        final int result1chain = U.chain(asList(1, 2, 3, 4))
+            .count(
+            new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item % 2 == 0;
+            }
+        }).item();
+        final int result2 = U.count(asList(1, 2, 3, 4),
+            new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item < 5;
+            }
+        });
+        final int result2obj = new U(asList(1, 2, 3, 4))
+            .count(
+            new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item < 5;
+            }
+        });
+        final int result2chain = U.chain(asList(1, 2, 3, 4))
+            .count(
+            new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item < 5;
+            }
+        }).item();
+        assertEquals(2, result1);
+        assertEquals(2, result1obj);
+        assertEquals(2, result1chain);
+        assertEquals(4, result2);
+        assertEquals(4, result2obj);
+        assertEquals(4, result2chain);
+    }
+
+/*
 _.contains([1, 2, 3], 3);
 => true
 */

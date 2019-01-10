@@ -552,6 +552,20 @@ public class U<T> {
         return some(iterable, pred);
     }
 
+    public static <E> int count(final Iterable<E> iterable, final Predicate<E> pred) {
+        int result = 0;
+        for (E item : iterable) {
+            if (pred.test(item)) {
+                result += 1;
+            }
+        }
+        return result;
+    }
+
+    public int count(final Predicate<T> pred) {
+        return count(iterable, pred);
+    }
+
     public static <E> boolean contains(final Iterable<E> iterable, final E elem) {
         return some(iterable, new Predicate<E>() {
             @Override
@@ -2322,6 +2336,10 @@ public class U<T> {
 
         public Chain<Boolean> some(final Predicate<T> pred) {
             return new Chain<Boolean>(U.some(list, pred));
+        }
+
+        public Chain<Integer> count(final Predicate<T> pred) {
+            return new Chain<Integer>(U.count(list, pred));
         }
 
         public Chain<Boolean> contains(final T elem) {

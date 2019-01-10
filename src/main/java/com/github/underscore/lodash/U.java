@@ -299,6 +299,10 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<Boolean>(U.some(value(), pred));
         }
 
+        public Chain<Integer> count(final Predicate<T> pred) {
+            return new Chain<Integer>(U.count(value(), pred));
+        }
+
         public Chain<Boolean> contains(final T elem) {
             return new Chain<Boolean>(U.contains(value(), elem));
         }
