@@ -2765,9 +2765,7 @@ public class U<T> {
     }
 
     public static void clearInterval(java.util.concurrent.ScheduledFuture scheduledFuture) {
-        if (scheduledFuture != null) {
-            scheduledFuture.cancel(true);
-        }
+        clearTimeout(scheduledFuture);
     }
 
     public static <T> List<T> copyOf(final Iterable<T> iterable) {
