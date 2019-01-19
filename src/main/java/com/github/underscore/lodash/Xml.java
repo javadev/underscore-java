@@ -1198,29 +1198,29 @@ public final class Xml {
     private static void addNodeValue(final Map<String, Object> map, final String name, final Object value,
             final BiFunction<Object, Set<String>, String> elementMapper, final Function<Object, Object> nodeMapper,
             final int[] uniqueIds, final Set<String> namespaces) {
-        if (map.containsKey(name)) {
-            if (TEXT.equals(name)) {
-                map.put(name + uniqueIds[0], nodeMapper.apply(getValue(value)));
+        final String elementName = unescapeName(elementMapper.apply(name, namespaces));
+        if (map.containsKey(elementName)) {
+            if (TEXT.equals(elementName)) {
+                map.put(elementName + uniqueIds[0], nodeMapper.apply(getValue(value)));
                 uniqueIds[0] += 1;
-            } else if (COMMENT.equals(name)) {
-                map.put(name + uniqueIds[1], nodeMapper.apply(getValue(value)));
+            } else if (COMMENT.equals(elementName)) {
+                map.put(elementName + uniqueIds[1], nodeMapper.apply(getValue(value)));
                 uniqueIds[1] += 1;
-            } else if (CDATA.equals(name)) {
-                map.put(name + uniqueIds[2], nodeMapper.apply(getValue(value)));
+            } else if (CDATA.equals(elementName)) {
+                map.put(elementName + uniqueIds[2], nodeMapper.apply(getValue(value)));
                 uniqueIds[2] += 1;
             } else {
-                final Object object = map.get(name);
+                final Object object = map.get(elementName);
                 if (object instanceof List) {
-                    addText(map, name, (List<Object>) object, value);
+                    addText(map, elementName, (List<Object>) object, value);
                 } else {
                     final List<Object> objects = U.newArrayList();
                     objects.add(object);
-                    addText(map, name, objects, value);
-                    map.put(name, objects);
+                    addText(map, elementName, objects, value);
+                    map.put(elementName, objects);
                 }
             }
         } else {
-            final String elementName = unescapeName(elementMapper.apply(name, namespaces));
             if (elementName != null) {
                 map.put(elementName, nodeMapper.apply(getValue(value)));
             }
