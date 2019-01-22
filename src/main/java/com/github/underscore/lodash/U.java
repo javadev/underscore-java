@@ -1357,6 +1357,11 @@ public class U<T> extends com.github.underscore.U<T> {
         Object localObject = object;
         while (localObject != null && index < length) {
             if (localObject instanceof Map) {
+                Map.Entry mapEntry = getMapEntry((Map) localObject);
+                if (mapEntry != null && "#item".equals(mapEntry.getKey())) {
+                    localObject = mapEntry.getValue();
+                    continue;
+                }
                 localObject = ((Map) localObject).get(paths.get(index));
             } else if (localObject instanceof List) {
                 localObject = ((List) localObject).get(Integer.parseInt(paths.get(index)));
@@ -1369,6 +1374,10 @@ public class U<T> extends com.github.underscore.U<T> {
             return (T) localObject;
         }
         return null;
+    }
+
+    private static Map.Entry getMapEntry(Map map) {
+        return map.isEmpty() ? null : (Map.Entry) map.entrySet().iterator().next();
     }
 
     public static <T> T get(final Map<String, Object> object, final String path) {
