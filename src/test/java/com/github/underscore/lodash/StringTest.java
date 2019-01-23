@@ -2169,6 +2169,34 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml26() {
+        final String json = "{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": [\n"
+                + "      {},\n"
+                + "      {\n"
+                + "        \"#item\": {\n"
+                + "          \"#text\": \"\\n1\"\n"
+                + "        }\n"
+                + "      },\n"
+                + "      {\n"
+                + "        \"#item\": null\n"
+                + "      },\n"
+                + "      \"c\"\n"
+                + "    ],\n"
+                + "    \"d\": null"
+                + "  }\n"
+                + "}";
+        Map<String, Object> map = (Map<String, Object>) U.fromJson(json);
+        assertNull(U.get(map, "a.b.0.#text"));
+        assertEquals("\n1", U.get(map, "a.b.1.#text"));
+        assertEquals("{#item=null}", U.get(map, "a.b.2").toString());
+        assertEquals("c", U.get(map, "a.b.3"));
+        assertNull(U.get(map, "a.d"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
