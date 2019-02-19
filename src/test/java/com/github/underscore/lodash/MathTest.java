@@ -246,6 +246,20 @@ System.out.println("Sum of letters in words starting with E... " + sum);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void shortestPathAllKeys() {
+        List<U.Status> statuses = U.shortestPathAllKeys(new String[] {"@.a.#", "###.#", "b.A.B"});
+        assertEquals(8, statuses.size());
+        assertEquals(0, statuses.get(0).getX());
+        assertEquals(1, statuses.get(0).getY());
+        assertEquals(2, statuses.get(7).getX());
+        assertEquals(0, statuses.get(7).getY());
+        assertEquals(6, U.shortestPathAllKeys(new String[] {"@..aA", "..B#.", "....b"}).size());
+        assertEquals(5, U.shortestPathAllKeys(new String[] {"g...#", "###.#", "..A.B"}).size());
+        assertEquals(0, U.shortestPathAllKeys(new String[] {"#####", "#####", "#####"}).size());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void main() {
         U.main(new String[] {});
         new U("");

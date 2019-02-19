@@ -1752,6 +1752,100 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
+    public static class Status {
+        private final int key;
+        private final int x;
+        private final int y;
+        public Status(int key, int x, int y) {
+            this.key = key;
+            this.x = x;
+            this.y = y;
+        }
+        public int getKey() {
+            return key;
+        }
+        public int getX() {
+            return x;
+        }
+        public int getY() {
+            return y;
+        }
+    }
+
+    public static List<Status> shortestPathAllKeys(String[] grid) {
+        int success = 0;
+        int startI = 0;
+        int startJ = 0;
+        int rows = grid.length;
+        int cols = grid[0].length();
+        List<Status> result = newArrayList();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                char c = grid[i].charAt(j);
+                if (c >= 'A' && c <= 'F') {
+                    success |= 1 << (c - 'A');
+                }
+                if (c == '@') {
+                    startI = i;
+                    startJ = j;
+                }
+            }
+        }
+        int[][][] dist = new int[1 << 6][rows][cols];
+        for (int i = 0; i < dist.length; i++) {
+            for (int j = 0; j < dist[0].length; j++) {
+                for (int k = 0; k < dist[0][0].length; k++) {
+                    dist[i][j][k] = Integer.MAX_VALUE;
+                }
+            }
+        }
+        Queue<Status> queue = new LinkedList<Status>();
+        queue.offer(new Status(0, startI, startJ));
+        dist[0][startI][startJ] = 0;
+        return scanDirs(queue, success, result, rows, cols, grid, dist);
+    }
+
+    private static List<Status> scanDirs(Queue<Status> queue, int success, List<Status> result,
+            int rows, int cols, String[] grid, int[][][] dist) {
+        int path = 0;
+        int[][] dirs = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size-- > 0) {
+                Status status = queue.poll();
+                int key = status.getKey();
+                int x = status.getX();
+                int y = status.getY();
+                if (key == success) {
+                    return result;
+                }
+                for (int[] dir : dirs) {
+                    int xx = x + dir[0];
+                    int yy = y + dir[1];
+                    if (xx >= 0 && xx < rows && yy >= 0 && yy < cols && grid[xx].charAt(yy) != '#') {
+                        int nextKey = key;
+                        char c = grid[xx].charAt(yy);
+                        if (c >= 'a' && c <= 'f') {
+                            nextKey = key | (1 << (c - 'a'));
+                        }
+                        if (c >= 'A' && c <= 'F' && (nextKey & (1 << (c - 'A'))) == 0) {
+                            continue;
+                        }
+                        if (path + 1 < dist[nextKey][xx][yy]) {
+                            dist[nextKey][xx][yy] = path + 1;
+                            queue.offer(new Status(nextKey, xx, yy));
+                        }
+                    }
+                }
+            }
+            path++;
+            if (!queue.isEmpty()) {
+                result.add(queue.element());
+            }
+        }
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     public List<List<T>> createPermutationWithRepetition(final int permutationLength) {
         return createPermutationWithRepetition((List<T>) value(), permutationLength);
