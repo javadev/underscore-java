@@ -951,11 +951,12 @@ public final class Xml {
     }
 
     @SuppressWarnings("unchecked")
-    private static Object getValue(final Object value) {
+    private static Object getValue(final Object value, final FromType fromType) {
         final Object localValue;
         if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 1) {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
-            if (TEXT.equals(entry.getKey()) || entry.getKey().equals(ELEMENT_TEXT)) {
+            if (TEXT.equals(entry.getKey())
+                    || (fromType == FromType.FOR_CONVERT && ELEMENT_TEXT.equals(entry.getKey()))) {
                 localValue = entry.getValue();
             } else {
                 localValue = value;
@@ -988,7 +989,8 @@ public final class Xml {
     private static Object createMap(final org.w3c.dom.Node node,
         final BiFunction<Object, Set<String>, String> elementMapper,
         final Function<Object, Object> nodeMapper, final Map<String, Object> attrMap,
-        final int[] uniqueIds, final String source, final int[] sourceIndex, final Set<String> namespaces) {
+        final int[] uniqueIds, final String source, final int[] sourceIndex, final Set<String> namespaces,
+        final FromType fromType) {
         final Map<String, Object> map = U.newLinkedHashMap();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
@@ -1004,7 +1006,7 @@ public final class Xml {
             if (currentNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
                 sourceIndex[0] = source.indexOf("<" + name, sourceIndex[0]) + name.length() + 1;
                 value = addElement(sourceIndex, source, elementMapper, nodeMapper,
-                    uniqueIds, currentNode, namespaces);
+                    uniqueIds, currentNode, namespaces, fromType);
             } else {
                 if (COMMENT.equals(name)) {
                     sourceIndex[0] = source.indexOf("-->", sourceIndex[0]) + 3;
@@ -1018,7 +1020,7 @@ public final class Xml {
                 || currentNode.getNodeType() == org.w3c.dom.Node.DOCUMENT_TYPE_NODE) {
                 continue;
             }
-            addNodeValue(map, name, value, elementMapper, nodeMapper, uniqueIds, namespaces);
+            addNodeValue(map, name, value, elementMapper, nodeMapper, uniqueIds, namespaces, fromType);
         }
         return checkNumberAndBoolean(map, node.getNodeName());
     }
@@ -1052,8 +1054,8 @@ public final class Xml {
             final Map<String, Object> localMap4 = (Map) ((LinkedHashMap) localMap).clone();
             localMap4.remove(ARRAY);
             object = name.equals(XmlValue.getMapKey(localMap4))
-                ?  U.newArrayList(Arrays.asList(getValue(XmlValue.getMapValue(localMap4))))
-                : U.newArrayList(Arrays.asList(getValue(localMap4)));
+                ?  U.newArrayList(Arrays.asList(getValue(XmlValue.getMapValue(localMap4), FromType.FOR_CONVERT)))
+                : U.newArrayList(Arrays.asList(getValue(localMap4, FromType.FOR_CONVERT)));
         } else {
             object = localMap;
         }
@@ -1102,7 +1104,8 @@ public final class Xml {
     private static Object addElement(final int[] sourceIndex, final String source,
             final BiFunction<Object, Set<String>, String> elementMapper,
             final Function<Object, Object> nodeMapper, final int[] uniqueIds,
-            final org.w3c.dom.Node currentNode, final Set<String> namespaces) {
+            final org.w3c.dom.Node currentNode, final Set<String> namespaces,
+            final FromType fromType) {
         final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
         if (currentNode.getAttributes().getLength() > 0) {
             final java.util.regex.Matcher matcher = ATTRS.matcher(getAttributes(sourceIndex[0], source));
@@ -1114,7 +1117,7 @@ public final class Xml {
             matcher.reset();
             while (matcher.find()) {
                 addNodeValue(attrMapLocal, '-' + matcher.group(1), matcher.group(2),
-                    elementMapper, nodeMapper, uniqueIds, namespaces);
+                    elementMapper, nodeMapper, uniqueIds, namespaces, fromType);
             }
         }
         if (getAttributes(sourceIndex[0], source).endsWith("/")
@@ -1124,7 +1127,7 @@ public final class Xml {
             attrMapLocal.put(SELF_CLOSING, TRUE);
         }
         return createMap(currentNode, elementMapper, nodeMapper, attrMapLocal, uniqueIds, source,
-            sourceIndex, namespaces);
+            sourceIndex, namespaces, fromType);
     }
 
     static String getAttributes(final int sourceIndex, final String source) {
@@ -1197,39 +1200,39 @@ public final class Xml {
     @SuppressWarnings("unchecked")
     private static void addNodeValue(final Map<String, Object> map, final String name, final Object value,
             final BiFunction<Object, Set<String>, String> elementMapper, final Function<Object, Object> nodeMapper,
-            final int[] uniqueIds, final Set<String> namespaces) {
+            final int[] uniqueIds, final Set<String> namespaces, final FromType fromType) {
         final String elementName = unescapeName(elementMapper.apply(name, namespaces));
         if (map.containsKey(elementName)) {
             if (TEXT.equals(elementName)) {
-                map.put(elementName + uniqueIds[0], nodeMapper.apply(getValue(value)));
+                map.put(elementName + uniqueIds[0], nodeMapper.apply(getValue(value, fromType)));
                 uniqueIds[0] += 1;
             } else if (COMMENT.equals(elementName)) {
-                map.put(elementName + uniqueIds[1], nodeMapper.apply(getValue(value)));
+                map.put(elementName + uniqueIds[1], nodeMapper.apply(getValue(value, fromType)));
                 uniqueIds[1] += 1;
             } else if (CDATA.equals(elementName)) {
-                map.put(elementName + uniqueIds[2], nodeMapper.apply(getValue(value)));
+                map.put(elementName + uniqueIds[2], nodeMapper.apply(getValue(value, fromType)));
                 uniqueIds[2] += 1;
             } else {
                 final Object object = map.get(elementName);
                 if (object instanceof List) {
-                    addText(map, elementName, (List<Object>) object, value);
+                    addText(map, elementName, (List<Object>) object, value, fromType);
                 } else {
                     final List<Object> objects = U.newArrayList();
                     objects.add(object);
-                    addText(map, elementName, objects, value);
+                    addText(map, elementName, objects, value, fromType);
                     map.put(elementName, objects);
                 }
             }
         } else {
             if (elementName != null) {
-                map.put(elementName, nodeMapper.apply(getValue(value)));
+                map.put(elementName, nodeMapper.apply(getValue(value, fromType)));
             }
         }
     }
 
     @SuppressWarnings("unchecked")
     private static void addText(final Map<String, Object> map, final String name, final List<Object> objects,
-        final Object value) {
+        final Object value, final FromType fromType) {
         int lastIndex = map.size() - 1;
         final int index = objects.size();
         while (true) {
@@ -1244,7 +1247,7 @@ public final class Xml {
             objects.add(index, item);
             lastIndex -= 1;
         }
-        final Object newValue = getValue(value);
+        final Object newValue = getValue(value, fromType);
         if (newValue instanceof List) {
             objects.add(((List) newValue).get(0));
         } else {
@@ -1254,6 +1257,16 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     public static Object fromXml(final String xml) {
+        return fromXml(xml, FromType.FOR_CONVERT);
+    }
+
+    public enum FromType {
+        FOR_CONVERT,
+        FOR_FORMAT
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Object fromXml(final String xml, final FromType fromType) {
         if (xml == null) {
             return null;
         }
@@ -1268,8 +1281,8 @@ public final class Xml {
                     return object;
                 }
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0},
-            U.<String>newLinkedHashSet());
-            if (checkResult(xml, document, result)) {
+            U.<String>newLinkedHashSet(), fromType);
+            if (checkResult(xml, document, result, fromType)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
             }
             return result;
@@ -1279,7 +1292,8 @@ public final class Xml {
     }
 
     @SuppressWarnings("unchecked")
-    private static boolean checkResult(final String xml, org.w3c.dom.Document document, final Object result) {
+    private static boolean checkResult(final String xml, org.w3c.dom.Document document, final Object result,
+            final FromType fromType) {
         final Map<String, String> headerAttributes = getHeaderAttributes(xml);
         if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
             ((Map) result).put(ENCODING, document.getXmlEncoding());
@@ -1288,7 +1302,8 @@ public final class Xml {
             }
         } else if (headerAttributes.containsKey(STANDALONE.substring(1))) {
             ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
-        } else if (((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
+        } else if (fromType == FromType.FOR_CONVERT
+                && ((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
                 && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
                 || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
             if (xml.startsWith(XML_HEADER)) {
@@ -1345,8 +1360,8 @@ public final class Xml {
                     return object instanceof List ? object : U.newArrayList(Arrays.asList(object));
                 }
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0},
-            U.<String>newLinkedHashSet());
-            if (checkResult(xml, document, result)) {
+            U.<String>newLinkedHashSet(), FromType.FOR_CONVERT);
+            if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
             }
             return result;
@@ -1364,8 +1379,8 @@ public final class Xml {
                     return object;
                 }
             }, Collections.<String, Object>emptyMap(), new int[]{1, 1, 1}, xml, new int[]{0},
-                U.<String>newLinkedHashSet());
-            if (checkResult(xml, document, result)) {
+                U.<String>newLinkedHashSet(), FromType.FOR_CONVERT);
+            if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
             }
             return result;
@@ -1421,11 +1436,8 @@ public final class Xml {
 
     @SuppressWarnings("unchecked")
     public static String formatXml(String xml, XmlStringBuilder.Step identStep) {
-        Object result = fromXml(xml);
-        if (result instanceof Map) {
-            return toXml((Map) result, identStep);
-        }
-        return toXml((List) result, identStep);
+        Object result = fromXml(xml, FromType.FOR_FORMAT);
+        return toXml((Map) result, identStep);
     }
 
     public static String formatXml(String xml) {
