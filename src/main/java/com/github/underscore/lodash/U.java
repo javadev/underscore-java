@@ -1898,6 +1898,10 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.fromXml(xml);
     }
 
+    public static Object fromXml(final String xml, final Xml.FromType fromType) {
+        return Xml.fromXml(xml, fromType);
+    }
+
     public static Object fromXmlMakeArrays(final String xml) {
         return Xml.fromXmlMakeArrays(xml);
     }

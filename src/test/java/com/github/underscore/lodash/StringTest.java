@@ -2197,6 +2197,22 @@ _.repeat('abc', 0);
 
     @SuppressWarnings("unchecked")
     @Test
+    public void toJsonFromXml27() {
+        final String xml = "<root>\n  <element/>\n</root>";
+        final String json = "{\n"
+                + "  \"root\": {\n"
+                + "    \"element\": {\n"
+                + "      \"-self-closing\": \"true\"\n"
+                + "    }\n"
+                + "  },\n"
+                + "  \"#omit-xml-declaration\": \"yes\"\n"
+                + "}";
+        assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml, Xml.FromType.FOR_FORMAT)));
+        assertEquals(xml, U.toXml((Map<String, Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void toXmlFromJson() {
         final String json = "{\n"
             + "  \"root\": {\n"
