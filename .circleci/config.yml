@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    
+    working_directory: ~/underscore-java
+
+    docker:
+      - image: circleci/openjdk:8u171-jdk
+
+    steps:
+
+      - checkout
+
+      - run: mvn dependency:go-offline
+      
+      - run: mvn -B package
+      
+      - store_test_results:
+          path: target/surefire-reports
