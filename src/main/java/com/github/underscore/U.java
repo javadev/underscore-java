@@ -2874,6 +2874,13 @@ public class U<T> {
         return reference;
     }
 
+    public static <T> T defaultTo(T value, T defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
+    }
+
     @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList() {
         return new ArrayList<T>();
