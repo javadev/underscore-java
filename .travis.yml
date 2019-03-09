@@ -15,7 +15,7 @@ matrix:
         - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
 
 script:
-  - mvn clean install jacoco:report
+  - mvn clean install jacoco:report coveralls:report
   - mvn -f examples/pom.xml clean package
 
 addons:
