@@ -195,20 +195,23 @@ object (component or
 called with
  argument: (element).<br></p><pre>U.each(asList(1, 2, 3), new Consumer&lt;Integer&gt;() {
     public void accept(Integer item) {
-        System.out.println(item + &quot;,&quot;);
+        System.out.print(item + &quot;,&quot;);
     }
 });
 // 1,2,3,
+<a href="https://www.jdoodle.com/embed/v0/13wY" rel="nofollow noreferrer">Live example</a>
 
 int multiplier = 2;
 U.each(asList(1, 2, 3), new Consumer&lt;Integer&gt;() {
     int index = 0;
     public void accept(Integer item) {
-        System.out.println(index + &quot;=&quot; + (item * multiplier) + &quot;,&quot;);
+        System.out.print(index + &quot;=&quot; + (item * multiplier) + &quot;,&quot;);
         index += 1;
     }
 });
-// 0=2,1=4,2=6,</pre><p></p>
+// 0=2,1=4,2=6,
+<a href="https://www.jdoodle.com/embed/v0/14YG" rel="nofollow noreferrer">Live example</a>
+</pre><p></p>
 
 <p id="map"><b class="header">map</b> <code>U.map(collection, iterator)</code><br>Produces
  a new array of values by mapping each
@@ -219,6 +222,7 @@ value in collection through a
     }
 });
 // [3, 6, 9]
+<a href="https://www.jdoodle.com/embed/v0/13wW" rel="nofollow noreferrer">Live example</a>
 
 U.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put(2, &quot;two&quot;); put(3, &quot;three&quot;); }}
     .entrySet(),
@@ -227,7 +231,8 @@ U.map(new LinkedHashMap&lt;Integer, String&gt;() {{ put(1, &quot;one&quot;); put
         return item.getKey() * 3;
     }
 });
-// [3, 6, 9]</pre><p></p>
+// [3, 6, 9]
+<a href="https://www.jdoodle.com/embed/v0/13x0" rel="nofollow noreferrer">Live example</a></pre><p></p>
 
 <p id="reduce"><b class="header">reduce</b> <code>U.reduce(collection, iterator,
 memo)</code><br>Also
