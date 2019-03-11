@@ -244,6 +244,23 @@ _.isEqual('Curly', 'Curly')
         assertTrue(U.isEmpty(new HashMap<String, String>()));
         assertFalse(U.isEmpty(new HashMap<String, String>() { { put("", ""); } }));
     }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void isNotEmpty() {
+        assertFalse(U.isNotEmpty((List) null));
+        assertFalse(U.isNotEmpty(new ArrayList<String>()));
+        assertFalse(new U((List) null).isNotEmpty());
+        assertFalse(new U(new ArrayList<String>()).isNotEmpty());
+        assertFalse(U.chain((List) null).isNotEmpty());
+        assertFalse(U.chain(new ArrayList<String>()).isNotEmpty());
+        assertTrue(U.isNotEmpty(asList("")));
+        assertTrue(new U(asList("")).isNotEmpty());
+        assertTrue(U.chain(asList("")).isNotEmpty());
+        assertFalse(U.isNotEmpty((Map) null));
+        assertFalse(U.isNotEmpty(new HashMap<String, String>()));
+        assertTrue(U.isNotEmpty(new HashMap<String, String>() { { put("", ""); } }));
+    }
 /*
 _.isObject({});
 => true
