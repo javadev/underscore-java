@@ -2093,11 +2093,23 @@ public class U<T> {
      * Documented, #isEmpty
      */
     public static <T> boolean isEmpty(final Iterable<T> iterable) {
-        return iterable == null || size(iterable) == 0;
+        return iterable == null || !iterable.iterator().hasNext();
     }
 
     public boolean isEmpty() {
-        return iterable == null || size(iterable) == 0;
+        return iterable == null || !iterable.iterator().hasNext();
+    }
+
+    public static <K, V> boolean isNotEmpty(final Map<K, V> object) {
+        return object != null && !object.isEmpty();
+    }
+
+    public static <T> boolean isNotEmpty(final Iterable<T> iterable) {
+        return iterable != null && iterable.iterator().hasNext();
+    }
+
+    public boolean isNotEmpty() {
+        return iterable != null && iterable.iterator().hasNext();
     }
 
     /*
@@ -2704,6 +2716,10 @@ public class U<T> {
 
         public boolean isEmpty() {
             return U.isEmpty(list);
+        }
+
+        public boolean isNotEmpty() {
+            return U.isNotEmpty(list);
         }
 
         public int size() {
