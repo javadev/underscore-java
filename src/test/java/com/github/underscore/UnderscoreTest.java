@@ -448,6 +448,16 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
+    public void defaultTo() {
+        assertNull(U.defaultTo(null, null));
+    }
+
+    @Test
+    public void defaultTo2() {
+        assertEquals("123", U.defaultTo("123", "124"));
+    }
+
+    @Test
     @SuppressWarnings("unchecked")
     public void and() {
         Predicate<Integer> predicate = U.and(

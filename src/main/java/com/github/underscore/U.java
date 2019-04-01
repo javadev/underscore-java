@@ -230,6 +230,9 @@ public class U<T> {
         };
     }
 
+    /*
+     * Documented, #each
+     */
     public static <T> void each(final Iterable<T> iterable, final Consumer<? super T> func) {
         for (T element : iterable) {
             func.accept(element);
@@ -280,6 +283,9 @@ public class U<T> {
         eachRight(iterable, func);
     }
 
+    /*
+     * Documented, #map
+     */
     public static <T, E> List<T> map(final List<E> list, final Function<? super E, T> func) {
         final List<T> transformed = newArrayListWithExpectedSize(list.size());
         for (E element : list) {
@@ -330,6 +336,9 @@ public class U<T> {
         return map(set, func);
     }
 
+    /*
+     * Documented, #reduce
+     */
     public static <T, E> E reduce(final Iterable<T> iterable, final BiFunction<E, T, E> func, final E zeroElem) {
         E accum = zeroElem;
         for (T element : iterable) {
@@ -376,6 +385,9 @@ public class U<T> {
         return reduce(iterable, func, zeroElem);
     }
 
+    /*
+     * Documented, #reduceRight
+     */
     public static <T, E> E reduceRight(final Iterable<T> iterable, final BiFunction<E, T, E> func, final E zeroElem) {
         return reduce(reverse(iterable), func, zeroElem);
     }
@@ -400,6 +412,9 @@ public class U<T> {
         return reduceRight(iterable, func, zeroElem);
     }
 
+    /*
+     * Documented, #find
+     */
     public static <E> Optional<E> find(final Iterable<E> iterable, final Predicate<E> pred) {
         for (E element : iterable) {
             if (pred.test(element)) {
@@ -417,6 +432,9 @@ public class U<T> {
         return find(reverse(iterable), pred);
     }
 
+    /*
+     * Documented, #filter
+     */
     public static <E> List<E> filter(final List<E> list, final Predicate<E> pred) {
         final List<E> filtered = newArrayList();
         for (E element : list) {
@@ -467,6 +485,9 @@ public class U<T> {
         return filter(set, pred);
     }
 
+    /*
+     * Documented, #reject
+     */
     public static <E> List<E> reject(final List<E> list, final Predicate<E> pred) {
         return filter(list, new Predicate<E>() {
             @Override
@@ -528,6 +549,9 @@ public class U<T> {
         return every(iterable, pred);
     }
 
+    /*
+     * Documented, #all
+     */
     public static <E> boolean all(final Iterable<E> iterable, final Predicate<E> pred) {
         return every(iterable, pred);
     }
@@ -544,6 +568,9 @@ public class U<T> {
         return some(iterable, pred);
     }
 
+    /*
+     * Documented, #any
+     */
     public static <E> boolean any(final Iterable<E> iterable, final Predicate<E> pred) {
         return some(iterable, pred);
     }
@@ -584,10 +611,16 @@ public class U<T> {
         return contains(list.subList(fromIndex, list.size()), elem);
     }
 
+    /*
+     * Documented, #include
+     */
     public static <E> boolean include(final Iterable<E> iterable, final E elem) {
         return contains(iterable, elem);
     }
 
+    /*
+     * Documented, #invoke
+     */
     @SuppressWarnings("unchecked")
     public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName,
                                   final List<Object> args) {
@@ -625,6 +658,9 @@ public class U<T> {
         return invoke(iterable, methodName);
     }
 
+    /*
+     * Documented, #pluck
+     */
     public static <E> List<Object> pluck(final List<E> list, final String propertyName) {
         if (list.isEmpty()) {
             return Collections.emptyList();
@@ -669,6 +705,9 @@ public class U<T> {
         });
     }
 
+    /*
+     * Documented, #where
+     */
     public static <T, E> List<E> where(final List<E> list,
                                     final List<Tuple<String, T>> properties) {
         return filter(list, new WherePredicate<E, T>(properties));
@@ -684,6 +723,9 @@ public class U<T> {
         return filter(set, new WherePredicate<E, T>(properties));
     }
 
+    /*
+     * Documented, #findWhere
+     */
     public static <T, E> Optional<E> findWhere(final Iterable<E> iterable,
                                   final List<Tuple<String, T>> properties) {
         return find(iterable, new WherePredicate<E, T>(properties));
@@ -693,6 +735,9 @@ public class U<T> {
         return findWhere(iterable, properties);
     }
 
+    /*
+     * Documented, #max
+     */
     public static <E extends Comparable<? super E>> E max(final Collection<E> collection) {
         return Collections.max(collection);
     }
@@ -717,6 +762,9 @@ public class U<T> {
         return (T) max((Collection) iterable, func);
     }
 
+    /*
+     * Documented, #min
+     */
     public static <E extends Comparable<? super E>> E min(final Collection<E> collection) {
         return Collections.min(collection);
     }
@@ -741,6 +789,9 @@ public class U<T> {
         return (T) min((Collection) iterable, func);
     }
 
+    /*
+     * Documented, #shuffle
+     */
     public static <E> List<E> shuffle(final Iterable<E> iterable) {
         final List<E> shuffled = newArrayList(iterable);
         Collections.shuffle(shuffled);
@@ -751,6 +802,9 @@ public class U<T> {
         return shuffle(iterable);
     }
 
+    /*
+     * Documented, #sample
+     */
     public static <E> E sample(final Iterable<E> iterable) {
         return newArrayList(iterable).get(new java.security.SecureRandom().nextInt(size(iterable)));
     }
@@ -781,6 +835,9 @@ public class U<T> {
         return sortWith((Iterable<T>) iterable, comparator);
     }
 
+    /*
+     * Documented, #sortBy
+     */
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final Iterable<E> iterable,
         final Function<E, T> func) {
         final List<E> sortedList = newArrayList(iterable);
@@ -810,6 +867,9 @@ public class U<T> {
         return sortedList;
     }
 
+    /*
+     * Documented, #groupBy
+     */
     public static <K, E> Map<K, List<E>> groupBy(final Iterable<E> iterable, final Function<E, K> func) {
         final Map<K, List<E>> retVal = newLinkedHashMap();
         for (E e : iterable) {
@@ -864,6 +924,9 @@ public class U<T> {
         return indexBy((Iterable<E>) iterable, property);
     }
 
+    /*
+     * Documented, #countBy
+     */
     public static <K, E> Map<K, Integer> countBy(final Iterable<E> iterable, Function<E, K> func) {
         final Map<K, Integer> retVal = newLinkedHashMap();
         for (E e : iterable) {
@@ -882,6 +945,9 @@ public class U<T> {
         return countBy((Iterable<E>) iterable, func);
     }
 
+    /*
+     * Documented, #toArray
+     */
     @SuppressWarnings("unchecked")
     public static <E> E[] toArray(final Iterable<E> iterable) {
         return (E[]) newArrayList(iterable).toArray();
@@ -892,6 +958,9 @@ public class U<T> {
         return toArray((Iterable<E>) iterable);
     }
 
+    /*
+     * Documented, #toMap
+     */
     public static <K, V> Map<K, V> toMap(final Iterable<Map.Entry<K, V>> iterable) {
         final Map<K, V> result = newLinkedHashMap();
         for (Map.Entry<K, V> entry : iterable) {
@@ -913,6 +982,9 @@ public class U<T> {
         return result;
     }
 
+    /*
+     * Documented, #size
+     */
     public static int size(final Iterable<?> iterable) {
         if (iterable instanceof Collection) {
             return ((Collection) iterable).size();
@@ -953,6 +1025,9 @@ public class U<T> {
         return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[ARRAY_SIZE_2]);
     }
 
+    /*
+     * Documented, #first
+     */
     public static <E> E first(final Iterable<E> iterable) {
         return iterable.iterator().next();
     }
@@ -1021,6 +1096,9 @@ public class U<T> {
         return first(n);
     }
 
+    /*
+     * Documented, #initial
+     */
     public static <E> List<E> initial(final List<E> list) {
         return initial(list, 1);
     }
@@ -1051,6 +1129,9 @@ public class U<T> {
         return array[array.length - 1];
     }
 
+    /*
+     * Documented, #last
+     */
     public static <E> E last(final List<E> list) {
         return list.get(list.size() - 1);
     }
@@ -1093,6 +1174,9 @@ public class U<T> {
         return lastOrNull((List<T>) iterable, pred);
     }
 
+    /*
+     * Documented, #rest
+     */
     public static <E> List<E> rest(final List<E> list) {
         return rest(list, 1);
     }
@@ -1161,6 +1245,9 @@ public class U<T> {
         return rest(array, n);
     }
 
+    /*
+     * Documented, #compact
+     */
     public static <E> List<E> compact(final List<E> list) {
         return filter(list, new Predicate<E>() {
             @Override
@@ -1199,6 +1286,9 @@ public class U<T> {
         return compact((List<T>) iterable, falsyValue);
     }
 
+    /*
+     * Documented, #flatten
+     */
     public static <E> List<E> flatten(final List<?> list) {
         List<E> flattened = newArrayList();
         flatten(list, flattened, -1);
@@ -1230,6 +1320,9 @@ public class U<T> {
         return flatten((List<T>) iterable, shallow);
     }
 
+    /*
+     * Documented, #without
+     */
     @SuppressWarnings("unchecked")
     public static <E> List<E> without(final List<E> list, E ... values) {
         final List<E> valuesList = Arrays.asList(values);
@@ -1246,6 +1339,9 @@ public class U<T> {
         return (E[]) without(Arrays.asList(array), values).toArray();
     }
 
+    /*
+     * Documented, #uniq
+     */
     public static <E> List<E> uniq(final List<E> list) {
         return newArrayList(newLinkedHashSet(list));
     }
@@ -1287,6 +1383,9 @@ public class U<T> {
         return uniq(array, func);
     }
 
+    /*
+     * Documented, #union
+     */
     @SuppressWarnings("unchecked")
     public static <E> List<E> union(final List<E> list, final List<E> ... lists) {
         final Set<E> union = newLinkedHashSet();
@@ -1311,6 +1410,9 @@ public class U<T> {
         return (E[]) newArrayList(union).toArray();
     }
 
+    /*
+     * Documented, #intersection
+     */
     public static <E> List<E> intersection(final List<E> list1, final List<E> list2) {
         final List<E> result = newArrayList();
         for (final E item : list1) {
@@ -1346,6 +1448,9 @@ public class U<T> {
         return (E[]) stack.peek().toArray();
     }
 
+    /*
+     * Documented, #difference
+     */
     public static <E> List<E> difference(final List<E> list1, final List<E> list2) {
         final List<E> result = newArrayList();
         for (final E item : list1) {
@@ -1381,6 +1486,9 @@ public class U<T> {
         return (E[]) stack.peek().toArray();
     }
 
+    /*
+     * Documented, #zip
+     */
     @SuppressWarnings("unchecked")
     public static <T> List<List<T>> zip(final List<T> ... lists) {
         final List<List<T>> zipped = newArrayList();
@@ -1414,6 +1522,9 @@ public class U<T> {
         return unzipped;
     }
 
+    /*
+     * Documented, #object
+     */
     public static <K, V> List<Tuple<K, V>> object(final List<K> keys, final List<V> values) {
         return map(keys, new Function<K, Tuple<K, V>>() {
             private int index;
@@ -1451,6 +1562,9 @@ public class U<T> {
         return findLastIndex(Arrays.asList(array), pred);
     }
 
+    /*
+     * Documented, #sortedIndex
+     */
     public static <E extends Comparable<E>> int sortedIndex(final List<E> list, final E value) {
         int index = 0;
         for (E elem : list) {
@@ -1490,6 +1604,9 @@ public class U<T> {
         return sortedIndex(Arrays.asList(array), value, propertyName);
     }
 
+    /*
+     * Documented, #indexOf
+     */
     public static <E> int indexOf(final List<E> list, final E value) {
         return list.indexOf(value);
     }
@@ -1498,6 +1615,9 @@ public class U<T> {
         return indexOf(Arrays.asList(array), value);
     }
 
+    /*
+     * Documented, #lastIndexOf
+     */
     public static <E> int lastIndexOf(final List<E> list, final E value) {
         return list.lastIndexOf(value);
     }
@@ -1506,6 +1626,9 @@ public class U<T> {
         return lastIndexOf(Arrays.asList(array), value);
     }
 
+    /*
+     * Documented, #range
+     */
     public static int[] range(int stop) {
         return range(0, stop, 1);
     }
@@ -1543,6 +1666,9 @@ public class U<T> {
         return chunk(getIterable(), size);
     }
 
+    /*
+     * Documented, #bind
+     */
     public static <T, F> Function<F, T> bind(final Function<F, T> function) {
         return new Function<F, T>() {
             @Override
@@ -1552,6 +1678,9 @@ public class U<T> {
         };
     }
 
+    /*
+     * Documented, #memoize
+     */
     public static <T, F> Function<F, T> memoize(final Function<F, T> function) {
         return new MemoizeFunction<F, T>() {
             @Override
@@ -1561,6 +1690,9 @@ public class U<T> {
         };
     }
 
+    /*
+     * Documented, #delay
+     */
     public static <T> java.util.concurrent.ScheduledFuture<T> delay(final Supplier<T> function,
         final int delayMilliseconds) {
         final java.util.concurrent.ScheduledExecutorService scheduler =
@@ -1609,6 +1741,9 @@ public class U<T> {
         return new ThrottleFunction<T>(function);
     }
 
+    /*
+     * Documented, #debounce
+     */
     public static <T> Supplier<T> debounce(final Supplier<T> function, final int delayMilliseconds) {
         return new Supplier<T>() {
             private java.util.concurrent.ScheduledFuture<T> timeout;
@@ -1622,6 +1757,9 @@ public class U<T> {
         };
     }
 
+    /*
+     * Documented, #wrap
+     */
     public static <T> Function<Void, T> wrap(final Function<T, T> function,
         final Function<Function<T, T>, T> wrapper) {
         return new Function<Void, T>() {
@@ -1639,6 +1777,9 @@ public class U<T> {
         };
     }
 
+    /*
+     * Documented, #compose
+     */
     @SuppressWarnings("unchecked")
     public static <T> Function<T, T> compose(final Function<T, T> ... func) {
         return new Function<T, T>() {
@@ -1652,6 +1793,9 @@ public class U<T> {
         };
     }
 
+    /*
+     * Documented, #after
+     */
     public static <E> Supplier<E> after(final int count, final Supplier<E> function) {
         class AfterFunction<E> implements Supplier<E> {
             private final int count;
@@ -1673,6 +1817,9 @@ public class U<T> {
         return new AfterFunction<E>(count, function);
     }
 
+    /*
+     * Documented, #before
+     */
     public static <E> Supplier<E> before(final int count, final Supplier<E> function) {
         class BeforeFunction<E> implements Supplier<E> {
             private final int count;
@@ -1694,6 +1841,9 @@ public class U<T> {
         return new BeforeFunction<E>(count, function);
     }
 
+    /*
+     * Documented, #once
+     */
     public static <T> Supplier<T> once(final Supplier<T> function) {
         return new Supplier<T>() {
             private volatile boolean executed;
@@ -1709,10 +1859,16 @@ public class U<T> {
         };
     }
 
+    /*
+     * Documented, #keys
+     */
     public static <K, V> Set<K> keys(final Map<K, V> object) {
         return object.keySet();
     }
 
+    /*
+     * Documented, #values
+     */
     public static <K, V> Collection<V> values(final Map<K, V> object) {
         return object.values();
     }
@@ -1726,6 +1882,9 @@ public class U<T> {
         });
     }
 
+    /*
+     * Documented, #pairs
+     */
     public static <K, V> List<Tuple<K, V>> pairs(final Map<K, V> object) {
         return map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<K, V>>() {
             @Override
@@ -1735,6 +1894,9 @@ public class U<T> {
         });
     }
 
+    /*
+     * Documented, #invert
+     */
     public static <K, V> List<Tuple<V, K>> invert(final Map<K, V> object) {
         return map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<V, K>>() {
             @Override
@@ -1744,6 +1906,9 @@ public class U<T> {
         });
     }
 
+    /*
+     * Documented, #functions
+     */
     public static List<String> functions(final Object object) {
         final List<String> result = newArrayList();
         for (final Method method : object.getClass().getDeclaredMethods()) {
@@ -1758,6 +1923,9 @@ public class U<T> {
         return functions(object);
     }
 
+    /*
+     * Documented, #extend
+     */
     @SuppressWarnings("unchecked")
     public static <K, V> Map<K, V> extend(final Map<K, V> destination, final Map<K, V> ... sources) {
         final Map<K, V> result = newLinkedHashMap();
@@ -1798,6 +1966,9 @@ public class U<T> {
         return findLastKey(Arrays.asList(array), pred);
     }
 
+    /*
+     * Documented, #pick
+     */
     @SuppressWarnings("unchecked")
     public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final V ... keys) {
         return without(map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<K, V>>() {
@@ -1826,6 +1997,9 @@ public class U<T> {
         }), (Tuple<K, V>) null);
     }
 
+    /*
+     * Documented, #omit
+     */
     @SuppressWarnings("unchecked")
     public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final V ... keys) {
         return without(map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<K, V>>() {
@@ -1854,6 +2028,9 @@ public class U<T> {
         }), (Tuple<K, V>) null);
     }
 
+    /*
+     * Documented, #defaults
+     */
     public static <K, V> Map<K, V> defaults(final Map<K, V> object, final Map<K, V> defaults) {
         final Map<K, V> result = newLinkedHashMap();
         for (final Map.Entry<K, V> entry : defaults.entrySet()) {
@@ -1865,6 +2042,9 @@ public class U<T> {
         return result;
     }
 
+    /*
+     * Documented, #clone
+     */
     public static Object clone(final Object obj) {
         try {
             if (obj instanceof Cloneable) {
@@ -1898,6 +2078,9 @@ public class U<T> {
         return true;
     }
 
+    /*
+     * Documented, #isEqual
+     */
     public static boolean isEqual(final Object object, final Object other) {
         return object == null ? other == null : object.equals(other);
     }
@@ -1906,34 +2089,67 @@ public class U<T> {
         return object == null || object.isEmpty();
     }
 
+    /*
+     * Documented, #isEmpty
+     */
     public static <T> boolean isEmpty(final Iterable<T> iterable) {
-        return iterable == null || size(iterable) == 0;
+        return iterable == null || !iterable.iterator().hasNext();
     }
 
     public boolean isEmpty() {
-        return iterable == null || size(iterable) == 0;
+        return iterable == null || !iterable.iterator().hasNext();
     }
 
+    public static <K, V> boolean isNotEmpty(final Map<K, V> object) {
+        return object != null && !object.isEmpty();
+    }
+
+    public static <T> boolean isNotEmpty(final Iterable<T> iterable) {
+        return iterable != null && iterable.iterator().hasNext();
+    }
+
+    public boolean isNotEmpty() {
+        return iterable != null && iterable.iterator().hasNext();
+    }
+
+    /*
+     * Documented, #isArray
+     */
     public static boolean isArray(final Object object) {
         return object != null && object.getClass().isArray();
     }
 
+    /*
+     * Documented, #isObject
+     */
     public static boolean isObject(final Object object) {
         return object instanceof Map;
     }
 
+    /*
+     * Documented, #isFunction
+     */
     public static boolean isFunction(final Object object) {
         return object instanceof Function;
     }
 
+    /*
+     * Documented, #isString
+     */
     public static boolean isString(final Object object) {
         return object instanceof String;
     }
 
+    /*
+     * Documented, #isNumber
+     */
     public static boolean isNumber(final Object object) {
         return object instanceof Number;
     }
 
+    /*
+     * Documented, #isDate
+     */
     public static boolean isDate(final Object object) {
         return object instanceof Date;
     }
@@ -1946,6 +2162,9 @@ public class U<T> {
         return object instanceof Throwable;
     }
 
+    /*
+     * Documented, #isBoolean
+     */
     public static boolean isBoolean(final Object object) {
         return object instanceof Boolean;
     }
@@ -1954,6 +2173,9 @@ public class U<T> {
         return object == null;
     }
 
+    /*
+     * Documented, #has
+     */
     public static <K, V> boolean has(final Map<K, V> object, final K key) {
         return object.containsKey(key);
     }
@@ -1999,12 +2221,18 @@ public class U<T> {
         };
     }
 
+    /*
+     * Documented, #times
+     */
     public static <E> void times(final int count, final Supplier<E> function) {
         for (int index = 0; index < count; index += 1) {
             function.get();
         }
     }
 
+    /*
+     * Documented, #random
+     */
     public static int random(final int min, final int max) {
         return min + new java.security.SecureRandom().nextInt(max - min + 1);
     }
@@ -2017,6 +2245,9 @@ public class U<T> {
         return new Date().getTime();
     }
 
+    /*
+     * Documented, #escape
+     */
     public static String escape(final String value) {
         final StringBuilder builder = new StringBuilder();
         for (final char ch : value.toCharArray()) {
@@ -2030,6 +2261,9 @@ public class U<T> {
             .replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&amp;", "&");
     }
 
+    /*
+     * Documented, #result
+     */
     public static <E> Object result(final Iterable<E> iterable, final Predicate<E> pred) {
         for (E element : iterable) {
             if (pred.test(element)) {
@@ -2045,10 +2279,16 @@ public class U<T> {
         return null;
     }
 
+    /*
+     * Documented, #uniqueId
+     */
     public static String uniqueId(final String prefix) {
         return (prefix == null ? "" : prefix) + UNIQUE_ID.incrementAndGet();
     }
 
+    /*
+     * Documented, #uniquePassword
+     */
     public static String uniquePassword() {
         final String[] passwords = new String[] {
             "ALKJVBPIQYTUIWEBVPQALZVKQRWORTUYOYISHFLKAJMZNXBVMNFGAHKJSDFALAPOQIERIUYTGSFGKMZNXBVJAHGFAKX",
@@ -2098,6 +2338,9 @@ public class U<T> {
         return new MyIterable<T>(seed, unaryOperator);
     }
 
+    /*
+     * Documented, #chain
+     */
     public static <T> Chain<T> chain(final List<T> list) {
         return new U.Chain<T>(list);
     }
@@ -2475,6 +2718,10 @@ public class U<T> {
             return U.isEmpty(list);
         }
 
+        public boolean isNotEmpty() {
+            return U.isNotEmpty(list);
+        }
+
         public int size() {
             return U.size(list);
         }
@@ -2483,6 +2730,9 @@ public class U<T> {
             return item;
         }
 
+        /*
+         * Documented, #value
+         */
         public List<T> value() {
             return list;
         }
@@ -2492,6 +2742,9 @@ public class U<T> {
         }
     }
 
+    /*
+     * Documented, #mixin
+     */
     public static void mixin(final String funcName, final Function<String, String> func) {
         FUNCTIONS.put(funcName, func);
     }
@@ -2521,6 +2774,9 @@ public class U<T> {
         return sort((Iterable<Comparable>) iterable);
     }
 
+    /*
+     * Documented, #join
+     */
     public static <T> String join(final Iterable<T> iterable, final String separator) {
         final StringBuilder sb = new StringBuilder();
         int index = 0;
@@ -2615,6 +2871,9 @@ public class U<T> {
         return result;
     }
 
+    /*
+     * Documented, #concat
+     */
     @SuppressWarnings("unchecked")
     public static <T> List<T> concat(final Iterable<T> first, final Iterable<T> ... other) {
         int length = 0;
@@ -2636,6 +2895,9 @@ public class U<T> {
         return concat(iterable, other);
     }
 
+    /*
+     * Documented, #slice
+     */
     @SuppressWarnings("unchecked")
     public static <T> List<T> slice(final Iterable<T> iterable, final int start) {
         final List<T> result;
@@ -2701,6 +2963,9 @@ public class U<T> {
         return slice(iterable, start, end);
     }
 
+    /*
+     * Documented, #reverse
+     */
     public static <T> List<T> reverse(final Iterable<T> iterable) {
         final List<T> result = newArrayList(iterable);
         Collections.reverse(result);
@@ -2872,6 +3137,13 @@ public class U<T> {
             throw new NullPointerException(String.valueOf(errorMessage));
         }
         return reference;
+    }
+
+    public static <T> T defaultTo(T value, T defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
     }
 
     @SuppressWarnings("unchecked")
