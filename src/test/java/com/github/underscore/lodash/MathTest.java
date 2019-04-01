@@ -87,6 +87,24 @@ _.sum([-1, -2, -3]);
         assertEquals("-6", result13.toString());
         final Integer resultChain = (Integer) U.chain(asList((int) 1, (int) 2, (int) 3)).sum().item();
         assertEquals("6", resultChain.toString());
+        final Integer result14 = U.sum(new Integer[] {1, 2, 3});
+        assertEquals("6", result14.toString());
+        final Double result15 = U.sum(new Double[] {1.0, 2.0, 3.0});
+        assertEquals("6.0", result15.toString());
+        final Float result16 = U.sum(new Float[] {(float) 1.0, (float) 2.0, (float) 3.0});
+        assertEquals("6.0", result16.toString());
+        final Short result17 = U.sum(new Short[] {1, 2, 3});
+        assertEquals("6", result17.toString());
+        final Long result18 = U.sum(new Long[] {(long) 1, (long) 2, (long) 3});
+        assertEquals("6", result18.toString());
+        final BigInteger result19 = U.sum(new BigInteger[] {BigInteger.valueOf(1), BigInteger.valueOf(2),
+                BigInteger.valueOf(3)});
+        assertEquals("6", result19.toString());
+        final BigDecimal result20 = U.sum(new BigDecimal[] {BigDecimal.valueOf(1), BigDecimal.valueOf(2),
+                BigDecimal.valueOf(3)});
+        assertEquals("6", result20.toString());
+        final Integer result21 = U.sum(new Integer[] {1, 2, null});
+        assertEquals("3", result21.toString());
         final Integer resultChainFunc = (Integer) U.chain(asList((int) 1, (int) 2, (int) 3)).sum(
             new Function<Integer, Integer>() {
             public Integer apply(final Integer item) {

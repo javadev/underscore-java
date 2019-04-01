@@ -936,6 +936,14 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
+    public static <N extends Number> N sum(N[] array) {
+        N result = null;
+        for (final N item : array) {
+            result = add(result, item);
+        }
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     public <F extends Number> F sum() {
         return sum((List<F>) getIterable());
