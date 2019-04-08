@@ -167,7 +167,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public Chain<T> filter(final Predicate<T> pred) {
-            return new Chain<T>(U.filter(value(), pred));
+            return new Chain<T>(newArrayList(U.filter(value(), pred)));
         }
 
         public Chain<T> filterIndexed(final PredicateIndexed<T> pred) {

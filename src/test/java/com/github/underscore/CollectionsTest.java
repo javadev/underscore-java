@@ -608,13 +608,62 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 */
     @Test
     public void filter() {
-        final List<Integer> result = U.filter(asList(1, 2, 3, 4, 5, 6),
+    	
+    	class MyClass implements Iterable<Integer>{
+
+    		private Integer i;
+    		
+			public MyClass(Integer i) {
+				this.i = i;
+			}
+
+			@Override
+			public Iterator<Integer> iterator() {
+				// TODO Auto-generated method stub
+				return asList(i, i*2, i*3, i*4, i*5).iterator();
+			}
+    		
+    	}
+    	final Iterable<Integer> result = U.filter(new MyClass(5),
             new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
-        assertEquals("[2, 4, 6]", result.toString());
+        assertEquals("[10, 20]", result.toString());
+    	
+        final Iterable<Integer> result1 = U.filter(asList(1, 2, 3, 4, 5, 6),
+            new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[2, 4, 6]", result1.toString());
+        final Iterable<Integer> result2 = U.filter(new PriorityQueue<Integer>(asList(1, 2, 3, 4, 5, 6)),
+        	new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item > 2;
+            }
+        });
+        assertEquals("[3, 4, 5, 6]", result2.toString());
+        final Iterable<Integer> result3 = U.filter(new HashSet<Integer>(asList(1, 2, 3, 4, 5, 6)),
+        	new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item <= 2;
+            }
+        });
+        assertEquals("[1, 2]", result3.toString());
+        final Iterable<Integer> result4 = U.filter(new Iterable<Integer>() {
+				@Override
+				public Iterator<Integer> iterator() {
+					return asList(1, 2, 3, 4, 5, 6).iterator();
+				}
+        	},new Predicate<Integer>() {
+	            public boolean test(Integer item) {
+	                return item * item > 4;
+	            }
+        });
+        assertEquals("[3, 4, 5, 6]", result4.toString());
         final List<Integer> resultObject = new U<Integer>(asList(1, 2, 3, 4, 5, 6))
             .filter(new Predicate<Integer>() {
             public boolean test(Integer item) {

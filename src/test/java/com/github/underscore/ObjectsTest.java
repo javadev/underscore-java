@@ -441,7 +441,7 @@ var readyToGoList = _.filter(list, ready);
         );
         Predicate<Map<String, Object>> ready = U.matcher(new LinkedHashMap<String, Object>() { {
             put("selected", true); put("visible", true); } });
-        List<Map<String, Object>> result = U.filter(list, ready);
+        List<Map<String, Object>> result = U.newArrayList(U.filter(list, ready));
         assertEquals("[{name=moe, selected=true, visible=true}]", result.toString());
     }
 
