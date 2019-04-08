@@ -611,20 +611,19 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 
          class MyClass implements Iterable<Integer> {
 
-    		private Integer i;
+            private Integer i;
 
-			public MyClass(Integer i) {
-				this.i = i;
-			}
+            public MyClass(Integer i) {
+                this.i = i;
+            }
 
-			@Override
-			public Iterator<Integer> iterator() {
-				// TODO Auto-generated method stub
-				return asList(i, i * 2, i * 3, i * 4, i * 5).iterator();
-			}
+            @Override
+            public Iterator<Integer> iterator() {
+                return asList(i, i * 2, i * 3, i * 4, i * 5).iterator();
+            }
 
-    	}
-    	final Iterable<Integer> result = U.filter(new MyClass(5),
+        }
+        final Iterable<Integer> result = U.filter(new MyClass(5),
             new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
@@ -653,14 +652,14 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         });
         assertEquals("[1, 2]", result3.toString());
         final Iterable<Integer> result4 = U.filter(new Iterable<Integer>() {
-				@Override
-				public Iterator<Integer> iterator() {
-					return asList(1, 2, 3, 4, 5, 6).iterator();
-				}
-        	}, new Predicate<Integer>() {
-	            public boolean test(Integer item) {
-	                return item * item > 4;
-	            }
+                @Override
+                public Iterator<Integer> iterator() {
+                    return asList(1, 2, 3, 4, 5, 6).iterator();
+                }
+            }, new Predicate<Integer>() {
+                public boolean test(Integer item) {
+                    return item * item > 4;
+                }
         });
         assertEquals("[3, 4, 5, 6]", result4.toString());
         final List<Integer> resultObject = new U<Integer>(asList(1, 2, 3, 4, 5, 6))
