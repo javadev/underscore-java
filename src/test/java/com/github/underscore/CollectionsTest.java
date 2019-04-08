@@ -609,10 +609,10 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     @Test
     public void filter() {
 
-    	class MyClass implements Iterable<Integer> {
+         class MyClass implements Iterable<Integer> {
 
     		private Integer i;
-    		
+
 			public MyClass(Integer i) {
 				this.i = i;
 			}
@@ -622,7 +622,7 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 				// TODO Auto-generated method stub
 				return asList(i, i * 2, i * 3, i * 4, i * 5).iterator();
 			}
-    		
+
     	}
     	final Iterable<Integer> result = U.filter(new MyClass(5),
             new Predicate<Integer>() {
@@ -631,7 +631,6 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
             }
         });
         assertEquals("[10, 20]", result.toString());
-    	
         final Iterable<Integer> result1 = U.filter(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -658,7 +657,7 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 				public Iterator<Integer> iterator() {
 					return asList(1, 2, 3, 4, 5, 6).iterator();
 				}
-        	},new Predicate<Integer>() {
+        	}, new Predicate<Integer>() {
 	            public boolean test(Integer item) {
 	                return item * item > 4;
 	            }
