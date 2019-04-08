@@ -638,14 +638,14 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         });
         assertEquals("[2, 4, 6]", result1.toString());
         final Iterable<Integer> result2 = U.filter(new PriorityQueue<Integer>(asList(1, 2, 3, 4, 5, 6)),
-        	new Predicate<Integer>() {
+            new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item > 2;
             }
         });
         assertEquals("[3, 4, 5, 6]", result2.toString());
         final Iterable<Integer> result3 = U.filter(new HashSet<Integer>(asList(1, 2, 3, 4, 5, 6)),
-        	new Predicate<Integer>() {
+            new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item <= 2;
             }
