@@ -435,9 +435,10 @@ public class U<T> {
     /*
      * Documented, #filter
      */
-    public static <E> List<E> filter(final List<E> list, final Predicate<E> pred) {
-        final List<E> filtered = newArrayList();
-        for (E element : list) {
+
+    public static <T, E extends Iterable<T>> Iterable<T> filter(final E iter, final Predicate<T> pred) {
+        final List<T> filtered = newArrayList();
+        for (T element : iter) {
             if (pred.test(element)) {
                 filtered.add(element);
             }
@@ -446,13 +447,7 @@ public class U<T> {
     }
 
     public List<T> filter(final Predicate<T> pred) {
-        final List<T> filtered = newArrayList();
-        for (final T element : value()) {
-            if (pred.test(element)) {
-                filtered.add(element);
-            }
-        }
-        return filtered;
+        return newArrayList(filter(value(), pred));
     }
 
     public static <E> List<E> filterIndexed(final List<E> list, final PredicateIndexed<E> pred) {
@@ -467,34 +462,24 @@ public class U<T> {
         return filtered;
     }
 
-    public static <E> Set<E> filter(final Set<E> set, final Predicate<E> pred) {
-        final Set<E> filtered = newLinkedHashSet();
-        for (E element : set) {
-            if (pred.test(element)) {
-                filtered.add(element);
-            }
-        }
-        return filtered;
-    }
-
     public static <E> List<E> select(final List<E> list, final Predicate<E> pred) {
-        return filter(list, pred);
+        return newArrayList(filter(list, pred));
     }
 
     public static <E> Set<E> select(final Set<E> set, final Predicate<E> pred) {
-        return filter(set, pred);
+        return newLinkedHashSet(filter(set, pred));
     }
 
     /*
      * Documented, #reject
      */
     public static <E> List<E> reject(final List<E> list, final Predicate<E> pred) {
-        return filter(list, new Predicate<E>() {
+        return newArrayList(filter(list, new Predicate<E>() {
             @Override
             public boolean test(E input) {
                 return !pred.test(input);
             }
-        });
+        }));
     }
 
     public List<T> reject(final Predicate<T> pred) {
@@ -516,12 +501,12 @@ public class U<T> {
     }
 
     public static <E> Set<E> reject(final Set<E> set, final Predicate<E> pred) {
-        return filter(set, new Predicate<E>() {
+        return newLinkedHashSet(filter(set, new Predicate<E>() {
             @Override
             public boolean test(E input) {
                 return !pred.test(input);
             }
-        });
+        }));
     }
 
     public static <E> List<E> filterFalse(final List<E> list, final Predicate<E> pred) {
@@ -710,7 +695,7 @@ public class U<T> {
      */
     public static <T, E> List<E> where(final List<E> list,
                                     final List<Tuple<String, T>> properties) {
-        return filter(list, new WherePredicate<E, T>(properties));
+        return newArrayList(filter(list, new WherePredicate<E, T>(properties)));
 
     }
 
@@ -720,7 +705,7 @@ public class U<T> {
 
     public static <T, E> Set<E> where(final Set<E> set,
                                    final List<Tuple<String, T>> properties) {
-        return filter(set, new WherePredicate<E, T>(properties));
+        return newLinkedHashSet(filter(set, new WherePredicate<E, T>(properties)));
     }
 
     /*
@@ -1149,7 +1134,7 @@ public class U<T> {
     }
 
     public static <E> E last(final List<E> list, final Predicate<E> pred) {
-        final List<E> filteredList = filter(list, pred);
+        final List<E> filteredList = newArrayList(filter(list, pred));
         return filteredList.get(filteredList.size() - 1);
     }
 
@@ -1166,7 +1151,7 @@ public class U<T> {
     }
 
     public static <E> E lastOrNull(final List<E> list, final Predicate<E> pred) {
-        final List<E> filteredList = filter(list, pred);
+        final List<E> filteredList = newArrayList(filter(list, pred));
         return filteredList.isEmpty() ? null : filteredList.get(filteredList.size() - 1);
     }
 
@@ -1249,13 +1234,13 @@ public class U<T> {
      * Documented, #compact
      */
     public static <E> List<E> compact(final List<E> list) {
-        return filter(list, new Predicate<E>() {
+        return newArrayList(filter(list, new Predicate<E>() {
             @Override
             public boolean test(E arg) {
                 return !String.valueOf(arg).equals("null") && !String.valueOf(arg).equals("0")
                     && !String.valueOf(arg).equals("false") && !String.valueOf(arg).equals("");
             }
-        });
+        }));
     }
 
     @SuppressWarnings("unchecked")
@@ -1264,12 +1249,12 @@ public class U<T> {
     }
 
     public static <E> List<E> compact(final List<E> list, final E falsyValue) {
-        return filter(list, new Predicate<E>() {
+        return newArrayList(filter(list, new Predicate<E>() {
             @Override
             public boolean test(E arg) {
                 return !(arg == null ? falsyValue == null : arg.equals(falsyValue));
             }
-        });
+        }));
     }
 
     @SuppressWarnings("unchecked")
@@ -1326,12 +1311,12 @@ public class U<T> {
     @SuppressWarnings("unchecked")
     public static <E> List<E> without(final List<E> list, E ... values) {
         final List<E> valuesList = Arrays.asList(values);
-        return filter(list, new Predicate<E>() {
+        return newArrayList(filter(list, new Predicate<E>() {
             @Override
             public boolean test(E elem) {
                 return !contains(valuesList, elem);
             }
-        });
+        }));
     }
 
     @SuppressWarnings("unchecked")
@@ -2449,7 +2434,7 @@ public class U<T> {
         }
 
         public Chain<T> filter(final Predicate<T> pred) {
-            return new Chain<T>(U.filter(list, pred));
+            return new Chain<T>(newArrayList(U.filter(list, pred)));
         }
 
         public Chain<T> filterIndexed(final PredicateIndexed<T> pred) {
