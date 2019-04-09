@@ -493,7 +493,6 @@ public class U<T> {
             public boolean test(E arg) {
                 return arg != null;
             }
-        
         });
     }
 
