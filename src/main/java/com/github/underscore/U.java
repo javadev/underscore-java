@@ -435,6 +435,16 @@ public class U<T> {
     /*
      * Documented, #filter
      */
+    public static <E> List<E> filter(final Iterable<E> iterable, final Predicate<E> pred) {
+        final List<E> filtered = newArrayList();
+        for (E element : iterable) {
+            if (pred.test(element)) {
+                filtered.add(element);
+            }
+        }
+        return filtered;
+    }
+
     public static <E> List<E> filter(final List<E> list, final Predicate<E> pred) {
         final List<E> filtered = newArrayList();
         for (E element : list) {

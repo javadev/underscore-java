@@ -608,13 +608,20 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 */
     @Test
     public void filter() {
-        final List<Integer> result = U.filter(asList(1, 2, 3, 4, 5, 6),
+        final List<Integer> result = U.filter(new ArrayDeque<Integer>(asList(1, 2, 3, 4, 5, 6)),
             new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         });
         assertEquals("[2, 4, 6]", result.toString());
+        final List<Integer> resultList = U.filter(asList(1, 2, 3, 4, 5, 6),
+            new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item % 2 == 0;
+            }
+        });
+        assertEquals("[2, 4, 6]", resultList.toString());
         final List<Integer> resultObject = new U<Integer>(asList(1, 2, 3, 4, 5, 6))
             .filter(new Predicate<Integer>() {
             public boolean test(Integer item) {
