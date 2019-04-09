@@ -631,6 +631,16 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         assertEquals("[2, 4, 6]", resultObject.toString());
     }
 
+    @Test
+    public void filterNotNull() {
+        final List<Integer> result = U.filterNotNull(asList(1, null, 3, 4, Integer.getInteger(null)));
+        assertEquals("[1, 3, 4]", result.toString());
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(null);
+        final List<Integer> resultObject = new U<Integer>(asList(list.get(0), 1, 2)).filterNotNull();
+        assertEquals("[1, 2]", resultObject.toString());
+    }
+
 /*
 var evens = _.filterFalse([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 => [1, 3, 5]

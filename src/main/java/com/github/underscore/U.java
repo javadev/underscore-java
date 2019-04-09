@@ -487,6 +487,20 @@ public class U<T> {
         return filtered;
     }
 
+    public static <E> List<E> filterNotNull(final Iterable<E> iter) {
+        return filter(iter, new Predicate<E>() {
+            @Override
+            public boolean test(E arg) {
+                return arg != null;
+            }
+        
+        });
+    }
+
+    public List<T> filterNotNull() {
+        return filterNotNull(value());
+    }
+
     public static <E> List<E> select(final List<E> list, final Predicate<E> pred) {
         return filter(list, pred);
     }
