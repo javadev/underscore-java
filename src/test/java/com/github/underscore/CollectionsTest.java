@@ -633,9 +633,11 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 
     @Test
     public void filterNotNull() {
-        final List<Integer> result = U.filterNotNull(asList(1, null, 3, 4, Integer.getInteger(null)));
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(1, null);
+        final List<Integer> result = U.filterNotNull(asList(1, null, 3, 4, map.get(1)));
         assertEquals("[1, 3, 4]", result.toString());
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         list.add(null);
         final List<Integer> resultObject = new U<Integer>(asList(list.get(0), 1, 2)).filterNotNull();
         assertEquals("[1, 2]", resultObject.toString());
