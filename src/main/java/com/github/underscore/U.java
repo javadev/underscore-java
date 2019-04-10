@@ -3149,6 +3149,10 @@ public class U<T> {
         return reference;
     }
 
+    public static boolean nonNull(Object obj) {
+        return obj != null;
+    }
+
     public static <T> T defaultTo(T value, T defaultValue) {
         if (value == null) {
             return defaultValue;
