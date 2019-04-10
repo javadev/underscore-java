@@ -448,6 +448,12 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
+    public void nonNull() {
+        assertFalse(U.nonNull(null));
+        assertTrue(U.nonNull(""));
+    }
+
+    @Test
     public void defaultTo() {
         assertNull(U.defaultTo(null, null));
     }
