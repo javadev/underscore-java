@@ -1662,14 +1662,16 @@ public class U<T> {
     }
 
     public static <T> List<List<T>> chunk(final Iterable<T> iterable, final int size) {
-         if(size <= 0)
+         if (size <= 0) {
             return newArrayList();
+         }
         return chunk(iterable, size, size);
     }
 
     public static <T> List<List<T>> chunk(final Iterable<T> iterable, final int size, final int step) {
-        if(step <= 0 || size < 0)
+        if (step <= 0 || size < 0) {
             return newArrayList();
+        }
         int index = 0;
         int length = size(iterable);
         final List<List<T>> result = new ArrayList<List<T>>(size == 0 ? size : ((length / size) + 1));
@@ -1681,18 +1683,21 @@ public class U<T> {
     }
 
     public static <T> List<List<T>> chunkFill(final Iterable<T> iterable, final int size, final T fillValue) {
-        if(size <= 0)
+        if (size <= 0) {
             return newArrayList();
+        }
         return chunkFill(iterable, size, size, fillValue);
     }
 
     public static <T> List<List<T>> chunkFill(final Iterable<T> iterable, final int size, final int step, final T fillValue) {
-        if(step <= 0 || size < 0)
+        if (step <= 0 || size < 0) {
             return newArrayList();
+        }
         final List<List<T>> result = chunk(iterable, size, step);
-        int difference = size - result.get(result.size()-1).size();
-        for(int i = difference; 0 < i; i--)
+        int difference = size - result.get(result.size() - 1).size();
+        for (int i = difference; 0 < i; i--) {
             result.get(result.size() - 1).add(fillValue);
+        }
         return result;
     }
 
