@@ -1662,18 +1662,54 @@ public class U<T> {
     }
 
     public static <T> List<List<T>> chunk(final Iterable<T> iterable, final int size) {
+         if(size <= 0)
+            return newArrayList();
+        return chunk(iterable, size, size);
+    }
+
+    public static <T> List<List<T>> chunk(final Iterable<T> iterable, final int size, final int step) {
+        if(step <= 0 || size < 0)
+            return newArrayList();
         int index = 0;
         int length = size(iterable);
-        final List<List<T>> result = new ArrayList<List<T>>(length / size);
+        final List<List<T>> result = new ArrayList<List<T>>(size == 0 ? size : ((length / size) + 1));
         while (index < length) {
             result.add(newArrayList(iterable).subList(index, Math.min(length, index + size)));
-            index += size;
+            index += step;
         }
         return result;
     }
 
+    public static <T> List<List<T>> chunkFill(final Iterable<T> iterable, final int size, final T fillValue) {
+        if(size <= 0)
+            return newArrayList();
+        return chunkFill(iterable, size, size, fillValue);
+    }
+
+    public static <T> List<List<T>> chunkFill(final Iterable<T> iterable, final int size, final int step, final T fillValue) {
+        if(step <= 0 || size < 0)
+            return newArrayList();
+        final List<List<T>> result = chunk(iterable, size, step);
+        int difference = size - result.get(result.size()-1).size();
+        for(int i = difference; 0 < i; i--)
+            result.get(result.size() - 1).add(fillValue);
+        return result;
+    }
+
     public List<List<T>> chunk(final int size) {
-        return chunk(getIterable(), size);
+        return chunk(getIterable(), size, size);
+    }
+
+    public List<List<T>> chunk(final int size, final int step) {
+        return chunk(getIterable(), size, step);
+    }
+
+    public List<List<T>> chunkFill(final int size, final T fillvalue) {
+        return chunkFill(getIterable(), size, size, fillvalue);
+    }
+
+    public List<List<T>> chunkFill(final int size, final int step, T fillvalue) {
+        return chunkFill(getIterable(), size, step, fillvalue);
     }
 
     /*
@@ -2665,7 +2701,19 @@ public class U<T> {
         }
 
         public Chain<List<T>> chunk(final int size) {
-            return new Chain<List<T>>(U.chunk(value(), size));
+            return new Chain<List<T>>(U.chunk(value(), size, size));
+        }
+
+        public Chain<List<T>> chunk(final int size, final int step) {
+            return new Chain<List<T>>(U.chunk(value(), size, step));
+        }
+
+        public Chain<List<T>> chunkFill(final int size, final T fillValue) {
+            return new Chain<List<T>>(U.chunkFill(value(), size, size, fillValue));
+        }
+
+        public Chain<List<T>> chunkFill(final int size, final int step, final T fillValue) {
+            return new Chain<List<T>>(U.chunkFill(value(), size, step, fillValue));
         }
 
         @SuppressWarnings("unchecked")
