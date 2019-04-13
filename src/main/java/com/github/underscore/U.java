@@ -1742,6 +1742,30 @@ public class U<T> {
         return chunkFill(getIterable(), size, step, fillvalue);
     }
 
+    public static <T> List<T> cycle(final Iterable<T> iterable, final int times) {
+        int size = Math.abs(size(iterable) * times);
+        if (size == 0) {
+            return newArrayList();
+        }
+        List<T> list = newArrayListWithExpectedSize(size);
+        int round = 0;
+        if (times > 0) {
+            while (round < times) {
+                for (T element : iterable) {
+                    list.add(element);
+                }
+                round++;
+            }
+        } else {
+            list = cycle(U.reverse(iterable), -times);
+        }
+        return list;
+    }
+
+    public List<T> cycle(final int times) {
+        return cycle(value(), times);
+    }
+
     /*
      * Documented, #bind
      */
@@ -2744,6 +2768,10 @@ public class U<T> {
 
         public Chain<List<T>> chunkFill(final int size, final int step, final T fillValue) {
             return new Chain<List<T>>(U.chunkFill(value(), size, step, fillValue));
+        }
+
+        public Chain<T> cycle(final int times) {
+            return new Chain<T>(U.cycle(value(), times));
         }
 
         @SuppressWarnings("unchecked")
