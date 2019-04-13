@@ -170,14 +170,51 @@ _.chunk(['a', 'b', 'c', 'd'], 2);
 
 _.chunk(['a', 'b', 'c', 'd'], 3);
 // → [['a', 'b', 'c'], ['d']]
+
+_.chunk(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 2, 3);
+// → [['a', 'b'], ['d', 'e'], ['g']]
 */
     @Test
     @SuppressWarnings("unchecked")
     public void chunk() {
-        assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
-        assertEquals("[[a, b], [c, d]]", new U(asList("a", "b", "c", "d")).chunk(2).toString());
-        assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
         assertEquals("[[a, b, c], [d]]", U.chunk(asList("a", "b", "c", "d"), 3).toString());
+        assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
+        assertEquals("[]", U.chunk(asList("a", "b", "c", "d"), 0).toString());
+        assertEquals("[]", U.chunk(asList(1.1, 2.2, 3.3, 4.4), -2).toString());
+        assertEquals("[[0, 1], [3, 4], [6]]", U.chunk(U.newIntegerList(U.range(7)), 2, 3).toString());
+        assertEquals("[[], [], []]", U.chunk(U.newIntegerList(U.range(7)), 0, 3).toString());
+        assertEquals("[]", U.chunk(U.newIntegerList(U.range(7)), -2, 3).toString());
+        assertEquals("[]", U.chunk(U.newIntegerList(U.range(7)), 2, 0).toString());
+        assertEquals("[]", U.chunk(U.newIntegerList(U.range(7)), 2, -2).toString());
+        assertEquals("[[a, b], [c, d]]", new U<String>(asList("a", "b", "c", "d")).chunk(2).toString());
+        assertEquals("[]", new U<String>(asList("a", "b", "c", "d")).chunk(0).toString());
+        assertEquals("[[0, 1, 2], [2, 3, 4], [4, 5]]", new U<Integer>(U.newIntegerList(U.range(6))).chunk(3, 2).toString());
+        assertEquals("[]", new U<Integer>(U.newIntegerList(U.range(7))).chunk(3, 0).toString());
+        assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
+        assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunk(0).value().toString());
+        assertEquals("[[a, b], [b, c], [c, d], [d]]", U.chain(asList("a", "b", "c", "d")).chunk(2, 1).value().toString());
+        assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunk(4, 0).value().toString());
+    }
+
+    @Test
+    public void chunkFill() {
+        assertEquals("[[a, b, c], [d, fill, fill]]", U.chunkFill(asList("a", "b", "c", "d"), 3, "fill").toString());
+        assertEquals("[[a, b], [c, d]]", U.chunkFill(asList("a", "b", "c", "d"), 2, "fill").toString());
+        assertEquals("[]", U.chunkFill(asList("a", "b", "c", "d"), 0, "fill").toString());
+        assertEquals("[]", U.chunkFill(asList(1.1, 2.2, 3.3, 4.4), -2, 0.0).toString());
+        assertEquals("[[0, 1], [3, 4], [6, 500]]", U.chunkFill(U.newIntegerList(U.range(7)), 2, 3, 500).toString());
+        assertEquals("[[], [], []]", U.chunkFill(U.newIntegerList(U.range(7)), 0, 3, 500).toString());
+        assertEquals("[]", U.chunkFill(U.newIntegerList(U.range(7)), -2, 3, 500).toString());
+        assertEquals("[]", U.chunkFill(U.newIntegerList(U.range(7)), 2, 0, 500).toString());
+        assertEquals("[]", U.chunkFill(U.newIntegerList(U.range(7)), 2, -2, 500).toString());
+        assertEquals("[[a, b, c], [d, fill, fill]]", new U<String>(asList("a", "b", "c", "d")).chunkFill(3, "fill").toString());
+        assertEquals("[]", new U<String>(asList("a", "b", "c", "d")).chunkFill(0, "fill").toString());
+        assertEquals("[[0, 1, 2], [2, 3, 4], [4, 5, 500]]", new U<Integer>(U.newIntegerList(U.range(6))).chunkFill(3, 2, 500).toString());
+        assertEquals("[]", new U<Integer>(U.newIntegerList(U.range(7))).chunkFill(3, 0, 500).toString());
+        assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunkFill(2, "fill").value().toString());
+        assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunkFill(0, "fill").value().toString());
+        assertEquals("[[a, b], [b, c], [c, d], [d, fill]]", U.chain(asList("a", "b", "c", "d")).chunkFill(2, 1, "fill").value().toString());
+        assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunkFill(4, 0, "fill").value().toString());
     }
 
 /*
