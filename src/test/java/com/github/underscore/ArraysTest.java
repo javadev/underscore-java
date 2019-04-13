@@ -25,6 +25,7 @@ package com.github.underscore;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -139,6 +140,59 @@ _.head([5, 4, 3, 2, 1], 2);
         assertEquals("[5, 4]", resultListObj.toString());
         final int resultInt = U.head(new Integer[] {5, 4, 3, 2, 1});
         assertEquals(5, resultInt);
+    }
+
+/*
+_.singleOrNull([5, 4, 3, 2, 1]);
+=> null
+_.singleOrNull([5]);
+=> 5
+*/
+    @Test
+    public void singleOrNull() {
+       U<Integer> uWithMoreElement = new U<Integer>(asList(1, 2, 3));
+       U<Integer> uWithOneElement = new U<Integer>(asList(1));
+
+       final Integer result1 = U.singleOrNull(asList(1, 2, 3));
+       assertEquals(result1, null);
+       final int result2 = U.singleOrNull(asList(1));
+       assertEquals(result2, 1);
+       final Integer result3 = U.singleOrNull(new ArrayList<Integer>());
+       assertEquals(result3, null);
+       final Integer result4 = U.singleOrNull(asList(1, 2, 3), new Predicate<Integer>() {
+           public boolean test(Integer item) {
+               return item % 2 == 1;
+           }
+       });
+       assertEquals(result4, null);
+       final int result5 = U.singleOrNull(asList(1, 2, 3), new Predicate<Integer>() {
+           public boolean test(Integer item) {
+               return item % 2 == 0;
+           }
+       });
+       assertEquals(result5, 2);
+       final Integer result6 = U.singleOrNull(asList(1, 2, 3), new Predicate<Integer>() {
+           public boolean test(Integer item) {
+               return item  == 5;
+           }
+       });
+       assertEquals(result6, null);
+       final Integer result7 = uWithMoreElement.singleOrNull();
+       assertEquals(result7, null);
+       final Integer result8 = uWithOneElement.singleOrNull();
+       assertEquals(result8, Integer.valueOf(1));
+       final Integer result9 = uWithMoreElement.singleOrNull(new Predicate<Integer>() {
+           public boolean test(Integer item) {
+               return item % 2 == 0;
+           }
+       });
+       assertEquals(result9, Integer.valueOf(2));
+       final Integer result10 = uWithMoreElement.singleOrNull(new Predicate<Integer>() {
+           public boolean test(Integer item) {
+               return item % 2 == 1;
+           }
+       });
+       assertEquals(result10, null);
     }
 
 /*
