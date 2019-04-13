@@ -1035,6 +1035,31 @@ public class U<T> {
         return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[ARRAY_SIZE_2]);
     }
 
+    public T singleOrNull() {
+        return singleOrNull(iterable);
+    }
+
+    public T singleOrNull(Predicate<T> pred) {
+        return singleOrNull(iterable, pred);
+    }
+
+    public static <E> E singleOrNull(final Iterable<E> iterable) {
+        Iterator<E> iterator = iterable.iterator();
+        if (!iterator.hasNext()) {
+            return null;
+        }
+        E result = iterator.next();
+
+        if (iterator.hasNext()) {
+            result = null;
+        }
+        return result;
+    }
+
+    public static <E> E singleOrNull(final Iterable<E> iterable, Predicate<E> pred) {
+        return singleOrNull(filter(iterable, pred));
+    }
+
     /*
      * Documented, #first
      */
