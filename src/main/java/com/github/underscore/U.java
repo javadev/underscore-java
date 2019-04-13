@@ -1036,6 +1036,44 @@ public class U<T> {
     }
 
     /*
+     * singleOrNull
+     */
+    public T singleOrNull() {
+        return singleOrNull(iterable);
+    }
+
+    public T singleOrNull(Predicate<T> pred) {
+        return singleOrNull(iterable, pred);
+    }
+
+    public static <E> E singleOrNull(final Iterable<E> iterable) {
+        Iterator<E> iterator = iterable.iterator();
+
+        if(!iterator.hasNext()) {
+            return null;
+        }
+        E result = iterator.next();
+
+        if(iterator.hasNext()) {
+            result = null;
+        }
+        return result;
+    }
+
+    public static <E> E singleOrNull(final Iterable<E> iterable, Predicate<E> pred) {
+        List<E> results = new ArrayList<E>();
+        Iterator<E> iterator = iterable.iterator();
+
+        while(iterator.hasNext()) {
+            E element = iterator.next();
+            if(pred.test(element)) {
+                results.add(element);
+            }
+        }
+        return singleOrNull(results);
+    }
+
+    /*
      * Documented, #first
      */
     public static <E> E first(final Iterable<E> iterable) {

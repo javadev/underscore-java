@@ -113,6 +113,28 @@ _.head([5, 4, 3, 2, 1], 2);
     }
 
 /*
+_.singleOrNull([5, 4, 3, 2, 1]);
+=> null
+_.singleOrNull([5]);
+=> 5
+*/
+    @Test
+    public void singleOrNull() {
+        final Integer result1 = U.singleOrNull(asList(1, 2, 3, 4));
+        assertEquals(result1, null);
+        final int result2 = U.singleOrNull(asList(1));
+        assertEquals(result2, 1);
+        final Integer result3 = U.singleOrNull(asList());
+        assertEquals(result3, null);
+        final Integer result4 = U.singleOrNull(asList(1, 2, 3), number -> number % 2 == 1);
+        assertEquals(result4, null);
+        final int result5 = U.singleOrNull(asList(1, 2, 3), number -> number % 2 == 0);
+        assertEquals(result5, 2);
+        final Integer result6 = U.singleOrNull(asList(1, 2, 3), number -> number == 5);
+        assertEquals(result6, null);
+    }
+
+/*
 _.rest([5, 4, 3, 2, 1]);
 => [4, 3, 2, 1]
 _.rest([5, 4, 3, 2, 1], 2);
