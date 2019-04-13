@@ -153,9 +153,8 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<T>(U.compact(value(), falsyValue));
         }
 
-        @SuppressWarnings("unchecked")
-        public Chain flatten() {
-            return new Chain(U.flatten(value()));
+        public Chain<?> flatten() {
+            return new Chain<>(U.flatten(value()));
         }
 
         public <F> Chain<F> map(final Function<? super T, F> func) {
@@ -331,7 +330,6 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<T>(U.uniq(value()));
         }
 
-        @SuppressWarnings("unchecked")
         public <F> Chain<T> uniq(final Function<T, F> func) {
             return new Chain<T>(U.newArrayList(U.uniq(value(), func)));
         }
@@ -635,7 +633,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public Chain<String> toJson() {
-            return new Chain<String>(Json.toJson((Collection) value()));
+            return new Chain<String>(Json.toJson((Collection<T>) value()));
         }
 
         public Chain<Object> fromJson() {
@@ -643,7 +641,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public Chain<String> toXml() {
-            return new Chain<String>(Xml.toXml((Collection) value()));
+            return new Chain<String>(Xml.toXml((Collection<T>) value()));
         }
 
         public Chain<Object> fromXml() {
@@ -658,13 +656,12 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<String>(U.fetch((String) item(), method, body).text());
         }
 
-        @SuppressWarnings("unchecked")
         public Chain<List<T>> createPermutationWithRepetition(final int permutationLength) {
             return new Chain<List<T>>(U.createPermutationWithRepetition((List<T>) value(), permutationLength));
         }
 
         public Chain<String> toJsonJavaString() {
-            return new Chain<String>(Json.toJsonJavaString((Collection) value()));
+            return new Chain<String>(Json.toJsonJavaString((Collection<T>) value()));
         }
 
         public Chain<String> xmlToJson() {
@@ -1031,9 +1028,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return mean((Iterable<Number>) getIterable());
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Number> double median(final Iterable<T> iterable) {
-        final List<T> result = newArrayList((Collection) iterable);
+        final List<T> result = newArrayList((Collection<T>) iterable);
         final int size = size(iterable);
         if (size == 0) {
             throw new IllegalArgumentException("Iterable cannot be empty");
@@ -1365,14 +1361,14 @@ public class U<T> extends com.github.underscore.U<T> {
         Object localObject = object;
         while (localObject != null && index < length) {
             if (localObject instanceof Map) {
-                Map.Entry mapEntry = getMapEntry((Map) localObject);
+                Map.Entry<?, ?> mapEntry = getMapEntry((Map<?, ?>) localObject);
                 if (mapEntry != null && "#item".equals(mapEntry.getKey())) {
                     localObject = mapEntry.getValue();
                     continue;
                 }
-                localObject = ((Map) localObject).get(paths.get(index));
+                localObject = ((Map<?, ?>) localObject).get(paths.get(index));
             } else if (localObject instanceof List) {
-                localObject = ((List) localObject).get(Integer.parseInt(paths.get(index)));
+                localObject = ((List<?>) localObject).get(Integer.parseInt(paths.get(index)));
             } else {
                 break;
             }
@@ -1384,8 +1380,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return null;
     }
 
-    private static Map.Entry getMapEntry(Map map) {
-        return map.isEmpty() ? null : (Map.Entry) map.entrySet().iterator().next();
+    private static Map.Entry<?, ?> getMapEntry(Map<?, ?> map) {
+        return map.isEmpty() ? null : (Map.Entry<?, ?>) map.entrySet().iterator().next();
     }
 
     public static <T> T get(final Map<String, Object> object, final String path) {
@@ -1854,22 +1850,18 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     public List<List<T>> createPermutationWithRepetition(final int permutationLength) {
         return createPermutationWithRepetition((List<T>) value(), permutationLength);
     }
 
-    @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList() {
         return com.github.underscore.U.newArrayList();
     }
 
-    @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList(final Iterable<T> iterable) {
         return com.github.underscore.U.newArrayList(iterable);
     }
 
-    @SuppressWarnings("unchecked")
     protected static <T> Set<T> newLinkedHashSet() {
         return com.github.underscore.U.newLinkedHashSet();
     }
@@ -1878,28 +1870,28 @@ public class U<T> extends com.github.underscore.U<T> {
         return com.github.underscore.U.newLinkedHashMap();
     }
 
-    public static String toJson(Collection collection) {
+    public static String toJson(Collection<?> collection) {
         return Json.toJson(collection);
     }
 
-    public static String toJson(Map map) {
+    public static String toJson(Map<?, ?> map) {
         return Json.toJson(map);
     }
 
     public String toJson() {
-        return Json.toJson((Collection) getIterable());
+        return Json.toJson((Collection<T>) getIterable());
     }
 
-    public static String toJsonJavaString(Collection collection) {
+    public static String toJsonJavaString(Collection<?> collection) {
         return Json.toJsonJavaString(collection);
     }
 
-    public static String toJsonJavaString(Map map) {
+    public static String toJsonJavaString(Map<?, ?> map) {
         return Json.toJsonJavaString(map);
     }
 
     public String toJsonJavaString() {
-        return Json.toJsonJavaString((Collection) getIterable());
+        return Json.toJsonJavaString((Collection<T>) getIterable());
     }
 
     public static Object fromXml(final String xml) {
@@ -1926,11 +1918,11 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.fromXmlWithoutNamespacesAndAttributes(xml);
     }
 
-    public static String toXml(Collection collection) {
+    public static String toXml(Collection<?> collection) {
         return Xml.toXml(collection);
     }
 
-    public static String toXml(Map map) {
+    public static String toXml(Map<?, ?> map) {
         return Xml.toXml(map);
     }
 
@@ -1943,33 +1935,31 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public String toXml() {
-        return Xml.toXml((Collection) getIterable());
+        return Xml.toXml((Collection <T>) getIterable());
     }
 
     public Object fromXml() {
         return Xml.fromXml(getString().get());
     }
 
-    @SuppressWarnings("unchecked")
     public static String jsonToXml(String json, Xml.XmlStringBuilder.Step identStep) {
         Object result = Json.fromJson(json);
         if (result instanceof Map) {
-            return Xml.toXml((Map) result, identStep);
+            return Xml.toXml((Map<?, ?>) result, identStep);
         }
-        return Xml.toXml((List) result, identStep);
+        return Xml.toXml((List<?>) result, identStep);
     }
 
     public static String jsonToXml(String json) {
         return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
-    @SuppressWarnings("unchecked")
     public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep) {
         Object result = Xml.fromXml(xml);
         if (result instanceof Map) {
-            return Json.toJson((Map) result, identStep);
+            return Json.toJson((Map<?, ?>) result, identStep);
         }
-        return Json.toJson((List) result, identStep);
+        return Json.toJson((List<?>) result, identStep);
     }
 
     public static String xmlToJson(String xml) {

@@ -43,6 +43,7 @@ _.keys({one: 1, two: 2, three: 3});
 => ["one", "two", "three"]
 */
     @Test
+    @SuppressWarnings("serial")
     public void keys() {
         Set<String> result = U.keys(new LinkedHashMap<String, Object>() { {
             put("one", 1); put("two", 2); put("three", 3); } });
@@ -54,6 +55,7 @@ _.values({one: 1, two: 2, three: 3});
 => [1, 2, 3]
 */
     @Test
+    @SuppressWarnings("serial")
     public void values() {
         Collection<Integer> result = U.values(new LinkedHashMap<String, Integer>() { {
             put("one", 1); put("two", 2); put("three", 3); } });
@@ -65,6 +67,7 @@ _.pairs({one: 1, two: 2, three: 3});
 => [["one", 1], ["two", 2], ["three", 3]]
 */
     @Test
+    @SuppressWarnings("serial")
     public void pairs() {
         List<Tuple<String, Integer>> result = U.pairs(new LinkedHashMap<String, Integer>() { {
             put("one", 1); put("two", 2); put("three", 3); } });
@@ -76,6 +79,7 @@ _.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
 => {Moses: "Moe", Louis: "Larry", Jerome: "Curly"};
 */
     @Test
+    @SuppressWarnings("serial")
     public void invert() {
         List<Tuple<String, String>> result = U.invert(new LinkedHashMap<String, String>() { {
             put("Moe", "Moses"); put("Larry", "Louis"); put("Curly", "Jerome"); } });
@@ -111,6 +115,7 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
 => {age: 50}
 */
     @Test
+    @SuppressWarnings("serial")
     public void pick() {
         final List<Tuple<String, Object>> result = U.pick(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
@@ -134,6 +139,7 @@ _.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
 => {name: 'moe', userid: 'moe1'}
 */
     @Test
+    @SuppressWarnings("serial")
     public void omit() {
         final List<Tuple<String, Object>> result = U.omit(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
@@ -154,6 +160,7 @@ _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
 => {flavor: "chocolate", sprinkles: "lots"}
 */
     @Test
+    @SuppressWarnings("serial")
     public void defaults() {
         Map<String, String> iceCream = new LinkedHashMap<String, String>() { { put("flavor", "chocolate"); } };
         Map<String, String> result = U.defaults(iceCream, new LinkedHashMap<String, String>() { {
@@ -168,6 +175,7 @@ _.clone({name: 'moe'});
     @Test
     @SuppressWarnings("unchecked")
     public void cloneMap() {
+        @SuppressWarnings("serial")
         Map<String, String> result = (Map<String, String>) U.clone(new LinkedHashMap<String, String>() { {
             put("name", "moe"); } });
         assertEquals("{name=moe}", result.toString());
@@ -213,6 +221,7 @@ _.isEqual('Curly', 'Curly')
 => true
 */
     @Test
+    @SuppressWarnings("serial")
     public void isEqual() {
         Map<String, Object> stooge = new LinkedHashMap<String, Object>() { {
             put("name", "moe"); put("luckyNumbers", asList(13, 27, 34)); } };
@@ -229,7 +238,7 @@ _.isEqual('Curly', 'Curly')
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "serial" })
     public void isEmpty() {
         assertTrue(U.isEmpty((List) null));
         assertTrue(U.isEmpty(new ArrayList<String>()));
@@ -246,7 +255,7 @@ _.isEqual('Curly', 'Curly')
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "serial" })
     public void isNotEmpty() {
         assertFalse(U.isNotEmpty((List) null));
         assertFalse(U.isNotEmpty(new ArrayList<String>()));
@@ -378,7 +387,7 @@ _.chain([1,2,3,200])
 => [4, 40000]
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void tap() {
         final List<Map.Entry<String, Integer>> result = new ArrayList<Map.Entry<String, Integer>>();
         U.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),
@@ -403,6 +412,7 @@ _.has({a: 1, b: 2, c: 3}, "b");
 => true
 */
     @Test
+    @SuppressWarnings("serial")
     public void has() {
         boolean result = U.has(new LinkedHashMap<String, Integer>() { {
             put("a", 1); put("b", 2); put("c", 3); } }, "b");
@@ -415,6 +425,7 @@ _.isMatch(stooge, {age: 32});
 => true
 */
     @Test
+    @SuppressWarnings("serial")
     public void isMatch() {
         Map<String, Object> stooge = new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 32); } };
         assertTrue(U.isMatch(stooge, new LinkedHashMap<String, Object>() { { put("age", 32); } }));
@@ -429,7 +440,7 @@ var ready = _.matcher({selected: true, visible: true});
 var readyToGoList = _.filter(list, ready);
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void matcher() {
         List<Map<String, Object>> list = Arrays.<Map<String, Object>>asList(
             new LinkedHashMap<String, Object>() { {
@@ -502,7 +513,7 @@ _.extend({name: 'moe'}, {age: 50});
 => {name: 'moe', age: 50}
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "serial" })
     public void extend() {
         assertEquals("{name=moe, age=50}", U.extend(new LinkedHashMap<String, Object>() { { put("name", "moe"); } },
             new LinkedHashMap<String, Object>() { { put("age", 50); } }).toString());
@@ -515,6 +526,7 @@ _.mapObject({start: 5, end: 12}, function(val, key) {
 => {start: 10, end: 17}
 */
     @Test
+    @SuppressWarnings("serial")
     public void mapObject() {
         List<Tuple<String, Integer>> result = U.mapObject(new LinkedHashMap<String, Integer>() { {
             put("start", 5); put("end", 12); } }, new Function<Integer, Integer>() {

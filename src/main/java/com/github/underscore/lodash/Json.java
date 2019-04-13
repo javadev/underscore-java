@@ -131,13 +131,13 @@ public final class Json {
     }
 
     public static class JsonArray {
-        public static void writeJson(Collection collection, JsonStringBuilder builder) {
+        public static void writeJson(Collection<?> collection, JsonStringBuilder builder) {
             if (collection == null) {
                 builder.append(NULL);
                 return;
             }
 
-            Iterator iter = collection.iterator();
+            Iterator<?> iter = collection.iterator();
 
             builder.append('[').incIdent();
             if (!collection.isEmpty()) {
@@ -318,20 +318,20 @@ public final class Json {
     }
 
     public static class JsonObject {
-        public static void writeJson(Map map, JsonStringBuilder builder) {
+        public static void writeJson(Map<?, ?> map, JsonStringBuilder builder) {
             if (map == null) {
                 builder.append(NULL);
                 return;
             }
 
-            Iterator iter = map.entrySet().iterator();
+            Iterator<?> iter = map.entrySet().iterator();
 
             builder.append('{').incIdent();
             if (!map.isEmpty()) {
                 builder.newLine();
             }
             while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
+                Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iter.next();
                 builder.fillSpaces().append(builder.type.getWrapLine());
                 builder.append(JsonValue.escape(String.valueOf(entry.getKey())));
                 builder.append(builder.type.getWrapLine());
@@ -372,9 +372,9 @@ public final class Json {
             } else if (value instanceof Boolean) {
                 builder.append(value.toString());
             } else if (value instanceof Map) {
-                JsonObject.writeJson((Map) value, builder);
+                JsonObject.writeJson((Map<?, ?>) value, builder);
             } else if (value instanceof Collection) {
-                JsonArray.writeJson((Collection) value, builder);
+                JsonArray.writeJson((Collection<?>) value, builder);
             } else if (value instanceof byte[]) {
                 JsonArray.writeJson((byte[]) value, builder);
             } else if (value instanceof short[]) {
@@ -455,6 +455,7 @@ public final class Json {
     }
 
     public static class ParseException extends RuntimeException {
+        private static final long serialVersionUID = -277370310370064296L;
         private final int offset;
         private final int line;
         private final int column;
@@ -832,36 +833,36 @@ public final class Json {
 
     }
 
-    public static String toJson(Collection collection, JsonStringBuilder.Step identStep) {
+    public static String toJson(Collection<?> collection, JsonStringBuilder.Step identStep) {
         final JsonStringBuilder builder = new JsonStringBuilder(identStep);
 
         JsonArray.writeJson(collection, builder);
         return builder.toString();
     }
 
-    public static String toJson(Collection collection) {
+    public static String toJson(Collection<?> collection) {
         return toJson(collection, JsonStringBuilder.Step.TWO_SPACES);
     }
 
-    public static String toJson(Map map, JsonStringBuilder.Step identStep) {
+    public static String toJson(Map<?, ?> map, JsonStringBuilder.Step identStep) {
         final JsonStringBuilder builder = new JsonStringBuilder(identStep);
 
         JsonObject.writeJson(map, builder);
         return builder.toString();
     }
 
-    public static String toJson(Map map) {
+    public static String toJson(Map<?, ?> map) {
         return toJson(map, JsonStringBuilder.Step.TWO_SPACES);
     }
 
-    public static String toJsonJavaString(Collection collection) {
+    public static String toJsonJavaString(Collection<?> collection) {
         final JsonStringBuilder builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
 
         JsonArray.writeJson(collection, builder);
         return builder.toString();
     }
 
-    public static String toJsonJavaString(Map map) {
+    public static String toJsonJavaString(Map<?, ?> map) {
         final JsonStringBuilder builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
 
         JsonObject.writeJson(map, builder);
@@ -872,13 +873,12 @@ public final class Json {
         return new JsonParser(string).parse();
     }
 
-    @SuppressWarnings("unchecked")
     public static String formatJson(String json, JsonStringBuilder.Step identStep) {
         Object result = fromJson(json);
         if (result instanceof Map) {
-            return toJson((Map) result, identStep);
+            return toJson((Map<?, ?>) result, identStep);
         }
-        return toJson((List) result, identStep);
+        return toJson((List<?>) result, identStep);
     }
 
     public static String formatJson(String json) {

@@ -1,7 +1,7 @@
 package com.github.underscore;
 
 public final class Optional<T> {
-    private static final Optional<?> EMPTY = new Optional();
+    private static final Optional<?> EMPTY = new Optional<>();
     private final T arg;
     private final boolean absent;
 
@@ -84,7 +84,7 @@ public final class Optional<T> {
             return false;
         }
 
-        final Optional optional = (Optional) o;
+        final Optional<T> optional = (Optional) o;
 
         return absent == optional.absent && !(arg == null ? optional.arg != null : !arg.equals(optional.arg));
     }

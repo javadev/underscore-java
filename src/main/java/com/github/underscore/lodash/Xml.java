@@ -169,7 +169,7 @@ public final class Xml {
     }
 
     public static class XmlArray {
-        public static void writeXml(Collection collection, String name, XmlStringBuilder builder,
+        public static void writeXml(Collection<?> collection, String name, XmlStringBuilder builder,
             boolean parentTextFound, Set<String> namespaces, boolean addArray) {
             if (collection == null) {
                 builder.append(NULL);
@@ -199,11 +199,10 @@ public final class Xml {
             }
         }
 
-        @SuppressWarnings("unchecked")
-        private static void writeXml(Collection collection, XmlStringBuilder builder, String name,
+        private static void writeXml(Collection<?> collection, XmlStringBuilder builder, String name,
             final boolean parentTextFound, Set<String> namespaces) {
             boolean localParentTextFound = parentTextFound;
-            final List entries = U.newArrayList(collection);
+            final List<?> entries = U.newArrayList(collection);
             for (int index = 0; index < entries.size(); index += 1) {
                 final Object value = entries.get(index);
                 final boolean addNewLine = index < entries.size() - 1
@@ -213,10 +212,10 @@ public final class Xml {
                         .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces))
                             + (collection.size() == 1 ? ARRAY_TRUE : "") + NULL_TRUE);
                 } else {
-                    if (value instanceof Map && ((Map) value).size() == 1
+                    if (value instanceof Map && ((Map<?, ?>) value).size() == 1
                         && XmlValue.getMapKey(value).equals("#item")
                         && XmlValue.getMapValue(value) instanceof Map) {
-                        XmlObject.writeXml((Map) XmlValue.getMapValue(value), null, builder,
+                        XmlObject.writeXml((Map<?, ?>) XmlValue.getMapValue(value), null, builder,
                             localParentTextFound, namespaces, true);
                         if (XmlValue.getMapKey(XmlValue.getMapValue(value)).startsWith(TEXT)) {
                             localParentTextFound = true;
@@ -485,7 +484,7 @@ public final class Xml {
                 addComment(entry, identStep, ident, parentTextFound, addNewLine, elems);
             } else if (String.valueOf(entry.getKey()).startsWith(CDATA)) {
                 addCdata(entry, identStep, ident, addNewLine, elems);
-            } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
+            } else if (entry.getValue() instanceof List && !((List<?>) entry.getValue()).isEmpty()) {
                 addElements(identStep, ident, entry, namespaces, elems, addNewLine);
             } else {
                 addElement(identStep, ident, entry, namespaces, elems, addNewLine);
@@ -496,7 +495,7 @@ public final class Xml {
                 final XmlStringBuilder.Step identStep, final int ident, final Set<String> attrKeys,
                 final List<String> attrs) {
             if (entry.getValue() instanceof List) {
-                for (Object value : (List) entry.getValue()) {
+                for (Object value : (List<?>) entry.getValue()) {
                     elems.add(new XmlStringBuilderText(identStep, ident).append(
                         XmlValue.escape(String.valueOf(value))));
                 }
@@ -521,7 +520,7 @@ public final class Xml {
                 Set<String> namespaces, final List<XmlStringBuilder> elems, final boolean addNewLine) {
             boolean parentTextFound = !elems.isEmpty() && elems.get(elems.size() - 1) instanceof XmlStringBuilderText;
             final XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
-            XmlArray.writeXml((List) entry.getValue(), localBuilder,
+            XmlArray.writeXml((List<?>) entry.getValue(), localBuilder,
                     String.valueOf(entry.getKey()), parentTextFound, namespaces);
             if (addNewLine) {
                 localBuilder.newLine();
@@ -544,7 +543,7 @@ public final class Xml {
         private static void addComment(Map.Entry entry, XmlStringBuilder.Step identStep, int ident,
                 boolean parentTextFound, boolean addNewLine, List<XmlStringBuilder> elems) {
             if (entry.getValue() instanceof List) {
-                for (Iterator iterator = ((List) entry.getValue()).iterator(); iterator.hasNext(); ) {
+                for (Iterator<?> iterator = ((List<?>) entry.getValue()).iterator(); iterator.hasNext(); ) {
                     elems.add(addCommentValue(identStep, ident, String.valueOf(iterator.next()), parentTextFound,
                             iterator.hasNext() || addNewLine));
                 }
@@ -570,7 +569,7 @@ public final class Xml {
         private static void addCdata(Map.Entry entry, XmlStringBuilder.Step identStep, int ident,
                 boolean addNewLine, List<XmlStringBuilder> elems) {
             if (entry.getValue() instanceof List) {
-                for (Iterator iterator = ((List) entry.getValue()).iterator(); iterator.hasNext(); ) {
+                for (Iterator<?> iterator = ((List<?>) entry.getValue()).iterator(); iterator.hasNext(); ) {
                     elems.add(addCdataValue(identStep, ident, String.valueOf(iterator.next()),
                             iterator.hasNext() || addNewLine));
                 }
@@ -594,11 +593,11 @@ public final class Xml {
         public static void writeXml(Object value, String name, XmlStringBuilder builder, boolean parentTextFound,
             Set<String> namespaces, boolean addArray) {
             if (value instanceof Map) {
-                XmlObject.writeXml((Map) value,  name, builder, parentTextFound, namespaces, addArray);
+                XmlObject.writeXml((Map<?, ?>) value,  name, builder, parentTextFound, namespaces, addArray);
                 return;
             }
             if (value instanceof Collection) {
-                XmlArray.writeXml((Collection) value, name, builder, parentTextFound, namespaces, addArray);
+                XmlArray.writeXml((Collection<?>) value, name, builder, parentTextFound, namespaces, addArray);
                 return;
             }
             if (!parentTextFound) {
@@ -841,39 +840,39 @@ public final class Xml {
         }
 
         public static String getMapKey(Object map) {
-            return map instanceof Map && !((Map) map).isEmpty() ? String.valueOf(
-               ((Map.Entry) ((Map) map).entrySet().iterator().next()).getKey()) : "";
+            return map instanceof Map && !((Map<?, ?>) map).isEmpty() ? String.valueOf(
+               ((Map.Entry) ((Map<?, ?>) map).entrySet().iterator().next()).getKey()) : "";
         }
 
         public static Object getMapValue(Object map) {
-            return map instanceof Map && !((Map) map).isEmpty()
-                ? ((Map.Entry) ((Map) map).entrySet().iterator().next()).getValue() : null;
+            return map instanceof Map && !((Map<?, ?>) map).isEmpty()
+                ? ((Map.Entry) ((Map<?, ?>) map).entrySet().iterator().next()).getValue() : null;
         }
     }
 
-    public static String toXml(Collection collection, XmlStringBuilder.Step identStep) {
+    public static String toXml(Collection<?> collection, XmlStringBuilder.Step identStep) {
         final XmlStringBuilder builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), "");
         writeArray(collection, builder);
         return builder.toString();
     }
 
-    public static String toXml(Collection collection) {
+    public static String toXml(Collection<?> collection) {
         return toXml(collection, XmlStringBuilder.Step.TWO_SPACES);
     }
 
-    public static String toXml(Map map, XmlStringBuilder.Step identStep) {
+    public static String toXml(Map<?, ?> map, XmlStringBuilder.Step identStep) {
         final XmlStringBuilder builder;
-        final Map localMap;
+        final Map<?, ?> localMap;
         if (map != null && map.containsKey(ENCODING)) {
-            localMap = (Map) U.clone(map);
+            localMap = (Map<?, ?>) U.clone(map);
             builder = checkStandalone(String.valueOf(localMap.remove(ENCODING)), identStep, localMap);
         } else if (map != null && map.containsKey(STANDALONE)) {
-            localMap = (Map) U.clone(map);
+            localMap = (Map<?, ?>) U.clone(map);
             builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(),
                 " standalone=\"" + (YES.equals(map.get(STANDALONE)) ? YES : "no") + "\"");
             localMap.remove(STANDALONE);
         } else if (map != null && map.containsKey(OMITXMLDECLARATION)) {
-            localMap = (Map) U.clone(map);
+            localMap = (Map<?, ?>) U.clone(map);
             builder = new XmlStringBuilderWithoutHeader(identStep, 0);
             localMap.remove(OMITXMLDECLARATION);
         } else {
@@ -884,12 +883,12 @@ public final class Xml {
         return builder.toString();
     }
 
-    private static void checkLocalMap(final XmlStringBuilder builder, final Map localMap) {
+    private static void checkLocalMap(final XmlStringBuilder builder, final Map<?, ?> localMap) {
         if (localMap == null || localMap.size() != 1
             || XmlValue.getMapKey(localMap).startsWith("-")
             || XmlValue.getMapValue(localMap) instanceof List) {
             if ("root".equals(XmlValue.getMapKey(localMap))) {
-                writeArray((List) XmlValue.getMapValue(localMap), builder);
+                writeArray((List<?>) XmlValue.getMapValue(localMap), builder);
             } else {
                 XmlObject.writeXml(localMap, getRootName(localMap), builder, false,
                     U.<String>newLinkedHashSet(), false);
@@ -899,7 +898,7 @@ public final class Xml {
         }
     }
 
-    private static void writeArray(final Collection collection, final XmlStringBuilder builder) {
+    private static void writeArray(final Collection<?> collection, final XmlStringBuilder builder) {
         builder.append("<root");
         if (collection != null && collection.isEmpty()) {
             builder.append(" empty-array=\"true\"");
@@ -916,7 +915,7 @@ public final class Xml {
     }
 
     private static XmlStringBuilder checkStandalone(String encoding, XmlStringBuilder.Step identStep,
-        final Map localMap) {
+        final Map<?, ?> localMap) {
         final XmlStringBuilder builder;
         if (localMap.containsKey(STANDALONE)) {
             builder = new XmlStringBuilderWithoutRoot(identStep, encoding,
@@ -938,7 +937,7 @@ public final class Xml {
                     foundAttrs += 1;
                 } else if (!String.valueOf(entry.getKey()).startsWith(COMMENT)
                         && !String.valueOf(entry.getKey()).startsWith("?")
-                        && (!(entry.getValue() instanceof List) || ((List) entry.getValue()).size() <= 1)) {
+                        && (!(entry.getValue() instanceof List) || ((List<?>) entry.getValue()).size() <= 1)) {
                     foundElements += 1;
                 }
             }
@@ -946,7 +945,7 @@ public final class Xml {
         return foundAttrs == 0 && foundElements == 1 ? null : "root";
     }
 
-    public static String toXml(Map map) {
+    public static String toXml(Map<?, ?> map) {
         return toXml(map, XmlStringBuilder.Step.TWO_SPACES);
     }
 
@@ -985,7 +984,6 @@ public final class Xml {
         return localValue;
     }
 
-    @SuppressWarnings("unchecked")
     private static Object createMap(final org.w3c.dom.Node node,
         final BiFunction<Object, Set<String>, String> elementMapper,
         final Function<Object, Object> nodeMapper, final Map<String, Object> attrMap,
@@ -1029,7 +1027,7 @@ public final class Xml {
     private static Object checkNumberAndBoolean(final Map<String, Object> map, final String name) {
         final Map<String, Object> localMap;
         if (map.containsKey(NUMBER) && TRUE.equals(map.get(NUMBER)) && map.containsKey(TEXT)) {
-            localMap = (Map) ((LinkedHashMap) map).clone();
+            localMap = (Map<String, Object>) ((LinkedHashMap<String, Object>) map).clone();
             localMap.remove(NUMBER);
             localMap.put(TEXT, stringToNumber(String.valueOf(localMap.get(TEXT))));
         } else {
@@ -1037,7 +1035,7 @@ public final class Xml {
         }
         final Map<String, Object> localMap2;
         if (map.containsKey(BOOLEAN) && TRUE.equals(map.get(BOOLEAN)) && map.containsKey(TEXT)) {
-            localMap2 = (Map) ((LinkedHashMap) localMap).clone();
+            localMap2 = (Map<String, Object>) ((LinkedHashMap<String, Object>) localMap).clone();
             localMap2.remove(BOOLEAN);
             localMap2.put(TEXT, Boolean.valueOf(String.valueOf(localMap.get(TEXT))));
         } else {
@@ -1051,7 +1049,7 @@ public final class Xml {
         final Map<String, Object> localMap = checkNullAndString(map);
         final Object object;
         if (map.containsKey(ARRAY) && TRUE.equals(map.get(ARRAY))) {
-            final Map<String, Object> localMap4 = (Map) ((LinkedHashMap) localMap).clone();
+            final Map<String, Object> localMap4 = (Map<String, Object>) ((LinkedHashMap<String, Object>) localMap).clone();
             localMap4.remove(ARRAY);
             object = name.equals(XmlValue.getMapKey(localMap4))
                 ?  U.newArrayList(Arrays.asList(getValue(XmlValue.getMapValue(localMap4), FromType.FOR_CONVERT)))
@@ -1061,12 +1059,12 @@ public final class Xml {
         }
         final Object object2;
         if (map.containsKey(EMPTY_ARRAY) && TRUE.equals(map.get(EMPTY_ARRAY))) {
-            final Map<String, Object> localMap4 = (Map) ((LinkedHashMap) map).clone();
+            final Map<String, Object> localMap4 = (Map<String, Object>) ((LinkedHashMap<String, Object>) map).clone();
             localMap4.remove(EMPTY_ARRAY);
             if (localMap4.containsKey(ARRAY) && TRUE.equals(localMap4.get(ARRAY))
                 && localMap4.size() == 1) {
                 object2 = U.newArrayList();
-                ((List) object2).add(U.newArrayList());
+                ((List<List<?>>) object2).add(U.newArrayList());
             } else {
                 object2 = localMap4.isEmpty() ? U.newArrayList() : localMap4;
             }
@@ -1080,7 +1078,7 @@ public final class Xml {
     private static Map<String, Object> checkNullAndString(final Map<String, Object> map) {
         final Map<String, Object> localMap;
         if (map.containsKey(NULL_ATTR) && TRUE.equals(map.get(NULL_ATTR))) {
-            localMap = (Map) ((LinkedHashMap) map).clone();
+            localMap = (Map<String, Object>) ((LinkedHashMap<String, Object>) map).clone();
             localMap.remove(NULL_ATTR);
             if (!map.containsKey(TEXT)) {
                 localMap.put(TEXT, null);
@@ -1090,7 +1088,7 @@ public final class Xml {
         }
         final Map<String, Object> localMap2;
         if (map.containsKey(STRING) && TRUE.equals(map.get(STRING))) {
-            localMap2 = (Map) ((LinkedHashMap) localMap).clone();
+            localMap2 = (Map<String, Object>) ((LinkedHashMap<String, Object>) localMap).clone();
             localMap2.remove(STRING);
             if (!map.containsKey(TEXT)) {
                 localMap2.put(TEXT, "");
@@ -1230,7 +1228,6 @@ public final class Xml {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private static void addText(final Map<String, Object> map, final String name, final List<Object> objects,
         final Object value, final FromType fromType) {
         int lastIndex = map.size() - 1;
@@ -1249,7 +1246,7 @@ public final class Xml {
         }
         final Object newValue = getValue(value, fromType);
         if (newValue instanceof List) {
-            objects.add(((List) newValue).get(0));
+            objects.add(((List<?>) newValue).get(0));
         } else {
             objects.add(newValue);
         }
@@ -1265,7 +1262,6 @@ public final class Xml {
         FOR_FORMAT
     }
 
-    @SuppressWarnings("unchecked")
     public static Object fromXml(final String xml, final FromType fromType) {
         if (xml == null) {
             return null;
@@ -1283,7 +1279,7 @@ public final class Xml {
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0},
             U.<String>newLinkedHashSet(), fromType);
             if (checkResult(xml, document, result, fromType)) {
-                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
+                return ((Map.Entry) ((Map<?, ?>) result).entrySet().iterator().next()).getValue();
             }
             return result;
         } catch (Exception ex) {
@@ -1296,23 +1292,23 @@ public final class Xml {
             final FromType fromType) {
         final Map<String, String> headerAttributes = getHeaderAttributes(xml);
         if (document.getXmlEncoding() != null && !"UTF-8".equalsIgnoreCase(document.getXmlEncoding())) {
-            ((Map) result).put(ENCODING, document.getXmlEncoding());
+            ((Map<String, String>) result).put(ENCODING, document.getXmlEncoding());
             if (headerAttributes.containsKey(STANDALONE.substring(1))) {
-                ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
+                ((Map<String, String>) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
             }
         } else if (headerAttributes.containsKey(STANDALONE.substring(1))) {
-            ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
+            ((Map<String, String>) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
         } else if (fromType == FromType.FOR_CONVERT
-                && ((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
-                && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
-                || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
+                && ((Map.Entry) ((Map<?, ?>) result).entrySet().iterator().next()).getKey().equals("root")
+                && (((Map.Entry) ((Map<?, ?>) result).entrySet().iterator().next()).getValue() instanceof List
+                || ((Map.Entry) ((Map<?, ?>) result).entrySet().iterator().next()).getValue() instanceof Map)) {
             if (xml.startsWith(XML_HEADER)) {
                 return true;
             } else {
-                ((Map) result).put(OMITXMLDECLARATION, YES);
+                ((Map<String, String>) result).put(OMITXMLDECLARATION, YES);
             }
         } else if (!xml.startsWith(XML_HEADER)) {
-            ((Map) result).put(OMITXMLDECLARATION, YES);
+            ((Map<String, String>) result).put(OMITXMLDECLARATION, YES);
         }
         return false;
     }
@@ -1362,7 +1358,7 @@ public final class Xml {
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0},
             U.<String>newLinkedHashSet(), FromType.FOR_CONVERT);
             if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
-                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
+                return ((Map.Entry) ((Map<?, ?>) result).entrySet().iterator().next()).getValue();
             }
             return result;
         } catch (Exception ex) {
@@ -1381,7 +1377,7 @@ public final class Xml {
             }, Collections.<String, Object>emptyMap(), new int[]{1, 1, 1}, xml, new int[]{0},
                 U.<String>newLinkedHashSet(), FromType.FOR_CONVERT);
             if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
-                return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
+                return ((Map.Entry) ((Map<?, ?>) result).entrySet().iterator().next()).getValue();
             }
             return result;
         } catch (Exception ex) {
@@ -1434,10 +1430,9 @@ public final class Xml {
             });
     }
 
-    @SuppressWarnings("unchecked")
     public static String formatXml(String xml, XmlStringBuilder.Step identStep) {
         Object result = fromXml(xml, FromType.FOR_FORMAT);
-        return toXml((Map) result, identStep);
+        return toXml((Map<?, ?>) result, identStep);
     }
 
     public static String formatXml(String xml) {

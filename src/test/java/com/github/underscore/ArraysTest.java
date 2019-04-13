@@ -117,7 +117,6 @@ _.first([5, 4, 3, 2, 1], 2);
     }
 
     @Test(expected = NoSuchElementException.class)
-    @SuppressWarnings("unchecked")
     public void firstEmpty() {
         U.first(asList());
     }
@@ -202,7 +201,6 @@ _.rest([5, 4, 3, 2, 1], 2);
 => [3, 2, 1]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void rest() {
         final List<Integer> result = U.rest(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
@@ -229,7 +227,6 @@ _.chunk(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 2, 3);
 // → [['a', 'b'], ['d', 'e'], ['g']]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void chunk() {
         assertEquals("[[a, b, c], [d]]", U.chunk(asList("a", "b", "c", "d"), 3).toString());
         assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
@@ -319,7 +316,6 @@ _.initial([5, 4, 3, 2, 1], 2);
 => [5, 4, 3]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void initial() {
         final List<Integer> result = U.initial(asList(5, 4, 3, 2, 1));
         assertEquals("[5, 4, 3, 2]", result.toString());
@@ -333,9 +329,9 @@ _.initial([5, 4, 3, 2, 1], 2);
         assertEquals("[5, 4, 3, 2]", asList(resultArray).toString());
         final Integer[] resultListArray = U.initial(new Integer[] {5, 4, 3, 2, 1}, 2);
         assertEquals("[5, 4, 3]", asList(resultListArray).toString());
-        List<Integer> res = new U(asList(1, 2, 3, 4, 5)).initial();
+        List<Integer> res = new U<>(asList(1, 2, 3, 4, 5)).initial();
         assertEquals("initial one item did not work", asList(1, 2, 3, 4), res);
-        res = new U(asList(1, 2, 3, 4, 5)).initial(3);
+        res = new U<>(asList(1, 2, 3, 4, 5)).initial(3);
         assertEquals("initial multi item did not wok", asList(1, 2), res);
     }
 
@@ -344,7 +340,6 @@ _.last([5, 4, 3, 2, 1]);
 => 1
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void last() {
         final Integer result = U.last(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
@@ -358,7 +353,7 @@ _.last([5, 4, 3, 2, 1]);
         assertEquals("1", resultArray.toString());
         Integer res = new U<Integer>(asList(1, 2, 3, 4, 5)).last();
         assertEquals("last one item did not work", 5, res.intValue());
-        List<Integer> resList = new U(asList(1, 2, 3, 4, 5)).last(3);
+        List<Integer> resList = new U<>(asList(1, 2, 3, 4, 5)).last(3);
         assertEquals("last multi item did not wok", asList(3, 4, 5), resList);
         final int resultPred = U.last(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -418,7 +413,6 @@ _.compact([0, 1, false, 2, '', 3]);
 => [1, 2, 3]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void compact() {
         final List<?> result = U.compact(asList(0, 1, false, 2, "", 3));
         assertEquals("[1, 2, 3]", result.toString());
@@ -430,13 +424,13 @@ _.compact([0, 1, false, 2, '', 3]);
         assertEquals("[1, 2, 3]", resultChain.toString());
         final List<?> result2Chain = U.chain(Arrays.<Object>asList(0, 1, false, 2, "", 3)).compact(1).value();
         assertEquals("[0, false, 2, , 3]", result2Chain.toString());
-        final List<?> result4 = new U(asList(0, 1, false, 2, "", 3)).compact();
+        final List<?> result4 = new U<Object>(asList(0, 1, false, 2, "", 3)).compact();
         assertEquals("[1, 2, 3]", result4.toString());
-        final List<?> result5 = new U(asList(0, 1, false, 2, "", 3)).compact(1);
+        final List<?> result5 = new U<Object>(asList(0, 1, false, 2, "", 3)).compact(1);
         assertEquals("[0, false, 2, , 3]", result5.toString());
-        final List<?> result6 = new U(asList(0, 1, null, 2, "", 3)).compact(1);
+        final List<?> result6 = new U<Object>(asList(0, 1, null, 2, "", 3)).compact(1);
         assertEquals("[0, null, 2, , 3]", result6.toString());
-        final List<?> result7 = new U(asList(0, 1, null, 2, "", 3)).compact((Integer) null);
+        final List<?> result7 = new U<Object>(asList(0, 1, null, 2, "", 3)).compact((Integer) null);
         assertEquals("[0, 1, 2, , 3]", result7.toString());
         final Object[] resultArray = U.compact(new Object[] {0, 1, false, 2, "", 3});
         assertEquals("[1, 2, 3]", asList(resultArray).toString());
@@ -542,7 +536,6 @@ _.uniq([1, 2, 1, 3, 1, 4]);
 => [1, 2, 3, 4]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void uniq() {
         final List<Integer> result = U.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
@@ -591,7 +584,6 @@ _.distinct([1, 2, 1, 3, 1, 4]);
 => [1, 2, 3, 4]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void distinct() {
         final List<Integer> result = U.distinct(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
@@ -645,7 +637,7 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
     public void intersection() {
         final List<Integer> result = U.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", result.toString());
-        final List<Integer> resultObj = new U(asList(1, 2, 3)).intersectionWith(asList(101, 2, 1, 10), asList(2, 1));
+        final List<Integer> resultObj = new U<>(asList(1, 2, 3)).intersectionWith(asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", resultObj.toString());
         final List<Integer> resultChain = U.chain(asList(1, 2, 3)).intersection(asList(101, 2, 1, 10),
             asList(2, 1)).value();
@@ -663,7 +655,7 @@ _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
     public void union() {
         final List<Integer> result = U.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", result.toString());
-        final List<Integer> resultObj = new U(asList(1, 2, 3)).unionWith(asList(101, 2, 1, 10), asList(2, 1));
+        final List<Integer> resultObj = new U<>(asList(1, 2, 3)).unionWith(asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", resultObj.toString());
         final List<Integer> resultChain = U.chain(asList(1, 2, 3)).union(asList(101, 2, 1, 10), asList(2, 1)).value();
         assertEquals("[1, 2, 3, 101, 10]", resultChain.toString());
@@ -680,7 +672,7 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
     public void difference() {
         final List<Integer> result = U.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
         assertEquals("[1, 3, 4]", result.toString());
-        final List<Integer> resultObj = new U(asList(1, 2, 3, 4, 5)).differenceWith(asList(5, 2, 10));
+        final List<Integer> resultObj = new U<>(asList(1, 2, 3, 4, 5)).differenceWith(asList(5, 2, 10));
         assertEquals("[1, 3, 4]", resultObj.toString());
         final List<Integer> resultChain = U.chain(asList(1, 2, 3, 4, 5)).difference(asList(5, 2, 10)).value();
         assertEquals("[1, 3, 4]", resultChain.toString());

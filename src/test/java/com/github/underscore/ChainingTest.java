@@ -53,7 +53,7 @@ var youngest = _.chain(stooges)
 => "moe is 21"
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void chain() {
         final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
@@ -78,7 +78,7 @@ var youngest = _.chain(stooges)
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void chainSet() {
         final Set<Map<String, Object>> stooges = new HashSet<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
@@ -103,14 +103,14 @@ var youngest = _.chain(stooges)
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void chainObj() {
         final Set<Map<String, Object>> stooges = new HashSet<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
             add(new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } });
             add(new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } });
         } };
-        final String youngest = new U(stooges).chain()
+        final String youngest = new U<>(stooges).chain()
             .sortBy(
                 new Function<Map<String, Object>, Integer>() {
                 public Integer apply(Map<String, Object> item) {
@@ -128,7 +128,7 @@ var youngest = _.chain(stooges)
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void chainArray() {
         final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
@@ -172,7 +172,7 @@ _.chain(lyrics)
 => {lumberjack: 2, all: 4, night: 2 ... }
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "serial" })
     public void chain2() {
         final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { {
@@ -230,7 +230,7 @@ _.chain(lyrics)
 => {day=2, all=4, works=1 ... }
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "serial" })
     public void chain3() {
         final List<Map<String, Object>> lyrics = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { {
@@ -293,7 +293,7 @@ _.chain(doctors)
 =>  [{ doctorNumber: "#9",  playedBy: "Christopher Eccleston", yearsPlayed: 1 }]
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void chain4() {
         final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { {
@@ -344,7 +344,7 @@ _.chain(doctors)
 =>  [{ number: 9,  actor: "Christopher Eccleston", begin: 2005, end: 2005 }]
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void chain5() {
         final List<Map<String, Object>> doctors = new ArrayList<Map<String, Object>>() { {
             add(new LinkedHashMap<String, Object>() { {
@@ -362,7 +362,6 @@ _.chain(doctors)
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void chain6() {
         final List<Comparable> result = U.chain(U.chain(U.class.getDeclaredMethods())
             .reduce(new BiFunction<List<String>, Method, List<String>>() {
@@ -392,7 +391,6 @@ var sum = _(words)
 => 34
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void chain7() {
         String[] words = new String[] {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum = U.chain(words)
@@ -415,7 +413,6 @@ var sum = _(words)
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void chain8() {
         final List<Comparable> result = U.chain(U.class.getDeclaredMethods())
             .map(new Function<Method, String>() {
@@ -442,7 +439,6 @@ var sum = _(words)
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void chain9() {
         final List<Comparable> result = U.chain(U.chain(U.class.getDeclaredMethods())
             .reduce(new BiFunction<List<String>, Method, List<String>>() {
@@ -463,6 +459,7 @@ var sum = _(words)
         assertEquals(4, result.size());
     }
 
+    @SuppressWarnings("serial")
     @Test
     public void chainToMap() {
         assertEquals("{name1=one, name2=two}", U.chain((new LinkedHashMap<String, String>() { {

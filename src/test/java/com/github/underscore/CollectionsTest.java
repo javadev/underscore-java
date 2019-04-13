@@ -25,6 +25,7 @@ package com.github.underscore;
 
 import java.util.*;
 import org.junit.Test;
+
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -42,7 +43,6 @@ _.each([1, 2, 3], alert);
 => alerts each number in turn...
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void each() {
         final List<Integer> result = new ArrayList<Integer>();
         U.<Integer>each(asList(1, 2, 3), new Consumer<Integer>() {
@@ -52,7 +52,7 @@ _.each([1, 2, 3], alert);
         });
         assertEquals("[1, 2, 3]", result.toString());
         final List<Integer> result2 = new ArrayList<Integer>();
-        new U(asList(1, 2, 3)).each(new Consumer<Integer>() {
+        new U<Integer>(asList(1, 2, 3)).each(new Consumer<Integer>() {
             public void accept(Integer item) {
                 result2.add(item);
             }
@@ -65,7 +65,6 @@ _.eachRight([1, 2, 3], alert);
 => alerts each number in turn from right to left...
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void eachRight() {
         final List<Integer> result = new ArrayList<Integer>();
         U.eachRight(asList(1, 2, 3), new Consumer<Integer>() {
@@ -75,7 +74,7 @@ _.eachRight([1, 2, 3], alert);
         });
         assertEquals("[3, 2, 1]", result.toString());
         final List<Integer> result2 = new ArrayList<Integer>();
-        new U(asList(1, 2, 3)).eachRight(new Consumer<Integer>() {
+        new U<Integer>(asList(1, 2, 3)).eachRight(new Consumer<Integer>() {
             public void accept(Integer item) {
                 result2.add(item);
             }
@@ -88,6 +87,7 @@ _.forEach([1, 2, 3], alert);
 => alerts each number in turn...
 */
     @Test
+    @SuppressWarnings("serial")
     public void forEach() {
         final List<Integer> result = new ArrayList<Integer>();
         U.forEach(asList(1, 2, 3), new Consumer<Integer>() {
@@ -111,7 +111,6 @@ _.forEachIndexed([1, 2, 3], alert);
 => alerts each number in turn...
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void forEachIndexed() {
         final List<Integer> result = new ArrayList<Integer>();
         U.forEachIndexed(asList(1, 2, 3), new BiConsumer<Integer, Integer>() {
@@ -121,7 +120,7 @@ _.forEachIndexed([1, 2, 3], alert);
         });
         assertEquals("[1, 2, 3]", result.toString());
         final List<Integer> resultObj = new ArrayList<Integer>();
-        new U(asList(1, 2, 3)).forEachIndexed(new BiConsumer<Integer, Integer>() {
+        new U<Integer>(asList(1, 2, 3)).forEachIndexed(new BiConsumer<Integer, Integer>() {
             public void accept(Integer index, Integer item) {
                 resultObj.add(item);
             }
@@ -134,7 +133,7 @@ _.forEach([1, 2, 3], alert);
 => alerts each number in turn from right to left...
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void forEachRight() {
         final List<Integer> result = new ArrayList<Integer>();
         U.forEachRight(asList(1, 2, 3), new Consumer<Integer>() {
@@ -144,7 +143,7 @@ _.forEach([1, 2, 3], alert);
         });
         assertEquals("[3, 2, 1]", result.toString());
         final List<Integer> result2 = new ArrayList<Integer>();
-        new U(asList(1, 2, 3)).forEachRight(new Consumer<Integer>() {
+        new U<Integer>(asList(1, 2, 3)).forEachRight(new Consumer<Integer>() {
             public void accept(Integer item) {
                 result2.add(item);
             }
@@ -165,10 +164,9 @@ _([1, 2, 3]).forEach(alert);
 => alerts each number in turn...
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void forEachObj() {
         final List<Integer> result = new ArrayList<Integer>();
-        new U(asList(1, 2, 3)).forEach(new Consumer<Integer>() {
+        new U<Integer>(asList(1, 2, 3)).forEach(new Consumer<Integer>() {
             public void accept(Integer item) {
                 result.add(item);
             }
@@ -181,6 +179,7 @@ _.each({one: 1, two: 2, three: 3}, alert);
 => alerts each number value in turn...
 */
     @Test
+    @SuppressWarnings("serial")
     public void eachMap() {
         final List<String> result = new ArrayList<String>();
         U.<Map.Entry<String, Integer>>each((new LinkedHashMap<String, Integer>() { {
@@ -232,6 +231,7 @@ _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
 => [3, 6, 9]
 */
     @Test
+    @SuppressWarnings("serial")
     public void mapMap() {
         final Set<Integer> result =
         U.map((new LinkedHashMap<Integer, String>() { { put(1, "one"); put(2, "two"); put(3, "three"); } }).entrySet(),
@@ -275,7 +275,6 @@ _.collect([1, 2, 3], function(num){ return num * 3; });
 => [3, 6, 9]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void collect() {
         List<Integer> result = U.collect(asList(1, 2, 3), new Function<Integer, Integer>() {
             public Integer apply(Integer item) {
@@ -283,7 +282,7 @@ _.collect([1, 2, 3], function(num){ return num * 3; });
             }
         });
         assertEquals("[3, 6, 9]", result.toString());
-        Set<Integer> resultSet = U.collect(new LinkedHashSet(asList(1, 2, 3)), new Function<Integer, Integer>() {
+        Set<Integer> resultSet = U.collect(new LinkedHashSet<Integer>(asList(1, 2, 3)), new Function<Integer, Integer>() {
             public Integer apply(Integer item) {
                 return item * 3;
             }
@@ -404,7 +403,6 @@ var flat = _.inject(list, function(a, b) { return a.concat(b); }, []);
 => [0, 1, 2, 3, 4, 5]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void inject() {
         final List<Integer> result =
         U.inject(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -426,7 +424,6 @@ var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
 => [0, 1, 2, 3, 4, 5]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void foldl() {
         final List<Integer> result =
         U.foldl(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -448,7 +445,6 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
 => [4, 5, 2, 3, 0, 1]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void reduceRight() {
         final List<Integer> result =
         U.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -504,7 +500,6 @@ var flat = _.foldr(list, function(a, b) { return a.concat(b); }, []);
 => [4, 5, 2, 3, 0, 1]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void foldr() {
         final List<Integer> result =
         U.foldr(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -525,7 +520,6 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 => 2
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void find() {
         final Optional<Integer> result = U.find(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
@@ -555,7 +549,6 @@ var even = _.findLast([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; })
 => 6
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void findLast() {
         final Optional<Integer> result = U.findLast(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
@@ -636,7 +629,6 @@ var evens = _.filterFalse([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0
 => [1, 3, 5]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void filterFalse() {
         final List<Integer> result = U.filterFalse(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
@@ -652,7 +644,7 @@ var evens = _.filterFalse([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0
             }
         });
         assertEquals("[1, 3, 5]", resultObject.toString());
-        final Set<Integer> resultSet = U.filterFalse(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
+        final Set<Integer> resultSet = U.filterFalse(new LinkedHashSet<Integer>(asList(1, 2, 3, 4, 5, 6)),
             new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
@@ -689,7 +681,6 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 => [2, 4, 6]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void select() {
         final List<Integer> result = U.select(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
@@ -698,7 +689,7 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
             }
         });
         assertEquals("[2, 4, 6]", result.toString());
-        final Set<Integer> resultSet = U.select(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
+        final Set<Integer> resultSet = U.select(new LinkedHashSet<Integer>(asList(1, 2, 3, 4, 5, 6)),
             new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
@@ -712,7 +703,6 @@ var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 => [2, 4, 6]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void reject() {
         final List<Integer> result = U.reject(asList(1, 2, 3, 4, 5, 6),
             new Predicate<Integer>() {
@@ -728,7 +718,7 @@ var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
             }
         });
         assertEquals("[1, 3, 5]", resultObject.toString());
-        final Set<Integer> resultSet = U.reject(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
+        final Set<Integer> resultSet = U.reject(new LinkedHashSet<Integer>(asList(1, 2, 3, 4, 5, 6)),
             new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
@@ -765,7 +755,6 @@ _.every([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // false
 _.every([1, 2, 3, 4], function(num) { return num < 5; }); // true
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void every() {
         final boolean result1 = U.every(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
@@ -773,7 +762,7 @@ _.every([1, 2, 3, 4], function(num) { return num < 5; }); // true
                 return item % 2 == 0;
             }
         });
-        final boolean result1obj = new U(asList(1, 2, 3, 4))
+        final boolean result1obj = new U<Integer>(asList(1, 2, 3, 4))
             .every(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -793,7 +782,7 @@ _.every([1, 2, 3, 4], function(num) { return num < 5; }); // true
                 return item < 5;
             }
         });
-        final boolean result2obj = new U(asList(1, 2, 3, 4))
+        final boolean result2obj = new U<Integer>(asList(1, 2, 3, 4))
             .every(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -820,7 +809,6 @@ _.all([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // false
 _.all([1, 2, 3, 4], function(num) { return num < 5; }); // true
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void all() {
         final boolean result1 = U.all(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
@@ -828,7 +816,7 @@ _.all([1, 2, 3, 4], function(num) { return num < 5; }); // true
                 return item % 2 == 0;
             }
         });
-        final boolean result1obj = new U(asList(1, 2, 3, 4))
+        final boolean result1obj = new U<Integer>(asList(1, 2, 3, 4))
             .all(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -841,7 +829,7 @@ _.all([1, 2, 3, 4], function(num) { return num < 5; }); // true
                 return item < 5;
             }
         });
-        final boolean result2obj = new U(asList(1, 2, 3, 4))
+        final boolean result2obj = new U<Integer>(asList(1, 2, 3, 4))
             .all(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -859,7 +847,6 @@ _.any([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // true
 _.any([1, 2, 3, 4], function(num) { return num === 5; }); // false
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void any() {
         final boolean result1 = U.any(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
@@ -867,7 +854,7 @@ _.any([1, 2, 3, 4], function(num) { return num === 5; }); // false
                 return item % 2 == 0;
             }
         });
-        final boolean result1obj = new U(asList(1, 2, 3, 4))
+        final boolean result1obj = new U<Integer>(asList(1, 2, 3, 4))
             .any(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -880,7 +867,7 @@ _.any([1, 2, 3, 4], function(num) { return num === 5; }); // false
                 return item == 5;
             }
         });
-        final boolean result2obj = new U(asList(1, 2, 3, 4))
+        final boolean result2obj = new U<Integer>(asList(1, 2, 3, 4))
             .any(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -898,7 +885,6 @@ _.some([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // true
 _.some([1, 2, 3, 4], function(num) { return num === 5; }); // false
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void some() {
         final boolean result1 = U.some(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
@@ -906,7 +892,7 @@ _.some([1, 2, 3, 4], function(num) { return num === 5; }); // false
                 return item % 2 == 0;
             }
         });
-        final boolean result1obj = new U(asList(1, 2, 3, 4))
+        final boolean result1obj = new U<Integer>(asList(1, 2, 3, 4))
             .some(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -926,7 +912,7 @@ _.some([1, 2, 3, 4], function(num) { return num === 5; }); // false
                 return item == 5;
             }
         });
-        final boolean result2obj = new U(asList(1, 2, 3, 4))
+        final boolean result2obj = new U<Integer>(asList(1, 2, 3, 4))
             .some(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -962,7 +948,6 @@ _.count([1, 2, 3, 4], function(num) { return num % 2 === 0; }); // 2
 _.count([1, 2, 3, 4], function(num) { return num < 5; }); // 4
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void count() {
         final int result1 = U.count(asList(1, 2, 3, 4),
             new Predicate<Integer>() {
@@ -970,7 +955,7 @@ _.count([1, 2, 3, 4], function(num) { return num < 5; }); // 4
                 return item % 2 == 0;
             }
         });
-        final int result1obj = new U(asList(1, 2, 3, 4))
+        final int result1obj = new U<Integer>(asList(1, 2, 3, 4))
             .count(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -990,7 +975,7 @@ _.count([1, 2, 3, 4], function(num) { return num < 5; }); // 4
                 return item < 5;
             }
         });
-        final int result2obj = new U(asList(1, 2, 3, 4))
+        final int result2obj = new U<Integer>(asList(1, 2, 3, 4))
             .count(
             new Predicate<Integer>() {
             public boolean test(Integer item) {
@@ -1017,11 +1002,10 @@ _.contains([1, 2, 3], 3);
 => true
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void contains() {
         final boolean result = U.contains(asList(1, 2, 3), 3);
         assertTrue(result);
-        final boolean resultObj = new U(asList(1, 2, 3)).contains(3);
+        final boolean resultObj = new U<Integer>(asList(1, 2, 3)).contains(3);
         assertTrue(resultObj);
         final boolean resultChain = U.chain(asList(1, 2, 3)).contains(3).item();
         assertTrue(resultChain);
@@ -1037,13 +1021,12 @@ _.contains([1, 2, 3], 3);
 _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void invoke() {
         assertEquals(U.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
-        assertEquals(new U(asList(" foo ", "  bar")).invoke("trim"), asList("foo", "bar"));
+        assertEquals(new U<Object>(asList(" foo ", "  bar")).invoke("trim"), asList("foo", "bar"));
         assertEquals(U.chain(asList(" foo ", "  bar")).invoke("trim").value(), asList("foo", "bar"));
         assertEquals(U.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")), asList("foo1", "bar1"));
-        assertEquals(new U(asList("foo", "bar")).invoke("concat",
+        assertEquals(new U<Object>(asList("foo", "bar")).invoke("concat",
             Arrays.<Object>asList("1")), asList("foo1", "bar1"));
         assertEquals(U.chain(asList("foo", "bar")).invoke("concat",
             Arrays.<Object>asList("1")).value(), asList("foo1", "bar1"));
@@ -1052,7 +1035,6 @@ _.invoke([" foo ", "  bar"], "trim"); // ["foo", "bar"]
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @SuppressWarnings("unchecked")
     public void invokeError() {
         U.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));
     }
@@ -1068,7 +1050,6 @@ _.pluck(stooges, 'name');
 => ["moe", "larry", "curly"]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void pluck() {
         class Person {
             public final String name;
@@ -1100,20 +1081,20 @@ _.pluck(stooges, 'name');
         U.pluck(asList(new Person2("moe", 40), new Person2("larry", 50), new Person2("curly", 40)), "getName");
         assertEquals("[moe, larry, curly]", result2.toString());
         final List<?> resultObj =
-        new U(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name");
+        new U<Person>(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name");
         assertEquals("[moe, larry, curly]", resultObj.toString());
         final List<Object> resultChain =
         U.chain(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))).pluck("name").value();
         assertEquals("[moe, larry, curly]", resultChain.toString());
         final Set<?> resultEmpty2 =
-        U.pluck(new LinkedHashSet(asList()), "name");
+        U.pluck(new LinkedHashSet<Object>(asList()), "name");
         assertEquals("[]", resultEmpty2.toString());
         final Set<?> resultSet =
-        U.pluck(new LinkedHashSet(
+        U.pluck(new LinkedHashSet<Person>(
             asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name");
         assertEquals("[moe, larry, curly]", resultSet.toString());
         final Set<?> resultSet2 =
-        U.pluck(new LinkedHashSet(
+        U.pluck(new LinkedHashSet<Person2>(
             asList(new Person2("moe", 40), new Person2("larry", 50), new Person2("curly", 40))), "getName");
         assertEquals("[moe, larry, curly]", resultSet2.toString());
     }
@@ -1132,7 +1113,6 @@ _.pluck(stooges, 'name');
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @SuppressWarnings("unchecked")
     public void pluck3() {
         class Person {
             public final String name;
@@ -1142,7 +1122,7 @@ _.pluck(stooges, 'name');
                 this.age = age;
             }
         }
-        U.pluck(new LinkedHashSet(
+        U.pluck(new LinkedHashSet<Person>(
             asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40))), "name2");
     }
 
@@ -1152,7 +1132,7 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
     {title: "The Tempest", author: "Shakespeare", year: 1611}]
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void where() {
         class Book {
             public final String title;
@@ -1197,7 +1177,7 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
         assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
             + " title: The Tempest, author: Shakespeare, year: 1611]",
-            new U(listOfPlays).where(asList(
+            new U<Book>(listOfPlays).where(asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
         assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
@@ -1240,7 +1220,7 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
 => {title: "Cymbeline", author: "Shakespeare", year: 1611}
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("serial")
     public void findWhere() {
         class Book {
             public final String title;
@@ -1266,7 +1246,7 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
-            new U(listOfPlays).findWhere(asList(
+            new U<Book>(listOfPlays).findWhere(asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
@@ -1316,7 +1296,6 @@ _.max(numbers);
 => 1000
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void max() {
         final Integer result = U.max(asList(10, 5, 100, 2, 1000));
         assertEquals("1000", result.toString());
@@ -1370,7 +1349,6 @@ _.min(numbers);
 => 2
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void min() {
         final Integer result = U.min(asList(10, 5, 100, 2, 1000));
         assertEquals("2", result.toString());
@@ -1423,7 +1401,6 @@ _.sortWith([1, 2, 3, 4, 5, 6], function(num1, num2){ return Math.sin(num1) - Mat
 => [5, 4, 6, 3, 1, 2]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void sortWith() {
         final List<Integer> result =
         U.sortWith(asList(1, 2, 3, 4, 5, 6),
@@ -1435,7 +1412,7 @@ _.sortWith([1, 2, 3, 4, 5, 6], function(num1, num2){ return Math.sin(num1) - Mat
         });
         assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
         final List<Integer> resultObj =
-        new U(asList(1, 2, 3, 4, 5, 6)).sortWith(
+        new U<Integer>(asList(1, 2, 3, 4, 5, 6)).sortWith(
             new Comparator<Integer>() {
             public int compare(Integer item1, Integer item2) {
                 return Double.valueOf(Math.sin(item1) * 1000).intValue()
@@ -1459,7 +1436,6 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 => [5, 4, 6, 3, 1, 2]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void sortBy() {
         final List<Integer> result =
         U.sortBy(asList(1, 2, 3, 4, 5, 6),
@@ -1470,7 +1446,7 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
         });
         assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
         final List<Integer> resultObj =
-        new U(asList(1, 2, 3, 4, 5, 6)).sortBy(
+        new U<Integer>(asList(1, 2, 3, 4, 5, 6)).sortBy(
             new Function<Integer, Integer>() {
             public Integer apply(Integer item) {
                 return Double.valueOf(Math.sin(item) * 1000).intValue();
@@ -1493,7 +1469,7 @@ _.sortBy(stooges, 'name');
 => [{name: 'curly', age: 60}, {name: 'larry', age: 50}, {name: 'moe', age: 40}];
 */
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "serial" })
     public void sortByMap() {
         final List<Map<String, Comparable>> result = U.sortBy(asList(
             (Map<String, Comparable>) new LinkedHashMap<String, Comparable>() { {
@@ -1520,7 +1496,6 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
 => {1: [1.3], 2: [2.1, 2.4]}
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void groupBy() {
         final Map<Double, List<Double>> result =
         U.groupBy(asList(1.3, 2.1, 2.4),
@@ -1531,7 +1506,7 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
         });
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result.toString());
         final Map<Double, List<Double>> resultObj =
-        new U(asList(1.3, 2.1, 2.4)).groupBy(
+        new U<Double>(asList(1.3, 2.1, 2.4)).groupBy(
             new Function<Double, Double>() {
             public Double apply(Double num) {
                 return Math.floor(num);
@@ -1553,7 +1528,6 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
 => {1: [1.3], 2: [2.1, 2.4]}
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void groupByWithSumming() {
         final Map<Double, Optional<Double>> result =
         U.groupBy(asList(1.3, 2.1, 2.4),
@@ -1570,7 +1544,7 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
         );
         assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", result.toString());
         final Map<Double, Optional<Double>> resultObj =
-        new U(asList(1.3, 2.1, 2.4)).groupBy(
+        new U<Double>(asList(1.3, 2.1, 2.4)).groupBy(
             new Function<Double, Double>() {
             public Double apply(Double num) {
                 return Math.floor(num);
@@ -1607,7 +1581,6 @@ _.indexBy(stooges, 'age');
 }
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void indexBy() {
         class Person {
             public final String name;
@@ -1624,7 +1597,7 @@ _.indexBy(stooges, 'age');
         U.indexBy(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60)), "age");
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", result.toString());
         final Map<String, List<Person>> resultObj =
-        new U(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60))).indexBy("age");
+        new U<Person>(asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 60))).indexBy("age");
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", resultObj.toString());
         final Map<Object, List<Person>> resultChain =
         (Map<Object, List<Person>>) U.chain(asList(new Person("moe", 40), new Person("larry", 50),
@@ -1641,7 +1614,6 @@ _.countBy(stooges, 'age');
 => {moe: 2, curly: 1}
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void countBy() {
         class Person {
             public final String name;
@@ -1663,7 +1635,7 @@ _.countBy(stooges, 'age');
         });
         assertEquals("{moe=2, curly=1}", result.toString());
         final Map<String, Integer> resultObj =
-        new U(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).countBy(
+        new U<Person>(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).countBy(
             new Function<Person, String>() {
             public String apply(Person person) {
                 return person.name;
@@ -1686,11 +1658,10 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
 => [4, 1, 6, 3, 5, 2]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void shuffle() {
         final List<Integer> result = U.shuffle(asList(1, 2, 3, 4, 5, 6));
         assertEquals(6, result.size());
-        final List<Integer> resultObj = new U(asList(1, 2, 3, 4, 5, 6)).shuffle();
+        final List<Integer> resultObj = new U<Integer>(asList(1, 2, 3, 4, 5, 6)).shuffle();
         assertEquals(6, resultObj.size());
         final List<Integer> resultChain = U.chain(asList(1, 2, 3, 4, 5, 6)).shuffle().value();
         assertEquals(6, resultChain.size());
@@ -1703,7 +1674,6 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
 => [1, 6, 2]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void sample() {
         final Integer result = U.sample(asList(1, 2, 3, 4, 5, 6));
         assertTrue(result >= 1 && result <= 6);
@@ -1722,16 +1692,15 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
 => [2, 3, 4]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void toArray() {
         final Object[] result = U.<Integer>toArray(asList(1, 2, 3, 4));
         assertEquals("1", result[0].toString());
-        final Object[] resultObj = new U(asList(1, 2, 3, 4)).toArray();
+        final Object[] resultObj = new U<Integer>(asList(1, 2, 3, 4)).toArray();
         assertEquals("1", resultObj[0].toString());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "serial" })
     public void toMap() {
         assertEquals("{name1=one, name2=two}", U.toMap((new LinkedHashMap<String, String>() { {
             put("name1", "one");
@@ -1752,11 +1721,10 @@ _.size({one: 1, two: 2, three: 3});
 => 3
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void size() {
         final int result = U.size(asList(1, 2, 3, 4));
         assertEquals(4, result);
-        final int resultObj = new U(asList(1, 2, 3, 4)).size();
+        final int resultObj = new U<Integer>(asList(1, 2, 3, 4)).size();
         assertEquals(4, resultObj);
         final int resultChain = U.chain(asList(1, 2, 3, 4)).size();
         assertEquals(4, resultChain);
