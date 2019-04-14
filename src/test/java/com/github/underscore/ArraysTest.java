@@ -272,6 +272,28 @@ _.chunk(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 2, 3);
     }
 
 /*
+_.cycle([1, 2, 3], 3);
+// → [1, 2, 3, 1, 2, 3, 1, 2, 3]
+_.cycle([1, 2, 3], -3);
+// → [3, 2, 1, 3, 2, 1, 3, 2, 1]
+_.cycle([1, 2, 3], 0);
+// → []
+*/
+    @Test
+    public void cycle() {
+        assertEquals("[]", U.cycle(U.newIntegerList(U.range(5)), 0).toString());
+        assertEquals("[]", U.cycle(asList(), 5).toString());
+        assertEquals("[4, 3, 2, 1, 0]", U.cycle(U.newIntegerList(U.range(5)), -1).toString());
+        assertEquals("[0, 1, 2, 0, 1, 2, 0, 1, 2]", U.cycle(U.newIntegerList(U.range(3)), 3).toString());
+        assertEquals("[]", new U<String>(asList("a", "b", "c")).cycle(0).toString());
+        assertEquals("[c, b, a, c, b, a]", new U<String>(asList("a", "b", "c")).cycle(-2).toString());
+        assertEquals("[a, b, c, a, b, c, a, b, c]", new U<String>(asList("a", "b", "c")).cycle(3).toString());
+        assertEquals("[]", U.chain(U.newIntegerList(U.range(10))).cycle(0).value().toString());
+        assertEquals("[0, 0, 0, 0, 0]", U.chain(U.newIntegerList(U.range(1))).cycle(5).value().toString());
+        assertEquals("[3, 2, 1, 0]", U.chain(U.newIntegerList(U.range(4))).cycle(-1).value().toString());
+    }
+
+/*
 _.tail([5, 4, 3, 2, 1]);
 => [4, 3, 2, 1]
 _.tail([5, 4, 3, 2, 1], 2);
