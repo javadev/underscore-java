@@ -1786,6 +1786,52 @@ public class U<T> {
         return cycle(value(), times);
     }
 
+    public static <T> List<T> interpose(final Iterable<T> iterable, final T interElement) {
+        if (interElement == null) {
+            return newArrayList(iterable);
+        }
+        int size = size(iterable);
+        int index = 0;
+        List<T> array = newArrayListWithExpectedSize(size * 2);
+        for (T elem : iterable) {
+            array.add(elem);
+            if (index + 1 < size) {
+                array.add(interElement);
+                index++;
+            }
+        }
+        return array;
+    }
+
+    public static <T> List<T> interposeByList(final Iterable<T> iterable, final Iterable<T> interIter) {
+        if (interIter == null) {
+            return newArrayList(iterable);
+        }
+        List<T> interList = newArrayList(interIter);
+        if (interList.size() == 0) {
+            return newArrayList(iterable);
+        }
+        int size = size(iterable);
+        List<T> array = newArrayListWithExpectedSize(size + interList.size());
+        int index = 0;
+        for (T element : iterable) {
+            array.add(element);
+            if (index < interList.size() && index + 1 < size) {
+                array.add(interList.get(index));
+                index++;
+            }
+        }
+        return array;
+    }
+
+    public List<T> interpose(final T element) {
+        return interpose(value(), element);
+    }
+
+    public List<T> interposeByList(final Iterable<T> interIter) {
+        return interposeByList(value(), interIter);
+    }
+
     /*
      * Documented, #bind
      */
@@ -2792,6 +2838,14 @@ public class U<T> {
 
         public Chain<T> cycle(final int times) {
             return new Chain<T>(U.cycle(value(), times));
+        }
+
+        public Chain<T> interpose(final T element) {
+            return new Chain<T>(U.interpose(value(), element));
+        }
+
+        public Chain<T> interposeByList(final Iterable<T> interIter) {
+            return new Chain<T>(U.interposeByList(value(), interIter));
         }
 
         @SuppressWarnings("unchecked")

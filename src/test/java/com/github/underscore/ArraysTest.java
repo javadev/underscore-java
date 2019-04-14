@@ -229,7 +229,6 @@ _.chunk(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 2, 3);
 // → [['a', 'b'], ['d', 'e'], ['g']]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void chunk() {
         assertEquals("[[a, b, c], [d]]", U.chunk(asList("a", "b", "c", "d"), 3).toString());
         assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
@@ -291,6 +290,63 @@ _.cycle([1, 2, 3], 0);
         assertEquals("[]", U.chain(U.newIntegerList(U.range(10))).cycle(0).value().toString());
         assertEquals("[0, 0, 0, 0, 0]", U.chain(U.newIntegerList(U.range(1))).cycle(5).value().toString());
         assertEquals("[3, 2, 1, 0]", U.chain(U.newIntegerList(U.range(4))).cycle(-1).value().toString());
+    }
+
+/*
+_.interpose([1, 2, 3], 500);
+// → [1, 500, 2, 500, 3]
+_.interpose([], 500);
+// → []
+_.interpose([1], 500);
+// → [1]
+*/
+    @Test
+    public void interpose() {
+        assertEquals("[0, 500, 1, 500, 2, 500, 3]", U.interpose(U.newIntegerList(U.range(4)), 500).toString());
+        assertEquals("[]", U.interpose(U.newArrayList(), 500).toString());
+        assertEquals("[]", U.interpose(U.newArrayList(), null).toString());
+        assertEquals("[0, 1, 2, 3]", U.interpose(U.newArrayList(U.newIntegerList(U.range(4))), null).toString());
+        assertEquals("[0]", U.interpose(U.newIntegerList(U.range(1)), 500).toString());
+        assertEquals("[a, interpose, b, interpose, c]", new U<String>(asList("a", "b", "c")).interpose("interpose").toString());
+        assertEquals("[a]", new U<String>(asList("a")).interpose("interpose").toString());
+        assertEquals("[a, b]", new U<String>(asList("a, b")).interpose(null).toString());
+        assertEquals("[a]", U.chain(asList("a")).interpose("interpose").toString());
+        assertEquals("[]", U.chain(U.newArrayList()).interpose("interpose").toString());
+        assertEquals("[a, b, c]", U.chain(asList("a", "b", "c")).interpose(null).toString());
+        assertEquals("[?, interpose, !, interpose, -]", U.chain(asList("?", "!", "-")).interpose("interpose").toString());
+    }
+
+/*
+_.interpose([1, 2, 3], [100, 200, 300]);
+// → [1, 100, 2, 200, 3]
+_.interpose([1, 2, 3], [100]);
+// → [1, 100, 2, 3]
+_.interpose([1], [500]);
+// → [1]
+_.interpose([], [500, 600, 700]);
+// → []
+*/
+    @Test
+    public void interposeByList() {
+        List<String> list1 = U.newArrayList();
+        List<Integer> list2 = U.newArrayList();
+        assertEquals("[0, 100, 1, 200, 2, 300, 3]", U.interposeByList(U.newIntegerList(U.range(4)), U.newIntegerList(U.range(100, 600, 100))).toString());
+        assertEquals("[]", U.interposeByList(list2, U.newIntegerList(U.range(100, 300, 50))).toString());
+        assertEquals("[100, 200, 300]", U.interposeByList(U.newIntegerList(U.range(100, 400, 100)), list2).toString());
+        assertEquals("[100, 200, 300]", U.interposeByList(U.newIntegerList(U.range(100, 400, 100)), null).toString());
+        list2.add(Integer.valueOf(1));
+        assertEquals("[1]", U.interposeByList(list2, U.newIntegerList(U.range(100, 300, 50))).toString());
+        assertEquals("[0, 100, 1, 2, 3]", U.interposeByList(U.newIntegerList(U.range(4)), U.newIntegerList(100)).toString());
+        assertEquals("[a, zzz, b, c]", new U<String>(asList("a", "b", "c")).interposeByList(asList("zzz")).toString());
+        assertEquals("[a, b, c]", new U<String>(asList("a", "b", "c")).interposeByList(null).toString());
+        assertEquals("[a]", new U<String>(asList("a")).interposeByList(asList("zzz")).toString());
+        assertEquals("[a, b, c]", new U<String>(asList("a", "b", "c")).interposeByList(list1).toString());
+        assertEquals("[a, aaa, b, bbb, c]", new U<String>(asList("a", "b", "c")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
+        assertEquals("[a]", U.chain(asList("a")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
+        assertEquals("[aaa, bbb, ccc]", U.chain(asList("aaa", "bbb", "ccc")).interposeByList(null).toString());
+        list2.clear();
+        assertEquals("[]", U.chain(list2).interposeByList(U.newIntegerList(U.range(6))).toString());
+        assertEquals("[?, aaa, !, bbb, -]", U.chain(asList("?", "!", "-")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
     }
 
 /*
