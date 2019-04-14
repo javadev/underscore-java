@@ -154,31 +154,31 @@ _.singleOrNull([5]);
        U<Integer> uWithOneElement = new U<Integer>(asList(1));
 
        final Integer result1 = U.singleOrNull(asList(1, 2, 3));
-       assertEquals(result1, null);
+       assertNull(result1);
        final int result2 = U.singleOrNull(asList(1));
-       assertEquals(result2, 1);
+       assertEquals(1, result2);
        final Integer result3 = U.singleOrNull(new ArrayList<Integer>());
-       assertEquals(result3, null);
+       assertNull(result3);
        final Integer result4 = U.singleOrNull(asList(1, 2, 3), new Predicate<Integer>() {
            public boolean test(Integer item) {
                return item % 2 == 1;
            }
        });
-       assertEquals(result4, null);
+       assertNull(result4);
        final int result5 = U.singleOrNull(asList(1, 2, 3), new Predicate<Integer>() {
            public boolean test(Integer item) {
                return item % 2 == 0;
            }
        });
-       assertEquals(result5, 2);
+       assertEquals(2, result5);
        final Integer result6 = U.singleOrNull(asList(1, 2, 3), new Predicate<Integer>() {
            public boolean test(Integer item) {
                return item  == 5;
            }
        });
-       assertEquals(result6, null);
+       assertNull(result6);
        final Integer result7 = uWithMoreElement.singleOrNull();
-       assertEquals(result7, null);
+       assertNull(result7);
        final Integer result8 = uWithOneElement.singleOrNull();
        assertEquals(result8, Integer.valueOf(1));
        final Integer result9 = uWithMoreElement.singleOrNull(new Predicate<Integer>() {
@@ -192,7 +192,7 @@ _.singleOrNull([5]);
                return item % 2 == 1;
            }
        });
-       assertEquals(result10, null);
+       assertNull(result10);
     }
 
 /*
@@ -282,7 +282,7 @@ _.cycle([1, 2, 3], 0);
     @Test
     public void cycle() {
         assertEquals("[]", U.cycle(U.newIntegerList(U.range(5)), 0).toString());
-        assertEquals("[]", U.cycle(asList(), 5).toString());
+        assertEquals("[]", U.cycle(U.newArrayList(), 5).toString());
         assertEquals("[4, 3, 2, 1, 0]", U.cycle(U.newIntegerList(U.range(5)), -1).toString());
         assertEquals("[0, 1, 2, 0, 1, 2, 0, 1, 2]", U.cycle(U.newIntegerList(U.range(3)), 3).toString());
         assertEquals("[]", new U<String>(asList("a", "b", "c")).cycle(0).toString());

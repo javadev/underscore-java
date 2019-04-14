@@ -1751,8 +1751,8 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
     public void toCardinalityMap() {
         assertEquals("{a=2, b=1, c=2}", U.toCardinalityMap(asList("a", "a", "b", "c", "c")).toString());
         assertEquals("{}", U.toCardinalityMap(U.newArrayList()).toString());
-        assertEquals("{a=2, b=1, c=2}", new U<>(asList("a", "a", "b", "c", "c")).toCardinalityMap().toString());
-        assertEquals("{}", new U<>(U.newArrayList()).toCardinalityMap().toString());
+        assertEquals("{a=2, b=1, c=2}", new U<String>(asList("a", "a", "b", "c", "c")).toCardinalityMap().toString());
+        assertEquals("{}", new U<Object>(U.newArrayList()).toCardinalityMap().toString());
     }
 
 /*
