@@ -60,6 +60,7 @@ public final class Xml {
         "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
         + "(?:(?<=\\\\)'|[^'])*)|(?:(?!\"|')(?:(?!\\/>|>|\\s).)+))");
     private static final Map<String, String> XML_UNESCAPE = new HashMap<String, String>();
+    private static final org.w3c.dom.Document DOCUMENT = Document.createDocument();
 
     static {
         XML_UNESCAPE.put(QUOT, "\"");
@@ -713,8 +714,15 @@ public final class Xml {
             }
             final StringBuilder result = new StringBuilder();
             char ch = name.charAt(0);
-            if (com.sun.org.apache.xerces.internal.util.XMLChar.isNameStart(ch) && ch != ':' || ch == '?') {
-                result.append(ch);
+            if (ch != ':') {
+                try {
+                    if (ch != '?') {
+                        DOCUMENT.createElement(String.valueOf(ch));
+                    }
+                    result.append(ch);
+                } catch (Exception ex) {
+                    result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
+                }
             } else {
                 result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
             }
@@ -723,8 +731,13 @@ public final class Xml {
                 if (ch == ':' && ("xmlns".equals(name.substring(0, i))
                         || namespaces.contains(name.substring(0, i)))) {
                     result.append(ch);
-                } else if (com.sun.org.apache.xerces.internal.util.XMLChar.isName(ch) && ch != ':') {
-                    result.append(ch);
+                } else if (ch != ':') {
+                    try {
+                        DOCUMENT.createElement("a" + ch);
+                        result.append(ch);
+                    } catch (Exception ex) {
+                        result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
+                    }
                 } else {
                     result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
                 }
@@ -1346,6 +1359,21 @@ public final class Xml {
         builder.setErrorHandler(new org.xml.sax.helpers.DefaultHandler());
         builder.setEntityResolver(new MyEntityResolver());
         return builder.parse(new org.xml.sax.InputSource(new java.io.StringReader(xml)));
+    }
+
+    private static class Document {
+        private static org.w3c.dom.Document createDocument() {
+            try {
+                final javax.xml.parsers.DocumentBuilderFactory factory =
+                        javax.xml.parsers.DocumentBuilderFactory.newInstance();
+                factory.setNamespaceAware(true);
+                factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
+                return builder.newDocument();
+            } catch (javax.xml.parsers.ParserConfigurationException ex) {
+                return null;
+            }
+        }
     }
 
     public static Object fromXmlMakeArrays(final String xml) {
