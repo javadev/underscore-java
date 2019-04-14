@@ -992,6 +992,26 @@ public class U<T> {
         return result;
     }
 
+    public Map<T, Integer> toCardinalityMap() {
+        return toCardinalityMap(iterable);
+    }
+
+    public static <K> Map<K, Integer> toCardinalityMap(final Iterable<K> iterable) {
+        Iterator<K> iterator = iterable.iterator();
+        Map<K, Integer> result = newLinkedHashMap();
+
+        while (iterator.hasNext()) {
+            K item = iterator.next();
+
+            if (result.containsKey(item)) {
+                result.put(item, result.get(item) + 1);
+            } else {
+                result.put(item, 1);
+            }
+        }
+        return result;
+    }
+
     /*
      * Documented, #size
      */
