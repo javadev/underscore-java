@@ -373,7 +373,31 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public Chain<List<T>> chunk(final int size) {
-            return new Chain<List<T>>(U.chunk(value(), size));
+            return new Chain<List<T>>(U.chunk(value(), size, size));
+        }
+
+        public Chain<List<T>> chunk(final int size, final int step) {
+            return new Chain<List<T>>(U.chunk(value(), size, step));
+        }
+
+        public Chain<List<T>> chunkFill(final int size, final T fillValue) {
+            return new Chain<List<T>>(U.chunkFill(value(), size, size, fillValue));
+        }
+
+        public Chain<List<T>> chunkFill(final int size, final int step, final T fillValue) {
+            return new Chain<List<T>>(U.chunkFill(value(), size, step, fillValue));
+        }
+
+        public Chain<T> cycle(final int times) {
+            return new Chain<T>(U.cycle(value(), times));
+        }
+
+        public Chain<T> interpose(final T element) {
+            return new Chain<T>(U.interpose(value(), element));
+        }
+
+        public Chain<T> interposeByList(final Iterable<T> interIter) {
+            return new Chain<T>(U.interposeByList(value(), interIter));
         }
 
         @SuppressWarnings("unchecked")

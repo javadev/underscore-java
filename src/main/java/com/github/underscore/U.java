@@ -1808,7 +1808,7 @@ public class U<T> {
             return newArrayList(iterable);
         }
         List<T> interList = newArrayList(interIter);
-        if (interList.size() == 0) {
+        if (isEmpty(interIter)) {
             return newArrayList(iterable);
         }
         int size = size(iterable);
