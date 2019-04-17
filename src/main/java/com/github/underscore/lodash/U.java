@@ -32,6 +32,7 @@ import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import com.github.underscore.Optional;
+
 import java.util.*;
 
 public class U<T> extends com.github.underscore.U<T> {
@@ -942,6 +943,72 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public List<T> at(final Integer ... indexes) {
         return at((List<T>) getIterable(), indexes);
+    }
+
+    public static <T extends Number> Double average(final Iterable<T> iterable) {
+        T sum = sum(iterable);
+        if (sum == null) {
+            return null;
+        }
+        return sum.doubleValue() / size(iterable);
+    }
+
+    public static <E, F extends  Number> Double average(final Iterable<E> iterable, final Function<E, F> func) {
+        F sum = sum(iterable, func);
+        return sum.doubleValue() / size(iterable);
+    }
+
+    public static <N extends Number> Double average(N[] array) {
+        return sum(array).doubleValue() / array.length;
+    }
+
+    public static Double average(java.math.BigDecimal first, java.math.BigDecimal second) {
+        if (first == null || second == null) {
+            return null;
+        }
+        return sum(first, second).doubleValue() / 2;
+    }
+
+    public static Double average(java.math.BigInteger first, java.math.BigInteger second) {
+        if (first == null || second == null) {
+            return null;
+        }
+      return sum(first, second).doubleValue() / 2;
+    }
+
+    public static Double average(Byte first, Byte second) {
+        if (first == null || second == null) {
+            return null;
+        }
+        return sum(first, second).doubleValue() / 2;
+    }
+
+    public static Double average(Double first, Double second) {
+        if (first == null || second == null) {
+            return null;
+        }
+        return sum(first, second) / 2;
+    }
+
+    public static Double average(Float first, Float second) {
+        if (first == null || second == null) {
+            return null;
+        }
+        return sum(first, second).doubleValue() / 2;
+    }
+
+    public static Double average(Integer first, Integer second) {
+        if (first == null || second == null) {
+            return null;
+        }
+        return sum(first, second).doubleValue() / 2;
+    }
+
+    public static Double average(Long first, Long second) {
+        if (first == null || second == null) {
+            return null;
+        }
+        return sum(first, second).doubleValue() / 2;
     }
 
     public static <T extends Number> T sum(final Iterable<T> iterable) {
