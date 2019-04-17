@@ -621,6 +621,34 @@ public class U<T> {
         return contains(list.subList(fromIndex, list.size()), elem);
     }
 
+    public boolean containsAtLeast(final T value, final int count) {
+        return U.containsAtLeast(this.iterable, value, count);
+    }
+
+    public boolean containsAtMost(final T value, final int count) {
+        return U.containsAtMost(this.iterable, value, count);
+    }
+
+    public static <E> boolean containsAtLeast(final Iterable<E> values, final E value, final int count) {
+        List<E> filtered = filter(values, new Predicate<E>() {
+            @Override
+            public boolean test(E input) {
+                return input == null ? value == null : input.equals(value);
+            }
+        });
+        return filtered.size() >= count;
+    }
+
+    public static <E> boolean containsAtMost(final Iterable<E> values, final E value, final int count) {
+        List<E> filtered = filter(values, new Predicate<E>() {
+            @Override
+            public boolean test(E input) {
+                return input == null ? value == null : input.equals(value);
+            }
+        });
+        return filtered.size() <= count;
+    }
+
     /*
      * Documented, #include
      */
