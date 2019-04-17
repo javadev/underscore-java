@@ -629,24 +629,30 @@ public class U<T> {
         return U.containsAtMost(this.iterable, value, count);
     }
 
-    public static <E> boolean containsAtLeast(final Iterable<E> values, final E value, final int count) {
-        List<E> filtered = filter(values, new Predicate<E>() {
-            @Override
-            public boolean test(E input) {
-                return input == null ? value == null : input.equals(value);
+    public static <E> boolean containsAtLeast(final Iterable<E> iterable, final E value, final int count) {
+        int foundItems = 0;
+        for (E element : iterable) {
+            if (element == null ? value == null : element.equals(value)) {
+                foundItems += 1;
             }
-        });
-        return filtered.size() >= count;
+            if (foundItems >= count) {
+                break;
+            }
+        }
+        return foundItems >= count;
     }
 
-    public static <E> boolean containsAtMost(final Iterable<E> values, final E value, final int count) {
-        List<E> filtered = filter(values, new Predicate<E>() {
-            @Override
-            public boolean test(E input) {
-                return input == null ? value == null : input.equals(value);
+    public static <E> boolean containsAtMost(final Iterable<E> iterable, final E value, final int count) {
+        int foundItems = size(iterable);
+        for (E element : iterable) {
+            if (!(element == null ? value == null : element.equals(value))) {
+                foundItems -= 1;
             }
-        });
-        return filtered.size() <= count;
+            if (foundItems <= count) {
+                break;
+            }
+        }
+        return foundItems <= count;
     }
 
     /*
