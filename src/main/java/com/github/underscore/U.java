@@ -1853,6 +1853,17 @@ public class U<T> {
         return cycle(value(), times);
     }
 
+    public static <T> List<T> repeat(final T element, final int times) {
+        if (times <= 0) {
+            return newArrayList();
+        }
+        List<T> result = newArrayListWithExpectedSize(times);
+        for (int i = 0; i < times; i++) {
+            result.add(element);
+        }
+        return result;
+    }
+
     public static <T> List<T> interpose(final Iterable<T> iterable, final T interElement) {
         if (interElement == null) {
             return newArrayList(iterable);

@@ -293,6 +293,27 @@ _.cycle([1, 2, 3], 0);
     }
 
 /*
+_.repeat('a', 5);
+=> [a, a, a, a, a]
+_.repeat('a', 0);
+=> []
+_.repeat('a', -1);
+=> []
+_.repeat(null, 3);
+=> [null, null, null]
+*/
+    @Test
+    public void repeat() {
+        assertEquals("[a, a, a, a, a]", U.repeat('a', 5).toString());
+        assertEquals("[]", U.repeat('a', 0).toString());
+        assertEquals("[]", U.repeat('a', -1).toString());
+        assertEquals("[apple, apple, apple]", U.repeat("apple", 3).toString());
+        assertEquals("[100, 100, 100]", U.repeat(100, 3).toString());
+        assertEquals("[2.5, 2.5, 2.5]", U.repeat(2.5, 3).toString());
+        assertEquals("[null, null, null]", U.repeat(null, 3).toString());
+    }
+
+/*
 _.interpose([1, 2, 3], 500);
 // → [1, 500, 2, 500, 3]
 _.interpose([], 500);
