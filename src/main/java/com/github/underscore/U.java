@@ -1651,6 +1651,39 @@ public class U<T> {
         return findLastIndex(Arrays.asList(array), pred);
     }
 
+    public static <E extends Comparable<E>> int binarySearch(final Iterable<E> iterable, final E key) {
+        if (key == null) {
+            return first(iterable) == null ? 0 : -1;
+        }
+        int begin = 0;
+        int end = size(iterable) - 1;
+        int numberOfNullValues = 0;
+        List<E> list = new ArrayList<E>();
+        for (E item : iterable) {
+            if (item == null) {
+                numberOfNullValues++;
+                end--;
+            } else {
+                list.add(item);
+            }
+        }
+        while (begin <= end) {
+            int middle = begin + (end - begin) / 2;
+            if (key.compareTo(list.get(middle)) < 0) {
+                end = middle - 1;
+            } else if (key.compareTo(list.get(middle)) > 0) {
+                begin = middle + 1;
+            } else {
+                return middle + numberOfNullValues;
+            }
+        }
+        return -(begin + numberOfNullValues + 1);
+    }
+
+    public static <E extends Comparable<E>> int binarySearch(final E[] array, final E key) {
+        return binarySearch(Arrays.asList(array), key);
+    }
+
     /*
      * Documented, #sortedIndex
      */
