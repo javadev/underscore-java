@@ -2939,6 +2939,10 @@ public class U<T> {
             return new Chain<T>(U.slice(list, start, end));
         }
 
+        public Chain<List<T>> splitAt(final int position) {
+            return new Chain<List<T>>(U.splitAt(list, position));
+        }
+
         public Chain<T> reverse() {
             return new Chain<T>(U.reverse(list));
         }
@@ -3229,6 +3233,23 @@ public class U<T> {
 
     public List<T> slice(final int start, final int end) {
         return slice(iterable, start, end);
+    }
+
+    public static <T> List<List<T>> splitAt(final Iterable<T> iterable, final int position) {
+        List<List<T>> result = newArrayList();
+        int size = size(iterable);
+        int index = position < 0 ? 0 : (position > size ? size : position);
+        result.add(newArrayList(iterable).subList(0, index));
+        result.add(newArrayList(iterable).subList(index, size));
+        return result;
+    }
+
+    public static <T> List<List<T>> splitAt(final T[] array, final int position) {
+        return splitAt(Arrays.asList(array), position);
+    }
+
+    public List<List<T>> splitAt(final int position) {
+        return splitAt(iterable, position);
     }
 
     /*
