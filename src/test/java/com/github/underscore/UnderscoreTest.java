@@ -188,6 +188,34 @@ arr.slice(-3, -1) // [3, 4]
     }
 
 /*
+_.splitAt([1, 2, 3, 4, 5], 2);
+=> [[1, 2], [3, 4, 5]]
+_.splitAt([1, 2, 3, 4, 5], 0);
+=> [[], [1, 2, 3, 4, 5]]
+_.splitAt([1, 2, 3, 4, 5], 20000);
+=> [[1, 2, 3, 4, 5], []]
+_.splitAt([1, 2, 3, 4, 5], -1000);
+=> [[], [1, 2, 3, 4, 5]]
+_.splitAt([], 0);
+=> [[], []]
+*/
+    @Test
+    public void splitAt() {
+        assertEquals("[[0, 1], [2, 3, 4]]", U.splitAt(U.newIntegerList(U.range(5)), 2).toString());
+        assertEquals("[[], [0, 1, 2, 3, 4]]", U.splitAt(U.newIntegerList(U.range(5)), 0).toString());
+        assertEquals("[[0, 1, 2, 3, 4], []]", U.splitAt(U.newIntegerList(U.range(5)), 20000).toString());
+        assertEquals("[[], [0, 1, 2, 3, 4]]", U.splitAt(U.newIntegerList(U.range(5)), -1000).toString());
+        assertEquals("[[], []]", U.splitAt(U.newIntegerList(), 0).toString());
+        assertEquals("[[0, 1], [2, 3, 4]]", new U<Integer>(U.newIntegerList(U.range(5))).splitAt(2).toString());
+        assertEquals("[[0, 1], [2, 3, 4]]", U.chain(U.newIntegerList(U.range(5))).splitAt(2).value().toString());
+        assertEquals("[[a, b], [c, d, e]]", U.splitAt(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
+        assertEquals("[[ant, bird], [camel, dog, elephant]]", U.splitAt(asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
+        assertEquals("[[0.1, 0.2], [0.3, 0.4, 0.5]]", U.splitAt(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
+        final Integer[] array = {0, 1, 2, 3, 4};
+        assertEquals("[[0, 1], [2, 3, 4]]", U.splitAt(array, 2).toString());
+    }
+
+/*
 var arr = [ 1, 2, 3 ]
 _.copyOf(arr) // => [1, 2, 3]
 */
