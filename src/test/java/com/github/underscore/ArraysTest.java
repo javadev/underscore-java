@@ -883,6 +883,48 @@ _.findLastIndex([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
     }
 
 /*
+_.binarySearch([1, 3, 5], 3);
+=> 1
+_.binarySearch([1, 3, 5], 2);
+=> -2
+_.binarySearch([1, 3, 5], null);
+=> -1
+_.binarySearch([null, 2, 4, 6], null);
+=> 0
+*/
+    @Test
+    public void binarySearch() {
+        final Integer[] array = {1, 3, 5};
+        assertEquals(1, U.binarySearch(array, 3));
+        assertEquals(-2, U.binarySearch(array, 2));
+        assertEquals(-1, U.binarySearch(array, null));
+        final Integer[] array2 = {null, 2, 4, 6};
+        assertEquals(0, U.binarySearch(array2, null));
+        assertEquals(1, U.binarySearch(array2, 2));
+        assertEquals(-2, U.binarySearch(array2, 1));
+        final Character[] array3 = {'b', 'c', 'e'};
+        assertEquals(0, U.binarySearch(array3, 'b'));
+        assertEquals(-3, U.binarySearch(array3, 'd'));
+        final String[] array4 = {"bird", "camel", "elephant"};
+        assertEquals(0, U.binarySearch(array4, "bird"));
+        assertEquals(-1, U.binarySearch(array4, "ant"));
+        final List<Integer> list1 = asList(1, 3, 5);
+        assertEquals(1, U.binarySearch(list1, 3));
+        assertEquals(-2, U.binarySearch(list1, 2));
+        assertEquals(-1, U.binarySearch(list1, null));
+        final List<Integer> list2 = asList(null, 2, 4, 6);
+        assertEquals(0, U.binarySearch(list2, null));
+        assertEquals(1, U.binarySearch(list2, 2));
+        assertEquals(-2, U.binarySearch(list2, 1));
+        final List<Character> list3 = asList('b', 'c', 'e');
+        assertEquals(0, U.binarySearch(list3, 'b'));
+        assertEquals(-3, U.binarySearch(list3, 'd'));
+        final List<String> list4 = asList("bird", "camel", "elephant");
+        assertEquals(0, U.binarySearch(list4, "bird"));
+        assertEquals(-1, U.binarySearch(list4, "ant"));
+    }
+
+/*
 _.range(10);
 => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 _.range(1, 11);
