@@ -52,16 +52,24 @@ _.first([5, 4, 3, 2, 1], 2);
 */
     @Test
     public void first() {
-        final Integer result = U.first(asList(5, 4, 3, 2, 1));
-        assertEquals("5", result.toString());
-        final Object resultChain = U.chain(asList(5, 4, 3, 2, 1)).first().item();
-        assertEquals("5", resultChain.toString());
-        final Object resultChainTwo = U.chain(asList(5, 4, 3, 2, 1)).first(2).value();
-        assertEquals("[5, 4]", resultChainTwo.toString());
-        final List<Integer> resultList = U.first(asList(5, 4, 3, 2, 1), 2);
-        assertEquals("[5, 4]", resultList.toString());
-        final int resultInt = U.first(new Integer[] {5, 4, 3, 2, 1});
-        assertEquals(5, resultInt);
+        //static, chain, object
+        assertEquals("5", U.first(asList(5, 4, 3, 2, 1)).toString());
+        assertEquals("5", U.chain(asList(5, 4, 3, 2, 1)).first().item().toString());
+        assertEquals("0", new U<Integer>(U.newIntegerList(U.range(3))).first().toString());
+        //static, chain, object with int
+        assertEquals("[5, 4]", U.chain(asList(5, 4, 3, 2, 1)).first(2).value().toString());
+        assertEquals("[5, 4]", U.first(asList(5, 4, 3, 2, 1), 2).toString());
+        assertEquals("[0, 1]", new U<Integer>(U.newIntegerList(U.range(3))).first(2).toString());
+        //static, chain, object with larger int
+        assertEquals("[a, b]", U.first(asList("a", "b"), 4).toString());
+        assertEquals("[a, b]", U.chain(asList("a", "b")).first(4).toString());
+        assertEquals("[0, 1, 2]", new U<Integer>(U.newIntegerList(U.range(3))).first(4).toString());
+        //static, chain, object with 0
+        assertEquals("[]", U.first(asList("a", "b"), 0).toString());
+        assertEquals("[]", new U<Integer>(U.newIntegerList(U.range(3))).first(0).toString());
+        //array
+        assertEquals(5, U.first(new Integer[] {5, 4, 3, 2, 1}).intValue());
+        //static, chain, object with predicate
         final int resultPred = U.first(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
@@ -74,6 +82,31 @@ _.first([5, 4, 3, 2, 1], 2);
             }
         });
         assertEquals(4, resultPredObj);
+        final int resultChainPred = U.chain(asList(5, 4, 3, 2, 1)).first(new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item % 2 == 0;
+            }
+        }).item();
+        assertEquals(4, resultChainPred);
+        //static, chain, object with predicate and int
+        final List<Integer> result1 = new U<Integer>(U.newIntegerList(U.range(7))).first(new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item % 2 == 0;
+            }
+        }, 2);
+        assertEquals("[0, 2]", result1.toString());
+        final List<Integer> result2 = U.first(U.newIntegerList(U.range(7)), new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item < 1;
+            }
+        }, 4);
+        assertEquals("[0]", result2.toString());
+        final U.Chain<Integer> result3 = U.chain(U.newIntegerList(U.range(7))).first(new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item < 2;
+            }
+        }, 4);
+        assertEquals("[0, 1]", result3.toString());
     }
 
     @Test

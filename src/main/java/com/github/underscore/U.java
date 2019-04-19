@@ -1131,19 +1131,28 @@ public class U<T> {
     }
 
     public T first() {
-        return iterable.iterator().next();
+        return first(iterable);
     }
 
     public List<T> first(final int n) {
-        return ((List<T>) iterable).subList(0, n);
+        return first(newArrayList(iterable), n);
     }
 
     public static <E> E first(final Iterable<E> iterable, final Predicate<E> pred) {
         return filter(newArrayList(iterable), pred).iterator().next();
     }
 
+    public static <E> List<E> first(final Iterable<E> iterable, final Predicate<E> pred, final int n) {
+        List<E> list = filter(newArrayList(iterable), pred);
+        return list.subList(0, Math.min(n, list.size()));
+    }
+
     public T first(final Predicate<T> pred) {
-        return filter(newArrayList(iterable), pred).iterator().next();
+        return first(newArrayList(iterable), pred);
+    }
+
+    public List<T> first(final Predicate<T> pred, final int n) {
+        return first(newArrayList(iterable), pred, n);
     }
 
     public static <E> E firstOrNull(final Iterable<E> iterable) {
@@ -1152,7 +1161,7 @@ public class U<T> {
     }
 
     public T firstOrNull() {
-        return firstOrNull((List<T>) iterable);
+        return firstOrNull(iterable);
     }
 
     public static <E> E firstOrNull(final Iterable<E> iterable, final Predicate<E> pred) {
@@ -1161,7 +1170,7 @@ public class U<T> {
     }
 
     public T firstOrNull(final Predicate<T> pred) {
-        return firstOrNull((List<T>) iterable, pred);
+        return firstOrNull(iterable, pred);
     }
 
     public static <E> E head(final Iterable<E> iterable) {
@@ -2629,6 +2638,14 @@ public class U<T> {
 
         public Chain<T> first(int n) {
             return new Chain<T>(U.first(list, n));
+        }
+
+        public Chain<T> first(final Predicate<T> pred) {
+            return new Chain<T>(U.first(list, pred));
+        }
+
+        public Chain<T> first(final Predicate<T> pred, int n) {
+            return new Chain<T>(U.first(list, pred, n));
         }
 
         public Chain<T> firstOrNull() {
