@@ -3169,17 +3169,11 @@ public class U<T> {
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> concat(final Iterable<T> first, final Iterable<T> ... other) {
-        int length = 0;
-        for (Iterable<T> otherItem : other) {
-            length += size(otherItem);
+        List<T> list = newArrayList(first);
+        for (Iterable<T> iter : other) {
+            list.addAll(newArrayList(iter));
         }
-        final T[] result = Arrays.copyOf(toArray(first), size(first) + length);
-        int index = 0;
-        for (Iterable<T> otherItem : other) {
-            System.arraycopy(toArray(otherItem), 0, result, size(first) + index, size(otherItem));
-            index += size(otherItem);
-        }
-        return Arrays.asList(result);
+        return list;
     }
 
 

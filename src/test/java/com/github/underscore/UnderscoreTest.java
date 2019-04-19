@@ -147,13 +147,15 @@ _.concat([1, 2], [3, 4]);
     @SuppressWarnings("unchecked")
     public void concat() {
         assertEquals(asList(1, 2, 3, 4), asList(U.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
+        assertEquals(asList(1.0, 2.0), asList(U.concat(new Double[] {1.0, 2.0})));
         assertEquals(asList(1, 2, 3, 4), U.concat(asList(1, 2), asList(3, 4)));
-        assertEquals(asList(1, 2, 3, 4), new U(asList(1, 2)).concatWith(asList(3, 4)));
+        assertEquals(asList("a", "b"), U.concat(asList("a", "b")));
+        assertEquals(asList(1, 2, 3, 4), new U<Integer>(asList(1, 2)).concatWith(asList(3, 4)));
         assertEquals("[1, 2, 3, 4]", U.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
         assertEquals("[1, 2, 3, 4, 5, 6]", U.chain(asList(1, 2)).concat(asList(3, 4), asList(5, 6)).value().toString());
         assertEquals(asList(1, 2, 3, 4), asList(U.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
         assertEquals(asList(1, 2, 3, 4), U.concat(asList(1, 2), asList(3), asList(4)));
-        assertEquals(asList(1, 2, 3, 4), new U(asList(1, 2)).concatWith(asList(3), asList(4)));
+        assertEquals(asList(1, 2, 3, 4), new U<Integer>(asList(1, 2)).concatWith(asList(3), asList(4)));
     }
 
 /*
