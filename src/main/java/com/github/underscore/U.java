@@ -2960,6 +2960,10 @@ public class U<T> {
             return new Chain<List<T>>(U.splitAt(list, position));
         }
 
+        public Chain<T> takeSkipping(final int stepSize) {
+            return new Chain<T>(U.takeSkipping(list, stepSize));
+        }
+
         public Chain<T> reverse() {
             return new Chain<T>(U.reverse(list));
         }
@@ -3272,6 +3276,33 @@ public class U<T> {
 
     public List<List<T>> splitAt(final int position) {
         return splitAt(iterable, position);
+    }
+
+    public static <T> List<T> takeSkipping(final Iterable<T> iterable, final int stepSize) {
+        List<T> result = newArrayList();
+        if (stepSize <= 0) {
+            return result;
+        }
+        int size = size(iterable);
+        if (stepSize > size) {
+            result.add(first(iterable));
+            return result;
+        }
+        int i = 0;
+        for (T element : iterable) {
+            if (i++ % stepSize == 0) {
+                result.add(element);
+            }
+        }
+        return result;
+    }
+
+    public static <T> List<T> takeSkipping(final T[] array, final int stepSize) {
+        return takeSkipping(Arrays.asList(array), stepSize);
+    }
+
+    public List<T> takeSkipping(final int stepSize) {
+        return takeSkipping(iterable, stepSize);
     }
 
     /*
