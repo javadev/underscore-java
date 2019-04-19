@@ -64,9 +64,12 @@ _.first([5, 4, 3, 2, 1], 2);
         assertEquals("[a, b]", U.first(asList("a", "b"), 4).toString());
         assertEquals("[a, b]", U.chain(asList("a", "b")).first(4).toString());
         assertEquals("[0, 1, 2]", new U<Integer>(U.newIntegerList(U.range(3))).first(4).toString());
-        //static, chain, object with 0
+        //static, chain, object with wrong int
         assertEquals("[]", U.first(asList("a", "b"), 0).toString());
+        assertEquals("[]", U.first(U.newIntegerList(U.range(3)), -2).toString());
         assertEquals("[]", new U<Integer>(U.newIntegerList(U.range(3))).first(0).toString());
+        assertEquals("[]", new U<Integer>(U.newIntegerList(U.range(3))).first(-1).toString());
+        assertEquals("[]", U.chain(asList("a")).first(-100).value().toString());
         //array
         assertEquals(5, U.first(new Integer[] {5, 4, 3, 2, 1}).intValue());
         //static, chain, object with predicate
@@ -107,6 +110,24 @@ _.first([5, 4, 3, 2, 1], 2);
             }
         }, 4);
         assertEquals("[0, 1]", result3.toString());
+        final List<Integer> result4 = new U<Integer>(U.newIntegerList(U.range(3))).first(new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item > 2;
+            }
+        }, -5);
+        assertEquals("[]", result4.toString());
+        final List<String> result5 = U.first(asList("aa", "bbbb"), new Predicate<String>() {
+            public boolean test(String item) {
+                return item.length() < 3;
+            }
+        }, -2);
+        assertEquals("[]", result5.toString());
+        final U.Chain<Integer> result6 = U.chain(U.newIntegerList(U.range(7))).first(new Predicate<Integer>() {
+            public boolean test(Integer item) {
+                return item < 2;
+            }
+        }, -1);
+        assertEquals("[]", result6.toString());
     }
 
     @Test
