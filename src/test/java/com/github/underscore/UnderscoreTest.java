@@ -216,6 +216,29 @@ _.splitAt([], 0);
     }
 
 /*
+_.takeSkipping([1, 2, 3, 4, 5], 2);
+=> [0, 2, 4]
+_.takeSkipping([1, 2, 3, 4, 5], 100000);
+=> [0]
+_.takeSkipping([1, 2, 3, 4, 5], -100);
+=> []
+*/
+    @Test
+    public void takeSkipping() {
+        assertEquals("[0, 2, 4]", U.takeSkipping(U.newIntegerList(U.range(5)), 2).toString());
+        assertEquals("[0]", U.takeSkipping(U.newIntegerList(U.range(5)), 100000).toString());
+        assertEquals("[]", U.takeSkipping(U.newIntegerList(U.range(5)), -100).toString());
+        assertEquals("[]", U.takeSkipping(U.newIntegerList(U.range(5)), 0).toString());
+        assertEquals("[0, 2, 4]", new U<Integer>(U.newIntegerList(U.range(5))).takeSkipping(2).toString());
+        assertEquals("[0, 2, 4]", U.chain(U.newIntegerList(U.range(5))).takeSkipping(2).value().toString());
+        assertEquals("[a, c, e]", U.takeSkipping(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
+        assertEquals("[ant, camel, elephant]", U.takeSkipping(asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
+        assertEquals("[0.1, 0.3, 0.5]", U.takeSkipping(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
+        final Integer[] array = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        assertEquals("[0, 3, 6, 9]", U.takeSkipping(array, 3).toString());
+    }
+
+/*
 var arr = [ 1, 2, 3 ]
 _.copyOf(arr) // => [1, 2, 3]
 */
