@@ -778,11 +778,18 @@ public class U<T> extends com.github.underscore.U<T> {
         return dropRightWhile(getIterable(), pred);
     }
 
-    public static List<Object> fill(final List<Object> list, Object value) {
-        for (int index = 0; index < list.size(); index += 1) {
-            list.set(index, value);
+    public static <T> List<T> fill(List<T> list, T item) {
+        for (int i = 0; i < size(list); i++) {
+            list.set(i, item);
         }
         return list;
+    }
+
+    public static <T> T[] fill(T[] array, T item) {
+        for (int i = 0; i < array.length; i++) {
+             array[i] = item;
+        }
+        return array;
     }
 
     @SuppressWarnings("unchecked")
