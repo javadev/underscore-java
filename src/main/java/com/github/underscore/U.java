@@ -1760,23 +1760,23 @@ public class U<T> {
     /*
      * Documented, #range
      */
-    public static int[] range(int stop) {
+    public static List<Integer> range(int stop) {
         return range(0, stop, 1);
     }
 
-    public static int[] range(int start, int stop) {
+    public static List<Integer> range(int start, int stop) {
         return range(start, stop, start < stop ? 1 : -1);
     }
 
-    public static int[] range(int start, int stop, int step) {
-        int[] array = new int[Math.abs(stop - start) / Math.abs(step)];
-        if (start < stop) {
-            for (int index = start, index2 = 0; index < stop; index += step, index2 += 1) {
-                array[index2] = index;
+    public static List<Integer> range(int start, int stop, int step) {
+        List<Integer> array = new ArrayList<Integer>();
+        if (stop > start) {
+            for (Integer i = Integer.valueOf(start); i.intValue() < stop; i = Integer.valueOf(i.intValue() + step)) {
+                array.add(i);
             }
         } else {
-            for (int index = start, index2 = 0; index > stop; index += step, index2 += 1) {
-                array[index2] = index;
+            for (Integer i = Integer.valueOf(start); i.intValue() > stop; i = Integer.valueOf(i.intValue() + step)) {
+                array.add(i);
             }
         }
         return array;
@@ -2901,18 +2901,6 @@ public class U<T> {
         @SuppressWarnings("unchecked")
         public Chain<T> difference(final List<T> ... lists) {
             return new Chain<T>(U.difference(list, lists));
-        }
-
-        public Chain<Integer> range(final int stop) {
-            return new Chain<Integer>(newIntegerList(U.range(stop)));
-        }
-
-        public Chain<Integer> range(final int start, final int stop) {
-            return new Chain<Integer>(newIntegerList(U.range(start, stop)));
-        }
-
-        public Chain<Integer> range(final int start, final int stop, final int step) {
-            return new Chain<Integer>(newIntegerList(U.range(start, stop, step)));
         }
 
         public Chain<List<T>> chunk(final int size) {
