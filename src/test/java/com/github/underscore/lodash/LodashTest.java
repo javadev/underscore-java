@@ -165,40 +165,43 @@ _.dropRightWhile([1, 2, 3], function(n) {
     }
 
 /*
-var array = [1, 2, 3];
-
-_.fill(array, 'a');
-console.log(array);
-// → ['a', 'a', 'a']
-
-_.fill(Array(3), 2);
-// → [2, 2, 2]
-
-_.fill([4, 6, 8], '*', 1, 2);
-// → [4, '*', 8]
+_.fill([1, 2, 3], 4)
+// → [4, 4, 4]
+_.fill(["test1", "test2", "test3"], "res")
+// → ["res", "res", "res"]
 */
     @SuppressWarnings("unchecked")
     @Test
     public void fill() {
-        List<Object> array = new ArrayList<Object>(asList(1, 2, 3));
-        U.fill(array, "a");
-        assertEquals("[a, a, a]", array.toString());
+        assertEquals("[2, 2, 2]", U.fill(new ArrayList<Number>(Collections.nCopies(3, 0)), 2).toString());
+        List<Object> array = new ArrayList<Object>(asList(4, 6, 8));
+        U.fill(array, "*", 1, 2);
+        assertEquals("[4, *, 8]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3));
         new U(array).fill("a");
         assertEquals("[a, a, a]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3));
         U.chain(array).fill("a");
-        assertEquals("[a, a, a]", array.toString());
-        assertEquals("[2, 2, 2]", U.fill(new ArrayList<Object>(Collections.nCopies(3, 0)), 2).toString());
-        array = new ArrayList<Object>(asList(4, 6, 8));
-        U.fill(array, "*", 1, 2);
-        assertEquals("[4, *, 8]", array.toString());
         array = new ArrayList<Object>(asList(4, 6, 8));
         new U(array).fill("*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
         array = new ArrayList<Object>(asList(4, 6, 8));
         U.chain(array).fill("*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
+        List<Number> list = new ArrayList<Number>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        final List<Number> result1 = U.fill(list, 4);
+        assertEquals("[4, 4, 4]", result1.toString());
+        List<String> list1 = new ArrayList<String>();
+        list1.add("test1");
+        list1.add("test1");
+        list1.add("test1");
+        final List<String> result2 = U.fill(list1, "res");
+        assertEquals("[res, res, res]", result2.toString());
+        final Number[] result3 = U.fill(new Number[] {1, 2, 3}, 4);
+        assertEquals("[4, 4, 4]", asList(result3).toString());
     }
 
 /*
