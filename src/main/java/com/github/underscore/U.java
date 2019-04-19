@@ -3255,7 +3255,12 @@ public class U<T> {
     public static <T> List<List<T>> splitAt(final Iterable<T> iterable, final int position) {
         List<List<T>> result = newArrayList();
         int size = size(iterable);
-        int index = position < 0 ? 0 : (position > size ? size : position);
+        final int index;
+        if (position < 0) {
+            index = 0;
+        } else {
+            index = position > size ? size : position;
+        }
         result.add(newArrayList(iterable).subList(0, index));
         result.add(newArrayList(iterable).subList(index, size));
         return result;
