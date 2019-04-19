@@ -1127,23 +1127,32 @@ public class U<T> {
     }
 
     public static <E> List<E> first(final List<E> list, final int n) {
-        return list.subList(0, Math.min(n, list.size()));
+        return list.subList(0, Math.min(n < 0 ? 0 : n, list.size()));
     }
 
     public T first() {
-        return iterable.iterator().next();
+        return first(iterable);
     }
 
     public List<T> first(final int n) {
-        return ((List<T>) iterable).subList(0, n);
+        return first(newArrayList(iterable), n);
     }
 
     public static <E> E first(final Iterable<E> iterable, final Predicate<E> pred) {
         return filter(newArrayList(iterable), pred).iterator().next();
     }
 
+    public static <E> List<E> first(final Iterable<E> iterable, final Predicate<E> pred, final int n) {
+        List<E> list = filter(newArrayList(iterable), pred);
+        return list.subList(0, Math.min(n < 0 ? 0 : n, list.size()));
+    }
+
     public T first(final Predicate<T> pred) {
-        return filter(newArrayList(iterable), pred).iterator().next();
+        return first(newArrayList(iterable), pred);
+    }
+
+    public List<T> first(final Predicate<T> pred, final int n) {
+        return first(newArrayList(iterable), pred, n);
     }
 
     public static <E> E firstOrNull(final Iterable<E> iterable) {
@@ -1152,7 +1161,7 @@ public class U<T> {
     }
 
     public T firstOrNull() {
-        return firstOrNull((List<T>) iterable);
+        return firstOrNull(iterable);
     }
 
     public static <E> E firstOrNull(final Iterable<E> iterable, final Predicate<E> pred) {
@@ -1161,7 +1170,7 @@ public class U<T> {
     }
 
     public T firstOrNull(final Predicate<T> pred) {
-        return firstOrNull((List<T>) iterable, pred);
+        return firstOrNull(iterable, pred);
     }
 
     public static <E> E head(final Iterable<E> iterable) {
@@ -1651,6 +1660,39 @@ public class U<T> {
         return findLastIndex(Arrays.asList(array), pred);
     }
 
+    public static <E extends Comparable<E>> int binarySearch(final Iterable<E> iterable, final E key) {
+        if (key == null) {
+            return first(iterable) == null ? 0 : -1;
+        }
+        int begin = 0;
+        int end = size(iterable) - 1;
+        int numberOfNullValues = 0;
+        List<E> list = new ArrayList<E>();
+        for (E item : iterable) {
+            if (item == null) {
+                numberOfNullValues++;
+                end--;
+            } else {
+                list.add(item);
+            }
+        }
+        while (begin <= end) {
+            int middle = begin + (end - begin) / 2;
+            if (key.compareTo(list.get(middle)) < 0) {
+                end = middle - 1;
+            } else if (key.compareTo(list.get(middle)) > 0) {
+                begin = middle + 1;
+            } else {
+                return middle + numberOfNullValues;
+            }
+        }
+        return -(begin + numberOfNullValues + 1);
+    }
+
+    public static <E extends Comparable<E>> int binarySearch(final E[] array, final E key) {
+        return binarySearch(Arrays.asList(array), key);
+    }
+
     /*
      * Documented, #sortedIndex
      */
@@ -1818,6 +1860,17 @@ public class U<T> {
 
     public List<T> cycle(final int times) {
         return cycle(value(), times);
+    }
+
+    public static <T> List<T> repeat(final T element, final int times) {
+        if (times <= 0) {
+            return newArrayList();
+        }
+        List<T> result = newArrayListWithExpectedSize(times);
+        for (int i = 0; i < times; i++) {
+            result.add(element);
+        }
+        return result;
     }
 
     public static <T> List<T> interpose(final Iterable<T> iterable, final T interElement) {
@@ -2587,6 +2640,14 @@ public class U<T> {
             return new Chain<T>(U.first(list, n));
         }
 
+        public Chain<T> first(final Predicate<T> pred) {
+            return new Chain<T>(U.first(list, pred));
+        }
+
+        public Chain<T> first(final Predicate<T> pred, int n) {
+            return new Chain<T>(U.first(list, pred, n));
+        }
+
         public Chain<T> firstOrNull() {
             return new Chain<T>(U.firstOrNull(list));
         }
@@ -2895,6 +2956,10 @@ public class U<T> {
             return new Chain<T>(U.slice(list, start, end));
         }
 
+        public Chain<List<T>> splitAt(final int position) {
+            return new Chain<List<T>>(U.splitAt(list, position));
+        }
+
         public Chain<T> reverse() {
             return new Chain<T>(U.reverse(list));
         }
@@ -3185,6 +3250,28 @@ public class U<T> {
 
     public List<T> slice(final int start, final int end) {
         return slice(iterable, start, end);
+    }
+
+    public static <T> List<List<T>> splitAt(final Iterable<T> iterable, final int position) {
+        List<List<T>> result = newArrayList();
+        int size = size(iterable);
+        final int index;
+        if (position < 0) {
+            index = 0;
+        } else {
+            index = position > size ? size : position;
+        }
+        result.add(newArrayList(iterable).subList(0, index));
+        result.add(newArrayList(iterable).subList(index, size));
+        return result;
+    }
+
+    public static <T> List<List<T>> splitAt(final T[] array, final int position) {
+        return splitAt(Arrays.asList(array), position);
+    }
+
+    public List<List<T>> splitAt(final int position) {
+        return splitAt(iterable, position);
     }
 
     /*
