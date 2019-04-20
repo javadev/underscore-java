@@ -258,7 +258,6 @@ _.rest([5, 4, 3, 2, 1], 2);
 => [3, 2, 1]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void rest() {
         final List<Integer> result = U.rest(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
@@ -772,7 +771,6 @@ _.uniq([1, 2, 1, 3, 1, 4]);
 => [1, 2, 3, 4]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void uniq() {
         final List<Integer> result = U.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
@@ -821,7 +819,6 @@ _.distinct([1, 2, 1, 3, 1, 4]);
 => [1, 2, 3, 4]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void distinct() {
         final List<Integer> result = U.distinct(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());

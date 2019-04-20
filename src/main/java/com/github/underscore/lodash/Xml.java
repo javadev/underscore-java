@@ -998,7 +998,6 @@ public final class Xml {
         return localValue;
     }
 
-    @SuppressWarnings("unchecked")
     private static Object createMap(final org.w3c.dom.Node node,
         final BiFunction<Object, Set<String>, String> elementMapper,
         final Function<Object, Object> nodeMapper, final Map<String, Object> attrMap,
@@ -1243,7 +1242,6 @@ public final class Xml {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private static void addText(final Map<String, Object> map, final String name, final List<Object> objects,
         final Object value, final FromType fromType) {
         int lastIndex = map.size() - 1;
@@ -1268,7 +1266,6 @@ public final class Xml {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static Object fromXml(final String xml) {
         return fromXml(xml, FromType.FOR_CONVERT);
     }
@@ -1278,7 +1275,6 @@ public final class Xml {
         FOR_FORMAT
     }
 
-    @SuppressWarnings("unchecked")
     public static Object fromXml(final String xml, final FromType fromType) {
         if (xml == null) {
             return null;
@@ -1462,7 +1458,6 @@ public final class Xml {
             });
     }
 
-    @SuppressWarnings("unchecked")
     public static String formatXml(String xml, XmlStringBuilder.Step identStep) {
         Object result = fromXml(xml, FromType.FOR_FORMAT);
         return toXml((Map) result, identStep);
