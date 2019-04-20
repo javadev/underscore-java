@@ -23,6 +23,8 @@
  */
 package com.github.underscore.lodash;
 
+import static java.util.Arrays.asList;
+
 import com.github.underscore.BiFunction;
 import com.github.underscore.Consumer;
 import com.github.underscore.Function;
@@ -33,6 +35,7 @@ import com.github.underscore.lodash.Xml.XmlStringBuilder;
 
 import java.util.*;
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -66,6 +69,28 @@ _.camelCase('__foo_bar__');
         assertEquals("fooBar", U.camelCase("__foo_bar__"));
         assertEquals("", U.camelCase(null));
         assertEquals("a", U.camelCase("\u00c0"));
+    }
+
+/*
+_.explode("abc")
+=> ["a", "b", "c"]
+*/
+    @Test
+    public void explode() {
+        assertEquals(asList("a", "b", "c"), U.explode("abc"));
+        assertEquals(U.newArrayList(), U.explode(null));
+    }
+
+/*
+_.implode(["a", "b", "c"]);
+=> "abc"
+*/
+    @Test
+    public void implode() {
+        assertEquals("abc", U.implode(new String[] {"a", "b", "c"}));
+        assertEquals("ac", U.implode(new String[] {"a", null, "c"}));
+        assertEquals("abc", U.implode(asList("a", "b", "c")));
+        assertEquals("ac", U.implode(asList("a", null, "c")));
     }
 
 /*
