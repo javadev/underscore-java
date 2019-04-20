@@ -23,19 +23,21 @@
  */
 package com.github.underscore;
 
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.Test;
 
 /**
  * Underscore library unit test.
@@ -464,6 +466,81 @@ _.drop([5, 4, 3, 2, 1], 2);
         assertEquals("[3, 2, 1]", asList(resultArray2).toString());
     }
 
+/*
+_.replace([1, 2, 3, 4], predicate(a) { return a > 2; }, 100);
+=> [1, 2, 100, 100]
+_.replace([1, 2, 3, 4], null, 100);
+=> [1, 2, 3, 4]
+*/
+    @SuppressWarnings("serial")
+    @Test
+    public void replace() {
+        assertEquals("[100, 1, 100, 3, 100, 5]", U.replace(U.newIntegerList(U.range(6)),
+                new Predicate<Integer>() {
+                    @Override
+                    public boolean test(Integer arg) {
+                        return arg % 2 == 0;
+                    }
+                }, 100).toString());
+        assertEquals("[0, 1, 2, 3, 4]", U.replace(U.newIntegerList(U.range(5)), null, 100).toString());
+        assertEquals("[a, aa, b, b]", new U<String>(asList("a", "aa", "aaa", "aaaa")).replace(
+                new Predicate<String>() {
+                    @Override
+                    public boolean test(String arg) {
+                        return arg.length() > 2;
+                    }
+                }, "b").toString());
+        assertEquals("[a, aa, cc, ccc]", new U<String>(asList("a", "aa", "cc", "ccc")).replace(
+               null, "b").toString());
+        Set<Integer> set = new HashSet<Integer>() { {
+            addAll(U.newIntegerList(U.range(7)));
+        } };
+        assertEquals("[0, 1, 2, 100, 100, 100, 100]", U.chain(set).replace(
+                new Predicate<Integer>() {
+                    @Override
+                    public boolean test(Integer arg) {
+                        return arg > 2;
+                    }
+                }, 100).toString());
+    }
+
+/*
+_.replaceIndexed([a, b, c, d], predicateIndexed(a, b) { return a > 2; }, z);
+=> [a, b, z, z]
+_.replaceIndexed([a, b, c, d], null, z);
+=> [a, b, c, d]
+*/
+    @SuppressWarnings("serial")
+    @Test
+    public void replaceIndexed() {
+        assertEquals("[0, 1, 2, 3, 100, 100]", U.replaceIndexed(U.newIntegerList(U.range(6)),
+                new PredicateIndexed<Integer>() {
+                    @Override
+                    public boolean test(int i, Integer arg) {
+                        return i > 2 && arg > 3;
+                    }
+                }, 100).toString());
+        assertEquals("[0, 1, 2, 3, 4]", U.replaceIndexed(U.newIntegerList(U.range(5)), null, 100).toString());
+        assertEquals("[a, bc, ddd, f]", new U<String>(asList("a", "bc", "ddd", "eeee")).replaceIndexed(
+                new PredicateIndexed<String>() {
+                    @Override
+                    public boolean test(int i, String arg) {
+                        return arg.length() > 2 && i > 2;
+                    }
+                }, "f").toString());
+        assertEquals("[a, aa, cc, ccc]", new U<String>(asList("a", "aa", "cc", "ccc")).replaceIndexed(
+               null, "b").toString());
+        List<Integer> list = new ArrayList<Integer>() { {
+            add(100); add(22); add(88); add(6530); add(-25); add(-1000);
+        } };
+        assertEquals("[100, 0, 88, 6530, 0, -1000]", U.chain(list).replaceIndexed(
+                new PredicateIndexed<Integer>() {
+                    @Override
+                    public boolean test(int i, Integer arg) {
+                        return arg < 23 && i < 5;
+                    }
+                }, 0).toString());
+    }
 
 /*
 _.initial([5, 4, 3, 2, 1]);
