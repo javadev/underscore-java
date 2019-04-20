@@ -324,6 +324,44 @@ public class U<T> {
         return transformed;
     }
 
+    public static <T> List<T> replace(final Iterable<T> iter, final Predicate<T> pred, final T value) {
+        List<T> list = newArrayList(iter);
+        if (pred == null) {
+            return list;
+        }
+        ListIterator<T> itera = list.listIterator();
+        while (itera.hasNext()) {
+            if (pred.test(itera.next())) {
+                itera.set(value);
+            }
+        }
+        return list;
+    }
+
+    public List<T> replace(final Predicate<T> pred, final T value) {
+        return replace(value(), pred, value);
+    }
+
+    public static <T> List<T> replaceIndexed(final Iterable<T> iter, final PredicateIndexed<T> pred, final T value) {
+        List<T> list = newArrayList(iter);
+        if (pred == null) {
+            return list;
+        }
+        ListIterator<T> itera = list.listIterator();
+        int index = 0;
+        while (itera.hasNext()) {
+            if (pred.test(index, itera.next())) {
+                itera.set(value);
+            }
+            index++;
+        }
+        return list;
+    }
+
+    public List<T> replaceIndexed(final PredicateIndexed<T> pred, final T value) {
+        return replaceIndexed(value(), pred, value);
+    }
+
     public <F> List<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
         return mapIndexed(newArrayList(iterable), func);
     }
@@ -2707,6 +2745,14 @@ public class U<T> {
 
         public <F> Chain<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
             return new Chain<F>(U.mapIndexed(list, func));
+        }
+
+        public Chain<T> replace(final Predicate<T> pred, final T value) {
+            return new Chain<T>(U.replace(list, pred, value));
+        }
+
+        public Chain<T> replaceIndexed(final PredicateIndexed<T> pred, final T value) {
+            return new Chain<T>(U.replaceIndexed(list, pred, value));
         }
 
         public Chain<T> filter(final Predicate<T> pred) {
