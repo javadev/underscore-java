@@ -247,6 +247,55 @@ _.sum([-1, -2, -3]);
     }
 
 /*
+_.subtract(1, 2);
+=> -1
+_.subtract(1, 2, 3);
+=> -4
+_.subtract();
+=> null
+*/
+    @Test
+    public void subtract() {
+        assertEquals("-1", U.subtract((byte) 1, (byte) 2).toString());
+        assertEquals("-1", U.subtract((short) 1, (short) 2).toString());
+        assertEquals("-1", U.subtract((int) 1, (int) 2).toString());
+        assertEquals("-1", U.subtract((long) 1, (long) 2).toString());
+        assertEquals("-1.0", U.subtract((float) 1, (float) 2).toString());
+        assertEquals("-1.0", U.subtract((double) 1, (double) 2).toString());
+        assertEquals("-1", U.subtract(Byte.valueOf((byte) 1), Byte.valueOf((byte) 2)).toString());
+        assertEquals("-1", U.subtract(Short.valueOf((short) 1), Short.valueOf((short) 2)).toString());
+        assertEquals("-1", U.subtract(Integer.valueOf(1), Integer.valueOf(2)).toString());
+        assertEquals("-1", U.subtract(Long.valueOf(1), Long.valueOf(2)).toString());
+        assertEquals("-1.0", U.subtract(Float.valueOf(1), Float.valueOf(2)).toString());
+        assertEquals("-1.0", U.subtract(Double.valueOf(1), Double.valueOf(2)).toString());
+        assertEquals("-1", U.subtract(java.math.BigDecimal.valueOf(1), java.math.BigDecimal.valueOf(2)).toString());
+        assertEquals("-1", U.subtract(java.math.BigInteger.valueOf(1), java.math.BigInteger.valueOf(2)).toString());
+        assertEquals("-1", U.subtract((Number) 1, (Number) 2).toString());
+        assertEquals("-4", U.subtract((int) 1, (int) 2, (int) 3).toString());
+        assertEquals("1", U.subtract((int) 1).toString());
+        assertEquals(null, U.subtract());
+    }
+
+    @Test
+    public void subtractError() {
+        class MyNumber extends Number {
+            public int intValue() {
+                return 0;
+            }
+            public long longValue() {
+                return 0;
+            }
+            public float floatValue() {
+                return 0;
+            }
+            public double doubleValue() {
+                return 0;
+            }
+        }
+        U.subtract(new MyNumber(), new MyNumber());
+    }
+
+/*
 _.mean([0, 0.5, 1]);
 => 0.5
 _.mean([0, 1, 2]);

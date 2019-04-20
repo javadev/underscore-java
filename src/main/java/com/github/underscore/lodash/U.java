@@ -1111,6 +1111,36 @@ public class U<T> extends com.github.underscore.U<T> {
         return (short) (first + second);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T extends Number> T subtract(final T ... values) {
+        if (values.length == 0) {
+            return null;
+        }
+        T result = values[0];
+        for (int i = 1; i < values.length; i++) {
+            if (result instanceof java.math.BigDecimal) {
+                java.math.BigDecimal value = (java.math.BigDecimal) values[i];
+                result = add(result, (T) value.negate());
+            } else if (result instanceof java.math.BigInteger) {
+                java.math.BigInteger value = (java.math.BigInteger) values[i];
+                result = add(result, (T) value.negate());
+            } else if (result instanceof Byte) {
+                result = add(result, (T) Byte.valueOf((byte) (values[i].byteValue() * -1)));
+            } else if (result instanceof Double) {
+                result = add(result, (T) Double.valueOf(values[i].doubleValue() * -1));
+            } else if (result instanceof Float) {
+                result = add(result, (T) Float.valueOf(values[i].floatValue() * -1));
+            } else if (result instanceof Integer) {
+                result = add(result, (T) Integer.valueOf(values[i].intValue() * -1));
+            } else if (result instanceof Long) {
+                result = add(result, (T) Long.valueOf(values[i].longValue() * -1));
+            } else if (result instanceof Short) {
+                result = add(result, (T) Short.valueOf((short) (values[i].shortValue() * -1)));
+            }
+        }
+        return result;
+    }
+
     public static <T extends Number> double mean(final Iterable<T> iterable) {
         T result = null;
         int count = 0;
