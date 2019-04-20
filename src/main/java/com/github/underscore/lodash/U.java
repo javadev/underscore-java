@@ -358,15 +358,15 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public Chain<Integer> range(final int stop) {
-            return new Chain<Integer>(newIntegerList(U.range(stop)));
+            return new Chain<Integer>(U.range(stop));
         }
 
         public Chain<Integer> range(final int start, final int stop) {
-            return new Chain<Integer>(newIntegerList(U.range(start, stop)));
+            return new Chain<Integer>(U.range(start, stop));
         }
 
         public Chain<Integer> range(final int start, final int stop, final int step) {
-            return new Chain<Integer>(newIntegerList(U.range(start, stop, step)));
+            return new Chain<Integer>(U.range(start, stop, step));
         }
 
         public Chain<List<T>> chunk(final int size) {

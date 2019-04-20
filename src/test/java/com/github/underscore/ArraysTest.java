@@ -24,7 +24,6 @@
 package com.github.underscore;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -36,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
 
 import org.junit.Test;
 
@@ -57,20 +57,20 @@ _.first([5, 4, 3, 2, 1], 2);
         //static, chain, object
         assertEquals("5", U.first(asList(5, 4, 3, 2, 1)).toString());
         assertEquals("5", U.chain(asList(5, 4, 3, 2, 1)).first().item().toString());
-        assertEquals("0", new U<Integer>(U.newIntegerList(U.range(3))).first().toString());
+        assertEquals("0", new U<Integer>(U.range(3)).first().toString());
         //static, chain, object with int
         assertEquals("[5, 4]", U.chain(asList(5, 4, 3, 2, 1)).first(2).value().toString());
         assertEquals("[5, 4]", U.first(asList(5, 4, 3, 2, 1), 2).toString());
-        assertEquals("[0, 1]", new U<Integer>(U.newIntegerList(U.range(3))).first(2).toString());
+        assertEquals("[0, 1]", new U<Integer>(U.range(3)).first(2).toString());
         //static, chain, object with larger int
         assertEquals("[a, b]", U.first(asList("a", "b"), 4).toString());
         assertEquals("[a, b]", U.chain(asList("a", "b")).first(4).toString());
-        assertEquals("[0, 1, 2]", new U<Integer>(U.newIntegerList(U.range(3))).first(4).toString());
+        assertEquals("[0, 1, 2]", new U<Integer>(U.range(3)).first(4).toString());
         //static, chain, object with wrong int
         assertEquals("[]", U.first(asList("a", "b"), 0).toString());
-        assertEquals("[]", U.first(U.newIntegerList(U.range(3)), -2).toString());
-        assertEquals("[]", new U<Integer>(U.newIntegerList(U.range(3))).first(0).toString());
-        assertEquals("[]", new U<Integer>(U.newIntegerList(U.range(3))).first(-1).toString());
+        assertEquals("[]", U.first(U.range(3), -2).toString());
+        assertEquals("[]", new U<Integer>(U.range(3)).first(0).toString());
+        assertEquals("[]", new U<Integer>(U.range(3)).first(-1).toString());
         assertEquals("[]", U.chain(asList("a")).first(-100).value().toString());
         //array
         assertEquals(5, U.first(new Integer[] {5, 4, 3, 2, 1}).intValue());
@@ -94,25 +94,25 @@ _.first([5, 4, 3, 2, 1], 2);
         }).item();
         assertEquals(4, resultChainPred);
         //static, chain, object with predicate and int
-        final List<Integer> result1 = new U<Integer>(U.newIntegerList(U.range(7))).first(new Predicate<Integer>() {
+        final List<Integer> result1 = new U<Integer>(U.range(7)).first(new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item % 2 == 0;
             }
         }, 2);
         assertEquals("[0, 2]", result1.toString());
-        final List<Integer> result2 = U.first(U.newIntegerList(U.range(7)), new Predicate<Integer>() {
+        final List<Integer> result2 = U.first(U.range(7), new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item < 1;
             }
         }, 4);
         assertEquals("[0]", result2.toString());
-        final U.Chain<Integer> result3 = U.chain(U.newIntegerList(U.range(7))).first(new Predicate<Integer>() {
+        final U.Chain<Integer> result3 = U.chain(U.range(7)).first(new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item < 2;
             }
         }, 4);
         assertEquals("[0, 1]", result3.toString());
-        final List<Integer> result4 = new U<Integer>(U.newIntegerList(U.range(3))).first(new Predicate<Integer>() {
+        final List<Integer> result4 = new U<Integer>(U.range(3)).first(new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item > 2;
             }
@@ -124,7 +124,7 @@ _.first([5, 4, 3, 2, 1], 2);
             }
         }, -2);
         assertEquals("[]", result5.toString());
-        final U.Chain<Integer> result6 = U.chain(U.newIntegerList(U.range(7))).first(new Predicate<Integer>() {
+        final U.Chain<Integer> result6 = U.chain(U.range(7)).first(new Predicate<Integer>() {
             public boolean test(Integer item) {
                 return item < 2;
             }
@@ -289,15 +289,15 @@ _.chunk(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 2, 3);
         assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
         assertEquals("[]", U.chunk(asList("a", "b", "c", "d"), 0).toString());
         assertEquals("[]", U.chunk(asList(1.1, 2.2, 3.3, 4.4), -2).toString());
-        assertEquals("[[0, 1], [3, 4], [6]]", U.chunk(U.newIntegerList(U.range(7)), 2, 3).toString());
-        assertEquals("[[], [], []]", U.chunk(U.newIntegerList(U.range(7)), 0, 3).toString());
-        assertEquals("[]", U.chunk(U.newIntegerList(U.range(7)), -2, 3).toString());
-        assertEquals("[]", U.chunk(U.newIntegerList(U.range(7)), 2, 0).toString());
-        assertEquals("[]", U.chunk(U.newIntegerList(U.range(7)), 2, -2).toString());
+        assertEquals("[[0, 1], [3, 4], [6]]", U.chunk(U.range(7), 2, 3).toString());
+        assertEquals("[[], [], []]", U.chunk(U.range(7), 0, 3).toString());
+        assertEquals("[]", U.chunk(U.range(7), -2, 3).toString());
+        assertEquals("[]", U.chunk(U.range(7), 2, 0).toString());
+        assertEquals("[]", U.chunk(U.range(7), 2, -2).toString());
         assertEquals("[[a, b], [c, d]]", new U<String>(asList("a", "b", "c", "d")).chunk(2).toString());
         assertEquals("[]", new U<String>(asList("a", "b", "c", "d")).chunk(0).toString());
-        assertEquals("[[0, 1, 2], [2, 3, 4], [4, 5]]", new U<Integer>(U.newIntegerList(U.range(6))).chunk(3, 2).toString());
-        assertEquals("[]", new U<Integer>(U.newIntegerList(U.range(7))).chunk(3, 0).toString());
+        assertEquals("[[0, 1, 2], [2, 3, 4], [4, 5]]", new U<Integer>(U.range(6)).chunk(3, 2).toString());
+        assertEquals("[]", new U<Integer>(U.range(7)).chunk(3, 0).toString());
         assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
         assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunk(0).value().toString());
         assertEquals("[[a, b], [b, c], [c, d], [d]]", U.chain(asList("a", "b", "c", "d")).chunk(2, 1).value().toString());
@@ -310,15 +310,15 @@ _.chunk(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 2, 3);
         assertEquals("[[a, b], [c, d]]", U.chunkFill(asList("a", "b", "c", "d"), 2, "fill").toString());
         assertEquals("[]", U.chunkFill(asList("a", "b", "c", "d"), 0, "fill").toString());
         assertEquals("[]", U.chunkFill(asList(1.1, 2.2, 3.3, 4.4), -2, 0.0).toString());
-        assertEquals("[[0, 1], [3, 4], [6, 500]]", U.chunkFill(U.newIntegerList(U.range(7)), 2, 3, 500).toString());
-        assertEquals("[[], [], []]", U.chunkFill(U.newIntegerList(U.range(7)), 0, 3, 500).toString());
-        assertEquals("[]", U.chunkFill(U.newIntegerList(U.range(7)), -2, 3, 500).toString());
-        assertEquals("[]", U.chunkFill(U.newIntegerList(U.range(7)), 2, 0, 500).toString());
-        assertEquals("[]", U.chunkFill(U.newIntegerList(U.range(7)), 2, -2, 500).toString());
+        assertEquals("[[0, 1], [3, 4], [6, 500]]", U.chunkFill(U.range(7), 2, 3, 500).toString());
+        assertEquals("[[], [], []]", U.chunkFill(U.range(7), 0, 3, 500).toString());
+        assertEquals("[]", U.chunkFill(U.range(7), -2, 3, 500).toString());
+        assertEquals("[]", U.chunkFill(U.range(7), 2, 0, 500).toString());
+        assertEquals("[]", U.chunkFill(U.range(7), 2, -2, 500).toString());
         assertEquals("[[a, b, c], [d, fill, fill]]", new U<String>(asList("a", "b", "c", "d")).chunkFill(3, "fill").toString());
         assertEquals("[]", new U<String>(asList("a", "b", "c", "d")).chunkFill(0, "fill").toString());
-        assertEquals("[[0, 1, 2], [2, 3, 4], [4, 5, 500]]", new U<Integer>(U.newIntegerList(U.range(6))).chunkFill(3, 2, 500).toString());
-        assertEquals("[]", new U<Integer>(U.newIntegerList(U.range(7))).chunkFill(3, 0, 500).toString());
+        assertEquals("[[0, 1, 2], [2, 3, 4], [4, 5, 500]]", new U<Integer>(U.range(6)).chunkFill(3, 2, 500).toString());
+        assertEquals("[]", new U<Integer>(U.range(7)).chunkFill(3, 0, 500).toString());
         assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunkFill(2, "fill").value().toString());
         assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunkFill(0, "fill").value().toString());
         assertEquals("[[a, b], [b, c], [c, d], [d, fill]]", U.chain(asList("a", "b", "c", "d")).chunkFill(2, 1, "fill").value().toString());
@@ -335,16 +335,16 @@ _.cycle([1, 2, 3], 0);
 */
     @Test
     public void cycle() {
-        assertEquals("[]", U.cycle(U.newIntegerList(U.range(5)), 0).toString());
+        assertEquals("[]", U.cycle(U.range(5), 0).toString());
         assertEquals("[]", U.cycle(U.newArrayList(), 5).toString());
-        assertEquals("[4, 3, 2, 1, 0]", U.cycle(U.newIntegerList(U.range(5)), -1).toString());
-        assertEquals("[0, 1, 2, 0, 1, 2, 0, 1, 2]", U.cycle(U.newIntegerList(U.range(3)), 3).toString());
+        assertEquals("[4, 3, 2, 1, 0]", U.cycle(U.range(5), -1).toString());
+        assertEquals("[0, 1, 2, 0, 1, 2, 0, 1, 2]", U.cycle(U.range(3), 3).toString());
         assertEquals("[]", new U<String>(asList("a", "b", "c")).cycle(0).toString());
         assertEquals("[c, b, a, c, b, a]", new U<String>(asList("a", "b", "c")).cycle(-2).toString());
         assertEquals("[a, b, c, a, b, c, a, b, c]", new U<String>(asList("a", "b", "c")).cycle(3).toString());
-        assertEquals("[]", U.chain(U.newIntegerList(U.range(10))).cycle(0).value().toString());
-        assertEquals("[0, 0, 0, 0, 0]", U.chain(U.newIntegerList(U.range(1))).cycle(5).value().toString());
-        assertEquals("[3, 2, 1, 0]", U.chain(U.newIntegerList(U.range(4))).cycle(-1).value().toString());
+        assertEquals("[]", U.chain(U.range(10)).cycle(0).value().toString());
+        assertEquals("[0, 0, 0, 0, 0]", U.chain(U.range(1)).cycle(5).value().toString());
+        assertEquals("[3, 2, 1, 0]", U.chain(U.range(4)).cycle(-1).value().toString());
     }
 
 /*
@@ -378,11 +378,11 @@ _.interpose([1], 500);
 */
     @Test
     public void interpose() {
-        assertEquals("[0, 500, 1, 500, 2, 500, 3]", U.interpose(U.newIntegerList(U.range(4)), 500).toString());
+        assertEquals("[0, 500, 1, 500, 2, 500, 3]", U.interpose(U.range(4), 500).toString());
         assertEquals("[]", U.interpose(U.newArrayList(), 500).toString());
         assertEquals("[]", U.interpose(U.newArrayList(), null).toString());
-        assertEquals("[0, 1, 2, 3]", U.interpose(U.newArrayList(U.newIntegerList(U.range(4))), null).toString());
-        assertEquals("[0]", U.interpose(U.newIntegerList(U.range(1)), 500).toString());
+        assertEquals("[0, 1, 2, 3]", U.interpose(U.newArrayList(U.range(4)), null).toString());
+        assertEquals("[0]", U.interpose(U.range(1), 500).toString());
         assertEquals("[a, interpose, b, interpose, c]", new U<String>(asList("a", "b", "c")).interpose("interpose").toString());
         assertEquals("[a]", new U<String>(asList("a")).interpose("interpose").toString());
         assertEquals("[a, b]", new U<String>(asList("a, b")).interpose(null).toString());
@@ -406,13 +406,13 @@ _.interpose([], [500, 600, 700]);
     public void interposeByList() {
         List<String> list1 = U.newArrayList();
         List<Integer> list2 = U.newArrayList();
-        assertEquals("[0, 100, 1, 200, 2, 300, 3]", U.interposeByList(U.newIntegerList(U.range(4)), U.newIntegerList(U.range(100, 600, 100))).toString());
-        assertEquals("[]", U.interposeByList(list2, U.newIntegerList(U.range(100, 300, 50))).toString());
-        assertEquals("[100, 200, 300]", U.interposeByList(U.newIntegerList(U.range(100, 400, 100)), list2).toString());
-        assertEquals("[100, 200, 300]", U.interposeByList(U.newIntegerList(U.range(100, 400, 100)), null).toString());
+        assertEquals("[0, 100, 1, 200, 2, 300, 3]", U.interposeByList(U.range(4), U.range(100, 600, 100)).toString());
+        assertEquals("[]", U.interposeByList(list2, U.range(100, 300, 50)).toString());
+        assertEquals("[100, 200, 300]", U.interposeByList(U.range(100, 400, 100), list2).toString());
+        assertEquals("[100, 200, 300]", U.interposeByList(U.range(100, 400, 100), null).toString());
         list2.add(Integer.valueOf(1));
-        assertEquals("[1]", U.interposeByList(list2, U.newIntegerList(U.range(100, 300, 50))).toString());
-        assertEquals("[0, 100, 1, 2, 3]", U.interposeByList(U.newIntegerList(U.range(4)), U.newIntegerList(100)).toString());
+        assertEquals("[1]", U.interposeByList(list2, U.range(100, 300, 50)).toString());
+        assertEquals("[0, 100, 1, 2, 3]", U.interposeByList(U.range(4), U.newIntegerList(100)).toString());
         assertEquals("[a, zzz, b, c]", new U<String>(asList("a", "b", "c")).interposeByList(asList("zzz")).toString());
         assertEquals("[a, b, c]", new U<String>(asList("a", "b", "c")).interposeByList(null).toString());
         assertEquals("[a]", new U<String>(asList("a")).interposeByList(asList("zzz")).toString());
@@ -421,7 +421,7 @@ _.interpose([], [500, 600, 700]);
         assertEquals("[a]", U.chain(asList("a")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
         assertEquals("[aaa, bbb, ccc]", U.chain(asList("aaa", "bbb", "ccc")).interposeByList(null).toString());
         list2.clear();
-        assertEquals("[]", U.chain(list2).interposeByList(U.newIntegerList(U.range(6))).toString());
+        assertEquals("[]", U.chain(list2).interposeByList(U.range(6)).toString());
         assertEquals("[?, aaa, !, bbb, -]", U.chain(asList("?", "!", "-")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
     }
 
@@ -474,14 +474,14 @@ _.replace([1, 2, 3, 4], null, 100);
     @SuppressWarnings("serial")
     @Test
     public void replace() {
-        assertEquals("[100, 1, 100, 3, 100, 5]", U.replace(U.newIntegerList(U.range(6)),
+        assertEquals("[100, 1, 100, 3, 100, 5]", U.replace(U.range(6),
                 new Predicate<Integer>() {
                     @Override
                     public boolean test(Integer arg) {
                         return arg % 2 == 0;
                     }
                 }, 100).toString());
-        assertEquals("[0, 1, 2, 3, 4]", U.replace(U.newIntegerList(U.range(5)), null, 100).toString());
+        assertEquals("[0, 1, 2, 3, 4]", U.replace(U.range(5), null, 100).toString());
         assertEquals("[a, aa, b, b]", new U<String>(asList("a", "aa", "aaa", "aaaa")).replace(
                 new Predicate<String>() {
                     @Override
@@ -492,7 +492,7 @@ _.replace([1, 2, 3, 4], null, 100);
         assertEquals("[a, aa, cc, ccc]", new U<String>(asList("a", "aa", "cc", "ccc")).replace(
                null, "b").toString());
         Set<Integer> set = new HashSet<Integer>() { {
-            addAll(U.newIntegerList(U.range(7)));
+            addAll(U.range(7));
         } };
         assertEquals("[0, 1, 2, 100, 100, 100, 100]", U.chain(set).replace(
                 new Predicate<Integer>() {
@@ -512,14 +512,14 @@ _.replaceIndexed([a, b, c, d], null, z);
     @SuppressWarnings("serial")
     @Test
     public void replaceIndexed() {
-        assertEquals("[0, 1, 2, 3, 100, 100]", U.replaceIndexed(U.newIntegerList(U.range(6)),
+        assertEquals("[0, 1, 2, 3, 100, 100]", U.replaceIndexed(U.range(6),
                 new PredicateIndexed<Integer>() {
                     @Override
                     public boolean test(int i, Integer arg) {
                         return i > 2 && arg > 3;
                     }
                 }, 100).toString());
-        assertEquals("[0, 1, 2, 3, 4]", U.replaceIndexed(U.newIntegerList(U.range(5)), null, 100).toString());
+        assertEquals("[0, 1, 2, 3, 4]", U.replaceIndexed(U.range(5), null, 100).toString());
         assertEquals("[a, bc, ddd, f]", new U<String>(asList("a", "bc", "ddd", "eeee")).replaceIndexed(
                 new PredicateIndexed<String>() {
                     @Override
@@ -1087,24 +1087,26 @@ _.range(0);
 */
     @Test
     public void range() {
-        final int[] result = U.range(10);
-        assertArrayEquals(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, result);
+        final List<Integer> result = U.range(10);
+        assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", result.toString());
         final List<Integer> resultChain = U.chain("").range(10).value();
         assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", resultChain.toString());
-        final int[] result2 = U.range(1, 11);
-        assertArrayEquals(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, result2);
+        final List<Integer> result2 = U.range(1, 11);
+        assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]", result2.toString());
         final List<Integer> result2Chain = U.chain("").range(1, 11).value();
         assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]", result2Chain.toString());
-        final int[] result3 = U.range(0, 30, 5);
-        assertArrayEquals(new int[] {0, 5, 10, 15, 20, 25}, result3);
+        final List<Integer> result3 = U.range(0, 30, 5);
+        assertEquals("[0, 5, 10, 15, 20, 25]", result3.toString());
         final List<Integer> result3Chain = U.chain("").range(0, 30, 5).value();
         assertEquals("[0, 5, 10, 15, 20, 25]", result3Chain.toString());
-        final int[] result4 = U.range(0, -10, -1);
-        assertArrayEquals(new int[] {0, -1, -2, -3, -4, -5, -6, -7, -8, -9}, result4);
-        final int[] result5 = U.range(0);
-        assertArrayEquals(new int[] {}, result5);
-        final int[] result6 = U.range(8, 5);
-        assertArrayEquals(new int[] {8, 7, 6}, result6);
+        final List<Integer> result4 = U.range(0, -10, -1);
+        assertEquals("[0, -1, -2, -3, -4, -5, -6, -7, -8, -9]", result4.toString());
+        final List<Integer> result5 = U.range(0);
+        assertEquals("[]", result5.toString());
+        final List<Integer> result6 = U.range(8, 5);
+        assertEquals("[8, 7, 6]", result6.toString());
+        final List<Integer> result7 = U.range(0);
+        assertEquals("[]", result7.toString());
     }
 
 /*
