@@ -1691,6 +1691,37 @@ public class U<T> extends com.github.underscore.U<T> {
         }
     }
 
+    public static List<String> explode(final String input) {
+        List<String> result = newArrayList();
+        if (isNull(input)) {
+            return result;
+        }
+        for (char character : input.toCharArray()) {
+            result.add(String.valueOf(character));
+        }
+        return result;
+    }
+
+    public static String implode(final String[] input) {
+        StringBuilder builder = new StringBuilder();
+        for (String character : input) {
+            if (nonNull(character)) {
+                builder.append(character);
+            }
+        }
+        return builder.toString();
+    }
+
+    public static String implode(final Iterable<String> input) {
+        StringBuilder builder = new StringBuilder();
+        for (String character: input) {
+            if (nonNull(character)) {
+                builder.append(character);
+            }
+        }
+        return builder.toString();
+    }
+
     public String camelCase() {
         return camelCase(getString().get());
     }
