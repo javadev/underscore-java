@@ -211,6 +211,12 @@ _.map([1, 2, 3], function(num){ return num * 3; });
             }
         });
         assertEquals("[3, 6, 9]", resultObject.toString());
+        List<Integer> result1 = U.map(new int[] {1, 2, 3}, new Function<Integer, Integer>() {
+            public Integer apply(Integer item) {
+                return item * 3;
+            }
+        });
+        assertEquals("[3, 6, 9]", result1.toString());
     }
 
 /*

@@ -1107,6 +1107,20 @@ _.range(0);
         assertEquals("[8, 7, 6]", result6.toString());
         final List<Integer> result7 = U.range(0);
         assertEquals("[]", result7.toString());
+        final List<Integer> result8 = U.range(1, 10, 0);
+        assertEquals("[]", result8.toString());
+        final List<Character> result9 = U.range('a', 'd', 1);
+        assertEquals("[a, b, c]", result9.toString());
+        final List<Character> result10 = U.range('a', 'd');
+        assertEquals("[a, b, c]", result10.toString());
+        final List<Character> result11 = U.range('d');
+        assertEquals("[a, b, c]", result11.toString());
+        final List<Character> result12 = U.range('d', 'a', -1);
+        assertEquals("[d, c, b]", result12.toString());
+        final List<Character> result13 = U.range('d', 'a');
+        assertEquals("[d, c, b]", result13.toString());
+        final List<Character> result14 = U.range('d', 'a', 0);
+        assertEquals("[]", result14.toString());
     }
 
 /*

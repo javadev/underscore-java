@@ -1787,12 +1787,40 @@ public class U<T> {
 
     public static List<Integer> range(int start, int stop, int step) {
         List<Integer> list = U.newArrayList();
+        if (step == 0) {
+             return list;
+        }
         if (start < stop) {
             for (int value = start; value < stop; value += step) {
                 list.add(value);
             }
         } else {
             for (int value = start; value > stop; value += step) {
+                list.add(value);
+            }
+        }
+        return list;
+    }
+
+    public static List<Character> range(char stop) {
+        return range('a', stop, 1);
+    }
+
+    public static List<Character> range(char start, char stop) {
+        return range(start, stop, start < stop ? 1 : -1);
+    }
+
+    public static List<Character> range(char start, char stop, int step) {
+        List<Character> list = U.newArrayList();
+        if (step == 0) {
+             return list;
+        }
+        if (start < stop) {
+            for (char value = start; value < stop; value += step) {
+                list.add(value);
+            }
+        } else {
+            for (char value = start; value > stop; value += step) {
                 list.add(value);
             }
         }
