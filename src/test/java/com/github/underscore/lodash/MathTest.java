@@ -260,9 +260,29 @@ _.subtract();
         assertEquals("-1.0", U.subtract(Double.valueOf(1), Double.valueOf(2)).toString());
         assertEquals("-1", U.subtract(java.math.BigDecimal.valueOf(1), java.math.BigDecimal.valueOf(2)).toString());
         assertEquals("-1", U.subtract(java.math.BigInteger.valueOf(1), java.math.BigInteger.valueOf(2)).toString());
+        assertEquals("-1", U.subtract((Number) 1, (Number) 2).toString());
         assertEquals("-4", U.subtract((int) 1, (int) 2, (int) 3).toString());
         assertEquals("1", U.subtract((int) 1).toString());
         assertEquals(null, U.subtract());
+    }
+
+    @Test
+    public void subtractError() {
+        class MyNumber extends Number {
+            public int intValue() {
+                return 0;
+            }
+            public long longValue() {
+                return 0;
+            }
+            public float floatValue() {
+                return 0;
+            }
+            public double doubleValue() {
+                return 0;
+            }
+        }
+        U.subtract(new MyNumber(), new MyNumber());
     }
 
 /*
