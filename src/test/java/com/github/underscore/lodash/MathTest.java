@@ -50,6 +50,12 @@ public class MathTest {
             }
         });
         assertEquals("4.0", resultFunc.toString());
+        final Double resultFunc2 = U.average(asList((Byte) null), new Function<Byte, Byte>() {
+            public Byte apply(final Byte item) {
+                return item;
+            }
+        });
+        assertNull(resultFunc2);
         assertEquals("2.0", result.toString());
         final Double result2 = U.average(asList((double) 1, (double) 2, (double) 3));
         assertEquals("2.0", result2.toString());
@@ -133,6 +139,10 @@ public class MathTest {
         assertNull(result40);
         final Double result41 = U.average(Long.valueOf(2), Long.valueOf(4));
         assertEquals("3.0", result41.toString());
+        final Double result42 = U.average(Long.valueOf(2), Long.valueOf(4));
+        assertEquals("3.0", result41.toString());
+        final Double result43 = U.average(new Integer[] {(Integer) null});
+        assertNull(result43);
     }
 
 /*

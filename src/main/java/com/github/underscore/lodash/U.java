@@ -955,11 +955,18 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static <E, F extends  Number> Double average(final Iterable<E> iterable, final Function<E, F> func) {
         F sum = sum(iterable, func);
+        if (sum == null) {
+            return null;
+        }
         return sum.doubleValue() / size(iterable);
     }
 
     public static <N extends Number> Double average(N[] array) {
-        return sum(array).doubleValue() / array.length;
+        N sum = sum(array);
+        if (sum == null) {
+            return null;
+        }
+        return sum.doubleValue() / array.length;
     }
 
     public static Double average(java.math.BigDecimal first, java.math.BigDecimal second) {
