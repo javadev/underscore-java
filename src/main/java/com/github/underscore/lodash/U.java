@@ -1136,6 +1136,8 @@ public class U<T> extends com.github.underscore.U<T> {
                 result = add(result, (T) Long.valueOf(values[i].longValue() * -1));
             } else if (result instanceof Short) {
                 result = add(result, (T) Short.valueOf((short) (values[i].shortValue() * -1)));
+            } else {
+                throw new UnsupportedOperationException("Subtract only supports official subclasses of Number");
             }
         }
         return result;

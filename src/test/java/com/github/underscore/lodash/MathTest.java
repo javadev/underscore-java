@@ -276,7 +276,7 @@ _.subtract();
         assertEquals(null, U.subtract());
     }
 
-    @Test
+    @Test(expected = UnsupportedOperationException.class)
     public void subtractError() {
         class MyNumber extends Number {
             public int intValue() {
