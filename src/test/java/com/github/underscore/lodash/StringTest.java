@@ -3603,7 +3603,7 @@ _.repeat('abc', 0);
         U.main(new String[] {});
         new U<String>(new ArrayList<String>());
         new U<String>("");
-        new U<Object>(Arrays.asList()).chain();
+        new U<Object>(Arrays.<Object>asList()).chain();
         new Json.JsonArray();
         new Json.JsonValue();
         new Json.JsonObject();

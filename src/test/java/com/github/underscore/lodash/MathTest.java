@@ -254,6 +254,7 @@ _.subtract(1, 2, 3);
 _.subtract();
 => null
 */
+    @SuppressWarnings("unchecked")
     @Test
     public void subtract() {
         assertEquals("-1", U.subtract((byte) 1, (byte) 2).toString());
