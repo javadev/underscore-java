@@ -63,7 +63,7 @@ _.camelCase('__foo_bar__');
     @Test
     public void camelCase() {
         assertEquals("fooBar", U.camelCase("Foo Bar"));
-        assertEquals("fooBar", new U("Foo Bar").camelCase());
+        assertEquals("fooBar", new U<String>("Foo Bar").camelCase());
         assertEquals("fooBar", U.chain("Foo Bar").camelCase().item());
         assertEquals("fooBar", U.camelCase("--foo-bar"));
         assertEquals("fooBar", U.camelCase("__foo_bar__"));
@@ -103,7 +103,7 @@ _.lowerFirst('FRED');
     @Test
     public void lowerFirst() {
         assertEquals("fred", U.lowerFirst("Fred"));
-        assertEquals("fred", new U("Fred").lowerFirst());
+        assertEquals("fred", new U<String>("Fred").lowerFirst());
         assertEquals("fred", U.chain("Fred").lowerFirst().item());
         assertEquals("fRED", U.lowerFirst("FRED"));
     }
@@ -118,7 +118,7 @@ _.upperFirst('FRED');
     @Test
     public void upperFirst() {
         assertEquals("Fred", U.upperFirst("fred"));
-        assertEquals("Fred", new U("fred").upperFirst());
+        assertEquals("Fred", new U<String>("fred").upperFirst());
         assertEquals("Fred", U.chain("fred").upperFirst().item());
         assertEquals("FRED", U.upperFirst("FRED"));
     }
@@ -130,7 +130,7 @@ _.capitalize('fred');
     @Test
     public void capitalize() {
         assertEquals("Fred", U.capitalize("fred"));
-        assertEquals("Fred", new U("fred").capitalize());
+        assertEquals("Fred", new U<String>("fred").capitalize());
         assertEquals("Fred", U.chain("fred").capitalize().item());
         assertEquals("", U.capitalize(null));
         assertEquals("À", U.capitalize("\u00c0"));
@@ -143,7 +143,7 @@ _.uncapitalize('Fred');
     @Test
     public void uncapitalize() {
         assertEquals("fred", U.uncapitalize("Fred"));
-        assertEquals("fred", new U("Fred").uncapitalize());
+        assertEquals("fred", new U<String>("Fred").uncapitalize());
         assertEquals("fred", U.chain("Fred").uncapitalize().item());
         assertEquals("", U.uncapitalize(null));
         assertEquals("à", U.uncapitalize("\u00c0"));
@@ -156,7 +156,7 @@ _.deburr('déjà vu');
     @Test
     public void deburr() {
         assertEquals("deja vu", U.deburr("déjà vu"));
-        assertEquals("deja vu", new U("déjà vu").deburr());
+        assertEquals("deja vu", new U<String>("déjà vu").deburr());
         assertEquals("deja vu", U.chain("déjà vu").deburr().item());
         assertEquals("", U.deburr(null));
         assertEquals("A", U.deburr("\u00c0"));
@@ -175,11 +175,11 @@ _.endsWith('abc', 'b', 2);
     @Test
     public void endsWith() {
         assertTrue(U.endsWith("abc", "c"));
-        assertTrue(new U("abc").endsWith("c"));
+        assertTrue(new U<String>("abc").endsWith("c"));
         assertTrue((Boolean) U.chain("abc").endsWith("c").item());
         assertFalse(U.endsWith("abc", "b"));
         assertTrue(U.endsWith("abc", "b", 2));
-        assertTrue(new U("abc").endsWith("b", 2));
+        assertTrue(new U<String>("abc").endsWith("b", 2));
         assertTrue((Boolean) U.chain("abc").endsWith("b", 2).item());
         assertFalse(U.endsWith("abc", "c", -4));
         assertFalse(U.endsWith((String) null, (String) null));
@@ -201,7 +201,7 @@ _.kebabCase('__foo_bar__');
     @Test
     public void kebabCase() {
         assertEquals("foo-bar", U.kebabCase("Foo Bar"));
-        assertEquals("foo-bar", new U("Foo Bar").kebabCase());
+        assertEquals("foo-bar", new U<String>("Foo Bar").kebabCase());
         assertEquals("foo-bar", U.chain("Foo Bar").kebabCase().item());
         assertEquals("foo-bar", U.kebabCase("fooBar"));
         assertEquals("foo-bar", U.kebabCase("__foo_bar__"));
@@ -222,7 +222,7 @@ _.snakeCase('--foo-bar');
     @Test
     public void snakeCase() {
         assertEquals("foo_bar", U.snakeCase("Foo Bar"));
-        assertEquals("foo_bar", new U("Foo Bar").snakeCase());
+        assertEquals("foo_bar", new U<String>("Foo Bar").snakeCase());
         assertEquals("foo_bar", U.chain("Foo Bar").snakeCase().item());
         assertEquals("foo_bar", U.snakeCase("fooBar"));
         assertEquals("foo_bar", U.snakeCase("--foo-bar"));
@@ -243,7 +243,7 @@ _.startCase('__foo_bar__');
     @Test
     public void startCase() {
         assertEquals("Foo Bar", U.startCase("--foo-bar"));
-        assertEquals("Foo Bar", new U("--foo-bar").startCase());
+        assertEquals("Foo Bar", new U<String>("--foo-bar").startCase());
         assertEquals("Foo Bar", U.chain("--foo-bar").startCase().item());
     }
 
@@ -260,11 +260,11 @@ _.startsWith('abc', 'b', 1);
     @Test
     public void startsWith() {
         assertTrue(U.startsWith("abc", "a"));
-        assertTrue(new U("abc").startsWith("a"));
+        assertTrue(new U<String>("abc").startsWith("a"));
         assertTrue(U.chain("abc").startsWith("a").item());
         assertFalse(U.startsWith("abc", "b"));
         assertTrue(U.startsWith("abc", "b", 1));
-        assertTrue(new U("abc").startsWith("b", 1));
+        assertTrue(new U<String>("abc").startsWith("b", 1));
         assertTrue(U.chain("abc").startsWith("b", 1).item());
         assertFalse(U.startsWith("abc", "c", -4));
         assertFalse(U.startsWith((String) null, (String) null));
@@ -283,12 +283,12 @@ _.trim('-_-abc-_-', '_-');
     @Test
     public void trim() {
         assertEquals("abc", U.trim("  abc  "));
-        assertEquals("abc", new U("  abc  ").trim());
+        assertEquals("abc", new U<String>("  abc  ").trim());
         assertEquals("abc", U.chain("  abc  ").trim().item());
         assertEquals("", U.trim(""));
         assertEquals(" ", U.trim(" ", ""));
         assertEquals("abc", U.trim("-_-abc-_-", "_-"));
-        assertEquals("abc", new U("-_-abc-_-").trimWith("_-"));
+        assertEquals("abc", new U<String>("-_-abc-_-").trimWith("_-"));
         assertEquals("abc", U.chain("-_-abc-_-").trim("_-").item());
         assertEquals("    ", U.trim("    ", " "));
     }
@@ -304,12 +304,12 @@ _.trimStart('-_-abc-_-', '_-');
     @Test
     public void trimStart() {
         assertEquals("abc  ", U.trimStart("  abc  "));
-        assertEquals("abc  ", new U("  abc  ").trimStart());
+        assertEquals("abc  ", new U<String>("  abc  ").trimStart());
         assertEquals("abc  ", U.chain("  abc  ").trimStart().item());
         assertEquals("", U.trimStart(""));
         assertEquals(" ", U.trimStart(" ", ""));
         assertEquals("abc-_-", U.trimStart("-_-abc-_-", "_-"));
-        assertEquals("abc-_-", new U("-_-abc-_-").trimStartWith("_-"));
+        assertEquals("abc-_-", new U<String>("-_-abc-_-").trimStartWith("_-"));
         assertEquals("abc-_-", U.chain("-_-abc-_-").trimStart("_-").item());
         assertEquals("    ", U.trimStart("    ", " "));
     }
@@ -325,12 +325,12 @@ _.trimEnd('-_-abc-_-', '_-');
     @Test
     public void trimEnd() {
         assertEquals("  abc", U.trimEnd("  abc  "));
-        assertEquals("  abc", new U("  abc  ").trimEnd());
+        assertEquals("  abc", new U<String>("  abc  ").trimEnd());
         assertEquals("  abc", U.chain("  abc  ").trimEnd().item());
         assertEquals("", U.trimEnd(""));
         assertEquals(" ", U.trimEnd(" ", ""));
         assertEquals("-_-abc", U.trimEnd("-_-abc-_-", "_-"));
-        assertEquals("-_-abc", new U("-_-abc-_-").trimEndWith("_-"));
+        assertEquals("-_-abc", new U<String>("-_-abc-_-").trimEndWith("_-"));
         assertEquals("-_-abc", U.chain("-_-abc-_-").trimEnd("_-").item());
         assertEquals("    ", U.trimEnd("    ", " "));
     }
@@ -349,10 +349,10 @@ _.trunc('hi-diddly-ho there, neighborino', 24);
         assertEquals("hi-diddly-ho there, n...", U.trunc("hi-diddly-ho there, neighborino", 24));
         assertEquals("hi-diddly-ho there, neighborino", U.trunc("hi-diddly-ho there, neighborino", 31));
         assertEquals("hi-", U.trunc("hi-"));
-        assertEquals("hi-", new U("hi-").trunc());
+        assertEquals("hi-", new U<String>("hi-").trunc());
         assertEquals("hi-", U.chain("hi-").trunc().item());
         assertEquals("...", U.trunc("hi-did", 3));
-        assertEquals("...", new U("hi-did").trunc(3));
+        assertEquals("...", new U<String>("hi-did").trunc(3));
         assertEquals("...", U.chain("hi-did").trunc(3).item());
     }
 
@@ -363,7 +363,7 @@ _.words('fred, barney, & pebbles');
     @Test
     public void words() {
         assertEquals("[fred, barney, pebbles]", U.words("fred, barney, & pebbles").toString());
-        assertEquals("[fred, barney, pebbles]", new U("fred, barney, & pebbles").words().toString());
+        assertEquals("[fred, barney, pebbles]", new U<String>("fred, barney, & pebbles").words().toString());
         assertEquals("[fred, barney, pebbles]", U.chain("fred, barney, & pebbles").words().value().toString());
         assertEquals("[текст, на, русском]", U.words("текст, на, & русском").toString());
         assertEquals("[]", U.words(null).toString());
@@ -382,12 +382,12 @@ _.pad('abc', 3);
     @Test
     public void pad() {
         assertEquals("abc", U.pad("abc", 2));
-        assertEquals("abc", new U("abc").pad(2));
+        assertEquals("abc", new U<String>("abc").pad(2));
         assertEquals("abc", U.chain("abc").pad(2).item());
         assertEquals("  abc  ", U.pad("abc", 7));
         assertEquals("  abc   ", U.pad("abc", 8));
         assertEquals("_-abc_-_", U.pad("abc", 8, "_-"));
-        assertEquals("_-abc_-_", new U("abc").pad(8, "_-"));
+        assertEquals("_-abc_-_", new U<String>("abc").pad(8, "_-"));
         assertEquals("_-abc_-_", U.chain("abc").pad(8, "_-").item());
     }
 
@@ -404,10 +404,10 @@ _.padStart('abc', 3);
     @Test
     public void padStart() {
         assertEquals("   abc", U.padStart("abc", 6));
-        assertEquals("   abc", new U("abc").padStart(6));
+        assertEquals("   abc", new U<String>("abc").padStart(6));
         assertEquals("   abc", U.chain("abc").padStart(6).item());
         assertEquals("_-_abc", U.padStart("abc", 6, "_-"));
-        assertEquals("_-_abc", new U("abc").padStart(6, "_-"));
+        assertEquals("_-_abc", new U<String>("abc").padStart(6, "_-"));
         assertEquals("_-_abc", U.chain("abc").padStart(6, "_-").item());
         assertEquals("abc", U.padStart("abc", 3));
     }
@@ -425,10 +425,10 @@ _.padEnd('abc', 3);
     @Test
     public void padEnd() {
         assertEquals("abc   ", U.padEnd("abc", 6));
-        assertEquals("abc   ", new U("abc").padEnd(6));
+        assertEquals("abc   ", new U<String>("abc").padEnd(6));
         assertEquals("abc   ", U.chain("abc").padEnd(6).item());
         assertEquals("abc_-_", U.padEnd("abc", 6, "_-"));
-        assertEquals("abc_-_", new U("abc").padEnd(6, "_-"));
+        assertEquals("abc_-_", new U<String>("abc").padEnd(6, "_-"));
         assertEquals("abc_-_", U.chain("abc").padEnd(6, "_-").item());
         assertEquals("abc", U.padEnd("abc", 3));
     }
@@ -446,7 +446,7 @@ _.repeat('abc', 0);
     @Test
     public void repeat() {
         assertEquals("***", U.repeat("*", 3));
-        assertEquals("***", new U("*").repeat(3));
+        assertEquals("***", new U<String>("*").repeat(3));
         assertEquals("***", U.chain("*").repeat(3).item());
         assertEquals("abcabc", U.repeat("abc", 2));
         assertEquals("", U.repeat("abc", 0));
@@ -778,7 +778,7 @@ _.repeat('abc', 0);
         assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
         + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
         + "        }\n      }\n    }\n  }\n]",
-            U.toJson((List<Object>) new U(string).fromJson()));
+            U.toJson((List<Object>) new U<String>(string).fromJson()));
         assertEquals("[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
         + "            5,\n            {\n              \"6\": 7\n            }\n          ]\n"
         + "        }\n      }\n    }\n  }\n]",
@@ -953,7 +953,6 @@ _.repeat('abc', 0);
         U.fromJson("[\"abc\"][]");
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
@@ -1312,7 +1311,6 @@ _.repeat('abc', 0);
             + "</root>", U.toXml((List<Object>) U.fromJson("[\"Текст на русском\"]")));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void toXmlFromList() {
         final List<String> testList = new ArrayList<String>();
@@ -1323,7 +1321,7 @@ _.repeat('abc', 0);
             U.toXml(testList));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
-            new U(testList).toXml());
+            new U<String>(testList).toXml());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
             U.chain(testList).toXml().item());
@@ -1510,7 +1508,6 @@ _.repeat('abc', 0);
                 U.toJson((Map<String, Object>) U.fromXml(xml)));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromXml8() {
         assertNull(U.fromXml(null));
@@ -3047,7 +3044,7 @@ _.repeat('abc', 0);
         + "\n    }"
         + "\n  }"
         + "\n}",
-            U.toJson((Map<String, Object>) new U(string).fromXml()));
+            U.toJson((Map<String, Object>) new U<String>(string).fromXml()));
         assertEquals(
         "{"
         + "\n  \"Details\": {"
@@ -3528,7 +3525,7 @@ _.repeat('abc', 0);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"First item\\\",\\n\"\n"
                 + " + \"  \\\"Second item\\\"\\n\"\n"
-                + " + \"]\";", new U(testList).toJsonJavaString());
+                + " + \"]\";", new U<String>(testList).toJsonJavaString());
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"First item\\\",\\n\"\n"
                 + " + \"  \\\"Second item\\\"\\n\"\n"
@@ -3601,13 +3598,12 @@ _.repeat('abc', 0);
         assertEquals(javaString, U.toJsonJavaString((Map<String, Object>) U.fromJson(string)));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void main() throws Exception {
         U.main(new String[] {});
-        new U(new ArrayList<String>());
-        new U("");
-        new U(Arrays.asList()).chain();
+        new U<String>(new ArrayList<String>());
+        new U<String>("");
+        new U<Object>(Arrays.asList()).chain();
         new Json.JsonArray();
         new Json.JsonValue();
         new Json.JsonObject();

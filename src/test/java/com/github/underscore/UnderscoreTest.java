@@ -259,7 +259,6 @@ var arr = [ 1, 2, 3 ]
 _.elementAt(arr, 1) // => 2
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void elementAt() {
         assertEquals(2, U.<Integer>elementAt(asList(1, 2, 3), 1).intValue());
         assertEquals(2, new U<Integer>(asList(1, 2, 3)).elementAt(1).intValue());
@@ -270,7 +269,6 @@ var arr = [ 1, 2, 3 ]
 _.get(arr, 1) // => 2
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void get() {
         assertEquals(2, U.<Integer>get(asList(1, 2, 3), 1).intValue());
         assertEquals(2, new U<Integer>(asList(1, 2, 3)).get(1).intValue());
@@ -281,7 +279,6 @@ var arr = [ 1, 2, 3 ]
 _.set(arr, 1, 100) // => 2
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void set() {
         Tuple<Integer, List<Integer>> result = U.<Integer>set(asList(1, 2, 3), 1, 100);
         assertEquals(2, result.fst().intValue());
@@ -306,7 +303,6 @@ _.elementAtOrElse(arr, 1, 0) // => 2
 _.elementAtOrElse(arr, 3, 0) // => 0
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void elementAtOrElse() {
         assertEquals(2, U.<Integer>elementAtOrElse(asList(1, 2, 3), 1, 0).intValue());
         assertEquals(2, new U<Integer>(asList(1, 2, 3)).elementAtOrElse(1, 0).intValue());
@@ -320,7 +316,6 @@ _.elementAtOrNull(arr, 1) // => 2
 _.elementAtOrNull(arr, 3) // => null
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void elementAtOrNull() {
         assertEquals(2, U.<Integer>elementAtOrNull(asList(1, 2, 3), 1).intValue());
         assertEquals(2, new U<Integer>(asList(1, 2, 3)).elementAtOrNull(1).intValue());
@@ -342,7 +337,6 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void findLastWithCustomIterable() {
         final int[] array = new int[] {1, 2, 3, 4, 5, 6};
         Iterable<Integer> iterable = new Iterable<Integer>() {
@@ -411,6 +405,7 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
+    @SuppressWarnings("unlikely-arg-type")
     public void optional() {
         assertTrue(Optional.absent().equals(Optional.absent()));
         assertTrue(Optional.of(1).equals(Optional.of(1)));
@@ -578,7 +573,6 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void stackoverflow() {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
         assertEquals("{D=67.3, B=67.4, C=67.4, A=99.5}", U.chain((new LinkedHashMap<String, Double>() { {
@@ -594,7 +588,6 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void stackoverflow2() {
         // http://stackoverflow.com/questions/12229577/java-hashmap-sorting-string-integer-how-to-sort-it?lq=1
         assertEquals("{a=5, f=5, c=4, e=3, b=2, d=2}", U.chain((new LinkedHashMap<String, Integer>() { {
@@ -612,7 +605,6 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void stackoverflow3() {
 // http://stackoverflow.com/questions/11647889/sorting-the-mapkey-value-in-descending-order-based-on-the-value?lq=1
         assertEquals("{C=50, A=34, B=25}", U.chain((new LinkedHashMap<String, Integer>() { {
@@ -662,7 +654,6 @@ _.elementAtOrNull(arr, 3) // => null
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void jobtest() {
         String[] strings = {
             "Sound boy proceed to blast into the galaxy",
