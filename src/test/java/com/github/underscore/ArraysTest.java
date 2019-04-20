@@ -195,6 +195,26 @@ _.head([5, 4, 3, 2, 1], 2);
         final int resultInt = U.head(new Integer[] {5, 4, 3, 2, 1});
         assertEquals(5, resultInt);
     }
+    
+    @Test
+    public void single() {
+        final Character result = U.single(new Character[] {'a', 'b'});
+        assertNull(result);
+        final Integer result1 = U.single(asList(1));
+        assertEquals(1, result1.intValue());
+        final Character result2 = U.single(asList('a'));
+        assertEquals('a', result2.charValue());
+        final Character result3 = U.single(asList('a', 'b'));
+        assertNull(result3);
+        final Integer result4 = U.single(new Integer[] {1, 2, 3, 4, 5});
+        assertNull(result4);
+        final Integer result5 = U.single(asList(1, 2, 3));
+        assertNull(result5);
+        final Object result6 = U.single(asList());
+        assertNull(result6);
+        final Integer result7 = U.single(new Integer[] {});
+        assertNull(result7);
+    }
 
 /*
 _.singleOrNull([5, 4, 3, 2, 1]);

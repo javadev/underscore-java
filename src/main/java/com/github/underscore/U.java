@@ -487,6 +487,16 @@ public class U<T> {
         return filtered;
     }
 
+    public static <E> List<E> filterNot(final List<E> list, final Predicate<E> pred) {
+    	  final List<E> filtered = newArrayList();
+          for (E element : list) {
+              if (!pred.test(element)) {
+                  filtered.add(element);
+              }
+          }
+          return filtered;
+    }
+    
     public static <E> List<E> select(final List<E> list, final Predicate<E> pred) {
         return filter(list, pred);
     }
@@ -1087,6 +1097,14 @@ public class U<T> {
     @SuppressWarnings("unchecked")
     public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
         return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[ARRAY_SIZE_2]);
+    }
+
+    public static <T> T single(List<T> list) {
+        return size(list) == 1 ? list.get(0) : null;
+    }
+
+    public static <T> T single(T[] array) {
+        return size(array) == 1 ? array[0] : null;
     }
 
     public T singleOrNull() {
