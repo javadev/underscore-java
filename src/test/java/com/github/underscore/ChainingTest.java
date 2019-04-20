@@ -147,6 +147,7 @@ var youngest = _.chain(stooges)
             })
             .first().item();
         assertEquals("moe is 21", youngest);
+        assertEquals("[1, 2, 3]", U.chain(new int[] {1, 2, 3}).toString());
     }
 
 /*

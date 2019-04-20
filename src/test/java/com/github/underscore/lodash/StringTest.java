@@ -3598,7 +3598,6 @@ _.repeat('abc', 0);
         assertEquals(javaString, U.toJsonJavaString((Map<String, Object>) U.fromJson(string)));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void main() throws Exception {
         U.main(new String[] {});

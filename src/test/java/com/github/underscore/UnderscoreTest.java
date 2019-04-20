@@ -203,13 +203,13 @@ _.splitAt([], 0);
 */
     @Test
     public void splitAt() {
-        assertEquals("[[0, 1], [2, 3, 4]]", U.splitAt(U.newIntegerList(U.range(5)), 2).toString());
-        assertEquals("[[], [0, 1, 2, 3, 4]]", U.splitAt(U.newIntegerList(U.range(5)), 0).toString());
-        assertEquals("[[0, 1, 2, 3, 4], []]", U.splitAt(U.newIntegerList(U.range(5)), 20000).toString());
-        assertEquals("[[], [0, 1, 2, 3, 4]]", U.splitAt(U.newIntegerList(U.range(5)), -1000).toString());
+        assertEquals("[[0, 1], [2, 3, 4]]", U.splitAt(U.range(5), 2).toString());
+        assertEquals("[[], [0, 1, 2, 3, 4]]", U.splitAt(U.range(5), 0).toString());
+        assertEquals("[[0, 1, 2, 3, 4], []]", U.splitAt(U.range(5), 20000).toString());
+        assertEquals("[[], [0, 1, 2, 3, 4]]", U.splitAt(U.range(5), -1000).toString());
         assertEquals("[[], []]", U.splitAt(U.newIntegerList(), 0).toString());
-        assertEquals("[[0, 1], [2, 3, 4]]", new U<Integer>(U.newIntegerList(U.range(5))).splitAt(2).toString());
-        assertEquals("[[0, 1], [2, 3, 4]]", U.chain(U.newIntegerList(U.range(5))).splitAt(2).value().toString());
+        assertEquals("[[0, 1], [2, 3, 4]]", new U<Integer>(U.range(5)).splitAt(2).toString());
+        assertEquals("[[0, 1], [2, 3, 4]]", U.chain(U.range(5)).splitAt(2).value().toString());
         assertEquals("[[a, b], [c, d, e]]", U.splitAt(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
         assertEquals("[[ant, bird], [camel, dog, elephant]]", U.splitAt(asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
         assertEquals("[[0.1, 0.2], [0.3, 0.4, 0.5]]", U.splitAt(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
@@ -227,12 +227,12 @@ _.takeSkipping([1, 2, 3, 4, 5], -100);
 */
     @Test
     public void takeSkipping() {
-        assertEquals("[0, 2, 4]", U.takeSkipping(U.newIntegerList(U.range(5)), 2).toString());
-        assertEquals("[0]", U.takeSkipping(U.newIntegerList(U.range(5)), 100000).toString());
-        assertEquals("[]", U.takeSkipping(U.newIntegerList(U.range(5)), -100).toString());
-        assertEquals("[]", U.takeSkipping(U.newIntegerList(U.range(5)), 0).toString());
-        assertEquals("[0, 2, 4]", new U<Integer>(U.newIntegerList(U.range(5))).takeSkipping(2).toString());
-        assertEquals("[0, 2, 4]", U.chain(U.newIntegerList(U.range(5))).takeSkipping(2).value().toString());
+        assertEquals("[0, 2, 4]", U.takeSkipping(U.range(5), 2).toString());
+        assertEquals("[0]", U.takeSkipping(U.range(5), 100000).toString());
+        assertEquals("[]", U.takeSkipping(U.range(5), -100).toString());
+        assertEquals("[]", U.takeSkipping(U.range(5), 0).toString());
+        assertEquals("[0, 2, 4]", new U<Integer>(U.range(5)).takeSkipping(2).toString());
+        assertEquals("[0, 2, 4]", U.chain(U.range(5)).takeSkipping(2).value().toString());
         assertEquals("[a, c, e]", U.takeSkipping(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
         assertEquals("[ant, camel, elephant]", U.takeSkipping(asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
         assertEquals("[0.1, 0.3, 0.5]", U.takeSkipping(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
