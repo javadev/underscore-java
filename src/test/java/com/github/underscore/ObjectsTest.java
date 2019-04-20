@@ -378,7 +378,6 @@ _.chain([1,2,3,200])
 => [4, 40000]
 */
     @Test
-    @SuppressWarnings("unchecked")
     public void tap() {
         final List<Map.Entry<String, Integer>> result = new ArrayList<Map.Entry<String, Integer>>();
         U.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),

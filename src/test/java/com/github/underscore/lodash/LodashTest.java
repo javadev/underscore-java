@@ -51,11 +51,10 @@ _.chunk(['a', 'b', 'c', 'd'], 2);
 _.chunk(['a', 'b', 'c', 'd'], 3);
 // → [['a', 'b', 'c'], ['d']]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void chunk() {
         assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
-        assertEquals("[[a, b], [c, d]]", new U(asList("a", "b", "c", "d")).chunk(2).toString());
+        assertEquals("[[a, b], [c, d]]", new U<String>(asList("a", "b", "c", "d")).chunk(2).toString());
         assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
         assertEquals("[[a, b, c], [d]]", U.chunk(asList("a", "b", "c", "d"), 3).toString());
     }
@@ -73,14 +72,13 @@ _.drop([1, 2, 3], 5);
 _.drop([1, 2, 3], 0);
 // → [1, 2, 3]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void drop() {
         assertEquals("[2, 3]", U.drop(asList(1, 2, 3)).toString());
-        assertEquals("[2, 3]", new U(asList(1, 2, 3)).drop().toString());
+        assertEquals("[2, 3]", new U<Integer>(asList(1, 2, 3)).drop().toString());
         assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).drop().value().toString());
         assertEquals("[3]", U.drop(asList(1, 2, 3), 2).toString());
-        assertEquals("[3]", new U(asList(1, 2, 3)).drop(2).toString());
+        assertEquals("[3]", new U<Integer>(asList(1, 2, 3)).drop(2).toString());
         assertEquals("[3]", U.chain(asList(1, 2, 3)).drop(2).value().toString());
         assertEquals("[]", U.drop(asList(1, 2, 3), 5).toString());
         assertEquals("[1, 2, 3]", U.drop(asList(1, 2, 3), 0).toString());
@@ -99,14 +97,13 @@ _.dropRight([1, 2, 3], 5);
 _.dropRight([1, 2, 3], 0);
 // → [1, 2, 3]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void dropRight() {
         assertEquals("[1, 2]", U.dropRight(asList(1, 2, 3)).toString());
-        assertEquals("[1, 2]", new U(asList(1, 2, 3)).dropRight().toString());
+        assertEquals("[1, 2]", new U<Integer>(asList(1, 2, 3)).dropRight().toString());
         assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).dropRight().value().toString());
         assertEquals("[1]", U.dropRight(asList(1, 2, 3), 2).toString());
-        assertEquals("[1]", new U(asList(1, 2, 3)).dropRight(2).toString());
+        assertEquals("[1]", new U<Integer>(asList(1, 2, 3)).dropRight(2).toString());
         assertEquals("[1]", U.chain(asList(1, 2, 3)).dropRight(2).value().toString());
         assertEquals("[]", U.dropRight(asList(1, 2, 3), 5).toString());
         assertEquals("[1, 2, 3]", U.dropRight(asList(1, 2, 3), 0).toString());
@@ -118,7 +115,6 @@ _.dropWhile([1, 2, 3], function(n) {
 });
 // → [3]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void dropWhile() {
         assertEquals("[3]", U.dropWhile(asList(1, 2, 3), new Predicate<Integer>() {
@@ -126,7 +122,7 @@ _.dropWhile([1, 2, 3], function(n) {
                 return n < 3;
             }
         }).toString());
-        assertEquals("[3]", new U(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
+        assertEquals("[3]", new U<Integer>(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n < 3;
             }
@@ -170,7 +166,6 @@ _.fill([1, 2, 3], 4)
 _.fill(["test1", "test2", "test3"], "res")
 // → ["res", "res", "res"]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void fill() {
         assertEquals("[2, 2, 2]", U.fill(new ArrayList<Number>(Collections.nCopies(3, 0)), 2).toString());
@@ -178,12 +173,12 @@ _.fill(["test1", "test2", "test3"], "res")
         U.fill(array, "*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3));
-        new U(array).fill("a");
+        new U<Object>(array).fill("a");
         assertEquals("[a, a, a]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3));
         U.chain(array).fill("a");
         array = new ArrayList<Object>(asList(4, 6, 8));
-        new U(array).fill("*", 1, 2);
+        new U<Object>(array).fill("*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
         array = new ArrayList<Object>(asList(4, 6, 8));
         U.chain(array).fill("*", 1, 2);
@@ -226,14 +221,13 @@ _.pull(array, 2, 3);
 console.log(array);
 // → [1, 1]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void pull() {
         List<Object> array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
         U.pull(array, 2, 3);
         assertEquals("[1, 1]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
-        new U(array).pull(2, 3);
+        new U<Object>(array).pull(2, 3);
         assertEquals("[1, 1]", array.toString());
         array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
         U.chain(array).pull(2, 3);
@@ -250,7 +244,6 @@ console.log(array);
 console.log(evens);
 // → [10, 20]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void pullAt() {
         List<Object> array = new ArrayList<Object>(asList(5, 10, 15, 20));
@@ -258,7 +251,7 @@ console.log(evens);
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
         array = new ArrayList<Object>(asList(5, 10, 15, 20));
-        events = new U(array).pullAt(1, 3);
+        events = new U<Object>(array).pullAt(1, 3);
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
         array = new ArrayList<Object>(asList(5, 10, 15, 20));
@@ -279,7 +272,6 @@ console.log(array);
 console.log(evens);
 // → [2, 4]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void remove() {
         List<Integer> array = new ArrayList<Integer>(asList(1, 2, 3, 4));
@@ -291,7 +283,7 @@ console.log(evens);
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
         array = new ArrayList<Integer>(asList(1, 2, 3, 4));
-        evens = new U(array).remove(new Predicate<Integer>() {
+        evens = new U<Integer>(array).remove(new Predicate<Integer>() {
             public boolean test(final Integer n) {
                 return n % 2 == 0;
             }
@@ -321,14 +313,13 @@ _.take([1, 2, 3], 5);
 _.take([1, 2, 3], 0);
 // → []
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void take() {
         assertEquals("[1]", U.take(asList(1, 2, 3)).toString());
-        assertEquals("[1]", new U(asList(1, 2, 3)).take().toString());
+        assertEquals("[1]", new U<Integer>(asList(1, 2, 3)).take().toString());
         assertEquals("[1]", U.chain(asList(1, 2, 3)).take().value().toString());
         assertEquals("[1, 2]", U.take(asList(1, 2, 3), 2).toString());
-        assertEquals("[1, 2]", new U(asList(1, 2, 3)).take(2).toString());
+        assertEquals("[1, 2]", new U<Integer>(asList(1, 2, 3)).take(2).toString());
         assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).take(2).value().toString());
         assertEquals("[1, 2, 3]", U.take(asList(1, 2, 3), 5).toString());
         assertEquals("[]", U.take(asList(1, 2, 3), 0).toString());
@@ -347,14 +338,13 @@ _.takeRight([1, 2, 3], 5);
 _.takeRight([1, 2, 3], 0);
 // → []
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void takeRight() {
         assertEquals("[3]", U.takeRight(asList(1, 2, 3)).toString());
-        assertEquals("[3]", new U(asList(1, 2, 3)).takeRight().toString());
+        assertEquals("[3]", new U<Integer>(asList(1, 2, 3)).takeRight().toString());
         assertEquals("[3]", U.chain(asList(1, 2, 3)).takeRight().value().toString());
         assertEquals("[2, 3]", U.takeRight(asList(1, 2, 3), 2).toString());
-        assertEquals("[2, 3]", new U(asList(1, 2, 3)).takeRight(2).toString());
+        assertEquals("[2, 3]", new U<Integer>(asList(1, 2, 3)).takeRight(2).toString());
         assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).takeRight(2).value().toString());
         assertEquals("[1, 2, 3]", U.takeRight(asList(1, 2, 3), 5).toString());
         assertEquals("[]", U.takeRight(asList(1, 2, 3), 0).toString());
@@ -366,7 +356,6 @@ _.takeWhile([1, 2, 3], function(n) {
 });
 // → [1, 2]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void takeWhile() {
         assertEquals("[1, 2]", U.takeWhile(asList(1, 2, 3), new Predicate<Integer>() {
@@ -374,7 +363,7 @@ _.takeWhile([1, 2, 3], function(n) {
                 return n < 3;
             }
         }).toString());
-        assertEquals("[1, 2]", new U(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
+        assertEquals("[1, 2]", new U<Integer>(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n < 3;
             }
@@ -392,7 +381,6 @@ _.takeRightWhile([1, 2, 3], function(n) {
 });
 // → [2, 3]
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void takeRightWhile() {
         assertEquals("[2, 3]", U.takeRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
@@ -400,7 +388,7 @@ _.takeRightWhile([1, 2, 3], function(n) {
                 return n > 1;
             }
         }).toString());
-        assertEquals("[2, 3]", new U(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
+        assertEquals("[2, 3]", new U<Integer>(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
             public boolean test(Integer n) {
                 return n > 1;
             }
@@ -420,7 +408,7 @@ _.xor([1, 2], [4, 2]);
     @Test
     public void xor() {
         assertEquals("[1, 4]", U.xor(asList(1, 2), asList(4, 2)).toString());
-        assertEquals("[1, 4]", new U(asList(1, 2)).xor(asList(4, 2)).toString());
+        assertEquals("[1, 4]", new U<Integer>(asList(1, 2)).xor(asList(4, 2)).toString());
         assertEquals("[1, 4]", U.chain(asList(1, 2)).xor(asList(4, 2)).value().toString());
     }
 
@@ -429,11 +417,10 @@ _.xor([1, 2], [4, 2]);
 _.at(['a', 'b', 'c'], 0, 2);
 // → ['a', 'c']
 */
-    @SuppressWarnings("unchecked")
     @Test
     public void at() {
         assertEquals("[a, c]", U.at(asList("a", "b", "c"), 0, 2).toString());
-        assertEquals("[a, c]", new U(asList("a", "b", "c")).at(0, 2).toString());
+        assertEquals("[a, c]", new U<String>(asList("a", "b", "c")).at(0, 2).toString());
         assertEquals("[a, c]", U.chain(asList("a", "b", "c")).at(0, 2).value().toString());
     }
 
@@ -448,8 +435,8 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.c").toString());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
+    @SuppressWarnings("serial")
     public void getNull() {
         assertNull(U.<String>get((Map<String, Object>) null, "a[0].b.c"));
         assertNull(U.<String>get(new LinkedHashMap<String, Object>() { {
@@ -476,7 +463,7 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             result.text());
         assertEquals("Sir. Russell Jones of Alberta",
             (String) U.get((Map<String, Object>) result.json(), "knight.name"));
-        U.Chain resultChain = U.chain("https://www.dragonsofmugloar.com/api/game/483159").fetch();
+        U.Chain<?> resultChain = U.chain("https://www.dragonsofmugloar.com/api/game/483159").fetch();
         assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
             + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
             resultChain.item());
@@ -562,7 +549,6 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             resultChain.item());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void noHostnameVerifier() {
         new U.NoHostnameVerifier().verify("", (javax.net.ssl.SSLSession) null);

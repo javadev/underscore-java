@@ -332,7 +332,6 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<T>(U.uniq(value()));
         }
 
-        @SuppressWarnings("unchecked")
         public <F> Chain<T> uniq(final Function<T, F> func) {
             return new Chain<T>(U.newArrayList(U.uniq(value(), func)));
         }
@@ -346,17 +345,14 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<F>(U.newArrayList((Iterable<F>) U.uniq(value(), func)));
         }
 
-        @SuppressWarnings("unchecked")
         public Chain<T> union(final List<T> ... lists) {
             return new Chain<T>(U.union(value(), lists));
         }
 
-        @SuppressWarnings("unchecked")
         public Chain<T> intersection(final List<T> ... lists) {
             return new Chain<T>(U.intersection(value(), lists));
         }
 
-        @SuppressWarnings("unchecked")
         public Chain<T> difference(final List<T> ... lists) {
             return new Chain<T>(U.difference(value(), lists));
         }
@@ -401,7 +397,6 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<T>(U.interposeByList(value(), interIter));
         }
 
-        @SuppressWarnings("unchecked")
         public Chain<T> concat(final List<T> ... lists) {
             return new Chain<T>(U.concat(value(), lists));
         }
@@ -683,7 +678,6 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<String>(U.fetch((String) item(), method, body).text());
         }
 
-        @SuppressWarnings("unchecked")
         public Chain<List<T>> createPermutationWithRepetition(final int permutationLength) {
             return new Chain<List<T>>(U.createPermutationWithRepetition((List<T>) value(), permutationLength));
         }
@@ -717,7 +711,6 @@ public class U<T> extends com.github.underscore.U<T> {
         return new U.Chain<T>(newArrayList(iterable, size));
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> Chain<T> chain(final T ... list) {
         return new U.Chain<T>(Arrays.asList(list));
     }
@@ -1952,22 +1945,18 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     public List<List<T>> createPermutationWithRepetition(final int permutationLength) {
         return createPermutationWithRepetition((List<T>) value(), permutationLength);
     }
 
-    @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList() {
         return com.github.underscore.U.newArrayList();
     }
 
-    @SuppressWarnings("unchecked")
     protected static <T> List<T> newArrayList(final Iterable<T> iterable) {
         return com.github.underscore.U.newArrayList(iterable);
     }
 
-    @SuppressWarnings("unchecked")
     protected static <T> Set<T> newLinkedHashSet() {
         return com.github.underscore.U.newLinkedHashSet();
     }
@@ -2048,7 +2037,6 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.fromXml(getString().get());
     }
 
-    @SuppressWarnings("unchecked")
     public static String jsonToXml(String json, Xml.XmlStringBuilder.Step identStep) {
         Object result = Json.fromJson(json);
         if (result instanceof Map) {
@@ -2061,7 +2049,6 @@ public class U<T> extends com.github.underscore.U<T> {
         return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
-    @SuppressWarnings("unchecked")
     public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep) {
         Object result = Xml.fromXml(xml);
         if (result instanceof Map) {

@@ -291,7 +291,6 @@ _.median([0, 0, 1, 2, 3, 4]);
     }
 
     // http://stackoverflow.com/questions/27772432/is-there-a-underscore-js-lib-for-java
-    @SuppressWarnings("unchecked")
     @Test
     public void sumOfInt() {
 /*
@@ -357,7 +356,6 @@ System.out.println("Sum of letters in words starting with E... " + sum);
                    + " [orange, orange, orange]]", resultChain.toString());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void shortestPathAllKeys() {
         List<U.Status> statuses = U.shortestPathAllKeys(new String[] {"@.a.#", "###.#", "b.A.B"});

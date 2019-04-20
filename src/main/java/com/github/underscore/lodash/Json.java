@@ -872,7 +872,6 @@ public final class Json {
         return new JsonParser(string).parse();
     }
 
-    @SuppressWarnings("unchecked")
     public static String formatJson(String json, JsonStringBuilder.Step identStep) {
         Object result = fromJson(json);
         if (result instanceof Map) {
