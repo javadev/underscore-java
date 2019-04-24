@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2018 Valentyn Kolesnikov
+ * Copyright 2015-2019 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,6 +57,10 @@ public class MathTest {
         });
         assertNull(resultFunc2);
         assertEquals("2.0", result.toString());
+    }
+
+    @Test
+    public void average2() {
         final Double result2 = U.average(asList((double) 1, (double) 2, (double) 3));
         assertEquals("2.0", result2.toString());
         final Double result3 = U.average(asList((float) 1, (float) 2, (float) 3));
@@ -73,6 +77,10 @@ public class MathTest {
         assertEquals("2.0", result8.toString());
         final Double result9 = U.average(asList((Integer) null));
         assertNull(result9);
+    }
+
+    @Test
+    public void average3() {
         final Double result10 = U.average(asList(1, (Integer) null));
         assertEquals("0.5", result10.toString());
         final Double result11 = U.average(asList((double) 0.2, (double) 0.1, Math.PI));
@@ -94,6 +102,10 @@ public class MathTest {
         final Double result19 = U.average(new BigInteger[] {BigInteger.valueOf(1), BigInteger.valueOf(2),
                 BigInteger.valueOf(3)});
         assertEquals("2.0", result19.toString());
+    }
+
+    @Test
+    public void average4() {
         final Double result20 = U.average(new BigDecimal[] {BigDecimal.valueOf(1), BigDecimal.valueOf(2),
                 BigDecimal.valueOf(3)});
         assertEquals("2.0", result20.toString());
@@ -113,6 +125,10 @@ public class MathTest {
         assertNull(result27);
         final Double result28 = U.average(null, (byte) 1);
         assertNull(result28);
+    }
+
+    @Test
+    public void average5() {
         final Double result29 = U.average((byte) 2, (byte) 4);
         assertEquals("3.0", result29.toString());
         final Double result30 = U.average(Double.valueOf(2), null);
@@ -129,6 +145,10 @@ public class MathTest {
         assertEquals("3.0", result35.toString());
         final Double result36 = U.average(Integer.valueOf(2), null);
         assertNull(result36);
+    }
+
+    @Test
+    public void average6() {
         final Double result37 = U.average(null, Integer.valueOf(2));
         assertNull(result37);
         final Double result38 = U.average(Integer.valueOf(2), Integer.valueOf(4));
@@ -140,7 +160,7 @@ public class MathTest {
         final Double result41 = U.average(Long.valueOf(2), Long.valueOf(4));
         assertEquals("3.0", result41.toString());
         final Double result42 = U.average(Long.valueOf(2), Long.valueOf(4));
-        assertEquals("3.0", result41.toString());
+        assertEquals("3.0", result42.toString());
         final Double result43 = U.average(new Integer[] {(Integer) null});
         assertNull(result43);
     }
@@ -269,8 +289,8 @@ _.subtract();
         assertEquals("-1", U.subtract(Long.valueOf(1), Long.valueOf(2)).toString());
         assertEquals("-1.0", U.subtract(Float.valueOf(1), Float.valueOf(2)).toString());
         assertEquals("-1.0", U.subtract(Double.valueOf(1), Double.valueOf(2)).toString());
-        assertEquals("-1", U.subtract(java.math.BigDecimal.valueOf(1), java.math.BigDecimal.valueOf(2)).toString());
-        assertEquals("-1", U.subtract(java.math.BigInteger.valueOf(1), java.math.BigInteger.valueOf(2)).toString());
+        assertEquals("-1", U.subtract(BigDecimal.valueOf(1), BigDecimal.valueOf(2)).toString());
+        assertEquals("-1", U.subtract(BigInteger.valueOf(1), BigInteger.valueOf(2)).toString());
         assertEquals("-1", U.subtract((Number) 1, (Number) 2).toString());
         assertEquals("-4", U.subtract((int) 1, (int) 2, (int) 3).toString());
         assertEquals("1", U.subtract((int) 1).toString());

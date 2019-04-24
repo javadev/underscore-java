@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2018 Valentyn Kolesnikov
+ * Copyright 2015-2019 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -491,9 +491,8 @@ _.replace([1, 2, 3, 4], null, 100);
                 }, "b").toString());
         assertEquals("[a, aa, cc, ccc]", new U<String>(asList("a", "aa", "cc", "ccc")).replace(
                null, "b").toString());
-        Set<Integer> set = new HashSet<Integer>() { {
-            addAll(U.range(7));
-        } };
+        Set<Integer> set = new HashSet<Integer>();
+        set.addAll(U.range(7));
         assertEquals("[0, 1, 2, 100, 100, 100, 100]", U.chain(set).replace(
                 new Predicate<Integer>() {
                     @Override
@@ -529,9 +528,13 @@ _.replaceIndexed([a, b, c, d], null, z);
                 }, "f").toString());
         assertEquals("[a, aa, cc, ccc]", new U<String>(asList("a", "aa", "cc", "ccc")).replaceIndexed(
                null, "b").toString());
-        List<Integer> list = new ArrayList<Integer>() { {
-            add(100); add(22); add(88); add(6530); add(-25); add(-1000);
-        } };
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(100);
+        list.add(22);
+        list.add(88);
+        list.add(6530);
+        list.add(-25);
+        list.add(-1000);
         assertEquals("[100, 0, 88, 6530, 0, -1000]", U.chain(list).replaceIndexed(
                 new PredicateIndexed<Integer>() {
                     @Override
