@@ -345,14 +345,17 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<F>(U.newArrayList((Iterable<F>) U.uniq(value(), func)));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> union(final List<T> ... lists) {
             return new Chain<T>(U.union(value(), lists));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> intersection(final List<T> ... lists) {
             return new Chain<T>(U.intersection(value(), lists));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> difference(final List<T> ... lists) {
             return new Chain<T>(U.difference(value(), lists));
         }
@@ -397,6 +400,7 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<T>(U.interposeByList(value(), interIter));
         }
 
+        @SuppressWarnings("unchecked")
         public Chain<T> concat(final List<T> ... lists) {
             return new Chain<T>(U.concat(value(), lists));
         }
@@ -711,6 +715,7 @@ public class U<T> extends com.github.underscore.U<T> {
         return new U.Chain<T>(newArrayList(iterable, size));
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Chain<T> chain(final T ... list) {
         return new U.Chain<T>(Arrays.asList(list));
     }
