@@ -6,10 +6,6 @@ jdk:
   - oraclejdk8
   - oraclejdk9
   - oraclejdk11
-  
-matrix:
-  include:
-    - jdk: openjdk10
 
 script:
   - mvn clean install jacoco:report coveralls:report
