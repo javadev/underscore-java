@@ -2228,9 +2228,7 @@ public class U<T> {
     public static List<String> functions(final Object object) {
         final List<String> result = newArrayList();
         for (final Method method : object.getClass().getDeclaredMethods()) {
-            if (!method.getName().contains("$")) {
-                result.add(method.getName());
-            }
+            result.add(method.getName());
         }
         return sort(uniq(result));
     }
