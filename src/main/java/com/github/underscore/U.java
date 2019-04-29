@@ -1858,7 +1858,7 @@ public class U<T> {
         }
         int index = 0;
         int length = size(iterable);
-        final List<List<T>> result = new ArrayList<List<T>>(size == 0 ? size : ((length / size) + 1));
+        final List<List<T>> result = new ArrayList<List<T>>(size == 0 ? size : (length / size) + 1);
         while (index < length) {
             result.add(newArrayList(iterable).subList(index, Math.min(length, index + size)));
             index += step;
