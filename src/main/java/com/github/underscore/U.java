@@ -1873,7 +1873,8 @@ public class U<T> {
         return chunkFill(iterable, size, size, fillValue);
     }
 
-    public static <T> List<List<T>> chunkFill(final Iterable<T> iterable, final int size, final int step, final T fillValue) {
+    public static <T> List<List<T>> chunkFill(final Iterable<T> iterable, final int size,
+        final int step, final T fillValue) {
         if (step <= 0 || size < 0) {
             return newArrayList();
         }

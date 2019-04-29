@@ -300,7 +300,8 @@ _.chunk(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 2, 3);
         assertEquals("[]", new U<Integer>(U.range(7)).chunk(3, 0).toString());
         assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
         assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunk(0).value().toString());
-        assertEquals("[[a, b], [b, c], [c, d], [d]]", U.chain(asList("a", "b", "c", "d")).chunk(2, 1).value().toString());
+        assertEquals("[[a, b], [b, c], [c, d], [d]]", U.chain(asList("a", "b", "c", "d"))
+            .chunk(2, 1).value().toString());
         assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunk(4, 0).value().toString());
     }
 
@@ -315,13 +316,16 @@ _.chunk(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 2, 3);
         assertEquals("[]", U.chunkFill(U.range(7), -2, 3, 500).toString());
         assertEquals("[]", U.chunkFill(U.range(7), 2, 0, 500).toString());
         assertEquals("[]", U.chunkFill(U.range(7), 2, -2, 500).toString());
-        assertEquals("[[a, b, c], [d, fill, fill]]", new U<String>(asList("a", "b", "c", "d")).chunkFill(3, "fill").toString());
+        assertEquals("[[a, b, c], [d, fill, fill]]", new U<String>(asList("a", "b", "c", "d"))
+            .chunkFill(3, "fill").toString());
         assertEquals("[]", new U<String>(asList("a", "b", "c", "d")).chunkFill(0, "fill").toString());
-        assertEquals("[[0, 1, 2], [2, 3, 4], [4, 5, 500]]", new U<Integer>(U.range(6)).chunkFill(3, 2, 500).toString());
+        assertEquals("[[0, 1, 2], [2, 3, 4], [4, 5, 500]]", new U<Integer>(U.range(6))
+            .chunkFill(3, 2, 500).toString());
         assertEquals("[]", new U<Integer>(U.range(7)).chunkFill(3, 0, 500).toString());
         assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunkFill(2, "fill").value().toString());
         assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunkFill(0, "fill").value().toString());
-        assertEquals("[[a, b], [b, c], [c, d], [d, fill]]", U.chain(asList("a", "b", "c", "d")).chunkFill(2, 1, "fill").value().toString());
+        assertEquals("[[a, b], [b, c], [c, d], [d, fill]]", U.chain(asList("a", "b", "c", "d"))
+            .chunkFill(2, 1, "fill").value().toString());
         assertEquals("[]", U.chain(asList("a", "b", "c", "d")).chunkFill(4, 0, "fill").value().toString());
     }
 
@@ -383,13 +387,15 @@ _.interpose([1], 500);
         assertEquals("[]", U.interpose(U.newArrayList(), null).toString());
         assertEquals("[0, 1, 2, 3]", U.interpose(U.newArrayList(U.range(4)), null).toString());
         assertEquals("[0]", U.interpose(U.range(1), 500).toString());
-        assertEquals("[a, interpose, b, interpose, c]", new U<String>(asList("a", "b", "c")).interpose("interpose").toString());
+        assertEquals("[a, interpose, b, interpose, c]", new U<String>(asList("a", "b", "c"))
+            .interpose("interpose").toString());
         assertEquals("[a]", new U<String>(asList("a")).interpose("interpose").toString());
         assertEquals("[a, b]", new U<String>(asList("a, b")).interpose(null).toString());
         assertEquals("[a]", U.chain(asList("a")).interpose("interpose").toString());
         assertEquals("[]", U.chain(U.newArrayList()).interpose("interpose").toString());
         assertEquals("[a, b, c]", U.chain(asList("a", "b", "c")).interpose(null).toString());
-        assertEquals("[?, interpose, !, interpose, -]", U.chain(asList("?", "!", "-")).interpose("interpose").toString());
+        assertEquals("[?, interpose, !, interpose, -]", U.chain(asList("?", "!", "-"))
+            .interpose("interpose").toString());
     }
 
 /*
@@ -417,12 +423,14 @@ _.interpose([], [500, 600, 700]);
         assertEquals("[a, b, c]", new U<String>(asList("a", "b", "c")).interposeByList(null).toString());
         assertEquals("[a]", new U<String>(asList("a")).interposeByList(asList("zzz")).toString());
         assertEquals("[a, b, c]", new U<String>(asList("a", "b", "c")).interposeByList(list1).toString());
-        assertEquals("[a, aaa, b, bbb, c]", new U<String>(asList("a", "b", "c")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
+        assertEquals("[a, aaa, b, bbb, c]", new U<String>(asList("a", "b", "c"))
+            .interposeByList(asList("aaa", "bbb", "ccc")).toString());
         assertEquals("[a]", U.chain(asList("a")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
         assertEquals("[aaa, bbb, ccc]", U.chain(asList("aaa", "bbb", "ccc")).interposeByList(null).toString());
         list2.clear();
         assertEquals("[]", U.chain(list2).interposeByList(U.range(6)).toString());
-        assertEquals("[?, aaa, !, bbb, -]", U.chain(asList("?", "!", "-")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
+        assertEquals("[?, aaa, !, bbb, -]", U.chain(asList("?", "!", "-"))
+            .interposeByList(asList("aaa", "bbb", "ccc")).toString());
     }
 
 /*

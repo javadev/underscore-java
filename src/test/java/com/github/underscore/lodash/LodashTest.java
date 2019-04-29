@@ -755,6 +755,11 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
         U.chain(new Integer[] {0}).distinct();
         U.chain(new Integer[] {0}).distinctBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void chain2() {
         U.chain(new String[] {""}).union();
         U.chain(new String[] {""}).intersection();
         U.chain(new String[] {""}).difference();

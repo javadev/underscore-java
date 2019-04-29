@@ -211,7 +211,8 @@ _.splitAt([], 0);
         assertEquals("[[0, 1], [2, 3, 4]]", new U<Integer>(U.range(5)).splitAt(2).toString());
         assertEquals("[[0, 1], [2, 3, 4]]", U.chain(U.range(5)).splitAt(2).value().toString());
         assertEquals("[[a, b], [c, d, e]]", U.splitAt(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
-        assertEquals("[[ant, bird], [camel, dog, elephant]]", U.splitAt(asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
+        assertEquals("[[ant, bird], [camel, dog, elephant]]", U.splitAt(
+            asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
         assertEquals("[[0.1, 0.2], [0.3, 0.4, 0.5]]", U.splitAt(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
         final Integer[] array = {0, 1, 2, 3, 4};
         assertEquals("[[0, 1], [2, 3, 4]]", U.splitAt(array, 2).toString());
@@ -234,7 +235,8 @@ _.takeSkipping([1, 2, 3, 4, 5], -100);
         assertEquals("[0, 2, 4]", new U<Integer>(U.range(5)).takeSkipping(2).toString());
         assertEquals("[0, 2, 4]", U.chain(U.range(5)).takeSkipping(2).value().toString());
         assertEquals("[a, c, e]", U.takeSkipping(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
-        assertEquals("[ant, camel, elephant]", U.takeSkipping(asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
+        assertEquals("[ant, camel, elephant]", U.takeSkipping(
+            asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
         assertEquals("[0.1, 0.3, 0.5]", U.takeSkipping(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
         final Integer[] array = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         assertEquals("[0, 3, 6, 9]", U.takeSkipping(array, 3).toString());

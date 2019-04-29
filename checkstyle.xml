@@ -85,11 +85,11 @@
         <module name="UnusedImports"/>
         <module name="RedundantImport"/>
         <module name="LineLength">
-            <property name="severity" value="warning"/>
+            <property name="severity" value="error"/>
             <property name="max" value="120"/>
         </module>
         <module name="MethodLength">
-            <property name="severity" value="warning"/>
+            <property name="severity" value="error"/>
             <property name="max" value="120"/>
         </module>
         <module name="AnonInnerLength">
