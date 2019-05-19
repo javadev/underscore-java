@@ -703,7 +703,7 @@ public final class Json {
                     result = Double.valueOf(number);
                 }
             } else {
-                if (number.length() > 20) {
+                if (number.length() > 19) {
                     result = new java.math.BigInteger(number);
                 } else {
                     result = Long.valueOf(number);

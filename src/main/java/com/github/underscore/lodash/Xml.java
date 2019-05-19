@@ -989,7 +989,7 @@ public final class Xml {
                 localValue = Double.valueOf(number);
             }
         } else {
-            if (number.length() > 20) {
+            if (number.length() > 19) {
                 localValue = new java.math.BigInteger(number);
             } else {
                 localValue = Long.valueOf(number);
