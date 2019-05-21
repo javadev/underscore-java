@@ -1280,7 +1280,7 @@ public final class Xml {
             return null;
         }
         try {
-            org.w3c.dom.Document document = createDocument(xml);
+            org.w3c.dom.Document document = Document.createDocument(xml);
             final Object result = createMap(document, new BiFunction<Object, Set<String>, String>() {
                 public String apply(Object object, Set<String> namespaces) {
                     return String.valueOf(object);
@@ -1345,25 +1345,33 @@ public final class Xml {
         }
     }
 
-    private static org.w3c.dom.Document createDocument(final String xml)
-            throws java.io.IOException, javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException {
-        final javax.xml.parsers.DocumentBuilderFactory factory =
-                javax.xml.parsers.DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
-        builder.setErrorHandler(new org.xml.sax.helpers.DefaultHandler());
-        builder.setEntityResolver(new MyEntityResolver());
-        return builder.parse(new org.xml.sax.InputSource(new java.io.StringReader(xml)));
-    }
-
     private static class Document {
+        private static org.w3c.dom.Document createDocument(final String xml)
+                throws java.io.IOException, javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException {
+            final javax.xml.parsers.DocumentBuilderFactory factory =
+                    javax.xml.parsers.DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            try {
+                factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            } catch (javax.xml.parsers.ParserConfigurationException ignored) {
+                // ignored
+            }
+            final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setErrorHandler(new org.xml.sax.helpers.DefaultHandler());
+            builder.setEntityResolver(new MyEntityResolver());
+            return builder.parse(new org.xml.sax.InputSource(new java.io.StringReader(xml)));
+        }
+
         private static org.w3c.dom.Document createDocument() {
             try {
                 final javax.xml.parsers.DocumentBuilderFactory factory =
                         javax.xml.parsers.DocumentBuilderFactory.newInstance();
                 factory.setNamespaceAware(true);
-                factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                try {
+                    factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                } catch (javax.xml.parsers.ParserConfigurationException ignored) {
+                    // ignored
+                }
                 final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
                 return builder.newDocument();
             } catch (javax.xml.parsers.ParserConfigurationException ex) {
@@ -1374,7 +1382,7 @@ public final class Xml {
 
     public static Object fromXmlMakeArrays(final String xml) {
         try {
-            org.w3c.dom.Document document = createDocument(xml);
+            org.w3c.dom.Document document = Document.createDocument(xml);
             final Object result = createMap(document, new BiFunction<Object, Set<String>, String>() {
                 public String apply(Object object, Set<String> namespaces) {
                     return String.valueOf(object);
@@ -1397,7 +1405,7 @@ public final class Xml {
     public static Object fromXmlWithElementMapper(final String xml,
         final BiFunction<Object, Set<String>, String> elementMapper) {
         try {
-            org.w3c.dom.Document document = createDocument(xml);
+            org.w3c.dom.Document document = Document.createDocument(xml);
             final Object result = createMap(document, elementMapper, new Function<Object, Object>() {
                 public Object apply(Object object) {
                     return object;
