@@ -12,7 +12,7 @@
 <body>
     <div id="sidebar" class="interface">
         <a class="toc_title" href="#">
-                Underscore-java <span class="version">(1.42)</span>
+                Underscore-java <span class="version">(1.44)</span>
             </a>
     <ul class="toc_section">
       <li>» <a href="https://github.com/javadev/underscore-java">GitHub Repository</a></li>
@@ -182,7 +182,7 @@ equality testing, and so on. It delegates to built-in functions where
 applicable.<br><br>Underscore-java is compatible with Java 6 and later.<br><br>The project is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a>. Contributions are welcome.<br>
         </p>
         <h2>Download</h2>
-        <div><a href="https://github.com/javadev/underscore-java/archive/v1.42.zip">Version 1.42</a> - <i>~180Kb, Includes all development files</i></div>
+        <div><a href="https://github.com/javadev/underscore-java/archive/v1.44.zip">Version 1.44</a> - <i>~187Kb, Includes all development files</i></div>
         <h2 id="Collections">Collection Functions (Arrays, Structs, Queries, or Objects)</h2>
 
 
@@ -1136,6 +1136,48 @@ final String youngest = U.chain(stooges)
  <p
 id="changelog">
  </p><h2>Change Log</h2>
+ <p>
+ <b class="header">1.44</b> --
+<small><i>May 1st, 2019</i></small><br>
+ </p>
+ <ul>
+ <li>Added sum method for array.</li>
+ <li>Added U.filter() for iterable.</li>
+ <li>Added support for U.nonNull(object).</li>
+ <li>Added new chunk() and chunkFilter().</li>
+ <li>Added methods U.singleOrNull(iterable) and U.singleOrNull(iterable, predicate).</li>
+ <li>Added method U.cycle(iterable, times).</li>
+ <li>Added method U.toCardinalityMap(iterable).</li>
+ <li>Added U.interpose(iterable, element) and U.interposeByList(iterable, elements) methods.</li>
+ <li>Added methods containsAtLeast(iterable, value, count) and containsAtMost(iterable, value, count).</li>
+ <li>Added U.splitAt(iterable, position) method.</li>
+ <li>Added U.repeat(element, times) method.</li>
+ <li>Added U.binarySearch(iterable, value) method.</li>
+ <li>Added U.first(iterable, pred, n) method and fixed other U.first() methods.</li>
+ <li>Improved U.fill(list, item), added U.fill(array, item) methods.</li>
+ <li>Added U.average(iterable) and U.average(iterable, function) methods.</li>
+ <li>Added U.explode(string) and U.implode(strings) methods.</li>
+ <li>Added U.replace(iterable, predicate, value) and U.replaceIndexed() methods.</li>
+ <li>Improved U.concat(iterables) method.</li>
+ <li>Added U.takeSkipping(iterable, stepSize) method.</li>
+ <li>Added U.subtract(values) method.</li>
+ <li>Changed return value for methods U.range(stop), U.range(start, stop) and U.range(start, stop, step).</li>
+ <li>Improved U.functions(object) method.</li>
+ <li>Removed U.shortestPathAllKeys(grid).</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.43</b> --
+<small><i>April 1st, 2019</i></small><br>
+ </p>
+ <ul>
+ <li>Added support U.fromXml(xml) for format.</li>
+ <li>Introduced U.defaultTo(value, defaultValue).</li>
+ <li>Added U.isNotEmpty(interable).</li>
+ </ul>
+ <p>
+ </p><p>
  <p>
  <b class="header">1.42</b> --
 <small><i>March 1st, 2019</i></small><br>
