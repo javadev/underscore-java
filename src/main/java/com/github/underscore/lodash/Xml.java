@@ -610,7 +610,12 @@ public final class Xml {
             } else if (value instanceof String) {
                 if (((String) value).isEmpty()) {
                     builder.append("<" + XmlValue.escapeName(name, namespaces)
-                        + (addArray ? ARRAY_TRUE : "") + " string=\"true\"/>");
+                        + (addArray ? ARRAY_TRUE : ""));
+                    if (name.startsWith("?")) {
+                        builder.append("?>");
+                    } else {
+                        builder.append(" string=\"true\"/>");
+                    }
                 } else {
                     builder.append("<" + XmlValue.escapeName(name, namespaces)
                         + (addArray ? ARRAY_TRUE : "") + (name.startsWith("?") ? " " : ">"));

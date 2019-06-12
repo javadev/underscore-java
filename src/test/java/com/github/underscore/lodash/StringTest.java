@@ -2176,6 +2176,14 @@ _.repeat('abc', 0);
             + "}";
         assertEquals(json2, U.toJson((Map<String, Object>) U.fromXml(xml2)));
         assertEquals(xml2, U.toXml((Map<String, Object>) U.fromJson(json2)));
+        final String xml3 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n  <?b?>\n</a>";
+        final String json3 = "{\n"
+            + "  \"a\": {\n"
+            + "    \"?b\": \"\"\n"
+            + "  }\n"
+            + "}";
+        assertEquals(json3, U.toJson((Map<String, Object>) U.fromXml(xml3)));
+        assertEquals(xml3, U.toXml((Map<String, Object>) U.fromJson(json3)));
     }
 
     @SuppressWarnings("unchecked")
