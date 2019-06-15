@@ -1361,7 +1361,6 @@ public final class Xml {
     protected static String getDoctypeValue(final String xml) {
         int startIndex = xml.indexOf(DOCTYPE_HEADER) + DOCTYPE_HEADER.length();
         char charToFind = '>';
-        String result = "";
         int endIndexPlus = 0;
         for (int endIndex = startIndex; endIndex < xml.length(); endIndex += 1) {
            if (xml.charAt(endIndex) == '[') {
@@ -1370,11 +1369,10 @@ public final class Xml {
                continue;
            }
            if (xml.charAt(endIndex) == charToFind) {
-               result = xml.substring(startIndex, endIndex + endIndexPlus);
-               break;
+               return xml.substring(startIndex, endIndex + endIndexPlus);
            }
         }
-        return result;
+        return "";
     }
 
     private static class MyEntityResolver implements org.xml.sax.EntityResolver {
