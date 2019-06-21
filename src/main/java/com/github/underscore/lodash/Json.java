@@ -64,25 +64,27 @@ public final class Json {
                 return wrapLine;
             }
         }
-        private final StringBuilder builder;
+        private final java.io.StringWriter builder;
         private final Step identStep;
         private final Type type;
         private int ident;
 
         public JsonStringBuilder(Step identStep) {
-            builder = new StringBuilder(Type.PURE.getInitial());
+            builder = new java.io.StringWriter();
+            builder.append(Type.PURE.getInitial());
             this.identStep = identStep;
             this.type = Type.PURE;
         }
 
         public JsonStringBuilder(Type type) {
-            builder = new StringBuilder(type.getInitial());
+            builder = new java.io.StringWriter();
+            builder.append(type.getInitial());
             this.identStep = Step.TWO_SPACES;
             this.type = type;
         }
 
         public JsonStringBuilder() {
-            builder = new StringBuilder();
+            builder = new java.io.StringWriter();
             this.identStep = Step.TWO_SPACES;
             this.type = Type.PURE;
         }
@@ -402,51 +404,51 @@ public final class Json {
             if (s == null) {
                 return null;
             }
-            StringBuilder sb = new StringBuilder();
-            escape(s, sb);
-            return sb.toString();
+            java.io.StringWriter sw = new java.io.StringWriter(s.length());
+            escape(s, sw);
+            return sw.toString();
         }
 
-        private static void escape(String s, StringBuilder sb) {
+        private static void escape(String s, java.io.StringWriter sw) {
             final int len = s.length();
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
                 switch (ch) {
                     case '"':
-                        sb.append("\\\"");
+                        sw.append("\\\"");
                         break;
                     case '\\':
-                        sb.append("\\\\");
+                        sw.append("\\\\");
                         break;
                     case '\b':
-                        sb.append("\\b");
+                        sw.append("\\b");
                         break;
                     case '\f':
-                        sb.append("\\f");
+                        sw.append("\\f");
                         break;
                     case '\n':
-                        sb.append("\\n");
+                        sw.append("\\n");
                         break;
                     case '\r':
-                        sb.append("\\r");
+                        sw.append("\\r");
                         break;
                     case '\t':
-                        sb.append("\\t");
+                        sw.append("\\t");
                         break;
                     case '€':
-                        sb.append("€");
+                        sw.append("€");
                         break;
                     default:
                         if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
                             || ch >= '\u2000' && ch <= '\u20FF') {
                             String ss = Integer.toHexString(ch);
-                            sb.append("\\u");
+                            sw.append("\\u");
                             for (int k = 0; k < 4 - ss.length(); k++) {
-                                sb.append('0');
+                                sw.append('0');
                             }
-                            sb.append(ss.toUpperCase());
+                            sw.append(ss.toUpperCase());
                         } else {
-                            sb.append(ch);
+                            sw.append(ch);
                         }
                         break;
                 }
@@ -485,7 +487,7 @@ public final class Json {
         private int line;
         private int lineOffset;
         private int current;
-        private StringBuilder captureBuffer;
+        private java.io.StringWriter captureBuffer;
         private int captureStart;
 
         public JsonParser(String string) {
@@ -775,7 +777,7 @@ public final class Json {
 
         private void startCapture() {
             if (captureBuffer == null) {
-                captureBuffer = new StringBuilder();
+                captureBuffer = new java.io.StringWriter();
             }
             captureStart = index - 1;
         }
@@ -788,10 +790,10 @@ public final class Json {
         private String endCapture() {
             int end = current == -1 ? index : index - 1;
             String captured;
-            if (captureBuffer.length() > 0) {
+            if (captureBuffer.toString().length() > 0) {
                 captureBuffer.append(json.substring(captureStart, end));
                 captured = captureBuffer.toString();
-                captureBuffer.setLength(0);
+                captureBuffer = new java.io.StringWriter();
             } else {
                 captured = json.substring(captureStart, end);
             }

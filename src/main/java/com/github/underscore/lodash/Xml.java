@@ -84,17 +84,18 @@ public final class Xml {
             }
         }
 
-        protected final StringBuilder builder;
+        protected final java.io.StringWriter builder;
         private final Step identStep;
         private int ident;
 
         public XmlStringBuilder() {
-            builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
+            builder = new java.io.StringWriter();
+            builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
             identStep = Step.TWO_SPACES;
             ident = 2;
         }
 
-        public XmlStringBuilder(StringBuilder builder, Step identStep, int ident) {
+        public XmlStringBuilder(java.io.StringWriter builder, Step identStep, int ident) {
             this.builder = builder;
             this.identStep = identStep;
             this.ident = ident;
@@ -145,7 +146,7 @@ public final class Xml {
     public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
         public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep, String encoding,
             String standalone) {
-            super(new StringBuilder("<?xml version=\"1.0\" encoding=\""
+            super(new java.io.StringWriter().append("<?xml version=\"1.0\" encoding=\""
                 + XmlValue.escape(encoding).replace("\"", QUOT) + "\"" + standalone + "?>"
                 + (identStep == Step.COMPACT ? "" : "\n")), identStep, 0);
         }
@@ -157,7 +158,7 @@ public final class Xml {
 
     public static class XmlStringBuilderWithoutHeader extends XmlStringBuilder {
         public XmlStringBuilderWithoutHeader(XmlStringBuilder.Step identStep, int ident) {
-            super(new StringBuilder(), identStep, ident);
+            super(new java.io.StringWriter(), identStep, ident);
         }
 
         public String toString() {
@@ -719,7 +720,7 @@ public final class Xml {
             if (length == 0) {
                 return "__EE__EMPTY__EE__";
             }
-            final StringBuilder result = new StringBuilder();
+            final java.io.StringWriter result = new java.io.StringWriter();
             char ch = name.charAt(0);
             if (ch != ':') {
                 try {
@@ -756,57 +757,57 @@ public final class Xml {
             if (s == null) {
                 return "";
             }
-            StringBuilder sb = new StringBuilder();
-            escape(s, sb);
-            return sb.toString();
+            java.io.StringWriter sw = new java.io.StringWriter();
+            escape(s, sw);
+            return sw.toString();
         }
 
-        private static void escape(String s, StringBuilder sb) {
+        private static void escape(String s, java.io.StringWriter sw) {
             final int len = s.length();
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
                 switch (ch) {
                     case '\'':
-                        sb.append("'");
+                        sw.append("'");
                         break;
                     case '&':
-                        sb.append("&amp;");
+                        sw.append("&amp;");
                         break;
                     case '<':
-                        sb.append("&lt;");
+                        sw.append("&lt;");
                         break;
                     case '>':
-                        sb.append("&gt;");
+                        sw.append("&gt;");
                         break;
                     case '\b':
-                        sb.append("\\b");
+                        sw.append("\\b");
                         break;
                     case '\f':
-                        sb.append("\\f");
+                        sw.append("\\f");
                         break;
                     case '\n':
-                        sb.append("\n");
+                        sw.append("\n");
                         break;
                     case '\r':
-                        sb.append("\\r");
+                        sw.append("\\r");
                         break;
                     case '\t':
-                        sb.append("\t");
+                        sw.append("\t");
                         break;
                     case '€':
-                        sb.append("€");
+                        sw.append("€");
                         break;
                     default:
                         if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
                             || ch >= '\u2000' && ch <= '\u20FF') {
                             String ss = Integer.toHexString(ch);
-                            sb.append("&#x");
+                            sw.append("&#x");
                             for (int k = 0; k < 4 - ss.length(); k++) {
-                                sb.append('0');
+                                sw.append('0');
                             }
-                            sb.append(ss.toUpperCase()).append(";");
+                            sw.append(ss.toUpperCase()).append(";");
                         } else {
-                            sb.append(ch);
+                            sw.append(ch);
                         }
                         break;
                 }
@@ -817,29 +818,29 @@ public final class Xml {
             if (s == null) {
                 return "";
             }
-            StringBuilder sb = new StringBuilder();
-            unescape(s, sb);
-            return sb.toString();
+            java.io.StringWriter sw = new java.io.StringWriter();
+            unescape(s, sw);
+            return sw.toString();
         }
 
-        private static void unescape(String s, StringBuilder sb) {
+        private static void unescape(String s, java.io.StringWriter sw) {
             final int len = s.length();
-            final StringBuilder localSb = new StringBuilder();
+            java.io.StringWriter localSb = new java.io.StringWriter();
             int index = 0;
             while (index < len) {
                 final int skipChars = translate(s, index, localSb);
                 if (skipChars > 0) {
-                    sb.append(localSb);
-                    localSb.setLength(0);
+                    sw.append(localSb.toString());
+                    localSb = new java.io.StringWriter();
                     index += skipChars;
                 } else {
-                    sb.append(s.charAt(index));
+                    sw.append(s.charAt(index));
                     index += 1;
                 }
             }
         }
 
-        private static int translate(final CharSequence input, final int index, final StringBuilder builder) {
+        private static int translate(final CharSequence input, final int index, final java.io.StringWriter builder) {
             final int shortest = 4;
             final int longest = 6;
 
@@ -1189,17 +1190,17 @@ public final class Xml {
         if (!name.contains("__")) {
             return name;
         }
-        StringBuilder result = new StringBuilder();
+        java.io.StringWriter result = new java.io.StringWriter();
         int underlineCount = 0;
-        StringBuilder lastChars = new StringBuilder();
+        java.io.StringWriter lastChars = new java.io.StringWriter();
         outer:
         for (int i = 0; i < length; ++i) {
             char ch = name.charAt(i);
             if (ch == '_') {
                 lastChars.append(ch);
             } else {
-                if (lastChars.length() == 2) {
-                    StringBuilder nameToDecode = new StringBuilder();
+                if (lastChars.toString().length() == 2) {
+                    java.io.StringWriter nameToDecode = new java.io.StringWriter();
                     for (int j = i; j < length; ++j) {
                         if (name.charAt(j) == '_') {
                             underlineCount += 1;
@@ -1208,11 +1209,11 @@ public final class Xml {
                                     result.append(Base32.decode(nameToDecode.toString()));
                                 } catch (Base32.DecodingException ex) {
                                     result.append("__").append(nameToDecode.toString())
-                                        .append(lastChars);
+                                        .append(lastChars.toString());
                                 }
                                 i = j;
                                 underlineCount = 0;
-                                lastChars.setLength(0);
+                                lastChars = new java.io.StringWriter();
                                 continue outer;
                             }
                         } else {
@@ -1221,11 +1222,11 @@ public final class Xml {
                         }
                     }
                 }
-                result.append(lastChars).append(ch);
-                lastChars.setLength(0);
+                result.append(lastChars.toString()).append(ch);
+                lastChars = new java.io.StringWriter();
             }
         }
-        return result.append(lastChars).toString();
+        return result.append(lastChars.toString()).toString();
     }
 
     @SuppressWarnings("unchecked")
