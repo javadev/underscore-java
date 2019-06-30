@@ -8,7 +8,7 @@ jdk:
   - openjdk11
 
 script:
-  - mvn -B clean install jacoco:report coveralls:report
+  - mvn clean install jacoco:report coveralls:report
   - mvn -f examples/pom.xml clean package
 
 addons:
