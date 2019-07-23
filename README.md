@@ -22,6 +22,7 @@ underscore-java
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=sqale_rating)](https://sonarcloud.io/dashboard/index/javadev_underscore-java)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/javadev/underscore-java.svg)](https://scrutinizer-ci.com/g/javadev/underscore-java/)
 [![Build Status](https://dev.azure.com/javadevazure/underscore-java/_apis/build/status/javadev.underscore-java)](https://dev.azure.com/javadevazure/underscore-java/_build/latest?definitionId=1)
+[![Hits-of-Code](https://hitsofcode.com/github.com/javadev/underscore-java)](https://hitsofcode.com/view/github.com/javadev/underscore-java)
 
 [![Join the chat at https://gitter.im/javadev/underscore-java](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/javadev/underscore-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
