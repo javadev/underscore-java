@@ -600,6 +600,16 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             U.chain("{\n  \"a\": {\n  }\n}").jsonToXml().item());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root empty-array=\"true\"></root>",
             U.jsonToXml("[]"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<root>\n"
+                + "  <a>\n"
+                + "    <b>v1</b>\n"
+                + "  </a>\n"
+                + "  <c>v1</c>\n"
+                + "  <c>v2</c>\n"
+                + "  <c>v3</c>\n"
+                + "</root>",
+            U.jsonToXml("{\"a\" : {\n \"b\" : \"v1\" }, \"c\" : [\"v1\", \"v2\", \"v3\"]}"));
     }
 
     @Test
