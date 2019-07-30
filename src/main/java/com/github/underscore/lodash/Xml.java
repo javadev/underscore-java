@@ -960,18 +960,21 @@ public final class Xml {
     private static String getRootName(final Map localMap) {
         int foundAttrs = 0;
         int foundElements = 0;
+        int foundListElements = 0;
         if (localMap != null) {
             for (Map.Entry entry : (Set<Map.Entry>) localMap.entrySet()) {
                 if (String.valueOf(entry.getKey()).startsWith("-")) {
                     foundAttrs += 1;
                 } else if (!String.valueOf(entry.getKey()).startsWith(COMMENT)
-                        && !String.valueOf(entry.getKey()).startsWith("?")
-                        && (!(entry.getValue() instanceof List) || ((List) entry.getValue()).size() <= 1)) {
+                        && !String.valueOf(entry.getKey()).startsWith("?")) {
+                    if (entry.getValue() instanceof List && ((List) entry.getValue()).size() > 1) {
+                        foundListElements += 1;
+                    }
                     foundElements += 1;
                 }
             }
         }
-        return foundAttrs == 0 && foundElements == 1 ? null : "root";
+        return foundAttrs == 0 && foundElements == 1 && foundListElements == 0 ? null : "root";
     }
 
     public static String toXml(Map map) {
