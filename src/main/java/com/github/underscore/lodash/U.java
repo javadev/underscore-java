@@ -936,8 +936,7 @@ public class U<T> extends com.github.underscore.U<T> {
         final List<T> result = newArrayList();
         final List<Integer> indexesList = Arrays.asList(indexes);
         int index = 0;
-        for (final Iterator<T> iterator = list.iterator(); iterator.hasNext(); ) {
-            final T object = iterator.next();
+        for (final T object : list) {
             if (indexesList.contains(index)) {
                 result.add(object);
             }
@@ -1260,7 +1259,7 @@ public class U<T> extends com.github.underscore.U<T> {
                 final String localString = baseToString(string);
                 final String chr = localString.isEmpty() ? "" : localString.substring(0, 1);
                 final String trailing = localString.length() > 1 ? localString.substring(1) : "";
-                return U.invoke(Arrays.asList(chr), methodName).get(0) + trailing;
+                return U.invoke(Collections.singletonList(chr), methodName).get(0) + trailing;
             }
         };
     }
@@ -1445,7 +1444,7 @@ public class U<T> extends com.github.underscore.U<T> {
             localChars = chars;
         }
         final int leftIndex = charsLeftIndex(localString, localChars);
-        return leftIndex > -1 ? localString.substring(leftIndex, localString.length()) : localString;
+        return leftIndex > -1 ? localString.substring(leftIndex) : localString;
     }
 
     public static String trimEnd(final String string) {

@@ -35,7 +35,6 @@ import java.util.*;
 public class U<T> {
     private static final Map<String, Function<String, String>> FUNCTIONS = newLinkedHashMap();
     private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<String, String>();
-    private static final int ARRAY_SIZE_2 = 2;
     private static final int MIN_PASSWORD_LENGTH_8 = 8;
     private static final long CAPACITY_SIZE_5 = 5L;
     private static final long CAPACITY_COEFF_2 = 2L;
@@ -49,7 +48,7 @@ public class U<T> {
     private static final String S_Q = "\\s*\\Q";
     private static final String E_S = "\\E\\s*";
     private static final java.util.regex.Pattern FORMAT_PATTERN =
-        java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*\\}");
+        java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*}");
     private static final Map<Character, String> ESCAPES = new HashMap<Character, String>();
     private final Iterable<T> iterable;
     private final Optional<String> string;
@@ -713,10 +712,10 @@ public class U<T> {
         });
         try {
             final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(
-                new Class[argTypes.size()]));
+                    new Class[0]));
             for (E arg : iterable) {
                 try {
-                    result.add((E) method.invoke(arg, args.toArray(new Object[args.size()])));
+                    result.add((E) method.invoke(arg, args.toArray(new Object[0])));
                 } catch (Exception e) {
                     throw new IllegalArgumentException(e);
                 }
@@ -912,8 +911,8 @@ public class U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Comparable<? super T>> List<T> sortWith(final Comparator<T> comparator) {
-        return sortWith((Iterable<T>) iterable, comparator);
+    public <E extends Comparable<? super E>> List<E> sortWith(final Comparator<E> comparator) {
+        return sortWith((Iterable<E>) iterable, comparator);
     }
 
     /*
@@ -1123,7 +1122,7 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
-        return (List<E>[]) partition(Arrays.asList(iterable), pred).toArray(new ArrayList[ARRAY_SIZE_2]);
+        return partition(Arrays.asList(iterable), pred).toArray(new ArrayList[0]);
     }
 
     public T singleOrNull() {
@@ -1560,8 +1559,8 @@ public class U<T> {
     public static <E> List<E> intersection(final List<E> list, final List<E> ... lists) {
         final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(list);
-        for (int index = 0; index < lists.length; index += 1) {
-            stack.push(intersection(stack.peek(), lists[index]));
+        for (List<E> es : lists) {
+            stack.push(intersection(stack.peek(), es));
         }
         return stack.peek();
     }
@@ -1598,8 +1597,8 @@ public class U<T> {
     public static <E> List<E> difference(final List<E> list, final List<E> ... lists) {
         final Deque<List<E>> stack = new ArrayDeque<List<E>>();
         stack.push(list);
-        for (int index = 0; index < lists.length; index += 1) {
-            stack.push(difference(stack.peek(), lists[index]));
+        for (List<E> es : lists) {
+            stack.push(difference(stack.peek(), es));
         }
         return stack.peek();
     }
@@ -1647,8 +1646,8 @@ public class U<T> {
         final List<List<T>> unzipped = newArrayList();
         for (int index = 0; index < lists[0].size(); index += 1) {
             final List<T> nTuple = newArrayList();
-            for (int index2 = 0; index2 < lists.length; index2 += 1) {
-                nTuple.add(lists[index2].get(index));
+            for (List<T> list : lists) {
+                nTuple.add(list.get(index));
             }
             unzipped.add(nTuple);
         }
@@ -2256,9 +2255,9 @@ public class U<T> {
     }
 
     public static <E> E findKey(final List<E> list, final Predicate<E> pred) {
-        for (int index = 0; index < list.size(); index++) {
-            if (pred.test(list.get(index))) {
-                return list.get(index);
+        for (E e : list) {
+            if (pred.test(e)) {
+                return e;
             }
         }
         return null;
@@ -3119,7 +3118,7 @@ public class U<T> {
 
     public static <T extends Comparable<T>> List<T> sort(final Iterable<T> iterable) {
         final List<T> localList = newArrayList(iterable);
-        Collections.<T>sort(localList);
+        Collections.sort(localList);
         return localList;
     }
 

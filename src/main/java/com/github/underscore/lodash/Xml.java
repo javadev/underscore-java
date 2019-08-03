@@ -1088,8 +1088,9 @@ public final class Xml {
             final Map<String, Object> localMap4 = (Map) ((LinkedHashMap) localMap).clone();
             localMap4.remove(ARRAY);
             object = name.equals(XmlValue.getMapKey(localMap4))
-                ?  U.newArrayList(Arrays.asList(getValue(XmlValue.getMapValue(localMap4), FromType.FOR_CONVERT)))
-                : U.newArrayList(Arrays.asList(getValue(localMap4, FromType.FOR_CONVERT)));
+                ? U.newArrayList(Collections.singletonList(getValue(XmlValue.getMapValue(localMap4),
+                    FromType.FOR_CONVERT)))
+                : U.newArrayList(Collections.singletonList(getValue(localMap4, FromType.FOR_CONVERT)));
         } else {
             object = localMap;
         }
@@ -1180,7 +1181,7 @@ public final class Xml {
 
     private static String unescapeName(final String name) {
         if (name == null) {
-            return name;
+            return null;
         }
         final int length = name.length();
         if ("__EE__EMPTY__EE__".equals(name)) {
@@ -1428,7 +1429,7 @@ public final class Xml {
                 }
             }, new Function<Object, Object>() {
                 public Object apply(Object object) {
-                    return object instanceof List ? object : U.newArrayList(Arrays.asList(object));
+                    return object instanceof List ? object : U.newArrayList(Collections.singletonList(object));
                 }
             }, Collections.<String, Object>emptyMap(), new int[] {1, 1, 1}, xml, new int[] {0},
             U.<String>newLinkedHashSet(), FromType.FOR_CONVERT);

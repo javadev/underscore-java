@@ -781,7 +781,7 @@ public final class Json {
         }
 
         private void pauseCapture() {
-            captureBuffer.append(json.substring(captureStart, index - 1));
+            captureBuffer.append(json, captureStart, index - 1);
             captureStart = -1;
         }
 
@@ -789,7 +789,7 @@ public final class Json {
             int end = current == -1 ? index : index - 1;
             String captured;
             if (captureBuffer.length() > 0) {
-                captureBuffer.append(json.substring(captureStart, end));
+                captureBuffer.append(json, captureStart, end);
                 captured = captureBuffer.toString();
                 captureBuffer.setLength(0);
             } else {
