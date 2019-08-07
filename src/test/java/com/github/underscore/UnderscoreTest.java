@@ -452,6 +452,26 @@ _.elementAtOrNull(arr, 3) // => null
             fail("IllegalStateException expected");
         } catch (IllegalStateException ex) {
         }
+        assertFalse(Optional.<Integer>absent().filter(new Predicate<Integer>() {
+                public boolean test(Integer arg) {
+                    return true;
+                }
+            }).isPresent());
+        assertTrue(Optional.<Integer>absent().filter(new Predicate<Integer>() {
+                public boolean test(Integer arg) {
+                    return false;
+                }
+            }).isEmpty());
+        assertEquals("1", Optional.of(1).filter(new Predicate<Integer>() {
+                public boolean test(Integer arg) {
+                    return true;
+                }
+            }).get().toString());
+        assertTrue("1", Optional.of(1).filter(new Predicate<Integer>() {
+                public boolean test(Integer arg) {
+                    return false;
+                }
+            }).isEmpty());
     }
 
     @Test(expected = Exception.class)

@@ -58,6 +58,16 @@ public final class Optional<T> {
         return !absent;
     }
 
+    @SuppressWarnings("unchecked")
+    public Optional<T> filter(Predicate<? super T> predicate) {
+        U.checkNotNull(predicate);
+        if (isPresent()) {
+            return predicate.test(arg) ? this : Optional.<T>absent();
+        } else {
+            return this;
+        }
+    }
+
     public <F> Optional<F> map(Function<? super T, F> mapper) {
         U.checkNotNull(mapper);
         if (isPresent()) {
