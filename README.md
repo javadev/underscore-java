@@ -23,6 +23,7 @@ underscore-java
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/javadev/underscore-java.svg)](https://scrutinizer-ci.com/g/javadev/underscore-java/)
 [![Build Status](https://dev.azure.com/javadevazure/underscore-java/_apis/build/status/javadev.underscore-java)](https://dev.azure.com/javadevazure/underscore-java/_build/latest?definitionId=1)
 [![Hits-of-Code](https://hitsofcode.com/github/javadev/underscore-java)](https://hitsofcode.com/view/github/javadev/underscore-java)
+![Java Version](https://img.shields.io/badge/java-%3E%3D%201.6-success)
 
 [![Join the chat at https://gitter.im/javadev/underscore-java](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/javadev/underscore-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
