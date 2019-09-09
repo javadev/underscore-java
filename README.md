@@ -74,6 +74,18 @@ U.chain(1, 2, 3) // or java.util.Arrays.asList(1, 2, 3) or new Integer[] {1, 2, 
     // 4, 3
     .forEach(System.out::println);
     // 4, 3
+    
+U.formatXml("<a><b>data</b></a>");
+    // <a>
+    //    <b>data</b>
+    // </a>
+
+U.formatJson("{\"a\":{\"b\":\"data\"}}");
+    // {
+    //    "a": {
+    //      "b": "data"
+    //    }
+    // }
 ```
 
 Underscore-java is a java port of [Underscore.js](http://underscorejs.org/).
