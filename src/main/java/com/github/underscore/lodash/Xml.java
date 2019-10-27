@@ -998,7 +998,7 @@ public final class Xml {
         return localValue instanceof String ? XmlValue.unescape((String) localValue) : localValue;
     }
 
-    private static Object stringToNumber(String number) {
+    public static Object stringToNumber(String number) {
         final Object localValue;
         if (number.contains(".") || number.contains("e") || number.contains("E")) {
             if (number.length() > 9) {
