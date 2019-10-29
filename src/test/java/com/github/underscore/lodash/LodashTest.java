@@ -593,6 +593,31 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
             U.xmlToJson("<a>\n  <b></b>\n  <b></b>\n</a>"));
         assertEquals("[\n]", U.xmlToJson("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
             + "<root empty-array=\"true\"></root>"));
+        assertEquals("{\n"
+                + "  \"a\": null,\n"
+                + "  \"#omit-xml-declaration\": \"yes\"\n"
+                + "}",
+            U.xmlToJson("<a/>", U.Mode.REPLACE_SELF_CLOSING_WITH_NULL));
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"-b\": \"c\"\n"
+                + "  },\n"
+                + "  \"#omit-xml-declaration\": \"yes\"\n"
+                + "}",
+            U.xmlToJson("<a b=\"c\"/>", U.Mode.REPLACE_SELF_CLOSING_WITH_NULL));
+        assertEquals("{\n"
+                + "  \"a\": {\n"
+                + "    \"b\": [\n"
+                + "      null,\n"
+                + "      null\n"
+                + "    ]\n"
+                + "  },\n"
+                + "  \"#omit-xml-declaration\": \"yes\"\n"
+                + "}",
+            U.xmlToJson("<a><b/><b/></a>", U.Mode.REPLACE_SELF_CLOSING_WITH_NULL));
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("-self-closing", "false");
+        U.replaceSelfCloseWithNull(map);
     }
 
     @Test
