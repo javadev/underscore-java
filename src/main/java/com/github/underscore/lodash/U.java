@@ -84,6 +84,10 @@ public class U<T> extends com.github.underscore.U<T> {
         DEFAULT_HEADER_FIELDS.put("Content-Type", Arrays.asList("application/json", "charset=utf-8"));
     }
 
+    public enum Mode {
+        REPLACE_SELF_CLOSING_WITH_NULL;
+    }
+
     public U(final Iterable<T> iterable) {
         super(iterable);
     }
@@ -2031,16 +2035,21 @@ public class U<T> extends com.github.underscore.U<T> {
         return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
-    public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep) {
+    public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep, Mode mode) {
         Object result = Xml.fromXml(xml);
         if (result instanceof Map) {
-            return Json.toJson((Map) result, identStep);
+            return Json.toJson(mode == Mode.REPLACE_SELF_CLOSING_WITH_NULL ?
+                replaceSelfCloseWithNull((Map) result) : (Map) result, identStep);
         }
         return Json.toJson((List) result, identStep);
     }
 
     public static String xmlToJson(String xml) {
-        return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES);
+        return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, null);
+    }
+
+    public static String xmlToJson(String xml, Mode mode) {
+        return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, mode);
     }
 
     public static String formatJson(String json, Json.JsonStringBuilder.Step identStep) {
@@ -2104,4 +2113,38 @@ public class U<T> extends com.github.underscore.U<T> {
         }
         return result;
     }
+
+    @SuppressWarnings("unchecked")
+    static Map<String, Object> replaceSelfCloseWithNull(Map map) {
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Object key : map.keySet()) {
+            if ("-self-closing".equals(key) && "true".equals(map.get(key))) {
+                if (map.size() == 1) {
+                    outMap = null;
+                    break;
+                }
+                continue;
+            }
+            outMap.put(String.valueOf(key), makeObjectSelfClose(map.get(key)));
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeObjectSelfClose(Object value) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(replaceSelfCloseWithNull((Map) item));
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = replaceSelfCloseWithNull((Map) value);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
 }
