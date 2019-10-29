@@ -2117,15 +2117,16 @@ public class U<T> extends com.github.underscore.U<T> {
     @SuppressWarnings("unchecked")
     static Map<String, Object> replaceSelfCloseWithNull(Map map) {
         Map<String, Object> outMap = newLinkedHashMap();
-        for (Object key : map.keySet()) {
-            if ("-self-closing".equals(key) && "true".equals(map.get(key))) {
+        for (Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry entry = (Map.Entry) it.next();
+            if ("-self-closing".equals(entry.getKey()) && "true".equals(entry.getValue())) {
                 if (map.size() == 1) {
                     outMap = null;
                     break;
                 }
                 continue;
             }
-            outMap.put(String.valueOf(key), makeObjectSelfClose(map.get(key)));
+            outMap.put(String.valueOf(entry.getKey()), makeObjectSelfClose(entry.getValue()));
         }
         return outMap;
     }
