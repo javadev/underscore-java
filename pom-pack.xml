@@ -5,7 +5,7 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore</artifactId>
   <packaging>jar</packaging>
-  <version>1.48</version>
+  <version>1.49</version>
   <name>java port of Underscore.js</name>
   <description>The java port of Underscore.js</description>
   <url>https://github.com/javadev/underscore-java</url>
@@ -107,6 +107,7 @@
                   <option>-keep public class com.github.underscore.lodash.*$ParseException { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.*$FetchResponse { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.*$LRUCache { *; }</option>
+                  <option>-keep public class com.github.underscore.lodash.*$Mode { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.Json$JsonStringBuilder$Step { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.Xml$XmlStringBuilder$Step { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.Xml$XmlStringBuilder { *; }</option>
