@@ -432,7 +432,32 @@ _.get({"a":[{"b":{"c":"d"}}]}, "a[0].b.c");
     @Test
     public void get() {
         assertEquals("d", U.<String>get(
-            (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.c").toString());
+                (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.c"));
+    }
+
+/*
+_.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
+// → "{a=[{b={c=e}}]}"
+*/
+    @SuppressWarnings("unchecked")
+    @Test
+    public void set() {
+        assertEquals("{a=[{b={c=e}}]}", U.<String>set(
+            (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.c", "e").toString());
+        assertEquals("{a=[e]}", U.<String>set(
+            (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0]", "e").toString());
+        Map<String, Object> map = U.newLinkedHashMap();
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        Map<String, Object> map3 = U.newLinkedHashMap();
+        map.put("a", map2);
+        map2.put("#item", map3);
+        map3.put("b", "c");
+        assertEquals("{a={#item={b=b}}}", U.<String>set(map, "a.b", "b").toString());
+        assertNull(U.<String>set((Map<String, Object>) null, "a", "b"));
+        assertEquals("{}", U.<String>set(U.<String, Object>newLinkedHashMap(), "a.b", "b").toString());
+        Map<String, Object> map4 = U.newLinkedHashMap();
+        map4.put("a", "b");
+        assertEquals("{a=b}", U.<String>set(map4, "a.b", "b").toString());
     }
 
     @Test

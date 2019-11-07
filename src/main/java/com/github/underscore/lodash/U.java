@@ -1532,6 +1532,49 @@ public class U<T> extends com.github.underscore.U<T> {
         return baseGet(object, path);
     }
 
+    @SuppressWarnings("unchecked")
+    private static Map<String, Object> baseSet(final Map<String, Object> object,
+            final String path, final Object value) {
+        final List<String> paths = stringToPath(path);
+        int index = 0;
+        final int length = paths.size();
+
+        Object savedLocalObject = object;
+        String savedPath = paths.get(0);
+        Object localObject = object;
+        while (localObject != null && index < length) {
+            if (localObject instanceof Map) {
+                Map.Entry mapEntry = getMapEntry((Map) localObject);
+                if (mapEntry != null && "#item".equals(mapEntry.getKey())) {
+                    localObject = mapEntry.getValue();
+                    continue;
+                }
+                savedLocalObject = localObject;
+                savedPath = paths.get(index);
+                localObject = ((Map) localObject).get(paths.get(index));
+            } else if (localObject instanceof List) {
+                savedLocalObject = localObject;
+                savedPath = paths.get(index);
+                localObject = ((List) localObject).get(Integer.parseInt(paths.get(index)));
+            } else {
+                break;
+            }
+            index += 1;
+        }
+        if (index > 0 && index == length) {
+            if (savedLocalObject instanceof Map) {
+                ((Map) savedLocalObject).put(savedPath, value);
+            } else {
+                ((List) savedLocalObject).set(Integer.parseInt(savedPath), value);
+            }
+        }
+        return object;
+    }
+
+    public static Map<String, Object> set(final Map<String, Object> object, final String path, Object value) {
+        return baseSet(object, path, value);
+    }
+
     public static class FetchResponse {
         private final boolean ok;
         private final int status;
