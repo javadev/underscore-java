@@ -1497,12 +1497,15 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T baseGet(final Map<String, Object> object, final String path) {
+    private static <T> T baseGetAndSet(final Map<String, Object> object, final String path,
+        final Optional<Object> value) {
         final List<String> paths = stringToPath(path);
         int index = 0;
         final int length = paths.size();
 
         Object localObject = object;
+        Object savedLocalObject = null;
+        String savedPath = null;
         while (localObject != null && index < length) {
             if (localObject instanceof Map) {
                 Map.Entry mapEntry = getMapEntry((Map) localObject);
@@ -1510,8 +1513,12 @@ public class U<T> extends com.github.underscore.U<T> {
                     localObject = mapEntry.getValue();
                     continue;
                 }
+                savedLocalObject = localObject;
+                savedPath = paths.get(index);
                 localObject = ((Map) localObject).get(paths.get(index));
             } else if (localObject instanceof List) {
+                savedLocalObject = localObject;
+                savedPath = paths.get(index);
                 localObject = ((List) localObject).get(Integer.parseInt(paths.get(index)));
             } else {
                 break;
@@ -1519,6 +1526,13 @@ public class U<T> extends com.github.underscore.U<T> {
             index += 1;
         }
         if (index > 0 && index == length) {
+            if (value.isPresent()) {
+                if (savedLocalObject instanceof Map) {
+                    ((Map) savedLocalObject).put(savedPath, value.get());
+                } else {
+                    ((List) savedLocalObject).set(Integer.parseInt(savedPath), value.get());
+                }
+            }
             return (T) localObject;
         }
         return null;
@@ -1529,50 +1543,11 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static <T> T get(final Map<String, Object> object, final String path) {
-        return baseGet(object, path);
+        return baseGetAndSet(object, path, Optional.absent());
     }
 
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> baseSet(final Map<String, Object> object,
-            final String path, final Object value) {
-        final List<String> paths = stringToPath(path);
-        int index = 0;
-        final int length = paths.size();
-
-        Object savedLocalObject = object;
-        String savedPath = paths.get(0);
-        Object localObject = object;
-        while (localObject != null && index < length) {
-            if (localObject instanceof Map) {
-                Map.Entry mapEntry = getMapEntry((Map) localObject);
-                if (mapEntry != null && "#item".equals(mapEntry.getKey())) {
-                    localObject = mapEntry.getValue();
-                    continue;
-                }
-                savedLocalObject = localObject;
-                savedPath = paths.get(index);
-                localObject = ((Map) localObject).get(paths.get(index));
-            } else if (localObject instanceof List) {
-                savedLocalObject = localObject;
-                savedPath = paths.get(index);
-                localObject = ((List) localObject).get(Integer.parseInt(paths.get(index)));
-            } else {
-                break;
-            }
-            index += 1;
-        }
-        if (index > 0 && index == length) {
-            if (savedLocalObject instanceof Map) {
-                ((Map) savedLocalObject).put(savedPath, value);
-            } else {
-                ((List) savedLocalObject).set(Integer.parseInt(savedPath), value);
-            }
-        }
-        return object;
-    }
-
-    public static Map<String, Object> set(final Map<String, Object> object, final String path, Object value) {
-        return baseSet(object, path, value);
+    public static <T> T set(final Map<String, Object> object, final String path, Object value) {
+        return baseGetAndSet(object, path, Optional.of(value));
     }
 
     public static class FetchResponse {
