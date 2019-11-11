@@ -52,8 +52,6 @@ public class U<T> extends com.github.underscore.U<T> {
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
     private static java.util.regex.Pattern reWords = java.util.regex.Pattern.compile(
         upper + "+(?=" + upper + lower + ")|" + upper + "?" + lower + "|" + upper + "+|[0-9]+");
-    private static final Set<Character> NUMBER_CHARS = new HashSet<Character>(
-        Arrays.asList('.', 'e', 'E', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
 
     static {
         String[] deburredLetters = new String[] {
@@ -2111,23 +2109,16 @@ public class U<T> extends com.github.underscore.U<T> {
     private static Object makeObject(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Map<String, Object>> values = newArrayList();
+            List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(replaceKeys((Map<String, Object>) item));
+                values.add(item instanceof Map ? replaceKeys((Map<String, Object>) item) : item);
             }
             result = values;
         } else if (value instanceof Map) {
             result = replaceKeys((Map<String, Object>) value);
         } else {
             String stringValue = String.valueOf(value);
-            boolean onlyNumbers = true;
-            for (char ch : stringValue.toCharArray()) {
-                if (!NUMBER_CHARS.contains(ch)) {
-                    onlyNumbers = false;
-                    break;
-                }
-            }
-            result = onlyNumbers ? Xml.stringToNumber(stringValue) : value;
+            result = stringValue.matches("^-?\\d*([.eE])?\\d+$") ? Xml.stringToNumber(stringValue) : value;
         }
         return result;
     }
@@ -2155,7 +2146,7 @@ public class U<T> extends com.github.underscore.U<T> {
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(replaceSelfCloseWithNull((Map) item));
+                values.add(item instanceof Map ? replaceSelfCloseWithNull((Map) item) : item);
             }
             result = values;
         } else if (value instanceof Map) {
