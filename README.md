@@ -30,7 +30,8 @@ underscore-java
 Requirements
 ============
 
-Java 1.6 and later.
+Java 1.6 and later, [Java 1.8](https://github.com/javadev/underscore-java8) or [Java 11](https://github.com/javadev/underscore-java11).
+
 
 ## Installation
 
