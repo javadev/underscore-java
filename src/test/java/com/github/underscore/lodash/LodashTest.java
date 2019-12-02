@@ -642,12 +642,12 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
             U.xmlToJson("<a><b/><b/></a>", U.Mode.REPLACE_SELF_CLOSING_WITH_NULL));
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
-        U.replaceSelfCloseWithNull(map);
+        U.replaceSelfClosingWithNull(map);
         Map<String, Object> map2 = U.newLinkedHashMap();
         List<Object> list = U.newArrayList();
         list.add(U.newArrayList());
         map2.put("list", list);
-        U.replaceSelfCloseWithNull(map2);
+        U.replaceSelfClosingWithNull(map2);
     }
 
     @Test

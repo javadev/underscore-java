@@ -2055,7 +2055,7 @@ public class U<T> extends com.github.underscore.U<T> {
         Object result = Xml.fromXml(xml);
         if (result instanceof Map) {
             return Json.toJson(mode == Mode.REPLACE_SELF_CLOSING_WITH_NULL ?
-                replaceSelfCloseWithNull((Map) result) : (Map) result, identStep);
+                replaceSelfClosingWithNull((Map) result) : (Map) result, identStep);
         }
         return Json.toJson((List) result, identStep);
     }
@@ -2084,12 +2084,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.formatXml(xml);
     }
 
-    public static Map<String, Object> removeMinusesAndConvertNumbers(Map<String, Object> inMap) {
-        return replaceKeys(inMap);
-    }
-
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> replaceKeys(Map<String, Object> map) {
+    public static Map<String, Object> removeMinusesAndConvertNumbers(Map<String, Object> map) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (String key : map.keySet()) {
             final String newKey;
@@ -2111,11 +2107,11 @@ public class U<T> extends com.github.underscore.U<T> {
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(item instanceof Map ? replaceKeys((Map<String, Object>) item) : item);
+                values.add(item instanceof Map ? removeMinusesAndConvertNumbers((Map<String, Object>) item) : item);
             }
             result = values;
         } else if (value instanceof Map) {
-            result = replaceKeys((Map<String, Object>) value);
+            result = removeMinusesAndConvertNumbers((Map<String, Object>) value);
         } else {
             String stringValue = String.valueOf(value);
             result = stringValue.matches("^-?\\d*([.eE])?\\d+$") ? Xml.stringToNumber(stringValue) : value;
@@ -2124,7 +2120,7 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    static Map<String, Object> replaceSelfCloseWithNull(Map map) {
+    public static Map<String, Object> replaceSelfClosingWithNull(Map map) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry entry = (Map.Entry) it.next();
@@ -2146,11 +2142,11 @@ public class U<T> extends com.github.underscore.U<T> {
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(item instanceof Map ? replaceSelfCloseWithNull((Map) item) : item);
+                values.add(item instanceof Map ? replaceSelfClosingWithNull((Map) item) : item);
             }
             result = values;
         } else if (value instanceof Map) {
-            result = replaceSelfCloseWithNull((Map) value);
+            result = replaceSelfClosingWithNull((Map) value);
         } else {
             result = value;
         }
