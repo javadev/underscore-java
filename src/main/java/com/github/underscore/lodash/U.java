@@ -1995,6 +1995,19 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.fromXml(xml);
     }
 
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> fromXmlMap(final String xml) {
+        final Object object = Xml.fromXml(xml);
+        final Map<String, Object> result;
+        if (object instanceof Map) {
+            result = (Map<String, Object>) object;
+        } else {
+            result = newLinkedHashMap();
+            result.put("value", object);
+        }
+        return result;
+    }
+
     public static Object fromXml(final String xml, final Xml.FromType fromType) {
         return Xml.fromXml(xml, fromType);
     }

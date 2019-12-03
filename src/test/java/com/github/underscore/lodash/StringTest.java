@@ -3125,6 +3125,19 @@ _.repeat('abc', 0);
         U.fromXml(stringXml);
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void fromXmlMap() {
+        String stringXml =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        + "\n<root empty-array=\"true\"></root>";
+        assertEquals("{value=[]}", U.fromXmlMap(stringXml).toString());
+        String stringXml2 =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        + "\n<root></root>";
+        assertEquals("{}", U.fromXmlMap(stringXml2).toString());
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testDecodeParseXmlErr13() {
         U.fromXml("[\"abc\u0010\"]");
