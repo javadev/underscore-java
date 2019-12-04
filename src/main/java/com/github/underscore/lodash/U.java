@@ -2049,6 +2049,19 @@ public class U<T> extends com.github.underscore.U<T> {
         return Json.fromJson(getString().get());
     }
 
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> fromJsonMap(final String string) {
+        final Object object = Json.fromJson(string);
+        final Map<String, Object> result;
+        if (object instanceof Map) {
+            result = (Map<String, Object>) object;
+        } else {
+            result = newLinkedHashMap();
+            result.put("value", object);
+        }
+        return result;
+    }
+
     public String toXml() {
         return Xml.toXml((Collection) getIterable());
     }

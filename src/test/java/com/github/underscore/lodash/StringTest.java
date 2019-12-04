@@ -3142,6 +3142,15 @@ _.repeat('abc', 0);
         assertEquals("{}", U.fromXmlMap(stringXml3, Xml.FromType.FOR_CONVERT).toString());
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void fromJsonMap() {
+        String stringJson = "[]";
+        assertEquals("{value=[]}", U.fromJsonMap(stringJson).toString());
+        String stringJson2 = "{}";
+        assertEquals("{}", U.fromJsonMap(stringJson2).toString());
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testDecodeParseXmlErr13() {
         U.fromXml("[\"abc\u0010\"]");
