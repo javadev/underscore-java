@@ -1995,7 +1995,6 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.fromXml(xml);
     }
 
-    @SuppressWarnings("unchecked")
     public static Map<String, Object> fromXmlMap(final String xml) {
         return fromXmlMap(xml, Xml.FromType.FOR_CONVERT);
     }
