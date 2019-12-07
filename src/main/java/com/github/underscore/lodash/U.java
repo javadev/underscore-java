@@ -1997,7 +1997,12 @@ public class U<T> extends com.github.underscore.U<T> {
 
     @SuppressWarnings("unchecked")
     public static Map<String, Object> fromXmlMap(final String xml) {
-        final Object object = Xml.fromXml(xml);
+        return fromXmlMap(xml, Xml.FromType.FOR_CONVERT);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> fromXmlMap(final String xml, final Xml.FromType fromType) {
+        final Object object = Xml.fromXml(xml, fromType);
         final Map<String, Object> result;
         if (object instanceof Map) {
             result = (Map<String, Object>) object;

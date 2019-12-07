@@ -3136,6 +3136,10 @@ _.repeat('abc', 0);
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         + "\n<root></root>";
         assertEquals("{}", U.fromXmlMap(stringXml2).toString());
+        String stringXml3 =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        + "\n<root></root>";
+        assertEquals("{}", U.fromXmlMap(stringXml3, Xml.FromType.FOR_CONVERT).toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
