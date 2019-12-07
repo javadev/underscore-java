@@ -30,15 +30,15 @@ import java.util.Map;
 public final class Base32 {
 
     private static final Charset UTF_8 = Charset.forName("UTF-8");
-    private static final Base32 INSTANCE = new Base32("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef");
+    private static final Base32 INSTANCE = new Base32();
 
     private final char[] digits;
     private final int mask;
     private final int shift;
     private final Map<Character, Integer> charMap;
 
-    private Base32(final String alphabet) {
-        digits = alphabet.toCharArray();
+    private Base32() {
+        digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef".toCharArray();
         mask = digits.length - 1;
         shift = Integer.numberOfTrailingZeros(digits.length);
         charMap = new HashMap<Character, Integer>();

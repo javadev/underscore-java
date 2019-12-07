@@ -2117,15 +2117,15 @@ public class U<T> extends com.github.underscore.U<T> {
     @SuppressWarnings("unchecked")
     public static Map<String, Object> removeMinusesAndConvertNumbers(Map<String, Object> map) {
         Map<String, Object> outMap = newLinkedHashMap();
-        for (String key : map.keySet()) {
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
             final String newKey;
-            if (key.startsWith("-")) {
-                newKey = key.substring(1);
+            if (entry.getKey().startsWith("-")) {
+                newKey = entry.getKey().substring(1);
             } else {
-                newKey = key;
+                newKey = entry.getKey();
             }
-            if (!key.equals("-self-closing") && !key.equals("#omit-xml-declaration")) {
-                outMap.put(newKey, makeObject(map.get(key)));
+            if (!entry.getKey().equals("-self-closing") && !entry.getKey().equals("#omit-xml-declaration")) {
+                outMap.put(newKey, makeObject(entry.getValue()));
             }
         }
         return outMap;

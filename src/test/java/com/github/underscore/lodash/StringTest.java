@@ -3656,7 +3656,7 @@ _.repeat('abc', 0);
     }
 
     @Test
-    public void main() throws Exception {
+    public void main() {
         U.main(new String[] {});
         new U<String>(new ArrayList<String>());
         new U<String>("");
