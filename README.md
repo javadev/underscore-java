@@ -87,6 +87,20 @@ U.formatJson("{\"a\":{\"b\":\"data\"}}");
     //      "b": "data"
     //    }
     // }
+
+U.xmlToJson("<a><b>data</b></a>");
+    // {
+    //   "a": {
+    //     "b": "data"
+    //   },
+    //   "#omit-xml-declaration": "yes"
+    // }
+
+U.jsonToXml("{\"a\":{\"b\":\"data\"}}");
+    // <?xml version="1.0" encoding="UTF-8"?>
+    // <a>
+    //   <b>data</b>
+    // </a>
 ```
 
 Underscore-java is a java port of [Underscore.js](http://underscorejs.org/).
