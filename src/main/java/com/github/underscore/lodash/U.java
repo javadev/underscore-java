@@ -2151,7 +2151,6 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static boolean isNumber(final String s) {
         boolean eFound = false;
-        boolean eValid = false;
         boolean periodValid = true;
         boolean pmValid = true;
         boolean numberEncountered = false;
@@ -2162,8 +2161,7 @@ public class U<T> extends com.github.underscore.U<T> {
                     continue;
                 }
             }
-            if (eValid && !eFound && c == 'e') {
-                eValid = false;
+            if (!eFound && c == 'e') {
                 eFound = true;
                 periodValid = false;
                 pmValid = true;
@@ -2177,7 +2175,6 @@ public class U<T> extends com.github.underscore.U<T> {
             if (c < '0' || c > '9') {
                 return false;
             }
-            eValid = !eFound;
             numberEncountered = true;
         }
         return numberEncountered;
