@@ -2144,9 +2144,43 @@ public class U<T> extends com.github.underscore.U<T> {
             result = removeMinusesAndConvertNumbers((Map<String, Object>) value);
         } else {
             String stringValue = String.valueOf(value);
-            result = stringValue.matches("^-?\\d*([.eE])?\\d+$") ? Xml.stringToNumber(stringValue) : value;
+            result = isNumber(stringValue) ? Xml.stringToNumber(stringValue) : value;
         }
         return result;
+    }
+
+    public static boolean isNumber(final String s) {
+        boolean eFound = false;
+        boolean eValid = false;
+        boolean periodValid = true;
+        boolean pmValid = true;
+        boolean numberEncountered = false;
+        for (char c : s.toCharArray()) {
+            if (pmValid) {
+                pmValid = false;
+                if (c == '+' || c == '-') {
+                    continue;
+                }
+            }
+            if (eValid && !eFound && c == 'e') {
+                eValid = false;
+                eFound = true;
+                periodValid = false;
+                pmValid = true;
+                numberEncountered = false;
+                continue;
+            }
+            if (periodValid && c == '.') {
+                periodValid = false;
+                continue;
+            }
+            if (c < '0' || c > '9') {
+                return false;
+            }
+            eValid = !eFound;
+            numberEncountered = true;
+        }
+        return numberEncountered;
     }
 
     @SuppressWarnings("unchecked")
