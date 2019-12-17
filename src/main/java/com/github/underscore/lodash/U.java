@@ -2144,35 +2144,35 @@ public class U<T> extends com.github.underscore.U<T> {
             result = removeMinusesAndConvertNumbers((Map<String, Object>) value);
         } else {
             String stringValue = String.valueOf(value);
-            result = isNumber(stringValue) ? Xml.stringToNumber(stringValue) : value;
+            result = isJsonNumber(stringValue) ? Xml.stringToNumber(stringValue) : value;
         }
         return result;
     }
 
-    public static boolean isNumber(final String s) {
+    public static boolean isJsonNumber(final String string) {
         boolean eFound = false;
         boolean periodValid = true;
         boolean pmValid = true;
         boolean numberEncountered = false;
-        for (char c : s.toCharArray()) {
+        for (char ch : string.toCharArray()) {
             if (pmValid) {
                 pmValid = false;
-                if (c == '+' || c == '-') {
+                if (ch == '-') {
                     continue;
                 }
             }
-            if (!eFound && c == 'e') {
+            if (!eFound && (ch == 'e' || ch == 'E')) {
                 eFound = true;
                 periodValid = false;
                 pmValid = true;
                 numberEncountered = false;
                 continue;
             }
-            if (periodValid && c == '.') {
+            if (periodValid && ch == '.') {
                 periodValid = false;
                 continue;
             }
-            if (c < '0' || c > '9') {
+            if (ch < '0' || ch > '9') {
                 return false;
             }
             numberEncountered = true;
