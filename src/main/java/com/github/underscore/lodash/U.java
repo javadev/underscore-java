@@ -2144,9 +2144,40 @@ public class U<T> extends com.github.underscore.U<T> {
             result = removeMinusesAndConvertNumbers((Map<String, Object>) value);
         } else {
             String stringValue = String.valueOf(value);
-            result = stringValue.matches("^-?\\d*([.eE])?\\d+$") ? Xml.stringToNumber(stringValue) : value;
+            result = isJsonNumber(stringValue) ? Xml.stringToNumber(stringValue) : value;
         }
         return result;
+    }
+
+    public static boolean isJsonNumber(final String string) {
+        boolean eFound = false;
+        boolean periodValid = true;
+        boolean pmValid = true;
+        boolean numberEncountered = false;
+        for (char ch : string.toCharArray()) {
+            if (pmValid) {
+                pmValid = false;
+                if (ch == '-') {
+                    continue;
+                }
+            }
+            if (!eFound && (ch == 'e' || ch == 'E')) {
+                eFound = true;
+                periodValid = false;
+                pmValid = true;
+                numberEncountered = false;
+                continue;
+            }
+            if (periodValid && ch == '.') {
+                periodValid = false;
+                continue;
+            }
+            if (ch < '0' || ch > '9') {
+                return false;
+            }
+            numberEncountered = true;
+        }
+        return numberEncountered;
     }
 
     @SuppressWarnings("unchecked")

@@ -715,12 +715,27 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         Map<String, Object> result4 = U.removeMinusesAndConvertNumbers(
             (Map<String, Object>) U.fromXml("<a><b c=\"1\"/></a>"));
         assertEquals("{a={b={c=1}}}", result4.toString());
+        Map<String, Object> result5 = U.removeMinusesAndConvertNumbers(
+            (Map<String, Object>) U.fromXml("<a><b c=\"-1e1\"/></a>"));
+        assertEquals("{a={b={c=-10.0}}}", result5.toString());
+        Map<String, Object> result6 = U.removeMinusesAndConvertNumbers(
+            (Map<String, Object>) U.fromXml("<a><b c=\"-1E1\"/></a>"));
+        assertEquals("{a={b={c=-10.0}}}", result6.toString());
+        Map<String, Object> result7 = U.removeMinusesAndConvertNumbers(
+            (Map<String, Object>) U.fromXml("<a><b c=\"1.a\"/></a>"));
+        assertEquals("{a={b={c=1.a}}}", result7.toString());
+        Map<String, Object> result8 = U.removeMinusesAndConvertNumbers(
+            (Map<String, Object>) U.fromXml("<a><b c=\"1.-\"/></a>"));
+        assertEquals("{a={b={c=1.-}}}", result8.toString());
+        Map<String, Object> result9 = U.removeMinusesAndConvertNumbers(
+            (Map<String, Object>) U.fromXml("<a><b c=\"+1ee\"/></a>"));
+        assertEquals("{a={b={c=+1ee}}}", result9.toString());
         Map<String, Object> map = U.newLinkedHashMap();
         List<Object> list = U.newArrayList();
         list.add(U.newArrayList());
         map.put("list", list);
-        Map<String, Object> result5 = U.removeMinusesAndConvertNumbers(map);
-        assertEquals("{list=[[]]}", result5.toString());
+        Map<String, Object> result10 = U.removeMinusesAndConvertNumbers(map);
+        assertEquals("{list=[[]]}", result10.toString());
     }
 
     @SuppressWarnings("unchecked")
