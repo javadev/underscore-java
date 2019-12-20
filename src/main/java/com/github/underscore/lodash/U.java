@@ -1206,11 +1206,11 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static String capitalize(final String string) {
-        return upperFirst(baseToString(string).toLowerCase());
+        return upperFirst(baseToString(string));
     }
 
     public static String uncapitalize(final String string) {
-        return lowerFirst(baseToString(string).toLowerCase());
+        return lowerFirst(baseToString(string));
     }
 
     private static String baseToString(String value) {
