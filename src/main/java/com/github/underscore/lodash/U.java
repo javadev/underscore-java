@@ -1991,8 +1991,9 @@ public class U<T> extends com.github.underscore.U<T> {
         return Json.toJsonJavaString((Collection) getIterable());
     }
 
-    public static Object fromXml(final String xml) {
-        return Xml.fromXml(xml);
+    @SuppressWarnings("unchecked")
+    public static <T> T fromXml(final String xml) {
+        return (T) Xml.fromXml(xml);
     }
 
     public static Map<String, Object> fromXmlMap(final String xml) {
@@ -2012,24 +2013,29 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
-    public static Object fromXml(final String xml, final Xml.FromType fromType) {
-        return Xml.fromXml(xml, fromType);
+    @SuppressWarnings("unchecked")
+    public static <T> T fromXml(final String xml, final Xml.FromType fromType) {
+        return (T) Xml.fromXml(xml, fromType);
     }
 
-    public static Object fromXmlMakeArrays(final String xml) {
-        return Xml.fromXmlMakeArrays(xml);
+    @SuppressWarnings("unchecked")
+    public static <T> T fromXmlMakeArrays(final String xml) {
+        return (T) Xml.fromXmlMakeArrays(xml);
     }
 
-    public static Object fromXmlWithoutNamespaces(final String xml) {
-        return Xml.fromXmlWithoutNamespaces(xml);
+    @SuppressWarnings("unchecked")
+    public static <T> T fromXmlWithoutNamespaces(final String xml) {
+        return (T) Xml.fromXmlWithoutNamespaces(xml);
     }
 
-    public static Object fromXmlWithoutAttributes(final String xml) {
-        return Xml.fromXmlWithoutAttributes(xml);
+    @SuppressWarnings("unchecked")
+    public static <T> T fromXmlWithoutAttributes(final String xml) {
+        return (T) Xml.fromXmlWithoutAttributes(xml);
     }
 
-    public static Object fromXmlWithoutNamespacesAndAttributes(final String xml) {
-        return Xml.fromXmlWithoutNamespacesAndAttributes(xml);
+    @SuppressWarnings("unchecked")
+    public static <T> T fromXmlWithoutNamespacesAndAttributes(final String xml) {
+        return (T) Xml.fromXmlWithoutNamespacesAndAttributes(xml);
     }
 
     public static String toXml(Collection collection) {
@@ -2040,8 +2046,9 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.toXml(map);
     }
 
-    public static Object fromJson(String string) {
-        return Json.fromJson(string);
+    @SuppressWarnings("unchecked")
+    public static <T> T fromJson(String string) {
+        return (T) Json.fromJson(string);
     }
 
     public Object fromJson() {
