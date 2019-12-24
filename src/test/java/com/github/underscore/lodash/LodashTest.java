@@ -651,6 +651,22 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
     }
 
     @Test
+    public void removeMapKey() {
+        Map<String, Object> map = U.newLinkedHashMap();
+        map.put("-self-closing", "false");
+        U.remove(map, "test");
+        U.remove(map, "-self-closing");
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        List<Object> list = U.newArrayList();
+        list.add(U.newArrayList());
+        list.add(U.newLinkedHashMap());
+        map2.put("list", list);
+        U.remove(map2, "test");
+        map2.put("list", U.newLinkedHashMap());
+        U.remove(map2, "test");
+    }
+
+    @Test
     public void jsonToXml() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>", U.jsonToXml("{\n  \"a\": {\n  }\n}"));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>",

@@ -1548,6 +1548,34 @@ public class U<T> extends com.github.underscore.U<T> {
         return baseGetAndSet(object, path, Optional.of(value));
     }
 
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> remove(final Map<String, Object> map, final String key) {
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (!entry.getKey().equals(key)) {
+                outMap.put(entry.getKey(), makeObjectForRemove(entry.getValue(), key));
+            }
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeObjectForRemove(Object value, final String key) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? remove((Map<String, Object>) item, key) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = remove((Map<String, Object>) value, key);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
     public static class FetchResponse {
         private final boolean ok;
         private final int status;
