@@ -1548,19 +1548,28 @@ public class U<T> extends com.github.underscore.U<T> {
         return baseGetAndSet(object, path, Optional.of(value));
     }
 
-    @SuppressWarnings("unchecked")
     public static Map<String, Object> remove(final Map<String, Object> map, final String key) {
+        return modify(map, new Function<Map.Entry<String, Object>, Map.Entry<String, Object>>() {
+            public Map.Entry<String, Object> apply(Map.Entry<String, Object> entry) {
+                return entry.getKey().equals(key) ? null : entry;
+            }
+        });
+    }
+
+    public static Map<String, Object> modify(final Map<String, Object> map,
+        final Function<Map.Entry<String, Object>, Map.Entry<String, Object>> function) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if (!entry.getKey().equals(key)) {
-                outMap.put(entry.getKey(), makeObjectForRemove(entry.getValue(), key));
+            final Map.Entry<String, Object> newEntry = function.apply(entry);
+            if (newEntry != null) {
+                outMap.put(entry.getKey(), makeObjectForModify(newEntry.getValue(), newEntry.getKey()));
             }
         }
         return outMap;
     }
 
     @SuppressWarnings("unchecked")
-    private static Object makeObjectForRemove(Object value, final String key) {
+    private static Object makeObjectForModify(Object value, final String key) {
         final Object result;
         if (value instanceof List) {
             List<Object> values = newArrayList();
