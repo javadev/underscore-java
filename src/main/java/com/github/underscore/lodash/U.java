@@ -2116,6 +2116,7 @@ public class U<T> extends com.github.underscore.U<T> {
         return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
+    @SuppressWarnings("unchecked")
     public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep, Mode mode) {
         Object result = Xml.fromXml(xml);
         if (result instanceof Map) {
@@ -2149,7 +2150,6 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.formatXml(xml);
     }
 
-    @SuppressWarnings("unchecked")
     public static Map<String, Object> removeMinusesAndConvertNumbers(Map<String, Object> map) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -2176,7 +2176,7 @@ public class U<T> extends com.github.underscore.U<T> {
             }
             result = values;
         } else if (value instanceof Map) {
-            result = removeMinusesAndConvertNumbers((Map<String, Object>) value);
+            result = removeMinusesAndConvertNumbers((Map) value);
         } else {
             String stringValue = String.valueOf(value);
             result = isJsonNumber(stringValue) ? Xml.stringToNumber(stringValue) : value;
@@ -2215,11 +2215,9 @@ public class U<T> extends com.github.underscore.U<T> {
         return numberEncountered;
     }
 
-    @SuppressWarnings("unchecked")
-    public static Map<String, Object> replaceSelfClosingWithNull(Map map) {
+    public static Map<String, Object> replaceSelfClosingWithNull(Map<String, Object> map) {
         Map<String, Object> outMap = newLinkedHashMap();
-        for (Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry entry = (Map.Entry) it.next();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
             if ("-self-closing".equals(entry.getKey()) && "true".equals(entry.getValue())) {
                 if (map.size() == 1) {
                     outMap = null;
