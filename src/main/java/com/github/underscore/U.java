@@ -2027,6 +2027,16 @@ public class U<T> {
         return delay(function, 0);
     }
 
+    public static java.util.concurrent.ScheduledFuture<Void> defer(final Runnable runnable) {
+        return delay(new Supplier<Void>() {
+            @Override
+            public Void get() {
+                runnable.run();
+                return null;
+            }
+        }, 0);
+    }
+
     public static <T> Supplier<T> throttle(final Supplier<T> function, final int waitMilliseconds) {
         class ThrottleFunction implements Supplier<T> {
             private final Supplier<T> localFunction;

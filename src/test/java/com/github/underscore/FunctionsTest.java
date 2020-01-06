@@ -186,6 +186,9 @@ _.defer(function(){ alert('deferred'); });
                 return true;
             }
         });
+        U.defer(new Runnable() { public void run() {
+            }
+        });
     }
 
 /*
