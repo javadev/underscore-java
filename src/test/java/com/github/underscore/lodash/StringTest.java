@@ -67,6 +67,7 @@ _.camelCase('__foo_bar__');
         assertEquals("fooBar", U.chain("Foo Bar").camelCase().item());
         assertEquals("fooBar", U.camelCase("--foo-bar"));
         assertEquals("fooBar", U.camelCase("__foo_bar__"));
+        assertEquals("ThisIsAnExampleString", U.upperFirst(U.camelCase("THIS_IS_AN_EXAMPLE_STRING")));
         assertEquals("", U.camelCase(null));
         assertEquals("a", U.camelCase("\u00c0"));
     }

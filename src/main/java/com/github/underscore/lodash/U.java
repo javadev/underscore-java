@@ -1191,8 +1191,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return createCompounder(new Function3<String, String, Integer, String>() {
             public String apply(final String result, final String word, final Integer index) {
                 final String localWord = word.toLowerCase(Locale.getDefault());
-                return result + (index > 0 ? word.substring(0, 1).toUpperCase(Locale.getDefault())
-                    + word.substring(1) : localWord);
+                return result + (index > 0 ? localWord.substring(0, 1).toUpperCase(Locale.getDefault())
+                    + localWord.substring(1) : localWord);
             }
         }).apply(string);
     }
