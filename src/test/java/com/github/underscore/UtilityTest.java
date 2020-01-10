@@ -145,10 +145,9 @@ _.times(3, function(n){ genie.grantWishNumber(n); });
     @Test
     public void times() {
         final List<Integer> result = new ArrayList<Integer>();
-        U.times(3, new Supplier<Integer>() {
-            public Integer get() {
+        U.times(3, new Runnable() {
+            public void run() {
                 result.add(1);
-                return null;
             }
         });
         assertEquals("[1, 1, 1]", result.toString());

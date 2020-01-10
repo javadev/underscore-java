@@ -2548,9 +2548,9 @@ public class U<T> {
     /*
      * Documented, #times
      */
-    public static <E> void times(final int count, final Supplier<E> function) {
+    public static <E> void times(final int count, final Runnable runnable) {
         for (int index = 0; index < count; index += 1) {
-            function.get();
+            runnable.run();
         }
     }
 
