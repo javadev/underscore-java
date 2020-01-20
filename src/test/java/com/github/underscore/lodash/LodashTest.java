@@ -1017,4 +1017,16 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
 
         assertEquals("[memory, cpu, hdd]", U.keys((Map<String, Object>) U.fromJson(json)).toString());
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void sqlru2() {
+        System.out.println(U.countBy(U.words("Маша ищет Мишу а Миша ищет Машу"),
+            new Function<String, String>() {
+            public String apply(String item) {
+                return item;
+            }
+            }
+        ).get("ищет"));
+    }
 }
