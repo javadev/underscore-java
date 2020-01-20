@@ -843,6 +843,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         U.chain(new Integer[] {0}).indexBy("");
         U.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
             public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).countBy();
         U.chain(new Integer[] {0}).shuffle();
         U.chain(new Integer[] {0}).sample();
         U.chain(new Integer[] {0}).sample(1);
@@ -1016,5 +1017,17 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         + "[{\"alert\":\"true\",\"value\":\"100%\"}],\"hdd\":[{\"alert\":\"false\",\"value\":\"80%\"}]}";
 
         assertEquals("[memory, cpu, hdd]", U.keys((Map<String, Object>) U.fromJson(json)).toString());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void sqlru2() {
+        System.out.println(U.countBy(U.words("Маша ищет Мишу а Миша ищет Машу"),
+            new Function<String, String>() {
+            public String apply(String item) {
+                return item;
+            }
+            }
+        ).get("ищет"));
     }
 }

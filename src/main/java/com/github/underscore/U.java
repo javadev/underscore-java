@@ -1020,9 +1020,26 @@ public class U<T> {
         return retVal;
     }
 
+    public static <K> Map<K, Integer> countBy(final Iterable<K> iterable) {
+        final Map<K, Integer> retVal = newLinkedHashMap();
+        for (K key : iterable) {
+            if (retVal.containsKey(key)) {
+                retVal.put(key, 1 + retVal.get(key));
+            } else {
+                retVal.put(key, 1);
+            }
+        }
+        return retVal;
+    }
+
     @SuppressWarnings("unchecked")
     public <K, E> Map<K, Integer> countBy(Function<E, K> func) {
         return countBy((Iterable<E>) iterable, func);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <K> Map<K, Integer> countBy() {
+        return countBy((Iterable<K>) iterable);
     }
 
     /*
@@ -2883,6 +2900,10 @@ public class U<T> {
 
         public <F> Chain<Map<F, Integer>> countBy(final Function<T, F> func) {
             return new Chain<Map<F, Integer>>(U.countBy(list, func));
+        }
+
+        public Chain<Map<T, Integer>> countBy() {
+            return new Chain<Map<T, Integer>>(U.countBy(list));
         }
 
         public Chain<T> shuffle() {

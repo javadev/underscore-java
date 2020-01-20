@@ -269,6 +269,10 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<Map<F, Integer>>(U.countBy(value(), func));
         }
 
+        public Chain<Map<T, Integer>> countBy() {
+            return new Chain<Map<T, Integer>>(U.countBy(value()));
+        }
+
         public Chain<T> shuffle() {
             return new Chain<T>(U.shuffle(value()));
         }

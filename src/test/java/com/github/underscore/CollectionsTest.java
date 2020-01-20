@@ -1712,6 +1712,9 @@ _.countBy(stooges, 'age');
             }
         }).item();
         assertEquals("{moe=2, curly=1}", resultChain.toString());
+        U.countBy(asList(1, 2, 3));
+        new U<Integer>(asList(1, 2, 3)).countBy();
+        U.chain(asList(1, 2, 2, 3)).countBy().item();
     }
 
 /*
