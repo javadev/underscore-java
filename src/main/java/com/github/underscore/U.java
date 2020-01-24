@@ -48,7 +48,7 @@ public class U<T> {
     private static final String S_Q = "\\s*\\Q";
     private static final String E_S = "\\E\\s*";
     private static final java.util.regex.Pattern FORMAT_PATTERN =
-        java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*}");
+        java.util.regex.Pattern.compile("\\{\\s*(\\d*)\\s*\\}");
     private static final Map<Character, String> ESCAPES = new HashMap<Character, String>();
     private final Iterable<T> iterable;
     private final Optional<String> string;
