@@ -2565,7 +2565,7 @@ public class U<T> {
     /*
      * Documented, #times
      */
-    public static <E> void times(final int count, final Runnable runnable) {
+    public static void times(final int count, final Runnable runnable) {
         for (int index = 0; index < count; index += 1) {
             runnable.run();
         }
