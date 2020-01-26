@@ -108,6 +108,7 @@
                   <option>-keep public class com.github.underscore.lodash.*$FetchResponse { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.*$LRUCache { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.*$Mode { *; }</option>
+                  <option>-keep public class com.github.underscore.lodash.*$Builder { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.Json$JsonStringBuilder$Step { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.Xml$XmlStringBuilder$Step { *; }</option>
                   <option>-keep public class com.github.underscore.lodash.Xml$XmlStringBuilder { *; }</option>
