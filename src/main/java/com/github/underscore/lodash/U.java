@@ -2271,6 +2271,11 @@ public class U<T> extends com.github.underscore.U<T> {
             return this;
         }
 
+        public Builder set(final String path, final Object value) {
+            U.set(data, path, value);
+            return this;
+        }
+
         public Builder add(final Builder builder) {
             data.putAll(builder.data);
             return this;

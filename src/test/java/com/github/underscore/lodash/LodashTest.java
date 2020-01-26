@@ -754,7 +754,6 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         assertEquals("{list=[[]]}", result10.toString());
     }
 
-
     @Test
     public void objectBuilder() {
         U.Builder builder = U.objectBuilder().add("1", "2").add("2");
@@ -763,7 +762,8 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         U.Builder.fromJson("{}");
         builder.toXml();
         U.Builder.fromXml("<a/>");
-        assertEquals("{1=2}", builder.build().toString());
+        builder.set("1", "3");
+        assertEquals("{1=3}", builder.build().toString());
     }
 
     @SuppressWarnings("unchecked")
