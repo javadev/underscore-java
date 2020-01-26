@@ -2287,8 +2287,8 @@ public class U<T> extends com.github.underscore.U<T> {
             return Xml.toXml(data);
         }
 
-        public static Builder fromXml(String xml) {
-            Builder builder = new Builder();
+        public static Builder fromXml(final String xml) {
+            final Builder builder = new Builder();
             builder.data.putAll(fromXmlMap(xml));
             return builder;
         }
@@ -2297,8 +2297,8 @@ public class U<T> extends com.github.underscore.U<T> {
             return Xml.toXml(data);
         }
 
-        public static Builder fromJson(String json) {
-            Builder builder = new Builder();
+        public static Builder fromJson(final String json) {
+            final Builder builder = new Builder();
             builder.data.putAll(fromJsonMap(json));
             return builder;
         }
