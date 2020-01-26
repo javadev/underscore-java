@@ -2251,4 +2251,54 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
+    public static Builder objectBuilder() {
+        return new U.Builder();
+    }
+
+    public static class Builder {
+        private final Map<String, Object> data;
+        public Builder() {
+            data = newLinkedHashMap();
+        }
+
+        public Builder add(final String key, final Object value) {
+            data.put(key, value);
+            return this;
+        }
+
+        public Builder add(final Object value) {
+            data.put(String.valueOf(data.size()), value);
+            return this;
+        }
+
+        public Builder add(final Builder builder) {
+            data.putAll(builder.data);
+            return this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public Map<String, Object> build() {
+            return (Map<String, Object>) ((LinkedHashMap) data).clone();
+        }
+
+        public String toXml() {
+            return Xml.toXml(data);
+        }
+
+        public static Builder fromXml(final String xml) {
+            final Builder builder = new Builder();
+            builder.data.putAll(fromXmlMap(xml));
+            return builder;
+        }
+
+        public String toJson() {
+            return Xml.toXml(data);
+        }
+
+        public static Builder fromJson(final String json) {
+            final Builder builder = new Builder();
+            builder.data.putAll(fromJsonMap(json));
+            return builder;
+        }
+    }
 }

@@ -754,6 +754,18 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         assertEquals("{list=[[]]}", result10.toString());
     }
 
+
+    @Test
+    public void objectBuilder() {
+        U.Builder builder = U.objectBuilder().add("1", "2").add("2");
+        builder.add(builder);
+        builder.toJson();
+        U.Builder.fromJson("{}");
+        builder.toXml();
+        U.Builder.fromXml("<a/>");
+        assertEquals("{1=2}", builder.build().toString());
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void main() {
@@ -1021,6 +1033,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
 
     @Test
     public void sqlru2() {
+        // https://www.sql.ru/forum/1321326/kolichestvo-naydennyh-slov-v-stroke
         assertEquals(2, U.countBy(U.words("Маша ищет Мишу а Миша ищет Машу")).get("ищет").intValue());
     }
 }
