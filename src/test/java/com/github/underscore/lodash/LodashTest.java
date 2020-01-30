@@ -1021,6 +1021,26 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
                 U.fromXml(xml).toString());
     }
 
+    @Test
+    public void stackoverflow5() {
+        // https://stackoverflow.com/questions/59429211/
+        // convert-xml-to-json-and-vice-versa-and-also-how-to-identify-rest-endpoint-while
+        String xmlData = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\""
+        + " xmlns:urn=\"urn:ahc.com:dms:wsdls:organization\">\n"
+        + "   <soapenv:Header/>\n"
+        + "   <soapenv:Body>\n"
+        + "      <urn:getRoles>\n"
+        + "         <getRolesRequest>\n"
+        + "            <Type>ABC</Type>\n"
+        + "         </getRolesRequest>\n"
+        + "      </urn:getRoles>\n"
+        + "   </soapenv:Body>\n"
+        + "</soapenv:Envelope>";
+        Map<String, Object> jsonData = U.<Map<String, Object>>get(
+            U.<Map<String, Object>>fromXmlWithoutNamespaces(xmlData), "Envelope.Body.getRoles");
+        assertEquals("{getRolesRequest={Type=ABC}}", jsonData.toString());
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void sqlru1() {
