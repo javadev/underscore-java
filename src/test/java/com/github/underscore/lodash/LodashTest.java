@@ -1041,6 +1041,26 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         assertEquals("{getRolesRequest={Type=ABC}}", jsonData.toString());
     }
 
+    @Test
+    public void stackoverflow6() {
+        // https://stackoverflow.com/questions/59585708/getting-null-pointer-while-reading-the-fileds-from-json-to-pojo
+        String jsonData = "{\n"
+        + "    \"TEST\": {\n"
+        + "        \"NAME\": \"PART_TRAN\",\n"
+        + "        \"VERSION\": \"9.0\",\n"
+        + "        \"ID\": \"----\",\n"
+        + "        \"SEGMENT\": {\n"
+        + "            \"TYPE\": \"R\",\n"
+        + "            \"CLIENT_ID\": \"----\",\n"
+        + "            \"UN_NUM\": \"UN\"\n"
+        + "        }"
+        + "    }"
+        + "}";
+        Map<String, Object> jsonObject = U.fromJsonMap(jsonData);
+        assertEquals("R", U.<String>get(jsonObject, "TEST.SEGMENT.TYPE"));
+        assertEquals("UN", U.<String>get(jsonObject, "TEST.SEGMENT.UN_NUM"));
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void sqlru1() {
