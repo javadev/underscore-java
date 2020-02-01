@@ -227,15 +227,10 @@ public final class Xml {
                 builder.decIdent().fillSpaces().append("</"
                     + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces))).append(">");
             } else {
-            for (int index = 0; index < entries.size(); index += 1) {
-                final Object value = entries.get(index);
-                final boolean addNewLine = index < entries.size() - 1
-                    && !XmlValue.getMapKey(XmlValue.getMapValue(entries.get(index + 1))).startsWith(TEXT);
-                if (value == null) {
-                    builder.fillSpaces()
-                        .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces))
-                            + (collection.size() == 1 ? ARRAY_TRUE : "") + NULL_TRUE);
-                } else {
+                for (int index = 0; index < entries.size(); index += 1) {
+                    final Object value = entries.get(index);
+                    final boolean addNewLine = index < entries.size() - 1
+                        && !XmlValue.getMapKey(XmlValue.getMapValue(entries.get(index + 1))).startsWith(TEXT);
                     if (value instanceof Map && ((Map) value).size() == 1
                         && XmlValue.getMapKey(value).equals("#item")
                         && XmlValue.getMapValue(value) instanceof Map) {
@@ -250,11 +245,10 @@ public final class Xml {
                             namespaces, collection.size() == 1 || value instanceof Collection);
                     }
                     localParentTextFound = false;
+                    if (addNewLine) {
+                        builder.newLine();
+                    }
                 }
-                if (addNewLine) {
-                    builder.newLine();
-                }
-            }
             }
         }
 
