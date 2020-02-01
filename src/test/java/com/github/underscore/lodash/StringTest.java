@@ -1059,6 +1059,11 @@ _.repeat('abc', 0);
             + "  </element>\n"
             + "</root>",
             U.toXml(Arrays.asList(new char[] {'1', '2'})));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testXmlArrayCollection2() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<root>\n"
             + "  <element>\n"
