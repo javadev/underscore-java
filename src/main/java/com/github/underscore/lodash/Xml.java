@@ -206,15 +206,14 @@ public final class Xml {
         private static void writeXml(Collection collection, XmlStringBuilder builder, String name,
             final boolean parentTextFound, Set<String> namespaces) {
             boolean localParentTextFound = parentTextFound;
-            final List entries = U.newArrayList(collection);
-            boolean allValuesNotObject = !entries.isEmpty();
-            for (int index = 0; index < entries.size(); index += 1) {
-                final Object value = entries.get(index);
+            boolean allValuesNotObject = !collection.isEmpty();
+            for (final Object value : collection) {
                 if (value instanceof Map || value instanceof List) {
                     allValuesNotObject = false;
                     break;
                 }
             }
+            final List entries = U.newArrayList(collection);
             if (allValuesNotObject) {
                 builder.fillSpaces()
                     .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)))
