@@ -206,16 +206,30 @@ public final class Xml {
         private static void writeXml(Collection collection, XmlStringBuilder builder, String name,
             final boolean parentTextFound, Set<String> namespaces) {
             boolean localParentTextFound = parentTextFound;
+            boolean allValuesNotObject = !collection.isEmpty();
+            for (final Object value : collection) {
+                if (value instanceof Map || value instanceof List) {
+                    allValuesNotObject = false;
+                    break;
+                }
+            }
             final List entries = U.newArrayList(collection);
-            for (int index = 0; index < entries.size(); index += 1) {
-                final Object value = entries.get(index);
-                final boolean addNewLine = index < entries.size() - 1
-                    && !XmlValue.getMapKey(XmlValue.getMapValue(entries.get(index + 1))).startsWith(TEXT);
-                if (value == null) {
-                    builder.fillSpaces()
-                        .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces))
-                            + (collection.size() == 1 ? ARRAY_TRUE : "") + NULL_TRUE);
-                } else {
+            if (allValuesNotObject) {
+                builder.fillSpaces()
+                    .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)))
+                    .append(">").incIdent().newLine();
+                for (int index = 0; index < entries.size(); index += 1) {
+                    final Object value = entries.get(index);
+                    XmlValue.writeXml(value, ELEMENT_TEXT, builder, false, namespaces, collection.size() == 1);
+                    builder.newLine();
+                }
+                builder.decIdent().fillSpaces().append("</"
+                    + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces))).append(">");
+            } else {
+                for (int index = 0; index < entries.size(); index += 1) {
+                    final Object value = entries.get(index);
+                    final boolean addNewLine = index < entries.size() - 1
+                        && !XmlValue.getMapKey(XmlValue.getMapValue(entries.get(index + 1))).startsWith(TEXT);
                     if (value instanceof Map && ((Map) value).size() == 1
                         && XmlValue.getMapKey(value).equals("#item")
                         && XmlValue.getMapValue(value) instanceof Map) {
@@ -230,9 +244,9 @@ public final class Xml {
                             namespaces, collection.size() == 1 || value instanceof Collection);
                     }
                     localParentTextFound = false;
-                }
-                if (addNewLine) {
-                    builder.newLine();
+                    if (addNewLine) {
+                        builder.newLine();
+                    }
                 }
             }
         }
@@ -608,7 +622,7 @@ public final class Xml {
                 builder.fillSpaces();
             }
             if (value == null) {
-                builder.append("<" + XmlValue.escapeName(name, namespaces) + NULL_TRUE);
+                builder.append("<" + XmlValue.escapeName(name, namespaces) + (addArray ? ARRAY_TRUE : "") + NULL_TRUE);
             } else if (value instanceof String) {
                 if (((String) value).isEmpty()) {
                     builder.append("<" + XmlValue.escapeName(name, namespaces)
