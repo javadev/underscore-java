@@ -678,19 +678,23 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
                 + "  <a>\n"
                 + "    <b>v1</b>\n"
                 + "  </a>\n"
-                + "  <c>v1</c>\n"
-                + "  <c>v2</c>\n"
-                + "  <c>v3</c>\n"
+                + "  <c>\n"
+                + "    <element>v1</element>\n"
+                + "    <element>v2</element>\n"
+                + "    <element>v3</element>\n"
+                + "  </c>\n"
                 + "</root>",
             U.jsonToXml("{\"a\" : {\n \"b\" : \"v1\" }, \"c\" : [\"v1\", \"v2\", \"v3\"]}"));
     }
 
     @Test
     public void formatXml() {
-        assertEquals("<root>\n   <element>1</element>\n   <element>2</element>\n</root>",
+        assertEquals("<root>\n   <element>\n      <element>1</element>\n"
+            + "      <element>2</element>\n   </element>\n</root>",
             U.formatXml("<root><element>1</element><element>2</element></root>"));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n   <element>1</element>\n"
-                + "   <element>2</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
+            + "   <element>\n      <element>1</element>\n"
+            + "      <element>2</element>\n   </element>\n</root>",
             U.formatXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root><element>1</element>"
                 + "<element>2</element></root>"));
         assertEquals("<a>\n   <b></b>\n   <b></b>\n</a>",

@@ -207,6 +207,26 @@ public final class Xml {
             final boolean parentTextFound, Set<String> namespaces) {
             boolean localParentTextFound = parentTextFound;
             final List entries = U.newArrayList(collection);
+            boolean allValuesNotObject = !entries.isEmpty();
+            for (int index = 0; index < entries.size(); index += 1) {
+                final Object value = entries.get(index);
+                if (value instanceof Map || value instanceof List) {
+                    allValuesNotObject = false;
+                    break;
+                }
+            }
+            if (allValuesNotObject) {
+                builder.fillSpaces()
+                    .append("<" + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces)))
+                    .append(">").incIdent().newLine();
+                for (int index = 0; index < entries.size(); index += 1) {
+                    final Object value = entries.get(index);
+                    XmlValue.writeXml(value, ELEMENT_TEXT, builder, false, namespaces, collection.size() == 1);
+                    builder.newLine();
+                }
+                builder.decIdent().fillSpaces().append("</"
+                    + (name == null ? ELEMENT_TEXT : XmlValue.escapeName(name, namespaces))).append(">");
+            } else {
             for (int index = 0; index < entries.size(); index += 1) {
                 final Object value = entries.get(index);
                 final boolean addNewLine = index < entries.size() - 1
@@ -234,6 +254,7 @@ public final class Xml {
                 if (addNewLine) {
                     builder.newLine();
                 }
+            }
             }
         }
 
@@ -608,7 +629,7 @@ public final class Xml {
                 builder.fillSpaces();
             }
             if (value == null) {
-                builder.append("<" + XmlValue.escapeName(name, namespaces) + NULL_TRUE);
+                builder.append("<" + XmlValue.escapeName(name, namespaces) + (addArray ? ARRAY_TRUE : "") + NULL_TRUE);
             } else if (value instanceof String) {
                 if (((String) value).isEmpty()) {
                     builder.append("<" + XmlValue.escapeName(name, namespaces)
