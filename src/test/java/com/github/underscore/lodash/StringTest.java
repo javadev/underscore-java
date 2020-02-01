@@ -963,14 +963,17 @@ _.repeat('abc', 0);
         Xml.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, null, builder, false,
             Collections.<String>emptySet(), false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
-            + "  <element array=\"true\" null=\"true\"/>\n</root>", builder.toString());
+            + "  <element>\n    <element array=\"true\" null=\"true\"/>\n  </element>\n"
+            + "</root>", builder.toString());
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(new ArrayList<String>() { { add((String) null); } }, "name", builder, false,
             Collections.<String>emptySet(), false);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<root>\n"
             + "  <name>\n"
-            + "    <name array=\"true\" null=\"true\"/>\n"
+            + "    <name>\n"
+            + "      <element array=\"true\" null=\"true\"/>\n"
+            + "    </name>\n"
             + "  </name>\n"
             + "</root>", builder.toString());
     }
@@ -2838,33 +2841,41 @@ _.repeat('abc', 0);
         + "            \"GlossSeeAlso3\": [\n              null\n            ],\n"
         + "            \"GlossSeeAlso4\": [\n              1\n            ]\n"
         + "          },\n          \"GlossSee\": \"markup\"\n        }\n      }\n    }\n  }\n}";
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        + "\n<glossary>"
-        + "\n  <title>example glossary</title>"
-        + "\n  <GlossDiv>"
-        + "\n    <title>S</title>"
-        + "\n    <GlossList>"
-        + "\n      <GlossEntry>"
-        + "\n        <ID>SGML</ID>"
-        + "\n        <SortAs>SGML</SortAs>"
-        + "\n        <GlossTerm>Standard Generalized Markup Language</GlossTerm>"
-        + "\n        <Acronym>SGML</Acronym>"
-        + "\n        <Abbrev>ISO 8879:1986</Abbrev>"
-        + "\n        <GlossDef>"
-        + "\n          <para>A meta-markup language, used to create markup languages such as DocBook.</para>"
-        + "\n          <GlossSeeAlso>GML</GlossSeeAlso>"
-        + "\n          <GlossSeeAlso null=\"true\"/>"
-        + "\n          <GlossSeeAlso>GML2</GlossSeeAlso>"
-        + "\n          <GlossSeeAlso2 number=\"true\">1</GlossSeeAlso2>"
-        + "\n          <GlossSeeAlso2 null=\"true\"/>"
-        + "\n          <GlossSeeAlso3 array=\"true\" null=\"true\"/>"
-        + "\n          <GlossSeeAlso4 array=\"true\" number=\"true\">1</GlossSeeAlso4>"
-        + "\n        </GlossDef>"
-        + "\n        <GlossSee>markup</GlossSee>"
-        + "\n      </GlossEntry>"
-        + "\n    </GlossList>"
-        + "\n  </GlossDiv>"
-        + "\n</glossary>", U.toXml((Map<String, Object>) U.fromJson(string)));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<glossary>\n"
+        + "  <title>example glossary</title>\n"
+        + "  <GlossDiv>\n"
+        + "    <title>S</title>\n"
+        + "    <GlossList>\n"
+        + "      <GlossEntry>\n"
+        + "        <ID>SGML</ID>\n"
+        + "        <SortAs>SGML</SortAs>\n"
+        + "        <GlossTerm>Standard Generalized Markup Language</GlossTerm>\n"
+        + "        <Acronym>SGML</Acronym>\n"
+        + "        <Abbrev>ISO 8879:1986</Abbrev>\n"
+        + "        <GlossDef>\n"
+        + "          <para>A meta-markup language, used to create markup languages such as DocBook.</para>\n"
+        + "          <GlossSeeAlso>\n"
+        + "            <element>GML</element>\n"
+        + "            <element null=\"true\"/>\n"
+        + "            <element>GML2</element>\n"
+        + "          </GlossSeeAlso>\n"
+        + "          <GlossSeeAlso2>\n"
+        + "            <element number=\"true\">1</element>\n"
+        + "            <element null=\"true\"/>\n"
+        + "          </GlossSeeAlso2>\n"
+        + "          <GlossSeeAlso3>\n"
+        + "            <element array=\"true\" null=\"true\"/>\n"
+        + "          </GlossSeeAlso3>\n"
+        + "          <GlossSeeAlso4>\n"
+        + "            <element array=\"true\" number=\"true\">1</element>\n"
+        + "          </GlossSeeAlso4>\n"
+        + "        </GlossDef>\n"
+        + "        <GlossSee>markup</GlossSee>\n"
+        + "      </GlossEntry>\n"
+        + "    </GlossList>\n"
+        + "  </GlossDiv>\n"
+        + "</glossary>", U.toXml((Map<String, Object>) U.fromJson(string)));
     }
 
     @SuppressWarnings("unchecked")
