@@ -989,49 +989,133 @@ _.repeat('abc', 0);
             + "  </element>\n"
             + "</root>",
             U.toXml(Arrays.asList("First item", "Second item")));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
-            + "\n    <element>2</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element>\n"
+            + "      <element>1</element>\n"
+            + "      <element>2</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new byte[] {1, 2})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
-            + "\n    <element>2</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element>\n"
+            + "      <element>1</element>\n"
+            + "      <element>2</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new short[] {1, 2})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
-            + "\n    <element>2</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element>\n"
+            + "      <element>1</element>\n"
+            + "      <element>2</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new int[] {1, 2})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
-            + "\n    <element>2</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element>\n"
+            + "      <element>1</element>\n"
+            + "      <element>2</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new long[] {1, 2})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1.0</element>"
-            + "\n    <element>2.0</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element>\n"
+            + "      <element>1.0</element>\n"
+            + "      <element>2.0</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new float[] {1, 2})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1.0</element>"
-            + "\n    <element>2.0</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element>\n"
+            + "      <element>1.0</element>\n"
+            + "      <element>2.0</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new double[] {1, 2})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
-            + "\n    <element>2</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element>\n"
+            + "      <element>1</element>\n"
+            + "      <element>2</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new char[] {'1', '2'})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>true</element>"
-            + "\n    <element>false</element>\n    <element>true</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element>\n"
+            + "      <element>true</element>\n"
+            + "      <element>false</element>\n"
+            + "      <element>true</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new boolean[] {true, false, true})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element number=\"true\">1.0</element>"
-            + "\n  <element number=\"true\">2.0</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element number=\"true\">1.0</element>\n"
+            + "    <element number=\"true\">2.0</element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new Float[] {1F, 2F})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element number=\"true\">1.0</element>"
-            + "\n  <element number=\"true\">2.0</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element number=\"true\">1.0</element>\n"
+            + "    <element number=\"true\">2.0</element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new Double[] {1D, 2D})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element boolean=\"true\">true</element>"
-            + "\n  <element boolean=\"true\">false</element>\n  <element boolean=\"true\">true</element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element boolean=\"true\">true</element>\n"
+            + "    <element boolean=\"true\">false</element>\n"
+            + "    <element boolean=\"true\">true</element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new Boolean[] {true, false, true})));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\">\n"
-            + "    <element>First item</element>\n    <element>Second item</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element array=\"true\">\n"
+            + "    <element>\n"
+            + "      <element>First item</element>\n"
+            + "      <element>Second item</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\">\n"
             + "    <__GE__>First item</__GE__>\n    <__GI__>Second item</__GI__>\n"
             + "    <__GM__ null=\"true\"/>\n  </element>\n</root>",
             U.toXml(Arrays.asList(new LinkedHashMap() { {
                 put("1", "First item"); put("2", "Second item"); put("3", null); } })));
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
-            + "  <element array=\"true\" null=\"true\"/>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element array=\"true\" null=\"true\"/>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(Arrays.asList(new String[] {(String) null})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>null</root>",
             U.toXml((Collection) null));
@@ -1040,8 +1124,15 @@ _.repeat('abc', 0);
                 return "test";
             }
         }
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>test</element>"
-            + "\n    <element>test</element>\n  </element>\n</root>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "  <element>\n"
+            + "    <element>\n"
+            + "      <element>test</element>\n"
+            + "      <element>test</element>\n"
+            + "    </element>\n"
+            + "  </element>\n"
+            + "</root>",
             U.toXml(new ArrayList<Test[]>() { { add(new Test[] {new Test(), new Test()}); } }));
     }
 
