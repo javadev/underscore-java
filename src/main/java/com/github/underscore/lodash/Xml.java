@@ -917,6 +917,10 @@ public final class Xml {
         return toXml(collection, XmlStringBuilder.Step.TWO_SPACES);
     }
 
+    public static String toXml(Map map, XmlStringBuilder.Step identStep) {
+        return toXml(map, XmlStringBuilder.ToType.FOR_CONVERT, identStep);
+    }
+
     public static String toXml(Map map, XmlStringBuilder.ToType toType, XmlStringBuilder.Step identStep) {
         final XmlStringBuilder builder;
         final Map localMap;
