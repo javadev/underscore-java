@@ -689,12 +689,15 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
 
     @Test
     public void formatXml() {
-        assertEquals("<root>\n   <element>\n      <element>1</element>\n"
-            + "      <element>2</element>\n   </element>\n</root>",
+        assertEquals("<root>\n"
+            + "   <element>1</element>\n"
+            + "   <element>2</element>\n"
+            + "</root>",
             U.formatXml("<root><element>1</element><element>2</element></root>"));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
-            + "   <element>\n      <element>1</element>\n"
-            + "      <element>2</element>\n   </element>\n</root>",
+            + "   <element>1</element>\n"
+            + "   <element>2</element>\n"
+            + "</root>",
             U.formatXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root><element>1</element>"
                 + "<element>2</element></root>"));
         assertEquals("<a>\n   <b></b>\n   <b></b>\n</a>",
