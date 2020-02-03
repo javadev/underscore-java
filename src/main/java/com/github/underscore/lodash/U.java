@@ -2111,7 +2111,7 @@ public class U<T> extends com.github.underscore.U<T> {
     public static String jsonToXml(String json, Xml.XmlStringBuilder.Step identStep) {
         Object result = Json.fromJson(json);
         if (result instanceof Map) {
-            return Xml.toXml((Map) result, identStep);
+            return Xml.toXml((Map) result, Xml.XmlStringBuilder.ToType.FOR_CONVERT, identStep);
         }
         return Xml.toXml((List) result, identStep);
     }

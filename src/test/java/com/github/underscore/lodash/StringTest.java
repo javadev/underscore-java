@@ -2408,6 +2408,19 @@ _.repeat('abc', 0);
     }
 
     @SuppressWarnings("unchecked")
+    public void toJsonFromXml29() {
+        final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<root>\n"
+            + "   <element>\n"
+            + "      <element array=\"true\" null=\"true\"/>\n"
+            + "   </element>\n"
+            + "</root>";
+        final String json = "[null]";
+        assertEquals(json, U.toJson((List<Object>) U.fromXml(xml)));
+        assertEquals(xml, U.toXml((List<Object>) U.fromJson(json)));
+    }
+
+    @SuppressWarnings("unchecked")
     @Test
     public void toXmlFromJson() {
         final String json = "{\n"
