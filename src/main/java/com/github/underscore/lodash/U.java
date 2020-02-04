@@ -2297,7 +2297,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public String toJson() {
-            return Xml.toXml(data);
+            return Json.toJson(data);
         }
 
         public static Builder fromJson(final String json) {
