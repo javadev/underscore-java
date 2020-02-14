@@ -1087,6 +1087,7 @@ public final class Xml {
         if (map.containsKey(ARRAY) && TRUE.equals(map.get(ARRAY))) {
             final Map<String, Object> localMap4 = (Map) ((LinkedHashMap) localMap).clone();
             localMap4.remove(ARRAY);
+            localMap4.remove(SELF_CLOSING);
             object = name.equals(XmlValue.getMapKey(localMap4))
                 ? U.newArrayList(Collections.singletonList(getValue(XmlValue.getMapValue(localMap4),
                     FromType.FOR_CONVERT)))
