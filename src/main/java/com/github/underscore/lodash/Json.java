@@ -697,7 +697,9 @@ public final class Json {
             final String number = endCapture();
             final Number result;
             if (number.contains(".") || number.contains("e") || number.contains("E")) {
-                if (number.length() > 9) {
+                if (number.length() > 9 || (number.contains(".")
+                    && number.length() - number.lastIndexOf(".") > 2)
+                    && number.charAt(number.length() - 1) == '0') {
                     result = new java.math.BigDecimal(number);
                 } else {
                     result = Double.valueOf(number);

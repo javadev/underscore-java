@@ -710,6 +710,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
     public void formatJson() {
         assertEquals("{\n   \"a\": {\n   }\n}", U.formatJson("{\n  \"a\": {\n  }\n}"));
         assertEquals("[\n]", U.formatJson("[]"));
+        assertEquals("[\n   1.00\n]", U.formatJson("[1.00]"));
         assertEquals("{\n    \"a\": {\n    }\n}",
             U.formatJson("{\n  \"a\": {\n  }\n}", Json.JsonStringBuilder.Step.FOUR_SPACES));
         assertEquals("{\"a\":{}}",
