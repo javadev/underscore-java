@@ -775,7 +775,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
                 .add("city", "New York")
                 .add("state", "NY")
                 .add("postalCode", "10021"))
-            .add("phoneNumber", U.objectBuilder()
+            .add("phoneNumber", U.arrayBuilder()
                 .add(U.objectBuilder()
                     .add("type", "home")
                     .add("number", "212 555-1234"))
@@ -784,8 +784,42 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
                     .add("number", "646 555-4567")))
             .build();
         assertEquals("{firstName=John, lastName=Smith, age=25, address={streetAddress=21 2nd Street, "
-            + "city=New York, state=NY, postalCode=10021}, phoneNumber={0={type=home, number=212 555-1234}, "
-            + "1={type=fax, number=646 555-4567}}}", value.toString());
+            + "city=New York, state=NY, postalCode=10021}, phoneNumber=[{type=home, number=212 555-1234}, "
+            + "{type=fax, number=646 555-4567}]}", value.toString());
+    }
+
+    @Test
+    public void arrayBuilder() {
+        U.ArrayBuilder builder = U.arrayBuilder().add("1").add("2");
+        builder.add(builder);
+        builder.toJson();
+        U.ArrayBuilder.fromJson("[]");
+        builder.toXml();
+        U.ArrayBuilder.fromXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root empty-array=\"true\"></root>");
+        builder.set(1, "3");
+        builder.toString();
+        assertEquals("[1, 3, 1, 2]", builder.build().toString());
+        Map<String, Object> value = U.objectBuilder()
+            .add("firstName", "John")
+            .add("lastName", "Smith")
+            .add("age", 25)
+            .add("address", U.arrayBuilder()
+                .add(U.objectBuilder()
+                    .add("streetAddress", "21 2nd Street")
+                    .add("city", "New York")
+                    .add("state", "NY")
+                    .add("postalCode", "10021")))
+            .add("phoneNumber", U.arrayBuilder()
+                .add(U.objectBuilder()
+                    .add("type", "home")
+                    .add("number", "212 555-1234"))
+                .add(U.objectBuilder()
+                    .add("type", "fax")
+                    .add("number", "646 555-4567")))
+            .build();
+        assertEquals("{firstName=John, lastName=Smith, age=25, address=[{streetAddress=21 2nd Street, "
+            + "city=New York, state=NY, postalCode=10021}], phoneNumber=[{type=home, number=212 555-1234}, "
+            + "{type=fax, number=646 555-4567}]}", value.toString());
     }
 
     @SuppressWarnings("unchecked")

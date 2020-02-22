@@ -2281,6 +2281,11 @@ public class U<T> extends com.github.underscore.U<T> {
             return this;
         }
 
+        public Builder add(final String key, final ArrayBuilder builder) {
+            data.put(key, builder.build());
+            return this;
+        }
+
         @SuppressWarnings("unchecked")
         public Map<String, Object> build() {
             return (Map<String, Object>) ((LinkedHashMap) data).clone();
@@ -2303,6 +2308,67 @@ public class U<T> extends com.github.underscore.U<T> {
         public static Builder fromJson(final String json) {
             final Builder builder = new Builder();
             builder.data.putAll(fromJsonMap(json));
+            return builder;
+        }
+
+        @Override
+        public String toString() {
+            return data.toString();
+        }
+    }
+
+    public static ArrayBuilder arrayBuilder() {
+        return new U.ArrayBuilder();
+    }
+
+    public static class ArrayBuilder {
+        private final List<Object> data;
+        public ArrayBuilder() {
+            data = newArrayList();
+        }
+
+        public ArrayBuilder add(final Object value) {
+            data.add(value);
+            return this;
+        }
+
+        public ArrayBuilder set(final int index, final Object value) {
+            data.set(index, value);
+            return this;
+        }
+
+        public ArrayBuilder add(final ArrayBuilder builder) {
+            data.addAll(builder.build());
+            return this;
+        }
+
+        public ArrayBuilder add(final Builder builder) {
+            data.add(builder.build());
+            return this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public List<Object> build() {
+            return (List<Object>) ((ArrayList) data).clone();
+        }
+
+        public String toXml() {
+            return Xml.toXml(data);
+        }
+
+        public static ArrayBuilder fromXml(final String xml) {
+            final ArrayBuilder builder = new ArrayBuilder();
+            builder.data.addAll(U.<List<Object>>fromXml(xml));
+            return builder;
+        }
+
+        public String toJson() {
+            return Json.toJson(data);
+        }
+
+        public static ArrayBuilder fromJson(final String json) {
+            final ArrayBuilder builder = new ArrayBuilder();
+            builder.data.addAll(U.<List<Object>>fromJson(json));
             return builder;
         }
 
