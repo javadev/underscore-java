@@ -1001,7 +1001,9 @@ public final class Xml {
     public static Object stringToNumber(String number) {
         final Object localValue;
         if (number.contains(".") || number.contains("e") || number.contains("E")) {
-            if (number.length() > 9) {
+            if (number.length() > 9 || (number.contains(".")
+                && number.length() - number.lastIndexOf('.') > 2)
+                && number.charAt(number.length() - 1) == '0') {
                 localValue = new java.math.BigDecimal(number);
             } else {
                 localValue = Double.valueOf(number);

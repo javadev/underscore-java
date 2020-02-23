@@ -704,6 +704,8 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
                 Xml.XmlStringBuilder.Step.COMPACT));
         assertEquals("<a>\n\t<b></b>\n\t<b></b>\n</a>",
             U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.TABS));
+        assertEquals("<a number=\"true\">1.00</a>", U.formatXml("<a number=\"true\">1.00</a>"));
+        assertEquals("<a number=\"true\">2.01</a>", U.formatXml("<a number=\"true\">2.01</a>"));
     }
 
     @Test
