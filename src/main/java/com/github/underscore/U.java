@@ -652,6 +652,19 @@ public class U<T> {
         return contains(iterable, elem);
     }
 
+    public static <E> boolean containsWith(final Iterable<E> iterable, final E elem) {
+        return some(iterable, new Predicate<E>() {
+            @Override
+            public boolean test(E e) {
+                return elem == null ? e == null : String.valueOf(e).contains(String.valueOf(elem));
+            }
+        });
+    }
+
+    public boolean containsWith(final T elem) {
+        return containsWith(iterable, elem);
+    }
+
     public static <E> boolean contains(final Iterable<E> iterable, final E elem, final int fromIndex) {
         final List<E> list = newArrayList(iterable);
         return contains(list.subList(fromIndex, list.size()), elem);
@@ -2947,6 +2960,10 @@ public class U<T> {
 
         public Chain<Boolean> contains(final T elem) {
             return new Chain<Boolean>(U.contains(list, elem));
+        }
+
+        public Chain<Boolean> containsWith(final T elem) {
+            return new Chain<Boolean>(U.containsWith(list, elem));
         }
 
         public Chain<T> invoke(final String methodName, final List<Object> args) {

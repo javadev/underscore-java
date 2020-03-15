@@ -934,6 +934,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         U.chain(new String[] {""}).count(new Predicate<String>() {
             public boolean test(String str) { return true; } });
         U.chain(new String[] {""}).contains("");
+        U.chain(new String[] {""}).containsWith("");
         U.chain(new String[] {""}).invoke("toString", Collections.emptyList());
         U.chain(new String[] {""}).invoke("toString");
         U.chain(new String[] {""}).pluck("toString");

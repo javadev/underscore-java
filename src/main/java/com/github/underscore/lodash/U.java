@@ -316,6 +316,10 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<Boolean>(U.contains(value(), elem));
         }
 
+        public Chain<Boolean> containsWith(final T elem) {
+            return new Chain<Boolean>(U.containsWith(value(), elem));
+        }
+
         public Chain<T> invoke(final String methodName, final List<Object> args) {
             return new Chain<T>(U.invoke(value(), methodName, args));
         }

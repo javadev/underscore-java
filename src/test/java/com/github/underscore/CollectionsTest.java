@@ -1036,6 +1036,24 @@ _.contains([1, 2, 3], 3);
         assertTrue(result4);
     }
 
+/*
+_.containsWith(["abc", "bcd", "cde"], "bc");
+=> true
+*/
+    @Test
+    public void containsWith() {
+        final boolean result = U.containsWith(asList(1, 2, 3), 3);
+        assertTrue(result);
+        final boolean resultObj = new U<Integer>(asList(1, 2, 3)).containsWith(3);
+        assertTrue(resultObj);
+        final boolean resultChain = U.chain(asList(1, 2, 3)).containsWith(3).item();
+        assertTrue(resultChain);
+        final boolean result2 = U.containsWith(asList(1, 2, null), null);
+        assertTrue(result2);
+        final boolean result3 = U.containsWith(asList("abc", "bcd", "cde"), "bc");
+        assertTrue(result3);
+    }
+
     @Test
     public void containsAtLeast() {
         final boolean result = U.containsAtLeast(asList(1, 2, 2), 2, 2);
