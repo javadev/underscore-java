@@ -37,7 +37,7 @@ Java 1.6 and later, [Java 1.8](https://github.com/javadev/underscore-java8) or [
 
 Include the following in your `pom.xml` for Maven:
 
-```
+```xml
 <dependencies>
   <dependency>
     <groupId>com.github.javadev</groupId>
