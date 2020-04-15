@@ -23,9 +23,6 @@
  */
 package com.github.underscore;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Trie {
     static class TrieNode {
         // Initialize your data structure here.
@@ -38,11 +35,9 @@ public class Trie {
 
     private final TrieNode root;
     private boolean startWith;
-    private final List<String> suggestions;
 
     public Trie() {
         root = new TrieNode();
-        suggestions = new ArrayList<String>();
     }
 
     // Inserts a word into the trie.
