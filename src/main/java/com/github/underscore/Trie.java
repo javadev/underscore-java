@@ -26,8 +26,8 @@ package com.github.underscore;
 public class Trie {
     static class TrieNode {
         // Initialize your data structure here.
-        public TrieNode[] children;
-        public boolean isWord;
+        TrieNode[] children;
+        boolean isWord;
         public TrieNode() {
             children = new TrieNode[1071];
         }
