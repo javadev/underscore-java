@@ -2479,6 +2479,9 @@ _.repeat('abc', 0);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<element><![CDATA[ 1 ]]>\n<![CDATA[ 2 ]]>\n<id>1</id>\n</element>",
                 U.toXml((Map<String, Object>) U.fromJson(json2)));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<root><![CDATA[]]></root>",
+                U.toXml((Map<String, Object>) U.fromJson("{\"#cdata-section\":\"\"}")));
     }
 
     @SuppressWarnings("unchecked")
