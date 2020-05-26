@@ -1584,6 +1584,36 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> rename(final Map<String, Object> map, final String oldKey, final String newKey) {
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getKey().equals(oldKey)) {
+                outMap.put(newKey, makeObjectForRename(entry.getValue(), oldKey, newKey));
+            } else {
+                outMap.put(entry.getKey(), makeObjectForRename(entry.getValue(), oldKey, newKey));
+            }
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeObjectForRename(Object value, final String oldKey, final String newKey) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? rename((Map<String, Object>) item, oldKey, newKey) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = rename((Map<String, Object>) value, oldKey, newKey);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
     public static class FetchResponse {
         private final boolean ok;
         private final int status;
