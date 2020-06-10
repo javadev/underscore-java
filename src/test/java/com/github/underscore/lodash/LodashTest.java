@@ -729,6 +729,17 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
     }
 
     @Test
+    public void changeXmlEncoding() {
+        assertEquals("<?xml version=\"1.0\" encoding=\"windows-1251\"?>\n<a>Test</a>",
+            U.changeXmlEncoding("<?xml version=\"1.0\" encoding=\"UTF-8\"?><a>Test</a>", "windows-1251"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"windows-1251\"?><a>Test</a>",
+            U.changeXmlEncoding("<?xml version=\"1.0\" encoding=\"UTF-8\"?><a>Test</a>",
+            Xml.XmlStringBuilder.Step.COMPACT, "windows-1251"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>null</root>",
+            U.changeXmlEncoding(null, Xml.XmlStringBuilder.Step.COMPACT, "windows-1251"));
+    }
+
+    @Test
     public void formatJson() {
         assertEquals("{\n   \"a\": {\n   }\n}", U.formatJson("{\n  \"a\": {\n  }\n}"));
         assertEquals("[\n]", U.formatJson("[]"));

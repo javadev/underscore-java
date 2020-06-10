@@ -2188,6 +2188,14 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.formatXml(xml);
     }
 
+    public static String changeXmlEncoding(String xml, Xml.XmlStringBuilder.Step identStep, String encoding) {
+        return Xml.changeXmlEncoding(xml, identStep, encoding);
+    }
+
+    public static String changeXmlEncoding(String xml, String encoding) {
+        return Xml.changeXmlEncoding(xml, encoding);
+    }
+
     public static Map<String, Object> removeMinusesAndConvertNumbers(Map<String, Object> map) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
