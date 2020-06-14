@@ -1614,6 +1614,43 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
+    public static Map<String, Object> setValue(final Map<String, Object> map, final String key,
+        final Object newValue) {
+        return setValue(map, key, new BiFunction<String, Object, Object>() {
+            public Object apply(String key, Object value) { return newValue; } });
+    }
+
+    public static Map<String, Object> setValue(final Map<String, Object> map, final String key,
+        final BiFunction<String, Object, Object> newValue) {
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getKey().equals(key)) {
+                outMap.put(key, makeObjectForSetValue(newValue.apply(key, entry.getValue()), key, newValue));
+            } else {
+                outMap.put(entry.getKey(), makeObjectForSetValue(entry.getValue(), key, newValue));
+            }
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeObjectForSetValue(Object value, final String key,
+        final BiFunction<String, Object, Object> newValue) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? setValue((Map<String, Object>) item, key, newValue) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = setValue((Map<String, Object>) value, key, newValue);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
     public static class FetchResponse {
         private final boolean ok;
         private final int status;

@@ -687,6 +687,26 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
     }
 
     @Test
+    public void setValue() {
+        Map<String, Object> map = U.newLinkedHashMap();
+        map.put("-self-closing", "false");
+        U.setValue(map, "test", "test1");
+        Map<String, Object> newMap = U.setValue(map, "-self-closing", "true");
+        assertEquals("{\n"
+            + "  \"-self-closing\": \"true\"\n"
+            + "}",
+            U.toJson(newMap));
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        List<Object> list = U.newArrayList();
+        list.add(U.newArrayList());
+        list.add(U.newLinkedHashMap());
+        map2.put("list", list);
+        U.setValue(map2, "test", "test1");
+        map2.put("list", U.newLinkedHashMap());
+        U.setValue(map2, "test", "test1");
+    }
+
+    @Test
     public void jsonToXml() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>", U.jsonToXml("{\n  \"a\": {\n  }\n}"));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>",
