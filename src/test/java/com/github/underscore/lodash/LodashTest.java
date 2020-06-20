@@ -687,6 +687,31 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
     }
 
     @Test
+    public void updateMapKey() {
+        Map<String, Object> map = U.newLinkedHashMap();
+        map.put("-self-closing", "false");
+        U.rename(map, "test", "test1");
+        Map<String, Object> newMap = U.update(map, map);
+        assertEquals("{\n"
+            + "  \"-self-closing\": \"false\"\n"
+            + "}",
+            U.toJson(newMap));
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        List<Object> list = U.newArrayList();
+        list.add(U.newArrayList());
+        list.add(U.newLinkedHashMap());
+        map2.put("list", list);
+        U.update(map2, map2);
+        map2.put("list", U.newLinkedHashMap());
+        U.update(map2, map2);
+        U.update(map2, map);
+        Map<String, Object> map3 = U.newLinkedHashMap();
+        map3.put("list", U.newArrayList());
+        U.update(map2, map3);
+        U.update(map3, map2);
+    }
+
+    @Test
     public void setValue() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");

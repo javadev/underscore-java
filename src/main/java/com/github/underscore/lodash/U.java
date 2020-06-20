@@ -1651,6 +1651,35 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> update(final Map<String, Object> map1, final Map<String, Object> map2) {
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (String key : map2.keySet()) {
+            Object value2 = map2.get(key);
+            if (map1.containsKey(key)) {
+                Object value1 = map1.get(key);
+                if (value1 instanceof Map && value2 instanceof Map) {
+                    outMap.putAll(update((Map<String, Object>) value1, (Map<String, Object>) value2));
+                } else if (value1 instanceof List && value2 instanceof List) {
+                    outMap.put(key, merge((List<Object>) value1, (List<Object>) value2));
+                } else {
+                    outMap.put(key, value2);
+                }
+            } else {
+                outMap.put(key, value2);
+            }
+        }
+        return outMap;
+    }
+
+    public static List<Object> merge(List<Object> list1, List<Object> list2) {
+        List<Object> outList1 = newArrayList(list1);
+        List<Object> outList2 = newArrayList(list2);
+        outList2.removeAll(list1);
+        outList1.addAll(outList2);
+        return outList1;
+    }
+
     public static class FetchResponse {
         private final boolean ok;
         private final int status;
