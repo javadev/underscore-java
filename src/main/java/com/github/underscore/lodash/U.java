@@ -2342,6 +2342,21 @@ public class U<T> extends com.github.underscore.U<T> {
         return outMap;
     }
 
+    public static long gcd(long value1, long value2) {
+        if (value1 == 0) {
+            return value2;
+        }
+        return gcd(value2 % value1, value1);
+    }
+
+    public static long findGcd(long ... array) {
+        long result = array[0];
+        for (int index = 1; index < array.length; index += 1) {
+            result = gcd(array[index], result);
+        }
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     private static Object makeObjectSelfClose(Object value) {
         final Object result;

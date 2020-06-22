@@ -436,6 +436,14 @@ System.out.println("Sum of letters in words starting with E... " + sum);
                    + " [orange, orange, orange]]", resultChain.toString());
     }
 
+    @Test
+    public void gcd() {
+        assertEquals(12, U.gcd(24, 36));
+        assertEquals(5, U.gcd(5, 0));
+        assertEquals(12, U.findGcd(24, 36));
+        assertEquals(5, U.findGcd(5, 0));
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void main() {
