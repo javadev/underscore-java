@@ -116,13 +116,14 @@ _.delay(function(){ equal(counter, 1, 'incr was throttled'); }, 96);
         final Integer[] counter = new Integer[] {0};
         Supplier<Void> incr = new Supplier<Void>() { public Void get() {
             counter[0]++; return null; } };
-        final Supplier<Void> throttleIncr = U.throttle(incr, 50);
+        final Supplier<Void> throttleIncr = U.throttle(incr, 30);
         throttleIncr.get();
         throttleIncr.get();
         U.delay(throttleIncr, 16);
         U.delay(new Supplier<Void>() {
             public Void get() {
                 assertEquals("incr was throttled", 1, counter[0].intValue());
+                throttleIncr.get();
                 return null;
             }
         }, 60);
