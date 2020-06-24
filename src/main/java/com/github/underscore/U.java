@@ -2068,30 +2068,63 @@ public class U<T> {
     }
 
     public static <T> Supplier<T> throttle(final Supplier<T> function, final int waitMilliseconds) {
-        class ThrottleFunction implements Supplier<T> {
+        class ThrottleLater implements Supplier<T> {
             private final Supplier<T> localFunction;
-            private long previous;
             private java.util.concurrent.ScheduledFuture<T> timeout;
+            private long previous;
 
-            ThrottleFunction(final Supplier<T> function) {
+            ThrottleLater(final Supplier<T> function) {
                 this.localFunction = function;
             }
 
             @Override
             public T get() {
+                previous = now();
+                timeout = null;
+                return localFunction.get();
+            }
+
+            java.util.concurrent.ScheduledFuture<T> getTimeout() {
+                return timeout;
+            }
+
+            void setTimeout(java.util.concurrent.ScheduledFuture<T> timeout) {
+                this.timeout = timeout;
+            }
+
+            long getPrevious() {
+                return previous;
+            }
+
+            void setPrevious(long previous) {
+                this.previous = previous;
+            }
+        }
+
+        class ThrottleFunction implements Supplier<T> {
+            private final Supplier<T> localFunction;
+            private final ThrottleLater throttleLater;
+
+            ThrottleFunction(final Supplier<T> function) {
+                this.localFunction = function;
+                this.throttleLater = new ThrottleLater(function);
+            }
+
+            @Override
+            public T get() {
                 final long now = now();
-                if (previous == 0L) {
-                    previous = now;
+                if (throttleLater.getPrevious() == 0L) {
+                    throttleLater.setPrevious(now);
                 }
-                final long remaining = waitMilliseconds - (now - previous);
+                final long remaining = waitMilliseconds - (now - throttleLater.getPrevious());
+                T result = null;
                 if (remaining <= 0) {
-                    clearTimeout(timeout);
-                    previous = now;
-                    localFunction.get();
-                } else {
-                    timeout = delay(localFunction, waitMilliseconds);
+                    throttleLater.setPrevious(now);
+                    result = localFunction.get();
+                } else if (throttleLater.getTimeout() == null) {
+                    throttleLater.setTimeout(delay(throttleLater, waitMilliseconds));
                 }
-                return null;
+                return result;
             }
         }
         return new ThrottleFunction(function);
