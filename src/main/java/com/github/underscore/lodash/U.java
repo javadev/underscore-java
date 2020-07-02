@@ -1659,7 +1659,7 @@ public class U<T> extends com.github.underscore.U<T> {
             if (map1.containsKey(key)) {
                 Object value1 = map1.get(key);
                 if (value1 instanceof Map && value2 instanceof Map) {
-                    outMap.putAll(update((Map<String, Object>) value1, (Map<String, Object>) value2));
+                    outMap.put(key, update((Map<String, Object>) value1, (Map<String, Object>) value2));
                 } else if (value1 instanceof List && value2 instanceof List) {
                     outMap.put(key, merge((List<Object>) value1, (List<Object>) value2));
                 } else {
