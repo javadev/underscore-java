@@ -101,6 +101,28 @@ U.jsonToXml("{\"a\":{\"b\":\"data\"}}");
     // <a>
     //   <b>data</b>
     // </a>
+
+Map<String, Object> value = U.objectBuilder()
+            .add("firstName", "John")
+            .add("lastName", "Smith")
+            .add("age", 25)
+            .add("address", U.arrayBuilder()
+                .add(U.objectBuilder()
+                    .add("streetAddress", "21 2nd Street")
+                    .add("city", "New York")
+                    .add("state", "NY")
+                    .add("postalCode", "10021")))
+            .add("phoneNumber", U.arrayBuilder()
+                .add(U.objectBuilder()
+                    .add("type", "home")
+                    .add("number", "212 555-1234"))
+                .add(U.objectBuilder()
+                    .add("type", "fax")
+                    .add("number", "646 555-4567")))
+            .build();
+        // {firstName=John, lastName=Smith, age=25, address=[{streetAddress=21 2nd Street,
+        // city=New York, state=NY, postalCode=10021}], phoneNumber=[{type=home, number=212 555-1234},
+        // {type=fax, number=646 555-4567}]}
 ```
 
 Underscore-java is a java port of [Underscore.js](http://underscorejs.org/).
