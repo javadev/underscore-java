@@ -60,12 +60,13 @@
       <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.2.0</version>
           <configuration>
               <archive>
-                  <manifest>
-                      <mainClass>com.github.underscore.U</mainClass>
-                  </manifest>
+                  <manifestEntries>
+                       <Automatic-Module-Name>com.github.underscore</Automatic-Module-Name>
+                       <mainClass>com.github.underscore.U</mainClass>
+                  </manifestEntries>
               </archive>
           </configuration>
       </plugin>
