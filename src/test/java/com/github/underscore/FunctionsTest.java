@@ -116,7 +116,7 @@ _.delay(function(){ equal(counter, 1, 'incr was throttled'); }, 96);
         final Integer[] counter = new Integer[] {0};
         Supplier<Void> incr = new Supplier<Void>() { public Void get() {
             counter[0]++; return null; } };
-        final Supplier<Void> throttleIncr = U.throttle(incr, 40);
+        final Supplier<Void> throttleIncr = U.throttle(incr, 50);
         throttleIncr.get();
         throttleIncr.get();
         U.delay(throttleIncr, 16);
