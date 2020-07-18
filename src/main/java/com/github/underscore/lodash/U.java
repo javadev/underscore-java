@@ -1654,14 +1654,19 @@ public class U<T> extends com.github.underscore.U<T> {
     @SuppressWarnings("unchecked")
     public static Map<String, Object> update(final Map<String, Object> map1, final Map<String, Object> map2) {
         Map<String, Object> outMap = newLinkedHashMap();
-        for (String key : map2.keySet()) {
-            Object value2 = map2.get(key);
+        for (Map.Entry<String, Object> entry : map2.entrySet()) {
+            String key = entry.getKey();
+            Object value2 = entry.getValue();
             if (map1.containsKey(key)) {
                 Object value1 = map1.get(key);
                 if (value1 instanceof Map && value2 instanceof Map) {
                     outMap.put(key, update((Map<String, Object>) value1, (Map<String, Object>) value2));
                 } else if (value1 instanceof List && value2 instanceof List) {
                     outMap.put(key, merge((List<Object>) value1, (List<Object>) value2));
+                } else if (value1 instanceof List) {
+                    outMap.put(key, merge((List<Object>) value1, newArrayList(value2)));
+                } else if (value2 instanceof List) {
+                    outMap.put(key, merge(newArrayList(value1), (List<Object>) value2));
                 } else {
                     outMap.put(key, value2);
                 }

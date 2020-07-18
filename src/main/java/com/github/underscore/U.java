@@ -3644,6 +3644,12 @@ public class U<T> {
         return result;
     }
 
+    protected static <T> List<T> newArrayList(final T object) {
+        final List<T> result = new ArrayList<T>();
+        result.add(object);
+        return result;
+    }
+
     protected static <T> List<T> newArrayList(final Iterable<T> iterable, final int size) {
         final List<T> result = new ArrayList<T>();
         for (int index = 0; iterable.iterator().hasNext() && index < size; index += 1) {
