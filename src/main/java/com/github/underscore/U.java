@@ -3741,6 +3741,42 @@ public class U<T> {
         };
     }
 
+    public static int minimumDays(int rows, int columns, List<List<Integer>> grid) {
+        Queue<int[]> queue = new LinkedList<int[]>();
+        int target = rows * columns;
+        int cnt = 0;
+        int res = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (grid.get(i).get(j) == 1) {
+                    queue.offer(new int[] {i, j});
+                    cnt++;
+                }
+            }
+        }
+        int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            if (cnt == target) {
+                return res;
+            }
+            for (int i = 0; i < size; i++) {
+                int[] cur = queue.poll();
+                for (int[] dir : dirs) {
+                    int ni = cur[0] + dir[0];
+                    int nj = cur[1] + dir[1];
+                    if (ni >= 0 && ni < rows && nj >= 0 && nj < columns && grid.get(ni).get(nj) == 0) {
+                        cnt++;
+                        queue.offer(new int[] {ni, nj});
+                        grid.get(ni).set(nj, 1);
+                    }
+                }
+            }
+            res++;
+        }
+        return -1;
+    }
+
     public static void main(String ... args) {
         final String message = "Underscore-java is a java port of Underscore.js.\n\n"
             + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"

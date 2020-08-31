@@ -299,6 +299,22 @@ var fortmatted = _.format("hello: {}", "moe");
         assertEquals("hello: mo\\e", fortmatted6);
     }
 
+    @Test
+    public void minimumDays() {
+        List<List<Integer>> ll = new ArrayList<List<Integer>>();
+        ll.add(Arrays.asList(1, 1, 1, 1, 1));
+        ll.add(Arrays.asList(1, 1, 1, 0, 1));
+        ll.add(Arrays.asList(1, 0, 1, 1, 1));
+        ll.add(Arrays.asList(1, 1, 1, 1, 1));
+        assertEquals(1, U.minimumDays(4, 5, ll));
+        List<List<Integer>> ll2 = new ArrayList<List<Integer>>();
+        ll2.add(Arrays.asList(0, 0, 0, 0, 0));
+        ll2.add(Arrays.asList(0, 0, 0, 0, 0));
+        ll2.add(Arrays.asList(0, 0, 0, 0, 0));
+        ll2.add(Arrays.asList(0, 0, 0, 0, 0));
+        assertEquals(-1, U.minimumDays(4, 5, ll2));
+    }
+
 /*
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
 _.result(object, 'cheese');
