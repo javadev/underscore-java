@@ -315,6 +315,36 @@ var fortmatted = _.format("hello: {}", "moe");
         assertEquals(-1, U.minimumDays(4, 5, ll2));
     }
 
+    @Test
+    public void topNCompetitors() {
+        List<String> competitors = Arrays.asList("anacell", "betacellular", "cetracular", "deltacellular", "eurocell");
+        List<String> reviews = Arrays.asList("I love anacell Best services provided by anacell in the town",
+                "betacellular has great services",
+                "deltacellular provides much betacellular", "cetracular is worse than eurocell",
+                "betacellular is better than deltacellular");
+        List<String> strings = U.topNCompetitors(6, 2, competitors, 6, reviews);
+        assertEquals("[betacellular, deltacellular]", strings.toString());
+        List<String> competitors2 = Arrays.asList("ААА", "БББ");
+        List<String> reviews2 = Arrays.asList("I love anacell Best services provided by anacell in the town",
+                "betacellular has great services",
+                "deltacellular provides much betacellular", "cetracular is worse than eurocell",
+                "betacellular is better than deltacellular");
+        List<String> strings2 = U.topNCompetitors(2, 2, competitors2, 6, reviews2);
+        assertEquals("[]", strings2.toString());
+        List<String> strings3 = U.topNCompetitors(2, 2, competitors2, 6, null);
+        assertEquals("[]", strings3.toString());
+        List<String> strings4 = U.topNCompetitors(2, 2, competitors2, 6, Arrays.<String>asList());
+        assertEquals("[]", strings4.toString());
+        List<String> strings5 = U.topNCompetitors(2, 2, null, 6, reviews2);
+        assertEquals("[]", strings5.toString());
+        List<String> strings6 = U.topNCompetitors(2, 2, Arrays.<String>asList(), 6, reviews2);
+        assertEquals("[]", strings6.toString());
+        List<String> strings7 = U.topNCompetitors(0, 2, competitors2, 6, reviews2);
+        assertEquals("[]", strings7.toString());
+        List<String> strings8 = U.topNCompetitors(2, 2, competitors2, 0, reviews2);
+        assertEquals("[]", strings8.toString());
+    }
+
 /*
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
 _.result(object, 'cheese');

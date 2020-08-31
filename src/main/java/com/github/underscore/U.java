@@ -3777,6 +3777,62 @@ public class U<T> {
         return -1;
     }
 
+    public static List<String> topNCompetitors(int numCompetitors, int topNCompetitors, List<String> competitors,
+        int numReviews, List<String> reviews) {
+        if (U.isNull(reviews) || reviews.isEmpty() || U.isNull(competitors) || competitors.isEmpty()
+            || numReviews < 1 || numCompetitors < 1) {
+            return new ArrayList<String>();
+        }
+
+        List<String> topNCompetitorsList = new ArrayList<String>(topNCompetitors);
+
+        Set<String> competitorsSet = new HashSet<String>(competitors);
+        Map<String, Integer> topCompetitorsMap = new HashMap<String, Integer>();
+
+        // clean the reviews first: lowercase, remove special characters and split by spaces.
+        for (String review : reviews) {
+            String[] reviewArray = review.toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").split(" ");
+            Set<String> tempCompetitorSet = new HashSet<String>();
+
+            for (String text : reviewArray) {
+                if (competitorsSet.contains(text) && !tempCompetitorSet.contains(text)) {
+                    tempCompetitorSet.add(text);
+                    if (topCompetitorsMap.containsKey(text)) {
+                        topCompetitorsMap.put(text, topCompetitorsMap.get(text) + 1);
+                    } else {
+                        topCompetitorsMap.put(text, 1);
+                    }
+                }
+            }
+        }
+
+        List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(topCompetitorsMap.entrySet());
+        Collections.sort(list, new ValueThenKeyComparator<String, Integer>());
+
+        for (Map.Entry<String, Integer> item : list) {
+            if (topNCompetitorsList.size() < topNCompetitors) {
+                topNCompetitorsList.add(item.getKey());
+            } else {
+                break;
+            }
+        }
+
+        return topNCompetitorsList;
+    }
+
+    public static class ValueThenKeyComparator<K extends Comparable<? super K>,
+            V extends Comparable<? super V>> implements Comparator<Map.Entry<K, V>> {
+
+        public int compare(Map.Entry<K, V> a, Map.Entry<K, V> b) {
+            int cmp1 = b.getValue().compareTo(a.getValue());
+            if (cmp1 != 0) {
+                return cmp1;
+            } else {
+                return a.getKey().compareTo(b.getKey());
+            }
+        }
+    }
+
     public static void main(String ... args) {
         final String message = "Underscore-java is a java port of Underscore.js.\n\n"
             + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"
