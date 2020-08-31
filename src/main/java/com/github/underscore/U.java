@@ -128,15 +128,16 @@ public class U<T> {
             final String escape = TEMPLATE_SETTINGS.get(ESCAPE);
             String result = template;
             for (final Map.Entry<K, V> element : value.entrySet()) {
+                final String value1 = String.valueOf(element.getValue()).replace("\\", "\\\\");
                 result = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
                     S_Q + element.getKey()
-                    + E_S)).matcher(result).replaceAll(String.valueOf(element.getValue()));
+                    + E_S)).matcher(result).replaceAll(value1);
                 result = java.util.regex.Pattern.compile(escape.replace(ALL_SYMBOLS,
                     S_Q + element.getKey()
-                    + E_S)).matcher(result).replaceAll(escape(String.valueOf(element.getValue())));
+                    + E_S)).matcher(result).replaceAll(escape(value1));
                 result = java.util.regex.Pattern.compile(evaluate.replace(ALL_SYMBOLS,
                     S_Q + element.getKey()
-                    + E_S)).matcher(result).replaceAll(String.valueOf(element.getValue()));
+                    + E_S)).matcher(result).replaceAll(value1);
             }
             return result;
         }

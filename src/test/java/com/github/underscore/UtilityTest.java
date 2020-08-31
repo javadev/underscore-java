@@ -293,6 +293,10 @@ var fortmatted = _.format("hello: {}", "moe");
         assertEquals("hello: moe, 123", fortmatted3);
         String fortmatted4 = U.format("hello: {1}, {0}", "moe", 123);
         assertEquals("hello: 123, moe", fortmatted4);
+        String fortmatted5 = U.format("hello: {0}", "mo/e");
+        assertEquals("hello: mo/e", fortmatted5);
+        String fortmatted6 = U.format("hello: {0}", "mo\\e");
+        assertEquals("hello: mo\\e", fortmatted6);
     }
 
 /*
