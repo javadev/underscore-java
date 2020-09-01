@@ -3754,6 +3754,12 @@ public class U<T> {
                 }
             }
         }
+        Integer res1 = getInteger(rows, columns, grid, queue, target, cnt, res);
+        return res1 != null ? res1 : -1;
+    }
+
+    private static Integer getInteger(int rows, int columns, List<List<Integer>> grid, Queue<int[]> queue, int target,
+        int cnt, int res) {
         int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
         while (!queue.isEmpty()) {
             int size = queue.size();
@@ -3774,7 +3780,7 @@ public class U<T> {
             }
             res++;
         }
-        return -1;
+        return null;
     }
 
     public static List<String> topNCompetitors(int numCompetitors, int topNCompetitors, List<String> competitors,
@@ -3788,7 +3794,21 @@ public class U<T> {
 
         Set<String> competitorsSet = new HashSet<String>(competitors);
         Map<String, Integer> topCompetitorsMap = new HashMap<String, Integer>();
+        List<Map.Entry<String, Integer>> list = getEntries(reviews, competitorsSet, topCompetitorsMap);
 
+        for (Map.Entry<String, Integer> item : list) {
+            if (topNCompetitorsList.size() < topNCompetitors) {
+                topNCompetitorsList.add(item.getKey());
+            } else {
+                break;
+            }
+        }
+
+        return topNCompetitorsList;
+    }
+
+    private static List<Map.Entry<String, Integer>> getEntries(List<String> reviews, Set<String> competitorsSet,
+        Map<String, Integer> topCompetitorsMap) {
         // clean the reviews first: lowercase, remove special characters and split by spaces.
         for (String review : reviews) {
             String[] reviewArray = review.toLowerCase().replaceAll("[^a-zA-Z0-9 ]", "").split(" ");
@@ -3806,18 +3826,13 @@ public class U<T> {
             }
         }
 
+        return getEntries(topCompetitorsMap);
+    }
+
+    private static List<Map.Entry<String, Integer>> getEntries(Map<String, Integer> topCompetitorsMap) {
         List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(topCompetitorsMap.entrySet());
         Collections.sort(list, new ValueThenKeyComparator<String, Integer>());
-
-        for (Map.Entry<String, Integer> item : list) {
-            if (topNCompetitorsList.size() < topNCompetitors) {
-                topNCompetitorsList.add(item.getKey());
-            } else {
-                break;
-            }
-        }
-
-        return topNCompetitorsList;
+        return list;
     }
 
     public static class ValueThenKeyComparator<K extends Comparable<? super K>,
