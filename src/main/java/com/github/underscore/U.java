@@ -3743,9 +3743,7 @@ public class U<T> {
 
     public static int minimumDays(int rows, int columns, List<List<Integer>> grid) {
         Queue<int[]> queue = new LinkedList<int[]>();
-        int target = rows * columns;
         int cnt = 0;
-        int res = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (grid.get(i).get(j) == 1) {
@@ -3754,12 +3752,12 @@ public class U<T> {
                 }
             }
         }
-        Integer res1 = getInteger(rows, columns, grid, queue, target, cnt, res);
-        return res1 != null ? res1 : -1;
+        return getInteger(rows, columns, grid, queue, cnt);
     }
 
-    private static Integer getInteger(int rows, int columns, List<List<Integer>> grid, Queue<int[]> queue, int target,
-        int cnt, int res) {
+    private static int getInteger(int rows, int columns, List<List<Integer>> grid, Queue<int[]> queue, int cnt) {
+        int target = rows * columns;
+        int res = 0;
         int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
         while (!queue.isEmpty()) {
             int size = queue.size();
@@ -3780,7 +3778,7 @@ public class U<T> {
             }
             res++;
         }
-        return null;
+        return -1;
     }
 
     public static List<String> topNCompetitors(int numCompetitors, int topNCompetitors, List<String> competitors,
