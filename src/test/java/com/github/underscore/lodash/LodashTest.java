@@ -906,6 +906,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         new U(new ArrayList<String>());
         new U("");
         new U(asList()).chain();
+        new U(asList()).of();
         new Json();
         new Xml();
         U.chain(new ArrayList<String>());
@@ -913,6 +914,12 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         U.chain(new HashSet<String>());
         U.chain(new String[] {});
         U.chain("");
+        U.of(new ArrayList<String>());
+        U.of(new ArrayList<String>(), 1);
+        U.of(new HashSet<String>());
+        U.of(new String[] {});
+        U.of(new int[] {});
+        U.of("");
     }
 
     @SuppressWarnings("unchecked")

@@ -740,6 +740,35 @@ public class U<T> extends com.github.underscore.U<T> {
         return new U.Chain<T>(newArrayList(value()));
     }
 
+    public static Chain<String> of(final String item) {
+        return new U.Chain<String>(item);
+    }
+
+    public static <T> Chain<T> of(final List<T> list) {
+        return new U.Chain<T>(list);
+    }
+
+    public static <T> Chain<T> of(final Iterable<T> iterable) {
+        return new U.Chain<T>(newArrayList(iterable));
+    }
+
+    public static <T> Chain<T> of(final Iterable<T> iterable, int size) {
+        return new U.Chain<T>(newArrayList(iterable, size));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Chain<T> of(final T ... list) {
+        return new U.Chain<T>(Arrays.asList(list));
+    }
+
+    public static Chain<Integer> of(final int[] array) {
+        return new U.Chain<Integer>(newIntegerList(array));
+    }
+
+    public Chain<T> of() {
+        return new U.Chain<T>(newArrayList(value()));
+    }
+
     public static <T> List<T> drop(final Iterable<T> iterable) {
         return rest(newArrayList(iterable));
     }

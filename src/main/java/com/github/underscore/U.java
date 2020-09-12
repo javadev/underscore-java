@@ -2754,6 +2754,31 @@ public class U<T> {
         return new U.Chain<T>(newArrayList(iterable));
     }
 
+    public static <T> Chain<T> of(final List<T> list) {
+        return new U.Chain<T>(list);
+    }
+
+    public static <T> Chain<T> of(final Iterable<T> iterable) {
+        return new U.Chain<T>(newArrayList(iterable));
+    }
+
+    public static <T> Chain<T> of(final Iterable<T> iterable, int size) {
+        return new U.Chain<T>(newArrayList(iterable, size));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Chain<T> of(final T ... array) {
+        return new U.Chain<T>(Arrays.asList(array));
+    }
+
+    public static Chain<Integer> of(final int[] array) {
+        return new U.Chain<Integer>(newIntegerList(array));
+    }
+
+    public Chain<T> of() {
+        return new U.Chain<T>(newArrayList(iterable));
+    }
+
     public static class Chain<T> {
         private final T item;
         private final List<T> list;
@@ -3176,6 +3201,10 @@ public class U<T> {
          * Documented, #value
          */
         public List<T> value() {
+            return list;
+        }
+
+        public List<T> toList() {
             return list;
         }
 

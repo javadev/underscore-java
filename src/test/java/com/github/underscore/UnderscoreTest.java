@@ -386,6 +386,7 @@ _.elementAtOrNull(arr, 3) // => null
                 }
             });
         assertEquals(1L, U.chain(iterable, 5).first().item()[0]);
+        U.of(iterable, 5);
         class MyIterable<T> implements Iterable<T> {
             public Iterator<T> iterator() {
                 return new Iterator<T>() {
