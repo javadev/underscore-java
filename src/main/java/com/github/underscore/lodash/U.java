@@ -83,7 +83,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public enum Mode {
-        REPLACE_SELF_CLOSING_WITH_NULL;
+        REPLACE_SELF_CLOSING_WITH_NULL,
+        REPLACE_SELF_CLOSING_WITH_EMPTY;
     }
 
     public U(final Iterable<T> iterable) {
@@ -2256,12 +2257,19 @@ public class U<T> extends com.github.underscore.U<T> {
 
     @SuppressWarnings("unchecked")
     public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep, Mode mode) {
-        Object result = Xml.fromXml(xml);
-        if (result instanceof Map) {
-            return Json.toJson(mode == Mode.REPLACE_SELF_CLOSING_WITH_NULL ?
-                replaceSelfClosingWithNull((Map) result) : (Map) result, identStep);
+        Object object = Xml.fromXml(xml);
+        final String result;
+        if (object instanceof Map) {
+            if (mode == Mode.REPLACE_SELF_CLOSING_WITH_NULL) {
+                result = Json.toJson(replaceSelfClosingWithNull((Map) object), identStep);
+            } else if (mode == Mode.REPLACE_SELF_CLOSING_WITH_EMPTY) {
+                result = Json.toJson(replaceSelfClosingWithEmpty((Map) object), identStep);
+            } else {
+                result = Json.toJson((Map) object, identStep);
+            }
+            return result;
         }
-        return Json.toJson((List) result, identStep);
+        return Json.toJson((List) object, identStep);
     }
 
     public static String xmlToJson(String xml) {
@@ -2361,19 +2369,48 @@ public class U<T> extends com.github.underscore.U<T> {
         return numberEncountered;
     }
 
+    @SuppressWarnings("unchecked")
     public static Map<String, Object> replaceSelfClosingWithNull(Map<String, Object> map) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        return (Map<String, Object>) replaceSelfClosingWithValue(map, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> replaceSelfClosingWithEmpty(Map<String, Object> map) {
+        return (Map<String, Object>) replaceSelfClosingWithValue(map, "");
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Object replaceSelfClosingWithValue(Map<String, Object> map, String value) {
+        Object outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if ("-self-closing".equals(entry.getKey()) && "true".equals(entry.getValue())) {
                 if (map.size() == 1) {
-                    outMap = null;
+                    outMap = value;
                     break;
                 }
                 continue;
             }
-            outMap.put(String.valueOf(entry.getKey()), makeObjectSelfClose(entry.getValue()));
+            ((Map<String, Object>) outMap).put(String.valueOf(entry.getKey()),
+                makeObjectSelfClose(entry.getValue(), value));
         }
         return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeObjectSelfClose(Object value, String newValue) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? replaceSelfClosingWithValue((Map) item, newValue) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = replaceSelfClosingWithValue((Map) value, newValue);
+        } else {
+            result = value;
+        }
+        return result;
     }
 
     public static long gcd(long value1, long value2) {
@@ -2387,23 +2424,6 @@ public class U<T> extends com.github.underscore.U<T> {
         long result = array[0];
         for (int index = 1; index < array.length; index += 1) {
             result = gcd(array[index], result);
-        }
-        return result;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static Object makeObjectSelfClose(Object value) {
-        final Object result;
-        if (value instanceof List) {
-            List<Object> values = newArrayList();
-            for (Object item : (List) value) {
-                values.add(item instanceof Map ? replaceSelfClosingWithNull((Map) item) : item);
-            }
-            result = values;
-        } else if (value instanceof Map) {
-            result = replaceSelfClosingWithNull((Map) value);
-        } else {
-            result = value;
         }
         return result;
     }

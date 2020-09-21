@@ -624,6 +624,11 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
                 + "}",
             U.xmlToJson("<a/>", U.Mode.REPLACE_SELF_CLOSING_WITH_NULL));
         assertEquals("{\n"
+                + "  \"a\": \"\",\n"
+                + "  \"#omit-xml-declaration\": \"yes\"\n"
+                + "}",
+            U.xmlToJson("<a/>", U.Mode.REPLACE_SELF_CLOSING_WITH_EMPTY));
+        assertEquals("{\n"
                 + "  \"a\": {\n"
                 + "    \"-b\": \"c\"\n"
                 + "  },\n"
