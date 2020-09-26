@@ -1397,9 +1397,7 @@ public final class Xml {
             factory.setNamespaceAware(true);
             try {
                 factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-                factory.setAttribute(javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD, "");
-                factory.setAttribute(javax.xml.XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-            } catch (javax.xml.parsers.ParserConfigurationException ignored) {
+            } catch (Exception ignored) {
                 // ignored
             }
             final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
@@ -1415,9 +1413,7 @@ public final class Xml {
                 factory.setNamespaceAware(true);
                 try {
                     factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-                    factory.setAttribute(javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD, "");
-                    factory.setAttribute(javax.xml.XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-                } catch (javax.xml.parsers.ParserConfigurationException ignored) {
+                } catch (Exception ignored) {
                     // ignored
                 }
                 final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
