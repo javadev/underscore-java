@@ -2463,6 +2463,11 @@ public class U<T> extends com.github.underscore.U<T> {
             return this;
         }
 
+        public Builder add(final String key, final Builder builder) {
+            data.put(key, builder.build());
+            return this;
+        }
+
         @SuppressWarnings("unchecked")
         public Map<String, Object> build() {
             return (Map<String, Object>) ((LinkedHashMap) data).clone();
