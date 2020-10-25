@@ -3787,10 +3787,11 @@ public class U<T> {
     private static int getInteger(int rows, int columns, List<List<Integer>> grid, Queue<int[]> queue, int cnt) {
         int target = rows * columns;
         int res = 0;
+        int localCnt = cnt;
         int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
         while (!queue.isEmpty()) {
             int size = queue.size();
-            if (cnt == target) {
+            if (localCnt == target) {
                 return res;
             }
             for (int i = 0; i < size; i++) {
@@ -3799,7 +3800,7 @@ public class U<T> {
                     int ni = cur[0] + dir[0];
                     int nj = cur[1] + dir[1];
                     if (ni >= 0 && ni < rows && nj >= 0 && nj < columns && grid.get(ni).get(nj) == 0) {
-                        cnt++;
+                        localCnt++;
                         queue.offer(new int[] {ni, nj});
                         grid.get(ni).set(nj, 1);
                     }
