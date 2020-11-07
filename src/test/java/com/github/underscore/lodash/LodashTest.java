@@ -490,16 +490,18 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
 //            result.text());
 //        assertEquals("Sir. Russell Jones of Alberta",
 //            (String) U.get((Map<String, Object>) result.json(), "knight.name"));
-        U.Chain<?> resultChain = U.chain("https://www.dragonsofmugloar.com/api/game/483159").fetch();
+        U.Chain<?> resultChain = U.chain(
+            "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json").fetch();
 //        assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
 //            + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
 //            resultChain.item());
-        U.chain("http://www.dragonsofmugloar.com/api/game/483159").fetch();
+        U.chain("https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json").fetch();
     }
 
     @Test
     public void fetchGetWithTimeouts() {
-        U.FetchResponse result = U.fetch("https://www.dragonsofmugloar.com/api/game/483159", 30000, 30000);
+        U.FetchResponse result = U.fetch(
+            "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json", 30000, 30000);
 //        assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
 //            + "\"Sir. Russell Jones of Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
 //            result.text());
@@ -544,7 +546,8 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
 
     @Test
     public void fetchPut() {
-        U.FetchResponse result = U.fetch("https://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
+        U.FetchResponse result = U.fetch(
+            "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json", "PUT", "{"
             + "    \"dragon\": {"
             + "        \"scaleThickness\": 4,"
             + "        \"clawSharpness\": 2,"
@@ -554,7 +557,8 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
             + "}");
 //        assertEquals("{\"status\":\"Victory\",\"message\":\"Dragon was successful in a glorious battle\"}",
 //            result.text());
-        U.FetchResponse result2 = U.fetch("https://www.dragonsofmugloar.com/api/game/31906/solution", "PUT", "{"
+        U.FetchResponse result2 = U.fetch(
+            "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json", "PUT", "{"
             + "    \"dragon\": {"
             + "        \"scaleThickness\": 4,"
             + "        \"clawSharpness\": 2,"
@@ -564,7 +568,8 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
             + "}", null, null, null);
 //        assertEquals("{\"status\":\"Defeat\",\"message\":"
 //            + "\"No dragon showed up, knight dealt his deeds as he pleased.\"}", result2.text());
-        U.Chain resultChain = U.chain("https://www.dragonsofmugloar.com/api/game/31906/solution").fetch("PUT", "{"
+        U.Chain resultChain = U.chain(
+            "http://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json").fetch("PUT", "{"
             + "    \"dragon\": {"
             + "        \"scaleThickness\": 4,"
             + "        \"clawSharpness\": 2,"
