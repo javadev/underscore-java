@@ -24,6 +24,9 @@
 package com.github.underscore;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;

@@ -1,5 +1,9 @@
 package com.github.underscore;
 
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 public final class Optional<T> {
     private static final Optional<?> EMPTY = new Optional();
     private final T arg;
@@ -25,7 +29,7 @@ public final class Optional<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Optional<T> absent() {
+    public static<T> Optional<T> absent() {
         return (Optional<T>) EMPTY;
     }
 

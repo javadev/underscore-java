@@ -23,15 +23,15 @@
  */
 package com.github.underscore.lodash;
 
-import com.github.underscore.BinaryOperator;
-import com.github.underscore.BiFunction;
-import com.github.underscore.Consumer;
-import com.github.underscore.Function;
-import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import java.util.*;
 import org.junit.Test;
+import java.util.function.BinaryOperator;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

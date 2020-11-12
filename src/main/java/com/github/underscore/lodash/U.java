@@ -23,17 +23,16 @@
  */
 package com.github.underscore.lodash;
 
-import com.github.underscore.BinaryOperator;
-import com.github.underscore.BiFunction;
-import com.github.underscore.Consumer;
-import com.github.underscore.Function;
 import com.github.underscore.Function3;
-import com.github.underscore.Predicate;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import com.github.underscore.Optional;
-
 import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class U<T> extends com.github.underscore.U<T> {
     private static final int DEFAULT_TRUNC_LENGTH = 30;
