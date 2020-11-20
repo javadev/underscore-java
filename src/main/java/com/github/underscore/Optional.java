@@ -101,7 +101,7 @@ public final class Optional<T> {
 
         final Optional optional = (Optional) o;
 
-        return absent == optional.absent && !(!Objects.equals(arg, optional.arg));
+        return absent == optional.absent && Objects.equals(arg, optional.arg);
     }
 
     @Override
