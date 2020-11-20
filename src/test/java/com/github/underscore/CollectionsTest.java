@@ -60,10 +60,10 @@ _.each([1, 2, 3], alert);
     @SuppressWarnings("unchecked")
     public void each() {
         final List<Integer> result = new ArrayList<>();
-        U.<Integer>each(asList(1, 2, 3), item -> result.add(item));
+        U.<Integer>each(asList(1, 2, 3), result::add);
         assertEquals("[1, 2, 3]", result.toString());
         final List<Integer> result2 = new ArrayList<>();
-        new U(asList(1, 2, 3)).each((Consumer<Integer>) item -> result2.add(item));
+        new U(asList(1, 2, 3)).each((Consumer<Integer>) result2::add);
         assertEquals("[1, 2, 3]", result2.toString());
     }
 
@@ -75,10 +75,10 @@ _.eachRight([1, 2, 3], alert);
     @SuppressWarnings("unchecked")
     public void eachRight() {
         final List<Integer> result = new ArrayList<>();
-        U.eachRight(asList(1, 2, 3), item -> result.add(item));
+        U.eachRight(asList(1, 2, 3), result::add);
         assertEquals("[3, 2, 1]", result.toString());
         final List<Integer> result2 = new ArrayList<>();
-        new U(asList(1, 2, 3)).eachRight((Consumer<Integer>) item -> result2.add(item));
+        new U(asList(1, 2, 3)).eachRight((Consumer<Integer>) result2::add);
         assertEquals("[3, 2, 1]", result2.toString());
     }
 
@@ -89,11 +89,11 @@ _.forEach([1, 2, 3], alert);
     @Test
     public void forEach() {
         final List<Integer> result = new ArrayList<>();
-        U.forEach(asList(1, 2, 3), item -> result.add(item));
+        U.forEach(asList(1, 2, 3), result::add);
         assertEquals("[1, 2, 3]", result.toString());
         final List<Map.Entry<String, Integer>> resultChain = new ArrayList<>();
         U.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
-            .forEach(item -> resultChain.add(item));
+            .forEach(resultChain::add);
         assertEquals("[a=1, b=2, c=3]", resultChain.toString());
     }
 
@@ -120,14 +120,14 @@ _.forEach([1, 2, 3], alert);
     @SuppressWarnings("unchecked")
     public void forEachRight() {
         final List<Integer> result = new ArrayList<>();
-        U.forEachRight(asList(1, 2, 3), item -> result.add(item));
+        U.forEachRight(asList(1, 2, 3), result::add);
         assertEquals("[3, 2, 1]", result.toString());
         final List<Integer> result2 = new ArrayList<>();
-        new U(asList(1, 2, 3)).forEachRight((Consumer<Integer>) item -> result2.add(item));
+        new U(asList(1, 2, 3)).forEachRight((Consumer<Integer>) result2::add);
         assertEquals("[3, 2, 1]", result2.toString());
         final List<Map.Entry<String, Integer>> resultChain = new ArrayList<>();
         U.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
-            .forEachRight(item -> resultChain.add(item));
+            .forEachRight(resultChain::add);
         assertEquals("[c=3, b=2, a=1]", resultChain.toString());
     }
 
@@ -139,7 +139,7 @@ _([1, 2, 3]).forEach(alert);
     @SuppressWarnings("unchecked")
     public void forEachObj() {
         final List<Integer> result = new ArrayList<>();
-        new U(asList(1, 2, 3)).forEach((Consumer<Integer>) item -> result.add(item));
+        new U(asList(1, 2, 3)).forEach((Consumer<Integer>) result::add);
         assertEquals("[1, 2, 3]", result.toString());
     }
 
@@ -229,7 +229,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     public void reduce() {
         final Integer result =
         U.reduce(asList(1, 2, 3),
-                (item1, item2) -> item1 + item2,
+                Integer::sum,
         0);
         assertEquals("6", result.toString());
     }
@@ -242,15 +242,15 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; });
     public void reduceWithoutInit() {
         final Integer result =
         U.reduce(asList(1, 2, 3),
-                (item1, item2) -> item1 + item2).get();
+                Integer::sum).get();
         assertEquals("6", result.toString());
         final Integer resultChain =
         U.chain(asList(1, 2, 3))
             .reduce(
-                    (item1, item2) -> item1 + item2).item().get();
+                    Integer::sum).item().get();
         assertEquals("6", resultChain.toString());
         U.reduce(new ArrayList<Integer>(),
-                (item1, item2) -> item1 + item2);
+                Integer::sum);
     }
 
 /*
@@ -261,12 +261,12 @@ var sum = _.reduceRight([1, 2, 3], function(memo, num){ return memo + num; });
     public void reduceRightWithoutInit() {
         final Integer result =
         U.reduceRight(asList(1, 2, 3),
-                (item1, item2) -> item1 + item2).get();
+                Integer::sum).get();
         assertEquals("6", result.toString());
         final Integer resultChain =
         U.chain(asList(1, 2, 3))
             .reduceRight(
-                    (item1, item2) -> item1 + item2).item().get();
+                    Integer::sum).item().get();
         assertEquals("6", resultChain.toString());
     }
 
@@ -278,7 +278,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     public void reduceIntArray() {
         final Integer result =
         U.reduce(new int[]{1, 2, 3},
-                (item1, item2) -> item1 + item2,
+                Integer::sum,
         0);
         assertEquals("6", result.toString());
     }
@@ -291,7 +291,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     public void reduceArray() {
         final Integer result =
         U.reduce(new Integer[]{1, 2, 3},
-                (item1, item2) -> item1 + item2,
+                Integer::sum,
         0);
         assertEquals("6", result.toString());
     }
@@ -364,7 +364,7 @@ var sum = _.reduceRight([1, 2, 3], function(memo, num){ return memo + num; }, 0)
     public void reduceRightIntArray() {
         final Integer result =
         U.reduceRight(new int[]{1, 2, 3},
-                (item1, item2) -> item1 + item2,
+                Integer::sum,
         0);
         assertEquals("6", result.toString());
     }
@@ -377,7 +377,7 @@ var sum = _.reduceRight([1, 2, 3], function(memo, num){ return memo + num; }, 0)
     public void reduceRightArray() {
         final Integer result =
         U.reduceRight(new Integer[]{1, 2, 3},
-                (item1, item2) -> item1 + item2,
+                Integer::sum,
         0);
         assertEquals("6", result.toString());
     }
@@ -1199,15 +1199,15 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
     public void groupBy() {
         final Map<Double, List<Double>> result =
         U.groupBy(asList(1.3, 2.1, 2.4),
-                num -> Math.floor(num));
+                Math::floor);
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result.toString());
         final Map<Double, List<Double>> resultObj =
         new U(asList(1.3, 2.1, 2.4)).groupBy(
-                (Function<Double, Double>) num -> Math.floor(num));
+                (Function<Double, Double>) Math::floor);
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", resultObj.toString());
         final Map<Double, List<Double>> resultChain =
         (Map<Double, List<Double>>) U.chain(asList(1.3, 2.1, 2.4)).groupBy(
-                num -> Math.floor(num)).item();
+                Math::floor).item();
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", resultChain.toString());
     }
 
@@ -1220,19 +1220,19 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
     public void groupByWithSumming() {
         final Map<Double, Optional<Double>> result =
         U.groupBy(asList(1.3, 2.1, 2.4),
-                num -> Math.floor(num),
-                (a, b) -> a + b
+                Math::floor,
+                Double::sum
         );
         assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", result.toString());
         final Map<Double, Optional<Double>> resultObj =
         new U(asList(1.3, 2.1, 2.4)).groupBy(
-                (Function<Double, Double>) num -> Math.floor(num),
-                (BinaryOperator<Double>) (a, b) -> a + b);
+                (Function<Double, Double>) Math::floor,
+                (BinaryOperator<Double>) Double::sum);
         assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", resultObj.toString());
         final Map<Double, Optional<Double>> resultChain =
         U.chain(asList(1.3, 2.1, 2.4)).groupBy(
-                num -> Math.floor(num),
-                (a, b) -> a + b).item();
+                Math::floor,
+                Double::sum).item();
         assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", resultChain.toString());
     }
 

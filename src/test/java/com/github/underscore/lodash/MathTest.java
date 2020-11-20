@@ -369,7 +369,7 @@ System.out.println("Sum of letters in words starting with E... " + sum);
         String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum = (Integer) U.chain(asList(words))
             .filter(item -> item.startsWith("E"))
-            .map(item -> item.length())
+            .map(String::length)
             .sum().item();
         assertEquals(34, sum);
     }

@@ -336,8 +336,8 @@ var sum = _(words)
         String[] words = new String[] {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum = U.chain(words)
           .filter(w -> w.startsWith("E"))
-          .map(w -> w.length())
-          .reduce((accum, length) -> accum + length, 0).item();
+          .map(String::length)
+          .reduce(Integer::sum, 0).item();
         assertEquals(34, sum);
         U.of(words);
     }
@@ -345,7 +345,7 @@ var sum = _(words)
     @Test
     public void chain8() {
         final List<Comparable> result = U.chain(U.class.getDeclaredMethods())
-            .map(method -> method.getName())
+            .map(Method::getName)
             .reject(name -> name.contains("$"))
             .uniq(name -> {
                 // Contrived example to test that .uniq returns

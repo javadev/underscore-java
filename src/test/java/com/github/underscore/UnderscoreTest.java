@@ -25,10 +25,7 @@ package com.github.underscore;
 
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static java.util.Arrays.asList;
@@ -61,7 +58,7 @@ public class UnderscoreTest {
         assertEquals("[example, some, words]", new U(asList("some", "words", "example")).sort().toString());
         assertEquals("[example, some, words]", U.chain(asList("some", "words", "example")).sort().value().toString());
         assertEquals("[4, 5, 7]", U.chain(asList("some", "words", "example"))
-            .map(arg -> arg.length()).sort().value().toString());
+            .map(String::length).sort().value().toString());
         assertEquals("[example, some, words]", asList(U.sort(new String[] {"some", "words", "example"})).toString());
     }
 
@@ -430,12 +427,12 @@ _.elementAtOrNull(arr, 3) // => null
 
     @Test(expected = Exception.class)
     public void optionalOrThrow() throws RuntimeException {
-        Optional.absent().orThrow(() -> new RuntimeException());
+        Optional.absent().orThrow(RuntimeException::new);
     }
 
     @Test
     public void optionalOrThrowWithValue() {
-        assertEquals("1", Optional.of(1).orThrow(() -> new RuntimeException()).toString());
+        assertEquals("1", Optional.of(1).orThrow(RuntimeException::new).toString());
     }
 
     @Test(expected = NullPointerException.class)
@@ -483,7 +480,7 @@ _.elementAtOrNull(arr, 3) // => null
     @SuppressWarnings("unchecked")
     public void and() {
         Predicate<Integer> predicate = U.and(
-                (Predicate<Object>) value -> value != null,
+                (Predicate<Object>) Objects::nonNull,
                 (Predicate<Number>) value -> value.intValue() > 0,
                 (Predicate<Integer>) value -> (50 <= value) && (value <= 60));
         assertTrue(predicate.test(50));
@@ -498,7 +495,7 @@ _.elementAtOrNull(arr, 3) // => null
     @SuppressWarnings("unchecked")
     public void or() {
         Predicate<Integer> predicate = U.or(
-                (Predicate<Object>) value -> value == null,
+                (Predicate<Object>) Objects::isNull,
                 (Predicate<Number>) value -> value.intValue() > 2000,
                 (Predicate<Integer>) value -> (50 <= value) && (value <= 60));
         assertTrue(predicate.test(50));
@@ -518,7 +515,7 @@ _.elementAtOrNull(arr, 3) // => null
             put("B", 67.4);
             put("C", 67.4);
             put("D", 67.3);
-        } }).entrySet()).sortBy(item -> item.getValue()).toMap().item().toString());
+        } }).entrySet()).sortBy(Map.Entry::getValue).toMap().item().toString());
     }
 
     @Test
@@ -596,7 +593,7 @@ _.elementAtOrNull(arr, 3) // => null
                         Map<String, Object> resultItem = new LinkedHashMap<>();
                         resultItem.put("string", item);
                         resultItem.put("longestWord", U.chain(asList(item.split("\\s+"))).map(
-                                item1 -> item1.length())
+                                String::length)
                             .max().item());
                         return resultItem;
                     })

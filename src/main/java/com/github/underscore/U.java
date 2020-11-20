@@ -713,7 +713,7 @@ public class U<T> {
     public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName,
                                   final List<Object> args) {
         final List<E> result = newArrayList();
-        final List<Class<?>> argTypes = map(args, input -> input.getClass());
+        final List<Class<?>> argTypes = map(args, Object::getClass);
         try {
             final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(
                     new Class[0]));
@@ -1960,7 +1960,7 @@ public class U<T> {
      * Documented, #bind
      */
     public static <T, F> Function<F, T> bind(final Function<F, T> function) {
-        return arg -> function.apply(arg);
+        return function::apply;
     }
 
     /*
@@ -1983,7 +1983,7 @@ public class U<T> {
         final java.util.concurrent.ScheduledExecutorService scheduler =
             java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
         final java.util.concurrent.ScheduledFuture<T> future = scheduler.schedule(
-                () -> function.get(), delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+                function::get, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
         scheduler.shutdown();
         return future;
     }
@@ -2476,7 +2476,7 @@ public class U<T> {
     }
 
     public static <K, V> Function<K, V> propertyOf(final Map<K, V> object) {
-        return key -> object.get(key);
+        return object::get;
     }
 
     public static <K, V> Predicate<Map<K, V>> matcher(final Map<K, V> object) {
@@ -3415,7 +3415,7 @@ public class U<T> {
         final java.util.concurrent.ScheduledExecutorService scheduler =
             java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
         return scheduler.scheduleAtFixedRate(
-                () -> function.get(), delayMilliseconds, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+                function::get, delayMilliseconds, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
     }
 
     public static void clearInterval(java.util.concurrent.ScheduledFuture scheduledFuture) {
