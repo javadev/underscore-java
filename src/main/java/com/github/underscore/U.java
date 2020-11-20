@@ -25,7 +25,27 @@ package com.github.underscore;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.BinaryOperator;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -3730,7 +3750,7 @@ public class U<T> {
     public static void main(String ... args) {
         final String message = "Underscore-java is a java port of Underscore.js.\n\n"
             + "In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.\n\n"
-            + "For docs, license, tests, and downloads, see: http://javadev.github.io/underscore-java";
+            + "For docs, license, tests, and downloads, see: https://javadev.github.io/underscore-java";
         System.out.println(message);
     }
 }
