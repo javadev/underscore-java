@@ -263,7 +263,7 @@ _.each(notes, function(note) {
         final List<Integer> notes = asList(1, 2, 3);
         final Supplier<Integer> renderNotes = U.after(notes.size(),
                 () -> 4);
-        final List<Integer> result = new ArrayList<Integer>();
+        final List<Integer> result = new ArrayList<>();
         U.<Integer>each(notes, item -> {
             result.add(item);
             Integer afterResult = renderNotes.get();
@@ -286,7 +286,7 @@ monthlyMeeting();
         final List<Integer> notes = asList(1, 2, 3);
         final Supplier<Integer> renderNotes = U.before(notes.size() - 1,
                 () -> 4);
-        final List<Integer> result = new ArrayList<Integer>();
+        final List<Integer> result = new ArrayList<>();
         U.<Integer>each(notes, item -> {
             result.add(item);
             Integer afterResult = renderNotes.get();

@@ -68,7 +68,7 @@ public final class Xml {
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
         "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
         + "(?:(?<=\\\\)'|[^'])*)|(?:(?!\"|')(?:(?!\\/>|>|\\s).)+))");
-    private static final Map<String, String> XML_UNESCAPE = new HashMap<String, String>();
+    private static final Map<String, String> XML_UNESCAPE = new HashMap<>();
     private static final org.w3c.dom.Document DOCUMENT = Document.createDocument();
 
     static {

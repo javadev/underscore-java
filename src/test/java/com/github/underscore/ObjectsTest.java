@@ -383,11 +383,11 @@ _.chain([1,2,3,200])
 */
     @Test
     public void tap() {
-        final List<Map.Entry<String, Integer>> result = new ArrayList<Map.Entry<String, Integer>>();
+        final List<Map.Entry<String, Integer>> result = new ArrayList<>();
         U.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),
                 item -> result.add(item));
         assertEquals("[a=1, b=2, c=3]", result.toString());
-        final List<Map.Entry<String, Integer>> resultChain = new ArrayList<Map.Entry<String, Integer>>();
+        final List<Map.Entry<String, Integer>> resultChain = new ArrayList<>();
         U.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
             .tap(item -> resultChain.add(item));
         assertEquals("[a=1, b=2, c=3]", resultChain.toString());

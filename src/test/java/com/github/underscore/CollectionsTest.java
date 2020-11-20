@@ -59,10 +59,10 @@ _.each([1, 2, 3], alert);
     @Test
     @SuppressWarnings("unchecked")
     public void each() {
-        final List<Integer> result = new ArrayList<Integer>();
+        final List<Integer> result = new ArrayList<>();
         U.<Integer>each(asList(1, 2, 3), item -> result.add(item));
         assertEquals("[1, 2, 3]", result.toString());
-        final List<Integer> result2 = new ArrayList<Integer>();
+        final List<Integer> result2 = new ArrayList<>();
         new U(asList(1, 2, 3)).each((Consumer<Integer>) item -> result2.add(item));
         assertEquals("[1, 2, 3]", result2.toString());
     }
@@ -74,10 +74,10 @@ _.eachRight([1, 2, 3], alert);
     @Test
     @SuppressWarnings("unchecked")
     public void eachRight() {
-        final List<Integer> result = new ArrayList<Integer>();
+        final List<Integer> result = new ArrayList<>();
         U.eachRight(asList(1, 2, 3), item -> result.add(item));
         assertEquals("[3, 2, 1]", result.toString());
-        final List<Integer> result2 = new ArrayList<Integer>();
+        final List<Integer> result2 = new ArrayList<>();
         new U(asList(1, 2, 3)).eachRight((Consumer<Integer>) item -> result2.add(item));
         assertEquals("[3, 2, 1]", result2.toString());
     }
@@ -88,10 +88,10 @@ _.forEach([1, 2, 3], alert);
 */
     @Test
     public void forEach() {
-        final List<Integer> result = new ArrayList<Integer>();
+        final List<Integer> result = new ArrayList<>();
         U.forEach(asList(1, 2, 3), item -> result.add(item));
         assertEquals("[1, 2, 3]", result.toString());
-        final List<Map.Entry<String, Integer>> resultChain = new ArrayList<Map.Entry<String, Integer>>();
+        final List<Map.Entry<String, Integer>> resultChain = new ArrayList<>();
         U.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
             .forEach(item -> resultChain.add(item));
         assertEquals("[a=1, b=2, c=3]", resultChain.toString());
@@ -104,10 +104,10 @@ _.forEachIndexed([1, 2, 3], alert);
     @Test
     @SuppressWarnings("unchecked")
     public void forEachIndexed() {
-        final List<Integer> result = new ArrayList<Integer>();
+        final List<Integer> result = new ArrayList<>();
         U.forEachIndexed(asList(1, 2, 3), (index, item) -> result.add(item));
         assertEquals("[1, 2, 3]", result.toString());
-        final List<Integer> resultObj = new ArrayList<Integer>();
+        final List<Integer> resultObj = new ArrayList<>();
         new U(asList(1, 2, 3)).forEachIndexed((BiConsumer<Integer, Integer>) (index, item) -> resultObj.add(item));
         assertEquals("[1, 2, 3]", resultObj.toString());
     }
@@ -119,13 +119,13 @@ _.forEach([1, 2, 3], alert);
     @Test
     @SuppressWarnings("unchecked")
     public void forEachRight() {
-        final List<Integer> result = new ArrayList<Integer>();
+        final List<Integer> result = new ArrayList<>();
         U.forEachRight(asList(1, 2, 3), item -> result.add(item));
         assertEquals("[3, 2, 1]", result.toString());
-        final List<Integer> result2 = new ArrayList<Integer>();
+        final List<Integer> result2 = new ArrayList<>();
         new U(asList(1, 2, 3)).forEachRight((Consumer<Integer>) item -> result2.add(item));
         assertEquals("[3, 2, 1]", result2.toString());
-        final List<Map.Entry<String, Integer>> resultChain = new ArrayList<Map.Entry<String, Integer>>();
+        final List<Map.Entry<String, Integer>> resultChain = new ArrayList<>();
         U.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
             .forEachRight(item -> resultChain.add(item));
         assertEquals("[c=3, b=2, a=1]", resultChain.toString());
@@ -138,7 +138,7 @@ _([1, 2, 3]).forEach(alert);
     @Test
     @SuppressWarnings("unchecked")
     public void forEachObj() {
-        final List<Integer> result = new ArrayList<Integer>();
+        final List<Integer> result = new ArrayList<>();
         new U(asList(1, 2, 3)).forEach((Consumer<Integer>) item -> result.add(item));
         assertEquals("[1, 2, 3]", result.toString());
     }
@@ -149,7 +149,7 @@ _.each({one: 1, two: 2, three: 3}, alert);
 */
     @Test
     public void eachMap() {
-        final List<String> result = new ArrayList<String>();
+        final List<String> result = new ArrayList<>();
         U.<Map.Entry<String, Integer>>each((new LinkedHashMap<String, Integer>() { {
             put("one", 1); put("two", 2); put("three", 3); } }).entrySet(),
                 item -> result.add(item.getKey()));
@@ -164,7 +164,7 @@ _.map([1, 2, 3], function(num){ return num * 3; });
     public void map() {
         List<Integer> result = U.map(asList(1, 2, 3), item -> item * 3);
         assertEquals("[3, 6, 9]", result.toString());
-        List<Integer> resultObject = new U<Integer>(asList(1, 2, 3)).map(item -> item * 3);
+        List<Integer> resultObject = new U<>(asList(1, 2, 3)).map(item -> item * 3);
         assertEquals("[3, 6, 9]", resultObject.toString());
         List<Integer> result1 = U.map(new int[] {1, 2, 3}, item -> item * 3);
         assertEquals("[3, 6, 9]", result1.toString());
@@ -200,7 +200,7 @@ _.mapIndexed([1, 2, 3], function(num){ return num * 3; });
     public void mapIndexed() {
         List<Integer> result = U.mapIndexed(asList(1, 2, 3), (index, item) -> item * 3);
         assertEquals("[3, 6, 9]", result.toString());
-        List<Integer> resultObject = new U<Integer>(asList(1, 2, 3)).mapIndexed(
+        List<Integer> resultObject = new U<>(asList(1, 2, 3)).mapIndexed(
                 (index, item) -> item * 3);
         assertEquals("[3, 6, 9]", resultObject.toString());
         List<Integer> resultChain = U.chain(asList(1, 2, 3)).mapIndexed((index, item) -> item * 3).value();
@@ -307,7 +307,7 @@ var flat = _.inject(list, function(a, b) { return a.concat(b); }, []);
         final List<Integer> result =
         U.inject(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
                 (item1, item2) -> {
-                    List<Integer> list = new ArrayList<Integer>(item1);
+                    List<Integer> list = new ArrayList<>(item1);
                     list.addAll(item2);
                     return list;
                 },
@@ -327,7 +327,7 @@ var flat = _.foldl(list, function(a, b) { return a.concat(b); }, []);
         final List<Integer> result =
         U.foldl(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
                 (item1, item2) -> {
-                    List<Integer> list = new ArrayList<Integer>(item1);
+                    List<Integer> list = new ArrayList<>(item1);
                     list.addAll(item2);
                     return list;
                 },
@@ -347,7 +347,7 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
         final List<Integer> result =
         U.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
                 (item1, item2) -> {
-                    List<Integer> list = new ArrayList<Integer>(item1);
+                    List<Integer> list = new ArrayList<>(item1);
                     list.addAll(item2);
                     return list;
                 },
@@ -393,7 +393,7 @@ var flat = _.foldr(list, function(a, b) { return a.concat(b); }, []);
         final List<Integer> result =
         U.foldr(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
                 (item1, item2) -> {
-                    List<Integer> list = new ArrayList<Integer>(item1);
+                    List<Integer> list = new ArrayList<>(item1);
                     list.addAll(item2);
                     return list;
                 },
@@ -456,13 +456,13 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 */
     @Test
     public void filter() {
-        final List<Integer> result = U.filter(new ArrayDeque<Integer>(asList(1, 2, 3, 4, 5, 6)),
+        final List<Integer> result = U.filter(new ArrayDeque<>(asList(1, 2, 3, 4, 5, 6)),
                 item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", result.toString());
         final List<Integer> resultList = U.filter(asList(1, 2, 3, 4, 5, 6),
                 item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", resultList.toString());
-        final List<Integer> resultObject = new U<Integer>(asList(1, 2, 3, 4, 5, 6))
+        final List<Integer> resultObject = new U<>(asList(1, 2, 3, 4, 5, 6))
             .filter(item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", resultObject.toString());
     }
@@ -477,7 +477,7 @@ var evens = _.filterFalse([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0
         final List<Integer> result = U.filterFalse(asList(1, 2, 3, 4, 5, 6),
                 item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", result.toString());
-        final List<Integer> resultObject = new U<Integer>(asList(1, 2, 3, 4, 5, 6))
+        final List<Integer> resultObject = new U<>(asList(1, 2, 3, 4, 5, 6))
             .filterFalse(item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", resultObject.toString());
         final Set<Integer> resultSet = U.filterFalse(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
@@ -525,7 +525,7 @@ var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         final List<Integer> result = U.reject(asList(1, 2, 3, 4, 5, 6),
                 item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", result.toString());
-        final List<Integer> resultObject = new U<Integer>(asList(1, 2, 3, 4, 5, 6))
+        final List<Integer> resultObject = new U<>(asList(1, 2, 3, 4, 5, 6))
             .reject(item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", resultObject.toString());
         final Set<Integer> resultSet = U.reject(new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
@@ -704,7 +704,7 @@ _.contains([1, 2, 3], 3);
     public void contains() {
         final boolean result = U.contains(asList(1, 2, 3), 3);
         assertTrue(result);
-        final boolean resultObj = new U<Integer>(asList(1, 2, 3)).contains(3);
+        final boolean resultObj = new U<>(asList(1, 2, 3)).contains(3);
         assertTrue(resultObj);
         final boolean resultChain = U.chain(asList(1, 2, 3)).contains(3).item();
         assertTrue(resultChain);
@@ -724,7 +724,7 @@ _.containsWith(["abc", "bcd", "cde"], "bc");
     public void containsWith() {
         final boolean result = U.containsWith(asList(1, 2, 3), 3);
         assertTrue(result);
-        final boolean resultObj = new U<Integer>(asList(1, 2, 3)).containsWith(3);
+        final boolean resultObj = new U<>(asList(1, 2, 3)).containsWith(3);
         assertTrue(resultObj);
         final boolean resultChain = U.chain(asList(1, 2, 3)).containsWith(3).item();
         assertTrue(resultChain);
@@ -740,9 +740,9 @@ _.containsWith(["abc", "bcd", "cde"], "bc");
         assertTrue(result);
         final boolean result2 = U.containsAtLeast(asList(1, 2, 2), 2, 3);
         assertFalse(result2);
-        final boolean result3 = new U<Integer>(asList(1, 2, 2)).containsAtLeast(2, 2);
+        final boolean result3 = new U<>(asList(1, 2, 2)).containsAtLeast(2, 2);
         assertTrue(result3);
-        final boolean result4 = new U<Integer>(asList(1, 2, 2)).containsAtLeast(2, 3);
+        final boolean result4 = new U<>(asList(1, 2, 2)).containsAtLeast(2, 3);
         assertFalse(result4);
         final boolean result5 = U.containsAtLeast(asList(null, null, 2), null, 2);
         assertTrue(result5);
@@ -756,9 +756,9 @@ _.containsWith(["abc", "bcd", "cde"], "bc");
         assertTrue(result);
         final boolean result2 = U.containsAtMost(asList(1, 2, 2), 2, 1);
         assertFalse(result2);
-        final boolean result3 = new U<Integer>(asList(1, 2, 2)).containsAtMost(3, 2);
+        final boolean result3 = new U<>(asList(1, 2, 2)).containsAtMost(3, 2);
         assertTrue(result3);
-        final boolean result4 = new U<Integer>(asList(1, 2, 2)).containsAtMost(2, 1);
+        final boolean result4 = new U<>(asList(1, 2, 2)).containsAtMost(2, 1);
         assertFalse(result4);
         final boolean result5 = U.containsAtMost(asList(null, null, 2), null, 2);
         assertTrue(result5);
@@ -910,34 +910,34 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             + " title: The Tempest, author: Shakespeare, year: 1611]",
             U.where(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+            Tuple.<String, Object>create("year", 1611))).toString());
         assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
             + " title: The Tempest, author: Shakespeare, year: 1611]",
             U.where(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("author2", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+            Tuple.<String, Object>create("year", 1611))).toString());
         assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
             + " title: The Tempest, author: Shakespeare, year: 1611]",
-            U.where(new LinkedHashSet<Book>(listOfPlays), asList(
+            U.where(new LinkedHashSet<>(listOfPlays), asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+            Tuple.<String, Object>create("year", 1611))).toString());
         assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
             + " title: The Tempest, author: Shakespeare, year: 1611]",
-            U.where(new LinkedHashSet<Book>(listOfPlays), asList(
+            U.where(new LinkedHashSet<>(listOfPlays), asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("author2", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+            Tuple.<String, Object>create("year", 1611))).toString());
         assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
             + " title: The Tempest, author: Shakespeare, year: 1611]",
             new U(listOfPlays).where(asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+            Tuple.<String, Object>create("year", 1611))).toString());
         assertEquals("[title: Cymbeline, author: Shakespeare, year: 1611,"
             + " title: The Tempest, author: Shakespeare, year: 1611]",
             U.chain(listOfPlays).where(asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).value().toString());
+            Tuple.<String, Object>create("year", 1611))).value().toString());
         class Book2 {
             public final String title;
             public final Integer year;
@@ -965,7 +965,7 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
             U.where(listOfPlays2, asList(
             Tuple.<String, Object>create("getAuthor", "Shakespeare"),
             Tuple.<String, Object>create("author2", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).toString());
+            Tuple.<String, Object>create("year", 1611))).toString());
     }
 
 /*
@@ -997,20 +997,20 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             U.findWhere(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
+            Tuple.<String, Object>create("year", 1611))).get().toString());
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             new U(listOfPlays).findWhere(asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
+            Tuple.<String, Object>create("year", 1611))).get().toString());
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             (U.chain(listOfPlays).findWhere(asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).item()).get().toString());
+            Tuple.<String, Object>create("year", 1611))).item()).get().toString());
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             U.findWhere(listOfPlays, asList(
             Tuple.<String, Object>create("author", "Shakespeare"),
             Tuple.<String, Object>create("author2", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
+            Tuple.<String, Object>create("year", 1611))).get().toString());
         class Book2 {
             public final String title;
             public final Integer year;
@@ -1036,11 +1036,11 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
         assertEquals("title: Cymbeline, author: Shakespeare, year: 1611",
             U.findWhere(listOfPlays2, asList(
             Tuple.<String, Object>create("getAuthor", "Shakespeare"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))).get().toString());
+            Tuple.<String, Object>create("year", 1611))).get().toString());
         assertEquals(Optional.<Book2>absent(),
             U.findWhere(listOfPlays2, asList(
             Tuple.<String, Object>create("getAuthor", "Shakespeare2"),
-            Tuple.<String, Object>create("year", Integer.valueOf(1611)))));
+            Tuple.<String, Object>create("year", 1611))));
     }
 
 /*
@@ -1052,14 +1052,14 @@ _.max(numbers);
     public void max() {
         final Integer result = U.max(asList(10, 5, 100, 2, 1000));
         assertEquals("1000", result.toString());
-        final Integer resultObj = new U<Integer>(asList(10, 5, 100, 2, 1000)).max();
+        final Integer resultObj = new U<>(asList(10, 5, 100, 2, 1000)).max();
         assertEquals("1000", resultObj.toString());
         final Integer resultChain = (Integer) U.chain(asList(10, 5, 100, 2, 1000)).max().item();
         assertEquals("1000", resultChain.toString());
         final Integer resultComp = U.max(asList(10, 5, 100, 2, 1000),
                 item -> -item);
         assertEquals("2", resultComp.toString());
-        final Integer resultCompObj = new U<Integer>(asList(10, 5, 100, 2, 1000)).max(
+        final Integer resultCompObj = new U<>(asList(10, 5, 100, 2, 1000)).max(
                 item -> -item);
         assertEquals("2", resultCompObj.toString());
         final Integer resultCompChain = (Integer) U.chain(asList(10, 5, 100, 2, 1000)).max(
@@ -1089,14 +1089,14 @@ _.min(numbers);
     public void min() {
         final Integer result = U.min(asList(10, 5, 100, 2, 1000));
         assertEquals("2", result.toString());
-        final Integer resultObj = new U<Integer>(asList(10, 5, 100, 2, 1000)).min();
+        final Integer resultObj = new U<>(asList(10, 5, 100, 2, 1000)).min();
         assertEquals("2", resultObj.toString());
         final Integer resultChain = (Integer) U.chain(asList(10, 5, 100, 2, 1000)).min().item();
         assertEquals("2", resultChain.toString());
         final Integer resultComp = U.min(asList(10, 5, 100, 2, 1000),
                 item -> -item);
         assertEquals("1000", resultComp.toString());
-        final Integer resultCompObj = new U<Integer>(asList(10, 5, 100, 2, 1000)).min(
+        final Integer resultCompObj = new U<>(asList(10, 5, 100, 2, 1000)).min(
                 item -> -item);
         assertEquals("1000", resultCompObj.toString());
         final Integer resultCompChain = (Integer) U.chain(asList(10, 5, 100, 2, 1000)).min(
@@ -1307,7 +1307,7 @@ _.countBy(stooges, 'age');
                 person -> person.name).item();
         assertEquals("{moe=2, curly=1}", resultChain.toString());
         U.countBy(asList(1, 2, 3));
-        new U<Integer>(asList(1, 2, 3)).countBy();
+        new U<>(asList(1, 2, 3)).countBy();
         U.chain(asList(1, 2, 2, 3)).countBy().item();
     }
 
@@ -1336,7 +1336,7 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
     public void sample() {
         final Integer result = U.sample(asList(1, 2, 3, 4, 5, 6));
         assertTrue(result >= 1 && result <= 6);
-        final Integer resultObj = new U<Integer>(asList(1, 2, 3, 4, 5, 6)).sample();
+        final Integer resultObj = new U<>(asList(1, 2, 3, 4, 5, 6)).sample();
         assertTrue(resultObj >= 1 && resultObj <= 6);
         final Set<Integer> resultList = U.sample(asList(1, 2, 3, 4, 5, 6), 3);
         assertEquals(3, resultList.size());
@@ -1380,8 +1380,8 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
     public void toCardinalityMap() {
         assertEquals("{a=2, b=1, c=2}", U.toCardinalityMap(asList("a", "a", "b", "c", "c")).toString());
         assertEquals("{}", U.toCardinalityMap(U.newArrayList()).toString());
-        assertEquals("{a=2, b=1, c=2}", new U<String>(asList("a", "a", "b", "c", "c")).toCardinalityMap().toString());
-        assertEquals("{}", new U<Object>(U.newArrayList()).toCardinalityMap().toString());
+        assertEquals("{a=2, b=1, c=2}", new U<>(asList("a", "a", "b", "c", "c")).toCardinalityMap().toString());
+        assertEquals("{}", new U<>(U.newArrayList()).toCardinalityMap().toString());
     }
 
 /*

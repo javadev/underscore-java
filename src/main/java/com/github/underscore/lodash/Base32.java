@@ -41,7 +41,7 @@ public final class Base32 {
         digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef".toCharArray();
         mask = digits.length - 1;
         shift = Integer.numberOfTrailingZeros(digits.length);
-        charMap = new HashMap<Character, Integer>();
+        charMap = new HashMap<>();
         for (int index = 0; index < digits.length; index += 1) {
             charMap.put(digits[index], index);
         }

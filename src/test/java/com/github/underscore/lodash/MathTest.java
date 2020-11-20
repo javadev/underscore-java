@@ -139,15 +139,15 @@ public class MathTest {
         assertNull(result34);
         final Double result35 = U.average(Float.valueOf(2), Float.valueOf(4));
         assertEquals("3.0", result35.toString());
-        final Double result36 = U.average(Integer.valueOf(2), null);
+        final Double result36 = U.average(2, null);
         assertNull(result36);
     }
 
     @Test
     public void average6() {
-        final Double result37 = U.average(null, Integer.valueOf(2));
+        final Double result37 = U.average(null, 2);
         assertNull(result37);
-        final Double result38 = U.average(Integer.valueOf(2), Integer.valueOf(4));
+        final Double result38 = U.average(2, 4);
         assertEquals("3.0", result38.toString());
         final Double result39 = U.average(Long.valueOf(2), null);
         assertNull(result39);
@@ -268,12 +268,12 @@ _.subtract();
         assertEquals("-1", U.subtract((long) 1, (long) 2).toString());
         assertEquals("-1.0", U.subtract((float) 1, (float) 2).toString());
         assertEquals("-1.0", U.subtract((double) 1, (double) 2).toString());
-        assertEquals("-1", U.subtract(Byte.valueOf((byte) 1), Byte.valueOf((byte) 2)).toString());
-        assertEquals("-1", U.subtract(Short.valueOf((short) 1), Short.valueOf((short) 2)).toString());
-        assertEquals("-1", U.subtract(Integer.valueOf(1), Integer.valueOf(2)).toString());
-        assertEquals("-1", U.subtract(Long.valueOf(1), Long.valueOf(2)).toString());
-        assertEquals("-1.0", U.subtract(Float.valueOf(1), Float.valueOf(2)).toString());
-        assertEquals("-1.0", U.subtract(Double.valueOf(1), Double.valueOf(2)).toString());
+        assertEquals("-1", U.subtract((byte) 1, (byte) 2).toString());
+        assertEquals("-1", U.subtract((short) 1, (short) 2).toString());
+        assertEquals("-1", U.subtract(1, 2).toString());
+        assertEquals("-1", U.subtract(1L, 2L).toString());
+        assertEquals("-1.0", U.subtract(1f, 2f).toString());
+        assertEquals("-1.0", U.subtract(1d, 2d).toString());
         assertEquals("-1", U.subtract(BigDecimal.valueOf(1), BigDecimal.valueOf(2)).toString());
         assertEquals("-1", U.subtract(BigInteger.valueOf(1), BigInteger.valueOf(2)).toString());
         assertEquals("-1", U.subtract((Number) 1, (Number) 2).toString());

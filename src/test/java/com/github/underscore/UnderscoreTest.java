@@ -147,12 +147,12 @@ _.concat([1, 2], [3, 4]);
         assertEquals(asList(1.0, 2.0), asList(U.concat(new Double[] {1.0, 2.0})));
         assertEquals(asList(1, 2, 3, 4), U.concat(asList(1, 2), asList(3, 4)));
         assertEquals(asList("a", "b"), U.concat(asList("a", "b")));
-        assertEquals(asList(1, 2, 3, 4), new U<Integer>(asList(1, 2)).concatWith(asList(3, 4)));
+        assertEquals(asList(1, 2, 3, 4), new U<>(asList(1, 2)).concatWith(asList(3, 4)));
         assertEquals("[1, 2, 3, 4]", U.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
         assertEquals("[1, 2, 3, 4, 5, 6]", U.chain(asList(1, 2)).concat(asList(3, 4), asList(5, 6)).value().toString());
         assertEquals(asList(1, 2, 3, 4), asList(U.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
         assertEquals(asList(1, 2, 3, 4), U.concat(asList(1, 2), asList(3), asList(4)));
-        assertEquals(asList(1, 2, 3, 4), new U<Integer>(asList(1, 2)).concatWith(asList(3), asList(4)));
+        assertEquals(asList(1, 2, 3, 4), new U<>(asList(1, 2)).concatWith(asList(3), asList(4)));
     }
 
 /*
@@ -205,7 +205,7 @@ _.splitAt([], 0);
         assertEquals("[[0, 1, 2, 3, 4], []]", U.splitAt(U.range(5), 20000).toString());
         assertEquals("[[], [0, 1, 2, 3, 4]]", U.splitAt(U.range(5), -1000).toString());
         assertEquals("[[], []]", U.splitAt(U.newIntegerList(), 0).toString());
-        assertEquals("[[0, 1], [2, 3, 4]]", new U<Integer>(U.range(5)).splitAt(2).toString());
+        assertEquals("[[0, 1], [2, 3, 4]]", new U<>(U.range(5)).splitAt(2).toString());
         assertEquals("[[0, 1], [2, 3, 4]]", U.chain(U.range(5)).splitAt(2).value().toString());
         assertEquals("[[a, b], [c, d, e]]", U.splitAt(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
         assertEquals("[[ant, bird], [camel, dog, elephant]]", U.splitAt(
@@ -229,7 +229,7 @@ _.takeSkipping([1, 2, 3, 4, 5], -100);
         assertEquals("[0]", U.takeSkipping(U.range(5), 100000).toString());
         assertEquals("[]", U.takeSkipping(U.range(5), -100).toString());
         assertEquals("[]", U.takeSkipping(U.range(5), 0).toString());
-        assertEquals("[0, 2, 4]", new U<Integer>(U.range(5)).takeSkipping(2).toString());
+        assertEquals("[0, 2, 4]", new U<>(U.range(5)).takeSkipping(2).toString());
         assertEquals("[0, 2, 4]", U.chain(U.range(5)).takeSkipping(2).value().toString());
         assertEquals("[a, c, e]", U.takeSkipping(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
         assertEquals("[ant, camel, elephant]", U.takeSkipping(
@@ -260,7 +260,7 @@ _.elementAt(arr, 1) // => 2
     @Test
     public void elementAt() {
         assertEquals(2, U.<Integer>elementAt(asList(1, 2, 3), 1).intValue());
-        assertEquals(2, new U<Integer>(asList(1, 2, 3)).elementAt(1).intValue());
+        assertEquals(2, new U<>(asList(1, 2, 3)).elementAt(1).intValue());
     }
 
 /*
@@ -270,7 +270,7 @@ _.get(arr, 1) // => 2
     @Test
     public void get() {
         assertEquals(2, U.<Integer>get(asList(1, 2, 3), 1).intValue());
-        assertEquals(2, new U<Integer>(asList(1, 2, 3)).get(1).intValue());
+        assertEquals(2, new U<>(asList(1, 2, 3)).get(1).intValue());
     }
 
 /*
@@ -282,7 +282,7 @@ _.set(arr, 1, 100) // => 2
         Tuple<Integer, List<Integer>> result = U.<Integer>set(asList(1, 2, 3), 1, 100);
         assertEquals(2, result.fst().intValue());
         assertEquals(100, U.<Integer>get(result.snd(), 1).intValue());
-        Tuple<Integer, List<Integer>> result2 = new U<Integer>(asList(1, 2, 3)).set(2, 200);
+        Tuple<Integer, List<Integer>> result2 = new U<>(asList(1, 2, 3)).set(2, 200);
         assertEquals(3, result2.fst().intValue());
         assertEquals(200, result2.snd().get(2).intValue());
     }
@@ -304,9 +304,9 @@ _.elementAtOrElse(arr, 3, 0) // => 0
     @Test
     public void elementAtOrElse() {
         assertEquals(2, U.<Integer>elementAtOrElse(asList(1, 2, 3), 1, 0).intValue());
-        assertEquals(2, new U<Integer>(asList(1, 2, 3)).elementAtOrElse(1, 0).intValue());
+        assertEquals(2, new U<>(asList(1, 2, 3)).elementAtOrElse(1, 0).intValue());
         assertEquals(0, U.<Integer>elementAtOrElse(asList(1, 2, 3), 3, 0).intValue());
-        assertEquals(0, new U<Integer>(asList(1, 2, 3)).elementAtOrElse(3, 0).intValue());
+        assertEquals(0, new U<>(asList(1, 2, 3)).elementAtOrElse(3, 0).intValue());
     }
 
 /*
@@ -317,9 +317,9 @@ _.elementAtOrNull(arr, 3) // => null
     @Test
     public void elementAtOrNull() {
         assertEquals(2, U.<Integer>elementAtOrNull(asList(1, 2, 3), 1).intValue());
-        assertEquals(2, new U<Integer>(asList(1, 2, 3)).elementAtOrNull(1).intValue());
+        assertEquals(2, new U<>(asList(1, 2, 3)).elementAtOrNull(1).intValue());
         assertNull(U.<Integer>elementAtOrNull(asList(1, 2, 3), 3));
-        assertNull(new U<Integer>(asList(1, 2, 3)).elementAtOrNull(3));
+        assertNull(new U<>(asList(1, 2, 3)).elementAtOrNull(3));
     }
 
 /*
@@ -593,7 +593,7 @@ _.elementAtOrNull(arr, 3) // => null
         List<Map<String, Object>> result = (List<Map<String, Object>>) U.chain(asList(strings))
             .map(
                     item -> {
-                        Map<String, Object> resultItem = new LinkedHashMap<String, Object>();
+                        Map<String, Object> resultItem = new LinkedHashMap<>();
                         resultItem.put("string", item);
                         resultItem.put("longestWord", U.chain(asList(item.split("\\s+"))).map(
                                 item1 -> item1.length())

@@ -151,7 +151,7 @@ _.times(3, function(n){ genie.grantWishNumber(n); });
 */
     @Test
     public void times() {
-        final List<Integer> result = new ArrayList<Integer>();
+        final List<Integer> result = new ArrayList<>();
         U.times(3, () -> result.add(1));
         assertEquals("[1, 1, 1]", result.toString());
     }
@@ -301,13 +301,13 @@ var fortmatted = _.format("hello: {}", "moe");
 
     @Test
     public void minimumDays() {
-        List<List<Integer>> ll = new ArrayList<List<Integer>>();
+        List<List<Integer>> ll = new ArrayList<>();
         ll.add(Arrays.asList(1, 1, 1, 1, 1));
         ll.add(Arrays.asList(1, 1, 1, 0, 1));
         ll.add(Arrays.asList(1, 0, 1, 1, 1));
         ll.add(Arrays.asList(1, 1, 1, 1, 1));
         assertEquals(1, U.minimumDays(4, 5, ll));
-        List<List<Integer>> ll2 = new ArrayList<List<Integer>>();
+        List<List<Integer>> ll2 = new ArrayList<>();
         ll2.add(Arrays.asList(0, 0, 0, 0, 0));
         ll2.add(Arrays.asList(0, 0, 0, 0, 0));
         ll2.add(Arrays.asList(0, 0, 0, 0, 0));

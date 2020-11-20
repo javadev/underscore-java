@@ -314,7 +314,7 @@ _.chain(doctors)
             .reduce((BiFunction<List<String>, Method, List<String>>) (accum, method) -> {
                 accum.add(method.getName());
                 return accum;
-            }, new ArrayList<String>()).item())
+            }, new ArrayList<>()).item())
             .reject(name -> name.contains("$"))
             .uniq()
             .sort()
@@ -364,7 +364,7 @@ var sum = _(words)
             .reduce((BiFunction<List<String>, Method, List<String>>) (accum, method) -> {
                 accum.add(method.getName());
                 return accum;
-            }, new ArrayList<String>()).item())
+            }, new ArrayList<>()).item())
             .filterFalse(name -> name.contains("$"))
             .uniq()
             .sort()

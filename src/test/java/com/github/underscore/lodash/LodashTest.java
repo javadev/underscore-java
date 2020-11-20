@@ -56,7 +56,7 @@ _.chunk(['a', 'b', 'c', 'd'], 3);
     @Test
     public void chunk() {
         assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
-        assertEquals("[[a, b], [c, d]]", new U<String>(asList("a", "b", "c", "d")).chunk(2).toString());
+        assertEquals("[[a, b], [c, d]]", new U<>(asList("a", "b", "c", "d")).chunk(2).toString());
         assertEquals("[[a, b], [c, d]]", U.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
         assertEquals("[[a, b, c], [d]]", U.chunk(asList("a", "b", "c", "d"), 3).toString());
     }
@@ -77,10 +77,10 @@ _.drop([1, 2, 3], 0);
     @Test
     public void drop() {
         assertEquals("[2, 3]", U.drop(asList(1, 2, 3)).toString());
-        assertEquals("[2, 3]", new U<Integer>(asList(1, 2, 3)).drop().toString());
+        assertEquals("[2, 3]", new U<>(asList(1, 2, 3)).drop().toString());
         assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).drop().value().toString());
         assertEquals("[3]", U.drop(asList(1, 2, 3), 2).toString());
-        assertEquals("[3]", new U<Integer>(asList(1, 2, 3)).drop(2).toString());
+        assertEquals("[3]", new U<>(asList(1, 2, 3)).drop(2).toString());
         assertEquals("[3]", U.chain(asList(1, 2, 3)).drop(2).value().toString());
         assertEquals("[]", U.drop(asList(1, 2, 3), 5).toString());
         assertEquals("[1, 2, 3]", U.drop(asList(1, 2, 3), 0).toString());
@@ -102,10 +102,10 @@ _.dropRight([1, 2, 3], 0);
     @Test
     public void dropRight() {
         assertEquals("[1, 2]", U.dropRight(asList(1, 2, 3)).toString());
-        assertEquals("[1, 2]", new U<Integer>(asList(1, 2, 3)).dropRight().toString());
+        assertEquals("[1, 2]", new U<>(asList(1, 2, 3)).dropRight().toString());
         assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).dropRight().value().toString());
         assertEquals("[1]", U.dropRight(asList(1, 2, 3), 2).toString());
-        assertEquals("[1]", new U<Integer>(asList(1, 2, 3)).dropRight(2).toString());
+        assertEquals("[1]", new U<>(asList(1, 2, 3)).dropRight(2).toString());
         assertEquals("[1]", U.chain(asList(1, 2, 3)).dropRight(2).value().toString());
         assertEquals("[]", U.dropRight(asList(1, 2, 3), 5).toString());
         assertEquals("[1, 2, 3]", U.dropRight(asList(1, 2, 3), 0).toString());
@@ -120,7 +120,7 @@ _.dropWhile([1, 2, 3], function(n) {
     @Test
     public void dropWhile() {
         assertEquals("[3]", U.dropWhile(asList(1, 2, 3), n -> n < 3).toString());
-        assertEquals("[3]", new U<Integer>(asList(1, 2, 3)).dropWhile(n -> n < 3).toString());
+        assertEquals("[3]", new U<>(asList(1, 2, 3)).dropWhile(n -> n < 3).toString());
         assertEquals("[3]", U.chain(asList(1, 2, 3)).dropWhile(n -> n < 3).value().toString());
     }
 
@@ -147,27 +147,27 @@ _.fill(["test1", "test2", "test3"], "res")
     @Test
     public void fill() {
         assertEquals("[2, 2, 2]", U.fill(new ArrayList<Number>(Collections.nCopies(3, 0)), 2).toString());
-        List<Object> array = new ArrayList<Object>(asList(4, 6, 8));
+        List<Object> array = new ArrayList<>(asList(4, 6, 8));
         U.fill(array, "*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
-        array = new ArrayList<Object>(asList(1, 2, 3));
-        new U<Object>(array).fill("a");
+        array = new ArrayList<>(asList(1, 2, 3));
+        new U<>(array).fill("a");
         assertEquals("[a, a, a]", array.toString());
-        array = new ArrayList<Object>(asList(1, 2, 3));
+        array = new ArrayList<>(asList(1, 2, 3));
         U.chain(array).fill("a");
-        array = new ArrayList<Object>(asList(4, 6, 8));
-        new U<Object>(array).fill("*", 1, 2);
+        array = new ArrayList<>(asList(4, 6, 8));
+        new U<>(array).fill("*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
-        array = new ArrayList<Object>(asList(4, 6, 8));
+        array = new ArrayList<>(asList(4, 6, 8));
         U.chain(array).fill("*", 1, 2);
         assertEquals("[4, *, 8]", array.toString());
-        List<Number> list = new ArrayList<Number>();
+        List<Number> list = new ArrayList<>();
         list.add(1);
         list.add(2);
         list.add(3);
         final List<Number> result1 = U.fill(list, 4);
         assertEquals("[4, 4, 4]", result1.toString());
-        List<String> list1 = new ArrayList<String>();
+        List<String> list1 = new ArrayList<>();
         list1.add("test1");
         list1.add("test1");
         list1.add("test1");
@@ -201,13 +201,13 @@ console.log(array);
 */
     @Test
     public void pull() {
-        List<Object> array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
+        List<Object> array = new ArrayList<>(asList(1, 2, 3, 1, 2, 3));
         U.pull(array, 2, 3);
         assertEquals("[1, 1]", array.toString());
-        array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
-        new U<Object>(array).pull(2, 3);
+        array = new ArrayList<>(asList(1, 2, 3, 1, 2, 3));
+        new U<>(array).pull(2, 3);
         assertEquals("[1, 1]", array.toString());
-        array = new ArrayList<Object>(asList(1, 2, 3, 1, 2, 3));
+        array = new ArrayList<>(asList(1, 2, 3, 1, 2, 3));
         U.chain(array).pull(2, 3);
         assertEquals("[1, 1]", array.toString());
     }
@@ -224,15 +224,15 @@ console.log(evens);
 */
     @Test
     public void pullAt() {
-        List<Object> array = new ArrayList<Object>(asList(5, 10, 15, 20));
+        List<Object> array = new ArrayList<>(asList(5, 10, 15, 20));
         List<Object> events = U.pullAt(array, 1, 3);
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
-        array = new ArrayList<Object>(asList(5, 10, 15, 20));
-        events = new U<Object>(array).pullAt(1, 3);
+        array = new ArrayList<>(asList(5, 10, 15, 20));
+        events = new U<>(array).pullAt(1, 3);
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
-        array = new ArrayList<Object>(asList(5, 10, 15, 20));
+        array = new ArrayList<>(asList(5, 10, 15, 20));
         events = U.chain(array).pullAt(1, 3).value();
         assertEquals("[5, 15]", array.toString());
         assertEquals("[10, 20]", events.toString());
@@ -252,15 +252,15 @@ console.log(evens);
 */
     @Test
     public void remove() {
-        List<Integer> array = new ArrayList<Integer>(asList(1, 2, 3, 4));
+        List<Integer> array = new ArrayList<>(asList(1, 2, 3, 4));
         List<Integer> evens = U.remove(array, n -> n % 2 == 0);
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
-        array = new ArrayList<Integer>(asList(1, 2, 3, 4));
-        evens = new U<Integer>(array).remove(n -> n % 2 == 0);
+        array = new ArrayList<>(asList(1, 2, 3, 4));
+        evens = new U<>(array).remove(n -> n % 2 == 0);
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
-        array = new ArrayList<Integer>(asList(1, 2, 3, 4));
+        array = new ArrayList<>(asList(1, 2, 3, 4));
         evens = U.chain(array).remove(n -> n % 2 == 0).value();
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
@@ -282,10 +282,10 @@ _.take([1, 2, 3], 0);
     @Test
     public void take() {
         assertEquals("[1]", U.take(asList(1, 2, 3)).toString());
-        assertEquals("[1]", new U<Integer>(asList(1, 2, 3)).take().toString());
+        assertEquals("[1]", new U<>(asList(1, 2, 3)).take().toString());
         assertEquals("[1]", U.chain(asList(1, 2, 3)).take().value().toString());
         assertEquals("[1, 2]", U.take(asList(1, 2, 3), 2).toString());
-        assertEquals("[1, 2]", new U<Integer>(asList(1, 2, 3)).take(2).toString());
+        assertEquals("[1, 2]", new U<>(asList(1, 2, 3)).take(2).toString());
         assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).take(2).value().toString());
         assertEquals("[1, 2, 3]", U.take(asList(1, 2, 3), 5).toString());
         assertEquals("[]", U.take(asList(1, 2, 3), 0).toString());
@@ -307,10 +307,10 @@ _.takeRight([1, 2, 3], 0);
     @Test
     public void takeRight() {
         assertEquals("[3]", U.takeRight(asList(1, 2, 3)).toString());
-        assertEquals("[3]", new U<Integer>(asList(1, 2, 3)).takeRight().toString());
+        assertEquals("[3]", new U<>(asList(1, 2, 3)).takeRight().toString());
         assertEquals("[3]", U.chain(asList(1, 2, 3)).takeRight().value().toString());
         assertEquals("[2, 3]", U.takeRight(asList(1, 2, 3), 2).toString());
-        assertEquals("[2, 3]", new U<Integer>(asList(1, 2, 3)).takeRight(2).toString());
+        assertEquals("[2, 3]", new U<>(asList(1, 2, 3)).takeRight(2).toString());
         assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).takeRight(2).value().toString());
         assertEquals("[1, 2, 3]", U.takeRight(asList(1, 2, 3), 5).toString());
         assertEquals("[]", U.takeRight(asList(1, 2, 3), 0).toString());
@@ -325,7 +325,7 @@ _.takeWhile([1, 2, 3], function(n) {
     @Test
     public void takeWhile() {
         assertEquals("[1, 2]", U.takeWhile(asList(1, 2, 3), n -> n < 3).toString());
-        assertEquals("[1, 2]", new U<Integer>(asList(1, 2, 3)).takeWhile(n -> n < 3).toString());
+        assertEquals("[1, 2]", new U<>(asList(1, 2, 3)).takeWhile(n -> n < 3).toString());
         assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).takeWhile(n -> n < 3).value().toString());
     }
 
@@ -338,7 +338,7 @@ _.takeRightWhile([1, 2, 3], function(n) {
     @Test
     public void takeRightWhile() {
         assertEquals("[2, 3]", U.takeRightWhile(asList(1, 2, 3), n -> n > 1).toString());
-        assertEquals("[2, 3]", new U<Integer>(asList(1, 2, 3)).takeRightWhile(n -> n > 1).toString());
+        assertEquals("[2, 3]", new U<>(asList(1, 2, 3)).takeRightWhile(n -> n > 1).toString());
         assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).takeRightWhile(n -> n > 1).value().toString());
     }
 
@@ -350,7 +350,7 @@ _.xor([1, 2], [4, 2]);
     @Test
     public void xor() {
         assertEquals("[1, 4]", U.xor(asList(1, 2), asList(4, 2)).toString());
-        assertEquals("[1, 4]", new U<Integer>(asList(1, 2)).xor(asList(4, 2)).toString());
+        assertEquals("[1, 4]", new U<>(asList(1, 2)).xor(asList(4, 2)).toString());
         assertEquals("[1, 4]", U.chain(asList(1, 2)).xor(asList(4, 2)).value().toString());
     }
 
@@ -362,7 +362,7 @@ _.at(['a', 'b', 'c'], 0, 2);
     @Test
     public void at() {
         assertEquals("[a, c]", U.at(asList("a", "b", "c"), 0, 2).toString());
-        assertEquals("[a, c]", new U<String>(asList("a", "b", "c")).at(0, 2).toString());
+        assertEquals("[a, c]", new U<>(asList("a", "b", "c")).at(0, 2).toString());
         assertEquals("[a, c]", U.chain(asList("a", "b", "c")).at(0, 2).value().toString());
     }
 

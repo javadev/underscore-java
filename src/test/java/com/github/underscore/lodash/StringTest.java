@@ -714,14 +714,14 @@ _.repeat('abc', 0);
         assertEquals("[\n  \"Hello\"\n]", builder.toString());
 
         builder = new JsonStringBuilder();
-        Json.JsonArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
+        Json.JsonArray.writeJson(new Object[] { "Hello", 12, new int[] { 1, 2, 3} }, builder);
         assertEquals("[\n  \"Hello\",\n  12,\n  [\n    1,\n    2,\n    3\n  ]\n]", builder.toString());
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void toJsonFromList() {
-        final List<String> testList = new ArrayList<String>();
+        final List<String> testList = new ArrayList<>();
         testList.add("First item");
         testList.add("Second item");
 
@@ -736,14 +736,14 @@ _.repeat('abc', 0);
 
     @Test
     public void toJsonFromMap() {
-        final Map<String, String> testMap = new LinkedHashMap<String, String>();
+        final Map<String, String> testMap = new LinkedHashMap<>();
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
 
-        final Map<String, String> testMap2 = new LinkedHashMap<String, String>();
+        final Map<String, String> testMap2 = new LinkedHashMap<>();
         testMap2.put("", "1");
 
-        final Map<String, String> testMap3 = new LinkedHashMap<String, String>();
+        final Map<String, String> testMap3 = new LinkedHashMap<>();
         testMap3.put("__FA", "1");
 
         assertEquals("{\n  \"First item\": \"1\",\n  \"Second item\": \"2\"\n}", U.toJson(testMap));
@@ -818,7 +818,7 @@ _.repeat('abc', 0);
     @Test
     public void testDecodeMap3() {
         // http://stackoverflow.com/questions/12155800/how-to-convert-hashmap-to-json-object-in-java
-        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put("1", "a");
         map.put("2", "b");
         assertEquals("{\n  \"1\": \"a\",\n  \"2\": \"b\"\n}", U.toJson(map));
@@ -829,10 +829,10 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void testDecodeTrueFalse() {
-        List<Object> array1 = new ArrayList<Object>();
+        List<Object> array1 = new ArrayList<>();
         array1.add("abc\u0010a/");
-        array1.add(Integer.valueOf(123));
-        array1.add(Double.valueOf(222.123));
+        array1.add(123);
+        array1.add(222.123);
         array1.add(Boolean.TRUE);
         array1.add(Boolean.FALSE);
         assertEquals("[\n  \"abc\\u0010a/\",\n  123,\n  222.123,\n  true,\n  false\n]", U.toJson(array1));
@@ -1295,7 +1295,7 @@ _.repeat('abc', 0);
             builder.toString());
 
         builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, null, builder, false,
+        Xml.XmlArray.writeXml(new Object[] { "Hello", 12, new int[] { 1, 2, 3} }, null, builder, false,
             Collections.<String>emptySet());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n"
             + "  <element number=\"true\">12</element>\n  <element>\n    <element>1</element>\n    "
@@ -1312,7 +1312,7 @@ _.repeat('abc', 0);
 
     @Test
     public void toXmlFromList() {
-        final List<String> testList = new ArrayList<String>();
+        final List<String> testList = new ArrayList<>();
         testList.add("First item");
         testList.add("Second item");
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
@@ -1320,7 +1320,7 @@ _.repeat('abc', 0);
             U.toXml(testList));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
-            new U<String>(testList).toXml());
+                new U<>(testList).toXml());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
             U.chain(testList).toXml().item());
@@ -1336,17 +1336,17 @@ _.repeat('abc', 0);
 
     @Test
     public void toXmlFromMap() {
-        final Map<String, String> testMap = new LinkedHashMap<String, String>();
+        final Map<String, String> testMap = new LinkedHashMap<>();
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
 
-        final Map<String, List<String>> testMap2 = new LinkedHashMap<String, List<String>>();
-        testMap2.put("item", new ArrayList<String>());
+        final Map<String, List<String>> testMap2 = new LinkedHashMap<>();
+        testMap2.put("item", new ArrayList<>());
 
-        final Map<String, String> testMap3 = new LinkedHashMap<String, String>();
+        final Map<String, String> testMap3 = new LinkedHashMap<>();
         testMap3.put("", "1");
 
-        final Map<String, String> testMap4 = new LinkedHashMap<String, String>();
+        final Map<String, String> testMap4 = new LinkedHashMap<>();
         testMap4.put("#comment", "1");
         testMap4.put("-a", "1");
         testMap4.put("b", "1");
@@ -1370,7 +1370,7 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toXmlAndFromXmlFromMap() {
-        final Map<String, String> testMap = new LinkedHashMap<String, String>();
+        final Map<String, String> testMap = new LinkedHashMap<>();
         testMap.put("FirstItem", "1");
         testMap.put("SecondItem", "2");
 
@@ -3590,7 +3590,7 @@ _.repeat('abc', 0);
                 + " + \"]\";", builder.toString());
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
-        Json.JsonArray.writeJson(new Object[] { "Hello", Integer.valueOf(12), new int[] { 1, 2, 3} }, builder);
+        Json.JsonArray.writeJson(new Object[] { "Hello", 12, new int[] { 1, 2, 3} }, builder);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"Hello\\\",\\n\"\n"
                 + " + \"  12,\\n\"\n"
@@ -3605,7 +3605,7 @@ _.repeat('abc', 0);
     @SuppressWarnings("unchecked")
     @Test
     public void toJsonJavaFromList() {
-        final List<String> testList = new ArrayList<String>();
+        final List<String> testList = new ArrayList<>();
         testList.add("First item");
         testList.add("Second item");
 
@@ -3616,7 +3616,7 @@ _.repeat('abc', 0);
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"First item\\\",\\n\"\n"
                 + " + \"  \\\"Second item\\\"\\n\"\n"
-                + " + \"]\";", new U<String>(testList).toJsonJavaString());
+                + " + \"]\";", new U<>(testList).toJsonJavaString());
         assertEquals("\"[\\n\"\n"
                 + " + \"  \\\"First item\\\",\\n\"\n"
                 + " + \"  \\\"Second item\\\"\\n\"\n"
@@ -3637,7 +3637,7 @@ _.repeat('abc', 0);
 
     @Test
     public void toJsonJavaFromMap() {
-        final Map<String, String> testMap = new LinkedHashMap<String, String>();
+        final Map<String, String> testMap = new LinkedHashMap<>();
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
 
@@ -3692,9 +3692,9 @@ _.repeat('abc', 0);
     @Test
     public void main() {
         U.main(new String[] {});
-        new U<String>(new ArrayList<String>());
+        new U<>(new ArrayList<>());
         new U<String>("");
-        new U<Object>(Arrays.<Object>asList()).chain();
+        new U<>(Arrays.<Object>asList()).chain();
         new Json.JsonArray();
         new Json.JsonValue();
         new Json.JsonObject();

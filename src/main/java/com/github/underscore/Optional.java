@@ -1,5 +1,6 @@
 package com.github.underscore;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -20,12 +21,12 @@ public final class Optional<T> {
     }
 
     public static <T> Optional<T> of(final T arg) {
-        return new Optional<T>(arg);
+        return new Optional<>(arg);
     }
 
     public static <T> Optional<T> fromNullable(final T nullableReference) {
         return nullableReference == null ? Optional.<T>absent()
-            : new Optional<T>(nullableReference);
+            : new Optional<>(nullableReference);
     }
 
     @SuppressWarnings("unchecked")
@@ -100,7 +101,7 @@ public final class Optional<T> {
 
         final Optional optional = (Optional) o;
 
-        return absent == optional.absent && !(arg == null ? optional.arg != null : !arg.equals(optional.arg));
+        return absent == optional.absent && !(!Objects.equals(arg, optional.arg));
     }
 
     @Override

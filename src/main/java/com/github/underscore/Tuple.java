@@ -11,7 +11,7 @@ public class Tuple<A, B> {
     }
 
     public static <A, B> Tuple<A, B> create(final A a, final B b) {
-        return new Tuple<A, B>(a, b);
+        return new Tuple<>(a, b);
     }
 
     public A fst() {
