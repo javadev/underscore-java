@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;

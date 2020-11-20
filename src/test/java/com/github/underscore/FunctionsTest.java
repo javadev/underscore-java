@@ -23,14 +23,18 @@
  */
 package com.github.underscore;
 
-import java.util.*;
-import java.util.concurrent.Callable;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import org.junit.Test;
+
 import static java.util.Arrays.asList;
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;

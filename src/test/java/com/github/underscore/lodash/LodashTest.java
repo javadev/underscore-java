@@ -23,19 +23,21 @@
  */
 package com.github.underscore.lodash;
 
-import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
-import java.util.*;
 import org.junit.Test;
-import java.util.function.BinaryOperator;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
+
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * Underscore library unit test.

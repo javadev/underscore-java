@@ -23,12 +23,16 @@
  */
 package com.github.underscore.lodash;
 
+import org.junit.Test;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.function.Function;
-import java.util.function.Predicate;
-import org.junit.Test;
+
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
