@@ -44,17 +44,9 @@ public class MathTest {
     public void average() {
         final Double result = U.average(asList((byte) 1, (byte) 2, (byte) 3));
         assertEquals("2.0", result.toString());
-        final Double resultFunc = U.average(asList((byte) 1, (byte) 2, (byte) 3), new Function<Byte, Byte>() {
-            public Byte apply(final Byte item) {
-                return (byte) (item * 2);
-            }
-        });
+        final Double resultFunc = U.average(asList((byte) 1, (byte) 2, (byte) 3), item -> (byte) (item * 2));
         assertEquals("4.0", resultFunc.toString());
-        final Double resultFunc2 = U.average(asList((Byte) null), new Function<Byte, Byte>() {
-            public Byte apply(final Byte item) {
-                return item;
-            }
-        });
+        final Double resultFunc2 = U.average(asList((Byte) null), item -> item);
         assertNull(resultFunc2);
         assertEquals("2.0", result.toString());
     }
@@ -180,11 +172,7 @@ _.sum([-1, -2, -3]);
     public void sum() {
         final Byte result = U.sum(asList((byte) 1, (byte) 2, (byte) 3));
         assertEquals("6", result.toString());
-        final Byte resultFunc = U.sum(asList((byte) 1, (byte) 2, (byte) 3), new Function<Byte, Byte>() {
-            public Byte apply(final Byte item) {
-                return (byte) (item * 2);
-            }
-        });
+        final Byte resultFunc = U.sum(asList((byte) 1, (byte) 2, (byte) 3), item -> (byte) (item * 2));
         assertEquals("12", resultFunc.toString());
         final Double result2 = U.sum(asList((double) 1, (double) 2, (double) 3));
         assertEquals("6.0", result2.toString());
@@ -231,19 +219,12 @@ _.sum([-1, -2, -3]);
         final Integer result21 = U.sum(new Integer[] {1, 2, null});
         assertEquals("3", result21.toString());
         final Integer resultChainFunc = (Integer) U.chain(asList((int) 1, (int) 2, (int) 3)).sum(
-            new Function<Integer, Integer>() {
-            public Integer apply(final Integer item) {
-                return item * 2;
-            }
-        }).item();
+                item -> item * 2).item();
         assertEquals("12", resultChainFunc.toString());
         final Number resultObj = new U(asList((int) 1, (int) 2, (int) 3)).sum();
         assertEquals("6", resultObj.toString());
-        final Number resultObjFunc = new U(asList((byte) 1, (byte) 2, (byte) 3)).sum(new Function<Number, Number>() {
-            public Number apply(final Number item) {
-                return item.intValue() * 2;
-            }
-        });
+        final Number resultObjFunc = new U(asList((byte) 1, (byte) 2, (byte) 3)).sum(
+                (Function<Number, Number>) item -> item.intValue() * 2);
         assertEquals("12", resultObjFunc.toString());
     }
 
@@ -383,8 +364,8 @@ System.out.println("Sum of letters in words starting with E... " + sum);
 */
         String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum = (Integer) U.chain(asList(words))
-            .filter(new Predicate<String>() { public boolean test(String item) { return item.startsWith("E"); } })
-            .map(new Function<String, Integer>() { public Integer apply(String item) { return item.length(); } })
+            .filter(item -> item.startsWith("E"))
+            .map(item -> item.length())
             .sum().item();
         assertEquals(34, sum);
     }

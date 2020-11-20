@@ -64,11 +64,7 @@ public class UnderscoreTest {
         assertEquals("[example, some, words]", new U(asList("some", "words", "example")).sort().toString());
         assertEquals("[example, some, words]", U.chain(asList("some", "words", "example")).sort().value().toString());
         assertEquals("[4, 5, 7]", U.chain(asList("some", "words", "example"))
-            .map(new Function<String, Integer>() {
-                public Integer apply(String arg) {
-                    return arg.length();
-                }
-            }).sort().value().toString());
+            .map(arg -> arg.length()).sort().value().toString());
         assertEquals("[example, some, words]", asList(U.sort(new String[] {"some", "words", "example"})).toString());
     }
 
@@ -345,37 +341,25 @@ _.elementAtOrNull(arr, 3) // => null
     @Test
     public void findLastWithCustomIterable() {
         final int[] array = new int[] {1, 2, 3, 4, 5, 6};
-        Iterable<Integer> iterable = new Iterable<Integer>() {
-            public Iterator<Integer> iterator() {
-                return new Iterator<Integer>() {
-                    private int index;
-                    public boolean hasNext() {
-                        return array.length > index;
-                    }
-                    public Integer next() {
-                        return array[index++];
-                    }
-                    public void remove() {
-                    }
-                };
+        Iterable<Integer> iterable = () -> new Iterator<Integer>() {
+            private int index;
+            public boolean hasNext() {
+                return array.length > index;
+            }
+            public Integer next() {
+                return array[index++];
+            }
+            public void remove() {
             }
         };
         final Optional<Integer> result = U.findLast(iterable,
-            new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+                item -> item % 2 == 0);
         assertEquals("Optional.of(6)", result.toString());
     }
 
     @Test
     public void iterate() {
-        Iterable<long[]> iterable = U.<long[]>iterate(new long[] {1, 1}, new UnaryOperator<long[]>() {
-                public long[] apply(long[] arg) {
-                    return new long[] {arg[1], arg[0] + arg[1]};
-                }
-            });
+        Iterable<long[]> iterable = U.<long[]>iterate(new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
         iterable.iterator().remove();
         assertTrue(iterable.iterator().hasNext());
         assertArrayEquals(new long[] {1, 1}, iterable.iterator().next());
@@ -384,11 +368,7 @@ _.elementAtOrNull(arr, 3) // => null
 
     @Test
     public void iterateChain() {
-        Iterable<long[]> iterable = U.<long[]>iterate(new long[] {1, 1}, new UnaryOperator<long[]>() {
-                public long[] apply(long[] arg) {
-                    return new long[] {arg[1], arg[0] + arg[1]};
-                }
-            });
+        Iterable<long[]> iterable = U.<long[]>iterate(new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
         assertEquals(1L, U.chain(iterable, 5).first().item()[0]);
         U.of(iterable, 5);
         class MyIterable<T> implements Iterable<T> {
@@ -437,64 +417,28 @@ _.elementAtOrNull(arr, 3) // => null
         assertEquals("1", Optional.of(1).or(2).toString());
         assertEquals(null, Optional.absent().orNull());
         assertEquals("1", Optional.of(1).orNull().toString());
-        assertFalse(Optional.<Integer>absent().map(new Function<Integer, String>() {
-                public String apply(Integer arg) {
-                    return "" + arg;
-                }
-            }).isPresent());
-        assertTrue(Optional.<Integer>absent().map(new Function<Integer, String>() {
-                public String apply(Integer arg) {
-                    return "" + arg;
-                }
-            }).isEmpty());
-        assertEquals("1", Optional.of(1).map(new Function<Integer, String>() {
-                public String apply(Integer arg) {
-                    return "" + arg;
-                }
-            }).get().toString());
+        assertFalse(Optional.<Integer>absent().map(arg -> "" + arg).isPresent());
+        assertTrue(Optional.<Integer>absent().map(arg -> "" + arg).isEmpty());
+        assertEquals("1", Optional.of(1).map(arg -> "" + arg).get().toString());
         try {
             Optional.absent().get();
             fail("IllegalStateException expected");
         } catch (IllegalStateException ex) {
         }
-        assertFalse(Optional.<Integer>absent().filter(new Predicate<Integer>() {
-                public boolean test(Integer arg) {
-                    return true;
-                }
-            }).isPresent());
-        assertTrue(Optional.<Integer>absent().filter(new Predicate<Integer>() {
-                public boolean test(Integer arg) {
-                    return false;
-                }
-            }).isEmpty());
-        assertEquals("1", Optional.of(1).filter(new Predicate<Integer>() {
-                public boolean test(Integer arg) {
-                    return true;
-                }
-            }).get().toString());
-        assertTrue("1", Optional.of(1).filter(new Predicate<Integer>() {
-                public boolean test(Integer arg) {
-                    return false;
-                }
-            }).isEmpty());
+        assertFalse(Optional.<Integer>absent().filter(arg -> true).isPresent());
+        assertTrue(Optional.<Integer>absent().filter(arg -> false).isEmpty());
+        assertEquals("1", Optional.of(1).filter(arg -> true).get().toString());
+        assertTrue("1", Optional.of(1).filter(arg -> false).isEmpty());
     }
 
     @Test(expected = Exception.class)
     public void optionalOrThrow() throws RuntimeException {
-        Optional.absent().orThrow(new Supplier<RuntimeException>() {
-            public RuntimeException get() {
-                return new RuntimeException();
-            }
-        });
+        Optional.absent().orThrow(() -> new RuntimeException());
     }
 
     @Test
     public void optionalOrThrowWithValue() {
-        assertEquals("1", Optional.of(1).orThrow(new Supplier<RuntimeException>() {
-            public RuntimeException get() {
-                return new RuntimeException();
-            }
-        }).toString());
+        assertEquals("1", Optional.of(1).orThrow(() -> new RuntimeException()).toString());
     }
 
     @Test(expected = NullPointerException.class)
@@ -542,24 +486,9 @@ _.elementAtOrNull(arr, 3) // => null
     @SuppressWarnings("unchecked")
     public void and() {
         Predicate<Integer> predicate = U.and(
-            new Predicate<Object>() {
-                @Override
-                public boolean test(Object value) {
-                    return value != null;
-                }
-            },
-            new Predicate<Number>() {
-                @Override
-                public boolean test(Number value) {
-                    return value.intValue() > 0;
-                }
-            },
-            new Predicate<Integer>() {
-                @Override
-                public boolean test(Integer value) {
-                    return (50 <= value) && (value <= 60);
-                }
-            });
+                (Predicate<Object>) value -> value != null,
+                (Predicate<Number>) value -> value.intValue() > 0,
+                (Predicate<Integer>) value -> (50 <= value) && (value <= 60));
         assertTrue(predicate.test(50));
         assertFalse(predicate.test(null));
         assertFalse(predicate.test(-56));
@@ -572,24 +501,9 @@ _.elementAtOrNull(arr, 3) // => null
     @SuppressWarnings("unchecked")
     public void or() {
         Predicate<Integer> predicate = U.or(
-            new Predicate<Object>() {
-                @Override
-                public boolean test(Object value) {
-                    return value == null;
-                }
-            },
-            new Predicate<Number>() {
-                @Override
-                public boolean test(Number value) {
-                    return value.intValue() > 2000;
-                }
-            },
-            new Predicate<Integer>() {
-                @Override
-                public boolean test(Integer value) {
-                    return (50 <= value) && (value <= 60);
-                }
-            });
+                (Predicate<Object>) value -> value == null,
+                (Predicate<Number>) value -> value.intValue() > 2000,
+                (Predicate<Integer>) value -> (50 <= value) && (value <= 60));
         assertTrue(predicate.test(50));
         assertTrue(predicate.test(55));
         assertTrue(predicate.test(60));
@@ -607,11 +521,7 @@ _.elementAtOrNull(arr, 3) // => null
             put("B", 67.4);
             put("C", 67.4);
             put("D", 67.3);
-        } }).entrySet()).sortBy(new Function<Map.Entry<String, Double>, Double>() {
-            public Double apply(Map.Entry<String, Double> item) {
-                return item.getValue();
-            }
-        }).toMap().item().toString());
+        } }).entrySet()).sortBy(item -> item.getValue()).toMap().item().toString());
     }
 
     @Test
@@ -624,11 +534,7 @@ _.elementAtOrNull(arr, 3) // => null
             put("d", 2);
             put("e", 3);
             put("f", 5);
-        } }).entrySet()).sortBy(new Function<Map.Entry<String, Integer>, Integer>() {
-            public Integer apply(Map.Entry<String, Integer> item) {
-                return -item.getValue();
-            }
-        }).toMap().item().toString());
+        } }).entrySet()).sortBy(item -> -item.getValue()).toMap().item().toString());
     }
 
     @Test
@@ -638,11 +544,7 @@ _.elementAtOrNull(arr, 3) // => null
             put("A", 34);
             put("B", 25);
             put("C", 50);
-        } }).entrySet()).sortBy(new Function<Map.Entry<String, Integer>, Integer>() {
-            public Integer apply(Map.Entry<String, Integer> item) {
-                return -item.getValue();
-            }
-        }).toMap().item().toString());
+        } }).entrySet()).sortBy(item -> -item.getValue()).toMap().item().toString());
     }
 
     @Test
@@ -693,25 +595,15 @@ _.elementAtOrNull(arr, 3) // => null
         };
         List<Map<String, Object>> result = (List<Map<String, Object>>) U.chain(asList(strings))
             .map(
-                new Function<String, Map<String, Object>>() {
-                public Map<String, Object> apply(String item) {
-                    Map<String, Object> resultItem = new LinkedHashMap<String, Object>();
-                    resultItem.put("string", item);
-                    resultItem.put("longestWord", U.chain(asList(item.split("\\s+"))).map(
-                        new Function<String, Integer>() {
-                            public Integer apply(String item) {
-                                return item.length();
-                            }
-                        })
-                        .max().item());
-                    return resultItem;
-                }
-            })
-            .sortBy(new Function<Map<String, Object>, Integer>() {
-                public Integer apply(Map<String, Object> item) {
-                    return -((Integer) item.get("longestWord"));
-                }
-            })
+                    item -> {
+                        Map<String, Object> resultItem = new LinkedHashMap<String, Object>();
+                        resultItem.put("string", item);
+                        resultItem.put("longestWord", U.chain(asList(item.split("\\s+"))).map(
+                                item1 -> item1.length())
+                            .max().item());
+                        return resultItem;
+                    })
+            .sortBy(item -> -((Integer) item.get("longestWord")))
             .limit(5)
             .value();
         assertEquals("[{string=Aliens are watching up in the sky, longestWord=8}, "

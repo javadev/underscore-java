@@ -29,7 +29,7 @@ public final class Optional<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static<T> Optional<T> absent() {
+    public static <T> Optional<T> absent() {
         return (Optional<T>) EMPTY;
     }
 

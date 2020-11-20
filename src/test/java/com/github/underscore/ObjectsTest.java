@@ -122,8 +122,7 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
         assertEquals("[(name, moe), (age, 50)]", result.toString());
         final List<Tuple<String, Object>> result2 = U.pick(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
-            new Predicate<Object>() { public boolean test(Object value) {
-                return value instanceof Number; } }
+                value -> value instanceof Number
         );
         assertEquals("[(age, 50)]", result2.toString());
     }
@@ -145,8 +144,7 @@ _.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
         assertEquals("[(name, moe), (age, 50)]", result.toString());
         final List<Tuple<String, Object>> result2 = U.omit(
             new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 50); put("userid", "moe1"); } },
-            new Predicate<Object>() { public boolean test(Object value) {
-                return value instanceof Number; } }
+                value -> value instanceof Number
         );
         assertEquals("[(name, moe), (userid, moe1)]", result2.toString());
     }
@@ -322,9 +320,7 @@ _.isFunction(alert);
 */
     @Test
     public void isFunction() {
-        assertTrue(U.isFunction(new Function<String, Integer>() {
-            public Integer apply(final String arg) {
-                return null; } }));
+        assertTrue(U.isFunction((Function<String, Integer>) arg -> null));
     }
 
 /*
@@ -384,19 +380,11 @@ _.chain([1,2,3,200])
     public void tap() {
         final List<Map.Entry<String, Integer>> result = new ArrayList<Map.Entry<String, Integer>>();
         U.tap((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet(),
-            new Consumer<Map.Entry<String, Integer>>() {
-                public void accept(final Map.Entry<String, Integer> item) {
-                    result.add(item);
-                }
-            });
+                item -> result.add(item));
         assertEquals("[a=1, b=2, c=3]", result.toString());
         final List<Map.Entry<String, Integer>> resultChain = new ArrayList<Map.Entry<String, Integer>>();
         U.chain((new LinkedHashMap<String, Integer>() { { put("a", 1); put("b", 2); put("c", 3); } }).entrySet())
-            .tap(new Consumer<Map.Entry<String, Integer>>() {
-                public void accept(final Map.Entry<String, Integer> item) {
-                    resultChain.add(item);
-                }
-            });
+            .tap(item -> resultChain.add(item));
         assertEquals("[a=1, b=2, c=3]", resultChain.toString());
     }
 
@@ -453,23 +441,11 @@ _.findKey([1, 2, 3], function(item) {return item % 2  === 0; });
 */
     @Test
     public void findKey() {
-        final Integer result = U.findKey(asList(1, 2, 3), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final Integer result = U.findKey(asList(1, 2, 3), item -> item % 2 == 0);
         assertEquals(2, result.intValue());
-        final Integer resultNotFound = U.findKey(asList(1, 2, 3), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item > 3;
-            }
-        });
+        final Integer resultNotFound = U.findKey(asList(1, 2, 3), item -> item > 3);
         assertNull(resultNotFound);
-        final Integer resultArray = U.findKey(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final Integer resultArray = U.findKey(new Integer[] {1, 2, 3}, item -> item % 2 == 0);
         assertEquals(2, resultArray.intValue());
     }
 
@@ -479,23 +455,11 @@ _.findLastKey([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
 */
     @Test
     public void findLastKey() {
-        final Integer result = U.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final Integer result = U.findLastKey(asList(1, 2, 3, 4, 5), item -> item % 2 == 0);
         assertEquals(4, result.intValue());
-        final Integer resultNotFound = U.findLastKey(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item > 5;
-            }
-        });
+        final Integer resultNotFound = U.findLastKey(asList(1, 2, 3, 4, 5), item -> item > 5);
         assertNull(resultNotFound);
-        final Integer resultArray = U.findLastKey(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final Integer resultArray = U.findLastKey(new Integer[] {1, 2, 3, 4, 5}, item -> item % 2 == 0);
         assertEquals(4, resultArray.intValue());
     }
 
@@ -519,11 +483,7 @@ _.mapObject({start: 5, end: 12}, function(val, key) {
     @Test
     public void mapObject() {
         List<Tuple<String, Integer>> result = U.mapObject(new LinkedHashMap<String, Integer>() { {
-            put("start", 5); put("end", 12); } }, new Function<Integer, Integer>() {
-            public Integer apply(Integer item) {
-                return item + 5;
-            }
-        });
+            put("start", 5); put("end", 12); } }, item -> item + 5);
         assertEquals("[(start, 10), (end, 17)]", result.toString());
     }
 

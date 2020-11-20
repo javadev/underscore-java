@@ -64,17 +64,9 @@ var youngest = _.chain(stooges)
         } };
         final String youngest = U.chain(stooges)
             .sortBy(
-                new Function<Map<String, Object>, Integer>() {
-                public Integer apply(Map<String, Object> item) {
-                    return (Integer) item.get("age");
-                }
-            })
+                    item -> (Integer) item.get("age"))
             .map(
-                new Function<Map<String, Object>, String>() {
-                public String apply(Map<String, Object> item) {
-                    return item.get("name") + " is " + item.get("age");
-                }
-            })
+                    item -> item.get("name") + " is " + item.get("age"))
             .first().item();
         assertEquals("moe is 21", youngest);
         U.of(stooges);
@@ -89,17 +81,9 @@ var youngest = _.chain(stooges)
         } };
         final String youngest = U.chain(stooges)
             .sortBy(
-                new Function<Map<String, Object>, Integer>() {
-                public Integer apply(Map<String, Object> item) {
-                    return (Integer) item.get("age");
-                }
-            })
+                    item -> (Integer) item.get("age"))
             .map(
-                new Function<Map<String, Object>, String>() {
-                public String apply(Map<String, Object> item) {
-                    return item.get("name") + " is " + item.get("age");
-                }
-            })
+                    item -> item.get("name") + " is " + item.get("age"))
             .first().item();
         assertEquals("moe is 21", youngest);
         U.of(stooges);
@@ -115,17 +99,9 @@ var youngest = _.chain(stooges)
         } };
         final String youngest = new U(stooges).chain()
             .sortBy(
-                new Function<Map<String, Object>, Integer>() {
-                public Integer apply(Map<String, Object> item) {
-                    return (Integer) item.get("age");
-                }
-            })
+                    (Function<Map<String, Object>, Integer>) item -> (Integer) item.get("age"))
             .map(
-                new Function<Map<String, Object>, String>() {
-                public String apply(Map<String, Object> item) {
-                    return item.get("name") + " is " + item.get("age");
-                }
-            })
+                    (Function<Map<String, Object>, String>) item -> item.get("name") + " is " + item.get("age"))
             .first().item().toString();
         assertEquals("moe is 21", youngest);
         new U(stooges).of();
@@ -140,17 +116,9 @@ var youngest = _.chain(stooges)
         } };
         final String youngest = U.chain(stooges)
             .sortBy(
-                new Function<Map<String, Object>, Integer>() {
-                public Integer apply(Map<String, Object> item) {
-                    return (Integer) item.get("age");
-                }
-            })
+                    item -> (Integer) item.get("age"))
             .map(
-                new Function<Map<String, Object>, String>() {
-                public String apply(Map<String, Object> item) {
-                    return item.get("name") + " is " + item.get("age");
-                }
-            })
+                    item -> item.get("name") + " is " + item.get("age"))
             .first().item();
         assertEquals("moe is 21", youngest);
         assertEquals("[1, 2, 3]", U.chain(new int[] {1, 2, 3}).toString());
@@ -191,23 +159,17 @@ _.chain(lyrics)
         } };
         final String result = U.chain(lyrics)
             .map(
-                new Function<Map<String, Object>, List<String>>() {
-                public List<String> apply(Map<String, Object> item) {
-                    return asList(String.valueOf(item.get("words")).split(" "));
-                }
-            })
+                    item -> asList(String.valueOf(item.get("words")).split(" ")))
             .flatten()
             .reduce(
-                new BiFunction<Map<String, Integer>, String, Map<String, Integer>>() {
-                public Map<String, Integer> apply(Map<String, Integer> accum, String item) {
-                    if (accum.get(item) == null) {
-                        accum.put(item, 1);
-                    } else {
-                        accum.put(item, accum.get(item) + 1);
-                    }
-                    return accum;
-                }
-            },
+                    (BiFunction<Map<String, Integer>, String, Map<String, Integer>>) (accum, item) -> {
+                        if (accum.get(item) == null) {
+                            accum.put(item, 1);
+                        } else {
+                            accum.put(item, accum.get(item) + 1);
+                        }
+                        return accum;
+                    },
             new LinkedHashMap<String, Integer>()
             )
             .item().toString();
@@ -249,23 +211,17 @@ _.chain(lyrics)
         } };
         final String result = U.chain(lyrics)
             .map(
-                new Function<Map<String, Object>, List<String>>() {
-                public List<String> apply(Map<String, Object> item) {
-                    return asList(String.valueOf(item.get("words")).split(" "));
-                }
-            })
+                    item -> asList(String.valueOf(item.get("words")).split(" ")))
             .flatten()
             .reduceRight(
-                new BiFunction<Map<String, Integer>, String, Map<String, Integer>>() {
-                public Map<String, Integer> apply(Map<String, Integer> accum, String item) {
-                    if (accum.get(item) == null) {
-                        accum.put(item, 1);
-                    } else {
-                        accum.put(item, accum.get(item) + 1);
-                    }
-                    return accum;
-                }
-            },
+                    (BiFunction<Map<String, Integer>, String, Map<String, Integer>>) (accum, item) -> {
+                        if (accum.get(item) == null) {
+                            accum.put(item, 1);
+                        } else {
+                            accum.put(item, accum.get(item) + 1);
+                        }
+                        return accum;
+                    },
             new LinkedHashMap<String, Integer>()
             )
             .item().toString();
@@ -309,27 +265,15 @@ _.chain(doctors)
         } };
         final String result = U.chain(doctors)
             .filter(
-                new Predicate<Map<String, Object>>() {
-                public boolean test(Map<String, Object> item) {
-                    return (Integer) item.get("begin") > 2000;
-                }
-            })
+                    item -> (Integer) item.get("begin") > 2000)
             .reject(
-                new Predicate<Map<String, Object>>() {
-                public boolean test(Map<String, Object> item) {
-                    return (Integer) item.get("end") > 2009;
-                }
-            })
+                    item -> (Integer) item.get("end") > 2009)
             .map(
-                new Function<Map<String, Object>, Map<String, Object>>() {
-                public Map<String, Object> apply(final Map<String, Object> item) {
-                    return new LinkedHashMap<String, Object>() { {
+                    (Function<Map<String, Object>, Map<String, Object>>) item -> new LinkedHashMap<String, Object>() { {
                         put("doctorNumber", "#" + item.get("number"));
                         put("playedBy", item.get("actor"));
                         put("yearsPlayed", (Integer) item.get("end") - (Integer) item.get("begin") + 1);
-                    } };
-                }
-            })
+                    } })
             .value().toString();
         assertEquals("[{doctorNumber=#9, playedBy=Christopher Eccleston, yearsPlayed=1}]", result);
         U.chain(doctors).toList();
@@ -368,17 +312,11 @@ _.chain(doctors)
     @Test
     public void chain6() {
         final List<Comparable> result = U.chain(U.chain(U.class.getDeclaredMethods())
-            .reduce(new BiFunction<List<String>, Method, List<String>>() {
-                public List<String> apply(final List<String> accum, final Method method) {
-                    accum.add(method.getName());
-                    return accum;
-                }
+            .reduce((BiFunction<List<String>, Method, List<String>>) (accum, method) -> {
+                accum.add(method.getName());
+                return accum;
             }, new ArrayList<String>()).item())
-            .reject(new Predicate<String>() {
-                public boolean test(final String name) {
-                    return name.contains("$");
-                }
-            })
+            .reject(name -> name.contains("$"))
             .uniq()
             .sort()
             .first(4)
@@ -398,21 +336,9 @@ var sum = _(words)
     public void chain7() {
         String[] words = new String[] {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum = U.chain(words)
-          .filter(new Predicate<String>() {
-              public boolean test(String w) {
-                  return w.startsWith("E");
-              }
-          })
-          .map(new Function<String, Integer>() {
-              public Integer apply(String w) {
-                  return w.length();
-              }
-          })
-          .reduce(new BiFunction<Integer, Integer, Integer>() {
-              public Integer apply(Integer accum, Integer length) {
-                  return accum + length;
-              }
-          }, 0).item();
+          .filter(w -> w.startsWith("E"))
+          .map(w -> w.length())
+          .reduce((accum, length) -> accum + length, 0).item();
         assertEquals(34, sum);
         U.of(words);
     }
@@ -420,22 +346,12 @@ var sum = _(words)
     @Test
     public void chain8() {
         final List<Comparable> result = U.chain(U.class.getDeclaredMethods())
-            .map(new Function<Method, String>() {
-                public String apply(final Method method) {
-                    return method.getName();
-                }
-            })
-            .reject(new Predicate<String>() {
-                public boolean test(final String name) {
-                    return name.contains("$");
-                }
-            })
-            .uniq(new Function<String, Character>() {
-                public Character apply(final String name) {
-                    // Contrived example to test that .uniq returns
-                    // a Chain<String> rather than a Chain<Character>.
-                    return name.charAt(0);
-                }
+            .map(method -> method.getName())
+            .reject(name -> name.contains("$"))
+            .uniq(name -> {
+                // Contrived example to test that .uniq returns
+                // a Chain<String> rather than a Chain<Character>.
+                return name.charAt(0);
             })
             .sort()
             .first(4)
@@ -446,17 +362,11 @@ var sum = _(words)
     @Test
     public void chain9() {
         final List<Comparable> result = U.chain(U.chain(U.class.getDeclaredMethods())
-            .reduce(new BiFunction<List<String>, Method, List<String>>() {
-                public List<String> apply(final List<String> accum, final Method method) {
-                    accum.add(method.getName());
-                    return accum;
-                }
+            .reduce((BiFunction<List<String>, Method, List<String>>) (accum, method) -> {
+                accum.add(method.getName());
+                return accum;
             }, new ArrayList<String>()).item())
-            .filterFalse(new Predicate<String>() {
-                public boolean test(final String name) {
-                    return name.contains("$");
-                }
-            })
+            .filterFalse(name -> name.contains("$"))
             .uniq()
             .sort()
             .first(4)

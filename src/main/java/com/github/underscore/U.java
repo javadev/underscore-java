@@ -230,11 +230,7 @@ public class U<T> {
     }
 
     public static <K, V> Function<Map<K, V>, V> iteratee(final K key) {
-        return new Function<Map<K, V>, V>() {
-            public V apply(Map<K, V> item) {
-                return item.get(key);
-            }
-        };
+        return item -> item.get(key);
     }
 
     /*
@@ -544,39 +540,19 @@ public class U<T> {
      * Documented, #reject
      */
     public static <E> List<E> reject(final List<E> list, final Predicate<E> pred) {
-        return filter(list, new Predicate<E>() {
-            @Override
-            public boolean test(E input) {
-                return !pred.test(input);
-            }
-        });
+        return filter(list, input -> !pred.test(input));
     }
 
     public List<T> reject(final Predicate<T> pred) {
-        return filter(new Predicate<T>() {
-            @Override
-            public boolean test(T input) {
-                return !pred.test(input);
-            }
-        });
+        return filter(input -> !pred.test(input));
     }
 
     public static <E> List<E> rejectIndexed(final List<E> list, final PredicateIndexed<E> pred) {
-        return filterIndexed(list, new PredicateIndexed<E>() {
-            @Override
-            public boolean test(int index, E input) {
-                return !pred.test(index, input);
-            }
-        });
+        return filterIndexed(list, (index, input) -> !pred.test(index, input));
     }
 
     public static <E> Set<E> reject(final Set<E> set, final Predicate<E> pred) {
-        return filter(set, new Predicate<E>() {
-            @Override
-            public boolean test(E input) {
-                return !pred.test(input);
-            }
-        });
+        return filter(set, input -> !pred.test(input));
     }
 
     public static <E> List<E> filterFalse(final List<E> list, final Predicate<E> pred) {
@@ -649,12 +625,7 @@ public class U<T> {
     }
 
     public static <E> boolean contains(final Iterable<E> iterable, final E elem) {
-        return some(iterable, new Predicate<E>() {
-            @Override
-            public boolean test(E e) {
-                return elem == null ? e == null : elem.equals(e);
-            }
-        });
+        return some(iterable, e -> Objects.equals(elem, e));
     }
 
     public boolean contains(final T elem) {
@@ -662,12 +633,7 @@ public class U<T> {
     }
 
     public static <E> boolean containsWith(final Iterable<E> iterable, final E elem) {
-        return some(iterable, new Predicate<E>() {
-            @Override
-            public boolean test(E e) {
-                return elem == null ? e == null : String.valueOf(e).contains(String.valueOf(elem));
-            }
-        });
+        return some(iterable, e -> elem == null ? e == null : String.valueOf(e).contains(String.valueOf(elem)));
     }
 
     public boolean containsWith(final T elem) {
@@ -690,7 +656,7 @@ public class U<T> {
     public static <E> boolean containsAtLeast(final Iterable<E> iterable, final E value, final int count) {
         int foundItems = 0;
         for (E element : iterable) {
-            if (element == null ? value == null : element.equals(value)) {
+            if (Objects.equals(element, value)) {
                 foundItems += 1;
             }
             if (foundItems >= count) {
@@ -703,7 +669,7 @@ public class U<T> {
     public static <E> boolean containsAtMost(final Iterable<E> iterable, final E value, final int count) {
         int foundItems = size(iterable);
         for (E element : iterable) {
-            if (!(element == null ? value == null : element.equals(value))) {
+            if (!(Objects.equals(element, value))) {
                 foundItems -= 1;
             }
             if (foundItems <= count) {
@@ -727,11 +693,7 @@ public class U<T> {
     public static <E> List<E> invoke(final Iterable<E> iterable, final String methodName,
                                   final List<Object> args) {
         final List<E> result = newArrayList();
-        final List<Class<?>> argTypes = map(args, new Function<Object, Class<?>>() {
-            public Class<?> apply(Object input) {
-                return input.getClass();
-            }
-        });
+        final List<Class<?>> argTypes = map(args, input -> input.getClass());
         try {
             final Method method = iterable.iterator().next().getClass().getMethod(methodName, argTypes.toArray(
                     new Class[0]));
@@ -767,17 +729,14 @@ public class U<T> {
         if (list.isEmpty()) {
             return Collections.emptyList();
         }
-        return map(list, new Function<E, Object>() {
-            @Override
-            public Object apply(E elem) {
+        return map(list, elem -> {
+            try {
+                return elem.getClass().getField(propertyName).get(elem);
+            } catch (Exception e) {
                 try {
-                    return elem.getClass().getField(propertyName).get(elem);
-                } catch (Exception e) {
-                    try {
-                        return elem.getClass().getMethod(propertyName).invoke(elem);
-                    } catch (Exception ex) {
-                        throw new IllegalArgumentException(ex);
-                    }
+                    return elem.getClass().getMethod(propertyName).invoke(elem);
+                } catch (Exception ex) {
+                    throw new IllegalArgumentException(ex);
                 }
             }
         });
@@ -791,17 +750,14 @@ public class U<T> {
         if (set.isEmpty()) {
             return Collections.emptySet();
         }
-        return map(set, new Function<E, Object>() {
-            @Override
-            public Object apply(E elem) {
+        return map(set, elem -> {
+            try {
+                return elem.getClass().getField(propertyName).get(elem);
+            } catch (Exception e) {
                 try {
-                    return elem.getClass().getField(propertyName).get(elem);
-                } catch (Exception e) {
-                    try {
-                        return elem.getClass().getMethod(propertyName).invoke(elem);
-                    } catch (Exception ex) {
-                        throw new IllegalArgumentException(ex);
-                    }
+                    return elem.getClass().getMethod(propertyName).invoke(elem);
+                } catch (Exception ex) {
+                    throw new IllegalArgumentException(ex);
                 }
             }
         });
@@ -851,12 +807,7 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <E, F extends Comparable> E max(final Collection<E> collection, final Function<E, F> func) {
-        return Collections.max(collection, new Comparator<E>() {
-            @Override
-            public int compare(E o1, E o2) {
-                return func.apply(o1).compareTo(func.apply(o2));
-            }
-        });
+        return Collections.max(collection, (o1, o2) -> func.apply(o1).compareTo(func.apply(o2)));
     }
 
     @SuppressWarnings("unchecked")
@@ -878,12 +829,7 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <E, F extends Comparable> E min(final Collection<E> collection, final Function<E, F> func) {
-        return Collections.min(collection, new Comparator<E>() {
-            @Override
-            public int compare(E o1, E o2) {
-                return func.apply(o1).compareTo(func.apply(o2));
-            }
-        });
+        return Collections.min(collection, (o1, o2) -> func.apply(o1).compareTo(func.apply(o2)));
     }
 
     @SuppressWarnings("unchecked")
@@ -943,12 +889,7 @@ public class U<T> {
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final Iterable<E> iterable,
         final Function<E, T> func) {
         final List<E> sortedList = newArrayList(iterable);
-        Collections.sort(sortedList, new Comparator<E>() {
-            @Override
-            public int compare(E o1, E o2) {
-                return func.apply(o1).compareTo(func.apply(o2));
-            }
-        });
+        Collections.sort(sortedList, (o1, o2) -> func.apply(o1).compareTo(func.apply(o2)));
         return sortedList;
     }
 
@@ -960,12 +901,7 @@ public class U<T> {
     public static <K, V extends Comparable<? super V>> List<Map<K, V>> sortBy(final Iterable<Map<K, V>> iterable,
         final K key) {
         final List<Map<K, V>> sortedList = newArrayList(iterable);
-        Collections.sort(sortedList, new Comparator<Map<K, V>>() {
-            @Override
-            public int compare(Map<K, V> o1, Map<K, V> o2) {
-                return o1.get(key).compareTo(o2.get(key));
-            }
-        });
+        Collections.sort(sortedList, (o1, o2) -> o1.get(key).compareTo(o2.get(key)));
         return sortedList;
     }
 
@@ -1009,14 +945,11 @@ public class U<T> {
 
     @SuppressWarnings("unchecked")
     public static <K, E> Map<K, List<E>> indexBy(final Iterable<E> iterable, final String property) {
-        return groupBy(iterable, new Function<E, K>() {
-            @Override
-            public K apply(E elem) {
-                try {
-                    return (K) elem.getClass().getField(property).get(elem);
-                } catch (Exception e) {
-                    return null;
-                }
+        return groupBy(iterable, elem -> {
+            try {
+                return (K) elem.getClass().getField(property).get(elem);
+            } catch (Exception e) {
+                return null;
             }
         });
     }
@@ -1422,13 +1355,8 @@ public class U<T> {
      * Documented, #compact
      */
     public static <E> List<E> compact(final List<E> list) {
-        return filter(list, new Predicate<E>() {
-            @Override
-            public boolean test(E arg) {
-                return !String.valueOf(arg).equals("null") && !String.valueOf(arg).equals("0")
-                    && !String.valueOf(arg).equals("false") && !String.valueOf(arg).equals("");
-            }
-        });
+        return filter(list, arg -> !String.valueOf(arg).equals("null") && !String.valueOf(arg).equals("0")
+            && !String.valueOf(arg).equals("false") && !String.valueOf(arg).equals(""));
     }
 
     @SuppressWarnings("unchecked")
@@ -1437,12 +1365,7 @@ public class U<T> {
     }
 
     public static <E> List<E> compact(final List<E> list, final E falsyValue) {
-        return filter(list, new Predicate<E>() {
-            @Override
-            public boolean test(E arg) {
-                return !(arg == null ? falsyValue == null : arg.equals(falsyValue));
-            }
-        });
+        return filter(list, arg -> !(Objects.equals(arg, falsyValue)));
     }
 
     @SuppressWarnings("unchecked")
@@ -1498,12 +1421,7 @@ public class U<T> {
     @SuppressWarnings("unchecked")
     public static <E> List<E> without(final List<E> list, E ... values) {
         final List<E> valuesList = Arrays.asList(values);
-        return filter(list, new Predicate<E>() {
-            @Override
-            public boolean test(E elem) {
-                return !contains(valuesList, elem);
-            }
-        });
+        return filter(list, elem -> !contains(valuesList, elem));
     }
 
     @SuppressWarnings("unchecked")
@@ -1663,18 +1581,15 @@ public class U<T> {
     @SuppressWarnings("unchecked")
     public static <T> List<List<T>> zip(final List<T> ... lists) {
         final List<List<T>> zipped = newArrayList();
-        each(Arrays.asList(lists), new Consumer<List<T>>() {
-            @Override
-            public void accept(final List<T> list) {
-                int index = 0;
-                for (T elem : list) {
-                    final List<T> nTuple = index >= zipped.size() ? U.<T>newArrayList() : zipped.get(index);
-                    if (index >= zipped.size()) {
-                        zipped.add(nTuple);
-                    }
-                    index += 1;
-                    nTuple.add(elem);
+        each(Arrays.asList(lists), list -> {
+            int index = 0;
+            for (T elem : list) {
+                final List<T> nTuple = index >= zipped.size() ? U.<T>newArrayList() : zipped.get(index);
+                if (index >= zipped.size()) {
+                    zipped.add(nTuple);
                 }
+                index += 1;
+                nTuple.add(elem);
             }
         });
         return zipped;
@@ -2025,12 +1940,7 @@ public class U<T> {
      * Documented, #bind
      */
     public static <T, F> Function<F, T> bind(final Function<F, T> function) {
-        return new Function<F, T>() {
-            @Override
-            public T apply(F arg) {
-                return function.apply(arg);
-            }
-        };
+        return arg -> function.apply(arg);
     }
 
     /*
@@ -2053,11 +1963,7 @@ public class U<T> {
         final java.util.concurrent.ScheduledExecutorService scheduler =
             java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
         final java.util.concurrent.ScheduledFuture<T> future = scheduler.schedule(
-            new java.util.concurrent.Callable<T>() {
-                public T call() {
-                    return function.get();
-                }
-            }, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+                () -> function.get(), delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
         scheduler.shutdown();
         return future;
     }
@@ -2067,12 +1973,9 @@ public class U<T> {
     }
 
     public static java.util.concurrent.ScheduledFuture<Void> defer(final Runnable runnable) {
-        return delay(new Supplier<Void>() {
-            @Override
-            public Void get() {
-                runnable.run();
-                return null;
-            }
+        return delay(() -> {
+            runnable.run();
+            return null;
         }, 0);
     }
 
@@ -2160,19 +2063,11 @@ public class U<T> {
      */
     public static <T> Function<Void, T> wrap(final Function<T, T> function,
         final Function<Function<T, T>, T> wrapper) {
-        return new Function<Void, T>() {
-            public T apply(final Void arg) {
-                return wrapper.apply(function);
-            }
-        };
+        return arg -> wrapper.apply(function);
     }
 
     public static <E> Predicate<E> negate(final Predicate<E> pred) {
-        return new Predicate<E>() {
-            public boolean test(final E item) {
-                return !pred.test(item);
-            }
-        };
+        return item -> !pred.test(item);
     }
 
     /*
@@ -2180,14 +2075,12 @@ public class U<T> {
      */
     @SuppressWarnings("unchecked")
     public static <T> Function<T, T> compose(final Function<T, T> ... func) {
-        return new Function<T, T>() {
-            public T apply(final T arg) {
-                T result = arg;
-                for (int index = func.length - 1; index >= 0; index -= 1) {
-                    result = func[index].apply(result);
-                }
-                return result;
+        return arg -> {
+            T result = arg;
+            for (int index = func.length - 1; index >= 0; index -= 1) {
+                result = func[index].apply(result);
             }
+            return result;
         };
     }
 
@@ -2272,36 +2165,22 @@ public class U<T> {
     }
 
     public static <K, V> List<Tuple<K, V>> mapObject(final Map<K, V> object, final Function<? super V, V> func) {
-        return map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<K, V>>() {
-            @Override
-            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
-                return Tuple.create(entry.getKey(), func.apply(entry.getValue()));
-            }
-        });
+        return map(newArrayList(object.entrySet()), entry
+            -> Tuple.create(entry.getKey(), func.apply(entry.getValue())));
     }
 
     /*
      * Documented, #pairs
      */
     public static <K, V> List<Tuple<K, V>> pairs(final Map<K, V> object) {
-        return map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<K, V>>() {
-            @Override
-            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
-                return Tuple.create(entry.getKey(), entry.getValue());
-            }
-        });
+        return map(newArrayList(object.entrySet()), entry -> Tuple.create(entry.getKey(), entry.getValue()));
     }
 
     /*
      * Documented, #invert
      */
     public static <K, V> List<Tuple<V, K>> invert(final Map<K, V> object) {
-        return map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<V, K>>() {
-            @Override
-            public Tuple<V, K> apply(Map.Entry<K, V> entry) {
-                return Tuple.create(entry.getValue(), entry.getKey());
-            }
-        });
+        return map(newArrayList(object.entrySet()), entry -> Tuple.create(entry.getValue(), entry.getKey()));
     }
 
     /*
@@ -2367,28 +2246,22 @@ public class U<T> {
      */
     @SuppressWarnings("unchecked")
     public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final K ... keys) {
-        return without(map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<K, V>>() {
-            @Override
-            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
-                if (Arrays.asList(keys).contains(entry.getKey())) {
-                    return Tuple.create(entry.getKey(), entry.getValue());
-                } else {
-                    return null;
-                }
+        return without(map(newArrayList(object.entrySet()), entry -> {
+            if (Arrays.asList(keys).contains(entry.getKey())) {
+                return Tuple.create(entry.getKey(), entry.getValue());
+            } else {
+                return null;
             }
         }), (Tuple<K, V>) null);
     }
 
     @SuppressWarnings("unchecked")
     public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final Predicate<V> pred) {
-        return without(map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<K, V>>() {
-            @Override
-            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
-                if (pred.test(object.get(entry.getKey()))) {
-                    return Tuple.create(entry.getKey(), entry.getValue());
-                } else {
-                    return null;
-                }
+        return without(map(newArrayList(object.entrySet()), entry -> {
+            if (pred.test(object.get(entry.getKey()))) {
+                return Tuple.create(entry.getKey(), entry.getValue());
+            } else {
+                return null;
             }
         }), (Tuple<K, V>) null);
     }
@@ -2398,28 +2271,22 @@ public class U<T> {
      */
     @SuppressWarnings("unchecked")
     public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final K ... keys) {
-        return without(map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<K, V>>() {
-            @Override
-            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
-                if (Arrays.asList(keys).contains(entry.getKey())) {
-                    return null;
-                } else {
-                    return Tuple.create(entry.getKey(), entry.getValue());
-                }
+        return without(map(newArrayList(object.entrySet()), entry -> {
+            if (Arrays.asList(keys).contains(entry.getKey())) {
+                return null;
+            } else {
+                return Tuple.create(entry.getKey(), entry.getValue());
             }
         }), (Tuple<K, V>) null);
     }
 
     @SuppressWarnings("unchecked")
     public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final Predicate<V> pred) {
-        return without(map(newArrayList(object.entrySet()), new Function<Map.Entry<K, V>, Tuple<K, V>>() {
-            @Override
-            public Tuple<K, V> apply(Map.Entry<K, V> entry) {
-                if (pred.test(entry.getValue())) {
-                    return null;
-                } else {
-                    return Tuple.create(entry.getKey(), entry.getValue());
-                }
+        return without(map(newArrayList(object.entrySet()), entry -> {
+            if (pred.test(entry.getValue())) {
+                return null;
+            } else {
+                return Tuple.create(entry.getKey(), entry.getValue());
             }
         }), (Tuple<K, V>) null);
     }
@@ -2478,7 +2345,7 @@ public class U<T> {
      * Documented, #isEqual
      */
     public static boolean isEqual(final Object object, final Object other) {
-        return object == null ? other == null : object.equals(other);
+        return Objects.equals(object, other);
     }
 
     public static <K, V> boolean isEmpty(final Map<K, V> object) {
@@ -2581,39 +2448,25 @@ public class U<T> {
     }
 
     public static <E> Supplier<E> constant(final E value) {
-        return new Supplier<E>() {
-            public E get() {
-                return value;
-            }
-        };
+        return () -> value;
     }
 
     public static <K, V> Function<Map<K, V>, V> property(final K key) {
-        return new Function<Map<K, V>, V>() {
-            public V apply(final Map<K, V> object) {
-                return object.get(key);
-            }
-        };
+        return object -> object.get(key);
     }
 
     public static <K, V> Function<K, V> propertyOf(final Map<K, V> object) {
-        return new Function<K, V>() {
-            public V apply(final K key) {
-                return object.get(key);
-            }
-        };
+        return key -> object.get(key);
     }
 
     public static <K, V> Predicate<Map<K, V>> matcher(final Map<K, V> object) {
-        return new Predicate<Map<K, V>>() {
-            public boolean test(final Map<K, V> item) {
-                for (final K key : keys(object)) {
-                    if (!item.containsKey(key) || !item.get(key).equals(object.get(key))) {
-                        return false;
-                    }
+        return item -> {
+            for (final K key : keys(object)) {
+                if (!item.containsKey(key) || !item.get(key).equals(object.get(key))) {
+                    return false;
                 }
-                return true;
             }
+            return true;
         };
     }
 
@@ -3542,11 +3395,7 @@ public class U<T> {
         final java.util.concurrent.ScheduledExecutorService scheduler =
             java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
         return scheduler.scheduleAtFixedRate(
-            new Runnable() {
-                public void run() {
-                    function.get();
-                }
-            }, delayMilliseconds, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
+                () -> function.get(), delayMilliseconds, delayMilliseconds, java.util.concurrent.TimeUnit.MILLISECONDS);
     }
 
     public static void clearInterval(java.util.concurrent.ScheduledFuture scheduledFuture) {
@@ -3736,20 +3585,17 @@ public class U<T> {
         checkNotNull(pred1);
         checkNotNull(pred2);
         checkNotNullElements(Arrays.asList(rest));
-        return new Predicate<T>() {
-            @Override
-            public boolean test(T value) {
-                boolean result = pred1.test(value) && pred2.test(value);
-                if (!result) {
+        return value -> {
+            boolean result = pred1.test(value) && pred2.test(value);
+            if (!result) {
+                return false;
+            }
+            for (Predicate<? super T> predicate : rest) {
+                if (!predicate.test(value)) {
                     return false;
                 }
-                for (Predicate<? super T> predicate : rest) {
-                    if (!predicate.test(value)) {
-                        return false;
-                    }
-                }
-                return true;
             }
+            return true;
         };
     }
 
@@ -3761,20 +3607,17 @@ public class U<T> {
         checkNotNull(pred1);
         checkNotNull(pred2);
         checkNotNullElements(Arrays.asList(rest));
-        return new Predicate<T>() {
-            @Override
-            public boolean test(T value) {
-                boolean result = pred1.test(value) || pred2.test(value);
-                if (result) {
+        return value -> {
+            boolean result = pred1.test(value) || pred2.test(value);
+            if (result) {
+                return true;
+            }
+            for (Predicate<? super T> predicate : rest) {
+                if (predicate.test(value)) {
                     return true;
                 }
-                for (Predicate<? super T> predicate : rest) {
-                    if (predicate.test(value)) {
-                        return true;
-                    }
-                }
-                return false;
             }
+            return false;
         };
     }
 

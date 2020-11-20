@@ -148,11 +148,7 @@ _.times(3, function(n){ genie.grantWishNumber(n); });
     @Test
     public void times() {
         final List<Integer> result = new ArrayList<Integer>();
-        U.times(3, new Runnable() {
-            public void run() {
-                result.add(1);
-            }
-        });
+        U.times(3, () -> result.add(1));
         assertEquals("[1, 1, 1]", result.toString());
     }
 
@@ -168,11 +164,8 @@ _("fabio").capitalize();
     @Test
     @SuppressWarnings("unchecked")
     public void mixin() {
-        U.mixin("capitalize", new Function<String, String>() {
-            public String apply(final String string) {
-                return String.valueOf(string.charAt(0)).toUpperCase() + string.substring(1).toLowerCase();
-            }
-        });
+        U.mixin("capitalize", string
+            -> String.valueOf(string.charAt(0)).toUpperCase() + string.substring(1).toLowerCase());
         assertEquals("Fabio", new U("fabio").call("capitalize").get());
         assertFalse(new U("fabio").call("capitalize2").isPresent());
         assertFalse(new U(asList(1)).call("capitalize2").isPresent());
@@ -359,30 +352,13 @@ _.result(object, 'stuff');
     public void result() {
         Map<String, Object> object = new LinkedHashMap<String, Object>() { {
             put("cheese", "crumpets");
-            put("stuff", new Supplier<String>() { public String get() {
-                return "nonsense"; } });
+            put("stuff", (Supplier<String>) () -> "nonsense");
         } };
 
-        assertEquals("crumpets", U.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
-            public boolean test(Map.Entry<String, Object> item) {
-                return item.getKey().equals("cheese");
-            }
-        }));
-        assertEquals("nonsense", U.result(object.entrySet(), new Predicate<Map.Entry<String, Object>>() {
-            public boolean test(Map.Entry<String, Object> item) {
-                return item.getKey().equals("stuff");
-            }
-        }));
-        assertEquals("result1", U.result(asList("result1", "result2"), new Predicate<String>() {
-            public boolean test(String item) {
-                return item.equals("result1");
-            }
-        }));
-        assertEquals(null, U.result(asList("result1", "result2"), new Predicate<String>() {
-            public boolean test(String item) {
-                return item.equals("result3");
-            }
-        }));
+        assertEquals("crumpets", U.result(object.entrySet(), item -> item.getKey().equals("cheese")));
+        assertEquals("nonsense", U.result(object.entrySet(), item -> item.getKey().equals("stuff")));
+        assertEquals("result1", U.result(asList("result1", "result2"), item -> item.equals("result1")));
+        assertEquals(null, U.result(asList("result1", "result2"), item -> item.equals("result3")));
     }
 
 }

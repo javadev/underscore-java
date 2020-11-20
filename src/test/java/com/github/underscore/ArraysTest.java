@@ -76,60 +76,24 @@ _.first([5, 4, 3, 2, 1], 2);
         //array
         assertEquals(5, U.first(new Integer[] {5, 4, 3, 2, 1}).intValue());
         //static, chain, object with predicate
-        final int resultPred = U.first(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final int resultPred = U.first(asList(5, 4, 3, 2, 1), item -> item % 2 == 0);
         assertEquals(4, resultPred);
-        final int resultPredObj = new U<Integer>(asList(5, 4, 3, 2, 1)).first(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final int resultPredObj = new U<Integer>(asList(5, 4, 3, 2, 1)).first(item -> item % 2 == 0);
         assertEquals(4, resultPredObj);
-        final int resultChainPred = U.chain(asList(5, 4, 3, 2, 1)).first(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        }).item();
+        final int resultChainPred = U.chain(asList(5, 4, 3, 2, 1)).first(item -> item % 2 == 0).item();
         assertEquals(4, resultChainPred);
         //static, chain, object with predicate and int
-        final List<Integer> result1 = new U<Integer>(U.range(7)).first(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        }, 2);
+        final List<Integer> result1 = new U<Integer>(U.range(7)).first(item -> item % 2 == 0, 2);
         assertEquals("[0, 2]", result1.toString());
-        final List<Integer> result2 = U.first(U.range(7), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item < 1;
-            }
-        }, 4);
+        final List<Integer> result2 = U.first(U.range(7), item -> item < 1, 4);
         assertEquals("[0]", result2.toString());
-        final U.Chain<Integer> result3 = U.chain(U.range(7)).first(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item < 2;
-            }
-        }, 4);
+        final U.Chain<Integer> result3 = U.chain(U.range(7)).first(item -> item < 2, 4);
         assertEquals("[0, 1]", result3.toString());
-        final List<Integer> result4 = new U<Integer>(U.range(3)).first(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item > 2;
-            }
-        }, -5);
+        final List<Integer> result4 = new U<Integer>(U.range(3)).first(item -> item > 2, -5);
         assertEquals("[]", result4.toString());
-        final List<String> result5 = U.first(asList("aa", "bbbb"), new Predicate<String>() {
-            public boolean test(String item) {
-                return item.length() < 3;
-            }
-        }, -2);
+        final List<String> result5 = U.first(asList("aa", "bbbb"), item -> item.length() < 3, -2);
         assertEquals("[]", result5.toString());
-        final U.Chain<Integer> result6 = U.chain(U.range(7)).first(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item < 2;
-            }
-        }, -1);
+        final U.Chain<Integer> result6 = U.chain(U.range(7)).first(item -> item < 2, -1);
         assertEquals("[]", result6.toString());
     }
 
@@ -143,34 +107,14 @@ _.first([5, 4, 3, 2, 1], 2);
         assertEquals("5", resultChain.toString());
         assertNull(U.firstOrNull(Collections.emptyList()));
         assertNull(new U<Integer>(Collections.<Integer>emptyList()).firstOrNull());
-        final int resultPred = U.firstOrNull(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final int resultPred = U.firstOrNull(asList(5, 4, 3, 2, 1), item -> item % 2 == 0);
         assertEquals(4, resultPred);
-        final int resultPredChain = U.chain(asList(5, 4, 3, 2, 1)).firstOrNull(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        }).item();
+        final int resultPredChain = U.chain(asList(5, 4, 3, 2, 1)).firstOrNull(item -> item % 2 == 0).item();
         assertEquals(4, resultPredChain);
-        assertNull(U.firstOrNull(Collections.<Integer>emptyList(), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        }));
-        final int resultPredObj = new U<Integer>(asList(5, 4, 3, 2, 1)).firstOrNull(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        assertNull(U.firstOrNull(Collections.<Integer>emptyList(), item -> item % 2 == 0));
+        final int resultPredObj = new U<Integer>(asList(5, 4, 3, 2, 1)).firstOrNull(item -> item % 2 == 0);
         assertEquals(4, resultPredObj);
-        assertNull(new U<Integer>(Collections.<Integer>emptyList()).firstOrNull(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        }));
+        assertNull(new U<Integer>(Collections.<Integer>emptyList()).firstOrNull(item -> item % 2 == 0));
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -216,39 +160,19 @@ _.singleOrNull([5]);
        assertEquals(1, result2);
        final Integer result3 = U.singleOrNull(new ArrayList<Integer>());
        assertNull(result3);
-       final Integer result4 = U.singleOrNull(asList(1, 2, 3), new Predicate<Integer>() {
-           public boolean test(Integer item) {
-               return item % 2 == 1;
-           }
-       });
+       final Integer result4 = U.singleOrNull(asList(1, 2, 3), item -> item % 2 == 1);
        assertNull(result4);
-       final int result5 = U.singleOrNull(asList(1, 2, 3), new Predicate<Integer>() {
-           public boolean test(Integer item) {
-               return item % 2 == 0;
-           }
-       });
+       final int result5 = U.singleOrNull(asList(1, 2, 3), item -> item % 2 == 0);
        assertEquals(2, result5);
-       final Integer result6 = U.singleOrNull(asList(1, 2, 3), new Predicate<Integer>() {
-           public boolean test(Integer item) {
-               return item  == 5;
-           }
-       });
+       final Integer result6 = U.singleOrNull(asList(1, 2, 3), item -> item  == 5);
        assertNull(result6);
        final Integer result7 = uWithMoreElement.singleOrNull();
        assertNull(result7);
        final Integer result8 = uWithOneElement.singleOrNull();
        assertEquals(result8, Integer.valueOf(1));
-       final Integer result9 = uWithMoreElement.singleOrNull(new Predicate<Integer>() {
-           public boolean test(Integer item) {
-               return item % 2 == 0;
-           }
-       });
+       final Integer result9 = uWithMoreElement.singleOrNull(item -> item % 2 == 0);
        assertEquals(result9, Integer.valueOf(2));
-       final Integer result10 = uWithMoreElement.singleOrNull(new Predicate<Integer>() {
-           public boolean test(Integer item) {
-               return item % 2 == 1;
-           }
-       });
+       final Integer result10 = uWithMoreElement.singleOrNull(item -> item % 2 == 1);
        assertNull(result10);
     }
 
@@ -484,31 +408,16 @@ _.replace([1, 2, 3, 4], null, 100);
     @Test
     public void replace() {
         assertEquals("[100, 1, 100, 3, 100, 5]", U.replace(U.range(6),
-                new Predicate<Integer>() {
-                    @Override
-                    public boolean test(Integer arg) {
-                        return arg % 2 == 0;
-                    }
-                }, 100).toString());
+                arg -> arg % 2 == 0, 100).toString());
         assertEquals("[0, 1, 2, 3, 4]", U.replace(U.range(5), null, 100).toString());
         assertEquals("[a, aa, b, b]", new U<String>(asList("a", "aa", "aaa", "aaaa")).replace(
-                new Predicate<String>() {
-                    @Override
-                    public boolean test(String arg) {
-                        return arg.length() > 2;
-                    }
-                }, "b").toString());
+                arg -> arg.length() > 2, "b").toString());
         assertEquals("[a, aa, cc, ccc]", new U<String>(asList("a", "aa", "cc", "ccc")).replace(
                null, "b").toString());
         Set<Integer> set = new HashSet<Integer>();
         set.addAll(U.range(7));
         assertEquals("[0, 1, 2, 100, 100, 100, 100]", U.chain(set).replace(
-                new Predicate<Integer>() {
-                    @Override
-                    public boolean test(Integer arg) {
-                        return arg > 2;
-                    }
-                }, 100).toString());
+                arg -> arg > 2, 100).toString());
     }
 
 /*
@@ -521,20 +430,10 @@ _.replaceIndexed([a, b, c, d], null, z);
     @Test
     public void replaceIndexed() {
         assertEquals("[0, 1, 2, 3, 100, 100]", U.replaceIndexed(U.range(6),
-                new PredicateIndexed<Integer>() {
-                    @Override
-                    public boolean test(int i, Integer arg) {
-                        return i > 2 && arg > 3;
-                    }
-                }, 100).toString());
+                (i, arg) -> i > 2 && arg > 3, 100).toString());
         assertEquals("[0, 1, 2, 3, 4]", U.replaceIndexed(U.range(5), null, 100).toString());
         assertEquals("[a, bc, ddd, f]", new U<String>(asList("a", "bc", "ddd", "eeee")).replaceIndexed(
-                new PredicateIndexed<String>() {
-                    @Override
-                    public boolean test(int i, String arg) {
-                        return arg.length() > 2 && i > 2;
-                    }
-                }, "f").toString());
+                (i, arg) -> arg.length() > 2 && i > 2, "f").toString());
         assertEquals("[a, aa, cc, ccc]", new U<String>(asList("a", "aa", "cc", "ccc")).replaceIndexed(
                null, "b").toString());
         List<Integer> list = new ArrayList<Integer>();
@@ -545,12 +444,7 @@ _.replaceIndexed([a, b, c, d], null, z);
         list.add(-25);
         list.add(-1000);
         assertEquals("[100, 0, 88, 6530, 0, -1000]", U.chain(list).replaceIndexed(
-                new PredicateIndexed<Integer>() {
-                    @Override
-                    public boolean test(int i, Integer arg) {
-                        return arg < 23 && i < 5;
-                    }
-                }, 0).toString());
+                (i, arg) -> arg < 23 && i < 5, 0).toString());
     }
 
 /*
@@ -601,17 +495,9 @@ _.last([5, 4, 3, 2, 1]);
         assertEquals("last one item did not work", 5, res.intValue());
         List<Integer> resList = new U(asList(1, 2, 3, 4, 5)).last(3);
         assertEquals("last multi item did not wok", asList(3, 4, 5), resList);
-        final int resultPred = U.last(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final int resultPred = U.last(asList(5, 4, 3, 2, 1), item -> item % 2 == 0);
         assertEquals(2, resultPred);
-        final int resultPredObj = new U<Integer>(asList(5, 4, 3, 2, 1)).last(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final int resultPredObj = new U<Integer>(asList(5, 4, 3, 2, 1)).last(item -> item % 2 == 0);
         assertEquals(2, resultPredObj);
     }
 
@@ -625,34 +511,14 @@ _.last([5, 4, 3, 2, 1]);
         assertEquals("1", resultChain.toString());
         assertNull(U.lastOrNull(Collections.emptyList()));
         assertNull(new U<Integer>(Collections.<Integer>emptyList()).lastOrNull());
-        final int resultPred = U.lastOrNull(asList(5, 4, 3, 2, 1), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final int resultPred = U.lastOrNull(asList(5, 4, 3, 2, 1), item -> item % 2 == 0);
         assertEquals(2, resultPred);
-        final int resultPredChain = U.chain(asList(5, 4, 3, 2, 1)).lastOrNull(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        }).item();
+        final int resultPredChain = U.chain(asList(5, 4, 3, 2, 1)).lastOrNull(item -> item % 2 == 0).item();
         assertEquals(2, resultPredChain);
-        assertNull(U.lastOrNull(Collections.<Integer>emptyList(), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        }));
-        final int resultPredObj = new U<Integer>(asList(5, 4, 3, 2, 1)).lastOrNull(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        assertNull(U.lastOrNull(Collections.<Integer>emptyList(), item -> item % 2 == 0));
+        final int resultPredObj = new U<Integer>(asList(5, 4, 3, 2, 1)).lastOrNull(item -> item % 2 == 0);
         assertEquals(2, resultPredObj);
-        assertNull(new U<Integer>(Collections.<Integer>emptyList()).lastOrNull(new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        }));
+        assertNull(new U<Integer>(Collections.<Integer>emptyList()).lastOrNull(item -> item % 2 == 0));
     }
 /*
 _.compact([0, 1, false, 2, '', 3]);
@@ -801,28 +667,16 @@ _.uniq([1, 2, 1, 3, 1, 4]);
         }
         final Collection<Person> resultObject =
         U.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
-            new Function<Person, String>() {
-            public String apply(Person person) {
-                return person.name;
-            }
-        });
+                person -> person.name);
         assertEquals("[moe, 50, curly, 60]", resultObject.toString());
         final List<Person> resultObjectChain =
         U.chain(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).uniq(
-            new Function<Person, String>() {
-            public String apply(Person person) {
-                return person.name;
-            }
-        }).value();
+                person -> person.name).value();
         assertEquals("[moe, 50, curly, 60]", resultObjectChain.toString());
         assertEquals("[1, 2, 3, 4, 5]", U.chain(asList(1, 2, 3, 3, 4, 5)).uniq().value().toString());
         final Object[] resultObjectArray =
         U.uniq(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)).toArray(new Person[]{}),
-            new Function<Person, String>() {
-            public String apply(Person person) {
-                return person.name;
-            }
-        });
+                person -> person.name);
         assertEquals("[moe, 50, curly, 60]", asList(resultObjectArray).toString());
     }
 
@@ -849,29 +703,17 @@ _.distinct([1, 2, 1, 3, 1, 4]);
         }
         final Collection<Person> resultObject =
         U.distinctBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)),
-            new Function<Person, String>() {
-            public String apply(Person person) {
-                return person.name;
-            }
-        });
+                person -> person.name);
         assertEquals("[moe, 50, curly, 60]", resultObject.toString());
         final List<String> resultObjectChain =
         U.chain(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))).distinctBy(
-            new Function<Person, String>() {
-            public String apply(Person person) {
-                return person.name;
-            }
-        }).value();
+                person -> person.name).value();
         assertEquals("[moe, 50, curly, 60]", resultObjectChain.toString());
         assertEquals("[1, 2, 3, 4, 5]", U.chain(asList(1, 2, 3, 3, 4, 5)).distinct().value().toString());
         final Object[] resultObjectArray =
         U.distinctBy(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60))
             .toArray(new Person[]{}),
-            new Function<Person, String>() {
-            public String apply(Person person) {
-                return person.name;
-            }
-        });
+                person -> person.name);
         assertEquals("[moe, 50, curly, 60]", asList(resultObjectArray).toString());
     }
 
@@ -997,23 +839,11 @@ _.findIndex([1, 2, 3], function(item) {return item % 2  === 0; });
 */
     @Test
     public void findIndex() {
-        final Integer result = U.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final Integer result = U.findIndex(asList(1, 2, 3), item -> item % 2 == 0);
         assertEquals(1, result.intValue());
-        final Integer resultNotFound = U.findIndex(asList(1, 2, 3), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item > 3;
-            }
-        });
+        final Integer resultNotFound = U.findIndex(asList(1, 2, 3), item -> item > 3);
         assertEquals(-1, resultNotFound.intValue());
-        final Integer resultArray = U.findIndex(new Integer[] {1, 2, 3}, new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final Integer resultArray = U.findIndex(new Integer[] {1, 2, 3}, item -> item % 2 == 0);
         assertEquals(1, resultArray.intValue());
     }
 
@@ -1023,23 +853,11 @@ _.findLastIndex([1, 2, 3, 4, 5], function(item) {return item % 2  === 0; });
 */
     @Test
     public void findLastIndex() {
-        final Integer result = U.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final Integer result = U.findLastIndex(asList(1, 2, 3, 4, 5), item -> item % 2 == 0);
         assertEquals(3, result.intValue());
-        final Integer resultNotFound = U.findLastIndex(asList(1, 2, 3, 4, 5), new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item > 5;
-            }
-        });
+        final Integer resultNotFound = U.findLastIndex(asList(1, 2, 3, 4, 5), item -> item > 5);
         assertEquals(-1, resultNotFound.intValue());
-        final Integer resultArray = U.findLastIndex(new Integer[] {1, 2, 3, 4, 5}, new Predicate<Integer>() {
-            public boolean test(Integer item) {
-                return item % 2 == 0;
-            }
-        });
+        final Integer resultArray = U.findLastIndex(new Integer[] {1, 2, 3, 4, 5}, item -> item % 2 == 0);
         assertEquals(3, resultArray.intValue());
     }
 

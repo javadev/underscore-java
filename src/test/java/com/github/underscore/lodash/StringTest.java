@@ -3191,6 +3191,26 @@ _.repeat('abc', 0);
         assertEquals("\"[\\n\"\n + \"  null\\n\"\n + \"]\";", builder.toString());
     }
 
+    @Test
+    public void testJsonToXml() {
+        String json = "{\"name\":\"JSON\",\"integer\":1,\"double\":2.0,\"boolean\":true,\"nested\": {\"id\":42},"
+            + "\"array\":[1,2,3]}";
+        String xml = U.jsonToXml(json);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<root>\n"
+                + "  <name>JSON</name>\n"
+                + "  <integer number=\"true\">1</integer>\n"
+                + "  <double number=\"true\">2.0</double>\n"
+                + "  <boolean boolean=\"true\">true</boolean>\n"
+                + "  <nested>\n"
+                + "    <id number=\"true\">42</id>\n"
+                + "  </nested>\n"
+                + "  <array number=\"true\">1</array>\n"
+                + "  <array number=\"true\">2</array>\n"
+                + "  <array number=\"true\">3</array>\n"
+                + "</root>", xml);
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void testJsonJavaArrayCollection() {
@@ -3698,45 +3718,30 @@ _.repeat('abc', 0);
         U.chain(new String[] {""}).rest();
         U.chain(new String[] {""}).rest(1);
         U.chain(new String[] {""}).flatten();
-        U.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
-        U.chain(new String[] {""}).filter(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).reject(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).reduce(new BiFunction<String, String, String>() {
-            public String apply(String accum, String str) { return null; } }, "");
-        U.chain(new String[] {""}).reduceRight(new BiFunction<String, String, String>() {
-            public String apply(String accum, String str) { return null; } }, "");
-        U.chain(new String[] {""}).find(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).findLast(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
+        U.chain(new Integer[] {0}).map(value -> value);
+        U.chain(new String[] {""}).filter(str -> true);
+        U.chain(new String[] {""}).reject(str -> true);
+        U.chain(new String[] {""}).reduce((accum, str) -> null, "");
+        U.chain(new String[] {""}).reduceRight((accum, str) -> null, "");
+        U.chain(new String[] {""}).find(str -> true);
+        U.chain(new String[] {""}).findLast(str -> true);
         U.chain(new Integer[] {0}).max();
-        U.chain(new Integer[] {0}).max(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).max(value -> value);
         U.chain(new Integer[] {0}).min();
-        U.chain(new Integer[] {0}).min(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).min(value -> value);
         U.chain(new Integer[] {0}).sort();
-        U.chain(new Integer[] {0}).sortBy(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).sortBy(value -> value);
         U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
-        U.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).groupBy(value -> value);
         U.chain(new Integer[] {0}).indexBy("");
-        U.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).countBy(value -> value);
         U.chain(new Integer[] {0}).shuffle();
         U.chain(new Integer[] {0}).sample();
         U.chain(new Integer[] {0}).sample(1);
-        U.chain(new String[] {""}).tap(new Consumer<String>() {
-            public void accept(String str) {
-            } });
-        U.chain(new String[] {""}).every(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).some(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
+        U.chain(new String[] {""}).tap(str -> {
+        });
+        U.chain(new String[] {""}).every(str -> true);
+        U.chain(new String[] {""}).some(str -> true);
         U.chain(new String[] {""}).contains("");
         U.chain(new String[] {""}).invoke("toString", Collections.emptyList());
         U.chain(new String[] {""}).invoke("toString");
@@ -3744,8 +3749,7 @@ _.repeat('abc', 0);
         U.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
         U.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
         U.chain(new Integer[] {0}).uniq();
-        U.chain(new Integer[] {0}).uniq(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).uniq(value -> value);
         U.chain(new String[] {""}).union();
         U.chain(new String[] {""}).intersection();
         U.chain(new String[] {""}).difference();

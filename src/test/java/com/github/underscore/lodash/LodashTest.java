@@ -117,21 +117,9 @@ _.dropWhile([1, 2, 3], function(n) {
 */
     @Test
     public void dropWhile() {
-        assertEquals("[3]", U.dropWhile(asList(1, 2, 3), new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n < 3;
-            }
-        }).toString());
-        assertEquals("[3]", new U<Integer>(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n < 3;
-            }
-        }).toString());
-        assertEquals("[3]", U.chain(asList(1, 2, 3)).dropWhile(new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n < 3;
-            }
-        }).value().toString());
+        assertEquals("[3]", U.dropWhile(asList(1, 2, 3), n -> n < 3).toString());
+        assertEquals("[3]", new U<Integer>(asList(1, 2, 3)).dropWhile(n -> n < 3).toString());
+        assertEquals("[3]", U.chain(asList(1, 2, 3)).dropWhile(n -> n < 3).value().toString());
     }
 
 /*
@@ -143,21 +131,9 @@ _.dropRightWhile([1, 2, 3], function(n) {
     @SuppressWarnings("unchecked")
     @Test
     public void dropRightWhile() {
-        assertEquals("[1, 2]", U.dropRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n > 2;
-            }
-        }).toString());
-        assertEquals("[1, 2]", new U(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n > 2;
-            }
-        }).toString());
-        assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).dropRightWhile(new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n > 2;
-            }
-        }).value().toString());
+        assertEquals("[1, 2]", U.dropRightWhile(asList(1, 2, 3), n -> n > 2).toString());
+        assertEquals("[1, 2]", new U(asList(1, 2, 3)).dropRightWhile((Predicate<Integer>) n -> n > 2).toString());
+        assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).dropRightWhile(n -> n > 2).value().toString());
     }
 
 /*
@@ -275,27 +251,15 @@ console.log(evens);
     @Test
     public void remove() {
         List<Integer> array = new ArrayList<Integer>(asList(1, 2, 3, 4));
-        List<Integer> evens = U.remove(array, new Predicate<Integer>() {
-            public boolean test(final Integer n) {
-                return n % 2 == 0;
-            }
-        });
+        List<Integer> evens = U.remove(array, n -> n % 2 == 0);
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
         array = new ArrayList<Integer>(asList(1, 2, 3, 4));
-        evens = new U<Integer>(array).remove(new Predicate<Integer>() {
-            public boolean test(final Integer n) {
-                return n % 2 == 0;
-            }
-        });
+        evens = new U<Integer>(array).remove(n -> n % 2 == 0);
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
         array = new ArrayList<Integer>(asList(1, 2, 3, 4));
-        evens = U.chain(array).remove(new Predicate<Integer>() {
-            public boolean test(final Integer n) {
-                return n % 2 == 0;
-            }
-        }).value();
+        evens = U.chain(array).remove(n -> n % 2 == 0).value();
         assertEquals("[1, 3]", array.toString());
         assertEquals("[2, 4]", evens.toString());
     }
@@ -358,21 +322,9 @@ _.takeWhile([1, 2, 3], function(n) {
 */
     @Test
     public void takeWhile() {
-        assertEquals("[1, 2]", U.takeWhile(asList(1, 2, 3), new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n < 3;
-            }
-        }).toString());
-        assertEquals("[1, 2]", new U<Integer>(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n < 3;
-            }
-        }).toString());
-        assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).takeWhile(new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n < 3;
-            }
-        }).value().toString());
+        assertEquals("[1, 2]", U.takeWhile(asList(1, 2, 3), n -> n < 3).toString());
+        assertEquals("[1, 2]", new U<Integer>(asList(1, 2, 3)).takeWhile(n -> n < 3).toString());
+        assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).takeWhile(n -> n < 3).value().toString());
     }
 
 /*
@@ -383,21 +335,9 @@ _.takeRightWhile([1, 2, 3], function(n) {
 */
     @Test
     public void takeRightWhile() {
-        assertEquals("[2, 3]", U.takeRightWhile(asList(1, 2, 3), new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n > 1;
-            }
-        }).toString());
-        assertEquals("[2, 3]", new U<Integer>(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n > 1;
-            }
-        }).toString());
-        assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).takeRightWhile(new Predicate<Integer>() {
-            public boolean test(Integer n) {
-                return n > 1;
-            }
-        }).value().toString());
+        assertEquals("[2, 3]", U.takeRightWhile(asList(1, 2, 3), n -> n > 1).toString());
+        assertEquals("[2, 3]", new U<Integer>(asList(1, 2, 3)).takeRightWhile(n -> n > 1).toString());
+        assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).takeRightWhile(n -> n > 1).value().toString());
     }
 
 /*
@@ -938,94 +878,59 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         U.chain(new String[] {""}).first();
         U.chain(new String[] {""}).first(1);
         U.chain(new String[] {""}).firstOrNull();
-        U.chain(new String[] {""}).firstOrNull(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
+        U.chain(new String[] {""}).firstOrNull(str -> true);
         U.chain(new String[] {""}).initial();
         U.chain(new String[] {""}).initial(1);
         U.chain(new String[] {""}).last();
         U.chain(new String[] {""}).last(1);
         U.chain(new String[] {""}).lastOrNull();
-        U.chain(new String[] {""}).lastOrNull(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
+        U.chain(new String[] {""}).lastOrNull(str -> true);
         U.chain(new String[] {""}).rest();
         U.chain(new String[] {""}).rest(1);
         U.chain(new String[] {""}).compact();
         U.chain(new String[] {""}).compact("1");
         U.chain(new String[] {""}).flatten();
-        U.chain(new Integer[] {0}).map(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
-        U.chain(new Integer[] {0}).mapIndexed(new BiFunction<Integer, Integer, Integer>() {
-            public Integer apply(Integer index, Integer value) { return value; } });
-        U.chain(new String[] {""}).filter(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).filterIndexed(new PredicateIndexed<String>() {
-            public boolean test(int index, String str) { return true; } });
-        U.chain(new String[] {""}).reject(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).rejectIndexed(new PredicateIndexed<String>() {
-            public boolean test(int index, String str) { return true; } });
-        U.chain(new String[] {""}).filterFalse(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).reduce(new BiFunction<String, String, String>() {
-            public String apply(String accum, String str) { return null; } }, "");
-        U.chain(new String[] {""}).reduce(new BinaryOperator<String>() {
-            public String apply(String accum, String str) { return null; } });
-        U.chain(new String[] {""}).reduceRight(new BiFunction<String, String, String>() {
-            public String apply(String accum, String str) { return null; } }, "");
-        U.chain(new String[] {""}).reduceRight(new BinaryOperator<String>() {
-            public String apply(String accum, String str) { return null; } });
-        U.chain(new String[] {""}).find(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).findLast(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
+        U.chain(new Integer[] {0}).map(value -> value);
+        U.chain(new Integer[] {0}).mapIndexed((index, value) -> value);
+        U.chain(new String[] {""}).filter(str -> true);
+        U.chain(new String[] {""}).filterIndexed((index, str) -> true);
+        U.chain(new String[] {""}).reject(str -> true);
+        U.chain(new String[] {""}).rejectIndexed((index, str) -> true);
+        U.chain(new String[] {""}).filterFalse(str -> true);
+        U.chain(new String[] {""}).reduce((accum, str) -> null, "");
+        U.chain(new String[] {""}).reduce((accum, str) -> null);
+        U.chain(new String[] {""}).reduceRight((accum, str) -> null, "");
+        U.chain(new String[] {""}).reduceRight((accum, str) -> null);
+        U.chain(new String[] {""}).find(str -> true);
+        U.chain(new String[] {""}).findLast(str -> true);
         U.chain(new Integer[] {0}).max();
-        U.chain(new Integer[] {0}).max(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).max(value -> value);
         U.chain(new Integer[] {0}).min();
-        U.chain(new Integer[] {0}).min(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).min(value -> value);
         U.chain(new Integer[] {0}).sort();
-        U.chain(new Integer[] {0}).sortWith(new Comparator<Integer>() {
-            public int compare(Integer value1, Integer value2) { return value1; } });
-        U.chain(new Integer[] {0}).sortBy(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).sortWith((Comparator<Integer>) (value1, value2) -> value1);
+        U.chain(new Integer[] {0}).sortBy(value -> value);
         U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
-        U.chain(new Integer[] {0}).groupBy(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).groupBy(value -> value);
         U.chain(new Integer[] {0}).groupBy(
-            new Function<Integer, Integer>() {
-            public Integer apply(Integer num) {
-                return num;
-            }
-            },
-            new BinaryOperator<Integer>() {
-            public Integer apply(Integer a, Integer b) {
-                return a;
-            }
-            });
+                num -> num,
+                (a, b) -> a);
         U.chain(new Integer[] {0}).indexBy("");
-        U.chain(new Integer[] {0}).countBy(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).countBy(value -> value);
         U.chain(new Integer[] {0}).countBy();
         U.chain(new Integer[] {0}).shuffle();
         U.chain(new Integer[] {0}).sample();
         U.chain(new Integer[] {0}).sample(1);
         U.chain(new int[] {0}).value();
-        U.chain(new String[] {""}).tap(new Consumer<String>() {
-            public void accept(String str) {
-            } });
-        U.chain(new String[] {""}).forEach(new Consumer<String>() {
-            public void accept(String str) {
-            } });
-        U.chain(new String[] {""}).forEachRight(new Consumer<String>() {
-            public void accept(String str) {
-            } });
-        U.chain(new String[] {""}).every(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).some(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
-        U.chain(new String[] {""}).count(new Predicate<String>() {
-            public boolean test(String str) { return true; } });
+        U.chain(new String[] {""}).tap(str -> {
+        });
+        U.chain(new String[] {""}).forEach(str -> {
+        });
+        U.chain(new String[] {""}).forEachRight(str -> {
+        });
+        U.chain(new String[] {""}).every(str -> true);
+        U.chain(new String[] {""}).some(str -> true);
+        U.chain(new String[] {""}).count(str -> true);
         U.chain(new String[] {""}).contains("");
         U.chain(new String[] {""}).containsWith("");
         U.chain(new String[] {""}).invoke("toString", Collections.emptyList());
@@ -1034,11 +939,9 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         U.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
         U.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
         U.chain(new Integer[] {0}).uniq();
-        U.chain(new Integer[] {0}).uniq(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).uniq(value -> value);
         U.chain(new Integer[] {0}).distinct();
-        U.chain(new Integer[] {0}).distinctBy(new Function<Integer, Integer>() {
-            public Integer apply(Integer value) { return value; } });
+        U.chain(new Integer[] {0}).distinctBy(value -> value);
     }
 
     @SuppressWarnings("unchecked")
@@ -1137,11 +1040,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
             (Map<String, Object>) U.fromJson(json), "from_excel");
         assertEquals("[{solution=Fisrt, num=1}, {solution=Second, num=2}, {solution=third, num=3}, "
             + "{solution=fourth, num=4}, {solution=fifth, num=5}]", fromExcelData.toString());
-        List<String> solutions = U.map(fromExcelData, new Function<Map<String, Object>, String>() {
-            public String apply(Map<String, Object> item) {
-                return (String) item.get("solution");
-            }
-        });
+        List<String> solutions = U.map(fromExcelData, item -> (String) item.get("solution"));
         assertEquals("[Fisrt, Second, third, fourth, fifth]", solutions.toString());
     }
 

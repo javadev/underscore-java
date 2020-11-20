@@ -1225,12 +1225,10 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static String camelCase(final String string) {
-        return createCompounder(new Function3<String, String, Integer, String>() {
-            public String apply(final String result, final String word, final Integer index) {
-                final String localWord = word.toLowerCase(Locale.getDefault());
-                return result + (index > 0 ? localWord.substring(0, 1).toUpperCase(Locale.getDefault())
-                    + localWord.substring(1) : localWord);
-            }
+        return createCompounder((result, word, index) -> {
+            final String localWord = word.toLowerCase(Locale.getDefault());
+            return result + (index > 0 ? localWord.substring(0, 1).toUpperCase(Locale.getDefault())
+                + localWord.substring(1) : localWord);
         }).apply(string);
     }
 
@@ -1279,29 +1277,25 @@ public class U<T> extends com.github.underscore.U<T> {
 
     private static Function<String, String> createCompounder(
         final Function3<String, String, Integer, String> callback) {
-        return new Function<String, String>() {
-            public String apply(final String string) {
-                int index = -1;
-                List<String> array = words(deburr(string));
-                int length = array.size();
-                String result = "";
+        return string -> {
+            int index = -1;
+            List<String> array = words(deburr(string));
+            int length = array.size();
+            String result = "";
 
-                while (++index < length) {
-                    result = callback.apply(result, array.get(index), index);
-                }
-                return result;
+            while (++index < length) {
+                result = callback.apply(result, array.get(index), index);
             }
+            return result;
         };
     }
 
     private static Function<String, String> createCaseFirst(final String methodName) {
-        return new Function<String, String>() {
-            public String apply(final String string) {
-                final String localString = baseToString(string);
-                final String chr = localString.isEmpty() ? "" : localString.substring(0, 1);
-                final String trailing = localString.length() > 1 ? localString.substring(1) : "";
-                return U.invoke(Collections.singletonList(chr), methodName).get(0) + trailing;
-            }
+        return string -> {
+            final String localString = baseToString(string);
+            final String chr = localString.isEmpty() ? "" : localString.substring(0, 1);
+            final String trailing = localString.length() > 1 ? localString.substring(1) : "";
+            return U.invoke(Collections.singletonList(chr), methodName).get(0) + trailing;
         };
     }
 
@@ -1324,11 +1318,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static String kebabCase(final String string) {
-        return createCompounder(new Function3<String, String, Integer, String>() {
-            public String apply(final String result, final String word, final Integer index) {
-                return result + (index > 0 ? "-" : "") + word.toLowerCase(Locale.getDefault());
-            }
-        }).apply(string);
+        return createCompounder((result, word, index) -> result + (index > 0 ? "-" : "")
+                + word.toLowerCase(Locale.getDefault())).apply(string);
     }
 
     public static String repeat(final String string, final int length) {
@@ -1373,12 +1364,10 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     private static Function3<String, Integer, String, String> createPadDir(final boolean fromRight) {
-        return new Function3<String, Integer, String, String>() {
-            public String apply(String string, Integer length, String chars) {
-                final String localString = baseToString(string);
-                return (fromRight ? localString : "") + createPadding(localString, length, chars)
-                    + (fromRight ? "" : localString);
-            }
+        return (string, length, chars) -> {
+            final String localString = baseToString(string);
+            return (fromRight ? localString : "") + createPadding(localString, length, chars)
+                + (fromRight ? "" : localString);
         };
     }
 
@@ -1399,20 +1388,14 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static String snakeCase(final String string) {
-        return createCompounder(new Function3<String, String, Integer, String>() {
-            public String apply(final String result, final String word, final Integer index) {
-                return result + (index > 0 ? "_" : "") + word.toLowerCase(Locale.getDefault());
-            }
-        }).apply(string);
+        return createCompounder((result, word, index) -> result + (index > 0 ? "_" : "")
+            + word.toLowerCase(Locale.getDefault())).apply(string);
     }
 
     public static String startCase(final String string) {
-        return createCompounder(new Function3<String, String, Integer, String>() {
-            public String apply(final String result, final String word, final Integer index) {
-                return result + (index > 0 ? " " : "") + word.substring(0, 1).toUpperCase(Locale.getDefault())
-                    + word.substring(1);
-            }
-        }).apply(string);
+        return createCompounder((result, word, index) -> result + (index > 0 ? " " : "")
+            + word.substring(0, 1).toUpperCase(Locale.getDefault())
+            + word.substring(1)).apply(string);
     }
 
     public static boolean startsWith(final String string, final String target) {
@@ -1645,8 +1628,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static Map<String, Object> setValue(final Map<String, Object> map, final String key,
         final Object newValue) {
-        return setValue(map, key, new BiFunction<String, Object, Object>() {
-            public Object apply(String key, Object value) { return newValue; } });
+        return setValue(map, key, (key1, value) -> newValue);
     }
 
     public static Map<String, Object> setValue(final Map<String, Object> map, final String key,

@@ -118,24 +118,20 @@ _.delay(function(){ equal(counter, 1, 'incr was throttled'); }, 96);
     @Test
     public void throttle() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
-            counter[0]++; return null; } };
+        Supplier<Void> incr = () -> {
+            counter[0]++; return null; };
         final Supplier<Void> throttleIncr = U.throttle(incr, 50);
         throttleIncr.get();
         throttleIncr.get();
         U.delay(throttleIncr, 16);
-        U.delay(new Supplier<Void>() {
-            public Void get() {
-                assertEquals("incr was throttled", 1, counter[0].intValue());
-                throttleIncr.get();
-                return null;
-            }
+        U.delay((Supplier<Void>) () -> {
+            assertEquals("incr was throttled", 1, counter[0].intValue());
+            throttleIncr.get();
+            return null;
         }, 60);
-        await().atMost(180, TimeUnit.MILLISECONDS).until(new Callable<Boolean>() {
-            public Boolean call() {
-                throttleIncr.get();
-                return true;
-            }
+        await().atMost(180, TimeUnit.MILLISECONDS).until(() -> {
+            throttleIncr.get();
+            return true;
         });
     }
 
@@ -151,23 +147,17 @@ _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
     @Test
     public void debounce() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
-            counter[0]++; return null; } };
+        Supplier<Void> incr = () -> {
+            counter[0]++; return null; };
         Supplier<Void> debouncedIncr = U.debounce(incr, 50);
         debouncedIncr.get();
         debouncedIncr.get();
         U.delay(debouncedIncr, 16);
-        U.delay(new Supplier<Void>() {
-            public Void get() {
-                assertEquals("incr was debounced", 1, counter[0].intValue());
-                return null;
-            }
+        U.delay((Supplier<Void>) () -> {
+            assertEquals("incr was debounced", 1, counter[0].intValue());
+            return null;
         }, 60);
-        await().atMost(120, TimeUnit.MILLISECONDS).until(new Callable<Boolean>() {
-            public Boolean call() {
-                return true;
-            }
-        });
+        await().atMost(120, TimeUnit.MILLISECONDS).until(() -> true);
     }
 
 /*
@@ -177,23 +167,20 @@ _.defer(function(){ alert('deferred'); });
     @Test
     public void defer() {
         final Integer[] counter = new Integer[] {0};
-        U.defer(new Supplier<Void>() { public Void get() {
+        U.defer((Supplier<Void>) () -> {
             try {
                 TimeUnit.MILLISECONDS.sleep(16);
             } catch (Exception e) {
                 e.getMessage();
             }
-            counter[0]++; return null; } });
+            counter[0]++; return null; });
         assertEquals("incr was debounced", 0, counter[0].intValue());
-        await().atLeast(60, TimeUnit.MILLISECONDS).until(new Callable<Boolean>() {
-            public Boolean call() {
-                assertEquals("incr was debounced", 1, counter[0].intValue());
-                return true;
-            }
+        await().atLeast(60, TimeUnit.MILLISECONDS).until(() -> {
+            assertEquals("incr was debounced", 1, counter[0].intValue());
+            return true;
         });
-        U.defer(new Runnable() { public void run() {
-            }
-        });
+        U.defer(() -> {
+            });
     }
 
 /*
@@ -205,17 +192,15 @@ initialize();
     @Test
     public void once() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Integer> incr = new Supplier<Integer>() { public Integer get() {
-            counter[0]++; return counter[0]; } };
+        Supplier<Integer> incr = () -> {
+            counter[0]++; return counter[0]; };
         final Supplier<Integer> onceIncr = U.once(incr);
         onceIncr.get();
         onceIncr.get();
-        await().atLeast(60, TimeUnit.MILLISECONDS).until(new Callable<Boolean>() {
-            public Boolean call() {
-                assertEquals("incr was called only once", 1, counter[0].intValue());
-                assertEquals("stores a memo to the last value", 1, onceIncr.get().intValue());
-                return true;
-            }
+        await().atLeast(60, TimeUnit.MILLISECONDS).until(() -> {
+            assertEquals("incr was called only once", 1, counter[0].intValue());
+            assertEquals("stores a memo to the last value", 1, onceIncr.get().intValue());
+            return true;
         });
     }
 
@@ -229,16 +214,8 @@ hello();
 */
     @Test
     public void wrap() {
-        Function<String, String> hello = new Function<String, String>() {
-            public String apply(final String name) {
-                return "hello: " + name;
-            }
-        };
-        Function<Void, String> result = U.wrap(hello, new Function<Function<String, String>, String>() {
-            public String apply(final Function<String, String> func) {
-                return "before, " + func.apply("moe") + ", after";
-            }
-        });
+        Function<String, String> hello = name -> "hello: " + name;
+        Function<Void, String> result = U.wrap(hello, func -> "before, " + func.apply("moe") + ", after");
         assertEquals("before, hello: moe, after", result.apply(null));
     }
 
@@ -249,11 +226,7 @@ _.find([-2, -1, 0, 1, 2], isFalsy);
 */
     @Test
     public void negate() {
-        Predicate<Integer> isFalsy = U.negate(new Predicate<Integer>() {
-            public boolean test(final Integer item) {
-                return item != 0;
-            }
-        });
+        Predicate<Integer> isFalsy = U.negate(item -> item != 0);
         Optional<Integer> result = U.find(asList(-2, -1, 0, 1, 2), isFalsy);
         assertEquals(0, result.get().intValue());
     }
@@ -268,16 +241,8 @@ welcome('moe');
     @Test
     @SuppressWarnings("unchecked")
     public void compose() {
-        Function<String, String> greet = new Function<String, String>() {
-            public String apply(final String name) {
-                return "hi: " + name;
-            }
-        };
-        Function<String, String> exclaim = new Function<String, String>() {
-            public String apply(final String statement) {
-                return statement.toUpperCase() + "!";
-            }
-        };
+        Function<String, String> greet = name -> "hi: " + name;
+        Function<String, String> exclaim = statement -> statement.toUpperCase() + "!";
         Function<String, String> welcome = U.compose(greet, exclaim);
         assertEquals("hi: MOE!", welcome.apply("moe"));
     }
@@ -293,16 +258,13 @@ _.each(notes, function(note) {
     public void after() {
         final List<Integer> notes = asList(1, 2, 3);
         final Supplier<Integer> renderNotes = U.after(notes.size(),
-            new Supplier<Integer>() { public Integer get() {
-                return 4; } });
+                () -> 4);
         final List<Integer> result = new ArrayList<Integer>();
-        U.<Integer>each(notes, new Consumer<Integer>() {
-            public void accept(Integer item) {
-                result.add(item);
-                Integer afterResult = renderNotes.get();
-                if (afterResult != null) {
-                    result.add(afterResult);
-                }
+        U.<Integer>each(notes, item -> {
+            result.add(item);
+            Integer afterResult = renderNotes.get();
+            if (afterResult != null) {
+                result.add(afterResult);
             }
         });
         assertEquals("[1, 2, 3, 4]", result.toString());
@@ -319,16 +281,13 @@ monthlyMeeting();
     public void before() {
         final List<Integer> notes = asList(1, 2, 3);
         final Supplier<Integer> renderNotes = U.before(notes.size() - 1,
-            new Supplier<Integer>() { public Integer get() {
-                return 4; } });
+                () -> 4);
         final List<Integer> result = new ArrayList<Integer>();
-        U.<Integer>each(notes, new Consumer<Integer>() {
-            public void accept(Integer item) {
-                result.add(item);
-                Integer afterResult = renderNotes.get();
-                if (afterResult != null) {
-                    result.add(afterResult);
-                }
+        U.<Integer>each(notes, item -> {
+            result.add(item);
+            Integer afterResult = renderNotes.get();
+            if (afterResult != null) {
+                result.add(afterResult);
             }
         });
         assertEquals("[1, 4, 2, 4, 3, 4]", result.toString());
@@ -354,64 +313,56 @@ _.map(stooges, _.iteratee('age'));
     @Test
     public void setTimeout() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
-            counter[0]++; return null; } };
+        Supplier<Void> incr = () -> {
+            counter[0]++; return null; };
         U.setTimeout(incr, 0);
-        await().atLeast(40, TimeUnit.MILLISECONDS).until(new Callable<Boolean>() {
-            public Boolean call() {
-                assertEquals(1, counter[0].intValue());
-                return true;
-            }
+        await().atLeast(40, TimeUnit.MILLISECONDS).until(() -> {
+            assertEquals(1, counter[0].intValue());
+            return true;
         });
     }
 
     @Test
     public void clearTimeout() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
-            counter[0]++; return null; } };
+        Supplier<Void> incr = () -> {
+            counter[0]++; return null; };
         java.util.concurrent.ScheduledFuture future = U.setTimeout(incr, 20);
         U.clearTimeout(future);
         U.clearTimeout(null);
-        await().atLeast(40, TimeUnit.MILLISECONDS).until(new Callable<Boolean>() {
-            public Boolean call() {
-                assertEquals(0, counter[0].intValue());
-                return true;
-            }
+        await().atLeast(40, TimeUnit.MILLISECONDS).until(() -> {
+            assertEquals(0, counter[0].intValue());
+            return true;
         });
     }
 
     @Test
     public void setInterval() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
+        Supplier<Void> incr = () -> {
             if (counter[0] < 4) {
                 counter[0]++;
             }
-            return null; } };
+            return null; };
         U.setInterval(incr, 10);
-        await().atLeast(45, TimeUnit.MILLISECONDS).until(new Callable<Boolean>() {
-            public Boolean call() {
-                assertTrue("Counter is not in range [0, 4] " + counter[0],
-                    asList(0, 4).contains(counter[0]));
-                return true;
-            }
+        await().atLeast(45, TimeUnit.MILLISECONDS).until(() -> {
+            assertTrue("Counter is not in range [0, 4] " + counter[0],
+                asList(0, 4).contains(counter[0]));
+            return true;
         });
     }
 
     @Test
     public void clearInterval() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = new Supplier<Void>() { public Void get() {
-            counter[0]++; return null; } };
+        Supplier<Void> incr = () -> {
+            counter[0]++; return null; };
         java.util.concurrent.ScheduledFuture future = U.setInterval(incr, 20);
         U.clearInterval(future);
         U.clearInterval(null);
-        await().atLeast(40, TimeUnit.MILLISECONDS).until(new Callable<Boolean>() {
-            public Boolean call() {
-                assertEquals(0, counter[0].intValue());
-                return true;
-            }
+        await().atLeast(40, TimeUnit.MILLISECONDS).until(() -> {
+            assertEquals(0, counter[0].intValue());
+            return true;
         });
     }
 }
