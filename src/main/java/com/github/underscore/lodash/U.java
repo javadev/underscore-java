@@ -1681,23 +1681,38 @@ public class U<T> extends com.github.underscore.U<T> {
             String key = entry.getKey();
             Object value2 = entry.getValue();
             if (map1.containsKey(key)) {
-                Object value1 = map1.get(key);
-                if (value1 instanceof Map && value2 instanceof Map) {
-                    outMap.put(key, update((Map<String, Object>) value1, (Map<String, Object>) value2));
-                } else if (value1 instanceof List && value2 instanceof List) {
-                    outMap.put(key, merge((List<Object>) value1, (List<Object>) value2));
-                } else if (value1 instanceof List) {
-                    outMap.put(key, merge((List<Object>) value1, newArrayList(value2)));
-                } else if (value2 instanceof List) {
-                    outMap.put(key, merge(newArrayList(value1), (List<Object>) value2));
-                } else {
-                    outMap.put(key, value2);
-                }
+                createKey(map1, key, value2, outMap);
+            } else {
+                outMap.put(key, value2);
+            }
+        }
+        for (Map.Entry<String, Object> entry : map1.entrySet()) {
+            String key = entry.getKey();
+            Object value2 = entry.getValue();
+            if (map2.containsKey(key)) {
+                createKey(map2, key, value2, outMap);
             } else {
                 outMap.put(key, value2);
             }
         }
         return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void createKey(final Map<String, Object> map, String key,
+            Object value2, Map<String, Object> outMap) {
+        Object value1 = map.get(key);
+        if (value1 instanceof Map && value2 instanceof Map) {
+            outMap.put(key, update((Map<String, Object>) value1, (Map<String, Object>) value2));
+        } else if (value1 instanceof List && value2 instanceof List) {
+            outMap.put(key, merge((List<Object>) value1, (List<Object>) value2));
+        } else if (value1 instanceof List) {
+            outMap.put(key, merge((List<Object>) value1, newArrayList(value2)));
+        } else if (value2 instanceof List) {
+            outMap.put(key, merge(newArrayList(value1), (List<Object>) value2));
+        } else {
+            outMap.put(key, value2);
+        }
     }
 
     public static List<Object> merge(List<Object> list1, List<Object> list2) {
