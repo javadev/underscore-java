@@ -894,7 +894,7 @@ public class U<T> {
     public static <T extends Comparable<? super T>> List<T> sortWith(final Iterable<T> iterable,
         final Comparator<T> comparator) {
         final List<T> sortedList = newArrayList(iterable);
-        Collections.sort(sortedList, comparator);
+        sortedList.sort(comparator);
         return sortedList;
     }
 
@@ -909,7 +909,7 @@ public class U<T> {
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final Iterable<E> iterable,
         final Function<E, T> func) {
         final List<E> sortedList = newArrayList(iterable);
-        Collections.sort(sortedList, (o1, o2) -> func.apply(o1).compareTo(func.apply(o2)));
+        sortedList.sort((o1, o2) -> func.apply(o1).compareTo(func.apply(o2)));
         return sortedList;
     }
 
@@ -921,7 +921,7 @@ public class U<T> {
     public static <K, V extends Comparable<? super V>> List<Map<K, V>> sortBy(final Iterable<Map<K, V>> iterable,
         final K key) {
         final List<Map<K, V>> sortedList = newArrayList(iterable);
-        Collections.sort(sortedList, (o1, o2) -> o1.get(key).compareTo(o2.get(key)));
+        sortedList.sort((o1, o2) -> o1.get(key).compareTo(o2.get(key)));
         return sortedList;
     }
 
@@ -3730,7 +3730,7 @@ public class U<T> {
 
     private static List<Map.Entry<String, Integer>> getEntries(Map<String, Integer> topCompetitorsMap) {
         List<Map.Entry<String, Integer>> list = new ArrayList<>(topCompetitorsMap.entrySet());
-        Collections.sort(list, new ValueThenKeyComparator<>());
+        list.sort(new ValueThenKeyComparator<>());
         return list;
     }
 

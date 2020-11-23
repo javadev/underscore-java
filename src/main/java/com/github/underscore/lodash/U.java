@@ -870,12 +870,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static List<Object> pull(final List<Object> list, Object ... values) {
         final List<Object> valuesList = Arrays.asList(values);
-        for (final Iterator<Object> iterator = list.iterator(); iterator.hasNext(); ) {
-            final Object object = iterator.next();
-            if (valuesList.contains(object)) {
-                iterator.remove();
-            }
-        }
+        list.removeIf(valuesList::contains);
         return list;
     }
 
