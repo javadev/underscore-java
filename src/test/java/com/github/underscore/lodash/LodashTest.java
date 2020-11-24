@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 
 /**
@@ -184,11 +185,12 @@ _.flattenDeep([1, [2, 3, [4]]]);
     @SuppressWarnings("unchecked")
     @Test
     public void flattenDeep() {
-        final List<Integer> result = U.flattenDeep(asList(1, asList(2, 3, asList(asList(4)))));
+        final List<Integer> result = U.flattenDeep(asList(1, asList(2, 3, singletonList(singletonList(4)))));
         assertEquals("[1, 2, 3, 4]", result.toString());
-        final List<Integer> result2 = new U(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep();
+        final List<Integer> result2 = new U(asList(1, asList(2, 3, singletonList(singletonList(4))))).flattenDeep();
         assertEquals("[1, 2, 3, 4]", result2.toString());
-        final List<?> resultChain = U.chain(asList(1, asList(2, 3, asList(asList(4))))).flattenDeep().value();
+        final List<?> resultChain = U.chain(asList(1, asList(2, 3,
+                singletonList(singletonList(4))))).flattenDeep().value();
         assertEquals("[1, 2, 3, 4]", resultChain.toString());
     }
 
@@ -857,8 +859,8 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
     public void main() {
         new U(new ArrayList<String>());
         new U("");
-        new U(asList()).chain();
-        new U(asList()).of();
+        new U(Collections.emptyList()).chain();
+        new U(Collections.emptyList()).of();
         new Json();
         new Xml();
         U.chain(new ArrayList<String>());

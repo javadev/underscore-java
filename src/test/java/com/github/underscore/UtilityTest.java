@@ -25,13 +25,7 @@ package com.github.underscore;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static java.util.Arrays.asList;
@@ -172,7 +166,7 @@ _("fabio").capitalize();
             -> String.valueOf(string.charAt(0)).toUpperCase() + string.substring(1).toLowerCase());
         assertEquals("Fabio", new U("fabio").call("capitalize").get());
         assertFalse(new U("fabio").call("capitalize2").isPresent());
-        assertFalse(new U(asList(1)).call("capitalize2").isPresent());
+        assertFalse(new U(Collections.singletonList(1)).call("capitalize2").isPresent());
     }
 
 /*
@@ -333,11 +327,11 @@ var fortmatted = _.format("hello: {}", "moe");
         assertEquals("[]", strings2.toString());
         List<String> strings3 = U.topNCompetitors(2, 2, competitors2, 6, null);
         assertEquals("[]", strings3.toString());
-        List<String> strings4 = U.topNCompetitors(2, 2, competitors2, 6, Arrays.<String>asList());
+        List<String> strings4 = U.topNCompetitors(2, 2, competitors2, 6, Collections.<String>emptyList());
         assertEquals("[]", strings4.toString());
         List<String> strings5 = U.topNCompetitors(2, 2, null, 6, reviews2);
         assertEquals("[]", strings5.toString());
-        List<String> strings6 = U.topNCompetitors(2, 2, Arrays.<String>asList(), 6, reviews2);
+        List<String> strings6 = U.topNCompetitors(2, 2, Collections.<String>emptyList(), 6, reviews2);
         assertEquals("[]", strings6.toString());
         List<String> strings7 = U.topNCompetitors(0, 2, competitors2, 6, reviews2);
         assertEquals("[]", strings7.toString());

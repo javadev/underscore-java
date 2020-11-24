@@ -35,6 +35,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -70,7 +71,7 @@ _.first([5, 4, 3, 2, 1], 2);
         assertEquals("[]", U.first(U.range(3), -2).toString());
         assertEquals("[]", new U<>(U.range(3)).first(0).toString());
         assertEquals("[]", new U<>(U.range(3)).first(-1).toString());
-        assertEquals("[]", U.chain(asList("a")).first(-100).value().toString());
+        assertEquals("[]", U.chain(singletonList("a")).first(-100).value().toString());
         //array
         assertEquals(5, U.first(new Integer[] {5, 4, 3, 2, 1}).intValue());
         //static, chain, object with predicate
@@ -118,7 +119,7 @@ _.first([5, 4, 3, 2, 1], 2);
     @Test(expected = NoSuchElementException.class)
     @SuppressWarnings("unchecked")
     public void firstEmpty() {
-        U.first(asList());
+        U.first(Collections.emptyList());
     }
 
 /*
@@ -150,11 +151,11 @@ _.singleOrNull([5]);
     @Test
     public void singleOrNull() {
        U<Integer> uWithMoreElement = new U<>(asList(1, 2, 3));
-       U<Integer> uWithOneElement = new U<>(asList(1));
+       U<Integer> uWithOneElement = new U<>(singletonList(1));
 
        final Integer result1 = U.singleOrNull(asList(1, 2, 3));
        assertNull(result1);
-       final int result2 = U.singleOrNull(asList(1));
+       final int result2 = U.singleOrNull(singletonList(1));
        assertEquals(1, result2);
        final Integer result3 = U.singleOrNull(new ArrayList<>());
        assertNull(result3);
@@ -312,9 +313,9 @@ _.interpose([1], 500);
         assertEquals("[0]", U.interpose(U.range(1), 500).toString());
         assertEquals("[a, interpose, b, interpose, c]", new U<>(asList("a", "b", "c"))
             .interpose("interpose").toString());
-        assertEquals("[a]", new U<>(asList("a")).interpose("interpose").toString());
-        assertEquals("[a, b]", new U<>(asList("a, b")).interpose(null).toString());
-        assertEquals("[a]", U.chain(asList("a")).interpose("interpose").toString());
+        assertEquals("[a]", new U<>(singletonList("a")).interpose("interpose").toString());
+        assertEquals("[a, b]", new U<>(singletonList("a, b")).interpose(null).toString());
+        assertEquals("[a]", U.chain(singletonList("a")).interpose("interpose").toString());
         assertEquals("[]", U.chain(U.newArrayList()).interpose("interpose").toString());
         assertEquals("[a, b, c]", U.chain(asList("a", "b", "c")).interpose(null).toString());
         assertEquals("[?, interpose, !, interpose, -]", U.chain(asList("?", "!", "-"))
@@ -342,13 +343,13 @@ _.interpose([], [500, 600, 700]);
         list2.add(1);
         assertEquals("[1]", U.interposeByList(list2, U.range(100, 300, 50)).toString());
         assertEquals("[0, 100, 1, 2, 3]", U.interposeByList(U.range(4), U.newIntegerList(100)).toString());
-        assertEquals("[a, zzz, b, c]", new U<>(asList("a", "b", "c")).interposeByList(asList("zzz")).toString());
+        assertEquals("[a, zzz, b, c]", new U<>(asList("a", "b", "c")).interposeByList(singletonList("zzz")).toString());
         assertEquals("[a, b, c]", new U<>(asList("a", "b", "c")).interposeByList(null).toString());
-        assertEquals("[a]", new U<>(asList("a")).interposeByList(asList("zzz")).toString());
+        assertEquals("[a]", new U<>(singletonList("a")).interposeByList(singletonList("zzz")).toString());
         assertEquals("[a, b, c]", new U<>(asList("a", "b", "c")).interposeByList(list1).toString());
         assertEquals("[a, aaa, b, bbb, c]", new U<>(asList("a", "b", "c"))
             .interposeByList(asList("aaa", "bbb", "ccc")).toString());
-        assertEquals("[a]", U.chain(asList("a")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
+        assertEquals("[a]", U.chain(singletonList("a")).interposeByList(asList("aaa", "bbb", "ccc")).toString());
         assertEquals("[aaa, bbb, ccc]", U.chain(asList("aaa", "bbb", "ccc")).interposeByList(null).toString());
         list2.clear();
         assertEquals("[]", U.chain(list2).interposeByList(U.range(6)).toString());
@@ -556,17 +557,21 @@ _.flatten([1, [2], [3, [[4]]]]);
     @Test
     @SuppressWarnings("unchecked")
     public void flatten() {
-        final List<Integer> result = U.flatten(asList(1, asList(2, asList(3, asList(asList(4))))));
+        final List<Integer> result = U.flatten(asList(1, asList(2, asList(3, singletonList(singletonList(4))))));
         assertEquals("[1, 2, 3, 4]", result.toString());
-        final List<Integer> result2 = U.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), true);
+        final List<Integer> result2 = U.flatten(asList(1, asList(2, asList(3, singletonList(singletonList(4))))), true);
         assertEquals("[1, 2, [3, [[4]]]]", result2.toString());
-        final List<Integer> result3 = U.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), false);
+        final List<Integer> result3 = U.flatten(asList(1, asList(2, asList(3,
+                singletonList(singletonList(4))))), false);
         assertEquals("[1, 2, 3, 4]", result3.toString());
-        final List<Integer> resultObj = new U(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten();
+        final List<Integer> resultObj = new U(asList(1, asList(2, asList(3,
+                singletonList(singletonList(4)))))).flatten();
         assertEquals("[1, 2, 3, 4]", resultObj.toString());
-        final List<Integer> resultObj2 = new U(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(true);
+        final List<Integer> resultObj2 = new U(asList(1, asList(2, asList(3,
+                singletonList(singletonList(4)))))).flatten(true);
         assertEquals("[1, 2, [3, [[4]]]]", resultObj2.toString());
-        final List<Integer> resultObj3 = new U(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(false);
+        final List<Integer> resultObj3 = new U(asList(1, asList(2, asList(3,
+                singletonList(singletonList(4)))))).flatten(false);
         assertEquals("[1, 2, 3, 4]", resultObj3.toString());
     }
 
@@ -639,7 +644,7 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
                 return 0;
             }
         }
-        U.<Person>sortedIndex(asList(new Person()), new Person(), "age");
+        U.<Person>sortedIndex(singletonList(new Person()), new Person(), "age");
     }
 
 /*

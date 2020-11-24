@@ -25,14 +25,7 @@ package com.github.underscore;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -243,9 +236,9 @@ _.isEqual('Curly', 'Curly')
         assertTrue(new U(new ArrayList<String>()).isEmpty());
         assertTrue(U.chain((List) null).isEmpty());
         assertTrue(U.chain(new ArrayList<String>()).isEmpty());
-        assertFalse(U.isEmpty(asList("")));
-        assertFalse(new U(asList("")).isEmpty());
-        assertFalse(U.chain(asList("")).isEmpty());
+        assertFalse(U.isEmpty(Collections.singletonList("")));
+        assertFalse(new U(Collections.singletonList("")).isEmpty());
+        assertFalse(U.chain(Collections.singletonList("")).isEmpty());
         assertTrue(U.isEmpty((Map) null));
         assertTrue(U.isEmpty(new HashMap<String, String>()));
         assertFalse(U.isEmpty(new HashMap<String, String>() { { put("", ""); } }));
@@ -260,9 +253,9 @@ _.isEqual('Curly', 'Curly')
         assertFalse(new U(new ArrayList<String>()).isNotEmpty());
         assertFalse(U.chain((List) null).isNotEmpty());
         assertFalse(U.chain(new ArrayList<String>()).isNotEmpty());
-        assertTrue(U.isNotEmpty(asList("")));
-        assertTrue(new U(asList("")).isNotEmpty());
-        assertTrue(U.chain(asList("")).isNotEmpty());
+        assertTrue(U.isNotEmpty(Collections.singletonList("")));
+        assertTrue(new U(Collections.singletonList("")).isNotEmpty());
+        assertTrue(U.chain(Collections.singletonList("")).isNotEmpty());
         assertFalse(U.isNotEmpty((Map) null));
         assertFalse(U.isNotEmpty(new HashMap<String, String>()));
         assertTrue(U.isNotEmpty(new HashMap<String, String>() { { put("", ""); } }));

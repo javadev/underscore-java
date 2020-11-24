@@ -468,21 +468,21 @@ _.repeat('abc', 0);
         assertEquals("[\n  \"First item\",\n  \"Second item\"\n]",
             U.toJson(Arrays.asList("First item", "Second item")));
         assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
-            U.toJson(Arrays.asList(new byte[] {1, 2})));
+            U.toJson(Collections.singletonList(new byte[]{1, 2})));
         assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
-            U.toJson(Arrays.asList(new short[] {1, 2})));
+            U.toJson(Collections.singletonList(new short[]{1, 2})));
         assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
-            U.toJson(Arrays.asList(new int[] {1, 2})));
+            U.toJson(Collections.singletonList(new int[]{1, 2})));
         assertEquals("[\n  [\n    1,\n    2\n  ]\n]",
-            U.toJson(Arrays.asList(new long[] {1, 2})));
+            U.toJson(Collections.singletonList(new long[]{1, 2})));
         assertEquals("[\n  [\n    1.0,\n    2.0\n  ]\n]",
-            U.toJson(Arrays.asList(new float[] {1, 2})));
+            U.toJson(Collections.singletonList(new float[]{1, 2})));
         assertEquals("[\n  [\n    1.0,\n    2.0\n  ]\n]",
-            U.toJson(Arrays.asList(new double[] {1, 2})));
+            U.toJson(Collections.singletonList(new double[]{1, 2})));
         assertEquals("[\n  [\n    \"1\",\n    \"2\"\n  ]\n]",
-            U.toJson(Arrays.asList(new char[] {'1', '2'})));
+            U.toJson(Collections.singletonList(new char[]{'1', '2'})));
         assertEquals("[\n  [\n    true,\n    false,\n    true\n  ]\n]",
-            U.toJson(Arrays.asList(new boolean[] {true, false, true})));
+            U.toJson(Collections.singletonList(new boolean[]{true, false, true})));
         assertEquals("[\n  1.0,\n  2.0\n]",
             U.toJson(Arrays.asList(new Float[] {1F, 2F})));
         assertEquals("[\n  1.0,\n  2.0\n]",
@@ -490,10 +490,15 @@ _.repeat('abc', 0);
         assertEquals("[\n  true,\n  false,\n  true\n]",
             U.toJson(Arrays.asList(new Boolean[] {true, false, true})));
         assertEquals("[\n  [\n    \"First item\",\n    \"Second item\"\n  ]\n]",
-            U.toJson(Arrays.asList(Arrays.asList("First item", "Second item"))));
+            U.toJson(Collections.singletonList(asList("First item", "Second item"))));
         assertEquals("[\n  {\n    \"1\": \"First item\",\n    \"2\": \"Second item\",\n    \"3\": null\n  }\n]",
-            U.toJson(Arrays.asList(new LinkedHashMap() { {
-                put("1", "First item"); put("2", "Second item"); put("3", null); } })));
+            U.toJson(Collections.singletonList(new LinkedHashMap() {
+                {
+                    put("1", "First item");
+                    put("2", "Second item");
+                    put("3", null);
+                }
+            })));
         assertEquals("[\n  null\n]", U.toJson(Arrays.asList(new String[] {(String) null})));
         assertEquals("null", U.toJson((Collection) null));
         class Test {
@@ -728,10 +733,10 @@ _.repeat('abc', 0);
         assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", U.toJson(testList));
         assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", new U(testList).toJson());
         assertEquals("[\n  \"First item\",\n  \"Second item\"\n]", U.chain(testList).toJson().item());
-        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(Double.NaN)));
-        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(Double.POSITIVE_INFINITY)));
-        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(Float.NaN)));
-        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(Float.POSITIVE_INFINITY)));
+        assertEquals("[\n  null\n]", U.toJson(Collections.singletonList(Double.NaN)));
+        assertEquals("[\n  null\n]", U.toJson(Collections.singletonList(Double.POSITIVE_INFINITY)));
+        assertEquals("[\n  null\n]", U.toJson(Collections.singletonList(Float.NaN)));
+        assertEquals("[\n  null\n]", U.toJson(Collections.singletonList(Float.POSITIVE_INFINITY)));
     }
 
     @Test
@@ -981,28 +986,28 @@ _.repeat('abc', 0);
             U.toXml(Arrays.asList("First item", "Second item")));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(new byte[] {1, 2})));
+            U.toXml(Collections.singletonList(new byte[]{1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(new short[] {1, 2})));
+            U.toXml(Collections.singletonList(new short[]{1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(new int[] {1, 2})));
+            U.toXml(Collections.singletonList(new int[]{1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(new long[] {1, 2})));
+            U.toXml(Collections.singletonList(new long[]{1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1.0</element>"
             + "\n    <element>2.0</element>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(new float[] {1, 2})));
+            U.toXml(Collections.singletonList(new float[]{1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1.0</element>"
             + "\n    <element>2.0</element>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(new double[] {1, 2})));
+            U.toXml(Collections.singletonList(new double[]{1, 2})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>1</element>"
             + "\n    <element>2</element>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(new char[] {'1', '2'})));
+            U.toXml(Collections.singletonList(new char[]{'1', '2'})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>\n    <element>true</element>"
             + "\n    <element>false</element>\n    <element>true</element>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(new boolean[] {true, false, true})));
+            U.toXml(Collections.singletonList(new boolean[]{true, false, true})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element number=\"true\">1.0</element>"
             + "\n  <element number=\"true\">2.0</element>\n</root>",
             U.toXml(Arrays.asList(new Float[] {1F, 2F})));
@@ -1014,12 +1019,17 @@ _.repeat('abc', 0);
             U.toXml(Arrays.asList(new Boolean[] {true, false, true})));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\">\n"
             + "    <element>First item</element>\n    <element>Second item</element>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(Arrays.asList("First item", "Second item"))));
+            U.toXml(Collections.singletonList(asList("First item", "Second item"))));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\">\n"
             + "    <__GE__>First item</__GE__>\n    <__GI__>Second item</__GI__>\n"
             + "    <__GM__ null=\"true\"/>\n  </element>\n</root>",
-            U.toXml(Arrays.asList(new LinkedHashMap() { {
-                put("1", "First item"); put("2", "Second item"); put("3", null); } })));
+            U.toXml(Collections.singletonList(new LinkedHashMap() {
+                {
+                    put("1", "First item");
+                    put("2", "Second item");
+                    put("3", null);
+                }
+            })));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
             + "  <element array=\"true\" null=\"true\"/>\n</root>",
             U.toXml(Arrays.asList(new String[] {(String) null})));
@@ -1325,13 +1335,13 @@ _.repeat('abc', 0);
             + "  <element>First item</element>\n  <element>Second item</element>\n</root>",
             U.chain(testList).toXml().item());
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
-            U.toXml(Arrays.asList(Double.NaN)));
+            U.toXml(Collections.singletonList(Double.NaN)));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
-            U.toXml(Arrays.asList(Double.POSITIVE_INFINITY)));
+            U.toXml(Collections.singletonList(Double.POSITIVE_INFINITY)));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
-            U.toXml(Arrays.asList(Float.NaN)));
+            U.toXml(Collections.singletonList(Float.NaN)));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
-            U.toXml(Arrays.asList(Float.POSITIVE_INFINITY)));
+            U.toXml(Collections.singletonList(Float.POSITIVE_INFINITY)));
     }
 
     @Test
@@ -3225,49 +3235,49 @@ _.repeat('abc', 0);
                         + " + \"    2\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(new byte[] {1, 2})));
+            U.toJsonJavaString(Collections.singletonList(new byte[]{1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1,\\n\"\n"
                         + " + \"    2\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(new short[] {1, 2})));
+            U.toJsonJavaString(Collections.singletonList(new short[]{1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1,\\n\"\n"
                         + " + \"    2\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(new int[] {1, 2})));
+            U.toJsonJavaString(Collections.singletonList(new int[]{1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1,\\n\"\n"
                         + " + \"    2\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(new long[] {1, 2})));
+            U.toJsonJavaString(Collections.singletonList(new long[]{1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1.0,\\n\"\n"
                         + " + \"    2.0\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(new float[] {1, 2})));
+            U.toJsonJavaString(Collections.singletonList(new float[]{1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    1.0,\\n\"\n"
                         + " + \"    2.0\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(new double[] {1, 2})));
+            U.toJsonJavaString(Collections.singletonList(new double[]{1, 2})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    \"1\",\\n\"\n"
                         + " + \"    \"2\"\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(new char[] {'1', '2'})));
+            U.toJsonJavaString(Collections.singletonList(new char[]{'1', '2'})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  [\\n\"\n"
                         + " + \"    true,\\n\"\n"
@@ -3275,7 +3285,7 @@ _.repeat('abc', 0);
                         + " + \"    true\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(new boolean[] {true, false, true})));
+            U.toJsonJavaString(Collections.singletonList(new boolean[]{true, false, true})));
         assertEquals("\"[\\n\"\n"
                         + " + \"  1.0,\\n\"\n"
                         + " + \"  2.0\\n\"\n"
@@ -3298,7 +3308,7 @@ _.repeat('abc', 0);
                         + " + \"    \\\"Second item\\\"\\n\"\n"
                         + " + \"  ]\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(Arrays.asList("First item", "Second item"))));
+            U.toJsonJavaString(Collections.singletonList(asList("First item", "Second item"))));
         assertEquals("\"[\\n\"\n"
                         + " + \"  {\\n\"\n"
                         + " + \"    \\\"1\\\": \\\"First item\\\",\\n\"\n"
@@ -3306,8 +3316,13 @@ _.repeat('abc', 0);
                         + " + \"    \\\"3\\\": null\\n\"\n"
                         + " + \"  }\\n\"\n"
                         + " + \"]\";",
-            U.toJsonJavaString(Arrays.asList(new LinkedHashMap() { {
-                put("1", "First item"); put("2", "Second item"); put("3", null); } })));
+            U.toJsonJavaString(Collections.singletonList(new LinkedHashMap() {
+                {
+                    put("1", "First item");
+                    put("2", "Second item");
+                    put("3", null);
+                }
+            })));
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
                 + " + \"]\";", U.toJsonJavaString(Arrays.asList(new String[] {(String) null})));
@@ -3623,16 +3638,16 @@ _.repeat('abc', 0);
                 + " + \"]\";", U.chain(testList).toJsonJavaString().item());
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
-                + " + \"]\";", U.toJsonJavaString(Arrays.asList(Double.NaN)));
+                + " + \"]\";", U.toJsonJavaString(Collections.singletonList(Double.NaN)));
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
-                + " + \"]\";", U.toJsonJavaString(Arrays.asList(Double.POSITIVE_INFINITY)));
+                + " + \"]\";", U.toJsonJavaString(Collections.singletonList(Double.POSITIVE_INFINITY)));
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
-                + " + \"]\";", U.toJsonJavaString(Arrays.asList(Float.NaN)));
+                + " + \"]\";", U.toJsonJavaString(Collections.singletonList(Float.NaN)));
         assertEquals("\"[\\n\"\n"
                 + " + \"  null\\n\"\n"
-                + " + \"]\";", U.toJsonJavaString(Arrays.asList(Float.POSITIVE_INFINITY)));
+                + " + \"]\";", U.toJsonJavaString(Collections.singletonList(Float.POSITIVE_INFINITY)));
     }
 
     @Test
@@ -3694,7 +3709,7 @@ _.repeat('abc', 0);
         U.main(new String[] {});
         new U<>(new ArrayList<>());
         new U<String>("");
-        new U<>(Arrays.<Object>asList()).chain();
+        new U<>(Collections.<Object>emptyList()).chain();
         new Json.JsonArray();
         new Json.JsonValue();
         new Json.JsonObject();

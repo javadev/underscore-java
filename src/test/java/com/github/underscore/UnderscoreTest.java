@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 
 /**
@@ -42,8 +43,8 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     public void main() {
         U.main(new String[] {});
-        new U(asList("")).getIterable();
-        new U(asList("")).value();
+        new U(singletonList("")).getIterable();
+        new U(singletonList("")).value();
         new U("").getString();
     }
 
@@ -148,8 +149,8 @@ _.concat([1, 2], [3, 4]);
         assertEquals("[1, 2, 3, 4]", U.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
         assertEquals("[1, 2, 3, 4, 5, 6]", U.chain(asList(1, 2)).concat(asList(3, 4), asList(5, 6)).value().toString());
         assertEquals(asList(1, 2, 3, 4), asList(U.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
-        assertEquals(asList(1, 2, 3, 4), U.concat(asList(1, 2), asList(3), asList(4)));
-        assertEquals(asList(1, 2, 3, 4), new U<>(asList(1, 2)).concatWith(asList(3), asList(4)));
+        assertEquals(asList(1, 2, 3, 4), U.concat(asList(1, 2), singletonList(3), singletonList(4)));
+        assertEquals(asList(1, 2, 3, 4), new U<>(asList(1, 2)).concatWith(singletonList(3), singletonList(4)));
     }
 
 /*
@@ -168,8 +169,8 @@ arr.slice(-3, -1) // [3, 4]
         assertEquals(asList(2, 3, 4), U.slice(asList(1, 2, 3, 4, 5), 1, 4));
         assertEquals(asList("a", "b"), U.slice(asList("a", "b", "c", "d"), 0, 2));
         assertEquals(asList(2, 3, 4), U.slice(asList(1, 2, 3, 4, 5), 1, -1));
-        assertEquals(asList(3), U.slice(asList(1, 2, 3, 4, 5), 2, 3));
-        assertEquals(asList(3), new U(asList(1, 2, 3, 4, 5)).slice(2, 3));
+        assertEquals(singletonList(3), U.slice(asList(1, 2, 3, 4, 5), 2, 3));
+        assertEquals(singletonList(3), new U(asList(1, 2, 3, 4, 5)).slice(2, 3));
         assertEquals(asList(4, 5), U.slice(asList(1, 2, 3, 4, 5), -2));
         assertEquals(asList(3, 4), U.slice(asList(1, 2, 3, 4, 5), -3, -1));
         assertEquals(asList(3, 4), U.slice(asList(1, 2, 3, 4, 5), -3, 4));

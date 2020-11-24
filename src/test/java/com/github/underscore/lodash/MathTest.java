@@ -27,10 +27,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 import static java.util.Arrays.asList;
@@ -50,7 +47,7 @@ public class MathTest {
         assertEquals("2.0", result.toString());
         final Double resultFunc = U.average(asList((byte) 1, (byte) 2, (byte) 3), item -> (byte) (item * 2));
         assertEquals("4.0", resultFunc.toString());
-        final Double resultFunc2 = U.average(asList((Byte) null), item -> item);
+        final Double resultFunc2 = U.average(Collections.singletonList((Byte) null), item -> item);
         assertNull(resultFunc2);
         assertEquals("2.0", result.toString());
     }
@@ -71,7 +68,7 @@ public class MathTest {
         assertEquals("2.0", result7.toString());
         final Double result8 = U.average(asList(BigInteger.valueOf(1), BigInteger.valueOf(2), BigInteger.valueOf(3)));
         assertEquals("2.0", result8.toString());
-        final Double result9 = U.average(asList((Integer) null));
+        final Double result9 = U.average(Collections.singletonList((Integer) null));
         assertNull(result9);
     }
 
@@ -192,7 +189,7 @@ _.sum([-1, -2, -3]);
         assertEquals("6", result7.toString());
         final BigInteger result8 = U.sum(asList(BigInteger.valueOf(1), BigInteger.valueOf(2), BigInteger.valueOf(3)));
         assertEquals("6", result8.toString());
-        final Integer result9 = U.sum(asList((Integer) null));
+        final Integer result9 = U.sum(Collections.singletonList((Integer) null));
         assertNull(result9);
         final Integer result10 = U.sum(asList(1, (Integer) null));
         assertEquals("1", result10.toString());
@@ -318,7 +315,7 @@ _.mean([0, 1, 2]);
         assertEquals("0.5", resultChain.toString());
         final Double result2 = U.mean(asList((long) 0, (long) 1, (long) 2));
         assertEquals("1.0", result2.toString());
-        final Double result3 = U.mean(Arrays.<Double>asList());
+        final Double result3 = U.mean(Collections.<Double>emptyList());
         assertEquals("0.0", result3.toString());
     }
 
@@ -434,7 +431,7 @@ System.out.println("Sum of letters in words starting with E... " + sum);
     public void main() {
         U.main(new String[] {});
         new U("");
-        new U(asList()).chain();
+        new U(Collections.emptyList()).chain();
         U.chain(new HashSet<String>());
         U.chain(new String[] {});
     }
