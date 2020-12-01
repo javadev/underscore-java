@@ -3739,11 +3739,10 @@ public class U<T> {
 
         public int compare(Map.Entry<K, V> a, Map.Entry<K, V> b) {
             int cmp1 = b.getValue().compareTo(a.getValue());
-            if (cmp1 != 0) {
-                return cmp1;
-            } else {
+            if (cmp1 == 0) {
                 return a.getKey().compareTo(b.getKey());
             }
+            return cmp1;
         }
     }
 
