@@ -95,7 +95,8 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public enum Mode {
         REPLACE_SELF_CLOSING_WITH_NULL,
-        REPLACE_SELF_CLOSING_WITH_EMPTY
+        REPLACE_SELF_CLOSING_WITH_EMPTY,
+        REPLACE_EMPTY_VALUE_WITH_NULL
     }
 
     public U(final Iterable<T> iterable) {
@@ -2267,6 +2268,8 @@ public class U<T> extends com.github.underscore.U<T> {
                 result = Json.toJson(replaceSelfClosingWithNull((Map) object), identStep);
             } else if (mode == Mode.REPLACE_SELF_CLOSING_WITH_EMPTY) {
                 result = Json.toJson(replaceSelfClosingWithEmpty((Map) object), identStep);
+            } else if (mode == Mode.REPLACE_EMPTY_VALUE_WITH_NULL) {
+                result = Json.toJson(replaceEmptyValueWithNull((Map) object), identStep);
             } else {
                 result = Json.toJson((Map) object, identStep);
             }
@@ -2410,6 +2413,36 @@ public class U<T> extends com.github.underscore.U<T> {
             result = values;
         } else if (value instanceof Map) {
             result = replaceSelfClosingWithValue((Map) value, newValue);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> replaceEmptyValueWithNull(Map<String, Object> map) {
+        if (map.isEmpty()) {
+            return null;
+        }
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            outMap.put(String.valueOf(entry.getKey()),
+                makeObjectEmptyValue(entry.getValue()));
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeObjectEmptyValue(Object value) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? replaceEmptyValueWithNull((Map) item) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = replaceEmptyValueWithNull((Map) value);
         } else {
             result = value;
         }
