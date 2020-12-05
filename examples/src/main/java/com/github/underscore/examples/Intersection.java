@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2018 Valentyn Kolesnikov
+ * Copyright 2015-2020 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
 package com.github.underscore.examples;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Examples for underscore-java.
@@ -45,16 +46,11 @@ public class Intersection {
     }
 
     public static <E> boolean contains(final Iterable<E> iterable, final E elem) {
-        return some(iterable, new Predicate<E>() {
-            @Override
-            public boolean test(E e) {
-                return elem == null ? e == null : elem.equals(e);
-            }
-        });
+        return some(iterable, e -> Objects.equals(elem, e));
     }
 
     public static <E> List<E> filter(final List<E> list, final Predicate<E> pred) {
-        final List<E> filtered = new ArrayList<E>();
+        final List<E> filtered = new ArrayList<>();
         for (E element : list) {
             if (pred.test(element)) {
                 filtered.add(element);
@@ -64,12 +60,7 @@ public class Intersection {
     }
 
     public static <E> List<E> intersection(final List<E> list1, final List<E> list2) {
-        return filter(list1, new Predicate<E>() {
-            @Override
-            public boolean test(E elem) {
-                return contains(list2, elem);
-            }
-        });
+        return filter(list1, elem -> contains(list2, elem));
     }
 
 /*
@@ -78,10 +69,10 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 */
     @SuppressWarnings("unchecked")
     public static <E> List<E> intersection(final List<E> list, final List<E> ... lists) {
-        final Stack<List<E>> stack = new Stack<List<E>>();
+        final Stack<List<E>> stack = new Stack<>();
         stack.push(list);
-        for (int index = 0; index < lists.length; index += 1) {
-          stack.push(intersection(stack.peek(), lists[index]));
+        for (List<E> es : lists) {
+            stack.push(intersection(stack.peek(), es));
         }
         return stack.peek();
     }

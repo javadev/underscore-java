@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2018 Valentyn Kolesnikov
+ * Copyright 2015-2020 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
 package com.github.underscore.examples;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Examples for underscore-java.
@@ -32,7 +33,7 @@ import java.util.*;
  */
 public class Xor {
     public static <E> List<E> uniq(final List<E> list) {
-        return new ArrayList<E>(new LinkedHashSet<E>(list));
+        return new ArrayList<>(new LinkedHashSet<>(list));
     }
 
     public static <E> Optional<E> find(final Iterable<E> iterable, final Predicate<E> pred) {
@@ -49,16 +50,11 @@ public class Xor {
     }
 
     public static <E> boolean contains(final Iterable<E> iterable, final E elem) {
-        return some(iterable, new Predicate<E>() {
-            @Override
-            public boolean test(E e) {
-                return elem == null ? e == null : elem.equals(e);
-            }
-        });
+        return some(iterable, e -> Objects.equals(elem, e));
     }
 
     public static <E> List<E> filter(final List<E> list, final Predicate<E> pred) {
-        final List<E> filtered = new ArrayList<E>();
+        final List<E> filtered = new ArrayList<>();
         for (E element : list) {
             if (pred.test(element)) {
                 filtered.add(element);
@@ -68,16 +64,11 @@ public class Xor {
     }
 
     public static <E> List<E> difference(final List<E> list1, final List<E> list2) {
-        return filter(list1, new Predicate<E>() {
-            @Override
-            public boolean test(E elem) {
-                return !contains(list2, elem);
-            }
-        });
+        return filter(list1, elem -> !contains(list2, elem));
     }
 
     public static <T> List<T> concat(final List<T> ... other) {
-        final List<T> result = new ArrayList<T>();
+        final List<T> result = new ArrayList<>();
         for (final List<T> otherItem : other) {
             result.addAll(otherItem);
         }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2018 Valentyn Kolesnikov
+ * Copyright 2015-2020 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
 package com.github.underscore.examples;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * Examples for underscore-java.
@@ -36,22 +37,17 @@ public class Chaining {
     }
 
     public static <T, E> List<T> map(final List<E> list, final Function<? super E, T> func) {
-        final List<T> transformed = new ArrayList<T>(list.size());
+        final List<T> transformed = new ArrayList<>(list.size());
         for (E element : list) {
-            transformed.add(func.apply(element));
+            func.andThen(transformed::add).apply(element);
         }
         return transformed;
     }
 
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final List<E> iterable,
         final Function<E, T> func) {
-        final List<E> sortedList = new ArrayList<E>(iterable);
-        Collections.sort(sortedList, new Comparator<E>() {
-            @Override
-            public int compare(E o1, E o2) {
-                return func.apply(o1).compareTo(func.apply(o2));
-            }
-        });
+        final List<E> sortedList = new ArrayList<>(iterable);
+        sortedList.sort(Comparator.comparing(func::apply));
         return sortedList;
     }
 
@@ -65,7 +61,7 @@ var youngest = _.chain(stooges)
 => "moe is 21"
 */
     public static <T> Chain<T> chain(final List<T> list) {
-        return new Chaining.Chain<T>(list);
+        return new Chaining.Chain<>(list);
     }
 
     public static class Chain<T> {
@@ -82,15 +78,15 @@ var youngest = _.chain(stooges)
         }
 
         public Chain<T> first() {
-            return new Chain<T>(Chaining.first(list));
+            return new Chain<>(Chaining.first(list));
         }
 
         public <F> Chain<F> map(final Function<? super T, F> func) {
-            return new Chain<F>(Chaining.map(list, func));
+            return new Chain<>(Chaining.map(list, func));
         }
 
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function<T, F> func) {
-            return new Chain<T>(Chaining.sortBy(list, func));
+            return new Chain<>(Chaining.sortBy(list, func));
         }
 
         public T item() {

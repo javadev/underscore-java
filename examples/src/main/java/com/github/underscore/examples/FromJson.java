@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2018 Valentyn Kolesnikov
+ * Copyright 2015-2020 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -115,7 +115,7 @@ public class FromJson {
 
         private List<Object> readArray() {
             read();
-            List<Object> array = new ArrayList<Object>();
+            List<Object> array = new ArrayList<>();
             skipWhiteSpace();
             if (readChar(']')) {
                 return array;
@@ -133,7 +133,7 @@ public class FromJson {
 
         private Map<String, Object> readObject() {
             read();
-            Map<String, Object> object = new LinkedHashMap<String, Object>();
+            Map<String, Object> object = new LinkedHashMap<>();
             skipWhiteSpace();
             if (readChar('}')) {
                 return object;

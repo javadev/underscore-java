@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2018 Valentyn Kolesnikov
+ * Copyright 2015-2020 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
 package com.github.underscore.examples;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * Examples for underscore-java.
@@ -33,7 +34,7 @@ import java.util.*;
 public class SnakeCase {
     private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
         "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
-    private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<String, String>();
+    private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<>();
 
     static {
         String[] deburredLetters = new String[] {
@@ -87,7 +88,7 @@ public class SnakeCase {
 
     public static List<String> words(final String string) {
         final String localString = baseToString(string);
-        final List<String> result = new ArrayList<String>();
+        final List<String> result = new ArrayList<>();
         final java.util.regex.Matcher matcher = reWords.matcher(localString);
         while (matcher.find()) {
             result.add(matcher.group());
@@ -97,18 +98,16 @@ public class SnakeCase {
 
     private static Function<String, String> createCompounder(
         final Function3<String, String, Integer, String> callback) {
-        return new Function<String, String>() {
-            public String apply(final String string) {
-                int index = -1;
-                List<String> array = words(deburr(string));
-                int length = array.size();
-                String result = "";
+        return string -> {
+            int index = -1;
+            List<String> array = words(deburr(string));
+            int length = array.size();
+            String result = "";
 
-                while (++index < length) {
-                    result = callback.apply(result, array.get(index), index);
-                }
-                return result;
+            while (++index < length) {
+                result = callback.apply(result, array.get(index), index);
             }
+            return result;
         };
     }
 
@@ -123,10 +122,7 @@ _.snakeCase('--foo-bar');
 => 'foo_bar'
 */
     public static String snakeCase(final String string) {
-        return createCompounder(new Function3<String, String, Integer, String>() {
-            public String apply(final String result, final String word, final Integer index) {
-                return result + (index > 0 ? "_" : "") + word.toLowerCase(Locale.getDefault());
-            }
-        }).apply(string);
+        return createCompounder((result, word, index) -> result + (index > 0 ? "_" : "")
+                + word.toLowerCase(Locale.getDefault())).apply(string);
     }
 }

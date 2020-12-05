@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2018 Valentyn Kolesnikov
+ * Copyright 2015-2020 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,8 @@
  */
 package com.github.underscore.examples;
 
+import java.util.Objects;
+
 public final class Optional<T> {
     private static final Optional<?> EMPTY = new Optional();
     private final T arg;
@@ -39,12 +41,12 @@ public final class Optional<T> {
     }
 
     public static <T> Optional<T> of(final T arg) {
-        return new Optional<T>(arg);
+        return new Optional<>(arg);
     }
 
     public static <T> Optional<T> fromNullable(final T nullableReference) {
         return nullableReference == null ? Optional.<T>absent()
-            : new Optional<T>(nullableReference);
+            : new Optional<>(nullableReference);
     }
 
     @SuppressWarnings("unchecked")
@@ -91,7 +93,7 @@ public final class Optional<T> {
         if (absent != optional.absent) {
             return false;
         }
-        return !(arg == null ? optional.arg != null : !arg.equals(optional.arg));
+        return Objects.equals(arg, optional.arg);
     }
 
     @Override

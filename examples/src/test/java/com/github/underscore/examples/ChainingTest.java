@@ -58,17 +58,9 @@ var youngest = _.chain(stooges)
         } };
         final String youngest = Chaining.chain(stooges)
             .sortBy(
-                new Function<Map<String, Object>, Integer>() {
-                public Integer apply(Map<String, Object> item) {
-                    return (Integer) item.get("age");
-                }
-            })
+                    item -> (Integer) item.get("age"))
             .map(
-                new Function<Map<String, Object>, String>() {
-                public String apply(Map<String, Object> item) {
-                    return item.get("name") + " is " + item.get("age");
-                }
-            })
+                    item -> item.get("name") + " is " + item.get("age"))
             .first().item();
         assertEquals("moe is 21", youngest);
     }

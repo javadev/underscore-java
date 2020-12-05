@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2015-2018 Valentyn Kolesnikov
+ * Copyright 2015-2020 Valentyn Kolesnikov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package com.github.underscore.examples;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -44,7 +45,7 @@ public class FromXml {
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> createMap(final org.w3c.dom.Node node) {
-        final Map<String, Object> map = new LinkedHashMap<String, Object>();
+        final Map<String, Object> map = new LinkedHashMap<>();
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
         for (int index = 0; index < nodeList.getLength(); index++) {
             final org.w3c.dom.Node currentNode = nodeList.item(index);
@@ -63,7 +64,7 @@ public class FromXml {
                 if (object instanceof List) {
                     ((List<Object>) object).add(getValue(value));
                 } else {
-                    final List<Object> objects = new ArrayList<Object>();
+                    final List<Object> objects = new ArrayList<>();
                     objects.add(object);
                     objects.add(getValue(value));
                     map.put(name, objects);
@@ -77,7 +78,7 @@ public class FromXml {
 
     public static Object fromXml(final String xml) {
         try {
-            final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes("UTF-8"));
+            final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
             final javax.xml.parsers.DocumentBuilderFactory factory =
                 javax.xml.parsers.DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
