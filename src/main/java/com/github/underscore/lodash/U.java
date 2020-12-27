@@ -1558,22 +1558,27 @@ public class U<T> extends com.github.underscore.U<T> {
             index += 1;
         }
         if (index > 0 && index == length) {
-            if (operationType == OperationType.SET) {
-                if (savedLocalObject instanceof Map) {
-                    ((Map) savedLocalObject).put(savedPath, value);
-                } else {
-                    ((List) savedLocalObject).set(Integer.parseInt(savedPath), value);
-                }
-            } else if (operationType == OperationType.REMOVE) {
-                if (savedLocalObject instanceof Map) {
-                    ((Map) savedLocalObject).remove(savedPath);
-                } else {
-                    ((List) savedLocalObject).remove(Integer.parseInt(savedPath));
-                }
-            }
+            checkSetAndRemove(value, operationType, savedLocalObject, savedPath);
             return (T) localObject;
         }
         return null;
+    }
+
+    private static void checkSetAndRemove(Object value, OperationType operationType, Object savedLocalObject,
+        String savedPath) {
+        if (operationType == OperationType.SET) {
+            if (savedLocalObject instanceof Map) {
+                ((Map) savedLocalObject).put(savedPath, value);
+            } else {
+                ((List) savedLocalObject).set(Integer.parseInt(savedPath), value);
+            }
+        } else if (operationType == OperationType.REMOVE) {
+            if (savedLocalObject instanceof Map) {
+                ((Map) savedLocalObject).remove(savedPath);
+            } else {
+                ((List) savedLocalObject).remove(Integer.parseInt(savedPath));
+            }
+        }
     }
 
     private static Map.Entry getMapEntry(Map map) {
