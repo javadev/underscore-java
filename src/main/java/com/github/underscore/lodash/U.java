@@ -1564,6 +1564,7 @@ public class U<T> extends com.github.underscore.U<T> {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     private static void checkSetAndRemove(Object value, OperationType operationType, Object savedLocalObject,
         String savedPath) {
         if (operationType == OperationType.SET) {
