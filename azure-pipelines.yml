@@ -17,6 +17,4 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     goals: 'test'
-    trigger: 
-      branches:
-      - main
+
