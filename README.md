@@ -88,17 +88,18 @@ U.formatJson("{\"a\":{\"b\":\"data\"}}");
     //    }
     // }
 
-U.xmlToJson("<a><b>data</b></a>");
+U.xmlToJson("<a attr=\"c\"><b>data</b></a>");
     // {
     //   "a": {
+    //     "-attr": "c",
     //     "b": "data"
     //   },
     //   "#omit-xml-declaration": "yes"
     // }
 
-U.jsonToXml("{\"a\":{\"b\":\"data\"}}");
+U.jsonToXml("{\"a\":{\"-attr\":\"c\",\"b\":\"data\"}}");
     // <?xml version="1.0" encoding="UTF-8"?>
-    // <a>
+    // <a attr="c">
     //   <b>data</b>
     // </a>
 
