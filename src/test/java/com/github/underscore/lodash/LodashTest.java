@@ -483,7 +483,8 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         assertEquals("{\n"
             + "    \"error\": {\n"
             + "        \"message\": \"Missing authentication\",\n"
-            + "        \"status_code\": 401\n"
+            + "        \"status_code\": 401,\n"
+            + "        \"code\": \"unauthorized\"\n"
             + "    }\n"
             + "}", result.text());
     }
@@ -741,6 +742,35 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
             U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.TABS));
         assertEquals("<a number=\"true\">1.00</a>", U.formatXml("<a number=\"true\">1.00</a>"));
         assertEquals("<a number=\"true\">2.01</a>", U.formatXml("<a number=\"true\">2.01</a>"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<RootElm>\n"
+                + "  <author DOB=\"\" EMailID=\"\" PlaceId=\"\" SSN=\"\">\n"
+                + "    <extn externalSystemCode=\"\"/>\n"
+                + "  </author>\n"
+                + "</RootElm>", U.jsonToXml("{\n"
+                + "  \"RootElm\": {\n"
+                + "    \"author\": {\n"
+                + "      \"DOB\": \"\",\n"
+                + "      \"EMailID\": \"\",\n"
+                + "      \"PlaceId\": \"\",\n"
+                + "      \"SSN\": \"\",\n"
+                + "      \"extn\": {\n"
+                + "        \"externalSystemCode\": \"\",\n"
+                + "        \"-self-closing\": \"true\"\n"
+                + "      }\n"
+                + "    }\n"
+                + "  }\n"
+                + "}", U.Mode.FORCE_ATTRIBUTE_USAGE));
+        Map<String, Object> map = U.newLinkedHashMap();
+        List<Object> list = U.newArrayList();
+        list.add(U.newLinkedHashMap());
+        map.put("list", list);
+        U.forceAttributeUsage(map);
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        List<Object> list2 = U.newArrayList();
+        list2.add(U.newArrayList());
+        map2.put("list", list2);
+        U.forceAttributeUsage(map2);
     }
 
     @Test
