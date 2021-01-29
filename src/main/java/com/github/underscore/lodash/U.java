@@ -96,7 +96,8 @@ public class U<T> extends com.github.underscore.U<T> {
     public enum Mode {
         REPLACE_SELF_CLOSING_WITH_NULL,
         REPLACE_SELF_CLOSING_WITH_EMPTY,
-        REPLACE_EMPTY_VALUE_WITH_NULL
+        REPLACE_EMPTY_VALUE_WITH_NULL,
+        FORCE_ATTRIBUTE_USAGE
     }
 
     public U(final Iterable<T> iterable) {
@@ -2241,16 +2242,27 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.fromXml(getString().get());
     }
 
-    public static String jsonToXml(String json, Xml.XmlStringBuilder.Step identStep) {
-        Object result = Json.fromJson(json);
-        if (result instanceof Map) {
-            return Xml.toXml((Map) result, identStep);
+    @SuppressWarnings("unchecked")
+    public static String jsonToXml(String json, Xml.XmlStringBuilder.Step identStep, Mode mode) {
+        Object object = Json.fromJson(json);
+        final String result;
+        if (object instanceof Map) {
+            if (mode == Mode.FORCE_ATTRIBUTE_USAGE) {
+                result = Xml.toXml(forceAttributeUsage((Map) object), identStep);
+            } else {
+                result = Xml.toXml((Map) object, identStep);
+            }
+            return result;
         }
-        return Xml.toXml((List) result, identStep);
+        return Xml.toXml((List) object, identStep);
+    }
+
+    public static String jsonToXml(String json, Mode mode) {
+        return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, mode);
     }
 
     public static String jsonToXml(String json) {
-        return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES);
+        return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, null);
     }
 
     @SuppressWarnings("unchecked")
@@ -2437,6 +2449,35 @@ public class U<T> extends com.github.underscore.U<T> {
             result = values;
         } else if (value instanceof Map) {
             result = replaceEmptyValueWithNull((Map) value);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> forceAttributeUsage(Map<String, Object> map) {
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            outMap.put(!(entry.getValue() instanceof Map || entry.getValue() instanceof List
+                    || String.valueOf(entry.getKey()).startsWith("-"))
+                ? "-" + entry.getKey() : String.valueOf(entry.getKey()),
+                makeAttributeUsage(entry.getValue()));
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeAttributeUsage(Object value) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? forceAttributeUsage((Map) item) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = forceAttributeUsage((Map) value);
         } else {
             result = value;
         }
