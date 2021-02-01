@@ -66,7 +66,7 @@ U.chain(/* array | list | set | map | anything based on Iterable interface */)
 U.chain(value1, value2, value3)...
 U.range(0, 10)...
 
-U.chain(1, 2, 3) // or java.util.Arrays.asList(1, 2, 3) or new Integer[] {1, 2, 3}
+U.of(1, 2, 3) // or java.util.Arrays.asList(1, 2, 3) or new Integer[] {1, 2, 3}
     .filter(v -> v > 1)
     // 2, 3
     .map(v -> v + 1)
