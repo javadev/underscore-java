@@ -2169,14 +2169,7 @@ public class U<T> extends com.github.underscore.U<T> {
     @SuppressWarnings("unchecked")
     public static Map<String, Object> fromXmlMap(final String xml, final Xml.FromType fromType) {
         final Object object = Xml.fromXml(xml, fromType);
-        final Map<String, Object> result;
-        if (object instanceof Map) {
-            result = (Map<String, Object>) object;
-        } else {
-            result = newLinkedHashMap();
-            result.put("value", object);
-        }
-        return result;
+        return getStringObjectMap(object);
     }
 
     @SuppressWarnings("unchecked")
@@ -2224,6 +2217,10 @@ public class U<T> extends com.github.underscore.U<T> {
     @SuppressWarnings("unchecked")
     public static Map<String, Object> fromJsonMap(final String string) {
         final Object object = Json.fromJson(string);
+        return getStringObjectMap(object);
+    }
+
+    private static Map<String, Object> getStringObjectMap(Object object) {
         final Map<String, Object> result;
         if (object instanceof Map) {
             result = (Map<String, Object>) object;
