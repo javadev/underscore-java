@@ -57,13 +57,13 @@ compile 'com.github.javadev:underscore:1.63'
 ### Usage
 
 ```java
-U.chain(/* array | list | set | map | anything based on Iterable interface */)
+U.of(/* array | list | set | map | anything based on Iterable interface */)
     .filter(..)
     .map(..)
     ...
     .sortWith()
     .forEach(..);
-U.chain(value1, value2, value3)...
+U.of(value1, value2, value3)...
 U.range(0, 10)...
 
 U.of(1, 2, 3) // or java.util.Arrays.asList(1, 2, 3) or new Integer[] {1, 2, 3}
