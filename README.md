@@ -103,7 +103,7 @@ U.jsonToXml("{\"a\":{\"-attr\":\"c\",\"b\":\"data\"}}");
     //   <b>data</b>
     // </a>
 
-Map<String, Object> value = U.objectBuilder()
+U.Builder builder = U.objectBuilder()
     .add("firstName", "John")
     .add("lastName", "Smith")
     .add("age", 25)
@@ -119,11 +119,56 @@ Map<String, Object> value = U.objectBuilder()
             .add("number", "212 555-1234"))
         .add(U.objectBuilder()
             .add("type", "fax")
-            .add("number", "646 555-4567")))
-    .build();
-    // {firstName=John, lastName=Smith, age=25, address=[{streetAddress=21 2nd Street,
-    // city=New York, state=NY, postalCode=10021}], phoneNumber=[{type=home, number=212 555-1234},
-    // {type=fax, number=646 555-4567}]}
+            .add("number", "646 555-4567")));
+System.out.println(builder.toJson());
+System.out.println(builder.toXml());
+```
+```json
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25,
+  "address": [
+    {
+      "streetAddress": "21 2nd Street",
+      "city": "New York",
+      "state": "NY",
+      "postalCode": "10021"
+    }
+  ],
+  "phoneNumber": [
+    {
+      "type": "home",
+      "number": "212 555-1234"
+    },
+    {
+      "type": "fax",
+      "number": "646 555-4567"
+    }
+  ]
+}
+```
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <firstName>John</firstName>
+  <lastName>Smith</lastName>
+  <age number="true">25</age>
+  <address array="true">
+    <streetAddress>21 2nd Street</streetAddress>
+    <city>New York</city>
+    <state>NY</state>
+    <postalCode>10021</postalCode>
+  </address>
+  <phoneNumber>
+    <type>home</type>
+    <number>212 555-1234</number>
+  </phoneNumber>
+  <phoneNumber>
+    <type>fax</type>
+    <number>646 555-4567</number>
+  </phoneNumber>
+</root>
 ```
 
 Underscore-java is a java port of [Underscore.js](http://underscorejs.org/).
