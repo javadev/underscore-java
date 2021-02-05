@@ -98,7 +98,8 @@ public class U<T> extends com.github.underscore.U<T> {
         REPLACE_SELF_CLOSING_WITH_EMPTY,
         REPLACE_EMPTY_VALUE_WITH_NULL,
         FORCE_ATTRIBUTE_USAGE,
-        DEFINE_ROOT_NAME
+        DEFINE_ROOT_NAME,
+        FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME
     }
 
     public U(final Iterable<T> iterable) {
@@ -2250,6 +2251,8 @@ public class U<T> extends com.github.underscore.U<T> {
                 result = Xml.toXml(forceAttributeUsage((Map) object), identStep);
             } else if (mode == Mode.DEFINE_ROOT_NAME) {
                 result = Xml.toXml((Map) object, identStep, newRootName);
+            } else if (mode == Mode.FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME) {
+                result = Xml.toXml(forceAttributeUsage((Map) object), identStep, newRootName);
             } else {
                 result = Xml.toXml((Map) object, identStep);
             }
@@ -2260,6 +2263,10 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static String jsonToXml(String json, Mode mode) {
         return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, mode, null);
+    }
+
+    public static String jsonToXml(String json, Mode mode, String newRootName) {
+        return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, mode, newRootName);
     }
 
     public static String jsonToXml(String json, String newRootName) {
