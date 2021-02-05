@@ -658,6 +658,17 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
     }
 
     @Test
+    public void renameRoot() {
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<json></json>",
+                U.jsonToXml("{}", "json"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<json>\n"
+                        + "  <a>b</a>\n"
+                        + "  <c>d</c>\n"
+                        + "</json>",
+                U.jsonToXml("{\"a\": \"b\", \"c\": \"d\"}", "json"));
+    }
+
+    @Test
     public void updateMapKey() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
