@@ -666,6 +666,8 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
                         + "  <c>d</c>\n"
                         + "</json>",
                 U.jsonToXml("{\"a\": \"b\", \"c\": \"d\"}", "json"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<json a=\"b\" c=\"d\"></json>",
+                U.jsonToXml("{\"a\": \"b\", \"c\": \"d\"}", U.Mode.FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME, "json"));
     }
 
     @Test
