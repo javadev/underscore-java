@@ -63,6 +63,7 @@ public final class Xml {
     private static final String QUOT = "&quot;";
     private static final String XML_HEADER = "<?xml ";
     private static final String DOCTYPE_TEXT = "!DOCTYPE";
+    private static final String ROOT = "root";
     private static final String DOCTYPE_HEADER = "<" + DOCTYPE_TEXT + " ";
     private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS = java.util.regex.Pattern.compile(
@@ -889,6 +890,10 @@ public final class Xml {
     }
 
     public static String toXml(Map map, XmlStringBuilder.Step identStep) {
+        return toXml(map, identStep, ROOT);
+    }
+
+    public static String toXml(Map map, XmlStringBuilder.Step identStep, String newRootName) {
         final XmlStringBuilder builder;
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {
@@ -907,11 +912,11 @@ public final class Xml {
             builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), "");
             localMap = map;
         }
-        checkLocalMap(builder, localMap);
+        checkLocalMap(builder, localMap, newRootName);
         return builder.toString();
     }
 
-    private static void checkLocalMap(final XmlStringBuilder builder, final Map localMap) {
+    private static void checkLocalMap(final XmlStringBuilder builder, final Map localMap, final String newRootName) {
         final Map localMap2;
         if (localMap != null && localMap.containsKey(DOCTYPE_TEXT)) {
             localMap2 = (Map) U.clone(localMap);
@@ -926,11 +931,12 @@ public final class Xml {
             if ("root".equals(XmlValue.getMapKey(localMap2))) {
                 writeArray((List) XmlValue.getMapValue(localMap2), builder);
             } else {
-                XmlObject.writeXml(localMap2, getRootName(localMap2), builder, false,
+                XmlObject.writeXml(localMap2, getRootName(localMap2, newRootName), builder, false,
                     U.<String>newLinkedHashSet(), false);
             }
         } else {
-            XmlObject.writeXml(localMap2, getRootName(localMap2), builder, false, U.<String>newLinkedHashSet(), false);
+            XmlObject.writeXml(localMap2, getRootName(localMap2, newRootName), builder,
+                false, U.<String>newLinkedHashSet(), false);
         }
     }
 
@@ -964,7 +970,7 @@ public final class Xml {
     }
 
     @SuppressWarnings("unchecked")
-    private static String getRootName(final Map localMap) {
+    private static String getRootName(final Map localMap, final String newRootName) {
         int foundAttrs = 0;
         int foundElements = 0;
         int foundListElements = 0;
@@ -982,11 +988,11 @@ public final class Xml {
                 }
             }
         }
-        return foundAttrs == 0 && foundElements == 1 && foundListElements == 0 ? null : "root";
+        return foundAttrs == 0 && foundElements == 1 && foundListElements == 0 ? null : newRootName;
     }
 
     public static String toXml(Map map) {
-        return toXml(map, XmlStringBuilder.Step.TWO_SPACES);
+        return toXml(map, XmlStringBuilder.Step.TWO_SPACES, ROOT);
     }
 
     @SuppressWarnings("unchecked")
@@ -1340,7 +1346,7 @@ public final class Xml {
         } else if (headerAttributes.containsKey(STANDALONE.substring(1))) {
             ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
         } else if (fromType == FromType.FOR_CONVERT
-                && ((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals("root")
+                && ((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals(ROOT)
                 && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof List
                 || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue() instanceof Map)) {
             if (xml.startsWith(XML_HEADER)) {
@@ -1498,7 +1504,7 @@ public final class Xml {
 
     public static String formatXml(String xml, XmlStringBuilder.Step identStep) {
         Object result = fromXml(xml, FromType.FOR_FORMAT);
-        return toXml((Map) result, identStep);
+        return toXml((Map) result, identStep, ROOT);
     }
 
     public static String formatXml(String xml) {
@@ -1511,7 +1517,7 @@ public final class Xml {
         if (result instanceof Map) {
             ((Map) result).put(ENCODING, encoding);
         }
-        return toXml((Map) result, identStep);
+        return toXml((Map) result, identStep, ROOT);
     }
 
     public static String changeXmlEncoding(String xml, String encoding) {
