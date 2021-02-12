@@ -16,7 +16,6 @@ underscore-java
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6e30751dc17c452f8524ae7eff474ce1)](https://www.codacy.com/app/javadev75/underscore-java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=javadev/underscore-java&amp;utm_campaign=Badge_Grade)
 [![Sputnik](https://sputnik.ci/conf/badge)](https://sputnik.ci/app#/builds/javadev/underscore-java)
 [![Code Scene](https://img.shields.io/badge/codescene-analyzed-brightgreen.svg)](https://codescene.io/projects/1173/jobs/latest-successful/results)
-[![BCH compliance](https://bettercodehub.com/edge/badge/javadev/underscore-java?branch=main)](https://bettercodehub.com/)
 [![](http://javadoc-badge.appspot.com/com.github.javadev/underscore.svg?label=JavaDocs)](http://www.javadoc.io/doc/com.github.javadev/underscore/)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=alert_status)](https://sonarcloud.io/dashboard/index/javadev_underscore-java)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=sqale_rating)](https://sonarcloud.io/dashboard/index/javadev_underscore-java)
