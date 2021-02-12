@@ -5,7 +5,7 @@ underscore-java
 [![MIT License](http://img.shields.io/badge/license-MIT-green.svg) ](https://github.com/javadev/underscore-java/blob/main/LICENSE.txt)
 [![Build Status](https://travis-ci.com/javadev/underscore-java.svg?branch=main)](https://travis-ci.com/javadev/underscore-java)
 [![Coverage Status](https://coveralls.io/repos/javadev/underscore-java/badge.svg?branch=main)](https://coveralls.io/r/javadev/underscore-java)
-[![codecov.io](http://codecov.io/github/javadev/underscore-java/coverage.svg?branch=main)](http://codecov.io/github/javadev/underscore-java?branch=main)
+[![codecov](https://codecov.io/gh/javadev/underscore-java/branch/master/graph/badge.svg?token=IZXYx3kg5y)](https://codecov.io/gh/javadev/underscore-java)
 [![CircleCI](https://circleci.com/gh/javadev/underscore-java.svg?style=svg)](https://circleci.com/gh/javadev/underscore-java)
 [![Codeship Status for javadev/underscore-java](https://codeship.com/projects/c989fef0-f3ab-0132-7ca5-16cf317d1634/status?branch=main)](https://codeship.com/projects/85467)
 [![wercker status](https://app.wercker.com/status/d1130226089a5bd54d205e1901cbef3b/s "wercker status")](https://app.wercker.com/project/bykey/d1130226089a5bd54d205e1901cbef3b)
