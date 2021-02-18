@@ -156,7 +156,8 @@ public class U<T> {
             final String escape = TEMPLATE_SETTINGS.get(ESCAPE);
             String result = template;
             for (final Map.Entry<K, V> element : value.entrySet()) {
-                final String value1 = String.valueOf(element.getValue()).replace("\\", "\\\\");
+                final String value1 = String.valueOf(element.getValue()).replace("\\", "\\\\")
+                        .replace("$", "\\$");
                 result = java.util.regex.Pattern.compile(interpolate.replace(ALL_SYMBOLS,
                     S_Q + element.getKey()
                     + E_S)).matcher(result).replaceAll(value1);
