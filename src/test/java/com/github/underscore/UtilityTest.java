@@ -252,6 +252,15 @@ template({value: '<script>'});
     }
 
     @Test
+    public void templateValue4() {
+        Template<Map<String, Object>> template = U.template("hello: <% name %>, <b><%- value %></b>");
+        assertEquals("hello: $moe$, <b>&lt;script&gt;</b>",
+                template.apply(new LinkedHashMap<String, Object>() { {
+                    put("name", "$moe$"); put("value", "<script>"); } }));
+    }
+
+
+    @Test
     public void templateCheck() {
         Template<Map<String, Object>> compiled = U.template("hello: <%= name %>");
         assertTrue(compiled.check(new LinkedHashMap<String, Object>() { {
