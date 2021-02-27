@@ -996,7 +996,7 @@ public final class Xml {
     }
 
     @SuppressWarnings("unchecked")
-    private static Object getValue(final Object value, final FromType fromType) {
+    private static Object getValue(final String name, final Object value, final FromType fromType) {
         final Object localValue;
         if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 1) {
             final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
@@ -1009,7 +1009,8 @@ public final class Xml {
         } else {
             localValue = value;
         }
-        return localValue instanceof String ? XmlValue.unescape((String) localValue) : localValue;
+        return localValue instanceof String && name.startsWith("-")
+                ? XmlValue.unescape((String) localValue) : localValue;
     }
 
     public static Object stringToNumber(String number) {
@@ -1105,9 +1106,9 @@ public final class Xml {
             localMap4.remove(ARRAY);
             localMap4.remove(SELF_CLOSING);
             object = name.equals(XmlValue.getMapKey(localMap4))
-                ? U.newArrayList(Collections.singletonList(getValue(XmlValue.getMapValue(localMap4),
+                ? U.newArrayList(Collections.singletonList(getValue(name, XmlValue.getMapValue(localMap4),
                     FromType.FOR_CONVERT)))
-                : U.newArrayList(Collections.singletonList(getValue(localMap4, FromType.FOR_CONVERT)));
+                : U.newArrayList(Collections.singletonList(getValue(name, localMap4, FromType.FOR_CONVERT)));
         } else {
             object = localMap;
         }
@@ -1256,13 +1257,13 @@ public final class Xml {
         final String elementName = unescapeName(elementMapper.apply(name, namespaces));
         if (map.containsKey(elementName)) {
             if (TEXT.equals(elementName)) {
-                map.put(elementName + uniqueIds[0], nodeMapper.apply(getValue(value, fromType)));
+                map.put(elementName + uniqueIds[0], nodeMapper.apply(getValue(name, value, fromType)));
                 uniqueIds[0] += 1;
             } else if (COMMENT.equals(elementName)) {
-                map.put(elementName + uniqueIds[1], nodeMapper.apply(getValue(value, fromType)));
+                map.put(elementName + uniqueIds[1], nodeMapper.apply(getValue(name, value, fromType)));
                 uniqueIds[1] += 1;
             } else if (CDATA.equals(elementName)) {
-                map.put(elementName + uniqueIds[2], nodeMapper.apply(getValue(value, fromType)));
+                map.put(elementName + uniqueIds[2], nodeMapper.apply(getValue(name, value, fromType)));
                 uniqueIds[2] += 1;
             } else {
                 final Object object = map.get(elementName);
@@ -1277,7 +1278,7 @@ public final class Xml {
             }
         } else {
             if (elementName != null) {
-                map.put(elementName, nodeMapper.apply(getValue(value, fromType)));
+                map.put(elementName, nodeMapper.apply(getValue(name, value, fromType)));
             }
         }
     }
@@ -1298,7 +1299,7 @@ public final class Xml {
             objects.add(index, item);
             lastIndex -= 1;
         }
-        final Object newValue = getValue(value, fromType);
+        final Object newValue = getValue(name, value, fromType);
         if (newValue instanceof List) {
             objects.add(((List) newValue).get(0));
         } else {
