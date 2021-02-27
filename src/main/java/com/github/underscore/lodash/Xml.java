@@ -796,7 +796,7 @@ public final class Xml {
                         sb.append("\n");
                         break;
                     case '\r':
-                        sb.append("\\r");
+                        sb.append("&#xD;");
                         break;
                     case '\t':
                         sb.append("\t");

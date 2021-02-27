@@ -1198,4 +1198,43 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         // https://www.sql.ru/forum/1321326/kolichestvo-naydennyh-slov-v-stroke
         assertEquals(2, U.countBy(U.words("Маша ищет Мишу а Миша ищет Машу")).get("ищет").intValue());
     }
+
+    @Test
+    public void stackoverflow7() {
+        String json = U.objectBuilder()
+          .add("key1", "value1")
+          .add("key2", "value2")
+          .add("key3", U.objectBuilder()
+            .add("innerKey1", "value3"))
+          .toJson();
+        assertEquals("{\n  \"key1\": \"value1\",\n"
+          + "  \"key2\": \"value2\",\n"
+          + "  \"key3\": {\n"
+          + "    \"innerKey1\": \"value3\"\n"
+          + "  }\n"
+          + "}", json);
+    }
+
+    @Test
+    public void stackoverflow8() {
+        class Customer {
+            String name;
+            int age;
+            int id;
+        }
+        Customer customer = new Customer();
+        customer.name = "John";
+        customer.age = 30;
+        customer.id = 12345;
+        String xml = U.objectBuilder().add("customer", U.objectBuilder()
+            .add("name", customer.name)
+            .add("age", customer.age)
+            .add("id", customer.id)).toXml();
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<customer>\n"
+            + "  <name>John</name>\n"
+            + "  <age number=\"true\">30</age>\n"
+            + "  <id number=\"true\">12345</id>\n"
+            + "</customer>", xml);
+    }
 }
