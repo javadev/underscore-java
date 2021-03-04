@@ -193,21 +193,14 @@ each in turn to an iterator
 object (component or
  struct), if one is passed. Each invocation of iterator is
 called with
- argument: (element).<br></p><pre>U.each(asList(1, 2, 3), new Consumer&lt;Integer&gt;() {
-    public void accept(Integer item) {
-        System.out.print(item + &quot;,&quot;);
-    }
-});
+ argument: (element).<br></p><pre>U.each(asList(1, 2, 3), item -&gt; System.out.print(item + ","));
 // 1,2,3,
 <a href="https://www.jdoodle.com/embed/v0/13wY" rel="nofollow noreferrer">Live example</a>
 
-int multiplier = 2;
-U.each(asList(1, 2, 3), new Consumer&lt;Integer&gt;() {
-    int index = 0;
-    public void accept(Integer item) {
-        System.out.print(index + &quot;=&quot; + (item * multiplier) + &quot;,&quot;);
-        index += 1;
-    }
+final int[] index = {0};
+U.each(asList(1, 2, 3), item -&gt; {
+    System.out.print(index[0] + &quot;=&quot; + (item * multiplier) + &quot;,&quot;);
+    index[0] += 1;
 });
 // 0=2,1=4,2=6,
 <a href="https://www.jdoodle.com/embed/v0/14YG" rel="nofollow noreferrer">Live example</a>
@@ -216,11 +209,7 @@ U.each(asList(1, 2, 3), new Consumer&lt;Integer&gt;() {
 <p id="map"><b class="header">map</b> <code>U.map(collection, iterator)</code><br>Produces
  a new array of values by mapping each
 value in collection through a
- transformation function (iterator).<br></p><pre>U.map(asList(1, 2, 3), new Function&lt;Integer, Integer&gt;() {
-    public Integer apply(Integer item) {
-        return item * 3;
-    }
-});
+ transformation function (iterator).<br></p><pre>U.map(asList(1, 2, 3), item -&gt; item * 3);
 // [3, 6, 9]
 <a href="https://www.jdoodle.com/embed/v0/13wW" rel="nofollow noreferrer">Live example</a>
 
