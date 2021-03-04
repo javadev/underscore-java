@@ -12,7 +12,7 @@
 <body>
     <div id="sidebar" class="interface">
         <a class="toc_title" href="#">
-                Underscore-java <span class="version">(1.61)</span>
+                Underscore-java <span class="version">(1.64)</span>
             </a>
     <ul class="toc_section">
       <li>» <a href="https://github.com/javadev/underscore-java">GitHub Repository</a></li>
@@ -182,7 +182,7 @@ equality testing, and so on. It delegates to built-in functions where
 applicable.<br><br>Underscore-java is compatible with Java 6 and later.<br><br>The project is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a>. Contributions are welcome.<br>
         </p>
         <h2>Download</h2>
-        <div><a href="https://github.com/javadev/underscore-java/archive/v1.61.zip">Version 1.61</a> - <i>~195Kb, Includes all development files</i></div>
+        <div><a href="https://github.com/javadev/underscore-java/archive/v1.64.zip">Version 1.64</a> - <i>~195Kb, Includes all development files</i></div>
         <h2 id="Collections">Collection Functions (Arrays, Structs, Queries, or Objects)</h2>
 
 
@@ -1136,6 +1136,38 @@ final String youngest = U.chain(stooges)
  <p
 id="changelog">
  </p><h2>Change Log</h2>
+ <p>
+ <b class="header">1.64</b> --
+<small><i>March 1st, 2021</i></small><br>
+ </p>
+ <ul>
+ <li>Fixed Template should not fail when value has dollar.</li>
+ <li>Improved \r escape in xml.</li>
+ <li>Added new mode FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME to the U.jsonToXml().</li>
+ <li>Improved unescape xml attributes.</li>
+ <li>Added method U.jsonToXml(json, newRootName).</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.63</b> --
+<small><i>February 1st, 2021</i></small><br>
+ </p>
+ <ul>
+ <li>Added new mode for jsonToXml() method FORCE_ATTRIBUTE_USAGE.</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.62</b> --
+<small><i>January 1st, 2021</i></small><br>
+ </p>
+ <ul>
+ <li>Added new mode REPLACE_EMPTY_VALUE_WITH_NULL to the U.xmlToJson() method.</li>
+ <li>Added remove(path) and clear() for object and array builder.</li>
+ </ul>
+ <p>
+ </p><p>
  <p>
  <b class="header">1.61</b> --
 <small><i>December 1st, 2020</i></small><br>
