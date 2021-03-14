@@ -762,6 +762,10 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
             U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.TABS));
         assertEquals("<a number=\"true\">1.00</a>", U.formatXml("<a number=\"true\">1.00</a>"));
         assertEquals("<a number=\"true\">2.01</a>", U.formatXml("<a number=\"true\">2.01</a>"));
+    }
+
+    @Test
+    public void forceAttributeUsage() {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<RootElm>\n"
                 + "  <author DOB=\"\" EMailID=\"\" PlaceId=\"\" SSN=\"\">\n"
@@ -791,6 +795,34 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         list2.add(U.newArrayList());
         map2.put("list", list2);
         U.forceAttributeUsage(map2);
+    }
+
+    @Test
+    public void replaceNullWithEmptyValue() {
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<RootElm>\n"
+                + "  <author>\n"
+                + "    <DOB></DOB>\n"
+                + "    <value string=\"true\"/>\n"
+                + "  </author>\n"
+                + "</RootElm>", U.jsonToXml("{\n"
+                + "  \"RootElm\": {\n"
+                + "    \"author\": {\n"
+                + "      \"DOB\": null,\n"
+                + "      \"value\": \"\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}", U.Mode.REPLACE_NULL_WITH_EMPTY_VALUE));
+        Map<String, Object> map = U.newLinkedHashMap();
+        List<Object> list = U.newArrayList();
+        list.add(U.newLinkedHashMap());
+        map.put("list", list);
+        U.replaceNullWithEmptyValue(map);
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        List<Object> list2 = U.newArrayList();
+        list2.add(U.newArrayList());
+        map2.put("list", list2);
+        U.replaceNullWithEmptyValue(map2);
     }
 
     @Test

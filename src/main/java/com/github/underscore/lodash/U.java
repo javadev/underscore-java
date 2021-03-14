@@ -99,7 +99,8 @@ public class U<T> extends com.github.underscore.U<T> {
         REPLACE_EMPTY_VALUE_WITH_NULL,
         FORCE_ATTRIBUTE_USAGE,
         DEFINE_ROOT_NAME,
-        FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME
+        FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME,
+        REPLACE_NULL_WITH_EMPTY_VALUE
     }
 
     public U(final Iterable<T> iterable) {
@@ -2253,6 +2254,8 @@ public class U<T> extends com.github.underscore.U<T> {
                 result = Xml.toXml((Map) object, identStep, newRootName);
             } else if (mode == Mode.FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME) {
                 result = Xml.toXml(forceAttributeUsage((Map) object), identStep, newRootName);
+            } else if (mode == Mode.REPLACE_NULL_WITH_EMPTY_VALUE) {
+                result = Xml.toXml(replaceNullWithEmptyValue((Map) object), identStep, newRootName);
             } else {
                 result = Xml.toXml((Map) object, identStep);
             }
@@ -2490,6 +2493,33 @@ public class U<T> extends com.github.underscore.U<T> {
             result = values;
         } else if (value instanceof Map) {
             result = forceAttributeUsage((Map) value);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> replaceNullWithEmptyValue(Map<String, Object> map) {
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            outMap.put(entry.getKey(), entry.getValue() == null ? newLinkedHashMap() :
+                makeReplaceNullValue(entry.getValue()));
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeReplaceNullValue(Object value) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? replaceNullWithEmptyValue((Map) item) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = replaceNullWithEmptyValue((Map) value);
         } else {
             result = value;
         }
