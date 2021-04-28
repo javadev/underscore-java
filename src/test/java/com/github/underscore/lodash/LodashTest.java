@@ -1001,6 +1001,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         U.chain(new String[] {""}).compact("1");
         U.chain(new String[] {""}).flatten();
         U.chain(new Integer[] {0}).map(value -> value);
+        U.chain(new Integer[] {0}).mapMulti((integer, consumer) -> consumer.accept(integer));
         U.chain(new Integer[] {0}).mapIndexed((index, value) -> value);
         U.chain(new String[] {""}).filter(str -> true);
         U.chain(new String[] {""}).filterIndexed((index, str) -> true);

@@ -40,8 +40,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BinaryOperator;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -182,6 +183,10 @@ public class U<T> extends com.github.underscore.U<T> {
 
         public <F> Chain<F> map(final Function<? super T, F> func) {
             return new Chain<>(U.map(value(), func));
+        }
+
+        public <F> Chain<F> mapMulti(final BiConsumer<? super T, ? super Consumer<F>> mapper) {
+            return new Chain<>(U.mapMulti(value(), mapper));
         }
 
         public <F> Chain<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {

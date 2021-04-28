@@ -318,6 +318,16 @@ public class U<T> {
         return transformed;
     }
 
+    public static <T, E> List<T> mapMulti(final List<E> list,
+        final BiConsumer<? super E, ? super Consumer<T>> mapper) {
+        final List<T> transformed = newArrayListWithExpectedSize(list.size());
+        for (E element : list) {
+            Consumer<T> value = t -> transformed.add(t);
+            mapper.accept(element, value);
+        }
+        return transformed;
+    }
+
     public <F> List<F> map(final Function<? super T, F> func) {
         return map(newArrayList(iterable), func);
     }
@@ -2744,6 +2754,10 @@ public class U<T> {
 
         public <F> Chain<F> map(final Function<? super T, F> func) {
             return new Chain<>(U.map(list, func));
+        }
+
+        public <F> Chain<F> mapMulti(final BiConsumer<? super T, ? super Consumer<F>> mapper) {
+            return new Chain<>(U.mapMulti(list, mapper));
         }
 
         public <F> Chain<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
