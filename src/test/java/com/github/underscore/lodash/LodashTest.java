@@ -900,6 +900,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         assertEquals("{}", builder.build().toString());
         builder.clear();
         assertEquals("{}", builder.build().toString());
+        builder.toChain();
         Map<String, Object> value = U.objectBuilder()
             .add("firstName", "John")
             .add("lastName", "Smith")
@@ -937,6 +938,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         assertEquals("[1, 1, 2]", builder.build().toString());
         builder.clear();
         assertEquals("[]", builder.build().toString());
+        builder.toChain();
         Map<String, Object> value = U.objectBuilder()
             .add("firstName", "John")
             .add("lastName", "Smith")

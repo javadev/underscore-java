@@ -2621,6 +2621,10 @@ public class U<T> extends com.github.underscore.U<T> {
             return builder;
         }
 
+        public Chain<Object> toChain() {
+            return new U.Chain<>(data.entrySet());
+        }
+
         @Override
         public String toString() {
             return data.toString();
@@ -2690,6 +2694,10 @@ public class U<T> extends com.github.underscore.U<T> {
             final ArrayBuilder builder = new ArrayBuilder();
             builder.data.addAll(U.<List<Object>>fromJson(json));
             return builder;
+        }
+
+        public Chain<Object> toChain() {
+            return new U.Chain<>(data);
         }
 
         @Override
