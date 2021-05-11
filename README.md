@@ -71,9 +71,17 @@ U.of(1, 2, 3) // or java.util.Arrays.asList(1, 2, 3) or new Integer[] {1, 2, 3}
     .map(v -> v + 1)
     // 3, 4
     .sortWith((a, b) -> b.compareTo(a))
-    // 4, 3
     .forEach(System.out::println);
     // 4, 3
+    
+U.of(1, 2, 3) // or java.util.Arrays.asList(1, 2, 3) or new Integer[] {1, 2, 3}
+    .mapMulti((num, consumer) -> {
+        for (int i = 0; i < num; i++) {
+            consumer.accept("a" + num);
+        }
+    })
+    .forEach(System.out::println);
+    // "a1", "a2", "a2", "a3", "a3", "a3"
     
 U.formatXml("<a><b>data</b></a>");
     // <a>
