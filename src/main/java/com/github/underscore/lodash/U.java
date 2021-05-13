@@ -98,6 +98,8 @@ public class U<T> extends com.github.underscore.U<T> {
         REPLACE_SELF_CLOSING_WITH_NULL,
         REPLACE_SELF_CLOSING_WITH_EMPTY,
         REPLACE_EMPTY_VALUE_WITH_NULL,
+        REPLACE_EMPTY_TAG_WITH_NULL,
+        REPLACE_EMPTY_TAG_WITH_EMPTY_STRING,
         FORCE_ATTRIBUTE_USAGE,
         DEFINE_ROOT_NAME,
         FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME,
@@ -2296,6 +2298,11 @@ public class U<T> extends com.github.underscore.U<T> {
                 result = Json.toJson(replaceSelfClosingWithEmpty((Map) object), identStep);
             } else if (mode == Mode.REPLACE_EMPTY_VALUE_WITH_NULL) {
                 result = Json.toJson(replaceEmptyValueWithNull((Map) object), identStep);
+            } else if (mode == Mode.REPLACE_EMPTY_TAG_WITH_NULL) {
+                result = Json.toJson(replaceEmptyValueWithNull(replaceSelfClosingWithNull((Map) object)), identStep);
+            } else if (mode == Mode.REPLACE_EMPTY_TAG_WITH_EMPTY_STRING) {
+                result = Json.toJson((Map<String, Object>) replaceEmptyValueWithEmptyString(
+                    replaceSelfClosingWithEmpty((Map) object)), identStep);
             } else {
                 result = Json.toJson((Map) object, identStep);
             }
@@ -2447,7 +2454,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     @SuppressWarnings("unchecked")
     public static Map<String, Object> replaceEmptyValueWithNull(Map<String, Object> map) {
-        if (map.isEmpty()) {
+        if (map == null || map.isEmpty()) {
             return null;
         }
         Map<String, Object> outMap = newLinkedHashMap();
@@ -2469,6 +2476,36 @@ public class U<T> extends com.github.underscore.U<T> {
             result = values;
         } else if (value instanceof Map) {
             result = replaceEmptyValueWithNull((Map) value);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Object replaceEmptyValueWithEmptyString(Map<String, Object> map) {
+        if (map.isEmpty()) {
+            return "";
+        }
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            outMap.put(String.valueOf(entry.getKey()),
+                makeObjectEmptyString(entry.getValue()));
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeObjectEmptyString(Object value) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? replaceEmptyValueWithEmptyString((Map) item) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = replaceEmptyValueWithEmptyString((Map) value);
         } else {
             result = value;
         }

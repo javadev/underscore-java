@@ -574,6 +574,25 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
                 + "}",
             U.xmlToJson("<a/>", U.Mode.REPLACE_SELF_CLOSING_WITH_NULL));
         assertEquals("{\n"
+                + "  \"c\": {\n"
+                + "    \"b\": null,\n"
+                + "    \"a\": null\n"
+                + "  },\n"
+                + "  \"#omit-xml-declaration\": \"yes\"\n"
+                + "}",
+            U.xmlToJson("<c><b></b><a/></c>", U.Mode.REPLACE_EMPTY_TAG_WITH_NULL));
+        assertEquals("{\n"
+                + "  \"c\": {\n"
+                + "    \"b\": [\n"
+                + "      \"\",\n"
+                + "      \"\"\n"
+                + "    ],\n"
+                + "    \"a\": \"\"\n"
+                + "  },\n"
+                + "  \"#omit-xml-declaration\": \"yes\"\n"
+                + "}",
+            U.xmlToJson("<c><b></b><b></b><a/></c>", U.Mode.REPLACE_EMPTY_TAG_WITH_EMPTY_STRING));
+        assertEquals("{\n"
                 + "  \"a\": \"\",\n"
                 + "  \"#omit-xml-declaration\": \"yes\"\n"
                 + "}",
@@ -618,6 +637,12 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         list2.add(U.newArrayList());
         map3.put("list", list2);
         U.replaceEmptyValueWithNull(map3);
+        U.replaceEmptyValueWithNull(null);
+        Map<String, Object> map4 = U.newLinkedHashMap();
+        List<Object> list3 = U.newArrayList();
+        list3.add(U.newArrayList());
+        map4.put("list", list3);
+        U.replaceEmptyValueWithEmptyString(map4);
     }
 
     @Test
