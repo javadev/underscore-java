@@ -851,6 +851,34 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
     }
 
     @Test
+    public void replaceEmptyStringWithEmptyValue() {
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<RootElm>\n"
+                + "  <author>\n"
+                + "    <DOB null=\"true\"/>\n"
+                + "    <value></value>\n"
+                + "  </author>\n"
+                + "</RootElm>", U.jsonToXml("{\n"
+                + "  \"RootElm\": {\n"
+                + "    \"author\": {\n"
+                + "      \"DOB\": null,\n"
+                + "      \"value\": \"\"\n"
+                + "    }\n"
+                + "  }\n"
+                + "}", U.Mode.REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE));
+        Map<String, Object> map = U.newLinkedHashMap();
+        List<Object> list = U.newArrayList();
+        list.add(U.newLinkedHashMap());
+        map.put("list", list);
+        U.replaceEmptyStringWithEmptyValue(map);
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        List<Object> list2 = U.newArrayList();
+        list2.add(U.newArrayList());
+        map2.put("list", list2);
+        U.replaceEmptyStringWithEmptyValue(map2);
+    }
+
+    @Test
     public void changeXmlEncoding() {
         assertEquals("<?xml version=\"1.0\" encoding=\"windows-1251\"?>\n<a>Test</a>",
             U.changeXmlEncoding("<?xml version=\"1.0\" encoding=\"UTF-8\"?><a>Test</a>", "windows-1251"));
