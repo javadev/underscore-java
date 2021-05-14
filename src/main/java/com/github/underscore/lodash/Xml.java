@@ -31,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -92,30 +93,30 @@ public final class Xml {
             }
         }
 
-        protected final StringBuilder builder;
+        protected final StringJoiner builder;
         private final Step identStep;
         private int ident;
 
         public XmlStringBuilder() {
-            builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
+            builder = new StringJoiner("").add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
             identStep = Step.TWO_SPACES;
             ident = 2;
         }
 
-        public XmlStringBuilder(StringBuilder builder, Step identStep, int ident) {
+        public XmlStringBuilder(StringJoiner builder, Step identStep, int ident) {
             this.builder = builder;
             this.identStep = identStep;
             this.ident = ident;
         }
 
         public XmlStringBuilder append(final String string) {
-            builder.append(string);
+            builder.add(string);
             return this;
         }
 
         public XmlStringBuilder fillSpaces() {
             for (int index = 0; index < ident; index += 1) {
-                builder.append(identStep == Step.TABS ? '\t' : ' ');
+                builder.add(String.valueOf(identStep == Step.TABS ? '\t' : ' '));
             }
             return this;
         }
@@ -132,7 +133,7 @@ public final class Xml {
 
         public XmlStringBuilder newLine() {
             if (identStep != Step.COMPACT) {
-                builder.append("\n");
+                builder.add("\n");
             }
             return this;
         }
@@ -153,7 +154,7 @@ public final class Xml {
     public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
         public XmlStringBuilderWithoutRoot(XmlStringBuilder.Step identStep, String encoding,
             String standalone) {
-            super(new StringBuilder("<?xml version=\"1.0\" encoding=\""
+            super(new StringJoiner("").add("<?xml version=\"1.0\" encoding=\""
                 + XmlValue.escape(encoding).replace("\"", QUOT) + "\"" + standalone + "?>"
                 + (identStep == Step.COMPACT ? "" : "\n")), identStep, 0);
         }
@@ -165,7 +166,7 @@ public final class Xml {
 
     public static class XmlStringBuilderWithoutHeader extends XmlStringBuilder {
         public XmlStringBuilderWithoutHeader(XmlStringBuilder.Step identStep, int ident) {
-            super(new StringBuilder(), identStep, ident);
+            super(new StringJoiner(""), identStep, ident);
         }
 
         public String toString() {
@@ -764,57 +765,57 @@ public final class Xml {
             if (s == null) {
                 return "";
             }
-            StringBuilder sb = new StringBuilder();
+            StringJoiner sb = new StringJoiner("");
             escape(s, sb);
             return sb.toString();
         }
 
-        private static void escape(String s, StringBuilder sb) {
+        private static void escape(String s, StringJoiner sb) {
             final int len = s.length();
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
                 switch (ch) {
                     case '\'':
-                        sb.append("'");
+                        sb.add("'");
                         break;
                     case '&':
-                        sb.append("&amp;");
+                        sb.add("&amp;");
                         break;
                     case '<':
-                        sb.append("&lt;");
+                        sb.add("&lt;");
                         break;
                     case '>':
-                        sb.append("&gt;");
+                        sb.add("&gt;");
                         break;
                     case '\b':
-                        sb.append("\\b");
+                        sb.add("\\b");
                         break;
                     case '\f':
-                        sb.append("\\f");
+                        sb.add("\\f");
                         break;
                     case '\n':
-                        sb.append("\n");
+                        sb.add("\n");
                         break;
                     case '\r':
-                        sb.append("&#xD;");
+                        sb.add("&#xD;");
                         break;
                     case '\t':
-                        sb.append("\t");
+                        sb.add("\t");
                         break;
                     case '€':
-                        sb.append("€");
+                        sb.add("€");
                         break;
                     default:
                         if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
                             || ch >= '\u2000' && ch <= '\u20FF') {
                             String ss = Integer.toHexString(ch);
-                            sb.append("&#x");
+                            sb.add("&#x");
                             for (int k = 0; k < 4 - ss.length(); k++) {
-                                sb.append('0');
+                                sb.add("0");
                             }
-                            sb.append(ss.toUpperCase()).append(";");
+                            sb.add(ss.toUpperCase()).add(";");
                         } else {
-                            sb.append(ch);
+                            sb.add(String.valueOf(ch));
                         }
                         break;
                 }
@@ -825,29 +826,29 @@ public final class Xml {
             if (s == null) {
                 return "";
             }
-            StringBuilder sb = new StringBuilder();
+            StringJoiner sb = new StringJoiner("");
             unescape(s, sb);
             return sb.toString();
         }
 
-        private static void unescape(String s, StringBuilder sb) {
+        private static void unescape(String s, StringJoiner sb) {
             final int len = s.length();
-            final StringBuilder localSb = new StringBuilder();
+            StringJoiner localSb = new StringJoiner("");
             int index = 0;
             while (index < len) {
                 final int skipChars = translate(s, index, localSb);
                 if (skipChars > 0) {
-                    sb.append(localSb);
-                    localSb.setLength(0);
+                    sb.merge(localSb);
+                    localSb = new StringJoiner("");
                     index += skipChars;
                 } else {
-                    sb.append(s.charAt(index));
+                    sb.add(String.valueOf(s.charAt(index)));
                     index += 1;
                 }
             }
         }
 
-        private static int translate(final CharSequence input, final int index, final StringBuilder builder) {
+        private static int translate(final CharSequence input, final int index, final StringJoiner builder) {
             final int shortest = 4;
             final int longest = 6;
 
@@ -860,7 +861,7 @@ public final class Xml {
                     final CharSequence subSeq = input.subSequence(index, index + i);
                     final String result = XML_UNESCAPE.get(subSeq.toString());
                     if (result != null) {
-                        builder.append(result);
+                        builder.add(result);
                         return i;
                     }
                 }
@@ -1211,43 +1212,43 @@ public final class Xml {
         if (!name.contains("__")) {
             return name;
         }
-        StringBuilder result = new StringBuilder();
+        StringJoiner result = new StringJoiner("");
         int underlineCount = 0;
-        StringBuilder lastChars = new StringBuilder();
+        StringJoiner lastChars = new StringJoiner("");
         outer:
         for (int i = 0; i < length; ++i) {
             char ch = name.charAt(i);
             if (ch == '_') {
-                lastChars.append(ch);
+                lastChars.add(String.valueOf(ch));
             } else {
                 if (lastChars.length() == 2) {
-                    StringBuilder nameToDecode = new StringBuilder();
+                    StringJoiner nameToDecode = new StringJoiner("");
                     for (int j = i; j < length; ++j) {
                         if (name.charAt(j) == '_') {
                             underlineCount += 1;
                             if (underlineCount == 2) {
                                 try {
-                                    result.append(Base32.decode(nameToDecode.toString()));
+                                    result.add(Base32.decode(nameToDecode.toString()));
                                 } catch (Base32.DecodingException ex) {
-                                    result.append("__").append(nameToDecode.toString())
-                                        .append(lastChars);
+                                    result.add("__").add(nameToDecode.toString())
+                                        .merge(lastChars);
                                 }
                                 i = j;
                                 underlineCount = 0;
-                                lastChars.setLength(0);
+                                lastChars = new StringJoiner("");
                                 continue outer;
                             }
                         } else {
-                            nameToDecode.append(name.charAt(j));
+                            nameToDecode.add(String.valueOf(name.charAt(j)));
                             underlineCount = 0;
                         }
                     }
                 }
-                result.append(lastChars).append(ch);
-                lastChars.setLength(0);
+                result.merge(lastChars).add(String.valueOf(ch));
+                lastChars = new StringJoiner("");
             }
         }
-        return result.append(lastChars).toString();
+        return result.merge(lastChars).toString();
     }
 
     @SuppressWarnings("unchecked")
