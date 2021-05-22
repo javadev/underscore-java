@@ -11,6 +11,7 @@ jdk:
 script:
   - mvn clean install jacoco:report coveralls:report
   - mvn -f examples/pom.xml clean package
+  - mvn -f spring-boot-example/pom.xml clean package
 
 addons:
    hosts:
