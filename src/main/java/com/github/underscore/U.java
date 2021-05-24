@@ -2537,8 +2537,8 @@ public class U<T> {
     }
 
     public static String unescape(final String value) {
-        return value.replaceAll("&#x60;", "`").replaceAll("&#x27;", "'").replaceAll("&lt;", "<")
-            .replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&amp;", "&");
+        return value.replace("&#x60;", "`").replace("&#x27;", "'").replace("&lt;", "<")
+            .replace("&gt;", ">").replace("&quot;", "\"").replace("&amp;", "&");
     }
 
     /*
