@@ -124,342 +124,342 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public Chain<T> first() {
-            return new Chain<>(U.first(value()));
+            return new Chain<>(com.github.underscore.U.first(value()));
         }
 
         public Chain<T> first(int n) {
-            return new Chain<>(U.first(value(), n));
+            return new Chain<>(com.github.underscore.U.first(value(), n));
         }
 
         public Chain<T> firstOrNull() {
-            return new Chain<>(U.firstOrNull(value()));
+            return new Chain<>(com.github.underscore.U.firstOrNull(value()));
         }
 
         public Chain<T> firstOrNull(final Predicate<T> pred) {
-            return new Chain<>(U.firstOrNull(value(), pred));
+            return new Chain<>(com.github.underscore.U.firstOrNull(value(), pred));
         }
 
         public Chain<T> initial() {
-            return new Chain<>(U.initial(value()));
+            return new Chain<>(com.github.underscore.U.initial(value()));
         }
 
         public Chain<T> initial(int n) {
-            return new Chain<>(U.initial(value(), n));
+            return new Chain<>(com.github.underscore.U.initial(value(), n));
         }
 
         public Chain<T> last() {
-            return new Chain<>(U.last(value()));
+            return new Chain<>(com.github.underscore.U.last(value()));
         }
 
         public Chain<T> last(int n) {
-            return new Chain<>(U.last(value(), n));
+            return new Chain<>(com.github.underscore.U.last(value(), n));
         }
 
         public Chain<T> lastOrNull() {
-            return new Chain<>(U.lastOrNull(value()));
+            return new Chain<>(com.github.underscore.U.lastOrNull(value()));
         }
 
         public Chain<T> lastOrNull(final Predicate<T> pred) {
-            return new Chain<>(U.lastOrNull(value(), pred));
+            return new Chain<>(com.github.underscore.U.lastOrNull(value(), pred));
         }
 
         public Chain<T> rest() {
-            return new Chain<>(U.rest(value()));
+            return new Chain<>(com.github.underscore.U.rest(value()));
         }
 
         public Chain<T> rest(int n) {
-            return new Chain<>(U.rest(value(), n));
+            return new Chain<>(com.github.underscore.U.rest(value(), n));
         }
 
         public Chain<T> compact() {
-            return new Chain<>(U.compact(value()));
+            return new Chain<>(com.github.underscore.U.compact(value()));
         }
 
         public Chain<T> compact(final T falsyValue) {
-            return new Chain<>(U.compact(value(), falsyValue));
+            return new Chain<>(com.github.underscore.U.compact(value(), falsyValue));
         }
 
         @SuppressWarnings("unchecked")
         public Chain flatten() {
-            return new Chain(U.flatten(value()));
+            return new Chain(com.github.underscore.U.flatten(value()));
         }
 
         public <F> Chain<F> map(final Function<? super T, F> func) {
-            return new Chain<>(U.map(value(), func));
+            return new Chain<>(com.github.underscore.U.map(value(), func));
         }
 
         public <F> Chain<F> mapMulti(final BiConsumer<? super T, ? super Consumer<F>> mapper) {
-            return new Chain<>(U.mapMulti(value(), mapper));
+            return new Chain<>(com.github.underscore.U.mapMulti(value(), mapper));
         }
 
         public <F> Chain<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
-            return new Chain<>(U.mapIndexed(value(), func));
+            return new Chain<>(com.github.underscore.U.mapIndexed(value(), func));
         }
 
         public Chain<T> filter(final Predicate<T> pred) {
-            return new Chain<>(U.filter(value(), pred));
+            return new Chain<>(com.github.underscore.U.filter(value(), pred));
         }
 
         public Chain<T> filterIndexed(final PredicateIndexed<T> pred) {
-            return new Chain<>(U.filterIndexed(value(), pred));
+            return new Chain<>(com.github.underscore.U.filterIndexed(value(), pred));
         }
 
         public Chain<T> rejectIndexed(final PredicateIndexed<T> pred) {
-            return new Chain<>(U.rejectIndexed(value(), pred));
+            return new Chain<>(com.github.underscore.U.rejectIndexed(value(), pred));
         }
 
         public Chain<T> reject(final Predicate<T> pred) {
-            return new Chain<>(U.reject(value(), pred));
+            return new Chain<>(com.github.underscore.U.reject(value(), pred));
         }
 
         public Chain<T> filterFalse(final Predicate<T> pred) {
-            return new Chain<>(U.filterFalse(value(), pred));
+            return new Chain<>(com.github.underscore.U.filterFalse(value(), pred));
         }
 
         public <F> Chain<F> reduce(final BiFunction<F, T, F> func, final F zeroElem) {
-            return new Chain<>(U.reduce(value(), func, zeroElem));
+            return new Chain<>(com.github.underscore.U.reduce(value(), func, zeroElem));
         }
 
         public Chain<Optional<T>> reduce(final BinaryOperator<T> func) {
-            return new Chain<>(U.reduce(value(), func));
+            return new Chain<>(com.github.underscore.U.reduce(value(), func));
         }
 
         public <F> Chain<F> reduceRight(final BiFunction<F, T, F> func, final F zeroElem) {
-            return new Chain<>(U.reduceRight(value(), func, zeroElem));
+            return new Chain<>(com.github.underscore.U.reduceRight(value(), func, zeroElem));
         }
 
         public Chain<Optional<T>> reduceRight(final BinaryOperator<T> func) {
-            return new Chain<>(U.reduceRight(value(), func));
+            return new Chain<>(com.github.underscore.U.reduceRight(value(), func));
         }
 
         public Chain<Optional<T>> find(final Predicate<T> pred) {
-            return new Chain<>(U.find(value(), pred));
+            return new Chain<>(com.github.underscore.U.find(value(), pred));
         }
 
         public Chain<Optional<T>> findLast(final Predicate<T> pred) {
-            return new Chain<>(U.findLast(value(), pred));
+            return new Chain<>(com.github.underscore.U.findLast(value(), pred));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<Comparable> max() {
-            return new Chain<>(U.max((Collection) value()));
+            return new Chain<>(com.github.underscore.U.max((Collection) value()));
         }
 
         public <F extends Comparable<? super F>> Chain<T> max(final Function<T, F> func) {
-            return new Chain<>(U.max(value(), func));
+            return new Chain<>(com.github.underscore.U.max(value(), func));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<Comparable> min() {
-            return new Chain<>(U.min((Collection) value()));
+            return new Chain<>(com.github.underscore.U.min((Collection) value()));
         }
 
         public <F extends Comparable<? super F>> Chain<T> min(final Function<T, F> func) {
-            return new Chain<>(U.min(value(), func));
+            return new Chain<>(com.github.underscore.U.min(value(), func));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<Comparable> sort() {
-            return new Chain<>(U.sort((List<Comparable>) value()));
+            return new Chain<>(com.github.underscore.U.sort((List<Comparable>) value()));
         }
 
         @SuppressWarnings("unchecked")
         public <F extends Comparable<? super F>> Chain<F> sortWith(final Comparator<F> comparator) {
-            return new Chain<>(U.sortWith((List<F>) value(), comparator));
+            return new Chain<>(com.github.underscore.U.sortWith((List<F>) value(), comparator));
         }
 
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function<T, F> func) {
-            return new Chain<>(U.sortBy(value(), func));
+            return new Chain<>(com.github.underscore.U.sortBy(value(), func));
         }
 
         @SuppressWarnings("unchecked")
         public <K> Chain<Map<K, Comparable>> sortBy(final K key) {
-            return new Chain<>(U.sortBy((List<Map<K, Comparable>>) value(), key));
+            return new Chain<>(com.github.underscore.U.sortBy((List<Map<K, Comparable>>) value(), key));
         }
 
         public <F> Chain<Map<F, List<T>>> groupBy(final Function<T, F> func) {
-            return new Chain<>(U.groupBy(value(), func));
+            return new Chain<>(com.github.underscore.U.groupBy(value(), func));
         }
 
         public <F> Chain<Map<F, Optional<T>>> groupBy(final Function<T, F> func,
             final BinaryOperator<T> binaryOperator) {
-            return new Chain<>(U.groupBy(value(), func, binaryOperator));
+            return new Chain<>(com.github.underscore.U.groupBy(value(), func, binaryOperator));
         }
 
         public Chain<Map<Object, List<T>>> indexBy(final String property) {
-            return new Chain<>(U.indexBy(value(), property));
+            return new Chain<>(com.github.underscore.U.indexBy(value(), property));
         }
 
         public <F> Chain<Map<F, Integer>> countBy(final Function<T, F> func) {
-            return new Chain<>(U.countBy(value(), func));
+            return new Chain<>(com.github.underscore.U.countBy(value(), func));
         }
 
         public Chain<Map<T, Integer>> countBy() {
-            return new Chain<>(U.countBy(value()));
+            return new Chain<>(com.github.underscore.U.countBy(value()));
         }
 
         public Chain<T> shuffle() {
-            return new Chain<>(U.shuffle(value()));
+            return new Chain<>(com.github.underscore.U.shuffle(value()));
         }
 
         public Chain<T> sample() {
-            return new Chain<>(U.sample(value()));
+            return new Chain<>(com.github.underscore.U.sample(value()));
         }
 
         public Chain<T> sample(final int howMany) {
-            return new Chain<>(U.newArrayList(U.sample(value(), howMany)));
+            return new Chain<>(newArrayList(com.github.underscore.U.sample(value(), howMany)));
         }
 
         public Chain<T> tap(final Consumer<T> func) {
-            U.tap(value(), func);
+            com.github.underscore.U.tap(value(), func);
             return new Chain<>(value());
         }
 
         public Chain<T> forEach(final Consumer<T> func) {
-            U.forEach(value(), func);
+            com.github.underscore.U.forEach(value(), func);
             return new Chain<>(value());
         }
 
         public Chain<T> forEachRight(final Consumer<T> func) {
-            U.forEachRight(value(), func);
+            com.github.underscore.U.forEachRight(value(), func);
             return new Chain<>(value());
         }
 
         public Chain<Boolean> every(final Predicate<T> pred) {
-            return new Chain<>(U.every(value(), pred));
+            return new Chain<>(com.github.underscore.U.every(value(), pred));
         }
 
         public Chain<Boolean> some(final Predicate<T> pred) {
-            return new Chain<>(U.some(value(), pred));
+            return new Chain<>(com.github.underscore.U.some(value(), pred));
         }
 
         public Chain<Integer> count(final Predicate<T> pred) {
-            return new Chain<>(U.count(value(), pred));
+            return new Chain<>(com.github.underscore.U.count(value(), pred));
         }
 
         public Chain<Boolean> contains(final T elem) {
-            return new Chain<>(U.contains(value(), elem));
+            return new Chain<>(com.github.underscore.U.contains(value(), elem));
         }
 
         public Chain<Boolean> containsWith(final T elem) {
-            return new Chain<>(U.containsWith(value(), elem));
+            return new Chain<>(com.github.underscore.U.containsWith(value(), elem));
         }
 
         public Chain<T> invoke(final String methodName, final List<Object> args) {
-            return new Chain<>(U.invoke(value(), methodName, args));
+            return new Chain<>(com.github.underscore.U.invoke(value(), methodName, args));
         }
 
         public Chain<T> invoke(final String methodName) {
-            return new Chain<>(U.invoke(value(), methodName));
+            return new Chain<>(com.github.underscore.U.invoke(value(), methodName));
         }
 
         public Chain<Object> pluck(final String propertyName) {
-            return new Chain<>(U.pluck(value(), propertyName));
+            return new Chain<>(com.github.underscore.U.pluck(value(), propertyName));
         }
 
         public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
-            return new Chain<>(U.where(value(), properties));
+            return new Chain<>(com.github.underscore.U.where(value(), properties));
         }
 
         public <E> Chain<Optional<T>> findWhere(final List<Tuple<String, E>> properties) {
-            return new Chain<>(U.findWhere(value(), properties));
+            return new Chain<>(com.github.underscore.U.findWhere(value(), properties));
         }
 
         public Chain<T> uniq() {
-            return new Chain<>(U.uniq(value()));
+            return new Chain<>(com.github.underscore.U.uniq(value()));
         }
 
         public <F> Chain<T> uniq(final Function<T, F> func) {
-            return new Chain<>(U.newArrayList(U.uniq(value(), func)));
+            return new Chain<>(newArrayList(com.github.underscore.U.uniq(value(), func)));
         }
 
         public Chain<T> distinct() {
-            return new Chain<>(U.uniq(value()));
+            return new Chain<>(com.github.underscore.U.uniq(value()));
         }
 
         @SuppressWarnings("unchecked")
         public <F> Chain<F> distinctBy(final Function<T, F> func) {
-            return new Chain<>(U.newArrayList((Iterable<F>) U.uniq(value(), func)));
+            return new Chain<>(newArrayList((Iterable<F>) com.github.underscore.U.uniq(value(), func)));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> union(final List<T> ... lists) {
-            return new Chain<>(U.union(value(), lists));
+            return new Chain<>(com.github.underscore.U.union(value(), lists));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> intersection(final List<T> ... lists) {
-            return new Chain<>(U.intersection(value(), lists));
+            return new Chain<>(com.github.underscore.U.intersection(value(), lists));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> difference(final List<T> ... lists) {
-            return new Chain<>(U.difference(value(), lists));
+            return new Chain<>(com.github.underscore.U.difference(value(), lists));
         }
 
         public Chain<Integer> range(final int stop) {
-            return new Chain<>(U.range(stop));
+            return new Chain<>(com.github.underscore.U.range(stop));
         }
 
         public Chain<Integer> range(final int start, final int stop) {
-            return new Chain<>(U.range(start, stop));
+            return new Chain<>(com.github.underscore.U.range(start, stop));
         }
 
         public Chain<Integer> range(final int start, final int stop, final int step) {
-            return new Chain<>(U.range(start, stop, step));
+            return new Chain<>(com.github.underscore.U.range(start, stop, step));
         }
 
         public Chain<List<T>> chunk(final int size) {
-            return new Chain<>(U.chunk(value(), size, size));
+            return new Chain<>(com.github.underscore.U.chunk(value(), size, size));
         }
 
         public Chain<List<T>> chunk(final int size, final int step) {
-            return new Chain<>(U.chunk(value(), size, step));
+            return new Chain<>(com.github.underscore.U.chunk(value(), size, step));
         }
 
         public Chain<List<T>> chunkFill(final int size, final T fillValue) {
-            return new Chain<>(U.chunkFill(value(), size, size, fillValue));
+            return new Chain<>(com.github.underscore.U.chunkFill(value(), size, size, fillValue));
         }
 
         public Chain<List<T>> chunkFill(final int size, final int step, final T fillValue) {
-            return new Chain<>(U.chunkFill(value(), size, step, fillValue));
+            return new Chain<>(com.github.underscore.U.chunkFill(value(), size, step, fillValue));
         }
 
         public Chain<T> cycle(final int times) {
-            return new Chain<>(U.cycle(value(), times));
+            return new Chain<>(com.github.underscore.U.cycle(value(), times));
         }
 
         public Chain<T> interpose(final T element) {
-            return new Chain<>(U.interpose(value(), element));
+            return new Chain<>(com.github.underscore.U.interpose(value(), element));
         }
 
         public Chain<T> interposeByList(final Iterable<T> interIter) {
-            return new Chain<>(U.interposeByList(value(), interIter));
+            return new Chain<>(com.github.underscore.U.interposeByList(value(), interIter));
         }
 
         @SuppressWarnings("unchecked")
         public Chain<T> concat(final List<T> ... lists) {
-            return new Chain<>(U.concat(value(), lists));
+            return new Chain<>(com.github.underscore.U.concat(value(), lists));
         }
 
         public Chain<T> slice(final int start) {
-            return new Chain<>(U.slice(value(), start));
+            return new Chain<>(com.github.underscore.U.slice(value(), start));
         }
 
         public Chain<T> slice(final int start, final int end) {
-            return new Chain<>(U.slice(value(), start, end));
+            return new Chain<>(com.github.underscore.U.slice(value(), start, end));
         }
 
         public Chain<T> reverse() {
-            return new Chain<>(U.reverse(value()));
+            return new Chain<>(com.github.underscore.U.reverse(value()));
         }
 
         public Chain<String> join() {
-            return new Chain<>(U.join(value()));
+            return new Chain<>(com.github.underscore.U.join(value()));
         }
 
         public Chain<String> join(final String separator) {
-            return new Chain<>(U.join(value(), separator));
+            return new Chain<>(com.github.underscore.U.join(value(), separator));
         }
 
         public Chain<T> skip(final int numberToSkip) {
@@ -472,15 +472,15 @@ public class U<T> extends com.github.underscore.U<T> {
 
         @SuppressWarnings("unchecked")
         public <K, V> Chain<Map<K, V>> toMap() {
-            return new Chain<>(U.toMap((Iterable<Map.Entry<K, V>>) value()));
+            return new Chain<>(com.github.underscore.U.toMap((Iterable<Map.Entry<K, V>>) value()));
         }
 
         public Chain<T> drop() {
-            return new Chain<>(U.drop(value()));
+            return new Chain<>(com.github.underscore.U.drop(value()));
         }
 
         public Chain<T> drop(final Integer n) {
-            return new Chain<>(U.drop(value(), n));
+            return new Chain<>(com.github.underscore.U.drop(value(), n));
         }
 
         public Chain<T> dropRight() {
@@ -1315,7 +1315,7 @@ public class U<T> extends com.github.underscore.U<T> {
             final String localString = baseToString(string);
             final String chr = localString.isEmpty() ? "" : localString.substring(0, 1);
             final String trailing = localString.length() > 1 ? localString.substring(1) : "";
-            return U.invoke(Collections.singletonList(chr), methodName).get(0) + trailing;
+            return com.github.underscore.U.invoke(Collections.singletonList(chr), methodName).get(0) + trailing;
         };
     }
 
