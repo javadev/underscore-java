@@ -2892,8 +2892,7 @@ public class U<T> {
         }
 
         public Chain<T> forEach(final Consumer<T> func) {
-            U.each(list, func);
-            return new Chain<>(list);
+            return tap(func);
         }
 
         public Chain<T> forEachRight(final Consumer<T> func) {
@@ -3180,9 +3179,7 @@ public class U<T> {
     @SuppressWarnings("unchecked")
     public static <T> List<T> push(final List<T> list, final T ... values) {
         final List<T> result = newArrayList(list);
-        for (T value : values) {
-            result.add(value);
-        }
+        Collections.addAll(result, values);
         return result;
     }
 

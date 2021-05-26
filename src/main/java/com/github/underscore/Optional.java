@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public final class Optional<T> {
-    private static final Optional<?> EMPTY = new Optional();
+    private static final Optional<?> EMPTY = new Optional<>();
     private final T arg;
     private final boolean absent;
 
@@ -99,7 +99,7 @@ public final class Optional<T> {
             return false;
         }
 
-        final Optional optional = (Optional) o;
+        final Optional<?> optional = (Optional) o;
 
         return absent == optional.absent && Objects.equals(arg, optional.arg);
     }

@@ -30,6 +30,7 @@ import java.util.Map;
 
 public final class Json {
     private static final String NULL = "null";
+    private static final String DIGIT = "digit";
 
     public static class JsonStringBuilder {
         public enum Step {
@@ -689,7 +690,7 @@ public final class Json {
             readChar('-');
             int firstDigit = current;
             if (!readDigit()) {
-                throw expected("digit");
+                throw expected(DIGIT);
             }
             if (firstDigit != '0') {
                 while (readDigit()) {
@@ -722,7 +723,7 @@ public final class Json {
                 return false;
             }
             if (!readDigit()) {
-                throw expected("digit");
+                throw expected(DIGIT);
             }
             while (readDigit()) {
             }
@@ -737,7 +738,7 @@ public final class Json {
                 readChar('-');
             }
             if (!readDigit()) {
-                throw expected("digit");
+                throw expected(DIGIT);
             }
             while (readDigit()) {
             }
