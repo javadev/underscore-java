@@ -115,12 +115,19 @@ public class U<T> extends com.github.underscore.U<T> {
         super(string);
     }
 
+    public U(final Map<String, Object> map) {
+        super(map);
+    }
+
     public static class Chain<T> extends com.github.underscore.U.Chain<T> {
         public Chain(final T item) {
             super(item);
         }
         public Chain(final List<T> list) {
             super(list);
+        }
+        public Chain(final Map<String, Object> map) {
+            super(map);
         }
 
         public Chain<T> first() {
@@ -450,6 +457,11 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<>(com.github.underscore.U.slice(value(), start, end));
         }
 
+        public Chain<Map<String, Object>> set(final String path, Object value) {
+            U.set(map(), path, value);
+            return new Chain<>(map());
+        }
+
         public Chain<T> reverse() {
             return new Chain<>(com.github.underscore.U.reverse(value()));
         }
@@ -771,6 +783,10 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static <T> Chain<T> of(final List<T> list) {
         return new U.Chain<>(list);
+    }
+
+    public static Chain<Map<String, Object>> of(final Map<String, Object> map) {
+        return new U.Chain<>(map);
     }
 
     public static <T> Chain<T> of(final Iterable<T> iterable) {
