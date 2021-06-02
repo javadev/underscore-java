@@ -80,6 +80,7 @@ public class U<T> {
     private static final Map<Character, String> ESCAPES = new HashMap<>();
     private final Iterable<T> iterable;
     private final Optional<String> string;
+    private final Optional<Map<String, Object>> map;
 
     static {
         TEMPLATE_SETTINGS.put(EVALUATE, "<%([\\s\\S]+?)%>");
@@ -96,11 +97,19 @@ public class U<T> {
     public U(final Iterable<T> iterable) {
         this.iterable = iterable;
         this.string = Optional.absent();
+        this.map = Optional.absent();
     }
 
     public U(final String string) {
         this.iterable = null;
         this.string = Optional.of(string);
+        this.map = Optional.absent();
+    }
+
+    public U(final Map<String, Object> map) {
+        this.iterable = null;
+        this.string = Optional.absent();
+        this.map = Optional.of(map);
     }
 
     private static void setTemplateKey(final Map<String, String> templateSettings, final String key) {
@@ -2625,6 +2634,10 @@ public class U<T> {
         return new U.Chain<>(list);
     }
 
+    public static Chain<Map<String, Object>> chain(final Map<String, Object> map) {
+        return new U.Chain<>(map);
+    }
+
     public static <T> Chain<T> chain(final Iterable<T> iterable) {
         return new U.Chain<>(newArrayList(iterable));
     }
@@ -2674,13 +2687,21 @@ public class U<T> {
     public static class Chain<T> {
         private final T item;
         private final List<T> list;
+        private final Map<String, Object> map;
         public Chain(final T item) {
             this.item = item;
             this.list = null;
+            this.map = null;
         }
         public Chain(final List<T> list) {
             this.item = null;
             this.list = list;
+            this.map = null;
+        }
+        public Chain(final Map<String, Object> map) {
+            this.item = null;
+            this.list = null;
+            this.map = map;
         }
 
         public Chain<T> first() {
@@ -3099,6 +3120,10 @@ public class U<T> {
             return list;
         }
 
+        public Map<String, Object> map() {
+            return map;
+        }
+
         public List<T> toList() {
             return list;
         }
@@ -3405,6 +3430,10 @@ public class U<T> {
 
     public Iterable<T> value() {
         return iterable;
+    }
+
+    public Optional<Map<String, Object>> map() {
+        return map;
     }
 
     public Optional<String> getString() {
