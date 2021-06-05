@@ -1035,6 +1035,7 @@ _.set({"a":[{"b":{"c":"d"}}]}, "a[0].b.c", "e");
         U.of(new String[] {});
         U.of(new int[] {});
         U.of("");
+        U.of(new LinkedHashMap<String, Object>());
     }
 
     @SuppressWarnings("unchecked")
