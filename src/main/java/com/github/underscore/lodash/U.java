@@ -115,10 +115,6 @@ public class U<T> extends com.github.underscore.U<T> {
         super(string);
     }
 
-    public U(final Map<String, Object> map) {
-        super(map);
-    }
-
     public static class Chain<T> extends com.github.underscore.U.Chain<T> {
         public Chain(final T item) {
             super(item);

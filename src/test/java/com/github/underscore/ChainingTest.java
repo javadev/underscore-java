@@ -404,15 +404,6 @@ var sum = _(words)
             put("name1", "one");
             put("name2", "two");
         } }).set("1", "2").map().toString());
-        assertEquals("{name1=one, name2=two}", new U(new LinkedHashMap<String, Object>() { {
-            put("name1", "one");
-            put("name2", "two");
-        } }).map().get().toString());
-        assertEquals("{name1=one, name2=two}", new com.github.underscore.lodash.U(
-            new LinkedHashMap<String, Object>() { {
-            put("name1", "one");
-            put("name2", "two");
-        } }).map().get().toString());
     }
 
 }
