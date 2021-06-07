@@ -349,7 +349,7 @@ _.elementAtOrNull(arr, 3) // => null
         };
         final Optional<Integer> result = U.findLast(iterable,
                 item -> item % 2 == 0);
-        assertEquals("Optional.of(6)", result.toString());
+        assertEquals("Optional[6]", result.toString());
     }
 
     @Test
@@ -389,46 +389,47 @@ _.elementAtOrNull(arr, 3) // => null
     @Test
     @SuppressWarnings("unlikely-arg-type")
     public void optional() {
-        assertTrue(Optional.absent().equals(Optional.absent()));
+        assertTrue(Optional.empty().equals(Optional.empty()));
         assertTrue(Optional.of(1).equals(Optional.of(1)));
         Optional<Integer> one = Optional.of(1);
         assertTrue(one.equals(one));
         assertFalse(Optional.of(1L).equals(Optional.of(1)));
         assertFalse(Optional.of(1L).equals(null));
         assertTrue(Optional.of(null).equals(Optional.of(null)));
-        assertFalse(Optional.absent().equals(Optional.of(1)));
+        assertFalse(Optional.empty().equals(Optional.of(1)));
         assertFalse(Optional.of(null).equals(Optional.of(1)));
         assertFalse(Optional.of(1).equals(Optional.of(null)));
-        assertFalse(Optional.of(1).equals(Optional.absent()));
+        assertFalse(Optional.of(1).equals(Optional.empty()));
         assertFalse(Optional.of(1).equals(Optional.of(2)));
         assertFalse(Optional.of(1).equals("test"));
-        assertEquals(1, Optional.absent().hashCode());
+        assertEquals(1, Optional.empty().hashCode());
         assertEquals(Optional.of("123").hashCode(), Optional.of("123").hashCode());
-        assertEquals("Optional.absent()", Optional.absent().toString());
-        assertEquals("Optional.of(1)", Optional.of(1).toString());
-        assertEquals("Optional.absent()", Optional.fromNullable(null).toString());
-        assertEquals("Optional.of(1)", Optional.fromNullable(1).toString());
-        assertEquals("1", Optional.absent().or(1).toString());
+        assertEquals("Optional.empty", Optional.empty().toString());
+        assertEquals("Optional[1]", Optional.of(1).toString());
+        assertEquals("Optional.empty", Optional.fromNullable(null).toString());
+        assertEquals("Optional[1]", Optional.fromNullable(1).toString());
+        assertEquals("1", Optional.empty().or(1).toString());
         assertEquals("1", Optional.of(1).or(2).toString());
-        assertEquals(null, Optional.absent().orNull());
+        assertEquals(null, Optional.empty().orNull());
         assertEquals("1", Optional.of(1).orNull().toString());
-        assertFalse(Optional.<Integer>absent().map(arg -> "" + arg).isPresent());
-        assertTrue(Optional.<Integer>absent().map(arg -> "" + arg).isEmpty());
+        assertFalse(Optional.<Integer>empty().map(arg -> "" + arg).isPresent());
+        assertTrue(Optional.<Integer>empty().map(arg -> "" + arg).isEmpty());
         assertEquals("1", Optional.of(1).map(arg -> "" + arg).get().toString());
         try {
-            Optional.absent().get();
+            Optional.empty().get();
             fail("IllegalStateException expected");
         } catch (IllegalStateException ex) {
         }
-        assertFalse(Optional.<Integer>absent().filter(arg -> true).isPresent());
-        assertTrue(Optional.<Integer>absent().filter(arg -> false).isEmpty());
+        assertFalse(Optional.<Integer>empty().filter(arg -> true).isPresent());
+        assertTrue(Optional.<Integer>empty().filter(arg -> false).isEmpty());
         assertEquals("1", Optional.of(1).filter(arg -> true).get().toString());
-        assertTrue("1", Optional.of(1).filter(arg -> false).isEmpty());
+        assertTrue(Optional.of(1).filter(arg -> false).isEmpty());
+        assertEquals("Optional[1]", Optional.of(1).toJavaOptional().toString());
     }
 
     @Test(expected = Exception.class)
     public void optionalOrThrow() throws RuntimeException {
-        Optional.absent().orThrow(RuntimeException::new);
+        Optional.empty().orThrow(RuntimeException::new);
     }
 
     @Test

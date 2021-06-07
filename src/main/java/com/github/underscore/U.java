@@ -95,7 +95,7 @@ public class U<T> {
 
     public U(final Iterable<T> iterable) {
         this.iterable = iterable;
-        this.string = Optional.absent();
+        this.string = Optional.empty();
     }
 
     public U(final String string) {
@@ -430,7 +430,7 @@ public class U<T> {
                 accum = element;
             }
         }
-        return foundAny ? Optional.of(accum) : Optional.<T>absent();
+        return foundAny ? Optional.of(accum) : Optional.<T>empty();
     }
 
     public static <E> E reduce(final int[] array, final BiFunction<E, ? super Integer, E> func, final E zeroElem) {
@@ -493,7 +493,7 @@ public class U<T> {
                 return Optional.of(element);
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public static <E> Optional<E> detect(final Iterable<E> iterable, final Predicate<E> pred) {
@@ -3135,7 +3135,7 @@ public class U<T> {
         if (string.isPresent() && FUNCTIONS.containsKey(funcName)) {
             return Optional.of(FUNCTIONS.get(funcName).apply(string.get()));
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public static <T extends Comparable<T>> List<T> sort(final Iterable<T> iterable) {
