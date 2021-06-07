@@ -426,13 +426,13 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     public void find() {
         final Optional<Integer> result = U.find(asList(1, 2, 3, 4, 5, 6),
                 item -> item % 2 == 0);
-        assertEquals("Optional.of(2)", result.toString());
+        assertEquals("Optional[2]", result.toString());
         final Optional<Integer> resultChain = U.chain(asList(1, 2, 3, 4, 5, 6)).find(
                 item -> item % 2 == 0).item();
-        assertEquals("Optional.of(2)", resultChain.toString());
+        assertEquals("Optional[2]", resultChain.toString());
         final Optional<Integer> resultChain2 = U.chain(asList(1, 2, 3, 4, 5, 6)).find(
                 item -> item > 6).item();
-        assertEquals("Optional.absent()", resultChain2.toString());
+        assertEquals("Optional.empty", resultChain2.toString());
     }
 
 /*
@@ -443,16 +443,16 @@ var even = _.findLast([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; })
     public void findLast() {
         final Optional<Integer> result = U.findLast(asList(1, 2, 3, 4, 5, 6),
                 item -> item % 2 == 0);
-        assertEquals("Optional.of(6)", result.toString());
+        assertEquals("Optional[6]", result.toString());
         final Optional<Integer> result2 = U.findLast(asList(1, 2, 3, 4, 5, 6),
                 item -> item > 6);
-        assertEquals("Optional.absent()", result2.toString());
+        assertEquals("Optional.empty", result2.toString());
         final Optional<Integer> resultChain = U.chain(asList(1, 2, 3, 4, 5, 6)).findLast(
                 item -> item % 2 == 0).item();
-        assertEquals("Optional.of(6)", resultChain.toString());
+        assertEquals("Optional[6]", resultChain.toString());
         final Optional<Integer> resultChain2 = U.chain(asList(1, 2, 3, 4, 5, 6)).findLast(
                 item -> item > 6).item();
-        assertEquals("Optional.absent()", resultChain2.toString());
+        assertEquals("Optional.empty", resultChain2.toString());
     }
 
 /*
@@ -463,7 +463,7 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     public void detect() {
         final Optional<Integer> result = U.detect(asList(1, 2, 3, 4, 5, 6),
                 item -> item % 2 == 0);
-        assertEquals("Optional.of(2)", result.toString());
+        assertEquals("Optional[2]", result.toString());
     }
 
 /*
@@ -1053,7 +1053,7 @@ _.findWhere(listOfPlays, {author: "Shakespeare", year: 1611})
             U.findWhere(listOfPlays2, asList(
             Tuple.<String, Object>create("getAuthor", "Shakespeare"),
             Tuple.<String, Object>create("year", 1611))).get().toString());
-        assertEquals(Optional.<Book2>absent(),
+        assertEquals(Optional.<Book2>empty(),
             U.findWhere(listOfPlays2, asList(
             Tuple.<String, Object>create("getAuthor", "Shakespeare2"),
             Tuple.<String, Object>create("year", 1611))));
@@ -1239,17 +1239,17 @@ _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
                 Math::floor,
                 Double::sum
         );
-        assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", result.toString());
+        assertEquals("{1.0=Optional[1.3], 2.0=Optional[4.5]}", result.toString());
         final Map<Double, Optional<Double>> resultObj =
         new U(asList(1.3, 2.1, 2.4)).groupBy(
                 (Function<Double, Double>) Math::floor,
                 (BinaryOperator<Double>) Double::sum);
-        assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", resultObj.toString());
+        assertEquals("{1.0=Optional[1.3], 2.0=Optional[4.5]}", resultObj.toString());
         final Map<Double, Optional<Double>> resultChain =
         U.chain(asList(1.3, 2.1, 2.4)).groupBy(
                 Math::floor,
                 Double::sum).item();
-        assertEquals("{1.0=Optional.of(1.3), 2.0=Optional.of(4.5)}", resultChain.toString());
+        assertEquals("{1.0=Optional[1.3], 2.0=Optional[4.5]}", resultChain.toString());
     }
 
 /*

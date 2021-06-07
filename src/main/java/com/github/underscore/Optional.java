@@ -8,16 +8,16 @@ import java.util.function.Supplier;
 public final class Optional<T> {
     private static final Optional<?> EMPTY = new Optional<>();
     private final T arg;
-    private final boolean absent;
+    private final boolean empty;
 
     private Optional() {
         this.arg = null;
-        this.absent = true;
+        this.empty = true;
     }
 
     private Optional(final T arg) {
         this.arg = arg;
-        this.absent = false;
+        this.empty = false;
     }
 
     public static <T> Optional<T> of(final T arg) {
@@ -25,49 +25,49 @@ public final class Optional<T> {
     }
 
     public static <T> Optional<T> fromNullable(final T nullableReference) {
-        return nullableReference == null ? Optional.<T>absent()
+        return nullableReference == null ? Optional.<T>empty()
             : new Optional<>(nullableReference);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Optional<T> absent() {
+    public static <T> Optional<T> empty() {
         return (Optional<T>) EMPTY;
     }
 
     public T get() {
-        if (absent) {
-            throw new IllegalStateException("Optional.get() cannot be called on an absent value");
+        if (empty) {
+            throw new IllegalStateException("Optional.get() cannot be called on an empty value");
         }
         return arg;
     }
 
     public T or(final T defaultValue) {
-        if (absent) {
+        if (empty) {
             return defaultValue;
         }
         return arg;
     }
 
     public T orNull() {
-        if (absent) {
+        if (empty) {
             return null;
         }
         return arg;
     }
 
     public boolean isEmpty() {
-        return absent;
+        return empty;
     }
 
     public boolean isPresent() {
-        return !absent;
+        return !empty;
     }
 
     @SuppressWarnings("unchecked")
     public Optional<T> filter(Predicate<? super T> predicate) {
         U.checkNotNull(predicate);
         if (isPresent()) {
-            return predicate.test(arg) ? this : Optional.<T>absent();
+            return predicate.test(arg) ? this : Optional.<T>empty();
         } else {
             return this;
         }
@@ -78,16 +78,20 @@ public final class Optional<T> {
         if (isPresent()) {
             return Optional.fromNullable(mapper.apply(arg));
         } else {
-            return absent();
+            return empty();
         }
     }
 
     public <X extends Throwable> T orThrow(Supplier<? extends X> exceptionFunction) throws X {
-        if (absent) {
+        if (empty) {
             throw exceptionFunction.get();
         } else {
             return arg;
         }
+    }
+
+    public java.util.Optional<T> toJavaOptional() {
+        return java.util.Optional.ofNullable(arg);
     }
 
     @Override
@@ -101,18 +105,18 @@ public final class Optional<T> {
 
         final Optional<?> optional = (Optional) o;
 
-        return absent == optional.absent && Objects.equals(arg, optional.arg);
+        return empty == optional.empty && Objects.equals(arg, optional.arg);
     }
 
     @Override
     public int hashCode() {
         int result = arg == null ? 0 : arg.hashCode();
-        result = 31 * result + (absent ? 1 : 0);
+        result = 31 * result + (empty ? 1 : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return absent ? "Optional.absent()" : "Optional.of(" + arg + ")";
+        return empty ? "Optional.empty" : "Optional[" + arg + "]";
     }
 }
