@@ -322,7 +322,7 @@ public class U<T> {
         final BiConsumer<? super E, ? super Consumer<T>> mapper) {
         final List<T> transformed = newArrayListWithExpectedSize(list.size());
         for (E element : list) {
-            Consumer<T> value = t -> transformed.add(t);
+            Consumer<T> value = transformed::add;
             mapper.accept(element, value);
         }
         return transformed;
@@ -920,7 +920,7 @@ public class U<T> {
     public static <E, T extends Comparable<? super T>> List<E> sortBy(final Iterable<E> iterable,
         final Function<E, T> func) {
         final List<E> sortedList = newArrayList(iterable);
-        sortedList.sort((o1, o2) -> func.apply(o1).compareTo(func.apply(o2)));
+        sortedList.sort(Comparator.comparing(func::apply));
         return sortedList;
     }
 
@@ -932,7 +932,7 @@ public class U<T> {
     public static <K, V extends Comparable<? super V>> List<Map<K, V>> sortBy(final Iterable<Map<K, V>> iterable,
         final K key) {
         final List<Map<K, V>> sortedList = newArrayList(iterable);
-        sortedList.sort((o1, o2) -> o1.get(key).compareTo(o2.get(key)));
+        sortedList.sort(Comparator.comparing(o -> o.get(key)));
         return sortedList;
     }
 
