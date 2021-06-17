@@ -24,6 +24,7 @@
 package com.github.underscore.lodash;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class Base32Test {

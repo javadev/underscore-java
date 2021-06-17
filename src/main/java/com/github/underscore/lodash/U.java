@@ -24,9 +24,9 @@
 package com.github.underscore.lodash;
 
 import com.github.underscore.Function3;
+import com.github.underscore.Optional;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
-import com.github.underscore.Optional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -50,48 +50,56 @@ import java.util.function.Predicate;
 public class U<T> extends com.github.underscore.U<T> {
     private static final int DEFAULT_TRUNC_LENGTH = 30;
     private static final String DEFAULT_TRUNC_OMISSION = "...";
-    private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
-        "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
-    private static final java.util.regex.Pattern RE_PROP_NAME = java.util.regex.Pattern.compile(
-        "[^.\\[\\]]+|\\[(?:(-?\\d+(?:\\.\\d+)?)|([\"'])((?:(?!\2)\\[^\\]|\\.)*?)\2)\\]|(?=(\\.|\\[\\])(?:\4|$))");
+    private static final java.util.regex.Pattern RE_LATIN_1 =
+            java.util.regex.Pattern.compile("[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
+    private static final java.util.regex.Pattern RE_PROP_NAME =
+            java.util.regex.Pattern.compile(
+                    "[^.\\[\\]]+|\\[(?:(-?\\d+(?:\\.\\d+)?)|([\"'])((?:(?!\2)\\[^\\]|\\.)*?)\2)\\]|"
+                    + "(?=(\\.|\\[\\])(?:\4|$))");
     private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<>();
     private static final Map<String, List<String>> DEFAULT_HEADER_FIELDS = new HashMap<>();
-    private static final Set<String> SUPPORTED_HTTP_METHODS = new HashSet<>(
-            Arrays.asList("GET", "POST", "PUT", "DELETE"));
+    private static final Set<String> SUPPORTED_HTTP_METHODS =
+            new HashSet<>(Arrays.asList("GET", "POST", "PUT", "DELETE"));
     private static final int BUFFER_LENGTH_1024 = 1024;
     private static final int RESPONSE_CODE_400 = 400;
     private static String upper = "[A-Z\\xc0-\\xd6\\xd8-\\xde\\u0400-\\u04FF]";
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
-    private static java.util.regex.Pattern reWords = java.util.regex.Pattern.compile(
-        upper + "+(?=" + upper + lower + ")|" + upper + "?" + lower + "|" + upper + "+|[0-9]+");
+    private static java.util.regex.Pattern reWords =
+            java.util.regex.Pattern.compile(
+                    upper
+                            + "+(?="
+                            + upper
+                            + lower
+                            + ")|"
+                            + upper
+                            + "?"
+                            + lower
+                            + "|"
+                            + upper
+                            + "+|[0-9]+");
 
     static {
-        String[] deburredLetters = new String[] {
-            "\u00c0", "A", "\u00c1", "A", "\u00c2", "A", "\u00c3", "A",
-            "\u00c4", "A", "\u00c5", "A",
-            "\u00e0", "a", "\u00e1", "a", "\u00e2", "a", "\u00e3", "a",
-            "\u00e4", "a", "\u00e5", "a",
-            "\u00c7", "C", "\u00e7", "c",
-            "\u00d0", "D", "\u00f0", "d",
-            "\u00c8", "E", "\u00c9", "E", "\u00ca", "E", "\u00cb", "E",
-            "\u00e8", "e", "\u00e9", "e", "\u00ea", "e", "\u00eb", "e",
-            "\u00cC", "I", "\u00cd", "I", "\u00ce", "I", "\u00cf", "I",
-            "\u00eC", "i", "\u00ed", "i", "\u00ee", "i", "\u00ef", "i",
-            "\u00d1", "N", "\u00f1", "n",
-            "\u00d2", "O", "\u00d3", "O", "\u00d4", "O", "\u00d5", "O",
-            "\u00d6", "O", "\u00d8", "O",
-            "\u00f2", "o", "\u00f3", "o", "\u00f4", "o", "\u00f5", "o",
-            "\u00f6", "o", "\u00f8", "o",
-            "\u00d9", "U", "\u00da", "U", "\u00db", "U", "\u00dc", "U",
-            "\u00f9", "u", "\u00fa", "u", "\u00fb", "u", "\u00fc", "u",
-            "\u00dd", "Y", "\u00fd", "y", "\u00ff", "y",
-            "\u00c6", "Ae", "\u00e6", "ae",
-            "\u00de", "Th", "\u00fe", "th",
-            "\u00df", "ss"};
+        String[] deburredLetters =
+                new String[] {
+                    "\u00c0", "A", "\u00c1", "A", "\u00c2", "A", "\u00c3", "A", "\u00c4", "A",
+                    "\u00c5", "A", "\u00e0", "a", "\u00e1", "a", "\u00e2", "a", "\u00e3", "a",
+                    "\u00e4", "a", "\u00e5", "a", "\u00c7", "C", "\u00e7", "c", "\u00d0", "D",
+                    "\u00f0", "d", "\u00c8", "E", "\u00c9", "E", "\u00ca", "E", "\u00cb", "E",
+                    "\u00e8", "e", "\u00e9", "e", "\u00ea", "e", "\u00eb", "e", "\u00cC", "I",
+                    "\u00cd", "I", "\u00ce", "I", "\u00cf", "I", "\u00eC", "i", "\u00ed", "i",
+                    "\u00ee", "i", "\u00ef", "i", "\u00d1", "N", "\u00f1", "n", "\u00d2", "O",
+                    "\u00d3", "O", "\u00d4", "O", "\u00d5", "O", "\u00d6", "O", "\u00d8", "O",
+                    "\u00f2", "o", "\u00f3", "o", "\u00f4", "o", "\u00f5", "o", "\u00f6", "o",
+                    "\u00f8", "o", "\u00d9", "U", "\u00da", "U", "\u00db", "U", "\u00dc", "U",
+                    "\u00f9", "u", "\u00fa", "u", "\u00fb", "u", "\u00fc", "u", "\u00dd", "Y",
+                    "\u00fd", "y", "\u00ff", "y", "\u00c6", "Ae", "\u00e6", "ae", "\u00de", "Th",
+                    "\u00fe", "th", "\u00df", "ss"
+                };
         for (int index = 0; index < deburredLetters.length; index += 2) {
             DEBURRED_LETTERS.put(deburredLetters[index], deburredLetters[index + 1]);
         }
-        DEFAULT_HEADER_FIELDS.put("Content-Type", Arrays.asList("application/json", "charset=utf-8"));
+        DEFAULT_HEADER_FIELDS.put(
+                "Content-Type", Arrays.asList("application/json", "charset=utf-8"));
     }
 
     public enum Mode {
@@ -119,9 +127,11 @@ public class U<T> extends com.github.underscore.U<T> {
         public Chain(final T item) {
             super(item);
         }
+
         public Chain(final List<T> list) {
             super(list);
         }
+
         public Chain(final Map<String, Object> map) {
             super(map);
         }
@@ -277,15 +287,16 @@ public class U<T> extends com.github.underscore.U<T> {
 
         @SuppressWarnings("unchecked")
         public <K> Chain<Map<K, Comparable>> sortBy(final K key) {
-            return new Chain<>(com.github.underscore.U.sortBy((List<Map<K, Comparable>>) value(), key));
+            return new Chain<>(
+                    com.github.underscore.U.sortBy((List<Map<K, Comparable>>) value(), key));
         }
 
         public <F> Chain<Map<F, List<T>>> groupBy(final Function<T, F> func) {
             return new Chain<>(com.github.underscore.U.groupBy(value(), func));
         }
 
-        public <F> Chain<Map<F, Optional<T>>> groupBy(final Function<T, F> func,
-            final BinaryOperator<T> binaryOperator) {
+        public <F> Chain<Map<F, Optional<T>>> groupBy(
+                final Function<T, F> func, final BinaryOperator<T> binaryOperator) {
             return new Chain<>(com.github.underscore.U.groupBy(value(), func, binaryOperator));
         }
 
@@ -382,21 +393,22 @@ public class U<T> extends com.github.underscore.U<T> {
 
         @SuppressWarnings("unchecked")
         public <F> Chain<F> distinctBy(final Function<T, F> func) {
-            return new Chain<>(newArrayList((Iterable<F>) com.github.underscore.U.uniq(value(), func)));
+            return new Chain<>(
+                    newArrayList((Iterable<F>) com.github.underscore.U.uniq(value(), func)));
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<T> union(final List<T> ... lists) {
+        public Chain<T> union(final List<T>... lists) {
             return new Chain<>(com.github.underscore.U.union(value(), lists));
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<T> intersection(final List<T> ... lists) {
+        public Chain<T> intersection(final List<T>... lists) {
             return new Chain<>(com.github.underscore.U.intersection(value(), lists));
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<T> difference(final List<T> ... lists) {
+        public Chain<T> difference(final List<T>... lists) {
             return new Chain<>(com.github.underscore.U.difference(value(), lists));
         }
 
@@ -441,7 +453,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<T> concat(final List<T> ... lists) {
+        public Chain<T> concat(final List<T>... lists) {
             return new Chain<>(com.github.underscore.U.concat(value(), lists));
         }
 
@@ -522,12 +534,12 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<Object> pull(final Object ... values) {
+        public Chain<Object> pull(final Object... values) {
             return new Chain<>(U.pull((List<Object>) value(), values));
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<Object> pullAt(final Integer ... indexes) {
+        public Chain<Object> pullAt(final Integer... indexes) {
             return new Chain<>(U.pullAt((List<Object>) value(), indexes));
         }
 
@@ -564,7 +576,7 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<>(U.xor(value(), list));
         }
 
-        public Chain<T> at(final Integer ... indexes) {
+        public Chain<T> at(final Integer... indexes) {
             return new Chain<>(U.at(value(), indexes));
         }
 
@@ -728,7 +740,8 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public Chain<List<T>> createPermutationWithRepetition(final int permutationLength) {
-            return new Chain<>(U.createPermutationWithRepetition((List<T>) value(), permutationLength));
+            return new Chain<>(
+                    U.createPermutationWithRepetition((List<T>) value(), permutationLength));
         }
 
         public Chain<String> toJsonJavaString() {
@@ -765,7 +778,7 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Chain<T> chain(final T ... list) {
+    public static <T> Chain<T> chain(final T... list) {
         return new U.Chain<>(Arrays.asList(list));
     }
 
@@ -798,7 +811,7 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Chain<T> of(final T ... list) {
+    public static <T> Chain<T> of(final T... list) {
         return new U.Chain<>(Arrays.asList(list));
     }
 
@@ -867,7 +880,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static <T> T[] fill(T[] array, T item) {
         for (int i = 0; i < array.length; i++) {
-             array[i] = item;
+            array[i] = item;
         }
         return array;
     }
@@ -877,7 +890,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return fill((List<Object>) getIterable(), value);
     }
 
-    public static List<Object> fill(final List<Object> list, Object value, Integer start, Integer end) {
+    public static List<Object> fill(
+            final List<Object> list, Object value, Integer start, Integer end) {
         for (int index = start; index < end; index += 1) {
             list.set(index, value);
         }
@@ -897,18 +911,18 @@ public class U<T> extends com.github.underscore.U<T> {
         return flattenDeep((List<?>) getIterable());
     }
 
-    public static List<Object> pull(final List<Object> list, Object ... values) {
+    public static List<Object> pull(final List<Object> list, Object... values) {
         final List<Object> valuesList = Arrays.asList(values);
         list.removeIf(valuesList::contains);
         return list;
     }
 
     @SuppressWarnings("unchecked")
-    public List<Object> pull(Object ... values) {
+    public List<Object> pull(Object... values) {
         return pull((List<Object>) getIterable(), values);
     }
 
-    public static List<Object> pullAt(final List<Object> list, final Integer ... indexes) {
+    public static List<Object> pullAt(final List<Object> list, final Integer... indexes) {
         final List<Object> result = newArrayList();
         final List<Integer> indexesList = Arrays.asList(indexes);
         int index = 0;
@@ -924,7 +938,7 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Object> pullAt(final Integer ... indexes) {
+    public List<Object> pullAt(final Integer... indexes) {
         return pullAt((List<Object>) getIterable(), indexes);
     }
 
@@ -993,13 +1007,16 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> List<T> xor(final List<T> ... lists) {
+    public static <T> List<T> xor(final List<T>... lists) {
         int index = -1;
         int length = lists.length;
         List<T> result = null;
         while (++index < length) {
             final List<T> array = lists[index];
-            result = result == null ? array : concat(difference(result, array), difference(array, result));
+            result =
+                    result == null
+                            ? array
+                            : concat(difference(result, array), difference(array, result));
         }
         return uniq(result);
     }
@@ -1009,7 +1026,7 @@ public class U<T> extends com.github.underscore.U<T> {
         return xor((List<T>) getIterable(), list);
     }
 
-    public static <T> List<T> at(final List<T> list, final Integer ... indexes) {
+    public static <T> List<T> at(final List<T> list, final Integer... indexes) {
         final List<T> result = newArrayList();
         final List<Integer> indexesList = Arrays.asList(indexes);
         int index = 0;
@@ -1022,7 +1039,7 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
-    public List<T> at(final Integer ... indexes) {
+    public List<T> at(final Integer... indexes) {
         return at((List<T>) getIterable(), indexes);
     }
 
@@ -1034,7 +1051,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return sum.doubleValue() / size(iterable);
     }
 
-    public static <E, F extends  Number> Double average(final Iterable<E> iterable, final Function<E, F> func) {
+    public static <E, F extends Number> Double average(
+            final Iterable<E> iterable, final Function<E, F> func) {
         F sum = sum(iterable, func);
         if (sum == null) {
             return null;
@@ -1061,7 +1079,7 @@ public class U<T> extends com.github.underscore.U<T> {
         if (first == null || second == null) {
             return null;
         }
-      return sum(first, second).doubleValue() / 2;
+        return sum(first, second).doubleValue() / 2;
     }
 
     public static Double average(Byte first, Byte second) {
@@ -1107,7 +1125,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
-    public static <E, F extends  Number> F sum(final Iterable<E> iterable, final Function<E, F> func) {
+    public static <E, F extends Number> F sum(
+            final Iterable<E> iterable, final Function<E, F> func) {
         F result = null;
         for (final E item : iterable) {
             result = add(result, func.apply(item));
@@ -1129,7 +1148,7 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <E, F extends  Number> F sum(final Function<E, F> func) {
+    public <E, F extends Number> F sum(final Function<E, F> func) {
         return sum((List<E>) getIterable(), func);
     }
 
@@ -1156,15 +1175,18 @@ public class U<T> extends com.github.underscore.U<T> {
         } else if (first instanceof Short) {
             return (T) sum((Short) first, (Short) second);
         } else {
-            throw new UnsupportedOperationException("Sum only supports official subclasses of Number");
+            throw new UnsupportedOperationException(
+                    "Sum only supports official subclasses of Number");
         }
     }
 
-    private static java.math.BigDecimal sum(java.math.BigDecimal first, java.math.BigDecimal second) {
+    private static java.math.BigDecimal sum(
+            java.math.BigDecimal first, java.math.BigDecimal second) {
         return first.add(second);
     }
 
-    private static java.math.BigInteger sum(java.math.BigInteger first, java.math.BigInteger second) {
+    private static java.math.BigInteger sum(
+            java.math.BigInteger first, java.math.BigInteger second) {
         return first.add(second);
     }
 
@@ -1193,7 +1215,7 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Number> T subtract(final T ... values) {
+    public static <T extends Number> T subtract(final T... values) {
         if (values.length == 0) {
             return null;
         }
@@ -1218,7 +1240,8 @@ public class U<T> extends com.github.underscore.U<T> {
             } else if (result instanceof Short) {
                 result = add(result, (T) Short.valueOf((short) (values[i].shortValue() * -1)));
             } else {
-                throw new UnsupportedOperationException("Subtract only supports official subclasses of Number");
+                throw new UnsupportedOperationException(
+                        "Subtract only supports official subclasses of Number");
             }
         }
         return result;
@@ -1261,11 +1284,18 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static String camelCase(final String string) {
-        return createCompounder((result, word, index) -> {
-            final String localWord = word.toLowerCase(Locale.getDefault());
-            return result + (index > 0 ? localWord.substring(0, 1).toUpperCase(Locale.getDefault())
-                + localWord.substring(1) : localWord);
-        }).apply(string);
+        return createCompounder(
+                        (result, word, index) -> {
+                            final String localWord = word.toLowerCase(Locale.getDefault());
+                            return result
+                                    + (index > 0
+                                            ? localWord
+                                                            .substring(0, 1)
+                                                            .toUpperCase(Locale.getDefault())
+                                                    + localWord.substring(1)
+                                            : localWord);
+                        })
+                .apply(string);
     }
 
     public static String lowerFirst(final String string) {
@@ -1312,7 +1342,7 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     private static Function<String, String> createCompounder(
-        final Function3<String, String, Integer, String> callback) {
+            final Function3<String, String, Integer, String> callback) {
         return string -> {
             int index = -1;
             List<String> array = words(deburr(string));
@@ -1331,7 +1361,8 @@ public class U<T> extends com.github.underscore.U<T> {
             final String localString = baseToString(string);
             final String chr = localString.isEmpty() ? "" : localString.substring(0, 1);
             final String trailing = localString.length() > 1 ? localString.substring(1) : "";
-            return com.github.underscore.U.invoke(Collections.singletonList(chr), methodName).get(0) + trailing;
+            return com.github.underscore.U.invoke(Collections.singletonList(chr), methodName).get(0)
+                    + trailing;
         };
     }
 
@@ -1339,7 +1370,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return endsWith(string, target, null);
     }
 
-    public static boolean endsWith(final String string, final String target, final Integer position) {
+    public static boolean endsWith(
+            final String string, final String target, final Integer position) {
         if (string == null || target == null) {
             return false;
         }
@@ -1354,8 +1386,12 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static String kebabCase(final String string) {
-        return createCompounder((result, word, index) -> result + (index > 0 ? "-" : "")
-                + word.toLowerCase(Locale.getDefault())).apply(string);
+        return createCompounder(
+                        (result, word, index) ->
+                                result
+                                        + (index > 0 ? "-" : "")
+                                        + word.toLowerCase(Locale.getDefault()))
+                .apply(string);
     }
 
     public static String repeat(final String string, final int length) {
@@ -1379,7 +1415,8 @@ public class U<T> extends com.github.underscore.U<T> {
         final int strLength = string.length();
         final int padLength = length - strLength;
         final String localChars = chars == null ? " " : chars;
-        return repeat(localChars, (int) Math.ceil(padLength / (double) localChars.length())).substring(0, padLength);
+        return repeat(localChars, (int) Math.ceil(padLength / (double) localChars.length()))
+                .substring(0, padLength);
     }
 
     public static String pad(final String string, final int length) {
@@ -1399,11 +1436,13 @@ public class U<T> extends com.github.underscore.U<T> {
         return localChars.substring(0, leftLength) + localString + localChars;
     }
 
-    private static Function3<String, Integer, String, String> createPadDir(final boolean fromRight) {
+    private static Function3<String, Integer, String, String> createPadDir(
+            final boolean fromRight) {
         return (string, length, chars) -> {
             final String localString = baseToString(string);
-            return (fromRight ? localString : "") + createPadding(localString, length, chars)
-                + (fromRight ? "" : localString);
+            return (fromRight ? localString : "")
+                    + createPadding(localString, length, chars)
+                    + (fromRight ? "" : localString);
         };
     }
 
@@ -1424,29 +1463,38 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static String snakeCase(final String string) {
-        return createCompounder((result, word, index) -> result + (index > 0 ? "_" : "")
-            + word.toLowerCase(Locale.getDefault())).apply(string);
+        return createCompounder(
+                        (result, word, index) ->
+                                result
+                                        + (index > 0 ? "_" : "")
+                                        + word.toLowerCase(Locale.getDefault()))
+                .apply(string);
     }
 
     public static String startCase(final String string) {
-        return createCompounder((result, word, index) -> result + (index > 0 ? " " : "")
-            + word.substring(0, 1).toUpperCase(Locale.getDefault())
-            + word.substring(1)).apply(string);
+        return createCompounder(
+                        (result, word, index) ->
+                                result
+                                        + (index > 0 ? " " : "")
+                                        + word.substring(0, 1).toUpperCase(Locale.getDefault())
+                                        + word.substring(1))
+                .apply(string);
     }
 
     public static boolean startsWith(final String string, final String target) {
         return startsWith(string, target, null);
     }
 
-    public static boolean startsWith(final String string, final String target, final Integer position) {
+    public static boolean startsWith(
+            final String string, final String target, final Integer position) {
         if (string == null || target == null) {
             return false;
         }
         final String localString = baseToString(string);
 
         final int length = localString.length();
-        final int localPosition = position == null ? 0
-            : Math.min(position < 0 ? 0 : position, length);
+        final int localPosition =
+                position == null ? 0 : Math.min(position < 0 ? 0 : position, length);
 
         return localString.lastIndexOf(target, localPosition) == localPosition;
     }
@@ -1557,8 +1605,11 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T baseGetOrSetOrRemove(final Map<String, Object> object, final String path,
-        final Object value, OperationType operationType) {
+    private static <T> T baseGetOrSetOrRemove(
+            final Map<String, Object> object,
+            final String path,
+            final Object value,
+            OperationType operationType) {
         final List<String> paths = stringToPath(path);
         int index = 0;
         final int length = paths.size();
@@ -1593,8 +1644,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private static void checkSetAndRemove(Object value, OperationType operationType, Object savedLocalObject,
-        String savedPath) {
+    private static void checkSetAndRemove(
+            Object value, OperationType operationType, Object savedLocalObject, String savedPath) {
         if (operationType == OperationType.SET) {
             if (savedLocalObject instanceof Map) {
                 ((Map) savedLocalObject).put(savedPath, value);
@@ -1627,7 +1678,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static Map<String, Object> rename(final Map<String, Object> map, final String oldKey, final String newKey) {
+    public static Map<String, Object> rename(
+            final Map<String, Object> map, final String oldKey, final String newKey) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if (entry.getKey().equals(oldKey)) {
@@ -1640,12 +1692,16 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private static Object makeObjectForRename(Object value, final String oldKey, final String newKey) {
+    private static Object makeObjectForRename(
+            Object value, final String oldKey, final String newKey) {
         final Object result;
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(item instanceof Map ? rename((Map<String, Object>) item, oldKey, newKey) : item);
+                values.add(
+                        item instanceof Map
+                                ? rename((Map<String, Object>) item, oldKey, newKey)
+                                : item);
             }
             result = values;
         } else if (value instanceof Map) {
@@ -1656,17 +1712,22 @@ public class U<T> extends com.github.underscore.U<T> {
         return result;
     }
 
-    public static Map<String, Object> setValue(final Map<String, Object> map, final String key,
-        final Object newValue) {
+    public static Map<String, Object> setValue(
+            final Map<String, Object> map, final String key, final Object newValue) {
         return setValue(map, key, (key1, value) -> newValue);
     }
 
-    public static Map<String, Object> setValue(final Map<String, Object> map, final String key,
-        final BiFunction<String, Object, Object> newValue) {
+    public static Map<String, Object> setValue(
+            final Map<String, Object> map,
+            final String key,
+            final BiFunction<String, Object, Object> newValue) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if (entry.getKey().equals(key)) {
-                outMap.put(key, makeObjectForSetValue(newValue.apply(key, entry.getValue()), key, newValue));
+                outMap.put(
+                        key,
+                        makeObjectForSetValue(
+                                newValue.apply(key, entry.getValue()), key, newValue));
             } else {
                 outMap.put(entry.getKey(), makeObjectForSetValue(entry.getValue(), key, newValue));
             }
@@ -1675,13 +1736,16 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private static Object makeObjectForSetValue(Object value, final String key,
-        final BiFunction<String, Object, Object> newValue) {
+    private static Object makeObjectForSetValue(
+            Object value, final String key, final BiFunction<String, Object, Object> newValue) {
         final Object result;
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(item instanceof Map ? setValue((Map<String, Object>) item, key, newValue) : item);
+                values.add(
+                        item instanceof Map
+                                ? setValue((Map<String, Object>) item, key, newValue)
+                                : item);
             }
             result = values;
         } else if (value instanceof Map) {
@@ -1693,7 +1757,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static Map<String, Object> update(final Map<String, Object> map1, final Map<String, Object> map2) {
+    public static Map<String, Object> update(
+            final Map<String, Object> map1, final Map<String, Object> map2) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map1.entrySet()) {
             String key = entry.getKey();
@@ -1717,8 +1782,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private static void createKey(final Map<String, Object> map, String key,
-            Object value2, Map<String, Object> outMap) {
+    private static void createKey(
+            final Map<String, Object> map, String key, Object value2, Map<String, Object> outMap) {
         Object value1 = map.get(key);
         if (value1 instanceof Map && value2 instanceof Map) {
             outMap.put(key, update((Map<String, Object>) value1, (Map<String, Object>) value2));
@@ -1747,8 +1812,11 @@ public class U<T> extends com.github.underscore.U<T> {
         private final Map<String, List<String>> headerFields;
         private final java.io.ByteArrayOutputStream stream;
 
-        public FetchResponse(final boolean ok, final int status, final Map<String, List<String>> headerFields,
-            final java.io.ByteArrayOutputStream stream) {
+        public FetchResponse(
+                final boolean ok,
+                final int status,
+                final Map<String, List<String>> headerFields,
+                final java.io.ByteArrayOutputStream stream) {
             this.ok = ok;
             this.status = status;
             this.stream = stream;
@@ -1792,7 +1860,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return fetch(url, null, null, DEFAULT_HEADER_FIELDS, null, null);
     }
 
-    public static FetchResponse fetch(final String url, final Integer connectTimeout, final Integer readTimeout) {
+    public static FetchResponse fetch(
+            final String url, final Integer connectTimeout, final Integer readTimeout) {
         return fetch(url, null, null, DEFAULT_HEADER_FIELDS, connectTimeout, readTimeout);
     }
 
@@ -1806,21 +1875,22 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         @Override
-        public java.net.Socket createSocket(java.net.InetAddress arg0, int arg1, java.net.InetAddress arg2,
-                        int arg3) throws java.io.IOException {
-            return getSslContext().getSocketFactory().createSocket(arg0, arg1,
-                                arg2, arg3);
-        }
-
-        @Override
-        public java.net.Socket createSocket(String arg0, int arg1, java.net.InetAddress arg2, int arg3)
+        public java.net.Socket createSocket(
+                java.net.InetAddress arg0, int arg1, java.net.InetAddress arg2, int arg3)
                 throws java.io.IOException {
-            return getSslContext().getSocketFactory().createSocket(arg0, arg1,
-                    arg2, arg3);
+            return getSslContext().getSocketFactory().createSocket(arg0, arg1, arg2, arg3);
         }
 
         @Override
-        public java.net.Socket createSocket(java.net.InetAddress arg0, int arg1) throws java.io.IOException {
+        public java.net.Socket createSocket(
+                String arg0, int arg1, java.net.InetAddress arg2, int arg3)
+                throws java.io.IOException {
+            return getSslContext().getSocketFactory().createSocket(arg0, arg1, arg2, arg3);
+        }
+
+        @Override
+        public java.net.Socket createSocket(java.net.InetAddress arg0, int arg1)
+                throws java.io.IOException {
             return getSslContext().getSocketFactory().createSocket(arg0, arg1);
         }
 
@@ -1831,25 +1901,26 @@ public class U<T> extends com.github.underscore.U<T> {
 
         @Override
         public String[] getSupportedCipherSuites() {
-            return new String[]{};
+            return new String[] {};
         }
 
         @Override
         public String[] getDefaultCipherSuites() {
-            return new String[]{};
+            return new String[] {};
         }
 
         @Override
-        public java.net.Socket createSocket(java.net.Socket arg0, String arg1, int arg2, boolean arg3)
+        public java.net.Socket createSocket(
+                java.net.Socket arg0, String arg1, int arg2, boolean arg3)
                 throws java.io.IOException {
-            return getSslContext().getSocketFactory().createSocket(arg0, arg1,
-                    arg2, arg3);
+            return getSslContext().getSocketFactory().createSocket(arg0, arg1, arg2, arg3);
         }
 
         private javax.net.ssl.SSLContext createEasySslContext() {
             try {
                 javax.net.ssl.SSLContext context = javax.net.ssl.SSLContext.getInstance("SSL");
-                context.init(null, new javax.net.ssl.TrustManager[] { MyX509TrustManager.manger }, null);
+                context.init(
+                        null, new javax.net.ssl.TrustManager[] {MyX509TrustManager.manger}, null);
                 return context;
             } catch (Exception ex) {
                 throw new UnsupportedOperationException(ex);
@@ -1860,18 +1931,17 @@ public class U<T> extends com.github.underscore.U<T> {
 
             static MyX509TrustManager manger = new MyX509TrustManager();
 
-            public MyX509TrustManager() {
-            }
+            public MyX509TrustManager() {}
 
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return new java.security.cert.X509Certificate[]{};
+                return new java.security.cert.X509Certificate[] {};
             }
 
-            public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
-            }
+            public void checkClientTrusted(
+                    java.security.cert.X509Certificate[] chain, String authType) {}
 
-            public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
-            }
+            public void checkServerTrusted(
+                    java.security.cert.X509Certificate[] chain, String authType) {}
         }
     }
 
@@ -1881,9 +1951,13 @@ public class U<T> extends com.github.underscore.U<T> {
         }
     }
 
-    private static void setupConnection(final java.net.HttpURLConnection connection, final String method,
-        final Map<String, List<String>> headerFields, final Integer connectTimeout, final Integer readTimeout)
-        throws java.io.IOException {
+    private static void setupConnection(
+            final java.net.HttpURLConnection connection,
+            final String method,
+            final Map<String, List<String>> headerFields,
+            final Integer connectTimeout,
+            final Integer readTimeout)
+            throws java.io.IOException {
         final String localMethod;
         if (SUPPORTED_HTTP_METHODS.contains(method)) {
             localMethod = method;
@@ -1898,8 +1972,10 @@ public class U<T> extends com.github.underscore.U<T> {
             connection.setReadTimeout(readTimeout);
         }
         if (connection instanceof javax.net.ssl.HttpsURLConnection) {
-            ((javax.net.ssl.HttpsURLConnection) connection).setSSLSocketFactory(new BaseHttpSslSocketFactory());
-            ((javax.net.ssl.HttpsURLConnection) connection).setHostnameVerifier(new NoHostnameVerifier());
+            ((javax.net.ssl.HttpsURLConnection) connection)
+                    .setSSLSocketFactory(new BaseHttpSslSocketFactory());
+            ((javax.net.ssl.HttpsURLConnection) connection)
+                    .setHostnameVerifier(new NoHostnameVerifier());
         }
         if (headerFields != null) {
             for (final Map.Entry<String, List<String>> header : headerFields.entrySet()) {
@@ -1908,16 +1984,22 @@ public class U<T> extends com.github.underscore.U<T> {
         }
     }
 
-    public static FetchResponse fetch(final String url, final String method, final String body,
-        final Map<String, List<String>> headerFields, final Integer connectTimeout, final Integer readTimeout) {
+    public static FetchResponse fetch(
+            final String url,
+            final String method,
+            final String body,
+            final Map<String, List<String>> headerFields,
+            final Integer connectTimeout,
+            final Integer readTimeout) {
         try {
             final java.net.URL localUrl = new java.net.URL(url);
-            final java.net.HttpURLConnection connection = (java.net.HttpURLConnection) localUrl.openConnection();
+            final java.net.HttpURLConnection connection =
+                    (java.net.HttpURLConnection) localUrl.openConnection();
             setupConnection(connection, method, headerFields, connectTimeout, readTimeout);
             if (body != null) {
                 connection.setDoOutput(true);
                 final java.io.DataOutputStream outputStream =
-                    new java.io.DataOutputStream(connection.getOutputStream());
+                        new java.io.DataOutputStream(connection.getOutputStream());
                 outputStream.writeBytes(body);
                 outputStream.close();
             }
@@ -1935,8 +2017,11 @@ public class U<T> extends com.github.underscore.U<T> {
                 result.write(buffer, 0, length);
             }
             inputStream.close();
-            return new FetchResponse(responseCode < RESPONSE_CODE_400, responseCode, connection.getHeaderFields(),
-                result);
+            return new FetchResponse(
+                    responseCode < RESPONSE_CODE_400,
+                    responseCode,
+                    connection.getHeaderFields(),
+                    result);
         } catch (java.io.IOException ex) {
             throw new UnsupportedOperationException(ex);
         }
@@ -1965,7 +2050,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static String implode(final Iterable<String> input) {
         StringBuilder builder = new StringBuilder();
-        for (String character: input) {
+        for (String character : input) {
             if (nonNull(character)) {
                 builder.append(character);
             }
@@ -2118,7 +2203,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return new LruCache<>(capacity);
     }
 
-    public static <T> List<List<T>> createPermutationWithRepetition(final List<T> list, final int permutationLength) {
+    public static <T> List<List<T>> createPermutationWithRepetition(
+            final List<T> list, final int permutationLength) {
         final long resultSize = (long) Math.pow(list.size(), permutationLength);
         final List<List<T>> result = new ArrayList<>((int) resultSize);
         final int[] bitVector = new int[permutationLength];
@@ -2268,7 +2354,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static String jsonToXml(String json, Xml.XmlStringBuilder.Step identStep, Mode mode, String newRootName) {
+    public static String jsonToXml(
+            String json, Xml.XmlStringBuilder.Step identStep, Mode mode, String newRootName) {
         Object object = Json.fromJson(json);
         final String result;
         if (object instanceof Map) {
@@ -2281,7 +2368,11 @@ public class U<T> extends com.github.underscore.U<T> {
             } else if (mode == Mode.REPLACE_NULL_WITH_EMPTY_VALUE) {
                 result = Xml.toXml(replaceNullWithEmptyValue((Map) object), identStep, newRootName);
             } else if (mode == Mode.REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE) {
-                result = Xml.toXml(replaceEmptyStringWithEmptyValue((Map) object), identStep, newRootName);
+                result =
+                        Xml.toXml(
+                                replaceEmptyStringWithEmptyValue((Map) object),
+                                identStep,
+                                newRootName);
             } else {
                 result = Xml.toXml((Map) object, identStep);
             }
@@ -2299,7 +2390,8 @@ public class U<T> extends com.github.underscore.U<T> {
     }
 
     public static String jsonToXml(String json, String newRootName) {
-        return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, Mode.DEFINE_ROOT_NAME, newRootName);
+        return jsonToXml(
+                json, Xml.XmlStringBuilder.Step.TWO_SPACES, Mode.DEFINE_ROOT_NAME, newRootName);
     }
 
     public static String jsonToXml(String json) {
@@ -2318,10 +2410,17 @@ public class U<T> extends com.github.underscore.U<T> {
             } else if (mode == Mode.REPLACE_EMPTY_VALUE_WITH_NULL) {
                 result = Json.toJson(replaceEmptyValueWithNull((Map) object), identStep);
             } else if (mode == Mode.REPLACE_EMPTY_TAG_WITH_NULL) {
-                result = Json.toJson(replaceEmptyValueWithNull(replaceSelfClosingWithNull((Map) object)), identStep);
+                result =
+                        Json.toJson(
+                                replaceEmptyValueWithNull(replaceSelfClosingWithNull((Map) object)),
+                                identStep);
             } else if (mode == Mode.REPLACE_EMPTY_TAG_WITH_EMPTY_STRING) {
-                result = Json.toJson((Map<String, Object>) replaceEmptyValueWithEmptyString(
-                    replaceSelfClosingWithEmpty((Map) object)), identStep);
+                result =
+                        Json.toJson(
+                                (Map<String, Object>)
+                                        replaceEmptyValueWithEmptyString(
+                                                replaceSelfClosingWithEmpty((Map) object)),
+                                identStep);
             } else {
                 result = Json.toJson((Map) object, identStep);
             }
@@ -2354,7 +2453,8 @@ public class U<T> extends com.github.underscore.U<T> {
         return Xml.formatXml(xml);
     }
 
-    public static String changeXmlEncoding(String xml, Xml.XmlStringBuilder.Step identStep, String encoding) {
+    public static String changeXmlEncoding(
+            String xml, Xml.XmlStringBuilder.Step identStep, String encoding) {
         return Xml.changeXmlEncoding(xml, identStep, encoding);
     }
 
@@ -2371,7 +2471,8 @@ public class U<T> extends com.github.underscore.U<T> {
             } else {
                 newKey = entry.getKey();
             }
-            if (!entry.getKey().equals("-self-closing") && !entry.getKey().equals("#omit-xml-declaration")) {
+            if (!entry.getKey().equals("-self-closing")
+                    && !entry.getKey().equals("#omit-xml-declaration")) {
                 outMap.put(newKey, makeObject(entry.getValue()));
             }
         }
@@ -2384,7 +2485,10 @@ public class U<T> extends com.github.underscore.U<T> {
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(item instanceof Map ? removeMinusesAndConvertNumbers((Map<String, Object>) item) : item);
+                values.add(
+                        item instanceof Map
+                                ? removeMinusesAndConvertNumbers((Map<String, Object>) item)
+                                : item);
             }
             result = values;
         } else if (value instanceof Map) {
@@ -2448,8 +2552,10 @@ public class U<T> extends com.github.underscore.U<T> {
                 }
                 continue;
             }
-            ((Map<String, Object>) outMap).put(String.valueOf(entry.getKey()),
-                makeObjectSelfClose(entry.getValue(), value));
+            ((Map<String, Object>) outMap)
+                    .put(
+                            String.valueOf(entry.getKey()),
+                            makeObjectSelfClose(entry.getValue(), value));
         }
         return outMap;
     }
@@ -2460,7 +2566,10 @@ public class U<T> extends com.github.underscore.U<T> {
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(item instanceof Map ? replaceSelfClosingWithValue((Map) item, newValue) : item);
+                values.add(
+                        item instanceof Map
+                                ? replaceSelfClosingWithValue((Map) item, newValue)
+                                : item);
             }
             result = values;
         } else if (value instanceof Map) {
@@ -2478,8 +2587,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            outMap.put(String.valueOf(entry.getKey()),
-                makeObjectEmptyValue(entry.getValue()));
+            outMap.put(String.valueOf(entry.getKey()), makeObjectEmptyValue(entry.getValue()));
         }
         return outMap;
     }
@@ -2508,8 +2616,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            outMap.put(String.valueOf(entry.getKey()),
-                makeObjectEmptyString(entry.getValue()));
+            outMap.put(String.valueOf(entry.getKey()), makeObjectEmptyString(entry.getValue()));
         }
         return outMap;
     }
@@ -2520,7 +2627,8 @@ public class U<T> extends com.github.underscore.U<T> {
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(item instanceof Map ? replaceEmptyValueWithEmptyString((Map) item) : item);
+                values.add(
+                        item instanceof Map ? replaceEmptyValueWithEmptyString((Map) item) : item);
             }
             result = values;
         } else if (value instanceof Map) {
@@ -2535,10 +2643,13 @@ public class U<T> extends com.github.underscore.U<T> {
     public static Map<String, Object> forceAttributeUsage(Map<String, Object> map) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            outMap.put(!(entry.getValue() instanceof Map || entry.getValue() instanceof List
-                    || String.valueOf(entry.getKey()).startsWith("-"))
-                ? "-" + entry.getKey() : String.valueOf(entry.getKey()),
-                makeAttributeUsage(entry.getValue()));
+            outMap.put(
+                    !(entry.getValue() instanceof Map
+                                    || entry.getValue() instanceof List
+                                    || String.valueOf(entry.getKey()).startsWith("-"))
+                            ? "-" + entry.getKey()
+                            : String.valueOf(entry.getKey()),
+                    makeAttributeUsage(entry.getValue()));
         }
         return outMap;
     }
@@ -2564,8 +2675,11 @@ public class U<T> extends com.github.underscore.U<T> {
     public static Map<String, Object> replaceNullWithEmptyValue(Map<String, Object> map) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            outMap.put(entry.getKey(), entry.getValue() == null ? newLinkedHashMap() :
-                makeReplaceNullValue(entry.getValue()));
+            outMap.put(
+                    entry.getKey(),
+                    entry.getValue() == null
+                            ? newLinkedHashMap()
+                            : makeReplaceNullValue(entry.getValue()));
         }
         return outMap;
     }
@@ -2591,8 +2705,11 @@ public class U<T> extends com.github.underscore.U<T> {
     public static Map<String, Object> replaceEmptyStringWithEmptyValue(Map<String, Object> map) {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            outMap.put(entry.getKey(), "".equals(entry.getValue()) ? newLinkedHashMap() :
-                makeReplaceEmptyString(entry.getValue()));
+            outMap.put(
+                    entry.getKey(),
+                    "".equals(entry.getValue())
+                            ? newLinkedHashMap()
+                            : makeReplaceEmptyString(entry.getValue()));
         }
         return outMap;
     }
@@ -2603,7 +2720,8 @@ public class U<T> extends com.github.underscore.U<T> {
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(item instanceof Map ? replaceEmptyStringWithEmptyValue((Map) item) : item);
+                values.add(
+                        item instanceof Map ? replaceEmptyStringWithEmptyValue((Map) item) : item);
             }
             result = values;
         } else if (value instanceof Map) {
@@ -2621,7 +2739,7 @@ public class U<T> extends com.github.underscore.U<T> {
         return gcd(value2 % value1, value1);
     }
 
-    public static long findGcd(long ... array) {
+    public static long findGcd(long... array) {
         long result = array[0];
         for (int index = 1; index < array.length; index += 1) {
             result = gcd(array[index], result);
@@ -2635,6 +2753,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static class Builder {
         private final Map<String, Object> data;
+
         public Builder() {
             data = newLinkedHashMap();
         }
@@ -2720,6 +2839,7 @@ public class U<T> extends com.github.underscore.U<T> {
 
     public static class ArrayBuilder {
         private final List<Object> data;
+
         public ArrayBuilder() {
             data = newArrayList();
         }

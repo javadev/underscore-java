@@ -34,40 +34,54 @@ public final class Json {
 
     public static class JsonStringBuilder {
         public enum Step {
-            TWO_SPACES(2), THREE_SPACES(3), FOUR_SPACES(4), COMPACT(0), TABS(1);
+            TWO_SPACES(2),
+            THREE_SPACES(3),
+            FOUR_SPACES(4),
+            COMPACT(0),
+            TABS(1);
             private final int ident;
+
             Step(int ident) {
                 this.ident = ident;
             }
+
             public int getIdent() {
                 return ident;
             }
         }
+
         public enum Type {
-            PURE("", "\n", "", "\""), JAVA("\"", "\\n\"\n + \"", "\";", "\\\"");
+            PURE("", "\n", "", "\""),
+            JAVA("\"", "\\n\"\n + \"", "\";", "\\\"");
             private final String initial;
             private final String newLine;
             private final String tailLine;
             private final String wrapLine;
+
             Type(String initial, String newLine, String tailLine, String wrapLine) {
                 this.initial = initial;
                 this.newLine = newLine;
                 this.tailLine = tailLine;
                 this.wrapLine = wrapLine;
             }
+
             public String getInitial() {
                 return initial;
             }
+
             public String getNewLine() {
                 return newLine;
             }
+
             public String getTailLine() {
                 return tailLine;
             }
+
             public String getWrapLine() {
                 return wrapLine;
             }
         }
+
         private final StringBuilder builder;
         private final Step identStep;
         private final Type type;
@@ -358,7 +372,8 @@ public final class Json {
                 builder.append(NULL);
             } else if (value instanceof String) {
                 builder.append(builder.type.getWrapLine())
-                        .append(escape((String) value)).append(builder.type.getWrapLine());
+                        .append(escape((String) value))
+                        .append(builder.type.getWrapLine());
             } else if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
                     builder.append(NULL);
@@ -441,8 +456,9 @@ public final class Json {
                         sb.append("€");
                         break;
                     default:
-                        if (ch <= '\u001F' || ch >= '\u007F' && ch <= '\u009F'
-                            || ch >= '\u2000' && ch <= '\u20FF') {
+                        if (ch <= '\u001F'
+                                || ch >= '\u007F' && ch <= '\u009F'
+                                || ch >= '\u2000' && ch <= '\u20FF') {
                             String ss = Integer.toHexString(ch);
                             sb.append("\\u");
                             for (int k = 0; k < 4 - ss.length(); k++) {
@@ -675,8 +691,12 @@ public final class Json {
                     if (isHexCharsDigits) {
                         captureBuffer.append((char) Integer.parseInt(new String(hexChars), 16));
                     } else {
-                        captureBuffer.append("\\u").append(hexChars[0]).append(hexChars[1]).append(hexChars[2])
-                            .append(hexChars[3]);
+                        captureBuffer
+                                .append("\\u")
+                                .append(hexChars[0])
+                                .append(hexChars[1])
+                                .append(hexChars[2])
+                                .append(hexChars[3]);
                     }
                     break;
                 default:
@@ -693,17 +713,16 @@ public final class Json {
                 throw expected(DIGIT);
             }
             if (firstDigit != '0') {
-                while (readDigit()) {
-                }
+                while (readDigit()) {}
             }
             readFraction();
             readExponent();
             final String number = endCapture();
             final Number result;
             if (number.contains(".") || number.contains("e") || number.contains("E")) {
-                if (number.length() > 9 || (number.contains(".")
-                    && number.length() - number.lastIndexOf('.') > 2)
-                    && number.charAt(number.length() - 1) == '0') {
+                if (number.length() > 9
+                        || (number.contains(".") && number.length() - number.lastIndexOf('.') > 2)
+                                && number.charAt(number.length() - 1) == '0') {
                     result = new java.math.BigDecimal(number);
                 } else {
                     result = Double.valueOf(number);
@@ -725,8 +744,7 @@ public final class Json {
             if (!readDigit()) {
                 throw expected(DIGIT);
             }
-            while (readDigit()) {
-            }
+            while (readDigit()) {}
             return true;
         }
 
@@ -740,8 +758,7 @@ public final class Json {
             if (!readDigit()) {
                 throw expected(DIGIT);
             }
-            while (readDigit()) {
-            }
+            while (readDigit()) {}
             return true;
         }
 
@@ -828,14 +845,14 @@ public final class Json {
         }
 
         private boolean isHexDigit() {
-            return isDigit() || current >= 'a' && current <= 'f' || current >= 'A'
-                    && current <= 'F';
+            return isDigit()
+                    || current >= 'a' && current <= 'f'
+                    || current >= 'A' && current <= 'F';
         }
 
         private boolean isEndOfText() {
             return current == -1;
         }
-
     }
 
     public static String toJson(Collection collection, JsonStringBuilder.Step identStep) {

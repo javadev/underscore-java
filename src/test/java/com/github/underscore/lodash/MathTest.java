@@ -23,16 +23,15 @@
  */
 package com.github.underscore.lodash;
 
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
-
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.Test;
 
 /**
  * Underscore library unit test.
@@ -45,7 +44,8 @@ public class MathTest {
     public void average() {
         final Double result = U.average(asList((byte) 1, (byte) 2, (byte) 3));
         assertEquals("2.0", result.toString());
-        final Double resultFunc = U.average(asList((byte) 1, (byte) 2, (byte) 3), item -> (byte) (item * 2));
+        final Double resultFunc =
+                U.average(asList((byte) 1, (byte) 2, (byte) 3), item -> (byte) (item * 2));
         assertEquals("4.0", resultFunc.toString());
         final Double resultFunc2 = U.average(Collections.singletonList((Byte) null), item -> item);
         assertNull(resultFunc2);
@@ -64,9 +64,19 @@ public class MathTest {
         assertEquals("2.0", result5.toString());
         final Double result6 = U.average(asList((short) 1, (short) 2, (short) 3));
         assertEquals("2.0", result6.toString());
-        final Double result7 = U.average(asList(BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(3)));
+        final Double result7 =
+                U.average(
+                        asList(
+                                BigDecimal.valueOf(1),
+                                BigDecimal.valueOf(2),
+                                BigDecimal.valueOf(3)));
         assertEquals("2.0", result7.toString());
-        final Double result8 = U.average(asList(BigInteger.valueOf(1), BigInteger.valueOf(2), BigInteger.valueOf(3)));
+        final Double result8 =
+                U.average(
+                        asList(
+                                BigInteger.valueOf(1),
+                                BigInteger.valueOf(2),
+                                BigInteger.valueOf(3)));
         assertEquals("2.0", result8.toString());
         final Double result9 = U.average(Collections.singletonList((Integer) null));
         assertNull(result9);
@@ -92,15 +102,21 @@ public class MathTest {
         assertEquals("2.0", result17.toString());
         final Double result18 = U.average(new Long[] {(long) 1, (long) 2, (long) 3});
         assertEquals("2.0", result18.toString());
-        final Double result19 = U.average(new BigInteger[] {BigInteger.valueOf(1), BigInteger.valueOf(2),
-                BigInteger.valueOf(3)});
+        final Double result19 =
+                U.average(
+                        new BigInteger[] {
+                            BigInteger.valueOf(1), BigInteger.valueOf(2), BigInteger.valueOf(3)
+                        });
         assertEquals("2.0", result19.toString());
     }
 
     @Test
     public void average4() {
-        final Double result20 = U.average(new BigDecimal[] {BigDecimal.valueOf(1), BigDecimal.valueOf(2),
-                BigDecimal.valueOf(3)});
+        final Double result20 =
+                U.average(
+                        new BigDecimal[] {
+                            BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(3)
+                        });
         assertEquals("2.0", result20.toString());
         final Double result21 = U.average(null, BigDecimal.valueOf(1));
         assertNull(result21);
@@ -158,22 +174,23 @@ public class MathTest {
         assertNull(result43);
     }
 
-/*
-_.sum([1, 2, 3]);
-=> 6
-_.sum([0.2, 0.1, Math.PI]);
-=> Math.PI + 0.3
-_.sum([0, 14, 0.2]);
-=> 14.2
-_.sum([-1, -2, -3]);
-=> -6
-*/
+    /*
+    _.sum([1, 2, 3]);
+    => 6
+    _.sum([0.2, 0.1, Math.PI]);
+    => Math.PI + 0.3
+    _.sum([0, 14, 0.2]);
+    => 14.2
+    _.sum([-1, -2, -3]);
+    => -6
+    */
     @SuppressWarnings("unchecked")
     @Test
     public void sum() {
         final Byte result = U.sum(asList((byte) 1, (byte) 2, (byte) 3));
         assertEquals("6", result.toString());
-        final Byte resultFunc = U.sum(asList((byte) 1, (byte) 2, (byte) 3), item -> (byte) (item * 2));
+        final Byte resultFunc =
+                U.sum(asList((byte) 1, (byte) 2, (byte) 3), item -> (byte) (item * 2));
         assertEquals("12", resultFunc.toString());
         final Double result2 = U.sum(asList((double) 1, (double) 2, (double) 3));
         assertEquals("6.0", result2.toString());
@@ -185,9 +202,11 @@ _.sum([-1, -2, -3]);
         assertEquals("6", result5.toString());
         final Short result6 = U.sum(asList((short) 1, (short) 2, (short) 3));
         assertEquals("6", result6.toString());
-        final BigDecimal result7 = U.sum(asList(BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(3)));
+        final BigDecimal result7 =
+                U.sum(asList(BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(3)));
         assertEquals("6", result7.toString());
-        final BigInteger result8 = U.sum(asList(BigInteger.valueOf(1), BigInteger.valueOf(2), BigInteger.valueOf(3)));
+        final BigInteger result8 =
+                U.sum(asList(BigInteger.valueOf(1), BigInteger.valueOf(2), BigInteger.valueOf(3)));
         assertEquals("6", result8.toString());
         final Integer result9 = U.sum(Collections.singletonList((Integer) null));
         assertNull(result9);
@@ -199,7 +218,8 @@ _.sum([-1, -2, -3]);
         assertEquals("14.2", result12.toString());
         final Integer result13 = U.sum(asList((int) -1, (int) -2, (int) -3));
         assertEquals("-6", result13.toString());
-        final Integer resultChain = (Integer) U.chain(asList((int) 1, (int) 2, (int) 3)).sum().item();
+        final Integer resultChain =
+                (Integer) U.chain(asList((int) 1, (int) 2, (int) 3)).sum().item();
         assertEquals("6", resultChain.toString());
         final Integer result14 = U.sum(new Integer[] {1, 2, 3});
         assertEquals("6", result14.toString());
@@ -211,21 +231,28 @@ _.sum([-1, -2, -3]);
         assertEquals("6", result17.toString());
         final Long result18 = U.sum(new Long[] {(long) 1, (long) 2, (long) 3});
         assertEquals("6", result18.toString());
-        final BigInteger result19 = U.sum(new BigInteger[] {BigInteger.valueOf(1), BigInteger.valueOf(2),
-                BigInteger.valueOf(3)});
+        final BigInteger result19 =
+                U.sum(
+                        new BigInteger[] {
+                            BigInteger.valueOf(1), BigInteger.valueOf(2), BigInteger.valueOf(3)
+                        });
         assertEquals("6", result19.toString());
-        final BigDecimal result20 = U.sum(new BigDecimal[] {BigDecimal.valueOf(1), BigDecimal.valueOf(2),
-                BigDecimal.valueOf(3)});
+        final BigDecimal result20 =
+                U.sum(
+                        new BigDecimal[] {
+                            BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(3)
+                        });
         assertEquals("6", result20.toString());
         final Integer result21 = U.sum(new Integer[] {1, 2, null});
         assertEquals("3", result21.toString());
-        final Integer resultChainFunc = (Integer) U.chain(asList((int) 1, (int) 2, (int) 3)).sum(
-                item -> item * 2).item();
+        final Integer resultChainFunc =
+                (Integer) U.chain(asList((int) 1, (int) 2, (int) 3)).sum(item -> item * 2).item();
         assertEquals("12", resultChainFunc.toString());
         final Number resultObj = new U(asList((int) 1, (int) 2, (int) 3)).sum();
         assertEquals("6", resultObj.toString());
-        final Number resultObjFunc = new U(asList((byte) 1, (byte) 2, (byte) 3)).sum(
-                (Function<Number, Number>) item -> item.intValue() * 2);
+        final Number resultObjFunc =
+                new U(asList((byte) 1, (byte) 2, (byte) 3))
+                        .sum((Function<Number, Number>) item -> item.intValue() * 2);
         assertEquals("12", resultObjFunc.toString());
     }
 
@@ -235,12 +262,15 @@ _.sum([-1, -2, -3]);
             public int intValue() {
                 return 0;
             }
+
             public long longValue() {
                 return 0;
             }
+
             public float floatValue() {
                 return 0;
             }
+
             public double doubleValue() {
                 return 0;
             }
@@ -248,14 +278,14 @@ _.sum([-1, -2, -3]);
         U.sum(asList(new MyNumber(), new MyNumber()));
     }
 
-/*
-_.subtract(1, 2);
-=> -1
-_.subtract(1, 2, 3);
-=> -4
-_.subtract();
-=> null
-*/
+    /*
+    _.subtract(1, 2);
+    => -1
+    _.subtract(1, 2, 3);
+    => -4
+    _.subtract();
+    => null
+    */
     @SuppressWarnings("unchecked")
     @Test
     public void subtract() {
@@ -285,12 +315,15 @@ _.subtract();
             public int intValue() {
                 return 0;
             }
+
             public long longValue() {
                 return 0;
             }
+
             public float floatValue() {
                 return 0;
             }
+
             public double doubleValue() {
                 return 0;
             }
@@ -298,12 +331,12 @@ _.subtract();
         U.subtract(new MyNumber(), new MyNumber());
     }
 
-/*
-_.mean([0, 0.5, 1]);
-=> 0.5
-_.mean([0, 1, 2]);
-=> 1
-*/
+    /*
+    _.mean([0, 0.5, 1]);
+    => 0.5
+    _.mean([0, 1, 2]);
+    => 1
+    */
     @SuppressWarnings("unchecked")
     @Test
     public void mean() {
@@ -311,7 +344,8 @@ _.mean([0, 1, 2]);
         assertEquals("0.5", result.toString());
         final Double resultObj = new U(asList((double) 0, (double) 0.5, (double) 1)).mean();
         assertEquals("0.5", resultObj.toString());
-        final Double resultChain = (Double) U.chain(asList((double) 0, (double) 0.5, (double) 1)).mean().item();
+        final Double resultChain =
+                (Double) U.chain(asList((double) 0, (double) 0.5, (double) 1)).mean().item();
         assertEquals("0.5", resultChain.toString());
         final Double result2 = U.mean(asList((long) 0, (long) 1, (long) 2));
         assertEquals("1.0", result2.toString());
@@ -319,31 +353,36 @@ _.mean([0, 1, 2]);
         assertEquals("0.0", result3.toString());
     }
 
-/*
-_.median([0, 0, 0, 0, 5]);
-=> 0
-_.median([0, 0, 1, 2, 5]);
-=> 1
-_.median([0, 0, 1, 2]);
-=> 0.5
-_.median([0, 0, 1, 2, 3, 4]);
-=> 1.5
-*/
+    /*
+    _.median([0, 0, 0, 0, 5]);
+    => 0
+    _.median([0, 0, 1, 2, 5]);
+    => 1
+    _.median([0, 0, 1, 2]);
+    => 0.5
+    _.median([0, 0, 1, 2, 3, 4]);
+    => 1.5
+    */
     @SuppressWarnings("unchecked")
     @Test
     public void median() {
         final Double result = U.median(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5));
         assertEquals("0.0", result.toString());
-        final Double resultObj = new U(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median();
+        final Double resultObj =
+                new U(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median();
         assertEquals("0.0", resultObj.toString());
-        final Double resultChain = (Double) U.chain(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5))
-            .median().item();
+        final Double resultChain =
+                (Double)
+                        U.chain(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5))
+                                .median()
+                                .item();
         assertEquals("0.0", resultChain.toString());
         final Double result2 = U.median(asList((int) 0, (int) 0, (int) 1, (int) 2, (int) 5));
         assertEquals("1.0", result2.toString());
         final Double result3 = U.median(asList((int) 0, (int) 0, (int) 1, (int) 2));
         assertEquals("0.5", result3.toString());
-        final Double result4 = U.median(asList((int) 0, (int) 0, (int) 1, (int) 2, (int) 3, (int) 4));
+        final Double result4 =
+                U.median(asList((int) 0, (int) 0, (int) 1, (int) 2, (int) 3, (int) 4));
         assertEquals("1.5", result4.toString());
     }
 
@@ -355,19 +394,22 @@ _.median([0, 0, 1, 2, 3, 4]);
     // http://stackoverflow.com/questions/27772432/is-there-a-underscore-js-lib-for-java
     @Test
     public void sumOfInt() {
-/*
-String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
-int sum = Arrays.stream(words)
-        .filter(w -> w.startsWith("E"))
-        .mapToInt(w -> w.length())
-        .sum();
-System.out.println("Sum of letters in words starting with E... " + sum);
-*/
+        /*
         String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
-        int sum = (Integer) U.chain(asList(words))
-            .filter(item -> item.startsWith("E"))
-            .map(String::length)
-            .sum().item();
+        int sum = Arrays.stream(words)
+                .filter(w -> w.startsWith("E"))
+                .mapToInt(w -> w.length())
+                .sum();
+        System.out.println("Sum of letters in words starting with E... " + sum);
+        */
+        String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
+        int sum =
+                (Integer)
+                        U.chain(asList(words))
+                                .filter(item -> item.startsWith("E"))
+                                .map(String::length)
+                                .sum()
+                                .item();
         assertEquals(34, sum);
     }
 
@@ -390,32 +432,40 @@ System.out.println("Sum of letters in words starting with E... " + sum);
     @Test
     public void createPermutationWithRepetition() {
         List<List<String>> result = U.createPermutationWithRepetition(asList("apple", "orange"), 3);
-        assertEquals("[[apple, apple, apple],"
-                   + " [orange, apple, apple],"
-                   + " [apple, orange, apple],"
-                   + " [orange, orange, apple],"
-                   + " [apple, apple, orange],"
-                   + " [orange, apple, orange],"
-                   + " [apple, orange, orange],"
-                   + " [orange, orange, orange]]", result.toString());
-        List<List<String>> result2 = new U(asList("apple", "orange")).createPermutationWithRepetition(3);
-        assertEquals("[[apple, apple, apple],"
-                   + " [orange, apple, apple],"
-                   + " [apple, orange, apple],"
-                   + " [orange, orange, apple],"
-                   + " [apple, apple, orange],"
-                   + " [orange, apple, orange],"
-                   + " [apple, orange, orange],"
-                   + " [orange, orange, orange]]", result2.toString());
-        List<List<String>> resultChain = U.chain(asList("apple", "orange")).createPermutationWithRepetition(3).value();
-        assertEquals("[[apple, apple, apple],"
-                   + " [orange, apple, apple],"
-                   + " [apple, orange, apple],"
-                   + " [orange, orange, apple],"
-                   + " [apple, apple, orange],"
-                   + " [orange, apple, orange],"
-                   + " [apple, orange, orange],"
-                   + " [orange, orange, orange]]", resultChain.toString());
+        assertEquals(
+                "[[apple, apple, apple],"
+                        + " [orange, apple, apple],"
+                        + " [apple, orange, apple],"
+                        + " [orange, orange, apple],"
+                        + " [apple, apple, orange],"
+                        + " [orange, apple, orange],"
+                        + " [apple, orange, orange],"
+                        + " [orange, orange, orange]]",
+                result.toString());
+        List<List<String>> result2 =
+                new U(asList("apple", "orange")).createPermutationWithRepetition(3);
+        assertEquals(
+                "[[apple, apple, apple],"
+                        + " [orange, apple, apple],"
+                        + " [apple, orange, apple],"
+                        + " [orange, orange, apple],"
+                        + " [apple, apple, orange],"
+                        + " [orange, apple, orange],"
+                        + " [apple, orange, orange],"
+                        + " [orange, orange, orange]]",
+                result2.toString());
+        List<List<String>> resultChain =
+                U.chain(asList("apple", "orange")).createPermutationWithRepetition(3).value();
+        assertEquals(
+                "[[apple, apple, apple],"
+                        + " [orange, apple, apple],"
+                        + " [apple, orange, apple],"
+                        + " [orange, orange, apple],"
+                        + " [apple, apple, orange],"
+                        + " [orange, apple, orange],"
+                        + " [apple, orange, orange],"
+                        + " [orange, orange, orange]]",
+                resultChain.toString());
     }
 
     @Test

@@ -28,6 +28,7 @@ public class Trie {
         // Initialize your data structure here.
         TrieNode[] children;
         boolean isWord;
+
         public TrieNode() {
             children = new TrieNode[1071];
         }

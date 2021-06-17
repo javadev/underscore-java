@@ -25,8 +25,7 @@ public final class Optional<T> {
     }
 
     public static <T> Optional<T> fromNullable(final T nullableReference) {
-        return nullableReference == null ? Optional.<T>empty()
-            : new Optional<>(nullableReference);
+        return nullableReference == null ? Optional.<T>empty() : new Optional<>(nullableReference);
     }
 
     @SuppressWarnings("unchecked")

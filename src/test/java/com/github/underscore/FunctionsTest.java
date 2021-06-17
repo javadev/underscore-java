@@ -23,7 +23,10 @@
  */
 package com.github.underscore;
 
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static org.awaitility.Awaitility.await;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,11 +37,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import static java.util.Arrays.asList;
-import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  * Underscore library unit test.
@@ -47,19 +46,21 @@ import static org.junit.Assert.assertTrue;
  */
 public class FunctionsTest {
 
-/*
-var func = function(greeting){ return greeting + ': ' + this.name };
-func = _.bind(func, {name: 'moe'}, 'hi');
-func();
-=> 'hi: moe'
-*/
+    /*
+    var func = function(greeting){ return greeting + ': ' + this.name };
+    func = _.bind(func, {name: 'moe'}, 'hi');
+    func();
+    => 'hi: moe'
+    */
     @Test
     public void bind() {
         class GreetingFunction implements Function<String, String> {
             private final String name;
+
             public GreetingFunction(final String name) {
                 this.name = name;
             }
+
             public String apply(final String greeting) {
                 return greeting + ": " + this.name;
             }
@@ -67,19 +68,21 @@ func();
         assertEquals("hi: moe", U.bind(new GreetingFunction("moe")).apply("hi"));
     }
 
-/*
-var subtract = function(a, b) { return b - a; };
-sub5 = _.partial(subtract, 5);
-sub5(20);
-=> 15
-*/
+    /*
+    var subtract = function(a, b) { return b - a; };
+    sub5 = _.partial(subtract, 5);
+    sub5(20);
+    => 15
+    */
     @Test
     public void partial() {
         class SubtractFunction implements Function<Integer, Integer> {
             private final Integer arg1;
+
             public SubtractFunction(final Integer arg1) {
                 this.arg1 = arg1;
             }
+
             public Integer apply(final Integer arg2) {
                 return arg2 - arg1;
             }
@@ -88,11 +91,11 @@ sub5(20);
         assertEquals(15, sub5.apply(20).intValue());
     }
 
-/*
-var fibonacci = _.memoize(function(n) {
-  return n < 2 ? n: fibonacci(n - 1) + fibonacci(n - 2);
-});
-*/
+    /*
+    var fibonacci = _.memoize(function(n) {
+      return n < 2 ? n: fibonacci(n - 1) + fibonacci(n - 2);
+    });
+    */
     @Test
     public void memoize() {
         class FibonacciFuncion1 extends MemoizeFunction<Integer, Integer> {
@@ -101,133 +104,163 @@ var fibonacci = _.memoize(function(n) {
             }
         }
         assertEquals(55, new FibonacciFuncion1().apply(10).intValue());
-        Function<Integer, Integer> memoizeFunction = U.memoize(
-            new Function<Integer, Integer>() {
-                public Integer apply(final Integer n) {
-                    return n < 2 ? n : apply(n - 1) + apply(n - 2);
-                }
-            });
+        Function<Integer, Integer> memoizeFunction =
+                U.memoize(
+                        new Function<Integer, Integer>() {
+                            public Integer apply(final Integer n) {
+                                return n < 2 ? n : apply(n - 1) + apply(n - 2);
+                            }
+                        });
         assertEquals(55, memoizeFunction.apply(10).intValue());
     }
 
-/*
-var counter = 0;
-var incr = function(){ counter++; };
-var throttleIncr = _.throttle(incr, 32);
-throttleIncr(); throttleIncr();
-_.delay(throttleIncr, 16);
-_.delay(function(){ equal(counter, 1, 'incr was throttled'); }, 96);
-*/
+    /*
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttleIncr = _.throttle(incr, 32);
+    throttleIncr(); throttleIncr();
+    _.delay(throttleIncr, 16);
+    _.delay(function(){ equal(counter, 1, 'incr was throttled'); }, 96);
+    */
 
     @Test
     public void throttle() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = () -> {
-            counter[0]++; return null; };
+        Supplier<Void> incr =
+                () -> {
+                    counter[0]++;
+                    return null;
+                };
         final Supplier<Void> throttleIncr = U.throttle(incr, 50);
         throttleIncr.get();
         throttleIncr.get();
         U.delay(throttleIncr, 16);
-        U.delay((Supplier<Void>) () -> {
-            assertEquals("incr was throttled", 1, counter[0].intValue());
-            throttleIncr.get();
-            return null;
-        }, 60);
-        await().atMost(180, TimeUnit.MILLISECONDS).until(() -> {
-            throttleIncr.get();
-            return true;
-        });
+        U.delay(
+                (Supplier<Void>)
+                        () -> {
+                            assertEquals("incr was throttled", 1, counter[0].intValue());
+                            throttleIncr.get();
+                            return null;
+                        },
+                60);
+        await().atMost(180, TimeUnit.MILLISECONDS)
+                .until(
+                        () -> {
+                            throttleIncr.get();
+                            return true;
+                        });
     }
 
-/*
-var counter = 0;
-var incr = function(){ counter++; };
-var debouncedIncr = _.debounce(incr, 32);
-debouncedIncr(); debouncedIncr();
-_.delay(debouncedIncr, 16);
-_.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
-*/
+    /*
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var debouncedIncr = _.debounce(incr, 32);
+    debouncedIncr(); debouncedIncr();
+    _.delay(debouncedIncr, 16);
+    _.delay(function(){ equal(counter, 1, 'incr was debounced'); }, 96);
+    */
 
     @Test
     public void debounce() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = () -> {
-            counter[0]++; return null; };
+        Supplier<Void> incr =
+                () -> {
+                    counter[0]++;
+                    return null;
+                };
         Supplier<Void> debouncedIncr = U.debounce(incr, 50);
         debouncedIncr.get();
         debouncedIncr.get();
         U.delay(debouncedIncr, 16);
-        U.delay((Supplier<Void>) () -> {
-            assertEquals("incr was debounced", 1, counter[0].intValue());
-            return null;
-        }, 60);
+        U.delay(
+                (Supplier<Void>)
+                        () -> {
+                            assertEquals("incr was debounced", 1, counter[0].intValue());
+                            return null;
+                        },
+                60);
         await().atMost(120, TimeUnit.MILLISECONDS).until(() -> true);
     }
 
-/*
-_.defer(function(){ alert('deferred'); });
-// Returns from the function before the alert runs.
-*/
+    /*
+    _.defer(function(){ alert('deferred'); });
+    // Returns from the function before the alert runs.
+    */
     @Test
     public void defer() {
         final Integer[] counter = new Integer[] {0};
-        U.defer((Supplier<Void>) () -> {
-            try {
-                TimeUnit.MILLISECONDS.sleep(16);
-            } catch (Exception e) {
-                e.getMessage();
-            }
-            counter[0]++; return null; });
+        U.defer(
+                (Supplier<Void>)
+                        () -> {
+                            try {
+                                TimeUnit.MILLISECONDS.sleep(16);
+                            } catch (Exception e) {
+                                e.getMessage();
+                            }
+                            counter[0]++;
+                            return null;
+                        });
         assertEquals("incr was debounced", 0, counter[0].intValue());
-        await().atLeast(60, TimeUnit.MILLISECONDS).until(() -> {
-            assertEquals("incr was debounced", 1, counter[0].intValue());
-            return true;
-        });
+        await().atLeast(60, TimeUnit.MILLISECONDS)
+                .until(
+                        () -> {
+                            assertEquals("incr was debounced", 1, counter[0].intValue());
+                            return true;
+                        });
         U.defer(() -> {
-            });
+        });
     }
 
-/*
-var initialize = _.once(createApplication);
-initialize();
-initialize();
-// Application is only created once.
-*/
+    /*
+    var initialize = _.once(createApplication);
+    initialize();
+    initialize();
+    // Application is only created once.
+    */
     @Test
     public void once() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Integer> incr = () -> {
-            counter[0]++; return counter[0]; };
+        Supplier<Integer> incr =
+                () -> {
+                    counter[0]++;
+                    return counter[0];
+                };
         final Supplier<Integer> onceIncr = U.once(incr);
         onceIncr.get();
         onceIncr.get();
-        await().atLeast(60, TimeUnit.MILLISECONDS).until(() -> {
-            assertEquals("incr was called only once", 1, counter[0].intValue());
-            assertEquals("stores a memo to the last value", 1, onceIncr.get().intValue());
-            return true;
-        });
+        await().atLeast(60, TimeUnit.MILLISECONDS)
+                .until(
+                        () -> {
+                            assertEquals("incr was called only once", 1, counter[0].intValue());
+                            assertEquals(
+                                    "stores a memo to the last value",
+                                    1,
+                                    onceIncr.get().intValue());
+                            return true;
+                        });
     }
 
-/*
-var hello = function(name) { return "hello: " + name; };
-hello = _.wrap(hello, function(func) {
-  return "before, " + func("moe") + ", after";
-});
-hello();
-=> 'before, hello: moe, after'
-*/
+    /*
+    var hello = function(name) { return "hello: " + name; };
+    hello = _.wrap(hello, function(func) {
+      return "before, " + func("moe") + ", after";
+    });
+    hello();
+    => 'before, hello: moe, after'
+    */
     @Test
     public void wrap() {
         Function<String, String> hello = name -> "hello: " + name;
-        Function<Void, String> result = U.wrap(hello, func -> "before, " + func.apply("moe") + ", after");
+        Function<Void, String> result =
+                U.wrap(hello, func -> "before, " + func.apply("moe") + ", after");
         assertEquals("before, hello: moe, after", result.apply(null));
     }
 
-/*
-var isFalsy = _.negate(Boolean);
-_.find([-2, -1, 0, 1, 2], isFalsy);
-=> 0
-*/
+    /*
+    var isFalsy = _.negate(Boolean);
+    _.find([-2, -1, 0, 1, 2], isFalsy);
+    => 0
+    */
     @Test
     public void negate() {
         Predicate<Integer> isFalsy = U.negate(item -> item != 0);
@@ -235,13 +268,13 @@ _.find([-2, -1, 0, 1, 2], isFalsy);
         assertEquals(0, result.get().intValue());
     }
 
-/*
-var greet    = function(name){ return "hi: " + name; };
-var exclaim  = function(statement){ return statement.toUpperCase() + "!"; };
-var welcome = _.compose(greet, exclaim);
-welcome('moe');
-=> 'hi: MOE!'
-*/
+    /*
+    var greet    = function(name){ return "hi: " + name; };
+    var exclaim  = function(statement){ return statement.toUpperCase() + "!"; };
+    var welcome = _.compose(greet, exclaim);
+    welcome('moe');
+    => 'hi: MOE!'
+    */
     @Test
     @SuppressWarnings("unchecked")
     public void compose() {
@@ -251,65 +284,82 @@ welcome('moe');
         assertEquals("hi: MOE!", welcome.apply("moe"));
     }
 
-/*
-var renderNotes = _.after(notes.length, render);
-_.each(notes, function(note) {
-  note.asyncSave({success: renderNotes});
-});
-// renderNotes is run once, after all notes have saved.
-*/
+    /*
+    var renderNotes = _.after(notes.length, render);
+    _.each(notes, function(note) {
+      note.asyncSave({success: renderNotes});
+    });
+    // renderNotes is run once, after all notes have saved.
+    */
     @Test
     public void after() {
         final List<Integer> notes = asList(1, 2, 3);
-        final Supplier<Integer> renderNotes = U.after(notes.size(),
-                () -> 4);
+        final Supplier<Integer> renderNotes = U.after(notes.size(), () -> 4);
         final List<Integer> result = new ArrayList<>();
-        U.<Integer>each(notes, item -> {
-            result.add(item);
-            Integer afterResult = renderNotes.get();
-            if (afterResult != null) {
-                result.add(afterResult);
-            }
-        });
+        U.<Integer>each(
+                notes,
+                item -> {
+                    result.add(item);
+                    Integer afterResult = renderNotes.get();
+                    if (afterResult != null) {
+                        result.add(afterResult);
+                    }
+                });
         assertEquals("[1, 2, 3, 4]", result.toString());
     }
 
-/*
-var monthlyMeeting = _.before(3, askForRaise);
-monthlyMeeting();
-monthlyMeeting();
-monthlyMeeting();
-// the result of any subsequent calls is the same as the second call
-*/
+    /*
+    var monthlyMeeting = _.before(3, askForRaise);
+    monthlyMeeting();
+    monthlyMeeting();
+    monthlyMeeting();
+    // the result of any subsequent calls is the same as the second call
+    */
     @Test
     public void before() {
         final List<Integer> notes = asList(1, 2, 3);
-        final Supplier<Integer> renderNotes = U.before(notes.size() - 1,
-                () -> 4);
+        final Supplier<Integer> renderNotes = U.before(notes.size() - 1, () -> 4);
         final List<Integer> result = new ArrayList<>();
-        U.<Integer>each(notes, item -> {
-            result.add(item);
-            Integer afterResult = renderNotes.get();
-            if (afterResult != null) {
-                result.add(afterResult);
-            }
-        });
+        U.<Integer>each(
+                notes,
+                item -> {
+                    result.add(item);
+                    Integer afterResult = renderNotes.get();
+                    if (afterResult != null) {
+                        result.add(afterResult);
+                    }
+                });
         assertEquals("[1, 4, 2, 4, 3, 4]", result.toString());
     }
 
-/*
-var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
-_.map(stooges, _.iteratee('age'));
-=> [25, 21, 23]
-*/
+    /*
+    var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
+    _.map(stooges, _.iteratee('age'));
+    => [25, 21, 23]
+    */
     @Test
     @SuppressWarnings("unchecked")
     public void iteratee() {
-        List<Map<String, Object>> stooges = Arrays.<Map<String, Object>>asList(
-            new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } },
-            new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } },
-            new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } }
-        );
+        List<Map<String, Object>> stooges =
+                Arrays.<Map<String, Object>>asList(
+                        new LinkedHashMap<String, Object>() {
+                            {
+                                put("name", "curly");
+                                put("age", 25);
+                            }
+                        },
+                        new LinkedHashMap<String, Object>() {
+                            {
+                                put("name", "moe");
+                                put("age", 21);
+                            }
+                        },
+                        new LinkedHashMap<String, Object>() {
+                            {
+                                put("name", "larry");
+                                put("age", 23);
+                            }
+                        });
         final List<Object> result = U.map(stooges, U.iteratee("age"));
         assertEquals("[25, 21, 23]", result.toString());
     }
@@ -317,56 +367,76 @@ _.map(stooges, _.iteratee('age'));
     @Test
     public void setTimeout() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = () -> {
-            counter[0]++; return null; };
+        Supplier<Void> incr =
+                () -> {
+                    counter[0]++;
+                    return null;
+                };
         U.setTimeout(incr, 0);
-        await().atLeast(40, TimeUnit.MILLISECONDS).until(() -> {
-            assertEquals(1, counter[0].intValue());
-            return true;
-        });
+        await().atLeast(40, TimeUnit.MILLISECONDS)
+                .until(
+                        () -> {
+                            assertEquals(1, counter[0].intValue());
+                            return true;
+                        });
     }
 
     @Test
     public void clearTimeout() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = () -> {
-            counter[0]++; return null; };
+        Supplier<Void> incr =
+                () -> {
+                    counter[0]++;
+                    return null;
+                };
         java.util.concurrent.ScheduledFuture future = U.setTimeout(incr, 20);
         U.clearTimeout(future);
         U.clearTimeout(null);
-        await().atLeast(40, TimeUnit.MILLISECONDS).until(() -> {
-            assertEquals(0, counter[0].intValue());
-            return true;
-        });
+        await().atLeast(40, TimeUnit.MILLISECONDS)
+                .until(
+                        () -> {
+                            assertEquals(0, counter[0].intValue());
+                            return true;
+                        });
     }
 
     @Test
     public void setInterval() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = () -> {
-            if (counter[0] < 4) {
-                counter[0]++;
-            }
-            return null; };
+        Supplier<Void> incr =
+                () -> {
+                    if (counter[0] < 4) {
+                        counter[0]++;
+                    }
+                    return null;
+                };
         U.setInterval(incr, 10);
-        await().atLeast(45, TimeUnit.MILLISECONDS).until(() -> {
-            assertTrue("Counter is not in range [0, 4] " + counter[0],
-                asList(0, 4).contains(counter[0]));
-            return true;
-        });
+        await().atLeast(45, TimeUnit.MILLISECONDS)
+                .until(
+                        () -> {
+                            assertTrue(
+                                    "Counter is not in range [0, 4] " + counter[0],
+                                    asList(0, 4).contains(counter[0]));
+                            return true;
+                        });
     }
 
     @Test
     public void clearInterval() {
         final Integer[] counter = new Integer[] {0};
-        Supplier<Void> incr = () -> {
-            counter[0]++; return null; };
+        Supplier<Void> incr =
+                () -> {
+                    counter[0]++;
+                    return null;
+                };
         java.util.concurrent.ScheduledFuture future = U.setInterval(incr, 20);
         U.clearInterval(future);
         U.clearInterval(null);
-        await().atLeast(40, TimeUnit.MILLISECONDS).until(() -> {
-            assertEquals(0, counter[0].intValue());
-            return true;
-        });
+        await().atLeast(40, TimeUnit.MILLISECONDS)
+                .until(
+                        () -> {
+                            assertEquals(0, counter[0].intValue());
+                            return true;
+                        });
     }
 }
