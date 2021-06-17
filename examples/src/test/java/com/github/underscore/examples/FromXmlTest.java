@@ -23,11 +23,10 @@
  */
 package com.github.underscore.examples;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.*;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  * Underscore examples unit test.
@@ -39,28 +38,30 @@ public class FromXmlTest {
     @Test
     public void fromXml() {
         String string =
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-        + "\n"
-        + "\n<root>"
-        + "\n<Details>"
-        + "\n    <detail-a>"
-        + "\n"
-        + "\n        <detail> attribute 1 of detail a </detail>"
-        + "\n        <detail> attribute 2 of detail a </detail>"
-        + "\n        <detail> attribute 3 of detail a </detail>"
-        + "\n"
-        + "\n    </detail-a>"
-        + "\n"
-        + "\n    <detail-b>"
-        + "\n        <detail> attribute 1 of detail b </detail>"
-        + "\n        <detail> attribute 2 of detail b </detail>"
-        + "\n"
-        + "\n    </detail-b>"
-        + "\n"
-        + "\n"
-        + "\n</Details>"
-        + "\n</root>";
-        assertEquals("{Details={detail-a={detail=[ attribute 1 of detail a ,  attribute 2 of detail a ,  attribute 3 of detail a ]}, "
-        + "detail-b={detail=[ attribute 1 of detail b ,  attribute 2 of detail b ]}}}", FromXml.fromXml(string).toString());
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                        + "\n"
+                        + "\n<root>"
+                        + "\n<Details>"
+                        + "\n    <detail-a>"
+                        + "\n"
+                        + "\n        <detail> attribute 1 of detail a </detail>"
+                        + "\n        <detail> attribute 2 of detail a </detail>"
+                        + "\n        <detail> attribute 3 of detail a </detail>"
+                        + "\n"
+                        + "\n    </detail-a>"
+                        + "\n"
+                        + "\n    <detail-b>"
+                        + "\n        <detail> attribute 1 of detail b </detail>"
+                        + "\n        <detail> attribute 2 of detail b </detail>"
+                        + "\n"
+                        + "\n    </detail-b>"
+                        + "\n"
+                        + "\n"
+                        + "\n</Details>"
+                        + "\n</root>";
+        assertEquals(
+                "{Details={detail-a={detail=[ attribute 1 of detail a ,  attribute 2 of detail a ,  attribute 3 of detail a ]}, "
+                        + "detail-b={detail=[ attribute 1 of detail b ,  attribute 2 of detail b ]}}}",
+                FromXml.fromXml(string).toString());
     }
 }

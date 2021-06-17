@@ -67,7 +67,7 @@ public class Xor {
         return filter(list1, elem -> !contains(list2, elem));
     }
 
-    public static <T> List<T> concat(final List<T> ... other) {
+    public static <T> List<T> concat(final List<T>... other) {
         final List<T> result = new ArrayList<>();
         for (final List<T> otherItem : other) {
             result.addAll(otherItem);
@@ -75,18 +75,21 @@ public class Xor {
         return result;
     }
 
-/*
-_.xor([1, 2], [4, 2]);
-// => [1, 4]
-*/
+    /*
+    _.xor([1, 2], [4, 2]);
+    // => [1, 4]
+    */
     @SuppressWarnings("unchecked")
-    public static <T> List<T> xor(final List<T> ... lists) {
+    public static <T> List<T> xor(final List<T>... lists) {
         int index = -1;
         int length = lists.length;
         List<T> result = null;
         while (++index < length) {
             final List<T> array = lists[index];
-            result = result == null ? array : concat(difference(result, array), difference(array, result));
+            result =
+                    result == null
+                            ? array
+                            : concat(difference(result, array), difference(array, result));
         }
         return uniq(result);
     }

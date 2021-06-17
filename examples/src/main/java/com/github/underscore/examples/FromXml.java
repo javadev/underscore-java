@@ -35,7 +35,8 @@ public class FromXml {
     @SuppressWarnings("unchecked")
     private static Object getValue(final Object value) {
         if (value instanceof Map && ((Map<String, Object>) value).entrySet().size() == 1) {
-            final Map.Entry<String, Object> entry = ((Map<String, Object>) value).entrySet().iterator().next();
+            final Map.Entry<String, Object> entry =
+                    ((Map<String, Object>) value).entrySet().iterator().next();
             if (entry.getKey().equals("#text") || entry.getKey().equals("element")) {
                 return entry.getValue();
             }
@@ -78,9 +79,10 @@ public class FromXml {
 
     public static Object fromXml(final String xml) {
         try {
-            final java.io.InputStream stream = new java.io.ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
+            final java.io.InputStream stream =
+                    new java.io.ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
             final javax.xml.parsers.DocumentBuilderFactory factory =
-                javax.xml.parsers.DocumentBuilderFactory.newInstance();
+                    javax.xml.parsers.DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
             final org.w3c.dom.Document document = factory.newDocumentBuilder().parse(stream);
             return createMap(document.getDocumentElement());

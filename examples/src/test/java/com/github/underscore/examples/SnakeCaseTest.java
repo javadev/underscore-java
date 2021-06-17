@@ -23,8 +23,9 @@
  */
 package com.github.underscore.examples;
 
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
  * Underscore examples unit test.
@@ -32,16 +33,16 @@ import static org.junit.Assert.assertEquals;
  * @author Valentyn Kolesnikov
  */
 public class SnakeCaseTest {
-/*
-_.snakeCase('Foo Bar');
-=> 'foo_bar'
+    /*
+    _.snakeCase('Foo Bar');
+    => 'foo_bar'
 
-_.snakeCase('fooBar');
-=> 'foo_bar'
+    _.snakeCase('fooBar');
+    => 'foo_bar'
 
-_.snakeCase('--foo-bar');
-=> 'foo_bar'
-*/
+    _.snakeCase('--foo-bar');
+    => 'foo_bar'
+    */
     @Test
     public void snakeCase() {
         assertEquals("foo_bar", SnakeCase.snakeCase("Foo Bar"));

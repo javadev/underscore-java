@@ -84,32 +84,32 @@ public class FromJson {
 
         private Object readValue() {
             switch (current) {
-            case 'n':
-                return readNull();
-            case 't':
-                return readTrue();
-            case 'f':
-                return readFalse();
-            case '"':
-                return readString();
-            case '[':
-                return readArray();
-            case '{':
-                return readObject();
-            case '-':
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-                return readNumber();
-            default:
-                throw expected("value");
+                case 'n':
+                    return readNull();
+                case 't':
+                    return readTrue();
+                case 'f':
+                    return readFalse();
+                case '"':
+                    return readString();
+                case '[':
+                    return readArray();
+                case '{':
+                    return readObject();
+                case '-':
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    return readNumber();
+                default:
+                    throw expected("value");
             }
         }
 
@@ -215,45 +215,49 @@ public class FromJson {
         private void readEscape() {
             read();
             switch (current) {
-            case '"':
-            case '/':
-            case '\\':
-                captureBuffer.append((char) current);
-                break;
-            case 'b':
-                captureBuffer.append('\b');
-                break;
-            case 'f':
-                captureBuffer.append('\f');
-                break;
-            case 'n':
-                captureBuffer.append('\n');
-                break;
-            case 'r':
-                captureBuffer.append('\r');
-                break;
-            case 't':
-                captureBuffer.append('\t');
-                break;
-            case 'u':
-                char[] hexChars = new char[4];
-                boolean isHexCharsDigits = true;
-                for (int i = 0; i < 4; i++) {
-                    read();
-                    if (!isHexDigit()) {
-                        isHexCharsDigits = false;
+                case '"':
+                case '/':
+                case '\\':
+                    captureBuffer.append((char) current);
+                    break;
+                case 'b':
+                    captureBuffer.append('\b');
+                    break;
+                case 'f':
+                    captureBuffer.append('\f');
+                    break;
+                case 'n':
+                    captureBuffer.append('\n');
+                    break;
+                case 'r':
+                    captureBuffer.append('\r');
+                    break;
+                case 't':
+                    captureBuffer.append('\t');
+                    break;
+                case 'u':
+                    char[] hexChars = new char[4];
+                    boolean isHexCharsDigits = true;
+                    for (int i = 0; i < 4; i++) {
+                        read();
+                        if (!isHexDigit()) {
+                            isHexCharsDigits = false;
+                        }
+                        hexChars[i] = (char) current;
                     }
-                    hexChars[i] = (char) current;
-                }
-                if (isHexCharsDigits) {
-                    captureBuffer.append((char) Integer.parseInt(new String(hexChars), 16));
-                } else {
-                    captureBuffer.append("\\u").append(hexChars[0]).append(hexChars[1]).append(hexChars[2])
-                        .append(hexChars[3]);
-                }
-                break;
-            default:
-                throw expected("valid escape sequence");
+                    if (isHexCharsDigits) {
+                        captureBuffer.append((char) Integer.parseInt(new String(hexChars), 16));
+                    } else {
+                        captureBuffer
+                                .append("\\u")
+                                .append(hexChars[0])
+                                .append(hexChars[1])
+                                .append(hexChars[2])
+                                .append(hexChars[3]);
+                    }
+                    break;
+                default:
+                    throw expected("valid escape sequence");
             }
             read();
         }
@@ -266,8 +270,7 @@ public class FromJson {
                 throw expected("digit");
             }
             if (firstDigit != '0') {
-                while (readDigit()) {
-                }
+                while (readDigit()) {}
             }
             readFraction();
             readExponent();
@@ -286,8 +289,7 @@ public class FromJson {
             if (!readDigit()) {
                 throw expected("digit");
             }
-            while (readDigit()) {
-            }
+            while (readDigit()) {}
             return true;
         }
 
@@ -301,8 +303,7 @@ public class FromJson {
             if (!readDigit()) {
                 throw expected("digit");
             }
-            while (readDigit()) {
-            }
+            while (readDigit()) {}
             return true;
         }
 
@@ -389,14 +390,14 @@ public class FromJson {
         }
 
         private boolean isHexDigit() {
-            return isDigit() || current >= 'a' && current <= 'f' || current >= 'A'
-                    && current <= 'F';
+            return isDigit()
+                    || current >= 'a' && current <= 'f'
+                    || current >= 'A' && current <= 'F';
         }
 
         private boolean isEndOfText() {
             return current == -1;
         }
-
     }
 
     public static Object fromJson(String string) {

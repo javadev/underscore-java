@@ -32,33 +32,27 @@ import java.util.function.Function;
  * @author Valentyn Kolesnikov
  */
 public class SnakeCase {
-    private static final java.util.regex.Pattern RE_LATIN_1 = java.util.regex.Pattern.compile(
-        "[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
+    private static final java.util.regex.Pattern RE_LATIN_1 =
+            java.util.regex.Pattern.compile("[\\xc0-\\xd6\\xd8-\\xde\\xdf-\\xf6\\xf8-\\xff]");
     private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<>();
 
     static {
-        String[] deburredLetters = new String[] {
-        "\u00c0", "A", "\u00c1", "A", "\u00c2", "A", "\u00c3", "A",
-        "\u00c4", "A", "\u00c5", "A",
-        "\u00e0", "a", "\u00e1", "a", "\u00e2", "a", "\u00e3", "a",
-        "\u00e4", "a", "\u00e5", "a",
-        "\u00c7", "C", "\u00e7", "c",
-        "\u00d0", "D", "\u00f0", "d",
-        "\u00c8", "E", "\u00c9", "E", "\u00ca", "E", "\u00cb", "E",
-        "\u00e8", "e", "\u00e9", "e", "\u00ea", "e", "\u00eb", "e",
-        "\u00cC", "I", "\u00cd", "I", "\u00ce", "I", "\u00cf", "I",
-        "\u00eC", "i", "\u00ed", "i", "\u00ee", "i", "\u00ef", "i",
-        "\u00d1", "N", "\u00f1", "n",
-        "\u00d2", "O", "\u00d3", "O", "\u00d4", "O", "\u00d5", "O",
-        "\u00d6", "O", "\u00d8", "O",
-        "\u00f2", "o", "\u00f3", "o", "\u00f4", "o", "\u00f5", "o",
-        "\u00f6", "o", "\u00f8", "o",
-        "\u00d9", "U", "\u00da", "U", "\u00db", "U", "\u00dc", "U",
-        "\u00f9", "u", "\u00fa", "u", "\u00fb", "u", "\u00fc", "u",
-        "\u00dd", "Y", "\u00fd", "y", "\u00ff", "y",
-        "\u00c6", "Ae", "\u00e6", "ae",
-        "\u00de", "Th", "\u00fe", "th",
-        "\u00df", "ss"};
+        String[] deburredLetters =
+                new String[] {
+                    "\u00c0", "A", "\u00c1", "A", "\u00c2", "A", "\u00c3", "A", "\u00c4", "A",
+                    "\u00c5", "A", "\u00e0", "a", "\u00e1", "a", "\u00e2", "a", "\u00e3", "a",
+                    "\u00e4", "a", "\u00e5", "a", "\u00c7", "C", "\u00e7", "c", "\u00d0", "D",
+                    "\u00f0", "d", "\u00c8", "E", "\u00c9", "E", "\u00ca", "E", "\u00cb", "E",
+                    "\u00e8", "e", "\u00e9", "e", "\u00ea", "e", "\u00eb", "e", "\u00cC", "I",
+                    "\u00cd", "I", "\u00ce", "I", "\u00cf", "I", "\u00eC", "i", "\u00ed", "i",
+                    "\u00ee", "i", "\u00ef", "i", "\u00d1", "N", "\u00f1", "n", "\u00d2", "O",
+                    "\u00d3", "O", "\u00d4", "O", "\u00d5", "O", "\u00d6", "O", "\u00d8", "O",
+                    "\u00f2", "o", "\u00f3", "o", "\u00f4", "o", "\u00f5", "o", "\u00f6", "o",
+                    "\u00f8", "o", "\u00d9", "U", "\u00da", "U", "\u00db", "U", "\u00dc", "U",
+                    "\u00f9", "u", "\u00fa", "u", "\u00fb", "u", "\u00fc", "u", "\u00dd", "Y",
+                    "\u00fd", "y", "\u00ff", "y", "\u00c6", "Ae", "\u00e6", "ae", "\u00de", "Th",
+                    "\u00fe", "th", "\u00df", "ss"
+                };
         for (int index = 0; index < deburredLetters.length; index += 2) {
             DEBURRED_LETTERS.put(deburredLetters[index], deburredLetters[index + 1]);
         }
@@ -66,8 +60,19 @@ public class SnakeCase {
 
     private static String upper = "[A-Z\\xc0-\\xd6\\xd8-\\xde\\u0400-\\u04FF]";
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
-    private static java.util.regex.Pattern reWords = java.util.regex.Pattern.compile(
-        upper + "+(?=" + upper + lower + ")|" + upper + "?" + lower + "|" + upper + "+|[0-9]+");
+    private static java.util.regex.Pattern reWords =
+            java.util.regex.Pattern.compile(
+                    upper
+                            + "+(?="
+                            + upper
+                            + lower
+                            + ")|"
+                            + upper
+                            + "?"
+                            + lower
+                            + "|"
+                            + upper
+                            + "+|[0-9]+");
 
     private static String baseToString(String value) {
         return value == null ? "" : value;
@@ -97,7 +102,7 @@ public class SnakeCase {
     }
 
     private static Function<String, String> createCompounder(
-        final Function3<String, String, Integer, String> callback) {
+            final Function3<String, String, Integer, String> callback) {
         return string -> {
             int index = -1;
             List<String> array = words(deburr(string));
@@ -111,18 +116,22 @@ public class SnakeCase {
         };
     }
 
-/*
-_.snakeCase('Foo Bar');
-=> 'foo_bar'
+    /*
+    _.snakeCase('Foo Bar');
+    => 'foo_bar'
 
-_.snakeCase('fooBar');
-=> 'foo_bar'
+    _.snakeCase('fooBar');
+    => 'foo_bar'
 
-_.snakeCase('--foo-bar');
-=> 'foo_bar'
-*/
+    _.snakeCase('--foo-bar');
+    => 'foo_bar'
+    */
     public static String snakeCase(final String string) {
-        return createCompounder((result, word, index) -> result + (index > 0 ? "_" : "")
-                + word.toLowerCase(Locale.getDefault())).apply(string);
+        return createCompounder(
+                        (result, word, index) ->
+                                result
+                                        + (index > 0 ? "_" : "")
+                                        + word.toLowerCase(Locale.getDefault()))
+                .apply(string);
     }
 }

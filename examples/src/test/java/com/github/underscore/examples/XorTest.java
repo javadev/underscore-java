@@ -23,10 +23,11 @@
  */
 package com.github.underscore.examples;
 
-import java.util.*;
-import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+
+import java.util.*;
+import org.junit.Test;
 
 /**
  * Underscore examples unit test.
@@ -34,10 +35,10 @@ import static org.junit.Assert.assertEquals;
  * @author Valentyn Kolesnikov
  */
 public class XorTest {
-/*
-_.xor([1, 2], [4, 2]);
-// => [1, 4]
-*/
+    /*
+    _.xor([1, 2], [4, 2]);
+    // => [1, 4]
+    */
     @SuppressWarnings("unchecked")
     @Test
     public void xor() {

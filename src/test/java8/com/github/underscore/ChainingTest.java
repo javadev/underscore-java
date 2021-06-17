@@ -23,11 +23,10 @@
  */
 package com.github.underscore;
 
-import java.lang.reflect.Method;
+import static org.junit.Assert.assertEquals;
+
 import java.util.*;
 import org.junit.Test;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Underscore library unit test.
@@ -36,33 +35,56 @@ import static org.junit.Assert.assertEquals;
  */
 public class ChainingTest {
 
-/*
-var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
-var youngest = _.chain(stooges)
-  .sortBy(function(stooge){ return stooge.age; })
-  .map(function(stooge){ return stooge.name + ' is ' + stooge.age; })
-  .first()
-  .value();
-=> "moe is 21"
-*/
+    /*
+    var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
+    var youngest = _.chain(stooges)
+      .sortBy(function(stooge){ return stooge.age; })
+      .map(function(stooge){ return stooge.name + ' is ' + stooge.age; })
+      .first()
+      .value();
+    => "moe is 21"
+    */
     @Test
     @SuppressWarnings("unchecked")
     public void chain() {
-        final List<Map<String, Object>> stooges = new ArrayList<Map<String, Object>>() { {
-            add(new LinkedHashMap<String, Object>() { { put("name", "curly"); put("age", 25); } });
-            add(new LinkedHashMap<String, Object>() { { put("name", "moe"); put("age", 21); } });
-            add(new LinkedHashMap<String, Object>() { { put("name", "larry"); put("age", 23); } });
-        } };
-        final String youngest = U.chain(stooges)
-            .sortBy((item) -> {
-                    return (Integer) ((Map<String, Object>) item).get("age");
-                }
-            )
-            .map((item) -> {
-                    return item.get("name") + " is " + item.get("age");
-                }
-            )
-            .first().item();
+        final List<Map<String, Object>> stooges =
+                new ArrayList<Map<String, Object>>() {
+                    {
+                        add(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("name", "curly");
+                                        put("age", 25);
+                                    }
+                                });
+                        add(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("name", "moe");
+                                        put("age", 21);
+                                    }
+                                });
+                        add(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("name", "larry");
+                                        put("age", 23);
+                                    }
+                                });
+                    }
+                };
+        final String youngest =
+                U.chain(stooges)
+                        .sortBy(
+                                (item) -> {
+                                    return (Integer) ((Map<String, Object>) item).get("age");
+                                })
+                        .map(
+                                (item) -> {
+                                    return item.get("name") + " is " + item.get("age");
+                                })
+                        .first()
+                        .item();
         assertEquals("moe is 21", youngest);
     }
 }

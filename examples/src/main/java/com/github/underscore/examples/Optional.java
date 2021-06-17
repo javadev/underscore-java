@@ -45,12 +45,11 @@ public final class Optional<T> {
     }
 
     public static <T> Optional<T> fromNullable(final T nullableReference) {
-        return nullableReference == null ? Optional.<T>absent()
-            : new Optional<>(nullableReference);
+        return nullableReference == null ? Optional.<T>absent() : new Optional<>(nullableReference);
     }
 
     @SuppressWarnings("unchecked")
-    public static<T> Optional<T> absent() {
+    public static <T> Optional<T> absent() {
         return (Optional<T>) EMPTY;
     }
 

@@ -63,12 +63,12 @@ public class Intersection {
         return filter(list1, elem -> contains(list2, elem));
     }
 
-/*
-_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
-=> [1, 2]
-*/
+    /*
+    _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+    => [1, 2]
+    */
     @SuppressWarnings("unchecked")
-    public static <E> List<E> intersection(final List<E> list, final List<E> ... lists) {
+    public static <E> List<E> intersection(final List<E> list, final List<E>... lists) {
         final Stack<List<E>> stack = new Stack<>();
         stack.push(list);
         for (List<E> es : lists) {

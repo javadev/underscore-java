@@ -23,14 +23,10 @@
  */
 package com.github.underscore;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.*;
 import org.junit.Test;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Underscore library unit test.
@@ -43,11 +39,21 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     public void stackoverflow() {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
-        assertEquals("{D=67.3, B=67.4, C=67.4, A=99.5}", U.chain((new LinkedHashMap<String, Double>() { {
-            put("A", 99.5);
-            put("B", 67.4);
-            put("C", 67.4);
-            put("D", 67.3);
-        } }).entrySet()).sortBy((item) -> item.getValue()).toMap().item().toString());
+        assertEquals(
+                "{D=67.3, B=67.4, C=67.4, A=99.5}",
+                U.chain(
+                                (new LinkedHashMap<String, Double>() {
+                                            {
+                                                put("A", 99.5);
+                                                put("B", 67.4);
+                                                put("C", 67.4);
+                                                put("D", 67.3);
+                                            }
+                                        })
+                                        .entrySet())
+                        .sortBy((item) -> item.getValue())
+                        .toMap()
+                        .item()
+                        .toString());
     }
 }

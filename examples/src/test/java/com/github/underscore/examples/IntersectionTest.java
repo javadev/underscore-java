@@ -23,11 +23,11 @@
  */
 package com.github.underscore.examples;
 
-import java.util.List;
-import org.junit.Test;
-
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+import org.junit.Test;
 
 /**
  * Underscore examples unit test.
@@ -36,14 +36,15 @@ import static org.junit.Assert.assertEquals;
  */
 public class IntersectionTest {
 
-/*
-_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
-=> [1, 2]
-*/
+    /*
+    _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+    => [1, 2]
+    */
     @Test
     @SuppressWarnings("unchecked")
     public void intersection() {
-        final List<Integer> result = Intersection.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
+        final List<Integer> result =
+                Intersection.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", result.toString());
     }
 }

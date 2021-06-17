@@ -44,22 +44,22 @@ public class Chaining {
         return transformed;
     }
 
-    public static <E, T extends Comparable<? super T>> List<E> sortBy(final List<E> iterable,
-        final Function<E, T> func) {
+    public static <E, T extends Comparable<? super T>> List<E> sortBy(
+            final List<E> iterable, final Function<E, T> func) {
         final List<E> sortedList = new ArrayList<>(iterable);
         sortedList.sort(Comparator.comparing(func::apply));
         return sortedList;
     }
 
-/*
-var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
-var youngest = _.chain(stooges)
-  .sortBy(function(stooge){ return stooge.age; })
-  .map(function(stooge){ return stooge.name + ' is ' + stooge.age; })
-  .first()
-  .value();
-=> "moe is 21"
-*/
+    /*
+    var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
+    var youngest = _.chain(stooges)
+      .sortBy(function(stooge){ return stooge.age; })
+      .map(function(stooge){ return stooge.name + ' is ' + stooge.age; })
+      .first()
+      .value();
+    => "moe is 21"
+    */
     public static <T> Chain<T> chain(final List<T> list) {
         return new Chaining.Chain<>(list);
     }
@@ -67,11 +67,13 @@ var youngest = _.chain(stooges)
     public static class Chain<T> {
         private final T item;
         private final List<T> list;
+
         @SuppressWarnings("unchecked")
         public Chain(final T item) {
             this.item = item;
             this.list = null;
         }
+
         public Chain(final List<T> list) {
             this.item = null;
             this.list = list;
