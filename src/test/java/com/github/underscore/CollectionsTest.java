@@ -298,7 +298,7 @@ public class CollectionsTest {
         assertEquals("6", result.toString());
         final Integer resultChain = U.chain(asList(1, 2, 3)).reduce(Integer::sum).item().get();
         assertEquals("6", resultChain.toString());
-        U.reduce(new ArrayList<Integer>(), Integer::sum);
+        U.reduce(new ArrayList<>(), Integer::sum);
     }
 
     /*

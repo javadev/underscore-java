@@ -1178,7 +1178,7 @@ public class LodashTest {
         U.of(new String[] {});
         U.of(new int[] {});
         U.of("");
-        U.of(new LinkedHashMap<String, Object>());
+        U.of(new LinkedHashMap<>());
     }
 
     @SuppressWarnings("unchecked")

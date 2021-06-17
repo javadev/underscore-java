@@ -138,7 +138,7 @@ public class U<T> {
                                 .equals(prop.snd())) {
                             return false;
                         }
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                 }
             }
@@ -969,7 +969,7 @@ public class U<T> {
     public static <E, T extends Comparable<? super T>> List<E> sortBy(
             final Iterable<E> iterable, final Function<E, T> func) {
         final List<E> sortedList = newArrayList(iterable);
-        sortedList.sort(Comparator.comparing(func::apply));
+        sortedList.sort(Comparator.comparing(func));
         return sortedList;
     }
 
@@ -2044,7 +2044,7 @@ public class U<T> {
      * Documented, #bind
      */
     public static <T, F> Function<F, T> bind(final Function<F, T> function) {
-        return function::apply;
+        return function;
     }
 
     /*

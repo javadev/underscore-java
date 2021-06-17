@@ -455,7 +455,7 @@ public class UnderscoreTest {
         try {
             Optional.empty().get();
             fail("IllegalStateException expected");
-        } catch (IllegalStateException ex) {
+        } catch (IllegalStateException ignored) {
         }
         assertFalse(Optional.<Integer>empty().filter(arg -> true).isPresent());
         assertTrue(Optional.<Integer>empty().filter(arg -> false).isEmpty());
