@@ -13,7 +13,6 @@ underscore-java
 [![Build Status](https://semaphoreci.com/api/v1/javadev/underscore-java/branches/main/badge.svg)](https://semaphoreci.com/javadev/underscore-java)
 [![Run Status](https://api.shippable.com/projects/55def20f1895ca44741030a2/badge?branch=main)](https://app.shippable.com/projects/55def20f1895ca44741030a2)
 [![Known Vulnerabilities](https://snyk.io/test/github/javadev/underscore-java/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/javadev/underscore-java?targetFile=pom.xml)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6e30751dc17c452f8524ae7eff474ce1)](https://www.codacy.com/app/javadev75/underscore-java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=javadev/underscore-java&amp;utm_campaign=Badge_Grade)
 [![Sputnik](https://sputnik.ci/conf/badge)](https://sputnik.ci/app#/builds/javadev/underscore-java)
 [![Code Scene](https://img.shields.io/badge/codescene-analyzed-brightgreen.svg)](https://codescene.io/projects/1173/jobs/latest-successful/results)
 [![](http://javadoc-badge.appspot.com/com.github.javadev/underscore.svg?label=JavaDocs)](http://www.javadoc.io/doc/com.github.javadev/underscore/)
