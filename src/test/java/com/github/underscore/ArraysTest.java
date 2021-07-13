@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -457,7 +457,7 @@ public class ArraysTest {
         assertEquals(
                 "[a, aa, cc, ccc]",
                 new U<>(asList("a", "aa", "cc", "ccc")).replace(null, "b").toString());
-        Set<Integer> set = new HashSet<>();
+        Set<Integer> set = new LinkedHashSet<>();
         set.addAll(U.range(7));
         assertEquals(
                 "[0, 1, 2, 100, 100, 100, 100]",
