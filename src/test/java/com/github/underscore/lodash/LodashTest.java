@@ -1500,4 +1500,17 @@ public class LodashTest {
                         + "</customer>",
                 xml);
     }
+
+    @Test
+    public void issue306() {
+        String json = U.objectBuilder()
+            .add("firstName", "John")
+            .add("lastName", (Object) null)
+            .toJson();
+        assertEquals(
+                "{\n  \"firstName\": \"John\",\n"
+                        + "  \"lastName\": null\n"
+                        + "}",
+                json);
+    }
 }
