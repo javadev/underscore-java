@@ -55,7 +55,7 @@ public class U<T> extends com.github.underscore.U<T> {
     private static final java.util.regex.Pattern RE_PROP_NAME =
             java.util.regex.Pattern.compile(
                     "[^.\\[\\]]+|\\[(?:(-?\\d+(?:\\.\\d+)?)|([\"'])((?:(?!\2)\\[^\\]|\\.)*?)\2)\\]|"
-                    + "(?=(\\.|\\[\\])(?:\4|$))");
+                            + "(?=(\\.|\\[\\])(?:\4|$))");
     private static final Map<String, String> DEBURRED_LETTERS = new LinkedHashMap<>();
     private static final Map<String, List<String>> DEFAULT_HEADER_FIELDS = new HashMap<>();
     private static final Set<String> SUPPORTED_HTTP_METHODS =
@@ -112,7 +112,8 @@ public class U<T> extends com.github.underscore.U<T> {
         DEFINE_ROOT_NAME,
         FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME,
         REPLACE_NULL_WITH_EMPTY_VALUE,
-        REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE
+        REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE,
+        REMOVE_FIRST_LEVEL_XML_TO_JSON
     }
 
     public U(final Iterable<T> iterable) {
@@ -2421,6 +2422,8 @@ public class U<T> extends com.github.underscore.U<T> {
                                         replaceEmptyValueWithEmptyString(
                                                 replaceSelfClosingWithEmpty((Map) object)),
                                 identStep);
+            } else if (mode == Mode.REMOVE_FIRST_LEVEL_XML_TO_JSON) {
+                result = Json.toJson(replaceFirstLevel((Map) object), identStep);
             } else {
                 result = Json.toJson((Map) object, identStep);
             }
@@ -2726,6 +2729,45 @@ public class U<T> extends com.github.underscore.U<T> {
             result = values;
         } else if (value instanceof Map) {
             result = replaceEmptyStringWithEmptyValue((Map) value);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> replaceFirstLevel(Map<String, Object> map) {
+        return replaceFirstLevel(map, 0);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> replaceFirstLevel(Map<String, Object> map, int level) {
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            outMap.put(entry.getKey(), makeReplaceFirstLevel(entry.getValue(), level + 1));
+        }
+        if (level == 0 && Xml.XmlValue.getMapValue(outMap) instanceof Map) {
+            Map<String, Object> outMap2 = (Map<String, Object>) Xml.XmlValue.getMapValue(outMap);
+            if ("-self-closing".equals(Xml.XmlValue.getMapKey(outMap2))
+                    && "true".equals(Xml.XmlValue.getMapValue(outMap2))) {
+                outMap2.remove("-self-closing");
+            }
+            return outMap2;
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeReplaceFirstLevel(Object value, int level) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? replaceFirstLevel((Map) item, level + 1) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = replaceFirstLevel((Map) value, level + 1);
         } else {
             result = value;
         }
