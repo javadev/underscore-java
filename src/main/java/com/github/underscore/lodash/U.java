@@ -64,6 +64,7 @@ public class U<T> extends com.github.underscore.U<T> {
     private static final int RESPONSE_CODE_400 = 400;
     private static String upper = "[A-Z\\xc0-\\xd6\\xd8-\\xde\\u0400-\\u04FF]";
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
+    private static String selfClosing = "-self-closing";
     private static java.util.regex.Pattern reWords =
             java.util.regex.Pattern.compile(
                     upper
@@ -2474,7 +2475,7 @@ public class U<T> extends com.github.underscore.U<T> {
             } else {
                 newKey = entry.getKey();
             }
-            if (!entry.getKey().equals("-self-closing")
+            if (!entry.getKey().equals(selfClosing)
                     && !entry.getKey().equals("#omit-xml-declaration")) {
                 outMap.put(newKey, makeObject(entry.getValue()));
             }
@@ -2548,7 +2549,7 @@ public class U<T> extends com.github.underscore.U<T> {
     public static Object replaceSelfClosingWithValue(Map<String, Object> map, String value) {
         Object outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if ("-self-closing".equals(entry.getKey()) && "true".equals(entry.getValue())) {
+            if (selfClosing.equals(entry.getKey()) && "true".equals(entry.getValue())) {
                 if (map.size() == 1) {
                     outMap = value;
                     break;
@@ -2748,9 +2749,9 @@ public class U<T> extends com.github.underscore.U<T> {
         }
         if (level == 0 && Xml.XmlValue.getMapValue(outMap) instanceof Map) {
             Map<String, Object> outMap2 = (Map<String, Object>) Xml.XmlValue.getMapValue(outMap);
-            if ("-self-closing".equals(Xml.XmlValue.getMapKey(outMap2))
+            if (selfClosing.equals(Xml.XmlValue.getMapKey(outMap2))
                     && "true".equals(Xml.XmlValue.getMapValue(outMap2))) {
-                outMap2.remove("-self-closing");
+                outMap2.remove(selfClosing);
             }
             return outMap2;
         }
