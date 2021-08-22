@@ -138,331 +138,409 @@ public class U<T> extends com.github.underscore.U<T> {
             super(map);
         }
 
+        @Override
         public Chain<T> first() {
             return new Chain<>(com.github.underscore.U.first(value()));
         }
 
+        @Override
         public Chain<T> first(int n) {
             return new Chain<>(com.github.underscore.U.first(value(), n));
         }
 
+        @Override
         public Chain<T> firstOrNull() {
             return new Chain<>(com.github.underscore.U.firstOrNull(value()));
         }
 
+        @Override
         public Chain<T> firstOrNull(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.firstOrNull(value(), pred));
         }
 
+        @Override
         public Chain<T> initial() {
             return new Chain<>(com.github.underscore.U.initial(value()));
         }
 
+        @Override
         public Chain<T> initial(int n) {
             return new Chain<>(com.github.underscore.U.initial(value(), n));
         }
 
+        @Override
         public Chain<T> last() {
             return new Chain<>(com.github.underscore.U.last(value()));
         }
 
+        @Override
         public Chain<T> last(int n) {
             return new Chain<>(com.github.underscore.U.last(value(), n));
         }
 
+        @Override
         public Chain<T> lastOrNull() {
             return new Chain<>(com.github.underscore.U.lastOrNull(value()));
         }
 
+        @Override
         public Chain<T> lastOrNull(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.lastOrNull(value(), pred));
         }
 
+        @Override
         public Chain<T> rest() {
             return new Chain<>(com.github.underscore.U.rest(value()));
         }
 
+        @Override
         public Chain<T> rest(int n) {
             return new Chain<>(com.github.underscore.U.rest(value(), n));
         }
 
+        @Override
         public Chain<T> compact() {
             return new Chain<>(com.github.underscore.U.compact(value()));
         }
 
+        @Override
         public Chain<T> compact(final T falsyValue) {
             return new Chain<>(com.github.underscore.U.compact(value(), falsyValue));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Chain flatten() {
-            return new Chain(com.github.underscore.U.flatten(value()));
+            return new Chain<>(com.github.underscore.U.flatten(value()));
         }
 
+        @Override
         public <F> Chain<F> map(final Function<? super T, F> func) {
             return new Chain<>(com.github.underscore.U.map(value(), func));
         }
 
+        @Override
         public <F> Chain<F> mapMulti(final BiConsumer<? super T, ? super Consumer<F>> mapper) {
             return new Chain<>(com.github.underscore.U.mapMulti(value(), mapper));
         }
 
+        @Override
         public <F> Chain<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
             return new Chain<>(com.github.underscore.U.mapIndexed(value(), func));
         }
 
+        @Override
         public Chain<T> filter(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.filter(value(), pred));
         }
 
+        @Override
         public Chain<T> filterIndexed(final PredicateIndexed<T> pred) {
             return new Chain<>(com.github.underscore.U.filterIndexed(value(), pred));
         }
 
+        @Override
         public Chain<T> rejectIndexed(final PredicateIndexed<T> pred) {
             return new Chain<>(com.github.underscore.U.rejectIndexed(value(), pred));
         }
 
+        @Override
         public Chain<T> reject(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.reject(value(), pred));
         }
 
+        @Override
         public Chain<T> filterFalse(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.filterFalse(value(), pred));
         }
 
+        @Override
         public <F> Chain<F> reduce(final BiFunction<F, T, F> func, final F zeroElem) {
             return new Chain<>(com.github.underscore.U.reduce(value(), func, zeroElem));
         }
 
+        @Override
         public Chain<Optional<T>> reduce(final BinaryOperator<T> func) {
             return new Chain<>(com.github.underscore.U.reduce(value(), func));
         }
 
+        @Override
         public <F> Chain<F> reduceRight(final BiFunction<F, T, F> func, final F zeroElem) {
             return new Chain<>(com.github.underscore.U.reduceRight(value(), func, zeroElem));
         }
 
+        @Override
         public Chain<Optional<T>> reduceRight(final BinaryOperator<T> func) {
             return new Chain<>(com.github.underscore.U.reduceRight(value(), func));
         }
 
+        @Override
         public Chain<Optional<T>> find(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.find(value(), pred));
         }
 
+        @Override
         public Chain<Optional<T>> findLast(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.findLast(value(), pred));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Chain<Comparable> max() {
             return new Chain<>(com.github.underscore.U.max((Collection) value()));
         }
 
+        @Override
         public <F extends Comparable<? super F>> Chain<T> max(final Function<T, F> func) {
             return new Chain<>(com.github.underscore.U.max(value(), func));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Chain<Comparable> min() {
             return new Chain<>(com.github.underscore.U.min((Collection) value()));
         }
 
+        @Override
         public <F extends Comparable<? super F>> Chain<T> min(final Function<T, F> func) {
             return new Chain<>(com.github.underscore.U.min(value(), func));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Chain<Comparable> sort() {
             return new Chain<>(com.github.underscore.U.sort((List<Comparable>) value()));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public <F extends Comparable<? super F>> Chain<F> sortWith(final Comparator<F> comparator) {
             return new Chain<>(com.github.underscore.U.sortWith((List<F>) value(), comparator));
         }
 
+        @Override
         public <F extends Comparable<? super F>> Chain<T> sortBy(final Function<T, F> func) {
             return new Chain<>(com.github.underscore.U.sortBy(value(), func));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public <K> Chain<Map<K, Comparable>> sortBy(final K key) {
             return new Chain<>(
                     com.github.underscore.U.sortBy((List<Map<K, Comparable>>) value(), key));
         }
 
+        @Override
         public <F> Chain<Map<F, List<T>>> groupBy(final Function<T, F> func) {
             return new Chain<>(com.github.underscore.U.groupBy(value(), func));
         }
 
+        @Override
         public <F> Chain<Map<F, Optional<T>>> groupBy(
                 final Function<T, F> func, final BinaryOperator<T> binaryOperator) {
             return new Chain<>(com.github.underscore.U.groupBy(value(), func, binaryOperator));
         }
 
+        @Override
         public Chain<Map<Object, List<T>>> indexBy(final String property) {
             return new Chain<>(com.github.underscore.U.indexBy(value(), property));
         }
 
+        @Override
         public <F> Chain<Map<F, Integer>> countBy(final Function<T, F> func) {
             return new Chain<>(com.github.underscore.U.countBy(value(), func));
         }
 
+        @Override
         public Chain<Map<T, Integer>> countBy() {
             return new Chain<>(com.github.underscore.U.countBy(value()));
         }
 
+        @Override
         public Chain<T> shuffle() {
             return new Chain<>(com.github.underscore.U.shuffle(value()));
         }
 
+        @Override
         public Chain<T> sample() {
             return new Chain<>(com.github.underscore.U.sample(value()));
         }
 
+        @Override
         public Chain<T> sample(final int howMany) {
             return new Chain<>(newArrayList(com.github.underscore.U.sample(value(), howMany)));
         }
 
+        @Override
         public Chain<T> tap(final Consumer<T> func) {
             com.github.underscore.U.tap(value(), func);
             return new Chain<>(value());
         }
 
+        @Override
         public Chain<T> forEach(final Consumer<T> func) {
             com.github.underscore.U.forEach(value(), func);
             return new Chain<>(value());
         }
 
+        @Override
         public Chain<T> forEachRight(final Consumer<T> func) {
             com.github.underscore.U.forEachRight(value(), func);
             return new Chain<>(value());
         }
 
+        @Override
         public Chain<Boolean> every(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.every(value(), pred));
         }
 
+        @Override
         public Chain<Boolean> some(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.some(value(), pred));
         }
 
+        @Override
         public Chain<Integer> count(final Predicate<T> pred) {
             return new Chain<>(com.github.underscore.U.count(value(), pred));
         }
 
+        @Override
         public Chain<Boolean> contains(final T elem) {
             return new Chain<>(com.github.underscore.U.contains(value(), elem));
         }
 
+        @Override
         public Chain<Boolean> containsWith(final T elem) {
             return new Chain<>(com.github.underscore.U.containsWith(value(), elem));
         }
 
+        @Override
         public Chain<T> invoke(final String methodName, final List<Object> args) {
             return new Chain<>(com.github.underscore.U.invoke(value(), methodName, args));
         }
 
+        @Override
         public Chain<T> invoke(final String methodName) {
             return new Chain<>(com.github.underscore.U.invoke(value(), methodName));
         }
 
+        @Override
         public Chain<Object> pluck(final String propertyName) {
             return new Chain<>(com.github.underscore.U.pluck(value(), propertyName));
         }
 
+        @Override
         public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
             return new Chain<>(com.github.underscore.U.where(value(), properties));
         }
 
+        @Override
         public <E> Chain<Optional<T>> findWhere(final List<Tuple<String, E>> properties) {
             return new Chain<>(com.github.underscore.U.findWhere(value(), properties));
         }
 
+        @Override
         public Chain<T> uniq() {
             return new Chain<>(com.github.underscore.U.uniq(value()));
         }
 
+        @Override
         public <F> Chain<T> uniq(final Function<T, F> func) {
             return new Chain<>(newArrayList(com.github.underscore.U.uniq(value(), func)));
         }
 
+        @Override
         public Chain<T> distinct() {
             return new Chain<>(com.github.underscore.U.uniq(value()));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public <F> Chain<F> distinctBy(final Function<T, F> func) {
             return new Chain<>(
                     newArrayList((Iterable<F>) com.github.underscore.U.uniq(value(), func)));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Chain<T> union(final List<T>... lists) {
             return new Chain<>(com.github.underscore.U.union(value(), lists));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Chain<T> intersection(final List<T>... lists) {
             return new Chain<>(com.github.underscore.U.intersection(value(), lists));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Chain<T> difference(final List<T>... lists) {
             return new Chain<>(com.github.underscore.U.difference(value(), lists));
         }
 
+        @Override
         public Chain<Integer> range(final int stop) {
             return new Chain<>(com.github.underscore.U.range(stop));
         }
 
+        @Override
         public Chain<Integer> range(final int start, final int stop) {
             return new Chain<>(com.github.underscore.U.range(start, stop));
         }
 
+        @Override
         public Chain<Integer> range(final int start, final int stop, final int step) {
             return new Chain<>(com.github.underscore.U.range(start, stop, step));
         }
 
+        @Override
         public Chain<List<T>> chunk(final int size) {
             return new Chain<>(com.github.underscore.U.chunk(value(), size, size));
         }
 
+        @Override
         public Chain<List<T>> chunk(final int size, final int step) {
             return new Chain<>(com.github.underscore.U.chunk(value(), size, step));
         }
 
+        @Override
         public Chain<List<T>> chunkFill(final int size, final T fillValue) {
             return new Chain<>(com.github.underscore.U.chunkFill(value(), size, size, fillValue));
         }
 
+        @Override
         public Chain<List<T>> chunkFill(final int size, final int step, final T fillValue) {
             return new Chain<>(com.github.underscore.U.chunkFill(value(), size, step, fillValue));
         }
 
+        @Override
         public Chain<T> cycle(final int times) {
             return new Chain<>(com.github.underscore.U.cycle(value(), times));
         }
 
+        @Override
         public Chain<T> interpose(final T element) {
             return new Chain<>(com.github.underscore.U.interpose(value(), element));
         }
 
+        @Override
         public Chain<T> interposeByList(final Iterable<T> interIter) {
             return new Chain<>(com.github.underscore.U.interposeByList(value(), interIter));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Chain<T> concat(final List<T>... lists) {
             return new Chain<>(com.github.underscore.U.concat(value(), lists));
         }
 
+        @Override
         public Chain<T> slice(final int start) {
             return new Chain<>(com.github.underscore.U.slice(value(), start));
         }
 
+        @Override
         public Chain<T> slice(final int start, final int end) {
             return new Chain<>(com.github.underscore.U.slice(value(), start, end));
         }
@@ -472,26 +550,32 @@ public class U<T> extends com.github.underscore.U<T> {
             return new Chain<>(map());
         }
 
+        @Override
         public Chain<T> reverse() {
             return new Chain<>(com.github.underscore.U.reverse(value()));
         }
 
+        @Override
         public Chain<String> join() {
             return new Chain<>(com.github.underscore.U.join(value()));
         }
 
+        @Override
         public Chain<String> join(final String separator) {
             return new Chain<>(com.github.underscore.U.join(value(), separator));
         }
 
+        @Override
         public Chain<T> skip(final int numberToSkip) {
             return new Chain<>(value().subList(numberToSkip, value().size()));
         }
 
+        @Override
         public Chain<T> limit(final int size) {
             return new Chain<>(value().subList(0, size));
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public <K, V> Chain<Map<K, V>> toMap() {
             return new Chain<>(com.github.underscore.U.toMap((Iterable<Map.Entry<K, V>>) value()));
@@ -718,7 +802,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public Chain<String> toJson() {
-            return new Chain<>(Json.toJson((Collection) value()));
+            return new Chain<>(Json.toJson(value()));
         }
 
         public Chain<Object> fromJson() {
@@ -726,7 +810,7 @@ public class U<T> extends com.github.underscore.U<T> {
         }
 
         public Chain<String> toXml() {
-            return new Chain<>(Xml.toXml((Collection) value()));
+            return new Chain<>(Xml.toXml(value()));
         }
 
         public Chain<Object> fromXml() {
@@ -743,11 +827,11 @@ public class U<T> extends com.github.underscore.U<T> {
 
         public Chain<List<T>> createPermutationWithRepetition(final int permutationLength) {
             return new Chain<>(
-                    U.createPermutationWithRepetition((List<T>) value(), permutationLength));
+                    U.createPermutationWithRepetition(value(), permutationLength));
         }
 
         public Chain<String> toJsonJavaString() {
-            return new Chain<>(Json.toJsonJavaString((Collection) value()));
+            return new Chain<>(Json.toJsonJavaString(value()));
         }
 
         public Chain<String> xmlToJson() {
@@ -788,6 +872,7 @@ public class U<T> extends com.github.underscore.U<T> {
         return new U.Chain<>(newIntegerList(array));
     }
 
+    @Override
     public Chain<T> chain() {
         return new U.Chain<>(newArrayList(value()));
     }
@@ -821,6 +906,7 @@ public class U<T> extends com.github.underscore.U<T> {
         return new U.Chain<>(newIntegerList(array));
     }
 
+    @Override
     public Chain<T> of() {
         return new U.Chain<>(newArrayList(value()));
     }

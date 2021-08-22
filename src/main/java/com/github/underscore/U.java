@@ -458,7 +458,7 @@ public class U<T> {
                 accum = element;
             }
         }
-        return foundAny ? Optional.of(accum) : Optional.<T>empty();
+        return foundAny ? Optional.of(accum) : Optional.empty();
     }
 
     public static <E> E reduce(
@@ -1682,7 +1682,7 @@ public class U<T> {
                     int index = 0;
                     for (T elem : list) {
                         final List<T> nTuple =
-                                index >= zipped.size() ? U.<T>newArrayList() : zipped.get(index);
+                                index >= zipped.size() ? U.newArrayList() : zipped.get(index);
                         if (index >= zipped.size()) {
                             zipped.add(nTuple);
                         }

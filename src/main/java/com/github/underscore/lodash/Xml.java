@@ -23,6 +23,8 @@
  */
 package com.github.underscore.lodash;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -65,7 +67,6 @@ public final class Xml {
     private static final String DOCTYPE_TEXT = "!DOCTYPE";
     private static final String ROOT = "root";
     private static final String DOCTYPE_HEADER = "<" + DOCTYPE_TEXT + " ";
-    private static final java.nio.charset.Charset UTF_8 = java.nio.charset.Charset.forName("UTF-8");
     private static final java.util.regex.Pattern ATTRS =
             java.util.regex.Pattern.compile(
                     "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
@@ -172,6 +173,7 @@ public final class Xml {
                     0);
         }
 
+        @Override
         public String toString() {
             return builder.toString();
         }
@@ -182,6 +184,7 @@ public final class Xml {
             super(new StringBuilder(), identStep, ident);
         }
 
+        @Override
         public String toString() {
             return builder.toString();
         }
@@ -191,11 +194,16 @@ public final class Xml {
         public XmlStringBuilderText(XmlStringBuilder.Step identStep, int ident) {
             super(identStep, ident);
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
     public static class XmlArray {
         public static void writeXml(
-                Collection collection,
+                Collection<?> collection,
                 String name,
                 XmlStringBuilder builder,
                 boolean parentTextFound,
@@ -231,13 +239,13 @@ public final class Xml {
 
         @SuppressWarnings("unchecked")
         private static void writeXml(
-                Collection collection,
+                Collection<?> collection,
                 XmlStringBuilder builder,
                 String name,
                 final boolean parentTextFound,
                 Set<String> namespaces) {
             boolean localParentTextFound = parentTextFound;
-            final List entries = U.newArrayList(collection);
+            final List<?> entries = U.newArrayList(collection);
             for (int index = 0; index < entries.size(); index += 1) {
                 final Object value = entries.get(index);
                 final boolean addNewLine =
@@ -1138,7 +1146,7 @@ public final class Xml {
                         getRootName(localMap2, newRootName),
                         builder,
                         false,
-                        U.<String>newLinkedHashSet(),
+                        U.newLinkedHashSet(),
                         false);
             }
         } else {
@@ -1147,7 +1155,7 @@ public final class Xml {
                     getRootName(localMap2, newRootName),
                     builder,
                     false,
-                    U.<String>newLinkedHashSet(),
+                    U.newLinkedHashSet(),
                     false);
         }
     }
@@ -1161,7 +1169,7 @@ public final class Xml {
         if (collection != null && !collection.isEmpty()) {
             builder.newLine();
         }
-        XmlArray.writeXml(collection, null, builder, false, U.<String>newLinkedHashSet(), false);
+        XmlArray.writeXml(collection, null, builder, false, U.newLinkedHashSet(), false);
         if (collection != null && !collection.isEmpty()) {
             builder.newLine();
         }
@@ -1623,11 +1631,11 @@ public final class Xml {
                             document,
                             (object, namespaces) -> String.valueOf(object),
                             object -> object,
-                            Collections.<String, Object>emptyMap(),
+                            Collections.emptyMap(),
                             new int[] {1, 1, 1},
                             xml,
                             new int[] {0},
-                            U.<String>newLinkedHashSet(),
+                            U.newLinkedHashSet(),
                             fromType);
             if (checkResult(xml, document, result, fromType)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
@@ -1755,11 +1763,11 @@ public final class Xml {
                                     object instanceof List
                                             ? object
                                             : U.newArrayList(Collections.singletonList(object)),
-                            Collections.<String, Object>emptyMap(),
+                            Collections.emptyMap(),
                             new int[] {1, 1, 1},
                             xml,
                             new int[] {0},
-                            U.<String>newLinkedHashSet(),
+                            U.newLinkedHashSet(),
                             FromType.FOR_CONVERT);
             if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
@@ -1779,11 +1787,11 @@ public final class Xml {
                             document,
                             elementMapper,
                             object -> object,
-                            Collections.<String, Object>emptyMap(),
+                            Collections.emptyMap(),
                             new int[] {1, 1, 1},
                             xml,
                             new int[] {0},
-                            U.<String>newLinkedHashSet(),
+                            U.newLinkedHashSet(),
                             FromType.FOR_CONVERT);
             if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
