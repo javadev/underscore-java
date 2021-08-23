@@ -1532,4 +1532,23 @@ public class LodashTest {
                 U.objectBuilder().add("firstName", "John").add("lastName", (Object) null).toJson();
         assertEquals("{\n  \"firstName\": \"John\",\n" + "  \"lastName\": null\n" + "}", json);
     }
+
+    @Test
+    public void issue308() {
+        String xml =
+                "<some_root>\n"
+                        + "  <ABC some_attribute=\"attribute\">\n"
+                        + "    <another_tag>some_value</another_tag>\n"
+                        + "  </ABC>\n"
+                        + "</some_root>";
+        Map<String, Object> data = U.fromXmlMap(xml);
+        U.set(data, "some_root.ABC.#text", U.get(data, "some_root.ABC.another_tag"));
+        U.remove(data, "some_root.ABC.another_tag");
+        String newXml = U.toXml(data);
+        assertEquals(
+                "<some_root>\n"
+                        + "  <ABC some_attribute=\"attribute\">some_value</ABC>\n"
+                        + "</some_root>",
+                newXml);
+    }
 }
