@@ -65,7 +65,7 @@ public class FunctionsTest {
                 return greeting + ": " + this.name;
             }
         }
-        assertEquals("hi: moe", U.bind(new GreetingFunction("moe")).apply("hi"));
+        assertEquals("hi: moe", Underscore.bind(new GreetingFunction("moe")).apply("hi"));
     }
 
     /*
@@ -105,7 +105,7 @@ public class FunctionsTest {
         }
         assertEquals(55, new FibonacciFuncion1().apply(10).intValue());
         Function<Integer, Integer> memoizeFunction =
-                U.memoize(
+                Underscore.memoize(
                         new Function<Integer, Integer>() {
                             public Integer apply(final Integer n) {
                                 return n < 2 ? n : apply(n - 1) + apply(n - 2);
@@ -131,11 +131,11 @@ public class FunctionsTest {
                     counter[0]++;
                     return null;
                 };
-        final Supplier<Void> throttleIncr = U.throttle(incr, 50);
+        final Supplier<Void> throttleIncr = Underscore.throttle(incr, 50);
         throttleIncr.get();
         throttleIncr.get();
-        U.delay(throttleIncr, 16);
-        U.delay(
+        Underscore.delay(throttleIncr, 16);
+        Underscore.delay(
                 (Supplier<Void>)
                         () -> {
                             assertEquals("incr was throttled", 1, counter[0].intValue());
@@ -168,11 +168,11 @@ public class FunctionsTest {
                     counter[0]++;
                     return null;
                 };
-        Supplier<Void> debouncedIncr = U.debounce(incr, 50);
+        Supplier<Void> debouncedIncr = Underscore.debounce(incr, 50);
         debouncedIncr.get();
         debouncedIncr.get();
-        U.delay(debouncedIncr, 16);
-        U.delay(
+        Underscore.delay(debouncedIncr, 16);
+        Underscore.delay(
                 (Supplier<Void>)
                         () -> {
                             assertEquals("incr was debounced", 1, counter[0].intValue());
@@ -189,7 +189,7 @@ public class FunctionsTest {
     @Test
     public void defer() {
         final Integer[] counter = new Integer[] {0};
-        U.defer(
+        Underscore.defer(
                 (Supplier<Void>)
                         () -> {
                             try {
@@ -207,7 +207,7 @@ public class FunctionsTest {
                             assertEquals("incr was debounced", 1, counter[0].intValue());
                             return true;
                         });
-        U.defer(() -> {
+        Underscore.defer(() -> {
         });
     }
 
@@ -225,7 +225,7 @@ public class FunctionsTest {
                     counter[0]++;
                     return counter[0];
                 };
-        final Supplier<Integer> onceIncr = U.once(incr);
+        final Supplier<Integer> onceIncr = Underscore.once(incr);
         onceIncr.get();
         onceIncr.get();
         await().atLeast(60, TimeUnit.MILLISECONDS)
@@ -252,7 +252,7 @@ public class FunctionsTest {
     public void wrap() {
         Function<String, String> hello = name -> "hello: " + name;
         Function<Void, String> result =
-                U.wrap(hello, func -> "before, " + func.apply("moe") + ", after");
+                Underscore.wrap(hello, func -> "before, " + func.apply("moe") + ", after");
         assertEquals("before, hello: moe, after", result.apply(null));
     }
 
@@ -263,8 +263,8 @@ public class FunctionsTest {
     */
     @Test
     public void negate() {
-        Predicate<Integer> isFalsy = U.negate(item -> item != 0);
-        Optional<Integer> result = U.find(asList(-2, -1, 0, 1, 2), isFalsy);
+        Predicate<Integer> isFalsy = Underscore.negate(item -> item != 0);
+        Optional<Integer> result = Underscore.find(asList(-2, -1, 0, 1, 2), isFalsy);
         assertEquals(0, result.get().intValue());
     }
 
@@ -280,7 +280,7 @@ public class FunctionsTest {
     public void compose() {
         Function<String, String> greet = name -> "hi: " + name;
         Function<String, String> exclaim = statement -> statement.toUpperCase() + "!";
-        Function<String, String> welcome = U.compose(greet, exclaim);
+        Function<String, String> welcome = Underscore.compose(greet, exclaim);
         assertEquals("hi: MOE!", welcome.apply("moe"));
     }
 
@@ -294,9 +294,9 @@ public class FunctionsTest {
     @Test
     public void after() {
         final List<Integer> notes = asList(1, 2, 3);
-        final Supplier<Integer> renderNotes = U.after(notes.size(), () -> 4);
+        final Supplier<Integer> renderNotes = Underscore.after(notes.size(), () -> 4);
         final List<Integer> result = new ArrayList<>();
-        U.<Integer>each(
+        Underscore.<Integer>each(
                 notes,
                 item -> {
                     result.add(item);
@@ -318,9 +318,9 @@ public class FunctionsTest {
     @Test
     public void before() {
         final List<Integer> notes = asList(1, 2, 3);
-        final Supplier<Integer> renderNotes = U.before(notes.size() - 1, () -> 4);
+        final Supplier<Integer> renderNotes = Underscore.before(notes.size() - 1, () -> 4);
         final List<Integer> result = new ArrayList<>();
-        U.<Integer>each(
+        Underscore.<Integer>each(
                 notes,
                 item -> {
                     result.add(item);
@@ -360,7 +360,7 @@ public class FunctionsTest {
                                 put("age", 23);
                             }
                         });
-        final List<Object> result = U.map(stooges, U.iteratee("age"));
+        final List<Object> result = Underscore.map(stooges, Underscore.iteratee("age"));
         assertEquals("[25, 21, 23]", result.toString());
     }
 
@@ -372,7 +372,7 @@ public class FunctionsTest {
                     counter[0]++;
                     return null;
                 };
-        U.setTimeout(incr, 0);
+        Underscore.setTimeout(incr, 0);
         await().atLeast(40, TimeUnit.MILLISECONDS)
                 .until(
                         () -> {
@@ -389,9 +389,9 @@ public class FunctionsTest {
                     counter[0]++;
                     return null;
                 };
-        java.util.concurrent.ScheduledFuture future = U.setTimeout(incr, 20);
-        U.clearTimeout(future);
-        U.clearTimeout(null);
+        java.util.concurrent.ScheduledFuture future = Underscore.setTimeout(incr, 20);
+        Underscore.clearTimeout(future);
+        Underscore.clearTimeout(null);
         await().atLeast(40, TimeUnit.MILLISECONDS)
                 .until(
                         () -> {
@@ -410,7 +410,7 @@ public class FunctionsTest {
                     }
                     return null;
                 };
-        U.setInterval(incr, 10);
+        Underscore.setInterval(incr, 10);
         await().atLeast(45, TimeUnit.MILLISECONDS)
                 .until(
                         () -> {
@@ -429,9 +429,9 @@ public class FunctionsTest {
                     counter[0]++;
                     return null;
                 };
-        java.util.concurrent.ScheduledFuture future = U.setInterval(incr, 20);
-        U.clearInterval(future);
-        U.clearInterval(null);
+        java.util.concurrent.ScheduledFuture future = Underscore.setInterval(incr, 20);
+        Underscore.clearInterval(future);
+        Underscore.clearInterval(null);
         await().atLeast(40, TimeUnit.MILLISECONDS)
                 .until(
                         () -> {

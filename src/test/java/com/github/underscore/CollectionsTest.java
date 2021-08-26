@@ -61,10 +61,10 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void each() {
         final List<Integer> result = new ArrayList<>();
-        U.<Integer>each(asList(1, 2, 3), result::add);
+        Underscore.<Integer>each(asList(1, 2, 3), result::add);
         assertEquals("[1, 2, 3]", result.toString());
         final List<Integer> result2 = new ArrayList<>();
-        new U(asList(1, 2, 3)).each((Consumer<Integer>) result2::add);
+        new Underscore(asList(1, 2, 3)).each((Consumer<Integer>) result2::add);
         assertEquals("[1, 2, 3]", result2.toString());
     }
 
@@ -76,10 +76,10 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void eachRight() {
         final List<Integer> result = new ArrayList<>();
-        U.eachRight(asList(1, 2, 3), result::add);
+        Underscore.eachRight(asList(1, 2, 3), result::add);
         assertEquals("[3, 2, 1]", result.toString());
         final List<Integer> result2 = new ArrayList<>();
-        new U(asList(1, 2, 3)).eachRight((Consumer<Integer>) result2::add);
+        new Underscore(asList(1, 2, 3)).eachRight((Consumer<Integer>) result2::add);
         assertEquals("[3, 2, 1]", result2.toString());
     }
 
@@ -90,10 +90,10 @@ public class CollectionsTest {
     @Test
     public void forEach() {
         final List<Integer> result = new ArrayList<>();
-        U.forEach(asList(1, 2, 3), result::add);
+        Underscore.forEach(asList(1, 2, 3), result::add);
         assertEquals("[1, 2, 3]", result.toString());
         final List<Map.Entry<String, Integer>> resultChain = new ArrayList<>();
-        U.chain(
+        Underscore.chain(
                         (new LinkedHashMap<String, Integer>() {
                                     {
                                         put("a", 1);
@@ -114,10 +114,10 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void forEachIndexed() {
         final List<Integer> result = new ArrayList<>();
-        U.forEachIndexed(asList(1, 2, 3), (index, item) -> result.add(item));
+        Underscore.forEachIndexed(asList(1, 2, 3), (index, item) -> result.add(item));
         assertEquals("[1, 2, 3]", result.toString());
         final List<Integer> resultObj = new ArrayList<>();
-        new U(asList(1, 2, 3))
+        new Underscore(asList(1, 2, 3))
                 .forEachIndexed(
                         (BiConsumer<Integer, Integer>) (index, item) -> resultObj.add(item));
         assertEquals("[1, 2, 3]", resultObj.toString());
@@ -131,13 +131,13 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void forEachRight() {
         final List<Integer> result = new ArrayList<>();
-        U.forEachRight(asList(1, 2, 3), result::add);
+        Underscore.forEachRight(asList(1, 2, 3), result::add);
         assertEquals("[3, 2, 1]", result.toString());
         final List<Integer> result2 = new ArrayList<>();
-        new U(asList(1, 2, 3)).forEachRight((Consumer<Integer>) result2::add);
+        new Underscore(asList(1, 2, 3)).forEachRight((Consumer<Integer>) result2::add);
         assertEquals("[3, 2, 1]", result2.toString());
         final List<Map.Entry<String, Integer>> resultChain = new ArrayList<>();
-        U.chain(
+        Underscore.chain(
                         (new LinkedHashMap<String, Integer>() {
                                     {
                                         put("a", 1);
@@ -158,7 +158,7 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void forEachObj() {
         final List<Integer> result = new ArrayList<>();
-        new U(asList(1, 2, 3)).forEach((Consumer<Integer>) result::add);
+        new Underscore(asList(1, 2, 3)).forEach((Consumer<Integer>) result::add);
         assertEquals("[1, 2, 3]", result.toString());
     }
 
@@ -169,7 +169,7 @@ public class CollectionsTest {
     @Test
     public void eachMap() {
         final List<String> result = new ArrayList<>();
-        U.<Map.Entry<String, Integer>>each(
+        Underscore.<Map.Entry<String, Integer>>each(
                 (new LinkedHashMap<String, Integer>() {
                             {
                                 put("one", 1);
@@ -188,18 +188,18 @@ public class CollectionsTest {
     */
     @Test
     public void map() {
-        List<Integer> result = U.map(asList(1, 2, 3), item -> item * 3);
+        List<Integer> result = Underscore.map(asList(1, 2, 3), item -> item * 3);
         assertEquals("[3, 6, 9]", result.toString());
-        List<Integer> resultObject = new U<>(asList(1, 2, 3)).map(item -> item * 3);
+        List<Integer> resultObject = new Underscore<>(asList(1, 2, 3)).map(item -> item * 3);
         assertEquals("[3, 6, 9]", resultObject.toString());
-        List<Integer> result1 = U.map(new int[] {1, 2, 3}, item -> item * 3);
+        List<Integer> result1 = Underscore.map(new int[] {1, 2, 3}, item -> item * 3);
         assertEquals("[3, 6, 9]", result1.toString());
     }
 
     @Test
     public void mapMulti() {
         List<Integer> result =
-                U.mapMulti(
+                Underscore.mapMulti(
                         asList("Java", "Python", "C#"),
                         (str, consumer) -> {
                             for (int i = 0; i < str.length(); i++) {
@@ -208,7 +208,7 @@ public class CollectionsTest {
                         });
         assertEquals("[4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 2, 2]", result.toString());
         List<Object> resultChain =
-                U.chain(asList("Java", "Python", "C#"))
+                Underscore.chain(asList("Java", "Python", "C#"))
                         .mapMulti(
                                 (str, consumer) -> {
                                     for (int i = 0; i < str.length(); i++) {
@@ -225,7 +225,7 @@ public class CollectionsTest {
     */
     @Test
     public void mapArray() {
-        List<Integer> result = U.map(U.range(3), item -> (item + 1) * 3);
+        List<Integer> result = Underscore.map(Underscore.range(3), item -> (item + 1) * 3);
         assertEquals("[3, 6, 9]", result.toString());
     }
 
@@ -236,7 +236,7 @@ public class CollectionsTest {
     @Test
     public void mapMap() {
         final Set<Integer> result =
-                U.map(
+                Underscore.map(
                         (new LinkedHashMap<Integer, String>() {
                                     {
                                         put(1, "one");
@@ -255,12 +255,13 @@ public class CollectionsTest {
     */
     @Test
     public void mapIndexed() {
-        List<Integer> result = U.mapIndexed(asList(1, 2, 3), (index, item) -> item * 3);
+        List<Integer> result = Underscore.mapIndexed(asList(1, 2, 3), (index, item) -> item * 3);
         assertEquals("[3, 6, 9]", result.toString());
-        List<Integer> resultObject = new U<>(asList(1, 2, 3)).mapIndexed((index, item) -> item * 3);
+        List<Integer> resultObject =
+                new Underscore<>(asList(1, 2, 3)).mapIndexed((index, item) -> item * 3);
         assertEquals("[3, 6, 9]", resultObject.toString());
         List<Integer> resultChain =
-                U.chain(asList(1, 2, 3)).mapIndexed((index, item) -> item * 3).value();
+                Underscore.chain(asList(1, 2, 3)).mapIndexed((index, item) -> item * 3).value();
         assertEquals("[3, 6, 9]", resultChain.toString());
     }
 
@@ -271,10 +272,10 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void collect() {
-        List<Integer> result = U.collect(asList(1, 2, 3), item -> item * 3);
+        List<Integer> result = Underscore.collect(asList(1, 2, 3), item -> item * 3);
         assertEquals("[3, 6, 9]", result.toString());
         Set<Integer> resultSet =
-                U.collect(
+                Underscore.collect(
                         new LinkedHashSet(asList(1, 2, 3)),
                         (Function<Integer, Integer>) item -> item * 3);
         assertEquals("[3, 6, 9]", resultSet.toString());
@@ -286,7 +287,7 @@ public class CollectionsTest {
     */
     @Test
     public void reduce() {
-        final Integer result = U.reduce(asList(1, 2, 3), Integer::sum, 0);
+        final Integer result = Underscore.reduce(asList(1, 2, 3), Integer::sum, 0);
         assertEquals("6", result.toString());
     }
 
@@ -296,11 +297,12 @@ public class CollectionsTest {
     */
     @Test
     public void reduceWithoutInit() {
-        final Integer result = U.reduce(asList(1, 2, 3), Integer::sum).get();
+        final Integer result = Underscore.reduce(asList(1, 2, 3), Integer::sum).get();
         assertEquals("6", result.toString());
-        final Integer resultChain = U.chain(asList(1, 2, 3)).reduce(Integer::sum).item().get();
+        final Integer resultChain =
+                Underscore.chain(asList(1, 2, 3)).reduce(Integer::sum).item().get();
         assertEquals("6", resultChain.toString());
-        U.reduce(new ArrayList<>(), Integer::sum);
+        Underscore.reduce(new ArrayList<>(), Integer::sum);
     }
 
     /*
@@ -309,9 +311,10 @@ public class CollectionsTest {
     */
     @Test
     public void reduceRightWithoutInit() {
-        final Integer result = U.reduceRight(asList(1, 2, 3), Integer::sum).get();
+        final Integer result = Underscore.reduceRight(asList(1, 2, 3), Integer::sum).get();
         assertEquals("6", result.toString());
-        final Integer resultChain = U.chain(asList(1, 2, 3)).reduceRight(Integer::sum).item().get();
+        final Integer resultChain =
+                Underscore.chain(asList(1, 2, 3)).reduceRight(Integer::sum).item().get();
         assertEquals("6", resultChain.toString());
     }
 
@@ -321,7 +324,7 @@ public class CollectionsTest {
     */
     @Test
     public void reduceIntArray() {
-        final Integer result = U.reduce(new int[] {1, 2, 3}, Integer::sum, 0);
+        final Integer result = Underscore.reduce(new int[] {1, 2, 3}, Integer::sum, 0);
         assertEquals("6", result.toString());
     }
 
@@ -331,7 +334,7 @@ public class CollectionsTest {
     */
     @Test
     public void reduceArray() {
-        final Integer result = U.reduce(new Integer[] {1, 2, 3}, Integer::sum, 0);
+        final Integer result = Underscore.reduce(new Integer[] {1, 2, 3}, Integer::sum, 0);
         assertEquals("6", result.toString());
     }
 
@@ -344,7 +347,7 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void inject() {
         final List<Integer> result =
-                U.inject(
+                Underscore.inject(
                         asList(asList(0, 1), asList(2, 3), asList(4, 5)),
                         (item1, item2) -> {
                             List<Integer> list = new ArrayList<>(item1);
@@ -364,7 +367,7 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void foldl() {
         final List<Integer> result =
-                U.foldl(
+                Underscore.foldl(
                         asList(asList(0, 1), asList(2, 3), asList(4, 5)),
                         (item1, item2) -> {
                             List<Integer> list = new ArrayList<>(item1);
@@ -384,7 +387,7 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void reduceRight() {
         final List<Integer> result =
-                U.reduceRight(
+                Underscore.reduceRight(
                         asList(asList(0, 1), asList(2, 3), asList(4, 5)),
                         (item1, item2) -> {
                             List<Integer> list = new ArrayList<>(item1);
@@ -401,7 +404,7 @@ public class CollectionsTest {
     */
     @Test
     public void reduceRightIntArray() {
-        final Integer result = U.reduceRight(new int[] {1, 2, 3}, Integer::sum, 0);
+        final Integer result = Underscore.reduceRight(new int[] {1, 2, 3}, Integer::sum, 0);
         assertEquals("6", result.toString());
     }
 
@@ -411,7 +414,7 @@ public class CollectionsTest {
     */
     @Test
     public void reduceRightArray() {
-        final Integer result = U.reduceRight(new Integer[] {1, 2, 3}, Integer::sum, 0);
+        final Integer result = Underscore.reduceRight(new Integer[] {1, 2, 3}, Integer::sum, 0);
         assertEquals("6", result.toString());
     }
 
@@ -424,7 +427,7 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void foldr() {
         final List<Integer> result =
-                U.foldr(
+                Underscore.foldr(
                         asList(asList(0, 1), asList(2, 3), asList(4, 5)),
                         (item1, item2) -> {
                             List<Integer> list = new ArrayList<>(item1);
@@ -441,13 +444,14 @@ public class CollectionsTest {
     */
     @Test
     public void find() {
-        final Optional<Integer> result = U.find(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
+        final Optional<Integer> result =
+                Underscore.find(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("Optional[2]", result.toString());
         final Optional<Integer> resultChain =
-                U.chain(asList(1, 2, 3, 4, 5, 6)).find(item -> item % 2 == 0).item();
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6)).find(item -> item % 2 == 0).item();
         assertEquals("Optional[2]", resultChain.toString());
         final Optional<Integer> resultChain2 =
-                U.chain(asList(1, 2, 3, 4, 5, 6)).find(item -> item > 6).item();
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6)).find(item -> item > 6).item();
         assertEquals("Optional.empty", resultChain2.toString());
     }
 
@@ -458,15 +462,16 @@ public class CollectionsTest {
     @Test
     public void findLast() {
         final Optional<Integer> result =
-                U.findLast(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
+                Underscore.findLast(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("Optional[6]", result.toString());
-        final Optional<Integer> result2 = U.findLast(asList(1, 2, 3, 4, 5, 6), item -> item > 6);
+        final Optional<Integer> result2 =
+                Underscore.findLast(asList(1, 2, 3, 4, 5, 6), item -> item > 6);
         assertEquals("Optional.empty", result2.toString());
         final Optional<Integer> resultChain =
-                U.chain(asList(1, 2, 3, 4, 5, 6)).findLast(item -> item % 2 == 0).item();
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6)).findLast(item -> item % 2 == 0).item();
         assertEquals("Optional[6]", resultChain.toString());
         final Optional<Integer> resultChain2 =
-                U.chain(asList(1, 2, 3, 4, 5, 6)).findLast(item -> item > 6).item();
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6)).findLast(item -> item > 6).item();
         assertEquals("Optional.empty", resultChain2.toString());
     }
 
@@ -476,7 +481,8 @@ public class CollectionsTest {
     */
     @Test
     public void detect() {
-        final Optional<Integer> result = U.detect(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
+        final Optional<Integer> result =
+                Underscore.detect(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("Optional[2]", result.toString());
     }
 
@@ -487,12 +493,14 @@ public class CollectionsTest {
     @Test
     public void filter() {
         final List<Integer> result =
-                U.filter(new ArrayDeque<>(asList(1, 2, 3, 4, 5, 6)), item -> item % 2 == 0);
+                Underscore.filter(
+                        new ArrayDeque<>(asList(1, 2, 3, 4, 5, 6)), item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", result.toString());
-        final List<Integer> resultList = U.filter(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
+        final List<Integer> resultList =
+                Underscore.filter(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", resultList.toString());
         final List<Integer> resultObject =
-                new U<>(asList(1, 2, 3, 4, 5, 6)).filter(item -> item % 2 == 0);
+                new Underscore<>(asList(1, 2, 3, 4, 5, 6)).filter(item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", resultObject.toString());
     }
 
@@ -503,13 +511,14 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void filterFalse() {
-        final List<Integer> result = U.filterFalse(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
+        final List<Integer> result =
+                Underscore.filterFalse(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", result.toString());
         final List<Integer> resultObject =
-                new U<>(asList(1, 2, 3, 4, 5, 6)).filterFalse(item -> item % 2 == 0);
+                new Underscore<>(asList(1, 2, 3, 4, 5, 6)).filterFalse(item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", resultObject.toString());
         final Set<Integer> resultSet =
-                U.filterFalse(
+                Underscore.filterFalse(
                         new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
                         (Predicate<Integer>) item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", resultSet.toString());
@@ -522,11 +531,11 @@ public class CollectionsTest {
     @Test
     public void filterIndexed() {
         final List<Integer> result =
-                U.filterIndexed(
+                Underscore.filterIndexed(
                         asList(1, 2, 3, 4, 5, 6), (index, item) -> index != 1 && item % 2 == 0);
         assertEquals("[4, 6]", result.toString());
         final List<Integer> resultChain =
-                U.chain(asList(1, 2, 3, 4, 5, 6))
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6))
                         .filterIndexed((index, item) -> index != 1 && item % 2 == 0)
                         .value();
         assertEquals("[4, 6]", resultChain.toString());
@@ -539,10 +548,11 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void select() {
-        final List<Integer> result = U.select(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
+        final List<Integer> result =
+                Underscore.select(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", result.toString());
         final Set<Integer> resultSet =
-                U.select(
+                Underscore.select(
                         new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
                         (Predicate<Integer>) item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", resultSet.toString());
@@ -555,13 +565,14 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void reject() {
-        final List<Integer> result = U.reject(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
+        final List<Integer> result =
+                Underscore.reject(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", result.toString());
         final List<Integer> resultObject =
-                new U<>(asList(1, 2, 3, 4, 5, 6)).reject(item -> item % 2 == 0);
+                new Underscore<>(asList(1, 2, 3, 4, 5, 6)).reject(item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", resultObject.toString());
         final Set<Integer> resultSet =
-                U.reject(
+                Underscore.reject(
                         new LinkedHashSet(asList(1, 2, 3, 4, 5, 6)),
                         (Predicate<Integer>) item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", resultSet.toString());
@@ -574,11 +585,11 @@ public class CollectionsTest {
     @Test
     public void rejectIndexed() {
         final List<Integer> result =
-                U.rejectIndexed(
+                Underscore.rejectIndexed(
                         asList(1, 2, 3, 4, 5, 6), (index, item) -> index != 1 && item % 2 == 0);
         assertEquals("[1, 2, 3, 5]", result.toString());
         final List<Integer> resultChain =
-                U.chain(asList(1, 2, 3, 4, 5, 6))
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6))
                         .rejectIndexed((index, item) -> index != 1 && item % 2 == 0)
                         .value();
         assertEquals("[1, 2, 3, 5]", resultChain.toString());
@@ -591,15 +602,17 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void every() {
-        final boolean result1 = U.every(asList(1, 2, 3, 4), item -> item % 2 == 0);
+        final boolean result1 = Underscore.every(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final boolean result1obj =
-                new U(asList(1, 2, 3, 4)).every((Predicate<Integer>) item -> item % 2 == 0);
+                new Underscore(asList(1, 2, 3, 4))
+                        .every((Predicate<Integer>) item -> item % 2 == 0);
         final boolean result1chain =
-                U.chain(asList(1, 2, 3, 4)).every(item -> item % 2 == 0).item();
-        final boolean result2 = U.every(asList(1, 2, 3, 4), item -> item < 5);
+                Underscore.chain(asList(1, 2, 3, 4)).every(item -> item % 2 == 0).item();
+        final boolean result2 = Underscore.every(asList(1, 2, 3, 4), item -> item < 5);
         final boolean result2obj =
-                new U(asList(1, 2, 3, 4)).every((Predicate<Integer>) item -> item < 5);
-        final boolean result2chain = U.chain(asList(1, 2, 3, 4)).every(item -> item < 5).item();
+                new Underscore(asList(1, 2, 3, 4)).every((Predicate<Integer>) item -> item < 5);
+        final boolean result2chain =
+                Underscore.chain(asList(1, 2, 3, 4)).every(item -> item < 5).item();
         assertFalse(result1);
         assertFalse(result1obj);
         assertFalse(result1chain);
@@ -615,12 +628,12 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void all() {
-        final boolean result1 = U.all(asList(1, 2, 3, 4), item -> item % 2 == 0);
+        final boolean result1 = Underscore.all(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final boolean result1obj =
-                new U(asList(1, 2, 3, 4)).all((Predicate<Integer>) item -> item % 2 == 0);
-        final boolean result2 = U.all(asList(1, 2, 3, 4), item -> item < 5);
+                new Underscore(asList(1, 2, 3, 4)).all((Predicate<Integer>) item -> item % 2 == 0);
+        final boolean result2 = Underscore.all(asList(1, 2, 3, 4), item -> item < 5);
         final boolean result2obj =
-                new U(asList(1, 2, 3, 4)).all((Predicate<Integer>) item -> item < 5);
+                new Underscore(asList(1, 2, 3, 4)).all((Predicate<Integer>) item -> item < 5);
         assertFalse(result1);
         assertFalse(result1obj);
         assertTrue(result2);
@@ -634,12 +647,12 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void any() {
-        final boolean result1 = U.any(asList(1, 2, 3, 4), item -> item % 2 == 0);
+        final boolean result1 = Underscore.any(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final boolean result1obj =
-                new U(asList(1, 2, 3, 4)).any((Predicate<Integer>) item -> item % 2 == 0);
-        final boolean result2 = U.any(asList(1, 2, 3, 4), item -> item == 5);
+                new Underscore(asList(1, 2, 3, 4)).any((Predicate<Integer>) item -> item % 2 == 0);
+        final boolean result2 = Underscore.any(asList(1, 2, 3, 4), item -> item == 5);
         final boolean result2obj =
-                new U(asList(1, 2, 3, 4)).any((Predicate<Integer>) item -> item == 5);
+                new Underscore(asList(1, 2, 3, 4)).any((Predicate<Integer>) item -> item == 5);
         assertTrue(result1);
         assertTrue(result1obj);
         assertFalse(result2);
@@ -653,14 +666,16 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void some() {
-        final boolean result1 = U.some(asList(1, 2, 3, 4), item -> item % 2 == 0);
+        final boolean result1 = Underscore.some(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final boolean result1obj =
-                new U(asList(1, 2, 3, 4)).some((Predicate<Integer>) item -> item % 2 == 0);
-        final boolean result1chain = U.chain(asList(1, 2, 3, 4)).some(item -> item % 2 == 0).item();
-        final boolean result2 = U.some(asList(1, 2, 3, 4), item -> item == 5);
+                new Underscore(asList(1, 2, 3, 4)).some((Predicate<Integer>) item -> item % 2 == 0);
+        final boolean result1chain =
+                Underscore.chain(asList(1, 2, 3, 4)).some(item -> item % 2 == 0).item();
+        final boolean result2 = Underscore.some(asList(1, 2, 3, 4), item -> item == 5);
         final boolean result2obj =
-                new U(asList(1, 2, 3, 4)).some((Predicate<Integer>) item -> item == 5);
-        final boolean result2chain = U.chain(asList(1, 2, 3, 4)).some(item -> item == 5).item();
+                new Underscore(asList(1, 2, 3, 4)).some((Predicate<Integer>) item -> item == 5);
+        final boolean result2chain =
+                Underscore.chain(asList(1, 2, 3, 4)).some(item -> item == 5).item();
         assertTrue(result1);
         assertTrue(result1obj);
         assertTrue(result1chain);
@@ -674,7 +689,7 @@ public class CollectionsTest {
     */
     @Test
     public void include() {
-        final Boolean result = U.include(asList(1, 2, 3), 3);
+        final Boolean result = Underscore.include(asList(1, 2, 3), 3);
         assertTrue(result);
     }
 
@@ -685,14 +700,17 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void count() {
-        final int result1 = U.count(asList(1, 2, 3, 4), item -> item % 2 == 0);
+        final int result1 = Underscore.count(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final int result1obj =
-                new U(asList(1, 2, 3, 4)).count((Predicate<Integer>) item -> item % 2 == 0);
-        final int result1chain = U.chain(asList(1, 2, 3, 4)).count(item -> item % 2 == 0).item();
-        final int result2 = U.count(asList(1, 2, 3, 4), item -> item < 5);
+                new Underscore(asList(1, 2, 3, 4))
+                        .count((Predicate<Integer>) item -> item % 2 == 0);
+        final int result1chain =
+                Underscore.chain(asList(1, 2, 3, 4)).count(item -> item % 2 == 0).item();
+        final int result2 = Underscore.count(asList(1, 2, 3, 4), item -> item < 5);
         final int result2obj =
-                new U(asList(1, 2, 3, 4)).count((Predicate<Integer>) item -> item < 5);
-        final int result2chain = U.chain(asList(1, 2, 3, 4)).count(item -> item < 5).item();
+                new Underscore(asList(1, 2, 3, 4)).count((Predicate<Integer>) item -> item < 5);
+        final int result2chain =
+                Underscore.chain(asList(1, 2, 3, 4)).count(item -> item < 5).item();
         assertEquals(2, result1);
         assertEquals(2, result1obj);
         assertEquals(2, result1chain);
@@ -707,17 +725,17 @@ public class CollectionsTest {
     */
     @Test
     public void contains() {
-        final boolean result = U.contains(asList(1, 2, 3), 3);
+        final boolean result = Underscore.contains(asList(1, 2, 3), 3);
         assertTrue(result);
-        final boolean resultObj = new U<>(asList(1, 2, 3)).contains(3);
+        final boolean resultObj = new Underscore<>(asList(1, 2, 3)).contains(3);
         assertTrue(resultObj);
-        final boolean resultChain = U.chain(asList(1, 2, 3)).contains(3).item();
+        final boolean resultChain = Underscore.chain(asList(1, 2, 3)).contains(3).item();
         assertTrue(resultChain);
-        final boolean result2 = U.contains(asList(1, 2, 3), 3, 1);
+        final boolean result2 = Underscore.contains(asList(1, 2, 3), 3, 1);
         assertTrue(result2);
-        final boolean result3 = U.contains(asList(1, 2, 3), 1, 1);
+        final boolean result3 = Underscore.contains(asList(1, 2, 3), 1, 1);
         assertFalse(result3);
-        final boolean result4 = U.contains(asList(1, 2, null), null);
+        final boolean result4 = Underscore.contains(asList(1, 2, null), null);
         assertTrue(result4);
     }
 
@@ -727,47 +745,47 @@ public class CollectionsTest {
     */
     @Test
     public void containsWith() {
-        final boolean result = U.containsWith(asList(1, 2, 3), 3);
+        final boolean result = Underscore.containsWith(asList(1, 2, 3), 3);
         assertTrue(result);
-        final boolean resultObj = new U<>(asList(1, 2, 3)).containsWith(3);
+        final boolean resultObj = new Underscore<>(asList(1, 2, 3)).containsWith(3);
         assertTrue(resultObj);
-        final boolean resultChain = U.chain(asList(1, 2, 3)).containsWith(3).item();
+        final boolean resultChain = Underscore.chain(asList(1, 2, 3)).containsWith(3).item();
         assertTrue(resultChain);
-        final boolean result2 = U.containsWith(asList(1, 2, null), null);
+        final boolean result2 = Underscore.containsWith(asList(1, 2, null), null);
         assertTrue(result2);
-        final boolean result3 = U.containsWith(asList("abc", "bcd", "cde"), "bc");
+        final boolean result3 = Underscore.containsWith(asList("abc", "bcd", "cde"), "bc");
         assertTrue(result3);
     }
 
     @Test
     public void containsAtLeast() {
-        final boolean result = U.containsAtLeast(asList(1, 2, 2), 2, 2);
+        final boolean result = Underscore.containsAtLeast(asList(1, 2, 2), 2, 2);
         assertTrue(result);
-        final boolean result2 = U.containsAtLeast(asList(1, 2, 2), 2, 3);
+        final boolean result2 = Underscore.containsAtLeast(asList(1, 2, 2), 2, 3);
         assertFalse(result2);
-        final boolean result3 = new U<>(asList(1, 2, 2)).containsAtLeast(2, 2);
+        final boolean result3 = new Underscore<>(asList(1, 2, 2)).containsAtLeast(2, 2);
         assertTrue(result3);
-        final boolean result4 = new U<>(asList(1, 2, 2)).containsAtLeast(2, 3);
+        final boolean result4 = new Underscore<>(asList(1, 2, 2)).containsAtLeast(2, 3);
         assertFalse(result4);
-        final boolean result5 = U.containsAtLeast(asList(null, null, 2), null, 2);
+        final boolean result5 = Underscore.containsAtLeast(asList(null, null, 2), null, 2);
         assertTrue(result5);
-        final boolean result6 = U.containsAtLeast(asList(null, null, 2), 2, 1);
+        final boolean result6 = Underscore.containsAtLeast(asList(null, null, 2), 2, 1);
         assertTrue(result6);
     }
 
     @Test
     public void containsAtMost() {
-        final boolean result = U.containsAtMost(asList(1, 2, 2), 2, 3);
+        final boolean result = Underscore.containsAtMost(asList(1, 2, 2), 2, 3);
         assertTrue(result);
-        final boolean result2 = U.containsAtMost(asList(1, 2, 2), 2, 1);
+        final boolean result2 = Underscore.containsAtMost(asList(1, 2, 2), 2, 1);
         assertFalse(result2);
-        final boolean result3 = new U<>(asList(1, 2, 2)).containsAtMost(3, 2);
+        final boolean result3 = new Underscore<>(asList(1, 2, 2)).containsAtMost(3, 2);
         assertTrue(result3);
-        final boolean result4 = new U<>(asList(1, 2, 2)).containsAtMost(2, 1);
+        final boolean result4 = new Underscore<>(asList(1, 2, 2)).containsAtMost(2, 1);
         assertFalse(result4);
-        final boolean result5 = U.containsAtMost(asList(null, null, 2), null, 2);
+        final boolean result5 = Underscore.containsAtMost(asList(null, null, 2), null, 2);
         assertTrue(result5);
-        final boolean result6 = U.containsAtMost(asList(null, null, 2), 2, 1);
+        final boolean result6 = Underscore.containsAtMost(asList(null, null, 2), 2, 1);
         assertTrue(result6);
     }
 
@@ -777,21 +795,28 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void invoke() {
-        assertEquals(U.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
-        assertEquals(new U(asList(" foo ", "  bar")).invoke("trim"), asList("foo", "bar"));
+        assertEquals(Underscore.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
+        assertEquals(new Underscore(asList(" foo ", "  bar")).invoke("trim"), asList("foo", "bar"));
         assertEquals(
-                U.chain(asList(" foo ", "  bar")).invoke("trim").value(), asList("foo", "bar"));
+                Underscore.chain(asList(" foo ", "  bar")).invoke("trim").value(),
+                asList("foo", "bar"));
         assertEquals(
-                U.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")),
+                Underscore.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")),
                 asList("foo1", "bar1"));
         assertEquals(
-                new U(asList("foo", "bar")).invoke("concat", Arrays.<Object>asList("1")),
+                new Underscore(asList("foo", "bar")).invoke("concat", Arrays.<Object>asList("1")),
                 asList("foo1", "bar1"));
         assertEquals(
-                U.chain(asList("foo", "bar")).invoke("concat", Arrays.<Object>asList("1")).value(),
+                Underscore.chain(asList("foo", "bar"))
+                        .invoke("concat", Arrays.<Object>asList("1"))
+                        .value(),
                 asList("foo1", "bar1"));
         assertEquals(
-                U.invoke(asList(U.chain(asList(5, 1, 7)), U.chain(asList(3, 2, 1))), "sort")
+                Underscore.invoke(
+                                asList(
+                                        Underscore.chain(asList(5, 1, 7)),
+                                        Underscore.chain(asList(3, 2, 1))),
+                                "sort")
                         .toString(),
                 asList("[1, 5, 7]", "[1, 2, 3]").toString());
     }
@@ -799,12 +824,12 @@ public class CollectionsTest {
     @Test(expected = IllegalArgumentException.class)
     @SuppressWarnings("unchecked")
     public void invokeError() {
-        U.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));
+        Underscore.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void invokeError2() {
-        U.invoke(asList(" foo ", "  bar"), "trim2");
+        Underscore.invoke(asList(" foo ", "  bar"), "trim2");
     }
 
     /*
@@ -841,9 +866,9 @@ public class CollectionsTest {
                 return age;
             }
         }
-        assertEquals("[]", U.pluck(asList(), "name").toString());
+        assertEquals("[]", Underscore.pluck(asList(), "name").toString());
         final List<?> result =
-                U.pluck(
+                Underscore.pluck(
                         asList(
                                 new Person("moe", 40),
                                 new Person("larry", 50),
@@ -851,7 +876,7 @@ public class CollectionsTest {
                         "name");
         assertEquals("[moe, larry, curly]", result.toString());
         final List<?> result2 =
-                U.pluck(
+                Underscore.pluck(
                         asList(
                                 new Person2("moe", 40),
                                 new Person2("larry", 50),
@@ -859,7 +884,7 @@ public class CollectionsTest {
                         "getName");
         assertEquals("[moe, larry, curly]", result2.toString());
         final List<?> resultObj =
-                new U(
+                new Underscore(
                                 asList(
                                         new Person("moe", 40),
                                         new Person("larry", 50),
@@ -867,7 +892,7 @@ public class CollectionsTest {
                         .pluck("name");
         assertEquals("[moe, larry, curly]", resultObj.toString());
         final List<Object> resultChain =
-                U.chain(
+                Underscore.chain(
                                 asList(
                                         new Person("moe", 40),
                                         new Person("larry", 50),
@@ -875,10 +900,10 @@ public class CollectionsTest {
                         .pluck("name")
                         .value();
         assertEquals("[moe, larry, curly]", resultChain.toString());
-        final Set<?> resultEmpty2 = U.pluck(new LinkedHashSet(asList()), "name");
+        final Set<?> resultEmpty2 = Underscore.pluck(new LinkedHashSet(asList()), "name");
         assertEquals("[]", resultEmpty2.toString());
         final Set<?> resultSet =
-                U.pluck(
+                Underscore.pluck(
                         new LinkedHashSet(
                                 asList(
                                         new Person("moe", 40),
@@ -887,7 +912,7 @@ public class CollectionsTest {
                         "name");
         assertEquals("[moe, larry, curly]", resultSet.toString());
         final Set<?> resultSet2 =
-                U.pluck(
+                Underscore.pluck(
                         new LinkedHashSet(
                                 asList(
                                         new Person2("moe", 40),
@@ -908,7 +933,7 @@ public class CollectionsTest {
                 this.age = age;
             }
         }
-        U.pluck(
+        Underscore.pluck(
                 asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)),
                 "name2");
     }
@@ -925,7 +950,7 @@ public class CollectionsTest {
                 this.age = age;
             }
         }
-        U.pluck(
+        Underscore.pluck(
                 new LinkedHashSet(
                         asList(
                                 new Person("moe", 40),
@@ -968,7 +993,7 @@ public class CollectionsTest {
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
                         + " title: The Tempest, author: Shakespeare, year: 1611]",
-                U.where(
+                Underscore.where(
                                 listOfPlays,
                                 asList(
                                         Tuple.<String, Object>create("author", "Shakespeare"),
@@ -977,7 +1002,7 @@ public class CollectionsTest {
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
                         + " title: The Tempest, author: Shakespeare, year: 1611]",
-                U.where(
+                Underscore.where(
                                 listOfPlays,
                                 asList(
                                         Tuple.<String, Object>create("author", "Shakespeare"),
@@ -987,7 +1012,7 @@ public class CollectionsTest {
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
                         + " title: The Tempest, author: Shakespeare, year: 1611]",
-                U.where(
+                Underscore.where(
                                 new LinkedHashSet<>(listOfPlays),
                                 asList(
                                         Tuple.<String, Object>create("author", "Shakespeare"),
@@ -996,7 +1021,7 @@ public class CollectionsTest {
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
                         + " title: The Tempest, author: Shakespeare, year: 1611]",
-                U.where(
+                Underscore.where(
                                 new LinkedHashSet<>(listOfPlays),
                                 asList(
                                         Tuple.<String, Object>create("author", "Shakespeare"),
@@ -1006,7 +1031,7 @@ public class CollectionsTest {
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
                         + " title: The Tempest, author: Shakespeare, year: 1611]",
-                new U(listOfPlays)
+                new Underscore(listOfPlays)
                         .where(
                                 asList(
                                         Tuple.<String, Object>create("author", "Shakespeare"),
@@ -1015,7 +1040,7 @@ public class CollectionsTest {
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
                         + " title: The Tempest, author: Shakespeare, year: 1611]",
-                U.chain(listOfPlays)
+                Underscore.chain(listOfPlays)
                         .where(
                                 asList(
                                         Tuple.<String, Object>create("author", "Shakespeare"),
@@ -1052,7 +1077,7 @@ public class CollectionsTest {
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
                         + " title: The Tempest, author: Shakespeare, year: 1611]",
-                U.where(
+                Underscore.where(
                                 listOfPlays2,
                                 asList(
                                         Tuple.<String, Object>create("getAuthor", "Shakespeare"),
@@ -1093,7 +1118,7 @@ public class CollectionsTest {
                 };
         assertEquals(
                 "title: Cymbeline, author: Shakespeare, year: 1611",
-                U.findWhere(
+                Underscore.findWhere(
                                 listOfPlays,
                                 asList(
                                         Tuple.<String, Object>create("author", "Shakespeare"),
@@ -1102,7 +1127,7 @@ public class CollectionsTest {
                         .toString());
         assertEquals(
                 "title: Cymbeline, author: Shakespeare, year: 1611",
-                new U(listOfPlays)
+                new Underscore(listOfPlays)
                         .findWhere(
                                 asList(
                                         Tuple.<String, Object>create("author", "Shakespeare"),
@@ -1111,7 +1136,7 @@ public class CollectionsTest {
                         .toString());
         assertEquals(
                 "title: Cymbeline, author: Shakespeare, year: 1611",
-                (U.chain(listOfPlays)
+                (Underscore.chain(listOfPlays)
                                 .findWhere(
                                         asList(
                                                 Tuple.<String, Object>create(
@@ -1122,7 +1147,7 @@ public class CollectionsTest {
                         .toString());
         assertEquals(
                 "title: Cymbeline, author: Shakespeare, year: 1611",
-                U.findWhere(
+                Underscore.findWhere(
                                 listOfPlays,
                                 asList(
                                         Tuple.<String, Object>create("author", "Shakespeare"),
@@ -1159,7 +1184,7 @@ public class CollectionsTest {
                 };
         assertEquals(
                 "title: Cymbeline, author: Shakespeare, year: 1611",
-                U.findWhere(
+                Underscore.findWhere(
                                 listOfPlays2,
                                 asList(
                                         Tuple.<String, Object>create("getAuthor", "Shakespeare"),
@@ -1168,7 +1193,7 @@ public class CollectionsTest {
                         .toString());
         assertEquals(
                 Optional.<Book2>empty(),
-                U.findWhere(
+                Underscore.findWhere(
                         listOfPlays2,
                         asList(
                                 Tuple.<String, Object>create("getAuthor", "Shakespeare2"),
@@ -1182,18 +1207,20 @@ public class CollectionsTest {
     */
     @Test
     public void max() {
-        final Integer result = U.max(asList(10, 5, 100, 2, 1000));
+        final Integer result = Underscore.max(asList(10, 5, 100, 2, 1000));
         assertEquals("1000", result.toString());
-        final Integer resultObj = new U<>(asList(10, 5, 100, 2, 1000)).max();
+        final Integer resultObj = new Underscore<>(asList(10, 5, 100, 2, 1000)).max();
         assertEquals("1000", resultObj.toString());
-        final Integer resultChain = (Integer) U.chain(asList(10, 5, 100, 2, 1000)).max().item();
+        final Integer resultChain =
+                (Integer) Underscore.chain(asList(10, 5, 100, 2, 1000)).max().item();
         assertEquals("1000", resultChain.toString());
-        final Integer resultComp = U.max(asList(10, 5, 100, 2, 1000), item -> -item);
+        final Integer resultComp = Underscore.max(asList(10, 5, 100, 2, 1000), item -> -item);
         assertEquals("2", resultComp.toString());
-        final Integer resultCompObj = new U<>(asList(10, 5, 100, 2, 1000)).max(item -> -item);
+        final Integer resultCompObj =
+                new Underscore<>(asList(10, 5, 100, 2, 1000)).max(item -> -item);
         assertEquals("2", resultCompObj.toString());
         final Integer resultCompChain =
-                (Integer) U.chain(asList(10, 5, 100, 2, 1000)).max(item -> -item).item();
+                (Integer) Underscore.chain(asList(10, 5, 100, 2, 1000)).max(item -> -item).item();
         assertEquals("2", resultCompChain.toString());
         class Person {
             public final String name;
@@ -1205,7 +1232,7 @@ public class CollectionsTest {
             }
         }
         final Person resultPerson =
-                U.max(
+                Underscore.max(
                         asList(
                                 new Person("moe", 40),
                                 new Person("larry", 50),
@@ -1222,18 +1249,20 @@ public class CollectionsTest {
     */
     @Test
     public void min() {
-        final Integer result = U.min(asList(10, 5, 100, 2, 1000));
+        final Integer result = Underscore.min(asList(10, 5, 100, 2, 1000));
         assertEquals("2", result.toString());
-        final Integer resultObj = new U<>(asList(10, 5, 100, 2, 1000)).min();
+        final Integer resultObj = new Underscore<>(asList(10, 5, 100, 2, 1000)).min();
         assertEquals("2", resultObj.toString());
-        final Integer resultChain = (Integer) U.chain(asList(10, 5, 100, 2, 1000)).min().item();
+        final Integer resultChain =
+                (Integer) Underscore.chain(asList(10, 5, 100, 2, 1000)).min().item();
         assertEquals("2", resultChain.toString());
-        final Integer resultComp = U.min(asList(10, 5, 100, 2, 1000), item -> -item);
+        final Integer resultComp = Underscore.min(asList(10, 5, 100, 2, 1000), item -> -item);
         assertEquals("1000", resultComp.toString());
-        final Integer resultCompObj = new U<>(asList(10, 5, 100, 2, 1000)).min(item -> -item);
+        final Integer resultCompObj =
+                new Underscore<>(asList(10, 5, 100, 2, 1000)).min(item -> -item);
         assertEquals("1000", resultCompObj.toString());
         final Integer resultCompChain =
-                (Integer) U.chain(asList(10, 5, 100, 2, 1000)).min(item -> -item).item();
+                (Integer) Underscore.chain(asList(10, 5, 100, 2, 1000)).min(item -> -item).item();
         assertEquals("1000", resultCompChain.toString());
         class Person {
             public final String name;
@@ -1245,7 +1274,7 @@ public class CollectionsTest {
             }
         }
         final Person resultPerson =
-                U.min(
+                Underscore.min(
                         asList(
                                 new Person("moe", 40),
                                 new Person("larry", 50),
@@ -1263,14 +1292,14 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void sortWith() {
         final List<Integer> result =
-                U.sortWith(
+                Underscore.sortWith(
                         asList(1, 2, 3, 4, 5, 6),
                         (item1, item2) ->
                                 Double.valueOf(Math.sin(item1) * 1000).intValue()
                                         - Double.valueOf(Math.sin(item2) * 1000).intValue());
         assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
         final List<Integer> resultObj =
-                new U(asList(1, 2, 3, 4, 5, 6))
+                new Underscore(asList(1, 2, 3, 4, 5, 6))
                         .sortWith(
                                 (Comparator<Integer>)
                                         (item1, item2) ->
@@ -1279,7 +1308,7 @@ public class CollectionsTest {
                                                                 .intValue());
         assertEquals("[5, 4, 6, 3, 1, 2]", resultObj.toString());
         final List<Integer> resultChain =
-                U.chain(asList(1, 2, 3, 4, 5, 6))
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6))
                         .sortWith(
                                 (Comparator<Integer>)
                                         (item1, item2) ->
@@ -1298,18 +1327,18 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void sortBy() {
         final List<Integer> result =
-                U.sortBy(
+                Underscore.sortBy(
                         asList(1, 2, 3, 4, 5, 6),
                         item -> Double.valueOf(Math.sin(item) * 1000).intValue());
         assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
         final List<Integer> resultObj =
-                new U(asList(1, 2, 3, 4, 5, 6))
+                new Underscore(asList(1, 2, 3, 4, 5, 6))
                         .sortBy(
                                 (Function<Integer, Integer>)
                                         item -> Double.valueOf(Math.sin(item) * 1000).intValue());
         assertEquals("[5, 4, 6, 3, 1, 2]", resultObj.toString());
         final List<Integer> resultChain =
-                U.chain(asList(1, 2, 3, 4, 5, 6))
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6))
                         .sortBy(item -> Double.valueOf(Math.sin(item) * 1000).intValue())
                         .value();
         assertEquals("[5, 4, 6, 3, 1, 2]", resultChain.toString());
@@ -1324,7 +1353,7 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void sortByMap() {
         final List<Map<String, Comparable>> result =
-                U.sortBy(
+                Underscore.sortBy(
                         asList(
                                 (Map<String, Comparable>)
                                         new LinkedHashMap<String, Comparable>() {
@@ -1352,7 +1381,7 @@ public class CollectionsTest {
                 "[{name=curly, age=60}, {name=larry, age=50}, {name=moe, age=40}]",
                 result.toString());
         final List<Map<String, Comparable>> resultChain =
-                U.chain(
+                Underscore.chain(
                                 asList(
                                         (Map<String, Comparable>)
                                                 new LinkedHashMap<String, Comparable>() {
@@ -1389,14 +1418,16 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void groupBy() {
-        final Map<Double, List<Double>> result = U.groupBy(asList(1.3, 2.1, 2.4), Math::floor);
+        final Map<Double, List<Double>> result =
+                Underscore.groupBy(asList(1.3, 2.1, 2.4), Math::floor);
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result.toString());
         final Map<Double, List<Double>> resultObj =
-                new U(asList(1.3, 2.1, 2.4)).groupBy((Function<Double, Double>) Math::floor);
+                new Underscore(asList(1.3, 2.1, 2.4))
+                        .groupBy((Function<Double, Double>) Math::floor);
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", resultObj.toString());
         final Map<Double, List<Double>> resultChain =
                 (Map<Double, List<Double>>)
-                        U.chain(asList(1.3, 2.1, 2.4)).groupBy(Math::floor).item();
+                        Underscore.chain(asList(1.3, 2.1, 2.4)).groupBy(Math::floor).item();
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", resultChain.toString());
     }
 
@@ -1408,16 +1439,16 @@ public class CollectionsTest {
     @SuppressWarnings("unchecked")
     public void groupByWithSumming() {
         final Map<Double, Optional<Double>> result =
-                U.groupBy(asList(1.3, 2.1, 2.4), Math::floor, Double::sum);
+                Underscore.groupBy(asList(1.3, 2.1, 2.4), Math::floor, Double::sum);
         assertEquals("{1.0=Optional[1.3], 2.0=Optional[4.5]}", result.toString());
         final Map<Double, Optional<Double>> resultObj =
-                new U(asList(1.3, 2.1, 2.4))
+                new Underscore(asList(1.3, 2.1, 2.4))
                         .groupBy(
                                 (Function<Double, Double>) Math::floor,
                                 (BinaryOperator<Double>) Double::sum);
         assertEquals("{1.0=Optional[1.3], 2.0=Optional[4.5]}", resultObj.toString());
         final Map<Double, Optional<Double>> resultChain =
-                U.chain(asList(1.3, 2.1, 2.4)).groupBy(Math::floor, Double::sum).item();
+                Underscore.chain(asList(1.3, 2.1, 2.4)).groupBy(Math::floor, Double::sum).item();
         assertEquals("{1.0=Optional[1.3], 2.0=Optional[4.5]}", resultChain.toString());
     }
 
@@ -1447,7 +1478,7 @@ public class CollectionsTest {
             }
         }
         final Map<String, List<Person>> result =
-                U.indexBy(
+                Underscore.indexBy(
                         asList(
                                 new Person("moe", 40),
                                 new Person("larry", 50),
@@ -1455,7 +1486,7 @@ public class CollectionsTest {
                         "age");
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", result.toString());
         final Map<String, List<Person>> resultObj =
-                new U(
+                new Underscore(
                                 asList(
                                         new Person("moe", 40),
                                         new Person("larry", 50),
@@ -1464,7 +1495,7 @@ public class CollectionsTest {
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", resultObj.toString());
         final Map<Object, List<Person>> resultChain =
                 (Map<Object, List<Person>>)
-                        U.chain(
+                        Underscore.chain(
                                         asList(
                                                 new Person("moe", 40),
                                                 new Person("larry", 50),
@@ -1473,7 +1504,7 @@ public class CollectionsTest {
                                 .item();
         assertEquals("{40=[moe, 40], 50=[larry, 50], 60=[curly, 60]}", resultChain.toString());
         final Map<String, List<Person>> result2 =
-                U.indexBy(
+                Underscore.indexBy(
                         asList(
                                 new Person("moe", 40),
                                 new Person("larry", 50),
@@ -1504,7 +1535,7 @@ public class CollectionsTest {
             }
         }
         final Map<String, Integer> result =
-                U.countBy(
+                Underscore.countBy(
                         asList(
                                 new Person("moe", 40),
                                 new Person("moe", 50),
@@ -1512,12 +1543,16 @@ public class CollectionsTest {
                         person -> person.name);
         assertEquals("{moe=2, curly=1}", result.toString());
         final Map<String, Integer> resultObj =
-                new U(asList(new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)))
+                new Underscore(
+                                asList(
+                                        new Person("moe", 40),
+                                        new Person("moe", 50),
+                                        new Person("curly", 60)))
                         .countBy((Function<Person, String>) person -> person.name);
         assertEquals("{moe=2, curly=1}", resultObj.toString());
         final Map<String, Integer> resultChain =
                 (Map<String, Integer>)
-                        U.chain(
+                        Underscore.chain(
                                         asList(
                                                 new Person("moe", 40),
                                                 new Person("moe", 50),
@@ -1525,9 +1560,9 @@ public class CollectionsTest {
                                 .countBy(person -> person.name)
                                 .item();
         assertEquals("{moe=2, curly=1}", resultChain.toString());
-        U.countBy(asList(1, 2, 3));
-        new U<>(asList(1, 2, 3)).countBy();
-        U.chain(asList(1, 2, 2, 3)).countBy().item();
+        Underscore.countBy(asList(1, 2, 3));
+        new Underscore<>(asList(1, 2, 3)).countBy();
+        Underscore.chain(asList(1, 2, 2, 3)).countBy().item();
     }
 
     /*
@@ -1537,11 +1572,12 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void shuffle() {
-        final List<Integer> result = U.shuffle(asList(1, 2, 3, 4, 5, 6));
+        final List<Integer> result = Underscore.shuffle(asList(1, 2, 3, 4, 5, 6));
         assertEquals(6, result.size());
-        final List<Integer> resultObj = new U(asList(1, 2, 3, 4, 5, 6)).shuffle();
+        final List<Integer> resultObj = new Underscore(asList(1, 2, 3, 4, 5, 6)).shuffle();
         assertEquals(6, resultObj.size());
-        final List<Integer> resultChain = U.chain(asList(1, 2, 3, 4, 5, 6)).shuffle().value();
+        final List<Integer> resultChain =
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6)).shuffle().value();
         assertEquals(6, resultChain.size());
     }
 
@@ -1553,15 +1589,17 @@ public class CollectionsTest {
     */
     @Test
     public void sample() {
-        final Integer result = U.sample(asList(1, 2, 3, 4, 5, 6));
+        final Integer result = Underscore.sample(asList(1, 2, 3, 4, 5, 6));
         assertTrue(result >= 1 && result <= 6);
-        final Integer resultObj = new U<>(asList(1, 2, 3, 4, 5, 6)).sample();
+        final Integer resultObj = new Underscore<>(asList(1, 2, 3, 4, 5, 6)).sample();
         assertTrue(resultObj >= 1 && resultObj <= 6);
-        final Set<Integer> resultList = U.sample(asList(1, 2, 3, 4, 5, 6), 3);
+        final Set<Integer> resultList = Underscore.sample(asList(1, 2, 3, 4, 5, 6), 3);
         assertEquals(3, resultList.size());
-        final Integer resultChain = (Integer) U.chain(asList(1, 2, 3, 4, 5, 6)).sample().item();
+        final Integer resultChain =
+                (Integer) Underscore.chain(asList(1, 2, 3, 4, 5, 6)).sample().item();
         assertTrue(resultChain >= 1 && resultChain <= 6);
-        final List<Integer> resultListChain = U.chain(asList(1, 2, 3, 4, 5, 6)).sample(3).value();
+        final List<Integer> resultListChain =
+                Underscore.chain(asList(1, 2, 3, 4, 5, 6)).sample(3).value();
         assertEquals(3, resultListChain.size());
     }
 
@@ -1572,9 +1610,9 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void toArray() {
-        final Object[] result = U.<Integer>toArray(asList(1, 2, 3, 4));
+        final Object[] result = Underscore.<Integer>toArray(asList(1, 2, 3, 4));
         assertEquals("1", result[0].toString());
-        final Object[] resultObj = new U(asList(1, 2, 3, 4)).toArray();
+        final Object[] resultObj = new Underscore(asList(1, 2, 3, 4)).toArray();
         assertEquals("1", resultObj[0].toString());
     }
 
@@ -1583,7 +1621,7 @@ public class CollectionsTest {
     public void toMap() {
         assertEquals(
                 "{name1=one, name2=two}",
-                U.toMap(
+                Underscore.toMap(
                                 (new LinkedHashMap<String, String>() {
                                             {
                                                 put("name1", "one");
@@ -1594,7 +1632,7 @@ public class CollectionsTest {
                         .toString());
         assertEquals(
                 "{name1=one, name2=two}",
-                new U(
+                new Underscore(
                                 (new LinkedHashMap<String, String>() {
                                             {
                                                 put("name1", "one");
@@ -1606,7 +1644,7 @@ public class CollectionsTest {
                         .toString());
         assertEquals(
                 "{name1=one, name2=two}",
-                U.toMap(
+                Underscore.toMap(
                                 new ArrayList<Tuple<String, String>>() {
                                     {
                                         add(Tuple.create("name1", "one"));
@@ -1619,12 +1657,14 @@ public class CollectionsTest {
     @Test
     public void toCardinalityMap() {
         assertEquals(
-                "{a=2, b=1, c=2}", U.toCardinalityMap(asList("a", "a", "b", "c", "c")).toString());
-        assertEquals("{}", U.toCardinalityMap(U.newArrayList()).toString());
+                "{a=2, b=1, c=2}",
+                Underscore.toCardinalityMap(asList("a", "a", "b", "c", "c")).toString());
+        assertEquals("{}", Underscore.toCardinalityMap(Underscore.newArrayList()).toString());
         assertEquals(
                 "{a=2, b=1, c=2}",
-                new U<>(asList("a", "a", "b", "c", "c")).toCardinalityMap().toString());
-        assertEquals("{}", new U<>(U.newArrayList()).toCardinalityMap().toString());
+                new Underscore<>(asList("a", "a", "b", "c", "c")).toCardinalityMap().toString());
+        assertEquals(
+                "{}", new Underscore<>(Underscore.newArrayList()).toCardinalityMap().toString());
     }
 
     /*
@@ -1634,11 +1674,11 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void size() {
-        final int result = U.size(asList(1, 2, 3, 4));
+        final int result = Underscore.size(asList(1, 2, 3, 4));
         assertEquals(4, result);
-        final int resultObj = new U(asList(1, 2, 3, 4)).size();
+        final int resultObj = new Underscore(asList(1, 2, 3, 4)).size();
         assertEquals(4, resultObj);
-        final int resultChain = U.chain(asList(1, 2, 3, 4)).size();
+        final int resultChain = Underscore.chain(asList(1, 2, 3, 4)).size();
         assertEquals(4, resultChain);
         final int[] array = new int[] {1, 2, 3, 4, 5, 6};
         Iterable<Integer> iterable =
@@ -1656,9 +1696,9 @@ public class CollectionsTest {
 
                             public void remove() {}
                         };
-        assertEquals(6, U.size(iterable));
-        assertEquals(5, U.size(new Integer[] {5, 4, 3, 2, 1}));
-        assertEquals(5, U.size(5, 4, 3, 2, 1));
+        assertEquals(6, Underscore.size(iterable));
+        assertEquals(5, Underscore.size(new Integer[] {5, 4, 3, 2, 1}));
+        assertEquals(5, Underscore.size(5, 4, 3, 2, 1));
     }
 
     /*
@@ -1668,11 +1708,11 @@ public class CollectionsTest {
     @Test
     public void partition() {
         final List<List<Integer>> result =
-                U.partition(asList(0, 1, 2, 3, 4, 5), item -> item % 2 == 1);
+                Underscore.partition(asList(0, 1, 2, 3, 4, 5), item -> item % 2 == 1);
         assertEquals("[1, 3, 5]", result.get(0).toString());
         assertEquals("[0, 2, 4]", result.get(1).toString());
         final List<Integer>[] resultArray =
-                U.partition(new Integer[] {0, 1, 2, 3, 4, 5}, item -> item % 2 == 1);
+                Underscore.partition(new Integer[] {0, 1, 2, 3, 4, 5}, item -> item % 2 == 1);
         assertEquals("[1, 3, 5]", resultArray[0].toString());
         assertEquals("[0, 2, 4]", resultArray[1].toString());
     }

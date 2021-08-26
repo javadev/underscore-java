@@ -59,7 +59,7 @@ public class UtilityTest {
                         put("name", "moe");
                     }
                 };
-        assertEquals(object, U.identity(object));
+        assertEquals(object, Underscore.identity(object));
     }
 
     /*
@@ -75,7 +75,7 @@ public class UtilityTest {
                         put("name", "moe");
                     }
                 };
-        assertEquals(object, U.constant(object).get());
+        assertEquals(object, Underscore.constant(object).get());
     }
 
     /*
@@ -91,7 +91,7 @@ public class UtilityTest {
                         put("name", "moe");
                     }
                 };
-        assertEquals("moe", U.property("name").apply(stooge));
+        assertEquals("moe", Underscore.property("name").apply(stooge));
     }
 
     /*
@@ -107,7 +107,7 @@ public class UtilityTest {
                         put("name", "moe");
                     }
                 };
-        assertEquals("moe", U.propertyOf(stooge).apply("name"));
+        assertEquals("moe", Underscore.propertyOf(stooge).apply("name"));
     }
 
     /*
@@ -116,7 +116,7 @@ public class UtilityTest {
     */
     @Test
     public void random() {
-        int result = U.random(0, 100);
+        int result = Underscore.random(0, 100);
         assertTrue(result >= 0);
         assertTrue(result <= 100);
     }
@@ -127,7 +127,7 @@ public class UtilityTest {
     */
     @Test
     public void random2() {
-        int result = U.random(0, 1);
+        int result = Underscore.random(0, 1);
         assertTrue(result >= 0);
         assertTrue(result <= 1);
     }
@@ -138,7 +138,7 @@ public class UtilityTest {
     */
     @Test
     public void random3() {
-        int result = U.random(0);
+        int result = Underscore.random(0);
         assertEquals(0, result);
     }
 
@@ -148,7 +148,7 @@ public class UtilityTest {
     */
     @Test
     public void now() {
-        assertTrue(U.now() <= new Date().getTime());
+        assertTrue(Underscore.now() <= new Date().getTime());
     }
 
     /*
@@ -157,13 +157,13 @@ public class UtilityTest {
     */
     @Test
     public void uniqueId() {
-        assertEquals("contact_1", U.uniqueId("contact_"));
-        assertEquals("2", U.uniqueId(null));
+        assertEquals("contact_1", Underscore.uniqueId("contact_"));
+        assertEquals("2", Underscore.uniqueId(null));
     }
 
     @Test
     public void uniquePassword() {
-        String password = U.uniquePassword();
+        String password = Underscore.uniquePassword();
         assertTrue(
                 "Password doesn't matches the pattern [A-Z]+[0-9]+.*?[a-z]+ " + password,
                 password.matches("[A-Z]+[0-9]+.*?[a-z]+.*"));
@@ -175,7 +175,7 @@ public class UtilityTest {
     @Test
     public void times() {
         final List<Integer> result = new ArrayList<>();
-        U.times(3, () -> result.add(1));
+        Underscore.times(3, () -> result.add(1));
         assertEquals("[1, 1, 1]", result.toString());
     }
 
@@ -191,14 +191,14 @@ public class UtilityTest {
     @Test
     @SuppressWarnings("unchecked")
     public void mixin() {
-        U.mixin(
+        Underscore.mixin(
                 "capitalize",
                 string ->
                         String.valueOf(string.charAt(0)).toUpperCase()
                                 + string.substring(1).toLowerCase());
-        assertEquals("Fabio", new U("fabio").call("capitalize").get());
-        assertFalse(new U("fabio").call("capitalize2").isPresent());
-        assertFalse(new U(Collections.singletonList(1)).call("capitalize2").isPresent());
+        assertEquals("Fabio", new Underscore("fabio").call("capitalize").get());
+        assertFalse(new Underscore("fabio").call("capitalize2").isPresent());
+        assertFalse(new Underscore(Collections.singletonList(1)).call("capitalize2").isPresent());
     }
 
     /*
@@ -209,7 +209,7 @@ public class UtilityTest {
     public void escape() {
         assertEquals(
                 "Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;",
-                U.escape("Curly, Larry & Moe < > \"'`"));
+                Underscore.escape("Curly, Larry & Moe < > \"'`"));
     }
 
     /*
@@ -220,7 +220,7 @@ public class UtilityTest {
     public void unescape() {
         assertEquals(
                 "Curly, Larry & Moe < > \"'`",
-                U.unescape("Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;"));
+                Underscore.unescape("Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;"));
     }
 
     /*
@@ -230,7 +230,7 @@ public class UtilityTest {
     */
     @Test
     public void template() {
-        Template<Map<String, Object>> compiled = U.template("hello: <%= name %>");
+        Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
         assertEquals(
                 "hello: moe",
                 compiled.apply(
@@ -244,7 +244,7 @@ public class UtilityTest {
     @Test
     public void template2() {
         Template<Map<String, Object>> compiled =
-                U.template("hello: <%= name %>, hello2: <%= name %>");
+                Underscore.template("hello: <%= name %>, hello2: <%= name %>");
         assertEquals(
                 "hello: moe, hello2: moe",
                 compiled.apply(
@@ -258,7 +258,7 @@ public class UtilityTest {
     @Test
     public void template3() {
         Template<Map<String, Object>> compiled =
-                U.template("hello: <%= name %>, hello2: <%= name2 %>");
+                Underscore.template("hello: <%= name %>, hello2: <%= name2 %>");
         assertEquals(
                 "hello: moe, hello2: moe2",
                 compiled.apply(
@@ -272,19 +272,19 @@ public class UtilityTest {
 
     @Test
     public void template4() {
-        U.templateSettings(
+        Underscore.templateSettings(
                 new HashMap<String, String>() {
                     {
                         put("interpolate", "");
                     }
                 });
-        U.templateSettings(
+        Underscore.templateSettings(
                 new HashMap<String, String>() {
                     {
                         put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}");
                     }
                 });
-        Template<Map<String, Object>> compiled = U.template("hello: {{= name }}");
+        Template<Map<String, Object>> compiled = Underscore.template("hello: {{= name }}");
         assertEquals(
                 "hello: moe",
                 compiled.apply(
@@ -293,7 +293,7 @@ public class UtilityTest {
                                 put("name", "moe");
                             }
                         }));
-        U.templateSettings(
+        Underscore.templateSettings(
                 new HashMap<String, String>() {
                     {
                         put("interpolate", "<%=([\\s\\S]+?)%>");
@@ -308,7 +308,7 @@ public class UtilityTest {
     */
     @Test
     public void templateValue() {
-        Template<Map<String, Object>> template = U.template("<b><%- value %></b>");
+        Template<Map<String, Object>> template = Underscore.template("<b><%- value %></b>");
         assertEquals(
                 "<b>&lt;script&gt;</b>",
                 template.apply(
@@ -322,7 +322,7 @@ public class UtilityTest {
     @Test
     public void templateValue2() {
         Template<Map<String, Object>> template =
-                U.template("hello: <%= name %>, <b><%- value %></b>");
+                Underscore.template("hello: <%= name %>, <b><%- value %></b>");
         assertEquals(
                 "hello: moe, <b>&lt;script&gt;</b>",
                 template.apply(
@@ -337,7 +337,7 @@ public class UtilityTest {
     @Test
     public void templateValue3() {
         Template<Map<String, Object>> template =
-                U.template("hello: <% name %>, <b><%- value %></b>");
+                Underscore.template("hello: <% name %>, <b><%- value %></b>");
         assertEquals(
                 "hello: moe, <b>&lt;script&gt;</b>",
                 template.apply(
@@ -352,7 +352,7 @@ public class UtilityTest {
     @Test
     public void templateValue4() {
         Template<Map<String, Object>> template =
-                U.template("hello: <% name %>, <b><%- value %></b>");
+                Underscore.template("hello: <% name %>, <b><%- value %></b>");
         assertEquals(
                 "hello: $moe$, <b>&lt;script&gt;</b>",
                 template.apply(
@@ -366,7 +366,7 @@ public class UtilityTest {
 
     @Test
     public void templateCheck() {
-        Template<Map<String, Object>> compiled = U.template("hello: <%= name %>");
+        Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
         assertTrue(
                 compiled.check(
                                 new LinkedHashMap<String, Object>() {
@@ -388,7 +388,8 @@ public class UtilityTest {
 
     @Test
     public void templateCheck2() {
-        Template<Map<String, Object>> compiled = U.template("hello: <%= name %> <%= name2 %>");
+        Template<Map<String, Object>> compiled =
+                Underscore.template("hello: <%= name %> <%= name2 %>");
         assertEquals(
                 "name2",
                 compiled.check(
@@ -398,7 +399,8 @@ public class UtilityTest {
                                     }
                                 })
                         .get(0));
-        Template<Map<String, Object>> compiled2 = U.template("hello: <%- name %> <%- name2 %>");
+        Template<Map<String, Object>> compiled2 =
+                Underscore.template("hello: <%- name %> <%- name2 %>");
         assertEquals(
                 "name2",
                 compiled2
@@ -409,7 +411,8 @@ public class UtilityTest {
                                     }
                                 })
                         .get(0));
-        Template<Map<String, Object>> compiled3 = U.template("hello: <% name %> <% name2 %>");
+        Template<Map<String, Object>> compiled3 =
+                Underscore.template("hello: <% name %> <% name2 %>");
         assertEquals(
                 "name2",
                 compiled3
@@ -428,17 +431,17 @@ public class UtilityTest {
     */
     @Test
     public void format() {
-        String fortmatted = U.format("hello: {0}", "moe");
+        String fortmatted = Underscore.format("hello: {0}", "moe");
         assertEquals("hello: moe", fortmatted);
-        String fortmatted2 = U.format("hello: {}", "moe");
+        String fortmatted2 = Underscore.format("hello: {}", "moe");
         assertEquals("hello: moe", fortmatted2);
-        String fortmatted3 = U.format("hello: {}, {}", "moe", 123);
+        String fortmatted3 = Underscore.format("hello: {}, {}", "moe", 123);
         assertEquals("hello: moe, 123", fortmatted3);
-        String fortmatted4 = U.format("hello: {1}, {0}", "moe", 123);
+        String fortmatted4 = Underscore.format("hello: {1}, {0}", "moe", 123);
         assertEquals("hello: 123, moe", fortmatted4);
-        String fortmatted5 = U.format("hello: {0}", "mo/e");
+        String fortmatted5 = Underscore.format("hello: {0}", "mo/e");
         assertEquals("hello: mo/e", fortmatted5);
-        String fortmatted6 = U.format("hello: {0}", "mo\\e");
+        String fortmatted6 = Underscore.format("hello: {0}", "mo\\e");
         assertEquals("hello: mo\\e", fortmatted6);
     }
 
@@ -449,13 +452,13 @@ public class UtilityTest {
         ll.add(Arrays.asList(1, 1, 1, 0, 1));
         ll.add(Arrays.asList(1, 0, 1, 1, 1));
         ll.add(Arrays.asList(1, 1, 1, 1, 1));
-        assertEquals(1, U.minimumDays(4, 5, ll));
+        assertEquals(1, Underscore.minimumDays(4, 5, ll));
         List<List<Integer>> ll2 = new ArrayList<>();
         ll2.add(Arrays.asList(0, 0, 0, 0, 0));
         ll2.add(Arrays.asList(0, 0, 0, 0, 0));
         ll2.add(Arrays.asList(0, 0, 0, 0, 0));
         ll2.add(Arrays.asList(0, 0, 0, 0, 0));
-        assertEquals(-1, U.minimumDays(4, 5, ll2));
+        assertEquals(-1, Underscore.minimumDays(4, 5, ll2));
     }
 
     @Test
@@ -469,7 +472,7 @@ public class UtilityTest {
                         "deltacellular provides much betacellular",
                         "cetracular is worse than eurocell",
                         "betacellular is better than deltacellular");
-        List<String> strings = U.topNCompetitors(6, 2, competitors, 6, reviews);
+        List<String> strings = Underscore.topNCompetitors(6, 2, competitors, 6, reviews);
         assertEquals("[betacellular, deltacellular]", strings.toString());
         List<String> competitors2 = Arrays.asList("ААА", "БББ");
         List<String> reviews2 =
@@ -479,21 +482,21 @@ public class UtilityTest {
                         "deltacellular provides much betacellular",
                         "cetracular is worse than eurocell",
                         "betacellular is better than deltacellular");
-        List<String> strings2 = U.topNCompetitors(2, 2, competitors2, 6, reviews2);
+        List<String> strings2 = Underscore.topNCompetitors(2, 2, competitors2, 6, reviews2);
         assertEquals("[]", strings2.toString());
-        List<String> strings3 = U.topNCompetitors(2, 2, competitors2, 6, null);
+        List<String> strings3 = Underscore.topNCompetitors(2, 2, competitors2, 6, null);
         assertEquals("[]", strings3.toString());
         List<String> strings4 =
-                U.topNCompetitors(2, 2, competitors2, 6, Collections.<String>emptyList());
+                Underscore.topNCompetitors(2, 2, competitors2, 6, Collections.<String>emptyList());
         assertEquals("[]", strings4.toString());
-        List<String> strings5 = U.topNCompetitors(2, 2, null, 6, reviews2);
+        List<String> strings5 = Underscore.topNCompetitors(2, 2, null, 6, reviews2);
         assertEquals("[]", strings5.toString());
         List<String> strings6 =
-                U.topNCompetitors(2, 2, Collections.<String>emptyList(), 6, reviews2);
+                Underscore.topNCompetitors(2, 2, Collections.<String>emptyList(), 6, reviews2);
         assertEquals("[]", strings6.toString());
-        List<String> strings7 = U.topNCompetitors(0, 2, competitors2, 6, reviews2);
+        List<String> strings7 = Underscore.topNCompetitors(0, 2, competitors2, 6, reviews2);
         assertEquals("[]", strings7.toString());
-        List<String> strings8 = U.topNCompetitors(2, 2, competitors2, 0, reviews2);
+        List<String> strings8 = Underscore.topNCompetitors(2, 2, competitors2, 0, reviews2);
         assertEquals("[]", strings8.toString());
     }
 
@@ -515,11 +518,16 @@ public class UtilityTest {
                 };
 
         assertEquals(
-                "crumpets", U.result(object.entrySet(), item -> item.getKey().equals("cheese")));
+                "crumpets",
+                Underscore.result(object.entrySet(), item -> item.getKey().equals("cheese")));
         assertEquals(
-                "nonsense", U.result(object.entrySet(), item -> item.getKey().equals("stuff")));
+                "nonsense",
+                Underscore.result(object.entrySet(), item -> item.getKey().equals("stuff")));
         assertEquals(
-                "result1", U.result(asList("result1", "result2"), item -> item.equals("result1")));
-        assertEquals(null, U.result(asList("result1", "result2"), item -> item.equals("result3")));
+                "result1",
+                Underscore.result(asList("result1", "result2"), item -> item.equals("result1")));
+        assertEquals(
+                null,
+                Underscore.result(asList("result1", "result2"), item -> item.equals("result3")));
     }
 }

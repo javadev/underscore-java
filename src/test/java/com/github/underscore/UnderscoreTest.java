@@ -50,10 +50,10 @@ public class UnderscoreTest {
     @Test
     @SuppressWarnings("unchecked")
     public void main() {
-        U.main(new String[] {});
-        new U(singletonList("")).getIterable();
-        new U(singletonList("")).value();
-        new U("").getString();
+        Underscore.main(new String[] {});
+        new Underscore(singletonList("")).getIterable();
+        new Underscore(singletonList("")).value();
+        new Underscore("").getString();
     }
 
     /*
@@ -64,23 +64,24 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     public void sort() {
         assertEquals(
-                "[example, some, words]", U.sort(asList("some", "words", "example")).toString());
+                "[example, some, words]",
+                Underscore.sort(asList("some", "words", "example")).toString());
         assertEquals(
                 "[example, some, words]",
-                new U(asList("some", "words", "example")).sort().toString());
+                new Underscore(asList("some", "words", "example")).sort().toString());
         assertEquals(
                 "[example, some, words]",
-                U.chain(asList("some", "words", "example")).sort().value().toString());
+                Underscore.chain(asList("some", "words", "example")).sort().value().toString());
         assertEquals(
                 "[4, 5, 7]",
-                U.chain(asList("some", "words", "example"))
+                Underscore.chain(asList("some", "words", "example"))
                         .map(String::length)
                         .sort()
                         .value()
                         .toString());
         assertEquals(
                 "[example, some, words]",
-                asList(U.sort(new String[] {"some", "words", "example"})).toString());
+                asList(Underscore.sort(new String[] {"some", "words", "example"})).toString());
     }
 
     /*
@@ -90,17 +91,25 @@ public class UnderscoreTest {
     @Test
     @SuppressWarnings("unchecked")
     public void join() {
-        assertEquals("some-words-example", U.join(asList("some", "words", "example"), "-"));
-        assertEquals("some-words-example", new U(asList("some", "words", "example")).join("-"));
-        assertEquals("some-words-example", U.join(new String[] {"some", "words", "example"}, "-"));
         assertEquals(
-                "some-words-example", U.chain(asList("some", "words", "example")).join("-").item());
-        assertEquals("some words example", U.join(asList("some", "words", "example")));
-        assertEquals("some words example", new U(asList("some", "words", "example")).join());
-        assertEquals("some words example", U.join(new String[] {"some", "words", "example"}));
+                "some-words-example", Underscore.join(asList("some", "words", "example"), "-"));
         assertEquals(
-                "some words example", U.chain(asList("some", "words", "example")).join().item());
-        assertEquals("--", U.join(asList("", "", ""), "-"));
+                "some-words-example", new Underscore(asList("some", "words", "example")).join("-"));
+        assertEquals(
+                "some-words-example",
+                Underscore.join(new String[] {"some", "words", "example"}, "-"));
+        assertEquals(
+                "some-words-example",
+                Underscore.chain(asList("some", "words", "example")).join("-").item());
+        assertEquals("some words example", Underscore.join(asList("some", "words", "example")));
+        assertEquals(
+                "some words example", new Underscore(asList("some", "words", "example")).join());
+        assertEquals(
+                "some words example", Underscore.join(new String[] {"some", "words", "example"}));
+        assertEquals(
+                "some words example",
+                Underscore.chain(asList("some", "words", "example")).join().item());
+        assertEquals("--", Underscore.join(asList("", "", ""), "-"));
     }
 
     /*
@@ -110,11 +119,13 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     @Test
     public void push() {
-        assertEquals("[a, b, c, 0, 2]", U.push(asList("a", "b", "c"), "0", "2").toString());
-        assertEquals("[a, b, c, 0, 2]", new U(asList("a", "b", "c")).push("0", "2").toString());
+        assertEquals(
+                "[a, b, c, 0, 2]", Underscore.push(asList("a", "b", "c"), "0", "2").toString());
+        assertEquals(
+                "[a, b, c, 0, 2]", new Underscore(asList("a", "b", "c")).push("0", "2").toString());
         assertEquals(
                 "[a, b, c, 0, 2]",
-                U.chain(asList("a", "b", "c")).push("0", "2").value().toString());
+                Underscore.chain(asList("a", "b", "c")).push("0", "2").value().toString());
     }
 
     /*
@@ -124,9 +135,9 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     @Test
     public void pop() {
-        assertEquals("c", U.pop(asList("a", "b", "c")).fst().toString());
-        assertEquals("c", new U(asList("a", "b", "c")).pop().fst().toString());
-        assertEquals("c", U.chain(asList("a", "b", "c")).pop().item().fst().toString());
+        assertEquals("c", Underscore.pop(asList("a", "b", "c")).fst().toString());
+        assertEquals("c", new Underscore(asList("a", "b", "c")).pop().fst().toString());
+        assertEquals("c", Underscore.chain(asList("a", "b", "c")).pop().item().fst().toString());
     }
 
     /*
@@ -136,9 +147,9 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     @Test
     public void shift() {
-        assertEquals("a", U.shift(asList("a", "b", "c")).fst().toString());
-        assertEquals("a", new U(asList("a", "b", "c")).shift().fst().toString());
-        assertEquals("a", U.chain(asList("a", "b", "c")).shift().item().fst().toString());
+        assertEquals("a", Underscore.shift(asList("a", "b", "c")).fst().toString());
+        assertEquals("a", new Underscore(asList("a", "b", "c")).shift().fst().toString());
+        assertEquals("a", Underscore.chain(asList("a", "b", "c")).shift().item().fst().toString());
     }
 
     /*
@@ -148,16 +159,19 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     @Test
     public void unshift() {
-        assertEquals("[0, 2, a, b, c]", U.unshift(asList("a", "b", "c"), "0", "2").toString());
-        assertEquals("[0, 2, a, b, c]", new U(asList("a", "b", "c")).unshift("0", "2").toString());
+        assertEquals(
+                "[0, 2, a, b, c]", Underscore.unshift(asList("a", "b", "c"), "0", "2").toString());
         assertEquals(
                 "[0, 2, a, b, c]",
-                U.chain(asList("a", "b", "c")).unshift("0", "2").value().toString());
+                new Underscore(asList("a", "b", "c")).unshift("0", "2").toString());
+        assertEquals(
+                "[0, 2, a, b, c]",
+                Underscore.chain(asList("a", "b", "c")).unshift("0", "2").value().toString());
     }
 
     @Test
     public void compareStrings() {
-        assertArrayEquals(U.sort("CAT".split("")), U.sort("CTA".split("")));
+        assertArrayEquals(Underscore.sort("CAT".split("")), Underscore.sort("CTA".split("")));
     }
 
     /*
@@ -168,23 +182,32 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     public void concat() {
         assertEquals(
-                asList(1, 2, 3, 4), asList(U.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
-        assertEquals(asList(1.0, 2.0), asList(U.concat(new Double[] {1.0, 2.0})));
-        assertEquals(asList(1, 2, 3, 4), U.concat(asList(1, 2), asList(3, 4)));
-        assertEquals(asList("a", "b"), U.concat(asList("a", "b")));
-        assertEquals(asList(1, 2, 3, 4), new U<>(asList(1, 2)).concatWith(asList(3, 4)));
-        assertEquals("[1, 2, 3, 4]", U.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
+                asList(1, 2, 3, 4),
+                asList(Underscore.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
+        assertEquals(asList(1.0, 2.0), asList(Underscore.concat(new Double[] {1.0, 2.0})));
+        assertEquals(asList(1, 2, 3, 4), Underscore.concat(asList(1, 2), asList(3, 4)));
+        assertEquals(asList("a", "b"), Underscore.concat(asList("a", "b")));
+        assertEquals(asList(1, 2, 3, 4), new Underscore<>(asList(1, 2)).concatWith(asList(3, 4)));
+        assertEquals(
+                "[1, 2, 3, 4]",
+                Underscore.chain(asList(1, 2)).concat(asList(3, 4)).value().toString());
         assertEquals(
                 "[1, 2, 3, 4, 5, 6]",
-                U.chain(asList(1, 2)).concat(asList(3, 4), asList(5, 6)).value().toString());
+                Underscore.chain(asList(1, 2))
+                        .concat(asList(3, 4), asList(5, 6))
+                        .value()
+                        .toString());
         assertEquals(
                 asList(1, 2, 3, 4),
-                asList(U.concat(new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
-        assertEquals(
-                asList(1, 2, 3, 4), U.concat(asList(1, 2), singletonList(3), singletonList(4)));
+                asList(
+                        Underscore.concat(
+                                new Integer[] {1, 2}, new Integer[] {3}, new Integer[] {4})));
         assertEquals(
                 asList(1, 2, 3, 4),
-                new U<>(asList(1, 2)).concatWith(singletonList(3), singletonList(4)));
+                Underscore.concat(asList(1, 2), singletonList(3), singletonList(4)));
+        assertEquals(
+                asList(1, 2, 3, 4),
+                new Underscore<>(asList(1, 2)).concatWith(singletonList(3), singletonList(4)));
     }
 
     /*
@@ -198,24 +221,26 @@ public class UnderscoreTest {
     @Test
     @SuppressWarnings("unchecked")
     public void slice() {
-        assertEquals(asList(3, 4, 5), U.slice(asList(1, 2, 3, 4, 5), 2));
-        assertEquals(asList(3, 4, 5), new U(asList(1, 2, 3, 4, 5)).slice(2));
-        assertEquals(asList(2, 3, 4), U.slice(asList(1, 2, 3, 4, 5), 1, 4));
-        assertEquals(asList("a", "b"), U.slice(asList("a", "b", "c", "d"), 0, 2));
-        assertEquals(asList(2, 3, 4), U.slice(asList(1, 2, 3, 4, 5), 1, -1));
-        assertEquals(singletonList(3), U.slice(asList(1, 2, 3, 4, 5), 2, 3));
-        assertEquals(singletonList(3), new U(asList(1, 2, 3, 4, 5)).slice(2, 3));
-        assertEquals(asList(4, 5), U.slice(asList(1, 2, 3, 4, 5), -2));
-        assertEquals(asList(3, 4), U.slice(asList(1, 2, 3, 4, 5), -3, -1));
-        assertEquals(asList(3, 4), U.slice(asList(1, 2, 3, 4, 5), -3, 4));
-        assertEquals(asList(3, 4, 5), U.chain(asList(1, 2, 3, 4, 5)).slice(2).value());
-        assertEquals(asList(2, 3, 4), U.chain(asList(1, 2, 3, 4, 5)).slice(1, 4).value());
-        assertEquals(asList(3, 4, 5), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, 2)));
-        assertEquals(asList(4, 5), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, -2)));
-        assertEquals(asList(2, 3, 4), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, 1, 4)));
-        assertEquals(asList(2, 3, 4), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, 1, -1)));
-        assertEquals(asList(3, 4), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, -3, 4)));
-        assertEquals(asList(3, 4), asList(U.slice(new Integer[] {1, 2, 3, 4, 5}, -3, -1)));
+        assertEquals(asList(3, 4, 5), Underscore.slice(asList(1, 2, 3, 4, 5), 2));
+        assertEquals(asList(3, 4, 5), new Underscore(asList(1, 2, 3, 4, 5)).slice(2));
+        assertEquals(asList(2, 3, 4), Underscore.slice(asList(1, 2, 3, 4, 5), 1, 4));
+        assertEquals(asList("a", "b"), Underscore.slice(asList("a", "b", "c", "d"), 0, 2));
+        assertEquals(asList(2, 3, 4), Underscore.slice(asList(1, 2, 3, 4, 5), 1, -1));
+        assertEquals(singletonList(3), Underscore.slice(asList(1, 2, 3, 4, 5), 2, 3));
+        assertEquals(singletonList(3), new Underscore(asList(1, 2, 3, 4, 5)).slice(2, 3));
+        assertEquals(asList(4, 5), Underscore.slice(asList(1, 2, 3, 4, 5), -2));
+        assertEquals(asList(3, 4), Underscore.slice(asList(1, 2, 3, 4, 5), -3, -1));
+        assertEquals(asList(3, 4), Underscore.slice(asList(1, 2, 3, 4, 5), -3, 4));
+        assertEquals(asList(3, 4, 5), Underscore.chain(asList(1, 2, 3, 4, 5)).slice(2).value());
+        assertEquals(asList(2, 3, 4), Underscore.chain(asList(1, 2, 3, 4, 5)).slice(1, 4).value());
+        assertEquals(asList(3, 4, 5), asList(Underscore.slice(new Integer[] {1, 2, 3, 4, 5}, 2)));
+        assertEquals(asList(4, 5), asList(Underscore.slice(new Integer[] {1, 2, 3, 4, 5}, -2)));
+        assertEquals(
+                asList(2, 3, 4), asList(Underscore.slice(new Integer[] {1, 2, 3, 4, 5}, 1, 4)));
+        assertEquals(
+                asList(2, 3, 4), asList(Underscore.slice(new Integer[] {1, 2, 3, 4, 5}, 1, -1)));
+        assertEquals(asList(3, 4), asList(Underscore.slice(new Integer[] {1, 2, 3, 4, 5}, -3, 4)));
+        assertEquals(asList(3, 4), asList(Underscore.slice(new Integer[] {1, 2, 3, 4, 5}, -3, -1)));
     }
 
     /*
@@ -232,23 +257,31 @@ public class UnderscoreTest {
     */
     @Test
     public void splitAt() {
-        assertEquals("[[0, 1], [2, 3, 4]]", U.splitAt(U.range(5), 2).toString());
-        assertEquals("[[], [0, 1, 2, 3, 4]]", U.splitAt(U.range(5), 0).toString());
-        assertEquals("[[0, 1, 2, 3, 4], []]", U.splitAt(U.range(5), 20000).toString());
-        assertEquals("[[], [0, 1, 2, 3, 4]]", U.splitAt(U.range(5), -1000).toString());
-        assertEquals("[[], []]", U.splitAt(U.newIntegerList(), 0).toString());
-        assertEquals("[[0, 1], [2, 3, 4]]", new U<>(U.range(5)).splitAt(2).toString());
-        assertEquals("[[0, 1], [2, 3, 4]]", U.chain(U.range(5)).splitAt(2).value().toString());
+        assertEquals("[[0, 1], [2, 3, 4]]", Underscore.splitAt(Underscore.range(5), 2).toString());
         assertEquals(
-                "[[a, b], [c, d, e]]", U.splitAt(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
+                "[[], [0, 1, 2, 3, 4]]", Underscore.splitAt(Underscore.range(5), 0).toString());
+        assertEquals(
+                "[[0, 1, 2, 3, 4], []]", Underscore.splitAt(Underscore.range(5), 20000).toString());
+        assertEquals(
+                "[[], [0, 1, 2, 3, 4]]", Underscore.splitAt(Underscore.range(5), -1000).toString());
+        assertEquals("[[], []]", Underscore.splitAt(Underscore.newIntegerList(), 0).toString());
+        assertEquals(
+                "[[0, 1], [2, 3, 4]]", new Underscore<>(Underscore.range(5)).splitAt(2).toString());
+        assertEquals(
+                "[[0, 1], [2, 3, 4]]",
+                Underscore.chain(Underscore.range(5)).splitAt(2).value().toString());
+        assertEquals(
+                "[[a, b], [c, d, e]]",
+                Underscore.splitAt(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
         assertEquals(
                 "[[ant, bird], [camel, dog, elephant]]",
-                U.splitAt(asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
+                Underscore.splitAt(asList("ant", "bird", "camel", "dog", "elephant"), 2)
+                        .toString());
         assertEquals(
                 "[[0.1, 0.2], [0.3, 0.4, 0.5]]",
-                U.splitAt(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
+                Underscore.splitAt(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
         final Integer[] array = {0, 1, 2, 3, 4};
-        assertEquals("[[0, 1], [2, 3, 4]]", U.splitAt(array, 2).toString());
+        assertEquals("[[0, 1], [2, 3, 4]]", Underscore.splitAt(array, 2).toString());
     }
 
     /*
@@ -261,20 +294,26 @@ public class UnderscoreTest {
     */
     @Test
     public void takeSkipping() {
-        assertEquals("[0, 2, 4]", U.takeSkipping(U.range(5), 2).toString());
-        assertEquals("[0]", U.takeSkipping(U.range(5), 100000).toString());
-        assertEquals("[]", U.takeSkipping(U.range(5), -100).toString());
-        assertEquals("[]", U.takeSkipping(U.range(5), 0).toString());
-        assertEquals("[0, 2, 4]", new U<>(U.range(5)).takeSkipping(2).toString());
-        assertEquals("[0, 2, 4]", U.chain(U.range(5)).takeSkipping(2).value().toString());
-        assertEquals("[a, c, e]", U.takeSkipping(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
+        assertEquals("[0, 2, 4]", Underscore.takeSkipping(Underscore.range(5), 2).toString());
+        assertEquals("[0]", Underscore.takeSkipping(Underscore.range(5), 100000).toString());
+        assertEquals("[]", Underscore.takeSkipping(Underscore.range(5), -100).toString());
+        assertEquals("[]", Underscore.takeSkipping(Underscore.range(5), 0).toString());
+        assertEquals("[0, 2, 4]", new Underscore<>(Underscore.range(5)).takeSkipping(2).toString());
+        assertEquals(
+                "[0, 2, 4]",
+                Underscore.chain(Underscore.range(5)).takeSkipping(2).value().toString());
+        assertEquals(
+                "[a, c, e]",
+                Underscore.takeSkipping(asList('a', 'b', 'c', 'd', 'e'), 2).toString());
         assertEquals(
                 "[ant, camel, elephant]",
-                U.takeSkipping(asList("ant", "bird", "camel", "dog", "elephant"), 2).toString());
+                Underscore.takeSkipping(asList("ant", "bird", "camel", "dog", "elephant"), 2)
+                        .toString());
         assertEquals(
-                "[0.1, 0.3, 0.5]", U.takeSkipping(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
+                "[0.1, 0.3, 0.5]",
+                Underscore.takeSkipping(asList(0.1, 0.2, 0.3, 0.4, 0.5), 2).toString());
         final Integer[] array = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-        assertEquals("[0, 3, 6, 9]", U.takeSkipping(array, 3).toString());
+        assertEquals("[0, 3, 6, 9]", Underscore.takeSkipping(array, 3).toString());
     }
 
     /*
@@ -284,11 +323,12 @@ public class UnderscoreTest {
     @Test
     @SuppressWarnings("unchecked")
     public void copyOf() {
-        assertEquals(asList(1, 2, 3), U.copyOf(asList(1, 2, 3)));
-        assertEquals(asList(1, 2, 3), new U(asList(1, 2, 3)).copyOf());
-        assertFalse(asList(1, 2, 3) == U.copyOf(asList(1, 2, 3)));
-        assertEquals(asList("a", "b"), U.copyOfRange(asList("a", "b", "c", "d"), 0, 2));
-        assertEquals(asList("a", "b"), new U(asList("a", "b", "c", "d")).copyOfRange(0, 2));
+        assertEquals(asList(1, 2, 3), Underscore.copyOf(asList(1, 2, 3)));
+        assertEquals(asList(1, 2, 3), new Underscore(asList(1, 2, 3)).copyOf());
+        assertFalse(asList(1, 2, 3) == Underscore.copyOf(asList(1, 2, 3)));
+        assertEquals(asList("a", "b"), Underscore.copyOfRange(asList("a", "b", "c", "d"), 0, 2));
+        assertEquals(
+                asList("a", "b"), new Underscore(asList("a", "b", "c", "d")).copyOfRange(0, 2));
     }
 
     /*
@@ -297,8 +337,8 @@ public class UnderscoreTest {
     */
     @Test
     public void elementAt() {
-        assertEquals(2, U.<Integer>elementAt(asList(1, 2, 3), 1).intValue());
-        assertEquals(2, new U<>(asList(1, 2, 3)).elementAt(1).intValue());
+        assertEquals(2, Underscore.<Integer>elementAt(asList(1, 2, 3), 1).intValue());
+        assertEquals(2, new Underscore<>(asList(1, 2, 3)).elementAt(1).intValue());
     }
 
     /*
@@ -307,8 +347,8 @@ public class UnderscoreTest {
     */
     @Test
     public void get() {
-        assertEquals(2, U.<Integer>get(asList(1, 2, 3), 1).intValue());
-        assertEquals(2, new U<>(asList(1, 2, 3)).get(1).intValue());
+        assertEquals(2, Underscore.<Integer>get(asList(1, 2, 3), 1).intValue());
+        assertEquals(2, new Underscore<>(asList(1, 2, 3)).get(1).intValue());
     }
 
     /*
@@ -317,10 +357,10 @@ public class UnderscoreTest {
     */
     @Test
     public void set() {
-        Tuple<Integer, List<Integer>> result = U.<Integer>set(asList(1, 2, 3), 1, 100);
+        Tuple<Integer, List<Integer>> result = Underscore.<Integer>set(asList(1, 2, 3), 1, 100);
         assertEquals(2, result.fst().intValue());
-        assertEquals(100, U.<Integer>get(result.snd(), 1).intValue());
-        Tuple<Integer, List<Integer>> result2 = new U<>(asList(1, 2, 3)).set(2, 200);
+        assertEquals(100, Underscore.<Integer>get(result.snd(), 1).intValue());
+        Tuple<Integer, List<Integer>> result2 = new Underscore<>(asList(1, 2, 3)).set(2, 200);
         assertEquals(3, result2.fst().intValue());
         assertEquals(200, result2.snd().get(2).intValue());
     }
@@ -331,7 +371,7 @@ public class UnderscoreTest {
     */
     @Test(expected = IndexOutOfBoundsException.class)
     public void elementAtOutOfBounds() {
-        U.<Integer>elementAt(asList(1, 2, 3), 3);
+        Underscore.<Integer>elementAt(asList(1, 2, 3), 3);
     }
 
     /*
@@ -341,10 +381,10 @@ public class UnderscoreTest {
     */
     @Test
     public void elementAtOrElse() {
-        assertEquals(2, U.<Integer>elementAtOrElse(asList(1, 2, 3), 1, 0).intValue());
-        assertEquals(2, new U<>(asList(1, 2, 3)).elementAtOrElse(1, 0).intValue());
-        assertEquals(0, U.<Integer>elementAtOrElse(asList(1, 2, 3), 3, 0).intValue());
-        assertEquals(0, new U<>(asList(1, 2, 3)).elementAtOrElse(3, 0).intValue());
+        assertEquals(2, Underscore.<Integer>elementAtOrElse(asList(1, 2, 3), 1, 0).intValue());
+        assertEquals(2, new Underscore<>(asList(1, 2, 3)).elementAtOrElse(1, 0).intValue());
+        assertEquals(0, Underscore.<Integer>elementAtOrElse(asList(1, 2, 3), 3, 0).intValue());
+        assertEquals(0, new Underscore<>(asList(1, 2, 3)).elementAtOrElse(3, 0).intValue());
     }
 
     /*
@@ -354,10 +394,10 @@ public class UnderscoreTest {
     */
     @Test
     public void elementAtOrNull() {
-        assertEquals(2, U.<Integer>elementAtOrNull(asList(1, 2, 3), 1).intValue());
-        assertEquals(2, new U<>(asList(1, 2, 3)).elementAtOrNull(1).intValue());
-        assertNull(U.<Integer>elementAtOrNull(asList(1, 2, 3), 3));
-        assertNull(new U<>(asList(1, 2, 3)).elementAtOrNull(3));
+        assertEquals(2, Underscore.<Integer>elementAtOrNull(asList(1, 2, 3), 1).intValue());
+        assertEquals(2, new Underscore<>(asList(1, 2, 3)).elementAtOrNull(1).intValue());
+        assertNull(Underscore.<Integer>elementAtOrNull(asList(1, 2, 3), 3));
+        assertNull(new Underscore<>(asList(1, 2, 3)).elementAtOrNull(3));
     }
 
     /*
@@ -366,11 +406,11 @@ public class UnderscoreTest {
     @Test
     @SuppressWarnings("unchecked")
     public void reverse() {
-        assertEquals("[3, 2, 1]", U.reverse(asList(1, 2, 3)).toString());
-        assertEquals("[3, 2, 1]", U.reverse(new int[] {1, 2, 3}).toString());
-        assertEquals("[3, 2, 1]", new U(asList(1, 2, 3)).reverse().toString());
-        assertEquals("[3, 2, 1]", asList(U.reverse(new Integer[] {1, 2, 3})).toString());
-        assertEquals("[3, 2, 1]", U.chain(asList(1, 2, 3)).reverse().value().toString());
+        assertEquals("[3, 2, 1]", Underscore.reverse(asList(1, 2, 3)).toString());
+        assertEquals("[3, 2, 1]", Underscore.reverse(new int[] {1, 2, 3}).toString());
+        assertEquals("[3, 2, 1]", new Underscore(asList(1, 2, 3)).reverse().toString());
+        assertEquals("[3, 2, 1]", asList(Underscore.reverse(new Integer[] {1, 2, 3})).toString());
+        assertEquals("[3, 2, 1]", Underscore.chain(asList(1, 2, 3)).reverse().value().toString());
     }
 
     @Test
@@ -391,14 +431,15 @@ public class UnderscoreTest {
 
                             public void remove() {}
                         };
-        final Optional<Integer> result = U.findLast(iterable, item -> item % 2 == 0);
+        final Optional<Integer> result = Underscore.findLast(iterable, item -> item % 2 == 0);
         assertEquals("Optional[6]", result.toString());
     }
 
     @Test
     public void iterate() {
         Iterable<long[]> iterable =
-                U.<long[]>iterate(new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
+                Underscore.<long[]>iterate(
+                        new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
         iterable.iterator().remove();
         assertTrue(iterable.iterator().hasNext());
         assertArrayEquals(new long[] {1, 1}, iterable.iterator().next());
@@ -408,9 +449,10 @@ public class UnderscoreTest {
     @Test
     public void iterateChain() {
         Iterable<long[]> iterable =
-                U.<long[]>iterate(new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
-        assertEquals(1L, U.chain(iterable, 5).first().item()[0]);
-        U.of(iterable, 5);
+                Underscore.<long[]>iterate(
+                        new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
+        assertEquals(1L, Underscore.chain(iterable, 5).first().item()[0]);
+        Underscore.of(iterable, 5);
         class MyIterable<T> implements Iterable<T> {
             public Iterator<T> iterator() {
                 return new Iterator<T>() {
@@ -429,7 +471,7 @@ public class UnderscoreTest {
                 };
             }
         }
-        assertTrue(U.chain(new MyIterable<Integer>(), 5).isEmpty());
+        assertTrue(Underscore.chain(new MyIterable<Integer>(), 5).isEmpty());
     }
 
     @Test
@@ -485,50 +527,50 @@ public class UnderscoreTest {
 
     @Test(expected = NullPointerException.class)
     public void checkNotNull() {
-        U.checkNotNull(null);
+        Underscore.checkNotNull(null);
     }
 
     @Test
     public void checkNotNullWithObject() {
-        assertEquals("123", U.checkNotNull("123"));
+        assertEquals("123", Underscore.checkNotNull("123"));
     }
 
     @Test(expected = NullPointerException.class)
     public void checkNotNullWithMessage() {
-        U.checkNotNull(null, "Error message");
+        Underscore.checkNotNull(null, "Error message");
     }
 
     @Test(expected = NullPointerException.class)
     public void checkNotNull2() {
-        U.checkNotNullElements(null);
+        Underscore.checkNotNullElements(null);
     }
 
     @Test
     public void checkNotNullWithObjectAndMessage() {
-        assertEquals("123", U.checkNotNull("123", "Error message"));
+        assertEquals("123", Underscore.checkNotNull("123", "Error message"));
     }
 
     @Test
     public void nonNull() {
-        assertFalse(U.nonNull(null));
-        assertTrue(U.nonNull(""));
+        assertFalse(Underscore.nonNull(null));
+        assertTrue(Underscore.nonNull(""));
     }
 
     @Test
     public void defaultTo() {
-        assertNull(U.defaultTo(null, null));
+        assertNull(Underscore.defaultTo(null, null));
     }
 
     @Test
     public void defaultTo2() {
-        assertEquals("123", U.defaultTo("123", "124"));
+        assertEquals("123", Underscore.defaultTo("123", "124"));
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void and() {
         Predicate<Integer> predicate =
-                U.and(
+                Underscore.and(
                         (Predicate<Object>) Objects::nonNull,
                         (Predicate<Number>) value -> value.intValue() > 0,
                         (Predicate<Integer>) value -> (50 <= value) && (value <= 60));
@@ -544,7 +586,7 @@ public class UnderscoreTest {
     @SuppressWarnings("unchecked")
     public void or() {
         Predicate<Integer> predicate =
-                U.or(
+                Underscore.or(
                         (Predicate<Object>) Objects::isNull,
                         (Predicate<Number>) value -> value.intValue() > 2000,
                         (Predicate<Integer>) value -> (50 <= value) && (value <= 60));
@@ -562,7 +604,7 @@ public class UnderscoreTest {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
         assertEquals(
                 "{D=67.3, B=67.4, C=67.4, A=99.5}",
-                U.chain(
+                Underscore.chain(
                                 (new LinkedHashMap<String, Double>() {
                                             {
                                                 put("A", 99.5);
@@ -583,7 +625,7 @@ public class UnderscoreTest {
         // http://stackoverflow.com/questions/12229577/java-hashmap-sorting-string-integer-how-to-sort-it?lq=1
         assertEquals(
                 "{a=5, f=5, c=4, e=3, b=2, d=2}",
-                U.chain(
+                Underscore.chain(
                                 (new LinkedHashMap<String, Integer>() {
                                             {
                                                 put("a", 5);
@@ -606,7 +648,7 @@ public class UnderscoreTest {
         // http://stackoverflow.com/questions/11647889/sorting-the-mapkey-value-in-descending-order-based-on-the-value?lq=1
         assertEquals(
                 "{C=50, A=34, B=25}",
-                U.chain(
+                Underscore.chain(
                                 (new LinkedHashMap<String, Integer>() {
                                             {
                                                 put("A", 34);
@@ -644,7 +686,7 @@ public class UnderscoreTest {
         }
         Entity entity1 = new Entity(1, "one");
         Entity entity2 = new Entity(2, "two");
-        assertEquals("[1, 2]", U.pluck(asList(entity1, entity2), "getId").toString());
+        assertEquals("[1, 2]", Underscore.pluck(asList(entity1, entity2), "getId").toString());
     }
 
     @Test
@@ -654,8 +696,9 @@ public class UnderscoreTest {
         List<Integer> selected = asList(16, 19, 107, 108, 109);
         assertEquals(
                 "[107, 108, 109]",
-                U.difference(selected, U.intersection(original, selected)).toString());
-        assertEquals("[12, 17, 101]", U.difference(original, selected).toString());
+                Underscore.difference(selected, Underscore.intersection(original, selected))
+                        .toString());
+        assertEquals("[12, 17, 101]", Underscore.difference(original, selected).toString());
     }
 
     @Test
@@ -671,14 +714,14 @@ public class UnderscoreTest {
         };
         List<Map<String, Object>> result =
                 (List<Map<String, Object>>)
-                        U.chain(asList(strings))
+                        Underscore.chain(asList(strings))
                                 .map(
                                         item -> {
                                             Map<String, Object> resultItem = new LinkedHashMap<>();
                                             resultItem.put("string", item);
                                             resultItem.put(
                                                     "longestWord",
-                                                    U.chain(asList(item.split("\\s+")))
+                                                    Underscore.chain(asList(item.split("\\s+")))
                                                             .map(String::length)
                                                             .max()
                                                             .item());

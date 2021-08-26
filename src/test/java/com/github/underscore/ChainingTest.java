@@ -82,13 +82,13 @@ public class ChainingTest {
                     }
                 };
         final String youngest =
-                U.chain(stooges)
+                Underscore.chain(stooges)
                         .sortBy(item -> (Integer) item.get("age"))
                         .map(item -> item.get("name") + " is " + item.get("age"))
                         .first()
                         .item();
         assertEquals("moe is 21", youngest);
-        U.of(stooges);
+        Underscore.of(stooges);
     }
 
     @Test
@@ -120,13 +120,13 @@ public class ChainingTest {
                     }
                 };
         final String youngest =
-                U.chain(stooges)
+                Underscore.chain(stooges)
                         .sortBy(item -> (Integer) item.get("age"))
                         .map(item -> item.get("name") + " is " + item.get("age"))
                         .first()
                         .item();
         assertEquals("moe is 21", youngest);
-        U.of(stooges);
+        Underscore.of(stooges);
     }
 
     @Test
@@ -159,7 +159,7 @@ public class ChainingTest {
                     }
                 };
         final String youngest =
-                new U(stooges)
+                new Underscore(stooges)
                         .chain()
                         .sortBy(
                                 (Function<Map<String, Object>, Integer>)
@@ -171,7 +171,7 @@ public class ChainingTest {
                         .item()
                         .toString();
         assertEquals("moe is 21", youngest);
-        new U(stooges).of();
+        new Underscore(stooges).of();
     }
 
     @Test
@@ -203,14 +203,14 @@ public class ChainingTest {
                     }
                 };
         final String youngest =
-                U.chain(stooges)
+                Underscore.chain(stooges)
                         .sortBy(item -> (Integer) item.get("age"))
                         .map(item -> item.get("name") + " is " + item.get("age"))
                         .first()
                         .item();
         assertEquals("moe is 21", youngest);
-        assertEquals("[1, 2, 3]", U.chain(new int[] {1, 2, 3}).toString());
-        assertEquals("[1, 2, 3]", U.of(new int[] {1, 2, 3}).toString());
+        assertEquals("[1, 2, 3]", Underscore.chain(new int[] {1, 2, 3}).toString());
+        assertEquals("[1, 2, 3]", Underscore.of(new int[] {1, 2, 3}).toString());
     }
 
     /*
@@ -269,7 +269,7 @@ public class ChainingTest {
                     }
                 };
         final String result =
-                U.chain(lyrics)
+                Underscore.chain(lyrics)
                         .map(item -> asList(String.valueOf(item.get("words")).split(" ")))
                         .flatten()
                         .reduce(
@@ -347,7 +347,7 @@ public class ChainingTest {
                     }
                 };
         final String result =
-                U.chain(lyrics)
+                Underscore.chain(lyrics)
                         .map(item -> asList(String.valueOf(item.get("words")).split(" ")))
                         .flatten()
                         .reduceRight(
@@ -428,7 +428,7 @@ public class ChainingTest {
                     }
                 };
         final String result =
-                U.chain(doctors)
+                Underscore.chain(doctors)
                         .filter(item -> (Integer) item.get("begin") > 2000)
                         .reject(item -> (Integer) item.get("end") > 2009)
                         .map(
@@ -451,7 +451,7 @@ public class ChainingTest {
                         .value()
                         .toString();
         assertEquals("[{doctorNumber=#9, playedBy=Christopher Eccleston, yearsPlayed=1}]", result);
-        U.chain(doctors).toList();
+        Underscore.chain(doctors).toList();
     }
 
     /*
@@ -501,15 +501,15 @@ public class ChainingTest {
                                 });
                     }
                 };
-        final String result = U.chain(doctors).skip(1).limit(1).value().toString();
+        final String result = Underscore.chain(doctors).skip(1).limit(1).value().toString();
         assertEquals("[{number=9, actor=Christopher Eccleston, begin=2005, end=2005}]", result);
     }
 
     @Test
     public void chain6() {
         final List<Comparable> result =
-                U.chain(
-                                U.chain(U.class.getDeclaredMethods())
+                Underscore.chain(
+                                Underscore.chain(Underscore.class.getDeclaredMethods())
                                         .reduce(
                                                 (BiFunction<List<String>, Method, List<String>>)
                                                         (accum, method) -> {
@@ -539,19 +539,19 @@ public class ChainingTest {
         String[] words =
                 new String[] {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum =
-                U.chain(words)
+                Underscore.chain(words)
                         .filter(w -> w.startsWith("E"))
                         .map(String::length)
                         .reduce(Integer::sum, 0)
                         .item();
         assertEquals(34, sum);
-        U.of(words);
+        Underscore.of(words);
     }
 
     @Test
     public void chain8() {
         final List<Comparable> result =
-                U.chain(U.class.getDeclaredMethods())
+                Underscore.chain(Underscore.class.getDeclaredMethods())
                         .map(Method::getName)
                         .reject(name -> name.contains("$"))
                         .uniq(
@@ -569,8 +569,8 @@ public class ChainingTest {
     @Test
     public void chain9() {
         final List<Comparable> result =
-                U.chain(
-                                U.chain(U.class.getDeclaredMethods())
+                Underscore.chain(
+                                Underscore.chain(Underscore.class.getDeclaredMethods())
                                         .reduce(
                                                 (BiFunction<List<String>, Method, List<String>>)
                                                         (accum, method) -> {
@@ -591,7 +591,7 @@ public class ChainingTest {
     public void chainToMap() {
         assertEquals(
                 "{name1=one, name2=two}",
-                U.chain(
+                Underscore.chain(
                                 (new LinkedHashMap<String, String>() {
                                             {
                                                 put("name1", "one");
@@ -606,7 +606,7 @@ public class ChainingTest {
 
     @Test
     public void chainRange() {
-        assertEquals("[0, 1, 2]", U.chain(U.range(3)).value().toString());
+        assertEquals("[0, 1, 2]", Underscore.chain(Underscore.range(3)).value().toString());
     }
 
     @Test
@@ -614,7 +614,7 @@ public class ChainingTest {
     public void chainMap() {
         assertEquals(
                 "{name1=one, name2=two}",
-                U.chain(
+                Underscore.chain(
                                 new LinkedHashMap<String, Object>() {
                                     {
                                         put("name1", "one");
