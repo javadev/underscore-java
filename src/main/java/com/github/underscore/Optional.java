@@ -25,7 +25,7 @@ public final class Optional<T> {
     }
 
     public static <T> Optional<T> fromNullable(final T nullableReference) {
-        return nullableReference == null ? Optional.<T>empty() : new Optional<>(nullableReference);
+        return nullableReference == null ? Optional.empty() : new Optional<>(nullableReference);
     }
 
     @SuppressWarnings("unchecked")
@@ -64,16 +64,16 @@ public final class Optional<T> {
 
     @SuppressWarnings("unchecked")
     public Optional<T> filter(Predicate<? super T> predicate) {
-        U.checkNotNull(predicate);
+        Underscore.checkNotNull(predicate);
         if (isPresent()) {
-            return predicate.test(arg) ? this : Optional.<T>empty();
+            return predicate.test(arg) ? this : Optional.empty();
         } else {
             return this;
         }
     }
 
     public <F> Optional<F> map(Function<? super T, F> mapper) {
-        U.checkNotNull(mapper);
+        Underscore.checkNotNull(mapper);
         if (isPresent()) {
             return Optional.fromNullable(mapper.apply(arg));
         } else {

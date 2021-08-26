@@ -476,7 +476,7 @@ public class LodashTest {
         // Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
         //            result.text());
         //        assertEquals("Sir. Russell Jones of Alberta",
-        //            (String) U.get((Map<String, Object>) result.json(), "knight.name"));
+        //            (String) Underscore.get((Map<String, Object>) result.json(), "knight.name"));
         U.Chain<?> resultChain =
                 U.chain(
                                 "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")

@@ -2352,7 +2352,7 @@ public class StringTest {
                         (List<Object>)
                                 U.fromXmlWithoutNamespaces(
                                         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root empty-array=\"true\">"
-                                        + "</root>")));
+                                                + "</root>")));
         assertEquals(
                 "[\n  {\n    \"a\": [\n      {\n      },\n      {\n      }\n    ]\n  }\n]",
                 U.toJson(
@@ -2365,7 +2365,7 @@ public class StringTest {
                         (Map<String, Object>)
                                 U.fromXmlWithoutAttributes(
                                         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                                        + "<root><a b=\"1\"></a><a></a></root>")));
+                                                + "<root><a b=\"1\"></a><a></a></root>")));
         assertEquals(
                 "{\n  \"a\": [\n    {\n    },\n    {\n    }\n  ]\n}",
                 U.toJson(

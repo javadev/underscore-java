@@ -65,7 +65,7 @@
               <archive>
                   <manifestEntries>
                       <Automatic-Module-Name>com.github.underscore</Automatic-Module-Name>
-                      <Main-Class>com.github.underscore.U</Main-Class>
+                      <Main-Class>com.github.underscore.Underscore</Main-Class>
                   </manifestEntries>
               </archive>
           </configuration>
