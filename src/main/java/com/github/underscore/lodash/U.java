@@ -2016,17 +2016,23 @@ public class U<T> extends Underscore<T> {
 
             static MyX509TrustManager manger = new MyX509TrustManager();
 
-            public MyX509TrustManager() {}
+            public MyX509TrustManager() {
+                // ignore MyX509TrustManager
+            }
 
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                 return new java.security.cert.X509Certificate[] {};
             }
 
             public void checkClientTrusted(
-                    java.security.cert.X509Certificate[] chain, String authType) {}
+                    java.security.cert.X509Certificate[] chain, String authType) {
+                // ignore checkClientTrusted
+            }
 
             public void checkServerTrusted(
-                    java.security.cert.X509Certificate[] chain, String authType) {}
+                    java.security.cert.X509Certificate[] chain, String authType) {
+                // ignore checkServerTrusted
+            }
         }
     }
 

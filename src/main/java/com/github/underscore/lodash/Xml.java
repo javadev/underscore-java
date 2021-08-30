@@ -1096,11 +1096,11 @@ public final class Xml {
         final XmlStringBuilder builder;
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {
-            localMap = (Map) U.clone(map);
+            localMap = (Map) ((LinkedHashMap) map).clone();
             builder =
                     checkStandalone(String.valueOf(localMap.remove(ENCODING)), identStep, localMap);
         } else if (map != null && map.containsKey(STANDALONE)) {
-            localMap = (Map) U.clone(map);
+            localMap = (Map) ((LinkedHashMap) map).clone();
             builder =
                     new XmlStringBuilderWithoutRoot(
                             identStep,
@@ -1110,7 +1110,7 @@ public final class Xml {
                                     + "\"");
             localMap.remove(STANDALONE);
         } else if (map != null && map.containsKey(OMITXMLDECLARATION)) {
-            localMap = (Map) U.clone(map);
+            localMap = (Map) ((LinkedHashMap) map).clone();
             builder = new XmlStringBuilderWithoutHeader(identStep, 0);
             localMap.remove(OMITXMLDECLARATION);
         } else {
@@ -1125,7 +1125,7 @@ public final class Xml {
             final XmlStringBuilder builder, final Map localMap, final String newRootName) {
         final Map localMap2;
         if (localMap != null && localMap.containsKey(DOCTYPE_TEXT)) {
-            localMap2 = (Map) U.clone(localMap);
+            localMap2 = (Map) ((LinkedHashMap) localMap).clone();
             localMap2.remove(DOCTYPE_TEXT);
             builder.append(DOCTYPE_HEADER)
                     .append(String.valueOf(localMap.get(DOCTYPE_TEXT)))

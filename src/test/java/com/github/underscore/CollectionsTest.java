@@ -795,30 +795,30 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void invoke() {
-        assertEquals(Underscore.invoke(asList(" foo ", "  bar"), "trim"), asList("foo", "bar"));
-        assertEquals(new Underscore(asList(" foo ", "  bar")).invoke("trim"), asList("foo", "bar"));
+        assertEquals(asList("foo", "bar"), Underscore.invoke(asList(" foo ", "  bar"), "trim"));
+        assertEquals(asList("foo", "bar"), new Underscore(asList(" foo ", "  bar")).invoke("trim"));
         assertEquals(
-                Underscore.chain(asList(" foo ", "  bar")).invoke("trim").value(),
-                asList("foo", "bar"));
+                asList("foo", "bar"),
+                Underscore.chain(asList(" foo ", "  bar")).invoke("trim").value());
         assertEquals(
-                Underscore.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")),
-                asList("foo1", "bar1"));
+                asList("foo1", "bar1"),
+                Underscore.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")));
         assertEquals(
-                new Underscore(asList("foo", "bar")).invoke("concat", Arrays.<Object>asList("1")),
-                asList("foo1", "bar1"));
+                asList("foo1", "bar1"),
+                new Underscore(asList("foo", "bar")).invoke("concat", Arrays.<Object>asList("1")));
         assertEquals(
+                asList("foo1", "bar1"),
                 Underscore.chain(asList("foo", "bar"))
                         .invoke("concat", Arrays.<Object>asList("1"))
-                        .value(),
-                asList("foo1", "bar1"));
+                        .value());
         assertEquals(
+                asList("[1, 5, 7]", "[1, 2, 3]").toString(),
                 Underscore.invoke(
                                 asList(
                                         Underscore.chain(asList(5, 1, 7)),
                                         Underscore.chain(asList(3, 2, 1))),
                                 "sort")
-                        .toString(),
-                asList("[1, 5, 7]", "[1, 2, 3]").toString());
+                        .toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
