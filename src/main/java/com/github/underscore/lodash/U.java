@@ -2038,12 +2038,6 @@ public class U<T> extends Underscore<T> {
         }
     }
 
-    static class NoHostnameVerifier implements javax.net.ssl.HostnameVerifier {
-        public boolean verify(String hostname, javax.net.ssl.SSLSession session) {
-            return true;
-        }
-    }
-
     private static void setupConnection(
             final java.net.HttpURLConnection connection,
             final String method,
@@ -2067,8 +2061,6 @@ public class U<T> extends Underscore<T> {
         if (connection instanceof javax.net.ssl.HttpsURLConnection) {
             ((javax.net.ssl.HttpsURLConnection) connection)
                     .setSSLSocketFactory(new BaseHttpSslSocketFactory());
-            ((javax.net.ssl.HttpsURLConnection) connection)
-                    .setHostnameVerifier(new NoHostnameVerifier());
         }
         if (headerFields != null) {
             for (final Map.Entry<String, List<String>> header : headerFields.entrySet()) {

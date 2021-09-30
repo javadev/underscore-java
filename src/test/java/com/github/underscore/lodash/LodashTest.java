@@ -598,11 +598,6 @@ public class LodashTest {
         //            resultChain.item());
     }
 
-    @Test
-    public void noHostnameVerifier() {
-        new U.NoHostnameVerifier().verify("", (javax.net.ssl.SSLSession) null);
-    }
-
     @Test(expected = UnsupportedOperationException.class)
     public void fetchWrongUrl() {
         U.fetch("ttt");
