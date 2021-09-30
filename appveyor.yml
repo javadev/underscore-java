@@ -14,7 +14,6 @@ install:
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
       }
   - cmd: SET PATH=C:\maven\apache-maven-3.5.4\bin;%JAVA_HOME%\bin;%PATH%
-  - cmd: SET MAVEN_OPTS=-Dhttps.protocols=TLSv1.2
 build_script:
   - mvn clean install -B -DskipTests
 test_script:
