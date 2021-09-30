@@ -4,6 +4,7 @@ underscore-java
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.javadev/underscore/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.javadev/underscore)
 [![MIT License](http://img.shields.io/badge/license-MIT-green.svg) ](https://github.com/javadev/underscore-java/blob/main/LICENSE.txt)
 [![Java CI](https://github.com/javadev/underscore-java/actions/workflows/maven.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/maven.yml)
+[![CodeQL](https://github.com/javadev/underscore-java/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/codeql-analysis.yml)
 [![Coverage Status](https://coveralls.io/repos/javadev/underscore-java/badge.svg?branch=main)](https://coveralls.io/r/javadev/underscore-java)
 [![codecov](https://codecov.io/gh/javadev/underscore-java/branch/master/graph/badge.svg?token=IZXYx3kg5y)](https://codecov.io/gh/javadev/underscore-java)
 [![CircleCI](https://circleci.com/gh/javadev/underscore-java.svg?style=svg)](https://circleci.com/gh/javadev/underscore-java)
