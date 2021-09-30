@@ -1662,11 +1662,9 @@ public final class Xml {
         } else if (headerAttributes.containsKey(STANDALONE.substring(1))) {
             ((Map) result).put(STANDALONE, headerAttributes.get(STANDALONE.substring(1)));
         } else if (fromType == FromType.FOR_CONVERT
-                && ((Map.Entry) ((Map) result).entrySet().iterator().next()).getKey().equals(ROOT)
-                && (((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue()
-                                instanceof List
-                        || ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue()
-                                instanceof Map)) {
+                && Xml.XmlValue.getMapKey(result).equals(ROOT)
+                && (Xml.XmlValue.getMapValue(result) instanceof List
+                        || Xml.XmlValue.getMapValue(result) instanceof Map)) {
             if (xml.startsWith(XML_HEADER)) {
                 return true;
             } else {
