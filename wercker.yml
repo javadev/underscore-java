@@ -1,4 +1,4 @@
-box: maven:3.5.3-jdk-8
+box: maven:3.8.2-jdk-11
 build:
   steps:
     - xenoterracide/maven:
