@@ -12,7 +12,6 @@ underscore-java
 [![wercker status](https://app.wercker.com/status/d1130226089a5bd54d205e1901cbef3b/s "wercker status")](https://app.wercker.com/project/bykey/d1130226089a5bd54d205e1901cbef3b)
 [![Build status](https://ci.appveyor.com/api/projects/status/tx7icv3i08qowv6r?svg=true)](https://ci.appveyor.com/project/javadev/underscore-java)
 [![Build Status](https://semaphoreci.com/api/v1/javadev/underscore-java/branches/main/badge.svg)](https://semaphoreci.com/javadev/underscore-java)
-[![Run Status](https://api.shippable.com/projects/55def20f1895ca44741030a2/badge?branch=main)](https://app.shippable.com/projects/55def20f1895ca44741030a2)
 [![Known Vulnerabilities](https://snyk.io/test/github/javadev/underscore-java/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/javadev/underscore-java?targetFile=pom.xml)
 [![Sputnik](https://sputnik.ci/conf/badge)](https://sputnik.ci/app#/builds/javadev/underscore-java)
 [![Code Scene](https://img.shields.io/badge/codescene-analyzed-brightgreen.svg)](https://codescene.io/projects/1173/jobs/latest-successful/results)
