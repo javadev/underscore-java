@@ -23,7 +23,7 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
     - name: Build with Maven
-      run: mvn test jacoco:report --file pom.xml -B 
+      run: mvn test jacoco:report coveralls:report --file pom.xml -B 
 
     - uses: codecov/codecov-action@v1
       with:
