@@ -1,4 +1,6 @@
 box: maven:3-openjdk-11
+username: javadev
+password: f927ac8c-194c-4128-b5b9-b6549aa8cd3d
 build:
   steps:
     - xenoterracide/maven:
