@@ -2445,7 +2445,7 @@ public class U<T> extends Underscore<T> {
         final String result;
         if (object instanceof Map) {
             if (mode == Mode.FORCE_ATTRIBUTE_USAGE) {
-                result = Xml.toXml(forceAttributeUsage((Map) object), identStep);
+                result = Xml.toXml(forceAttributeUsage((Map) object), identStep, newRootName);
             } else if (mode == Mode.DEFINE_ROOT_NAME) {
                 result = Xml.toXml((Map) object, identStep, newRootName);
             } else if (mode == Mode.FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME) {
@@ -2461,7 +2461,7 @@ public class U<T> extends Underscore<T> {
             } else if (mode == Mode.FORCE_ADD_ROOT_JSON_TO_XML
                     && !Xml.XmlValue.getMapKey(object).equals(ROOT)) {
                 final Map<String, Object> map = U.newLinkedHashMap();
-                map.put(Underscore.isNull(newRootName) ? ROOT : newRootName, object);
+                map.put(newRootName, object);
                 result = Xml.toXml(map, identStep);
             } else {
                 result = Xml.toXml((Map) object, identStep);
@@ -2472,7 +2472,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static String jsonToXml(String json, Mode mode) {
-        return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, mode, null);
+        return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, mode, ROOT);
     }
 
     public static String jsonToXml(String json, Mode mode, String newRootName) {
