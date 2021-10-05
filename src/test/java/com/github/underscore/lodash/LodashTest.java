@@ -779,7 +779,7 @@ public class LodashTest {
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<json a=\"b\" c=\"d\"></json>",
                 U.jsonToXml(
                         "{\"a\": \"b\", \"c\": \"d\"}",
-                        U.Mode.FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME,
+                        U.Mode.FORCE_ATTRIBUTE_USAGE,
                         "json"));
     }
 

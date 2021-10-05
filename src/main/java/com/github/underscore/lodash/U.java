@@ -113,7 +113,6 @@ public class U<T> extends Underscore<T> {
         REPLACE_EMPTY_TAG_WITH_EMPTY_STRING,
         FORCE_ATTRIBUTE_USAGE,
         DEFINE_ROOT_NAME,
-        FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME,
         REPLACE_NULL_WITH_EMPTY_VALUE,
         REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE,
         REMOVE_FIRST_LEVEL_XML_TO_JSON,
@@ -2448,8 +2447,6 @@ public class U<T> extends Underscore<T> {
                 result = Xml.toXml(forceAttributeUsage((Map) object), identStep, newRootName);
             } else if (mode == Mode.DEFINE_ROOT_NAME) {
                 result = Xml.toXml((Map) object, identStep, newRootName);
-            } else if (mode == Mode.FORCE_ATTRIBUTE_USAGE_AND_DEFINE_ROOT_NAME) {
-                result = Xml.toXml(forceAttributeUsage((Map) object), identStep, newRootName);
             } else if (mode == Mode.REPLACE_NULL_WITH_EMPTY_VALUE) {
                 result = Xml.toXml(replaceNullWithEmptyValue((Map) object), identStep, newRootName);
             } else if (mode == Mode.REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE) {
