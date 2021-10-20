@@ -48,7 +48,7 @@ Include the following in your `pom.xml` for Maven:
 Gradle:
 
 ```groovy
-compile 'com.github.javadev:underscore:1.70'
+implementation 'com.github.javadev:underscore:1.70'
 ```
 
 ### Usage
