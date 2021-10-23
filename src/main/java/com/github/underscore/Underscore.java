@@ -1165,7 +1165,6 @@ public class Underscore<T> {
         return array.length;
     }
 
-    @SuppressWarnings("unchecked")
     public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {
         final List<E> retVal1 = newArrayList();
         final List<E> retVal2 = newArrayList();

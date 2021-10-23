@@ -62,7 +62,6 @@ public final class Optional<T> {
         return !absent;
     }
 
-    @SuppressWarnings("unchecked")
     public Optional<T> filter(Predicate<? super T> predicate) {
         Underscore.checkNotNull(predicate);
         if (isPresent()) {

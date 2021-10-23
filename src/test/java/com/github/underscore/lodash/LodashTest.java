@@ -777,10 +777,7 @@ public class LodashTest {
                 U.jsonToXml("{\"a\": \"b\", \"c\": \"d\"}", "json"));
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<json a=\"b\" c=\"d\"></json>",
-                U.jsonToXml(
-                        "{\"a\": \"b\", \"c\": \"d\"}",
-                        U.Mode.FORCE_ATTRIBUTE_USAGE,
-                        "json"));
+                U.jsonToXml("{\"a\": \"b\", \"c\": \"d\"}", U.Mode.FORCE_ATTRIBUTE_USAGE, "json"));
     }
 
     @Test
@@ -816,7 +813,8 @@ public class LodashTest {
                                 + "    }\n"
                                 + "  ]\n"
                                 + "}",
-                        U.Mode.FORCE_ADD_ROOT_JSON_TO_XML, "newroot"));
+                        U.Mode.FORCE_ADD_ROOT_JSON_TO_XML,
+                        "newroot"));
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<root>\n"
@@ -1136,6 +1134,28 @@ public class LodashTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
+    public void deepCopyMap() {
+        Map<String, Object> result = U.deepCopyMap(U.fromXml("<a/>"));
+        assertEquals("{a={-self-closing=true}, #omit-xml-declaration=yes}", result.toString());
+        Map<String, Object> result2 = U.deepCopyMap(U.fromXml("<a><b>c</b></a>"));
+        assertEquals("{a={b=c}, #omit-xml-declaration=yes}", result2.toString());
+        Map<String, Object> map = U.newLinkedHashMap();
+        List<Object> list = U.newArrayList();
+        list.add(U.newLinkedHashMap());
+        map.put("list", list);
+        U.deepCopyMap(map);
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        List<Object> list2 = U.newArrayList();
+        list2.add(U.newArrayList());
+        map2.put("list", list2);
+        U.deepCopyMap(map2);
+        Map<String, Object> result3 = U.fromXml("<a/>");
+        ((Map<String, Object>) result3.get("a")).put("-self-closing", "false");
+        U.deepCopyMap(result3);
+    }
+
+    @Test
     public void objectBuilder() {
         U.Builder builder = U.objectBuilder().add("1", "2").add("2");
         builder.add(builder);
@@ -1143,6 +1163,7 @@ public class LodashTest {
         U.Builder.fromJson("{}");
         builder.toXml();
         U.Builder.fromXml("<a/>");
+        U.Builder.fromMap(U.newLinkedHashMap());
         builder.set("1", "3");
         builder.toString();
         assertEquals("{1=3}", builder.build().toString());
