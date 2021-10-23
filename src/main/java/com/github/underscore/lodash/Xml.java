@@ -1849,7 +1849,7 @@ public final class Xml {
     }
 
     public static String formatXml(String xml) {
-        return formatXml(xml, XmlStringBuilder.Step.THREE_SPACES);
+        return formatXml(xml, XmlStringBuilder.Step.TWO_SPACES);
     }
 
     @SuppressWarnings("unchecked")

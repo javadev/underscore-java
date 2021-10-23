@@ -899,16 +899,16 @@ public class LodashTest {
     @Test
     public void formatXml() {
         assertEquals(
-                "<root>\n   <element>1</element>\n   <element>2</element>\n</root>",
+                "<root>\n  <element>1</element>\n  <element>2</element>\n</root>",
                 U.formatXml("<root><element>1</element><element>2</element></root>"));
         assertEquals(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n   <element>1</element>\n"
-                        + "   <element>2</element>\n</root>",
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>1</element>\n"
+                        + "  <element>2</element>\n</root>",
                 U.formatXml(
                         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root><element>1</element>"
                                 + "<element>2</element></root>"));
         assertEquals(
-                "<a>\n   <b></b>\n   <b></b>\n</a>",
+                "<a>\n  <b></b>\n  <b></b>\n</a>",
                 U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>"));
         assertEquals(
                 "<a>\n    <b></b>\n    <b></b>\n</a>",
@@ -1049,9 +1049,9 @@ public class LodashTest {
 
     @Test
     public void formatJson() {
-        assertEquals("{\n   \"a\": {\n   }\n}", U.formatJson("{\n  \"a\": {\n  }\n}"));
+        assertEquals("{\n  \"a\": {\n  }\n}", U.formatJson("{\n  \"a\": {\n  }\n}"));
         assertEquals("[\n]", U.formatJson("[]"));
-        assertEquals("[\n   1.00\n]", U.formatJson("[1.00]"));
+        assertEquals("[\n  1.00\n]", U.formatJson("[1.00]"));
         assertEquals(
                 "{\n    \"a\": {\n    }\n}",
                 U.formatJson("{\n  \"a\": {\n  }\n}", Json.JsonStringBuilder.Step.FOUR_SPACES));

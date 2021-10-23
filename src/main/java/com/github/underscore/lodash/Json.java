@@ -904,6 +904,6 @@ public final class Json {
     }
 
     public static String formatJson(String json) {
-        return formatJson(json, JsonStringBuilder.Step.THREE_SPACES);
+        return formatJson(json, JsonStringBuilder.Step.TWO_SPACES);
     }
 }
