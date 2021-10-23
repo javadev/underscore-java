@@ -3411,7 +3411,6 @@ public class StringTest {
         U.fromXml(stringXml);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void fromXmlMap() {
         String stringXml =
@@ -3424,7 +3423,6 @@ public class StringTest {
         assertEquals("{}", U.fromXmlMap(stringXml3, Xml.FromType.FOR_CONVERT).toString());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void fromJsonMap() {
         String stringJson = "[]";
@@ -3901,7 +3899,6 @@ public class StringTest {
                 builder.toString());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void toJsonJavaFromList() {
         final List<String> testList = new ArrayList<>();

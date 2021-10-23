@@ -194,11 +194,6 @@ public final class Xml {
         public XmlStringBuilderText(XmlStringBuilder.Step identStep, int ident) {
             super(identStep, ident);
         }
-
-        @Override
-        public String toString() {
-            return super.toString();
-        }
     }
 
     public static class XmlArray {
@@ -237,7 +232,6 @@ public final class Xml {
             }
         }
 
-        @SuppressWarnings("unchecked")
         private static void writeXml(
                 Collection<?> collection,
                 XmlStringBuilder builder,

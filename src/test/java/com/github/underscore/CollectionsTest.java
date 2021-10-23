@@ -30,7 +30,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -802,14 +801,15 @@ public class CollectionsTest {
                 Underscore.chain(asList(" foo ", "  bar")).invoke("trim").value());
         assertEquals(
                 asList("foo1", "bar1"),
-                Underscore.invoke(asList("foo", "bar"), "concat", Arrays.<Object>asList("1")));
+                Underscore.invoke(asList("foo", "bar"), "concat", Collections.singletonList("1")));
         assertEquals(
                 asList("foo1", "bar1"),
-                new Underscore(asList("foo", "bar")).invoke("concat", Arrays.<Object>asList("1")));
+                new Underscore(asList("foo", "bar"))
+                        .invoke("concat", Collections.<Object>singletonList("1")));
         assertEquals(
                 asList("foo1", "bar1"),
                 Underscore.chain(asList("foo", "bar"))
-                        .invoke("concat", Arrays.<Object>asList("1"))
+                        .invoke("concat", Collections.singletonList("1"))
                         .value());
         assertEquals(
                 asList("[1, 5, 7]", "[1, 2, 3]").toString(),
@@ -824,7 +824,7 @@ public class CollectionsTest {
     @Test(expected = IllegalArgumentException.class)
     @SuppressWarnings("unchecked")
     public void invokeError() {
-        Underscore.invoke(asList("foo", 123), "concat", Arrays.<Object>asList("1"));
+        Underscore.invoke(asList("foo", 123), "concat", Collections.<Object>singletonList("1"));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -866,7 +866,7 @@ public class CollectionsTest {
                 return age;
             }
         }
-        assertEquals("[]", Underscore.pluck(asList(), "name").toString());
+        assertEquals("[]", Underscore.pluck(Collections.emptyList(), "name").toString());
         final List<?> result =
                 Underscore.pluck(
                         asList(
@@ -900,7 +900,8 @@ public class CollectionsTest {
                         .pluck("name")
                         .value();
         assertEquals("[moe, larry, curly]", resultChain.toString());
-        final Set<?> resultEmpty2 = Underscore.pluck(new LinkedHashSet(asList()), "name");
+        final Set<?> resultEmpty2 =
+                Underscore.pluck(new LinkedHashSet(Collections.emptyList()), "name");
         assertEquals("[]", resultEmpty2.toString());
         final Set<?> resultSet =
                 Underscore.pluck(
