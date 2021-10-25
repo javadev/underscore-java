@@ -28,6 +28,9 @@ import com.github.underscore.Optional;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import com.github.underscore.Underscore;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -2517,6 +2520,89 @@ public class U<T> extends Underscore<T> {
 
     public static String xmlToJson(String xml, Mode mode) {
         return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, mode);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void xmlToJsonFile(
+            String xmlFileName,
+            String jsonFileName,
+            Json.JsonStringBuilder.Step identStep,
+            Mode mode)
+            throws java.io.IOException {
+        byte[] bytes = Files.readAllBytes(Paths.get(xmlFileName));
+        String text = new String(removeBom(bytes), detectEncoding(bytes));
+        try {
+            Object result = fromXml(text);
+            if ((result instanceof Map) && ((Map) result).containsKey("#encoding")) {
+                String encoding = String.valueOf(((Map) result).get("#encoding"));
+                text = new String(removeBom(bytes), encoding);
+            }
+        } catch (Exception ex) {
+            // ignored
+        }
+        String json = xmlToJson(text, identStep, mode);
+        Files.write(Paths.get(jsonFileName), json.getBytes(StandardCharsets.UTF_8));
+    }
+
+    static byte[] removeBom(byte[] bytes) {
+        final byte[] result;
+        if ((bytes.length >= 3) && (bytes[0] == -17) && (bytes[1] == -69) && (bytes[2] == -65)) {
+            result = Arrays.copyOfRange(bytes, 3, bytes.length);
+        } else if ((bytes.length >= 2) && (bytes[0] == -1) && (bytes[1] == -2)) {
+            result = Arrays.copyOfRange(bytes, 2, bytes.length);
+        } else if ((bytes.length >= 2) && (bytes[0] == -2) && (bytes[1] == -1)) {
+            result = Arrays.copyOfRange(bytes, 2, bytes.length);
+        } else {
+            result = bytes;
+        }
+        return result;
+    }
+
+    static String detectEncoding(byte[] buffer) {
+        String encoding = StandardCharsets.UTF_8.name();
+        if (buffer.length >= 4) {
+            int firstFourBytes =
+                    ((buffer[0] & 0xFF) << 24)
+                            | ((buffer[1] & 0xFF) << 16)
+                            | ((buffer[2] & 0xFF) << 8)
+                            | (buffer[3] & 0xFF);
+            switch (firstFourBytes) {
+                case 0x0000FEFF:
+                case 0x0000003C:
+                    encoding = "UTF_32BE";
+                    break;
+                case 0x003C003F:
+                    encoding = "UnicodeBigUnmarked";
+                    break;
+                case 0xFFFE0000:
+                case 0x3C000000:
+                    encoding = "UTF_32LE";
+                    break;
+                case 0x3C003F00: // <?
+                    encoding = "UnicodeLittleUnmarked";
+                    break;
+                case 0x3C3F786D: // <?xm
+                    break;
+                default:
+                    if (firstFourBytes >>> 8 == 0xEFBBBF) {
+                        break;
+                    }
+                    if (firstFourBytes >>> 24 == 0x3C) {
+                        break;
+                    }
+                    switch (firstFourBytes >>> 16) {
+                        case 0xFFFE:
+                            encoding = "UnicodeLittleUnmarked";
+                            break;
+                        case 0xFEFF:
+                            encoding = "UnicodeBigUnmarked";
+                            break;
+                        default:
+                            break;
+                    }
+            }
+        }
+        return encoding;
     }
 
     public static String formatJson(String json, Json.JsonStringBuilder.Step identStep) {
