@@ -67,6 +67,8 @@ public class U<T> extends Underscore<T> {
     private static String upper = "[A-Z\\xc0-\\xd6\\xd8-\\xde\\u0400-\\u04FF]";
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
     private static String selfClosing = "-self-closing";
+    private static String nilKey = "-nil";
+    private static String nilKeyNs = ":nil";
     private static java.util.regex.Pattern reWords =
             java.util.regex.Pattern.compile(
                     upper
@@ -2841,6 +2843,40 @@ public class U<T> extends Underscore<T> {
             result = values;
         } else if (value instanceof Map) {
             result = replaceFirstLevel((Map) value, level + 1);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
+    public static Map<String, Object> replaceNilWithNull(Map<String, Object> map) {
+        Map<String, Object> outMap = newLinkedHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            Object outValue = makeReplaceNilWithNull(entry.getValue());
+            if (outValue instanceof Map
+                    && (nilKey.equals(Xml.XmlValue.getMapKey(outValue))
+                            || Xml.XmlValue.getMapKey(outValue).endsWith(nilKeyNs))
+                    && "true".equals(Xml.XmlValue.getMapValue(outValue))
+                    && ((Map) outValue).containsKey(selfClosing)
+                    && "true".equals(((Map) outValue).get(selfClosing))) {
+                outValue = null;
+            }
+            outMap.put(entry.getKey(), outValue);
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object makeReplaceNilWithNull(Object value) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = newArrayList();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? replaceNilWithNull((Map) item) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = replaceNilWithNull((Map) value);
         } else {
             result = value;
         }

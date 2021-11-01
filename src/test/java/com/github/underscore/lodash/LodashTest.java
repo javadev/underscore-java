@@ -908,8 +908,7 @@ public class LodashTest {
                         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root><element>1</element>"
                                 + "<element>2</element></root>"));
         assertEquals(
-                "<a>\n  <b></b>\n  <b></b>\n</a>",
-                U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>"));
+                "<a>\n  <b></b>\n  <b></b>\n</a>", U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>"));
         assertEquals(
                 "<a>\n    <b></b>\n    <b></b>\n</a>",
                 U.formatXml(
@@ -996,6 +995,66 @@ public class LodashTest {
         list2.add(U.newArrayList());
         map2.put("list", list2);
         U.replaceNullWithEmptyValue(map2);
+    }
+
+    @Test
+    public void replaceNilWithNull() {
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<RootElm>\n"
+                        + "  <author>\n"
+                        + "    <DOB nil=\"true\"></DOB>\n"
+                        + "    <value null=\"true\"/>\n"
+                        + "  </author>\n"
+                        + "</RootElm>",
+                U.toXml(
+                        U.replaceNilWithNull(
+                                U.fromXmlMap(
+                                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                                + "<RootElm>\n"
+                                                + "  <author>\n"
+                                                + "    <DOB nil=\"true\"></DOB>\n"
+                                                + "    <value nil=\"true\"/>\n"
+                                                + "  </author>\n"
+                                                + "</RootElm>"))));
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<RootElm xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n"
+                        + "  <author>\n"
+                        + "    <DOB xsi:nil=\"true\"></DOB>\n"
+                        + "    <value null=\"true\"/>\n"
+                        + "    <DOB2 xsi:nil=\"true1\"></DOB2>\n"
+                        + "    <value2 xsi:nil=\"true1\"/>\n"
+                        + "  </author>\n"
+                        + "</RootElm>",
+                U.toXml(
+                        U.replaceNilWithNull(
+                                U.fromXmlMap(
+                                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                                + "<RootElm xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n"
+                                                + "  <author>\n"
+                                                + "    <DOB xsi:nil=\"true\"></DOB>\n"
+                                                + "    <value xsi:nil=\"true\"/>\n"
+                                                + "    <DOB2 xsi:nil=\"true1\"></DOB2>\n"
+                                                + "    <value2 xsi:nil=\"true1\"/>\n"
+                                                + "  </author>\n"
+                                                + "</RootElm>"))));
+        Map<String, Object> map = U.newLinkedHashMap();
+        List<Object> list = U.newArrayList();
+        list.add(U.newLinkedHashMap());
+        map.put("list", list);
+        U.replaceNilWithNull(map);
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        List<Object> list2 = U.newArrayList();
+        list2.add(U.newArrayList());
+        map2.put("list", list2);
+        U.replaceNilWithNull(map2);
+        Map<String, Object> map3 = U.newLinkedHashMap();
+        map3.put("-nil", "true");
+        map3.put("-self-closing", "true1");
+        Map<String, Object> map4 = U.newLinkedHashMap();
+        map4.put("map", map3);
+        U.replaceNilWithNull(map4);
     }
 
     @Test
