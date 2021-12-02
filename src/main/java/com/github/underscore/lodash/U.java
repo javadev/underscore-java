@@ -2081,7 +2081,7 @@ public class U<T> extends Underscore<T> {
                 connection.setDoOutput(true);
                 final java.io.DataOutputStream outputStream =
                         new java.io.DataOutputStream(connection.getOutputStream());
-                outputStream.writeBytes(body);
+                outputStream.write(body.getBytes("UTF-8"));
                 outputStream.close();
             }
             final int responseCode = connection.getResponseCode();
