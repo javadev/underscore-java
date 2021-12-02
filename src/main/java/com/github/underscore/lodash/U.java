@@ -1952,7 +1952,7 @@ public class U<T> extends Underscore<T> {
         return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null);
     }
 
-    private static class BaseHttpSslSocketFactory extends javax.net.ssl.SSLSocketFactory {
+    public static class BaseHttpSslSocketFactory extends javax.net.ssl.SSLSocketFactory {
         private javax.net.ssl.SSLContext getSslContext() {
             return createEasySslContext();
         }
@@ -2034,7 +2034,7 @@ public class U<T> extends Underscore<T> {
         }
     }
 
-    private static void setupConnection(
+    public static void setupConnection(
             final java.net.HttpURLConnection connection,
             final String method,
             final Map<String, List<String>> headerFields,
