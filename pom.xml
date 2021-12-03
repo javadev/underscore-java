@@ -145,6 +145,7 @@
           <excludes>
             <exclude>**/U$BaseHttpSslSocketFactory*.class</exclude>
             <exclude>**/Xml$Document.class</exclude>
+            <exclude>**/U$Fetch.class</exclude>
           </excludes>
         </configuration>
       </plugin>

@@ -1948,6 +1948,23 @@ public class U<T> extends Underscore<T> {
         return fetch(url, null, null, DEFAULT_HEADER_FIELDS, connectTimeout, readTimeout);
     }
 
+    public static FetchResponse fetch(
+            final String url,
+            final Integer connectTimeout,
+            final Integer readTimeout,
+            final Integer retryCount,
+            final Integer timeBetweenRetry) {
+        return fetch(
+                url,
+                null,
+                null,
+                DEFAULT_HEADER_FIELDS,
+                connectTimeout,
+                readTimeout,
+                retryCount,
+                timeBetweenRetry);
+    }
+
     public static FetchResponse fetch(final String url, final String method, final String body) {
         return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null);
     }
@@ -2118,30 +2135,54 @@ public class U<T> extends Underscore<T> {
             final Integer readTimeout,
             final Integer retryCount,
             final Integer timeBetweenRetry) {
-        if (nonNull(retryCount)
-                && retryCount > 0
-                && retryCount <= 10
-                && nonNull(timeBetweenRetry)
-                && timeBetweenRetry > 0) {
-            int localRetryCount = 0;
-            UnsupportedOperationException saveException;
-            do {
-                try {
-                    return fetch(url, method, body, headerFields, connectTimeout, readTimeout);
-                } catch (UnsupportedOperationException ex) {
-                    saveException = ex;
-                }
-                localRetryCount += 1;
-                try {
-                    java.util.concurrent.TimeUnit.MILLISECONDS.sleep(timeBetweenRetry);
-                } catch (InterruptedException ex) {
-                    saveException = new UnsupportedOperationException(ex);
-                    Thread.currentThread().interrupt();
-                }
-            } while (localRetryCount <= retryCount);
-            throw saveException;
+        return Fetch.fetch(
+                url,
+                method,
+                body,
+                headerFields,
+                connectTimeout,
+                readTimeout,
+                retryCount,
+                timeBetweenRetry);
+    }
+
+    private static class Fetch {
+        @SuppressWarnings("java:S107")
+        public static FetchResponse fetch(
+                final String url,
+                final String method,
+                final String body,
+                final Map<String, List<String>> headerFields,
+                final Integer connectTimeout,
+                final Integer readTimeout,
+                final Integer retryCount,
+                final Integer timeBetweenRetry) {
+            if (nonNull(retryCount)
+                    && retryCount > 0
+                    && retryCount <= 10
+                    && nonNull(timeBetweenRetry)
+                    && timeBetweenRetry > 0) {
+                int localRetryCount = 0;
+                UnsupportedOperationException saveException;
+                do {
+                    try {
+                        return U.fetch(
+                                url, method, body, headerFields, connectTimeout, readTimeout);
+                    } catch (UnsupportedOperationException ex) {
+                        saveException = ex;
+                    }
+                    localRetryCount += 1;
+                    try {
+                        java.util.concurrent.TimeUnit.MILLISECONDS.sleep(timeBetweenRetry);
+                    } catch (InterruptedException ex) {
+                        saveException = new UnsupportedOperationException(ex);
+                        Thread.currentThread().interrupt();
+                    }
+                } while (localRetryCount <= retryCount);
+                throw saveException;
+            }
+            return U.fetch(url, method, body, headerFields, connectTimeout, readTimeout);
         }
-        return fetch(url, method, body, headerFields, connectTimeout, readTimeout);
     }
 
     public static List<String> explode(final String input) {
