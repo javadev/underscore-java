@@ -503,6 +503,18 @@ public class LodashTest {
         //            result.text());
     }
 
+    @Test
+    public void fetchGetWithTimeoutsAndRetry() {
+        U.FetchResponse result =
+                U.fetch(
+                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                        30000,
+                        30000,
+                        1,
+                        1000);
+        assertEquals(200, result.getStatus());
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void fetchGetXml() {
