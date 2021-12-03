@@ -117,7 +117,7 @@ U.Builder builder = U.objectBuilder()
             .add("streetAddress", "21 2nd Street")
             .add("city", "New York")
             .add("state", "NY")
-            .add("postalCode", (Object) null)))
+            .add("postalCode", "10021")))
     .add("phoneNumber", U.arrayBuilder()
         .add(U.objectBuilder()
             .add("type", "home")
@@ -138,7 +138,7 @@ System.out.println(builder.toXml());
       "streetAddress": "21 2nd Street",
       "city": "New York",
       "state": "NY",
-      "postalCode": null
+      "postalCode": "10021"
     }
   ],
   "phoneNumber": [
@@ -163,7 +163,7 @@ System.out.println(builder.toXml());
     <streetAddress>21 2nd Street</streetAddress>
     <city>New York</city>
     <state>NY</state>
-    <postalCode null="true"/>
+    <postalCode>10021</postalCode>
   </address>
   <phoneNumber>
     <type>home</type>
