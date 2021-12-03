@@ -1954,7 +1954,7 @@ public class U<T> extends Underscore<T> {
             final Integer readTimeout,
             final Integer retryCount,
             final Integer timeBetweenRetry) {
-        return fetch(
+        return Fetch.fetch(
                 url,
                 null,
                 null,
@@ -2125,28 +2125,7 @@ public class U<T> extends Underscore<T> {
         }
     }
 
-    @SuppressWarnings("java:S107")
-    public static FetchResponse fetch(
-            final String url,
-            final String method,
-            final String body,
-            final Map<String, List<String>> headerFields,
-            final Integer connectTimeout,
-            final Integer readTimeout,
-            final Integer retryCount,
-            final Integer timeBetweenRetry) {
-        return Fetch.fetch(
-                url,
-                method,
-                body,
-                headerFields,
-                connectTimeout,
-                readTimeout,
-                retryCount,
-                timeBetweenRetry);
-    }
-
-    private static class Fetch {
+    public static class Fetch {
         @SuppressWarnings("java:S107")
         public static FetchResponse fetch(
                 final String url,
