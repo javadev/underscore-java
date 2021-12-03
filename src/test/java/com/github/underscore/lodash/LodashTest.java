@@ -512,6 +512,7 @@ public class LodashTest {
                         30000,
                         1,
                         1000);
+        assertEquals(200, result.getStatus());
     }
 
     @SuppressWarnings("unchecked")
