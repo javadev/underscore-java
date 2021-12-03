@@ -2108,6 +2108,42 @@ public class U<T> extends Underscore<T> {
         }
     }
 
+    @SuppressWarnings("java:S107")
+    public static FetchResponse fetch(
+            final String url,
+            final String method,
+            final String body,
+            final Map<String, List<String>> headerFields,
+            final Integer connectTimeout,
+            final Integer readTimeout,
+            final Integer retryCount,
+            final Integer timeBetweenRetry) {
+        if (nonNull(retryCount)
+                && retryCount > 0
+                && retryCount <= 10
+                && nonNull(timeBetweenRetry)
+                && timeBetweenRetry > 0) {
+            int localRetryCount = 0;
+            UnsupportedOperationException saveException;
+            do {
+                try {
+                    return fetch(url, method, body, headerFields, connectTimeout, readTimeout);
+                } catch (UnsupportedOperationException ex) {
+                    saveException = ex;
+                }
+                localRetryCount += 1;
+                try {
+                    java.util.concurrent.TimeUnit.MILLISECONDS.sleep(timeBetweenRetry);
+                } catch (InterruptedException ex) {
+                    saveException = new UnsupportedOperationException(ex);
+                    Thread.currentThread().interrupt();
+                }
+            } while (localRetryCount <= retryCount);
+            throw saveException;
+        }
+        return fetch(url, method, body, headerFields, connectTimeout, readTimeout);
+    }
+
     public static List<String> explode(final String input) {
         List<String> result = newArrayList();
         if (isNull(input)) {
