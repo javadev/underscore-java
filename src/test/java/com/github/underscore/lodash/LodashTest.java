@@ -615,6 +615,11 @@ public class LodashTest {
         U.fetch("ttt");
     }
 
+    @Test(expected = UnsupportedOperationException.class)
+    public void fetchWrongUrlWithRetry() {
+        U.fetch("ttt", 30000, 30000, 1, 100);
+    }
+
     @Test
     public void xmlToJson() {
         assertEquals(
