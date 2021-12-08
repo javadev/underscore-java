@@ -129,7 +129,7 @@ U.Builder builder = U.objectBuilder()
 System.out.println(builder.toJson());
 System.out.println(builder.toXml());
 ```
-```json
+```javascript
 {
   "firstName": "John",
   "lastName": "Smith",
