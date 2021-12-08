@@ -291,7 +291,7 @@ public class U<T> extends Underscore<T> {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Chain<Comparable<?>> max() {
+        public Chain<Comparable> max() {
             return new Chain<>(Underscore.max((Collection) value()));
         }
 
@@ -302,7 +302,7 @@ public class U<T> extends Underscore<T> {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Chain<Comparable<?>> min() {
+        public Chain<Comparable> min() {
             return new Chain<>(Underscore.min((Collection) value()));
         }
 
@@ -2393,6 +2393,10 @@ public class U<T> extends Underscore<T> {
 
     protected static <K, E> Map<K, E> newLinkedHashMap() {
         return Underscore.newLinkedHashMap();
+    }
+
+    public static <T> String join(final Iterable<T> iterable, final String separator) {
+        return Underscore.join(iterable, separator);
     }
 
     public static String toJson(Collection collection) {

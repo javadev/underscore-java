@@ -2955,7 +2955,7 @@ public class Underscore<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<Comparable<?>> max() {
+        public Chain<Comparable> max() {
             return new Chain<>(Underscore.max((Collection) list));
         }
 
@@ -2964,7 +2964,7 @@ public class Underscore<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<Comparable<?>> min() {
+        public Chain<Comparable> min() {
             return new Chain<>(Underscore.min((Collection) list));
         }
 
