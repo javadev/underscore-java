@@ -28,6 +28,8 @@ import com.github.underscore.Optional;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import com.github.underscore.Underscore;
+
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -289,7 +291,7 @@ public class U<T> extends Underscore<T> {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Chain<Comparable> max() {
+        public Chain<Comparable<?>> max() {
             return new Chain<>(Underscore.max((Collection) value()));
         }
 
@@ -300,7 +302,7 @@ public class U<T> extends Underscore<T> {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Chain<Comparable> min() {
+        public Chain<Comparable<?>> min() {
             return new Chain<>(Underscore.min((Collection) value()));
         }
 
@@ -2106,7 +2108,7 @@ public class U<T> extends Underscore<T> {
                 connection.setDoOutput(true);
                 final java.io.DataOutputStream outputStream =
                         new java.io.DataOutputStream(connection.getOutputStream());
-                outputStream.write(body.getBytes("UTF-8"));
+                outputStream.write(body.getBytes(StandardCharsets.UTF_8));
                 outputStream.close();
             }
             final int responseCode = connection.getResponseCode();
@@ -2700,12 +2702,12 @@ public class U<T> extends Underscore<T> {
                     outMap = value;
                     break;
                 }
-                continue;
+            } else {
+                ((Map<String, Object>) outMap)
+                        .put(
+                                String.valueOf(entry.getKey()),
+                                makeObjectSelfClose(entry.getValue(), value));
             }
-            ((Map<String, Object>) outMap)
-                    .put(
-                            String.valueOf(entry.getKey()),
-                            makeObjectSelfClose(entry.getValue(), value));
         }
         return outMap;
     }

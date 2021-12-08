@@ -4003,12 +4003,6 @@ public class StringTest {
         new U<>(new ArrayList<>());
         new U<String>("");
         new U<>(Collections.<Object>emptyList()).chain();
-        new Json.JsonArray();
-        new Json.JsonValue();
-        new Json.JsonObject();
-        new Xml.XmlArray();
-        new Xml.XmlValue();
-        new Xml.XmlObject();
         U.chain(new ArrayList<String>());
         U.chain(new HashSet<String>());
         U.chain(new String[] {});
