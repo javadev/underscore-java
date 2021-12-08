@@ -534,9 +534,8 @@ public class LodashTest {
                         throw new java.io.UnsupportedEncodingException();
                     }
                 };
-        assertThrows(
-                UnsupportedOperationException.class,
-                () -> new U.FetchResponse(true, 100, null, stream).text());
+        U.FetchResponse fetchResponse = new U.FetchResponse(true, 100, null, stream);
+        assertThrows(UnsupportedOperationException.class, () -> fetchResponse.text());
     }
 
     @Test
