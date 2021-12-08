@@ -176,7 +176,7 @@ System.out.println(builder.toXml());
 </root>
 ```
 
-Underscore-java is a java port of [Underscore.js](http://underscorejs.org/).
+Underscore-java is a java port of [Underscore.js](https://underscorejs.org/).
 
 In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.
 
