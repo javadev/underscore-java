@@ -1934,8 +1934,16 @@ public class U<T> extends Underscore<T> {
             return Json.fromJson(text());
         }
 
+        public Map<String, Object> jsonMap() {
+            return fromJsonMap(text());
+        }
+
         public Object xml() {
             return Xml.fromXml(text());
+        }
+
+        public Map<String, Object> xmlMap() {
+            return fromXmlMap(text());
         }
     }
 
@@ -3046,6 +3054,11 @@ public class U<T> extends Underscore<T> {
             final Builder builder = new Builder();
             builder.data.putAll(fromXmlMap(xml));
             return builder;
+        }
+
+        public Builder addMap(final Map<String, Object> map) {
+            deepCopyMap(map).forEach(data::put);
+            return this;
         }
 
         public static Builder fromMap(final Map<String, Object> map) {

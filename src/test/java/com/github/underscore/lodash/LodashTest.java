@@ -471,6 +471,7 @@ public class LodashTest {
                 U.fetch(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json");
         result.json();
+        result.jsonMap();
         //        assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
         //            + "\"Sir. Russell Jones of
         // Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
@@ -519,7 +520,8 @@ public class LodashTest {
     @Test
     public void fetchGetXml() {
         U.FetchResponse result = U.fetch("https://www.w3schools.com/xml/note.xml");
-        assertEquals("Tove", (String) U.get((Map<String, Object>) result.xml(), "note.to"));
+        assertEquals("Tove", U.get((Map<String, Object>) result.xml(), "note.to"));
+        assertEquals("Tove", U.get(result.xmlMap(), "note.to"));
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -1240,6 +1242,7 @@ public class LodashTest {
         builder.toXml();
         U.Builder.fromXml("<a/>");
         U.Builder.fromMap(U.newLinkedHashMap());
+        builder.addMap(U.newLinkedHashMap());
         builder.set("1", "3");
         builder.toString();
         assertEquals("{1=3}", builder.build().toString());
