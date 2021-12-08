@@ -3041,6 +3041,16 @@ public class U<T> extends Underscore<T> {
             return this;
         }
 
+        public Builder add(final Map<String, Object> map) {
+            deepCopyMap(map).forEach(data::put);
+            return this;
+        }
+
+        public Builder addNull(final String key) {
+            data.put(key, null);
+            return this;
+        }
+
         @SuppressWarnings("unchecked")
         public Map<String, Object> build() {
             return (Map<String, Object>) ((LinkedHashMap) data).clone();
@@ -3054,11 +3064,6 @@ public class U<T> extends Underscore<T> {
             final Builder builder = new Builder();
             builder.data.putAll(fromXmlMap(xml));
             return builder;
-        }
-
-        public Builder addMap(final Map<String, Object> map) {
-            deepCopyMap(map).forEach(data::put);
-            return this;
         }
 
         public static Builder fromMap(final Map<String, Object> map) {
@@ -3100,6 +3105,11 @@ public class U<T> extends Underscore<T> {
 
         public ArrayBuilder add(final Object value) {
             data.add(value);
+            return this;
+        }
+
+        public ArrayBuilder addNull() {
+            data.add(null);
             return this;
         }
 

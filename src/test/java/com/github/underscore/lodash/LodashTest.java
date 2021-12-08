@@ -39,6 +39,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import org.junit.Test;
 
 /**
@@ -1242,7 +1244,7 @@ public class LodashTest {
         builder.toXml();
         U.Builder.fromXml("<a/>");
         U.Builder.fromMap(U.newLinkedHashMap());
-        builder.addMap(U.newLinkedHashMap());
+        builder.add(U.newLinkedHashMap());
         builder.set("1", "3");
         builder.toString();
         assertEquals("{1=3}", builder.build().toString());
@@ -1251,6 +1253,7 @@ public class LodashTest {
         builder.clear();
         assertEquals("{}", builder.build().toString());
         builder.toChain();
+        builder.addNull("key");
         Map<String, Object> value =
                 U.objectBuilder()
                         .add("firstName", "John")
@@ -1299,6 +1302,7 @@ public class LodashTest {
         builder.clear();
         assertEquals("[]", builder.build().toString());
         builder.toChain();
+        builder.addNull();
         Map<String, Object> value =
                 U.objectBuilder()
                         .add("firstName", "John")
