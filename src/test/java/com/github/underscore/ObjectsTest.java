@@ -259,7 +259,8 @@ public class ObjectsTest {
     @Test
     public void cloneError() {
         class Test {}
-        assertThrows(IllegalArgumentException.class, () -> Underscore.clone(new Test()));
+        Test test = new Test();
+        assertThrows(IllegalArgumentException.class, () -> Underscore.clone(test));
     }
 
     @Test
@@ -269,7 +270,8 @@ public class ObjectsTest {
                 return null;
             }
         }
-        assertThrows(IllegalArgumentException.class, () -> Underscore.clone(new Test()));
+        Test test = new Test();
+        assertThrows(IllegalArgumentException.class, () -> Underscore.clone(test));
     }
 
     @Test
@@ -280,7 +282,8 @@ public class ObjectsTest {
                 throw new RuntimeException();
             }
         }
-        assertThrows(IllegalArgumentException.class, () -> Underscore.clone(new Test()));
+        Test test = new Test();
+        assertThrows(IllegalArgumentException.class, () -> Underscore.clone(test));
     }
 
     /*

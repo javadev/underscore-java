@@ -36,8 +36,9 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+@SuppressWarnings("java:S3776")
 public final class Xml {
-    private Xml() {};
+    private Xml() {}
     private static final String NULL = "null";
     private static final String ELEMENT_TEXT = "element";
     private static final String CDATA = "#cdata-section";
