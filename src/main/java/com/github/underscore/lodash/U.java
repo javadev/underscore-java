@@ -2134,8 +2134,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static class Fetch {
-        private Fetch() {
-        }
+        private Fetch() {}
 
         @SuppressWarnings("java:S107")
         public static FetchResponse fetch(

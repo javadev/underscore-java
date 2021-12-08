@@ -28,6 +28,7 @@ import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 
 import com.github.underscore.Tuple;
 import java.util.ArrayList;
@@ -39,7 +40,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-
 import org.junit.Test;
 
 /**
@@ -525,7 +525,7 @@ public class LodashTest {
         assertEquals("Tove", U.get(result.xmlMap(), "note.to"));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void fetchResponseError() {
         java.io.ByteArrayOutputStream stream =
                 new java.io.ByteArrayOutputStream() {
@@ -534,7 +534,9 @@ public class LodashTest {
                         throw new java.io.UnsupportedEncodingException();
                     }
                 };
-        new U.FetchResponse(true, 100, null, stream).text();
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> new U.FetchResponse(true, 100, null, stream).text());
     }
 
     @Test
@@ -613,14 +615,15 @@ public class LodashTest {
         //            resultChain.item());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void fetchWrongUrl() {
-        U.fetch("ttt");
+        assertThrows(UnsupportedOperationException.class, () -> U.fetch("ttt"));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void fetchWrongUrlWithRetry() {
-        U.fetch("ttt", 30000, 30000, 1, 100);
+        assertThrows(
+                UnsupportedOperationException.class, () -> U.fetch("ttt", 30000, 30000, 1, 100));
     }
 
     @Test

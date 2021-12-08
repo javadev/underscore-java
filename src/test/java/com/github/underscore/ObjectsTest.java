@@ -27,6 +27,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -255,23 +256,23 @@ public class ObjectsTest {
         assertEquals("[1, 2, 3, 4, 5]", asList(result2).toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void cloneError() {
         class Test {}
-        Underscore.clone(new Test());
+        assertThrows(IllegalArgumentException.class, () -> Underscore.clone(new Test()));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void cloneError2() {
         class Test implements Cloneable {
             public Object clone(String arg) {
                 return null;
             }
         }
-        Underscore.clone(new Test());
+        assertThrows(IllegalArgumentException.class, () -> Underscore.clone(new Test()));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void cloneError3() {
         class Test implements Cloneable {
             public Object clone() throws CloneNotSupportedException {
@@ -279,7 +280,7 @@ public class ObjectsTest {
                 throw new RuntimeException();
             }
         }
-        Underscore.clone(new Test());
+        assertThrows(IllegalArgumentException.class, () -> Underscore.clone(new Test()));
     }
 
     /*

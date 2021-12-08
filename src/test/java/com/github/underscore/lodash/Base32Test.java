@@ -24,6 +24,7 @@
 package com.github.underscore.lodash;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
@@ -40,9 +41,9 @@ public class Base32Test {
         assertEquals("", Base32.decode(""));
     }
 
-    @Test(expected = Base32.DecodingException.class)
+    @Test
     public void decodeIllegal() {
-        Base32.decode("EE!");
+        assertThrows(Base32.DecodingException.class, () -> Base32.decode("EE!"));
     }
 
     @Test
