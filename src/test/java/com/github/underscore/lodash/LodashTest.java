@@ -1345,8 +1345,6 @@ public class LodashTest {
         new U("");
         new U(Collections.emptyList()).chain();
         new U(Collections.emptyList()).of();
-        new Json();
-        new Xml();
         U.chain(new ArrayList<String>());
         U.chain(new ArrayList<String>(), 1);
         U.chain(new HashSet<String>());

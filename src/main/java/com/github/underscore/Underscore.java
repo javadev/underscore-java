@@ -139,6 +139,7 @@ public class Underscore<T> {
                             return false;
                         }
                     } catch (Exception ignored) {
+                        // ignored
                     }
                 }
             }
@@ -266,7 +267,9 @@ public class Underscore<T> {
                 }
 
                 @Override
-                public void remove() {}
+                public void remove() {
+                    // ignored
+                }
             };
         }
     }
@@ -774,16 +777,21 @@ public class Underscore<T> {
                             .getClass()
                             .getMethod(methodName, argTypes.toArray(new Class[0]));
             for (E arg : iterable) {
-                try {
-                    result.add((E) method.invoke(arg, args.toArray(new Object[0])));
-                } catch (Exception e) {
-                    throw new IllegalArgumentException(e);
-                }
+                doInvoke(args, result, method, arg);
             }
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException(e);
         }
         return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <E> void doInvoke(List<Object> args, List<E> result, Method method, E arg) {
+        try {
+            result.add((E) method.invoke(arg, args.toArray(new Object[0])));
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     public List<T> invoke(final String methodName, final List<Object> args) {
@@ -2879,7 +2887,7 @@ public class Underscore<T> {
 
         @SuppressWarnings("unchecked")
         public Chain flatten() {
-            return new Chain(Underscore.flatten(list));
+            return new Chain<>(Underscore.flatten(list));
         }
 
         public <F> Chain<F> map(final Function<? super T, F> func) {
@@ -2947,7 +2955,7 @@ public class Underscore<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<Comparable> max() {
+        public Chain<Comparable<?>> max() {
             return new Chain<>(Underscore.max((Collection) list));
         }
 
@@ -2956,7 +2964,7 @@ public class Underscore<T> {
         }
 
         @SuppressWarnings("unchecked")
-        public Chain<Comparable> min() {
+        public Chain<Comparable<?>> min() {
             return new Chain<>(Underscore.min((Collection) list));
         }
 
@@ -3245,7 +3253,7 @@ public class Underscore<T> {
     /*
      * Documented, #mixin
      */
-    public static void mixin(final String funcName, final Function<String, String> func) {
+    public static void mixin(final String funcName, final UnaryOperator<String> func) {
         FUNCTIONS.put(funcName, func);
     }
 
