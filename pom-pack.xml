@@ -90,6 +90,7 @@
             <option>-keep public class com.github.underscore.lodash.Base32 { *; }</option>
             <option>-keep public class com.github.underscore.lodash.Json { *; }</option>
             <option>-keep public class com.github.underscore.lodash.U { *; }</option>
+            <option>-keep public class com.github.underscore.lodash.U$Fetch { *; }</option>
             <option>-keep public class com.github.underscore.lodash.Xml { *; }</option>
             <option>-keep public class com.github.underscore.lodash.*$Chain { *; }</option>
             <option>-keep public class com.github.underscore.lodash.*$ParseException { *; }</option>
