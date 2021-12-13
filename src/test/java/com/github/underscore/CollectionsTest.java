@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -828,17 +829,23 @@ class CollectionsTest {
         assertThrows(
                 IllegalArgumentException.class,
                 () ->
-                        Underscore.invoke(
-                                asList("foo", 123),
-                                "concat",
-                                Collections.<Object>singletonList("1")));
+                {
+                    List<? extends Serializable> iterable = asList("foo", 123);
+                    Underscore.invoke(
+                            iterable,
+                            "concat",
+                            Collections.singletonList("1"));
+                });
     }
 
     @Test
     void invokeError2() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> Underscore.invoke(asList(" foo ", "  bar"), "trim2"));
+                () -> {
+                    List<String> iterable = asList(" foo ", "  bar");
+                    Underscore.invoke(iterable, "trim2");
+                });
     }
 
     /*
@@ -946,12 +953,15 @@ class CollectionsTest {
         assertThrows(
                 IllegalArgumentException.class,
                 () ->
-                        Underscore.pluck(
-                                asList(
-                                        new Person("moe", 40),
-                                        new Person("larry", 50),
-                                        new Person("curly", 40)),
-                                "name2"));
+                {
+                    List<Person> personList = asList(
+                            new Person("moe", 40),
+                            new Person("larry", 50),
+                            new Person("curly", 40));
+                    Underscore.pluck(
+                            personList,
+                            "name2");
+                });
     }
 
     @Test
@@ -969,13 +979,16 @@ class CollectionsTest {
         assertThrows(
                 IllegalArgumentException.class,
                 () ->
-                        Underscore.pluck(
-                                new LinkedHashSet(
-                                        asList(
-                                                new Person("moe", 40),
-                                                new Person("larry", 50),
-                                                new Person("curly", 40))),
-                                "name2"));
+                {
+                    List<Person> personList = asList(
+                            new Person("moe", 40),
+                            new Person("larry", 50),
+                            new Person("curly", 40));
+                    Underscore.pluck(
+                            new LinkedHashSet(
+                                    personList),
+                            "name2");
+                });
     }
 
     /*
