@@ -279,12 +279,10 @@ class MathTest {
                 return 0;
             }
         }
+        List<MyNumber> numbers = asList(new MyNumber(), new MyNumber());
         assertThrows(
                 UnsupportedOperationException.class,
-                () -> {
-                    List<MyNumber> numbers = asList(new MyNumber(), new MyNumber());
-                    U.sum(numbers);
-                });
+                () -> U.sum(numbers));
     }
 
     /*
@@ -337,12 +335,10 @@ class MathTest {
                 return 0;
             }
         }
+        MyNumber myNumber = new MyNumber();
         assertThrows(
                 UnsupportedOperationException.class,
-                () -> {
-                    MyNumber myNumber = new MyNumber();
-                    U.subtract(myNumber, myNumber);
-                });
+                () -> U.subtract(myNumber, myNumber));
     }
 
     /*
@@ -402,10 +398,8 @@ class MathTest {
 
     @Test
     void medianForEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ArrayList<Double> iterable = new ArrayList<>();
-            U.median(iterable);
-        });
+        ArrayList<Double> iterable = new ArrayList<>();
+        assertThrows(IllegalArgumentException.class, () -> U.median(iterable));
     }
 
     // http://stackoverflow.com/questions/27772432/is-there-a-underscore-js-lib-for-java

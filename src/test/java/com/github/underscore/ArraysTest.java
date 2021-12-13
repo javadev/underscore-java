@@ -130,10 +130,8 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void firstEmpty() {
-        assertThrows(NoSuchElementException.class, () -> {
-            List<Object> iterable = Collections.emptyList();
-            Underscore.first(iterable);
-        });
+        List<Object> iterable = Collections.emptyList();
+        assertThrows(NoSuchElementException.class, () -> Underscore.first(iterable));
     }
 
     /*
@@ -806,12 +804,11 @@ class ArraysTest {
                 return 0;
             }
         }
+        Person person = new Person();
+        List<Person> personList = singletonList(person);
         assertThrows(
                 IllegalArgumentException.class,
-                () -> {
-                    List<Person> personList = singletonList(new Person());
-                    Underscore.sortedIndex(personList, new Person(), "age");
-                });
+                () -> Underscore.sortedIndex(personList, person, "age"));
     }
 
     /*

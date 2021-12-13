@@ -372,12 +372,10 @@ class UnderscoreTest {
     */
     @Test
     void elementAtOutOfBounds() {
+        List<Integer> integers = asList(1, 2, 3);
         assertThrows(
                 IndexOutOfBoundsException.class,
-                () -> {
-                    List<Integer> integers = asList(1, 2, 3);
-                    Underscore.<Integer>elementAt(integers, 3);
-                });
+                () -> Underscore.<Integer>elementAt(integers, 3));
     }
 
     /*

@@ -826,26 +826,22 @@ class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     void invokeError() {
+        List<? extends Serializable> iterable = asList("foo", 123);
+        List<Object> objects = Collections.singletonList("1");
         assertThrows(
                 IllegalArgumentException.class,
-                () ->
-                {
-                    List<? extends Serializable> iterable = asList("foo", 123);
-                    Underscore.invoke(
+                () -> Underscore.invoke(
                             iterable,
                             "concat",
-                            Collections.singletonList("1"));
-                });
+                            objects));
     }
 
     @Test
     void invokeError2() {
+        List<String> iterable = asList(" foo ", "  bar");
         assertThrows(
                 IllegalArgumentException.class,
-                () -> {
-                    List<String> iterable = asList(" foo ", "  bar");
-                    Underscore.invoke(iterable, "trim2");
-                });
+                () -> Underscore.invoke(iterable, "trim2"));
     }
 
     /*
@@ -950,18 +946,15 @@ class CollectionsTest {
                 this.age = age;
             }
         }
+        List<Person> personList = asList(
+                new Person("moe", 40),
+                new Person("larry", 50),
+                new Person("curly", 40));
         assertThrows(
                 IllegalArgumentException.class,
-                () ->
-                {
-                    List<Person> personList = asList(
-                            new Person("moe", 40),
-                            new Person("larry", 50),
-                            new Person("curly", 40));
-                    Underscore.pluck(
+                () -> Underscore.pluck(
                             personList,
-                            "name2");
-                });
+                            "name2"));
     }
 
     @Test
@@ -976,19 +969,16 @@ class CollectionsTest {
                 this.age = age;
             }
         }
+        List<Person> personList = asList(
+                new Person("moe", 40),
+                new Person("larry", 50),
+                new Person("curly", 40));
         assertThrows(
                 IllegalArgumentException.class,
-                () ->
-                {
-                    List<Person> personList = asList(
-                            new Person("moe", 40),
-                            new Person("larry", 50),
-                            new Person("curly", 40));
-                    Underscore.pluck(
+                () -> Underscore.pluck(
                             new LinkedHashSet(
                                     personList),
-                            "name2");
-                });
+                            "name2"));
     }
 
     /*
