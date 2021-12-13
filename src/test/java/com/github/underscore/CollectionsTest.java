@@ -973,12 +973,10 @@ class CollectionsTest {
                 new Person("moe", 40),
                 new Person("larry", 50),
                 new Person("curly", 40));
+        LinkedHashSet personSet = new LinkedHashSet(personList);
         assertThrows(
                 IllegalArgumentException.class,
-                () -> Underscore.pluck(
-                            new LinkedHashSet(
-                                    personList),
-                            "name2"));
+                () -> Underscore.pluck(personSet,"name2"));
     }
 
     /*

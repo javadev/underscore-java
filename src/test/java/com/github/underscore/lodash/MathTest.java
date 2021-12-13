@@ -188,7 +188,7 @@ class MathTest {
     _.sum([-1, -2, -3]);
     => -6
     */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "java:S5961"})
     @Test
     void sum() {
         final Byte result = U.sum(asList((byte) 1, (byte) 2, (byte) 3));

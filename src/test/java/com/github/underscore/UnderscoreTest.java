@@ -479,7 +479,7 @@ class UnderscoreTest {
     }
 
     @Test
-    @SuppressWarnings("unlikely-arg-type")
+    @SuppressWarnings({"unlikely-arg-type", "java:S5961"})
     void optional() {
         assertTrue(Optional.empty().equals(Optional.empty()));
         assertTrue(Optional.of(1).equals(Optional.of(1)));
