@@ -491,6 +491,6 @@ class MathTest {
         new U("");
         new U(Collections.emptyList()).chain();
         U.chain(new HashSet<String>());
-        U.chain(new String[] {});
+        assertEquals("", U.chain(new String[] {}).item());
     }
 }

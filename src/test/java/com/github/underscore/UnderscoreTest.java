@@ -54,7 +54,7 @@ class UnderscoreTest {
         Underscore.main(new String[] {});
         new Underscore(singletonList("")).getIterable();
         new Underscore(singletonList("")).value();
-        new Underscore("").getString();
+        assertEquals("", new Underscore("").getString());
     }
 
     /*
