@@ -830,18 +830,13 @@ class CollectionsTest {
         List<Object> objects = Collections.singletonList("1");
         assertThrows(
                 IllegalArgumentException.class,
-                () -> Underscore.invoke(
-                            iterable,
-                            "concat",
-                            objects));
+                () -> Underscore.invoke(iterable, "concat", objects));
     }
 
     @Test
     void invokeError2() {
         List<String> iterable = asList(" foo ", "  bar");
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> Underscore.invoke(iterable, "trim2"));
+        assertThrows(IllegalArgumentException.class, () -> Underscore.invoke(iterable, "trim2"));
     }
 
     /*
@@ -946,15 +941,9 @@ class CollectionsTest {
                 this.age = age;
             }
         }
-        List<Person> personList = asList(
-                new Person("moe", 40),
-                new Person("larry", 50),
-                new Person("curly", 40));
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> Underscore.pluck(
-                            personList,
-                            "name2"));
+        List<Person> personList =
+                asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40));
+        assertThrows(IllegalArgumentException.class, () -> Underscore.pluck(personList, "name2"));
     }
 
     @Test
@@ -969,14 +958,10 @@ class CollectionsTest {
                 this.age = age;
             }
         }
-        List<Person> personList = asList(
-                new Person("moe", 40),
-                new Person("larry", 50),
-                new Person("curly", 40));
+        List<Person> personList =
+                asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40));
         LinkedHashSet personSet = new LinkedHashSet(personList);
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> Underscore.pluck(personSet,"name2"));
+        assertThrows(IllegalArgumentException.class, () -> Underscore.pluck(personSet, "name2"));
     }
 
     /*
