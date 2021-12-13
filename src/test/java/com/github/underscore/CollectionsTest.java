@@ -24,10 +24,12 @@
 package com.github.underscore;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,14 +45,14 @@ import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
  *
  * @author Valentyn Kolesnikov
  */
-public class CollectionsTest {
+class CollectionsTest {
 
     /*
     _.each([1, 2, 3], alert);
@@ -58,7 +60,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void each() {
+    void each() {
         final List<Integer> result = new ArrayList<>();
         Underscore.<Integer>each(asList(1, 2, 3), result::add);
         assertEquals("[1, 2, 3]", result.toString());
@@ -73,7 +75,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void eachRight() {
+    void eachRight() {
         final List<Integer> result = new ArrayList<>();
         Underscore.eachRight(asList(1, 2, 3), result::add);
         assertEquals("[3, 2, 1]", result.toString());
@@ -87,7 +89,7 @@ public class CollectionsTest {
     => alerts each number in turn...
     */
     @Test
-    public void forEach() {
+    void forEach() {
         final List<Integer> result = new ArrayList<>();
         Underscore.forEach(asList(1, 2, 3), result::add);
         assertEquals("[1, 2, 3]", result.toString());
@@ -111,7 +113,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void forEachIndexed() {
+    void forEachIndexed() {
         final List<Integer> result = new ArrayList<>();
         Underscore.forEachIndexed(asList(1, 2, 3), (index, item) -> result.add(item));
         assertEquals("[1, 2, 3]", result.toString());
@@ -128,7 +130,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void forEachRight() {
+    void forEachRight() {
         final List<Integer> result = new ArrayList<>();
         Underscore.forEachRight(asList(1, 2, 3), result::add);
         assertEquals("[3, 2, 1]", result.toString());
@@ -155,7 +157,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void forEachObj() {
+    void forEachObj() {
         final List<Integer> result = new ArrayList<>();
         new Underscore(asList(1, 2, 3)).forEach((Consumer<Integer>) result::add);
         assertEquals("[1, 2, 3]", result.toString());
@@ -166,7 +168,7 @@ public class CollectionsTest {
     => alerts each number value in turn...
     */
     @Test
-    public void eachMap() {
+    void eachMap() {
         final List<String> result = new ArrayList<>();
         Underscore.<Map.Entry<String, Integer>>each(
                 (new LinkedHashMap<String, Integer>() {
@@ -186,7 +188,7 @@ public class CollectionsTest {
     => [3, 6, 9]
     */
     @Test
-    public void map() {
+    void map() {
         List<Integer> result = Underscore.map(asList(1, 2, 3), item -> item * 3);
         assertEquals("[3, 6, 9]", result.toString());
         List<Integer> resultObject = new Underscore<>(asList(1, 2, 3)).map(item -> item * 3);
@@ -196,7 +198,7 @@ public class CollectionsTest {
     }
 
     @Test
-    public void mapMulti() {
+    void mapMulti() {
         List<Integer> result =
                 Underscore.mapMulti(
                         asList("Java", "Python", "C#"),
@@ -223,7 +225,7 @@ public class CollectionsTest {
     => [3, 6, 9]
     */
     @Test
-    public void mapArray() {
+    void mapArray() {
         List<Integer> result = Underscore.map(Underscore.range(3), item -> (item + 1) * 3);
         assertEquals("[3, 6, 9]", result.toString());
     }
@@ -233,7 +235,7 @@ public class CollectionsTest {
     => [3, 6, 9]
     */
     @Test
-    public void mapMap() {
+    void mapMap() {
         final Set<Integer> result =
                 Underscore.map(
                         (new LinkedHashMap<Integer, String>() {
@@ -253,7 +255,7 @@ public class CollectionsTest {
     => [3, 6, 9]
     */
     @Test
-    public void mapIndexed() {
+    void mapIndexed() {
         List<Integer> result = Underscore.mapIndexed(asList(1, 2, 3), (index, item) -> item * 3);
         assertEquals("[3, 6, 9]", result.toString());
         List<Integer> resultObject =
@@ -270,7 +272,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void collect() {
+    void collect() {
         List<Integer> result = Underscore.collect(asList(1, 2, 3), item -> item * 3);
         assertEquals("[3, 6, 9]", result.toString());
         Set<Integer> resultSet =
@@ -285,7 +287,7 @@ public class CollectionsTest {
     => 6
     */
     @Test
-    public void reduce() {
+    void reduce() {
         final Integer result = Underscore.reduce(asList(1, 2, 3), Integer::sum, 0);
         assertEquals("6", result.toString());
     }
@@ -295,7 +297,7 @@ public class CollectionsTest {
     => 6
     */
     @Test
-    public void reduceWithoutInit() {
+    void reduceWithoutInit() {
         final Integer result = Underscore.reduce(asList(1, 2, 3), Integer::sum).get();
         assertEquals("6", result.toString());
         final Integer resultChain =
@@ -309,7 +311,7 @@ public class CollectionsTest {
     => 6
     */
     @Test
-    public void reduceRightWithoutInit() {
+    void reduceRightWithoutInit() {
         final Integer result = Underscore.reduceRight(asList(1, 2, 3), Integer::sum).get();
         assertEquals("6", result.toString());
         final Integer resultChain =
@@ -322,7 +324,7 @@ public class CollectionsTest {
     => 6
     */
     @Test
-    public void reduceIntArray() {
+    void reduceIntArray() {
         final Integer result = Underscore.reduce(new int[] {1, 2, 3}, Integer::sum, 0);
         assertEquals("6", result.toString());
     }
@@ -332,7 +334,7 @@ public class CollectionsTest {
     => 6
     */
     @Test
-    public void reduceArray() {
+    void reduceArray() {
         final Integer result = Underscore.reduce(new Integer[] {1, 2, 3}, Integer::sum, 0);
         assertEquals("6", result.toString());
     }
@@ -344,7 +346,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void inject() {
+    void inject() {
         final List<Integer> result =
                 Underscore.inject(
                         asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -364,7 +366,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void foldl() {
+    void foldl() {
         final List<Integer> result =
                 Underscore.foldl(
                         asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -384,7 +386,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void reduceRight() {
+    void reduceRight() {
         final List<Integer> result =
                 Underscore.reduceRight(
                         asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -402,7 +404,7 @@ public class CollectionsTest {
     => 6
     */
     @Test
-    public void reduceRightIntArray() {
+    void reduceRightIntArray() {
         final Integer result = Underscore.reduceRight(new int[] {1, 2, 3}, Integer::sum, 0);
         assertEquals("6", result.toString());
     }
@@ -412,7 +414,7 @@ public class CollectionsTest {
     => 6
     */
     @Test
-    public void reduceRightArray() {
+    void reduceRightArray() {
         final Integer result = Underscore.reduceRight(new Integer[] {1, 2, 3}, Integer::sum, 0);
         assertEquals("6", result.toString());
     }
@@ -424,7 +426,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void foldr() {
+    void foldr() {
         final List<Integer> result =
                 Underscore.foldr(
                         asList(asList(0, 1), asList(2, 3), asList(4, 5)),
@@ -442,7 +444,7 @@ public class CollectionsTest {
     => 2
     */
     @Test
-    public void find() {
+    void find() {
         final Optional<Integer> result =
                 Underscore.find(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("Optional[2]", result.toString());
@@ -459,7 +461,7 @@ public class CollectionsTest {
     => 6
     */
     @Test
-    public void findLast() {
+    void findLast() {
         final Optional<Integer> result =
                 Underscore.findLast(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("Optional[6]", result.toString());
@@ -479,7 +481,7 @@ public class CollectionsTest {
     => 2
     */
     @Test
-    public void detect() {
+    void detect() {
         final Optional<Integer> result =
                 Underscore.detect(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("Optional[2]", result.toString());
@@ -490,7 +492,7 @@ public class CollectionsTest {
     => [2, 4, 6]
     */
     @Test
-    public void filter() {
+    void filter() {
         final List<Integer> result =
                 Underscore.filter(
                         new ArrayDeque<>(asList(1, 2, 3, 4, 5, 6)), item -> item % 2 == 0);
@@ -509,7 +511,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void filterFalse() {
+    void filterFalse() {
         final List<Integer> result =
                 Underscore.filterFalse(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", result.toString());
@@ -528,7 +530,7 @@ public class CollectionsTest {
     => [4, 6]
     */
     @Test
-    public void filterIndexed() {
+    void filterIndexed() {
         final List<Integer> result =
                 Underscore.filterIndexed(
                         asList(1, 2, 3, 4, 5, 6), (index, item) -> index != 1 && item % 2 == 0);
@@ -546,7 +548,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void select() {
+    void select() {
         final List<Integer> result =
                 Underscore.select(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", result.toString());
@@ -563,7 +565,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void reject() {
+    void reject() {
         final List<Integer> result =
                 Underscore.reject(asList(1, 2, 3, 4, 5, 6), item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", result.toString());
@@ -582,7 +584,7 @@ public class CollectionsTest {
     => [1, 2, 3, 5]
     */
     @Test
-    public void rejectIndexed() {
+    void rejectIndexed() {
         final List<Integer> result =
                 Underscore.rejectIndexed(
                         asList(1, 2, 3, 4, 5, 6), (index, item) -> index != 1 && item % 2 == 0);
@@ -600,7 +602,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void every() {
+    void every() {
         final boolean result1 = Underscore.every(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final boolean result1obj =
                 new Underscore(asList(1, 2, 3, 4))
@@ -626,7 +628,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void all() {
+    void all() {
         final boolean result1 = Underscore.all(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final boolean result1obj =
                 new Underscore(asList(1, 2, 3, 4)).all((Predicate<Integer>) item -> item % 2 == 0);
@@ -645,7 +647,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void any() {
+    void any() {
         final boolean result1 = Underscore.any(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final boolean result1obj =
                 new Underscore(asList(1, 2, 3, 4)).any((Predicate<Integer>) item -> item % 2 == 0);
@@ -664,7 +666,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void some() {
+    void some() {
         final boolean result1 = Underscore.some(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final boolean result1obj =
                 new Underscore(asList(1, 2, 3, 4)).some((Predicate<Integer>) item -> item % 2 == 0);
@@ -687,7 +689,7 @@ public class CollectionsTest {
     _.include([1, 2, 3], 3); // true
     */
     @Test
-    public void include() {
+    void include() {
         final Boolean result = Underscore.include(asList(1, 2, 3), 3);
         assertTrue(result);
     }
@@ -698,7 +700,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void count() {
+    void count() {
         final int result1 = Underscore.count(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final int result1obj =
                 new Underscore(asList(1, 2, 3, 4))
@@ -723,7 +725,7 @@ public class CollectionsTest {
     => true
     */
     @Test
-    public void contains() {
+    void contains() {
         final boolean result = Underscore.contains(asList(1, 2, 3), 3);
         assertTrue(result);
         final boolean resultObj = new Underscore<>(asList(1, 2, 3)).contains(3);
@@ -743,7 +745,7 @@ public class CollectionsTest {
     => true
     */
     @Test
-    public void containsWith() {
+    void containsWith() {
         final boolean result = Underscore.containsWith(asList(1, 2, 3), 3);
         assertTrue(result);
         final boolean resultObj = new Underscore<>(asList(1, 2, 3)).containsWith(3);
@@ -757,7 +759,7 @@ public class CollectionsTest {
     }
 
     @Test
-    public void containsAtLeast() {
+    void containsAtLeast() {
         final boolean result = Underscore.containsAtLeast(asList(1, 2, 2), 2, 2);
         assertTrue(result);
         final boolean result2 = Underscore.containsAtLeast(asList(1, 2, 2), 2, 3);
@@ -773,7 +775,7 @@ public class CollectionsTest {
     }
 
     @Test
-    public void containsAtMost() {
+    void containsAtMost() {
         final boolean result = Underscore.containsAtMost(asList(1, 2, 2), 2, 3);
         assertTrue(result);
         final boolean result2 = Underscore.containsAtMost(asList(1, 2, 2), 2, 1);
@@ -793,7 +795,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void invoke() {
+    void invoke() {
         assertEquals(asList("foo", "bar"), Underscore.invoke(asList(" foo ", "  bar"), "trim"));
         assertEquals(asList("foo", "bar"), new Underscore(asList(" foo ", "  bar")).invoke("trim"));
         assertEquals(
@@ -821,15 +823,25 @@ public class CollectionsTest {
                         .toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("unchecked")
-    public void invokeError() {
-        Underscore.invoke(asList("foo", 123), "concat", Collections.<Object>singletonList("1"));
+    void invokeError() {
+        List<? extends Serializable> iterable = asList("foo", 123);
+        List<Object> objects = Collections.singletonList("1");
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> Underscore.invoke(
+                            iterable,
+                            "concat",
+                            objects));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void invokeError2() {
-        Underscore.invoke(asList(" foo ", "  bar"), "trim2");
+    @Test
+    void invokeError2() {
+        List<String> iterable = asList(" foo ", "  bar");
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> Underscore.invoke(iterable, "trim2"));
     }
 
     /*
@@ -839,7 +851,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void pluck() {
+    void pluck() {
         class Person {
             public final String name;
             public final Integer age;
@@ -923,8 +935,8 @@ public class CollectionsTest {
         assertEquals("[moe, larry, curly]", resultSet2.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void pluck2() {
+    @Test
+    void pluck2() {
         class Person {
             public final String name;
             public final Integer age;
@@ -934,14 +946,20 @@ public class CollectionsTest {
                 this.age = age;
             }
         }
-        Underscore.pluck(
-                asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)),
-                "name2");
+        List<Person> personList = asList(
+                new Person("moe", 40),
+                new Person("larry", 50),
+                new Person("curly", 40));
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> Underscore.pluck(
+                            personList,
+                            "name2"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("unchecked")
-    public void pluck3() {
+    void pluck3() {
         class Person {
             public final String name;
             public final Integer age;
@@ -951,13 +969,14 @@ public class CollectionsTest {
                 this.age = age;
             }
         }
-        Underscore.pluck(
-                new LinkedHashSet(
-                        asList(
-                                new Person("moe", 40),
-                                new Person("larry", 50),
-                                new Person("curly", 40))),
-                "name2");
+        List<Person> personList = asList(
+                new Person("moe", 40),
+                new Person("larry", 50),
+                new Person("curly", 40));
+        LinkedHashSet personSet = new LinkedHashSet(personList);
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> Underscore.pluck(personSet,"name2"));
     }
 
     /*
@@ -967,7 +986,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void where() {
+    void where() {
         class Book {
             public final String title;
             public final String author;
@@ -1093,7 +1112,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void findWhere() {
+    void findWhere() {
         class Book {
             public final String title;
             public final String author;
@@ -1207,7 +1226,7 @@ public class CollectionsTest {
     => 1000
     */
     @Test
-    public void max() {
+    void max() {
         final Integer result = Underscore.max(asList(10, 5, 100, 2, 1000));
         assertEquals("1000", result.toString());
         final Integer resultObj = new Underscore<>(asList(10, 5, 100, 2, 1000)).max();
@@ -1249,7 +1268,7 @@ public class CollectionsTest {
     => 2
     */
     @Test
-    public void min() {
+    void min() {
         final Integer result = Underscore.min(asList(10, 5, 100, 2, 1000));
         assertEquals("2", result.toString());
         final Integer resultObj = new Underscore<>(asList(10, 5, 100, 2, 1000)).min();
@@ -1291,7 +1310,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void sortWith() {
+    void sortWith() {
         final List<Integer> result =
                 Underscore.sortWith(
                         asList(1, 2, 3, 4, 5, 6),
@@ -1326,7 +1345,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void sortBy() {
+    void sortBy() {
         final List<Integer> result =
                 Underscore.sortBy(
                         asList(1, 2, 3, 4, 5, 6),
@@ -1352,7 +1371,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void sortByMap() {
+    void sortByMap() {
         final List<Map<String, Comparable>> result =
                 Underscore.sortBy(
                         asList(
@@ -1418,7 +1437,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void groupBy() {
+    void groupBy() {
         final Map<Double, List<Double>> result =
                 Underscore.groupBy(asList(1.3, 2.1, 2.4), Math::floor);
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result.toString());
@@ -1438,7 +1457,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void groupByWithSumming() {
+    void groupByWithSumming() {
         final Map<Double, Optional<Double>> result =
                 Underscore.groupBy(asList(1.3, 2.1, 2.4), Math::floor, Double::sum);
         assertEquals("{1.0=Optional[1.3], 2.0=Optional[4.5]}", result.toString());
@@ -1464,7 +1483,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void indexBy() {
+    void indexBy() {
         class Person {
             public final String name;
             public final Integer age;
@@ -1521,7 +1540,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void countBy() {
+    void countBy() {
         class Person {
             public final String name;
             public final Integer age;
@@ -1572,7 +1591,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void shuffle() {
+    void shuffle() {
         final List<Integer> result = Underscore.shuffle(asList(1, 2, 3, 4, 5, 6));
         assertEquals(6, result.size());
         final List<Integer> resultObj = new Underscore(asList(1, 2, 3, 4, 5, 6)).shuffle();
@@ -1589,7 +1608,7 @@ public class CollectionsTest {
     => [1, 6, 2]
     */
     @Test
-    public void sample() {
+    void sample() {
         final Integer result = Underscore.sample(asList(1, 2, 3, 4, 5, 6));
         assertTrue(result >= 1 && result <= 6);
         final Integer resultObj = new Underscore<>(asList(1, 2, 3, 4, 5, 6)).sample();
@@ -1610,7 +1629,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void toArray() {
+    void toArray() {
         final Object[] result = Underscore.<Integer>toArray(asList(1, 2, 3, 4));
         assertEquals("1", result[0].toString());
         final Object[] resultObj = new Underscore(asList(1, 2, 3, 4)).toArray();
@@ -1619,7 +1638,7 @@ public class CollectionsTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void toMap() {
+    void toMap() {
         assertEquals(
                 "{name1=one, name2=two}",
                 Underscore.toMap(
@@ -1656,7 +1675,7 @@ public class CollectionsTest {
     }
 
     @Test
-    public void toCardinalityMap() {
+    void toCardinalityMap() {
         assertEquals(
                 "{a=2, b=1, c=2}",
                 Underscore.toCardinalityMap(asList("a", "a", "b", "c", "c")).toString());
@@ -1674,7 +1693,7 @@ public class CollectionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void size() {
+    void size() {
         final int result = Underscore.size(asList(1, 2, 3, 4));
         assertEquals(4, result);
         final int resultObj = new Underscore(asList(1, 2, 3, 4)).size();
@@ -1707,7 +1726,7 @@ public class CollectionsTest {
     => [[1, 3, 5], [0, 2, 4]]
     */
     @Test
-    public void partition() {
+    void partition() {
         final List<List<Integer>> result =
                 Underscore.partition(asList(0, 1, 2, 3, 4, 5), item -> item % 2 == 1);
         assertEquals("[1, 3, 5]", result.get(0).toString());

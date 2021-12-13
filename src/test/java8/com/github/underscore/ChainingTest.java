@@ -33,7 +33,7 @@ import org.junit.Test;
  *
  * @author Valentyn Kolesnikov
  */
-public class ChainingTest {
+class ChainingTest {
 
     /*
     var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
@@ -46,7 +46,7 @@ public class ChainingTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void chain() {
+    void chain() {
         final List<Map<String, Object>> stooges =
                 new ArrayList<Map<String, Object>>() {
                     {

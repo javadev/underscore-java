@@ -38,7 +38,7 @@ import org.junit.Test;
  *
  * @author Valentyn Kolesnikov
  */
-public class ArraysTest {
+class ArraysTest {
 
     /*
     _.first([5, 4, 3, 2, 1]);
@@ -47,7 +47,7 @@ public class ArraysTest {
     => [5, 4]
     */
     @Test
-    public void first() {
+    void first() {
         final Integer result = U.first(asList(5, 4, 3, 2, 1));
         assertEquals("5", result.toString());
         final Object resultChain = U.chain(asList(5, 4, 3, 2, 1)).first().item();
@@ -66,7 +66,7 @@ public class ArraysTest {
     }
 
     @Test
-    public void firstOrNull() {
+    void firstOrNull() {
         final Integer result = U.firstOrNull(asList(5, 4, 3, 2, 1));
         assertEquals("5", result.toString());
         final Integer resultObj = new U<>(asList(5, 4, 3, 2, 1)).firstOrNull();
@@ -93,7 +93,7 @@ public class ArraysTest {
 
     @Test(expected = NoSuchElementException.class)
     @SuppressWarnings("unchecked")
-    public void firstEmpty() {
+    void firstEmpty() {
         U.first(asList());
     }
 
@@ -104,7 +104,7 @@ public class ArraysTest {
     => [5, 4]
     */
     @Test
-    public void head() {
+    void head() {
         final Integer result = U.head(asList(5, 4, 3, 2, 1));
         assertEquals("5", result.toString());
         final Integer resultObj = new U<>(asList(5, 4, 3, 2, 1)).head();
@@ -124,7 +124,7 @@ public class ArraysTest {
     => 5
     */
     @Test
-    public void singleOrNull() {
+    void singleOrNull() {
         U<Integer> uWithMoreElement = new U<Integer>(asList(1, 2, 3));
         U<Integer> uWithOneElement = new U<Integer>(asList(1));
 
@@ -158,7 +158,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void rest() {
+    void rest() {
         final List<Integer> result = U.rest(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
         final List<Integer> resultChain = U.chain(asList(5, 4, 3, 2, 1)).rest().value();
@@ -182,7 +182,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void chunk() {
+    void chunk() {
         assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
         assertEquals("[[a, b], [c, d]]", new U(asList("a", "b", "c", "d")).chunk(2).toString());
         assertEquals(
@@ -198,7 +198,7 @@ public class ArraysTest {
     => [3, 2, 1]
     */
     @Test
-    public void tail() {
+    void tail() {
         final List<Integer> result = U.tail(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
         final List<Integer> result2 = U.tail(asList(5, 4, 3, 2, 1), 2);
@@ -220,7 +220,7 @@ public class ArraysTest {
     => [3, 2, 1]
     */
     @Test
-    public void drop() {
+    void drop() {
         final List<Integer> result = U.drop(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
         final List<Integer> result2 = U.drop(asList(5, 4, 3, 2, 1), 2);
@@ -239,7 +239,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void initial() {
+    void initial() {
         final List<Integer> result = U.initial(asList(5, 4, 3, 2, 1));
         assertEquals("[5, 4, 3, 2]", result.toString());
         final List<Integer> resultChain = U.chain(asList(5, 4, 3, 2, 1)).initial().value();
@@ -264,7 +264,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void last() {
+    void last() {
         final Integer result = U.last(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
         final List<Integer> resultTwo = U.last(asList(5, 4, 3, 2, 1), 2);
@@ -287,7 +287,7 @@ public class ArraysTest {
     }
 
     @Test
-    public void lastOrNull() {
+    void lastOrNull() {
         final Integer result = U.lastOrNull(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
         final Integer resultObj = new U<>(asList(5, 4, 3, 2, 1)).lastOrNull();
@@ -315,7 +315,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void compact() {
+    void compact() {
         final List<?> result = U.compact(asList(0, 1, false, 2, "", 3));
         assertEquals("[1, 2, 3]", result.toString());
         final List<?> result2 = U.compact(asList(0, 1, false, 2, "", 3), 1);
@@ -346,7 +346,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void flatten() {
+    void flatten() {
         final List<Integer> result = U.flatten(asList(1, asList(2, asList(3, asList(asList(4))))));
         assertEquals("[1, 2, 3, 4]", result.toString());
         final List<Integer> result2 =
@@ -371,7 +371,7 @@ public class ArraysTest {
     => [2, 3, 4]
     */
     @Test
-    public void without() {
+    void without() {
         final List<Integer> result = U.without(asList(1, 2, 1, 0, 3, 1, 4), 0, 1);
         assertEquals("[2, 3, 4]", result.toString());
         final List<Integer> result2 = U.without(asList(1, 2, 1, 0, 3, 1, 4), 1);
@@ -390,7 +390,7 @@ public class ArraysTest {
     => 3
     */
     @Test
-    public void sortedIndex() {
+    void sortedIndex() {
         final Integer result = U.sortedIndex(asList(10, 20, 30, 40, 50), 35);
         assertEquals(3, result.intValue());
         final Integer result2 = U.sortedIndex(new Integer[] {10, 20, 30, 40, 50}, 35);
@@ -400,7 +400,7 @@ public class ArraysTest {
     }
 
     @Test
-    public void sortedIndex2() {
+    void sortedIndex2() {
         class Person implements Comparable<Person> {
             public final String name;
             public final Integer age;
@@ -449,7 +449,7 @@ public class ArraysTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void sortedIndex2Error() {
+    void sortedIndex2Error() {
         class Person implements Comparable<Person> {
             @Override
             public int compareTo(Person person) {
@@ -465,7 +465,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void uniq() {
+    void uniq() {
         final List<Integer> result = U.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
         final Object[] resultArray = U.uniq(new Integer[] {1, 2, 1, 3, 1, 4});
@@ -519,7 +519,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void distinct() {
+    void distinct() {
         final List<Integer> result = U.distinct(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
         final Object[] resultArray = U.distinct(new Integer[] {1, 2, 1, 3, 1, 4});
@@ -574,7 +574,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void intersection() {
+    void intersection() {
         final List<Integer> result =
                 U.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", result.toString());
@@ -595,7 +595,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void union() {
+    void union() {
         final List<Integer> result = U.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", result.toString());
         final List<Integer> resultObj =
@@ -615,7 +615,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void difference() {
+    void difference() {
         final List<Integer> result = U.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
         assertEquals("[1, 3, 4]", result.toString());
         final List<Integer> resultObj =
@@ -644,7 +644,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void zip() {
+    void zip() {
         final List<List<String>> result =
                 U.zip(
                         asList("moe", "larry", "curly"),
@@ -660,7 +660,7 @@ public class ArraysTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void unzip() {
+    void unzip() {
         final List<List<String>> result =
                 U.unzip(
                         asList("moe", "30", "true"),
@@ -675,7 +675,7 @@ public class ArraysTest {
     => {moe: 30, larry: 40, curly: 50}
     */
     @Test
-    public void object() {
+    void object() {
         final List<Tuple<String, String>> result =
                 U.object(asList("moe", "larry", "curly"), asList("30", "40", "50"));
         assertEquals("[(moe, 30), (larry, 40), (curly, 50)]", result.toString());
@@ -686,7 +686,7 @@ public class ArraysTest {
     => 1
     */
     @Test
-    public void indexOf() {
+    void indexOf() {
         final Integer result = U.indexOf(asList(1, 2, 3), 2);
         assertEquals(1, result.intValue());
         final Integer resultArray = U.indexOf(new Integer[] {1, 2, 3}, 2);
@@ -698,7 +698,7 @@ public class ArraysTest {
     => 4
     */
     @Test
-    public void lastIndexOf() {
+    void lastIndexOf() {
         final Integer result = U.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);
         assertEquals(4, result.intValue());
         final Integer resultArray = U.lastIndexOf(new Integer[] {1, 2, 3, 1, 2, 3}, 2);
@@ -710,7 +710,7 @@ public class ArraysTest {
     => 1
     */
     @Test
-    public void findIndex() {
+    void findIndex() {
         final Integer result = U.findIndex(asList(1, 2, 3), (Integer item) -> item % 2 == 0);
         assertEquals(1, result.intValue());
         final Integer resultNotFound = U.findIndex(asList(1, 2, 3), (Integer item) -> item > 3);
@@ -725,7 +725,7 @@ public class ArraysTest {
     => 3
     */
     @Test
-    public void findLastIndex() {
+    void findLastIndex() {
         final Integer result =
                 U.findLastIndex(asList(1, 2, 3, 4, 5), (Integer item) -> item % 2 == 0);
         assertEquals(3, result.intValue());
@@ -750,7 +750,7 @@ public class ArraysTest {
     => []
     */
     @Test
-    public void range() {
+    void range() {
         final List<Integer> result = U.range(10);
         assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", result.toString());
         final List<Integer> resultChain = U.chain("").range(10).value();
@@ -774,7 +774,7 @@ public class ArraysTest {
     => 4
     */
     @Test
-    public void lastIndex() {
+    void lastIndex() {
         assertEquals(4, U.lastIndex(asList(1, 2, 3, 4, 5)));
         assertEquals(4, U.lastIndex(new Integer[] {1, 2, 3, 4, 5}));
         assertEquals(4, U.lastIndex(new int[] {1, 2, 3, 4, 5}));

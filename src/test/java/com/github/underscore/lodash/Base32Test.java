@@ -23,37 +23,37 @@
  */
 package com.github.underscore.lodash;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class Base32Test {
+class Base32Test {
 
     @Test
-    public void decode() {
+    void decode() {
         assertEquals("!", Base32.decode("EE"));
         assertEquals("-Hello world!+-", Base32.decode("FVEGKbDMNcQHObbSNRSCCKZN"));
     }
 
     @Test
-    public void decodeEmpty() {
+    void decodeEmpty() {
         assertEquals("", Base32.decode(""));
     }
 
     @Test
-    public void decodeIllegal() {
+    void decodeIllegal() {
         assertThrows(Base32.DecodingException.class, () -> Base32.decode("EE!"));
     }
 
     @Test
-    public void encode() {
+    void encode() {
         assertEquals("EE", Base32.encode("!"));
         assertEquals("FVEGKbDMNcQHObbSNRSCCKZN", Base32.encode("-Hello world!+-"));
     }
 
     @Test
-    public void encodeEmpty() {
+    void encodeEmpty() {
         assertEquals("", Base32.encode(""));
     }
 }

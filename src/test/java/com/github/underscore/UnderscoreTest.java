@@ -25,12 +25,13 @@ package com.github.underscore;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -38,22 +39,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
  *
  * @author Valentyn Kolesnikov
  */
-public class UnderscoreTest {
+class UnderscoreTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void main() {
+    void main() {
         Underscore.main(new String[] {});
         new Underscore(singletonList("")).getIterable();
-        new Underscore(singletonList("")).value();
-        new Underscore("").getString();
+        assertEquals("[]", new Underscore(singletonList("")).value().toString());
+        new Underscore("");
     }
 
     /*
@@ -62,7 +63,7 @@ public class UnderscoreTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void sort() {
+    void sort() {
         assertEquals(
                 "[example, some, words]",
                 Underscore.sort(asList("some", "words", "example")).toString());
@@ -90,7 +91,7 @@ public class UnderscoreTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void join() {
+    void join() {
         assertEquals(
                 "some-words-example", Underscore.join(asList("some", "words", "example"), "-"));
         assertEquals(
@@ -118,7 +119,7 @@ public class UnderscoreTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void push() {
+    void push() {
         assertEquals(
                 "[a, b, c, 0, 2]", Underscore.push(asList("a", "b", "c"), "0", "2").toString());
         assertEquals(
@@ -134,7 +135,7 @@ public class UnderscoreTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void pop() {
+    void pop() {
         assertEquals("c", Underscore.pop(asList("a", "b", "c")).fst().toString());
         assertEquals("c", new Underscore(asList("a", "b", "c")).pop().fst().toString());
         assertEquals("c", Underscore.chain(asList("a", "b", "c")).pop().item().fst().toString());
@@ -146,7 +147,7 @@ public class UnderscoreTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void shift() {
+    void shift() {
         assertEquals("a", Underscore.shift(asList("a", "b", "c")).fst().toString());
         assertEquals("a", new Underscore(asList("a", "b", "c")).shift().fst().toString());
         assertEquals("a", Underscore.chain(asList("a", "b", "c")).shift().item().fst().toString());
@@ -158,7 +159,7 @@ public class UnderscoreTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void unshift() {
+    void unshift() {
         assertEquals(
                 "[0, 2, a, b, c]", Underscore.unshift(asList("a", "b", "c"), "0", "2").toString());
         assertEquals(
@@ -170,7 +171,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void compareStrings() {
+    void compareStrings() {
         assertArrayEquals(Underscore.sort("CAT".split("")), Underscore.sort("CTA".split("")));
     }
 
@@ -180,7 +181,7 @@ public class UnderscoreTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void concat() {
+    void concat() {
         assertEquals(
                 asList(1, 2, 3, 4),
                 asList(Underscore.concat(new Integer[] {1, 2}, new Integer[] {3, 4})));
@@ -220,7 +221,7 @@ public class UnderscoreTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void slice() {
+    void slice() {
         assertEquals(asList(3, 4, 5), Underscore.slice(asList(1, 2, 3, 4, 5), 2));
         assertEquals(asList(3, 4, 5), new Underscore(asList(1, 2, 3, 4, 5)).slice(2));
         assertEquals(asList(2, 3, 4), Underscore.slice(asList(1, 2, 3, 4, 5), 1, 4));
@@ -256,7 +257,7 @@ public class UnderscoreTest {
     => [[], []]
     */
     @Test
-    public void splitAt() {
+    void splitAt() {
         assertEquals("[[0, 1], [2, 3, 4]]", Underscore.splitAt(Underscore.range(5), 2).toString());
         assertEquals(
                 "[[], [0, 1, 2, 3, 4]]", Underscore.splitAt(Underscore.range(5), 0).toString());
@@ -293,7 +294,7 @@ public class UnderscoreTest {
     => []
     */
     @Test
-    public void takeSkipping() {
+    void takeSkipping() {
         assertEquals("[0, 2, 4]", Underscore.takeSkipping(Underscore.range(5), 2).toString());
         assertEquals("[0]", Underscore.takeSkipping(Underscore.range(5), 100000).toString());
         assertEquals("[]", Underscore.takeSkipping(Underscore.range(5), -100).toString());
@@ -322,7 +323,7 @@ public class UnderscoreTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void copyOf() {
+    void copyOf() {
         assertEquals(asList(1, 2, 3), Underscore.copyOf(asList(1, 2, 3)));
         assertEquals(asList(1, 2, 3), new Underscore(asList(1, 2, 3)).copyOf());
         assertFalse(asList(1, 2, 3) == Underscore.copyOf(asList(1, 2, 3)));
@@ -336,7 +337,7 @@ public class UnderscoreTest {
     _.elementAt(arr, 1) // => 2
     */
     @Test
-    public void elementAt() {
+    void elementAt() {
         assertEquals(2, Underscore.<Integer>elementAt(asList(1, 2, 3), 1).intValue());
         assertEquals(2, new Underscore<>(asList(1, 2, 3)).elementAt(1).intValue());
     }
@@ -346,7 +347,7 @@ public class UnderscoreTest {
     _.get(arr, 1) // => 2
     */
     @Test
-    public void get() {
+    void get() {
         assertEquals(2, Underscore.<Integer>get(asList(1, 2, 3), 1).intValue());
         assertEquals(2, new Underscore<>(asList(1, 2, 3)).get(1).intValue());
     }
@@ -356,7 +357,7 @@ public class UnderscoreTest {
     _.set(arr, 1, 100) // => 2
     */
     @Test
-    public void set() {
+    void set() {
         Tuple<Integer, List<Integer>> result = Underscore.<Integer>set(asList(1, 2, 3), 1, 100);
         assertEquals(2, result.fst().intValue());
         assertEquals(100, Underscore.<Integer>get(result.snd(), 1).intValue());
@@ -369,9 +370,12 @@ public class UnderscoreTest {
     var arr = [ 1, 2, 3 ]
     _.elementAt(arr, 3) // => IndexOutOfBoundsException
     */
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void elementAtOutOfBounds() {
-        Underscore.<Integer>elementAt(asList(1, 2, 3), 3);
+    @Test
+    void elementAtOutOfBounds() {
+        List<Integer> integers = asList(1, 2, 3);
+        assertThrows(
+                IndexOutOfBoundsException.class,
+                () -> Underscore.<Integer>elementAt(integers, 3));
     }
 
     /*
@@ -380,7 +384,7 @@ public class UnderscoreTest {
     _.elementAtOrElse(arr, 3, 0) // => 0
     */
     @Test
-    public void elementAtOrElse() {
+    void elementAtOrElse() {
         assertEquals(2, Underscore.<Integer>elementAtOrElse(asList(1, 2, 3), 1, 0).intValue());
         assertEquals(2, new Underscore<>(asList(1, 2, 3)).elementAtOrElse(1, 0).intValue());
         assertEquals(0, Underscore.<Integer>elementAtOrElse(asList(1, 2, 3), 3, 0).intValue());
@@ -393,7 +397,7 @@ public class UnderscoreTest {
     _.elementAtOrNull(arr, 3) // => null
     */
     @Test
-    public void elementAtOrNull() {
+    void elementAtOrNull() {
         assertEquals(2, Underscore.<Integer>elementAtOrNull(asList(1, 2, 3), 1).intValue());
         assertEquals(2, new Underscore<>(asList(1, 2, 3)).elementAtOrNull(1).intValue());
         assertNull(Underscore.<Integer>elementAtOrNull(asList(1, 2, 3), 3));
@@ -405,7 +409,7 @@ public class UnderscoreTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void reverse() {
+    void reverse() {
         assertEquals("[3, 2, 1]", Underscore.reverse(asList(1, 2, 3)).toString());
         assertEquals("[3, 2, 1]", Underscore.reverse(new int[] {1, 2, 3}).toString());
         assertEquals("[3, 2, 1]", new Underscore(asList(1, 2, 3)).reverse().toString());
@@ -414,7 +418,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void findLastWithCustomIterable() {
+    void findLastWithCustomIterable() {
         final int[] array = new int[] {1, 2, 3, 4, 5, 6};
         Iterable<Integer> iterable =
                 () ->
@@ -436,7 +440,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void iterate() {
+    void iterate() {
         Iterable<long[]> iterable =
                 Underscore.<long[]>iterate(
                         new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
@@ -447,7 +451,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void iterateChain() {
+    void iterateChain() {
         Iterable<long[]> iterable =
                 Underscore.<long[]>iterate(
                         new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
@@ -475,8 +479,8 @@ public class UnderscoreTest {
     }
 
     @Test
-    @SuppressWarnings("unlikely-arg-type")
-    public void optional() {
+    @SuppressWarnings({"unlikely-arg-type", "java:S5961"})
+    void optional() {
         assertTrue(Optional.empty().equals(Optional.empty()));
         assertTrue(Optional.of(1).equals(Optional.of(1)));
         Optional<Integer> one = Optional.of(1);
@@ -515,60 +519,61 @@ public class UnderscoreTest {
         assertEquals("Optional[1]", Optional.of(1).toJavaOptional().toString());
     }
 
-    @Test(expected = Exception.class)
-    public void optionalOrThrow() throws RuntimeException {
-        Optional.empty().orThrow(RuntimeException::new);
+    @Test
+    void optionalOrThrow() throws RuntimeException {
+        assertThrows(Exception.class, () -> Optional.empty().orThrow(RuntimeException::new));
     }
 
     @Test
-    public void optionalOrThrowWithValue() {
+    void optionalOrThrowWithValue() {
         assertEquals("1", Optional.of(1).orThrow(RuntimeException::new).toString());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void checkNotNull() {
-        Underscore.checkNotNull(null);
+    @Test
+    void checkNotNull() {
+        assertThrows(NullPointerException.class, () -> Underscore.checkNotNull(null));
     }
 
     @Test
-    public void checkNotNullWithObject() {
+    void checkNotNullWithObject() {
         assertEquals("123", Underscore.checkNotNull("123"));
     }
 
-    @Test(expected = NullPointerException.class)
-    public void checkNotNullWithMessage() {
-        Underscore.checkNotNull(null, "Error message");
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void checkNotNull2() {
-        Underscore.checkNotNullElements(null);
+    @Test
+    void checkNotNullWithMessage() {
+        assertThrows(
+                NullPointerException.class, () -> Underscore.checkNotNull(null, "Error message"));
     }
 
     @Test
-    public void checkNotNullWithObjectAndMessage() {
+    void checkNotNull2() {
+        assertThrows(NullPointerException.class, () -> Underscore.checkNotNullElements(null));
+    }
+
+    @Test
+    void checkNotNullWithObjectAndMessage() {
         assertEquals("123", Underscore.checkNotNull("123", "Error message"));
     }
 
     @Test
-    public void nonNull() {
+    void nonNull() {
         assertFalse(Underscore.nonNull(null));
         assertTrue(Underscore.nonNull(""));
     }
 
     @Test
-    public void defaultTo() {
+    void defaultTo() {
         assertNull(Underscore.defaultTo(null, null));
     }
 
     @Test
-    public void defaultTo2() {
+    void defaultTo2() {
         assertEquals("123", Underscore.defaultTo("123", "124"));
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void and() {
+    void and() {
         Predicate<Integer> predicate =
                 Underscore.and(
                         (Predicate<Object>) Objects::nonNull,
@@ -584,7 +589,7 @@ public class UnderscoreTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void or() {
+    void or() {
         Predicate<Integer> predicate =
                 Underscore.or(
                         (Predicate<Object>) Objects::isNull,
@@ -600,7 +605,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void stackoverflow() {
+    void stackoverflow() {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
         assertEquals(
                 "{D=67.3, B=67.4, C=67.4, A=99.5}",
@@ -621,7 +626,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void stackoverflow2() {
+    void stackoverflow2() {
         // http://stackoverflow.com/questions/12229577/java-hashmap-sorting-string-integer-how-to-sort-it?lq=1
         assertEquals(
                 "{a=5, f=5, c=4, e=3, b=2, d=2}",
@@ -644,7 +649,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void stackoverflow3() {
+    void stackoverflow3() {
         // http://stackoverflow.com/questions/11647889/sorting-the-mapkey-value-in-descending-order-based-on-the-value?lq=1
         assertEquals(
                 "{C=50, A=34, B=25}",
@@ -664,7 +669,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void stackoverflow4() {
+    void stackoverflow4() {
         // http://stackoverflow.com/questions/23812947/
         // most-efficient-way-to-find-the-collection-of-all-ids-in-a-collection-of-entities?rq=1
         class Entity {
@@ -690,7 +695,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void stackoverflow5() {
+    void stackoverflow5() {
         // http://stackoverflow.com/questions/4349369/list-intersection-in-java
         List<Integer> original = asList(12, 16, 17, 19, 101);
         List<Integer> selected = asList(16, 19, 107, 108, 109);
@@ -702,7 +707,7 @@ public class UnderscoreTest {
     }
 
     @Test
-    public void jobtest() {
+    void jobtest() {
         String[] strings = {
             "Sound boy proceed to blast into the galaxy",
             "Go back rocket man into the sky you'll see",

@@ -24,9 +24,9 @@
 package com.github.underscore;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,14 +37,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
  *
  * @author Valentyn Kolesnikov
  */
-public class UtilityTest {
+class UtilityTest {
 
     /*
     var stooge = {name: 'moe'};
@@ -52,7 +52,7 @@ public class UtilityTest {
     => true
     */
     @Test
-    public void identity() {
+    void identity() {
         Map<String, String> object =
                 new LinkedHashMap<String, String>() {
                     {
@@ -68,7 +68,7 @@ public class UtilityTest {
     => true
     */
     @Test
-    public void constant() {
+    void constant() {
         Map<String, String> object =
                 new LinkedHashMap<String, String>() {
                     {
@@ -84,7 +84,7 @@ public class UtilityTest {
     => true
     */
     @Test
-    public void property() {
+    void property() {
         Map<String, Object> stooge =
                 new LinkedHashMap<String, Object>() {
                     {
@@ -100,7 +100,7 @@ public class UtilityTest {
     => 'moe'
     */
     @Test
-    public void propertyOf() {
+    void propertyOf() {
         Map<String, String> stooge =
                 new LinkedHashMap<String, String>() {
                     {
@@ -115,7 +115,7 @@ public class UtilityTest {
     => 42
     */
     @Test
-    public void random() {
+    void random() {
         int result = Underscore.random(0, 100);
         assertTrue(result >= 0);
         assertTrue(result <= 100);
@@ -126,7 +126,7 @@ public class UtilityTest {
     => 0 or 1
     */
     @Test
-    public void random2() {
+    void random2() {
         int result = Underscore.random(0, 1);
         assertTrue(result >= 0);
         assertTrue(result <= 1);
@@ -137,7 +137,7 @@ public class UtilityTest {
     => 0
     */
     @Test
-    public void random3() {
+    void random3() {
         int result = Underscore.random(0);
         assertEquals(0, result);
     }
@@ -147,7 +147,7 @@ public class UtilityTest {
     => 1392066795351
     */
     @Test
-    public void now() {
+    void now() {
         assertTrue(Underscore.now() <= new Date().getTime());
     }
 
@@ -156,24 +156,24 @@ public class UtilityTest {
     => 'contact_104'
     */
     @Test
-    public void uniqueId() {
+    void uniqueId() {
         assertEquals("contact_1", Underscore.uniqueId("contact_"));
         assertEquals("2", Underscore.uniqueId(null));
     }
 
     @Test
-    public void uniquePassword() {
+    void uniquePassword() {
         String password = Underscore.uniquePassword();
         assertTrue(
-                "Password doesn't matches the pattern [A-Z]+[0-9]+.*?[a-z]+ " + password,
-                password.matches("[A-Z]+[0-9]+.*?[a-z]+.*"));
+                password.matches("[A-Z]+[0-9]+.*?[a-z]+.*"),
+                "Password doesn't matches the pattern [A-Z]+[0-9]+.*?[a-z]+ " + password);
     }
 
     /*
     _.times(3, function(n){ genie.grantWishNumber(n); });
     */
     @Test
-    public void times() {
+    void times() {
         final List<Integer> result = new ArrayList<>();
         Underscore.times(3, () -> result.add(1));
         assertEquals("[1, 1, 1]", result.toString());
@@ -190,7 +190,7 @@ public class UtilityTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void mixin() {
+    void mixin() {
         Underscore.mixin(
                 "capitalize",
                 string ->
@@ -206,7 +206,7 @@ public class UtilityTest {
     => "Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;"
     */
     @Test
-    public void escape() {
+    void escape() {
         assertEquals(
                 "Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;",
                 Underscore.escape("Curly, Larry & Moe < > \"'`"));
@@ -217,7 +217,7 @@ public class UtilityTest {
     => "Curly, Larry & Moe < > \"'`"
     */
     @Test
-    public void unescape() {
+    void unescape() {
         assertEquals(
                 "Curly, Larry & Moe < > \"'`",
                 Underscore.unescape("Curly, Larry &amp; Moe &lt; &gt; &quot;&#x27;&#x60;"));
@@ -229,7 +229,7 @@ public class UtilityTest {
     => "hello: moe"
     */
     @Test
-    public void template() {
+    void template() {
         Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
         assertEquals(
                 "hello: moe",
@@ -242,7 +242,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void template2() {
+    void template2() {
         Template<Map<String, Object>> compiled =
                 Underscore.template("hello: <%= name %>, hello2: <%= name %>");
         assertEquals(
@@ -256,7 +256,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void template3() {
+    void template3() {
         Template<Map<String, Object>> compiled =
                 Underscore.template("hello: <%= name %>, hello2: <%= name2 %>");
         assertEquals(
@@ -271,7 +271,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void template4() {
+    void template4() {
         Underscore.templateSettings(
                 new HashMap<String, String>() {
                     {
@@ -307,7 +307,7 @@ public class UtilityTest {
     => "<b>&lt;script&gt;</b>"
     */
     @Test
-    public void templateValue() {
+    void templateValue() {
         Template<Map<String, Object>> template = Underscore.template("<b><%- value %></b>");
         assertEquals(
                 "<b>&lt;script&gt;</b>",
@@ -320,7 +320,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void templateValue2() {
+    void templateValue2() {
         Template<Map<String, Object>> template =
                 Underscore.template("hello: <%= name %>, <b><%- value %></b>");
         assertEquals(
@@ -335,7 +335,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void templateValue3() {
+    void templateValue3() {
         Template<Map<String, Object>> template =
                 Underscore.template("hello: <% name %>, <b><%- value %></b>");
         assertEquals(
@@ -350,7 +350,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void templateValue4() {
+    void templateValue4() {
         Template<Map<String, Object>> template =
                 Underscore.template("hello: <% name %>, <b><%- value %></b>");
         assertEquals(
@@ -365,7 +365,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void templateCheck() {
+    void templateCheck() {
         Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
         assertTrue(
                 compiled.check(
@@ -387,7 +387,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void templateCheck2() {
+    void templateCheck2() {
         Template<Map<String, Object>> compiled =
                 Underscore.template("hello: <%= name %> <%= name2 %>");
         assertEquals(
@@ -430,7 +430,7 @@ public class UtilityTest {
     => "hello: moe"
     */
     @Test
-    public void format() {
+    void format() {
         String fortmatted = Underscore.format("hello: {0}", "moe");
         assertEquals("hello: moe", fortmatted);
         String fortmatted2 = Underscore.format("hello: {}", "moe");
@@ -446,7 +446,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void minimumDays() {
+    void minimumDays() {
         List<List<Integer>> ll = new ArrayList<>();
         ll.add(Arrays.asList(1, 1, 1, 1, 1));
         ll.add(Arrays.asList(1, 1, 1, 0, 1));
@@ -462,7 +462,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void topNCompetitors() {
+    void topNCompetitors() {
         List<String> competitors =
                 Arrays.asList("anacell", "betacellular", "cetracular", "deltacellular", "eurocell");
         List<String> reviews =
@@ -508,7 +508,7 @@ public class UtilityTest {
     => "nonsense"
     */
     @Test
-    public void result() {
+    void result() {
         Map<String, Object> object =
                 new LinkedHashMap<String, Object>() {
                     {

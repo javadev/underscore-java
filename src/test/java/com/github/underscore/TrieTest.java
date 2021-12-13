@@ -23,20 +23,20 @@
  */
 package com.github.underscore;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
  *
  * @author Valentyn Kolesnikov
  */
-public class TrieTest {
+class TrieTest {
 
     @Test
-    public void startsWith() {
+    void startsWith() {
         Trie trie = new Trie();
         trie.insert("apple");
         trie.insert("apple");
@@ -45,7 +45,7 @@ public class TrieTest {
     }
 
     @Test
-    public void startsWith2() {
+    void startsWith2() {
         Trie trie = new Trie();
         trie.insert("тест");
         trie.insert("тест");
@@ -54,7 +54,7 @@ public class TrieTest {
     }
 
     @Test
-    public void startsWith3() {
+    void startsWith3() {
         Trie trie = new Trie();
         trie.insert("0123");
         trie.insert("0123");

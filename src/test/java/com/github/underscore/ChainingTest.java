@@ -24,7 +24,7 @@
 package com.github.underscore;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -35,14 +35,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
  *
  * @author Valentyn Kolesnikov
  */
-public class ChainingTest {
+class ChainingTest {
 
     /*
     var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
@@ -54,7 +54,7 @@ public class ChainingTest {
     => "moe is 21"
     */
     @Test
-    public void chain() {
+    void chain() {
         final List<Map<String, Object>> stooges =
                 new ArrayList<Map<String, Object>>() {
                     {
@@ -92,7 +92,7 @@ public class ChainingTest {
     }
 
     @Test
-    public void chainSet() {
+    void chainSet() {
         final Set<Map<String, Object>> stooges =
                 new HashSet<Map<String, Object>>() {
                     {
@@ -131,7 +131,7 @@ public class ChainingTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void chainObj() {
+    void chainObj() {
         final Set<Map<String, Object>> stooges =
                 new HashSet<Map<String, Object>>() {
                     {
@@ -175,7 +175,7 @@ public class ChainingTest {
     }
 
     @Test
-    public void chainArray() {
+    void chainArray() {
         final List<Map<String, Object>> stooges =
                 new ArrayList<Map<String, Object>>() {
                     {
@@ -234,7 +234,7 @@ public class ChainingTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void chain2() {
+    void chain2() {
         final List<Map<String, Object>> lyrics =
                 new ArrayList<Map<String, Object>>() {
                     {
@@ -312,7 +312,7 @@ public class ChainingTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void chain3() {
+    void chain3() {
         final List<Map<String, Object>> lyrics =
                 new ArrayList<Map<String, Object>>() {
                     {
@@ -394,7 +394,7 @@ public class ChainingTest {
     =>  [{ doctorNumber: "#9",  playedBy: "Christopher Eccleston", yearsPlayed: 1 }]
     */
     @Test
-    public void chain4() {
+    void chain4() {
         final List<Map<String, Object>> doctors =
                 new ArrayList<Map<String, Object>>() {
                     {
@@ -468,7 +468,7 @@ public class ChainingTest {
     =>  [{ number: 9,  actor: "Christopher Eccleston", begin: 2005, end: 2005 }]
     */
     @Test
-    public void chain5() {
+    void chain5() {
         final List<Map<String, Object>> doctors =
                 new ArrayList<Map<String, Object>>() {
                     {
@@ -506,7 +506,7 @@ public class ChainingTest {
     }
 
     @Test
-    public void chain6() {
+    void chain6() {
         final List<Comparable> result =
                 Underscore.chain(
                                 Underscore.chain(Underscore.class.getDeclaredMethods())
@@ -535,7 +535,7 @@ public class ChainingTest {
     => 34
     */
     @Test
-    public void chain7() {
+    void chain7() {
         String[] words =
                 new String[] {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum =
@@ -549,7 +549,7 @@ public class ChainingTest {
     }
 
     @Test
-    public void chain8() {
+    void chain8() {
         final List<Comparable> result =
                 Underscore.chain(Underscore.class.getDeclaredMethods())
                         .map(Method::getName)
@@ -567,7 +567,7 @@ public class ChainingTest {
     }
 
     @Test
-    public void chain9() {
+    void chain9() {
         final List<Comparable> result =
                 Underscore.chain(
                                 Underscore.chain(Underscore.class.getDeclaredMethods())
@@ -588,7 +588,7 @@ public class ChainingTest {
     }
 
     @Test
-    public void chainToMap() {
+    void chainToMap() {
         assertEquals(
                 "{name1=one, name2=two}",
                 Underscore.chain(
@@ -605,13 +605,13 @@ public class ChainingTest {
     }
 
     @Test
-    public void chainRange() {
+    void chainRange() {
         assertEquals("[0, 1, 2]", Underscore.chain(Underscore.range(3)).value().toString());
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void chainMap() {
+    void chainMap() {
         assertEquals(
                 "{name1=one, name2=two}",
                 Underscore.chain(

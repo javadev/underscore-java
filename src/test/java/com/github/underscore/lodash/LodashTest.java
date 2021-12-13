@@ -25,10 +25,10 @@ package com.github.underscore.lodash;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.github.underscore.Tuple;
 import java.util.ArrayList;
@@ -40,14 +40,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
  *
  * @author Valentyn Kolesnikov
  */
-public class LodashTest {
+class LodashTest {
 
     /*
     _.chunk(['a', 'b', 'c', 'd'], 2);
@@ -57,7 +57,7 @@ public class LodashTest {
     // → [['a', 'b', 'c'], ['d']]
     */
     @Test
-    public void chunk() {
+    void chunk() {
         assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
         assertEquals("[[a, b], [c, d]]", new U<>(asList("a", "b", "c", "d")).chunk(2).toString());
         assertEquals(
@@ -80,7 +80,7 @@ public class LodashTest {
     // → [1, 2, 3]
     */
     @Test
-    public void drop() {
+    void drop() {
         assertEquals("[2, 3]", U.drop(asList(1, 2, 3)).toString());
         assertEquals("[2, 3]", new U<>(asList(1, 2, 3)).drop().toString());
         assertEquals("[2, 3]", U.chain(asList(1, 2, 3)).drop().value().toString());
@@ -105,7 +105,7 @@ public class LodashTest {
     // → [1, 2, 3]
     */
     @Test
-    public void dropRight() {
+    void dropRight() {
         assertEquals("[1, 2]", U.dropRight(asList(1, 2, 3)).toString());
         assertEquals("[1, 2]", new U<>(asList(1, 2, 3)).dropRight().toString());
         assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).dropRight().value().toString());
@@ -123,7 +123,7 @@ public class LodashTest {
     // → [3]
     */
     @Test
-    public void dropWhile() {
+    void dropWhile() {
         assertEquals("[3]", U.dropWhile(asList(1, 2, 3), n -> n < 3).toString());
         assertEquals("[3]", new U<>(asList(1, 2, 3)).dropWhile(n -> n < 3).toString());
         assertEquals("[3]", U.chain(asList(1, 2, 3)).dropWhile(n -> n < 3).value().toString());
@@ -137,7 +137,7 @@ public class LodashTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void dropRightWhile() {
+    void dropRightWhile() {
         assertEquals("[1, 2]", U.dropRightWhile(asList(1, 2, 3), n -> n > 2).toString());
         assertEquals(
                 "[1, 2]",
@@ -153,7 +153,7 @@ public class LodashTest {
     // → ["res", "res", "res"]
     */
     @Test
-    public void fill() {
+    void fill() {
         assertEquals(
                 "[2, 2, 2]",
                 U.fill(new ArrayList<Number>(Collections.nCopies(3, 0)), 2).toString());
@@ -193,7 +193,7 @@ public class LodashTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void flattenDeep() {
+    void flattenDeep() {
         final List<Integer> result =
                 U.flattenDeep(asList(1, asList(2, 3, singletonList(singletonList(4)))));
         assertEquals("[1, 2, 3, 4]", result.toString());
@@ -215,7 +215,7 @@ public class LodashTest {
     // → [1, 1]
     */
     @Test
-    public void pull() {
+    void pull() {
         List<Object> array = new ArrayList<>(asList(1, 2, 3, 1, 2, 3));
         U.pull(array, 2, 3);
         assertEquals("[1, 1]", array.toString());
@@ -238,7 +238,7 @@ public class LodashTest {
     // → [10, 20]
     */
     @Test
-    public void pullAt() {
+    void pullAt() {
         List<Object> array = new ArrayList<>(asList(5, 10, 15, 20));
         List<Object> events = U.pullAt(array, 1, 3);
         assertEquals("[5, 15]", array.toString());
@@ -266,7 +266,7 @@ public class LodashTest {
     // → [2, 4]
     */
     @Test
-    public void remove() {
+    void remove() {
         List<Integer> array = new ArrayList<>(asList(1, 2, 3, 4));
         List<Integer> evens = U.remove(array, n -> n % 2 == 0);
         assertEquals("[1, 3]", array.toString());
@@ -295,7 +295,7 @@ public class LodashTest {
     // → []
     */
     @Test
-    public void take() {
+    void take() {
         assertEquals("[1]", U.take(asList(1, 2, 3)).toString());
         assertEquals("[1]", new U<>(asList(1, 2, 3)).take().toString());
         assertEquals("[1]", U.chain(asList(1, 2, 3)).take().value().toString());
@@ -320,7 +320,7 @@ public class LodashTest {
     // → []
     */
     @Test
-    public void takeRight() {
+    void takeRight() {
         assertEquals("[3]", U.takeRight(asList(1, 2, 3)).toString());
         assertEquals("[3]", new U<>(asList(1, 2, 3)).takeRight().toString());
         assertEquals("[3]", U.chain(asList(1, 2, 3)).takeRight().value().toString());
@@ -338,7 +338,7 @@ public class LodashTest {
     // → [1, 2]
     */
     @Test
-    public void takeWhile() {
+    void takeWhile() {
         assertEquals("[1, 2]", U.takeWhile(asList(1, 2, 3), n -> n < 3).toString());
         assertEquals("[1, 2]", new U<>(asList(1, 2, 3)).takeWhile(n -> n < 3).toString());
         assertEquals("[1, 2]", U.chain(asList(1, 2, 3)).takeWhile(n -> n < 3).value().toString());
@@ -351,7 +351,7 @@ public class LodashTest {
     // → [2, 3]
     */
     @Test
-    public void takeRightWhile() {
+    void takeRightWhile() {
         assertEquals("[2, 3]", U.takeRightWhile(asList(1, 2, 3), n -> n > 1).toString());
         assertEquals("[2, 3]", new U<>(asList(1, 2, 3)).takeRightWhile(n -> n > 1).toString());
         assertEquals(
@@ -364,7 +364,7 @@ public class LodashTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void xor() {
+    void xor() {
         assertEquals("[1, 4]", U.xor(asList(1, 2), asList(4, 2)).toString());
         assertEquals("[1, 4]", new U<>(asList(1, 2)).xor(asList(4, 2)).toString());
         assertEquals("[1, 4]", U.chain(asList(1, 2)).xor(asList(4, 2)).value().toString());
@@ -375,7 +375,7 @@ public class LodashTest {
     // → ['a', 'c']
     */
     @Test
-    public void at() {
+    void at() {
         assertEquals("[a, c]", U.at(asList("a", "b", "c"), 0, 2).toString());
         assertEquals("[a, c]", new U<>(asList("a", "b", "c")).at(0, 2).toString());
         assertEquals("[a, c]", U.chain(asList("a", "b", "c")).at(0, 2).value().toString());
@@ -387,7 +387,7 @@ public class LodashTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void get() {
+    void get() {
         assertEquals(
                 "d",
                 U.<String>get(
@@ -401,7 +401,7 @@ public class LodashTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void set() {
+    void set() {
         assertEquals(
                 "d",
                 U.<String>set(
@@ -432,7 +432,7 @@ public class LodashTest {
 
     @Test
     @SuppressWarnings("serial")
-    public void getNull() {
+    void getNull() {
         assertNull(U.<String>get((Map<String, Object>) null, "a[0].b.c"));
         assertNull(
                 U.<String>get(
@@ -454,7 +454,7 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void getNotFound() {
+    void getNotFound() {
         assertNull(
                 U.<String>get(
                         (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"),
@@ -467,7 +467,7 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void fetchGet() {
+    void fetchGet() {
         U.FetchResponse result =
                 U.fetch(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json");
@@ -493,7 +493,7 @@ public class LodashTest {
     }
 
     @Test
-    public void fetchGetWithTimeouts() {
+    void fetchGetWithTimeouts() {
         U.FetchResponse result =
                 U.fetch(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
@@ -506,7 +506,7 @@ public class LodashTest {
     }
 
     @Test
-    public void fetchGetWithTimeoutsAndRetry() {
+    void fetchGetWithTimeoutsAndRetry() {
         U.FetchResponse result =
                 U.fetch(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
@@ -519,14 +519,14 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void fetchGetXml() {
+    void fetchGetXml() {
         U.FetchResponse result = U.fetch("https://www.w3schools.com/xml/note.xml");
         assertEquals("Tove", U.get((Map<String, Object>) result.xml(), "note.to"));
         assertEquals("Tove", U.get(result.xmlMap(), "note.to"));
     }
 
     @Test
-    public void fetchResponseError() {
+    void fetchResponseError() {
         java.io.ByteArrayOutputStream stream =
                 new java.io.ByteArrayOutputStream() {
                     public String toString(String encoding)
@@ -539,7 +539,7 @@ public class LodashTest {
     }
 
     @Test
-    public void fetchResponseBlob() {
+    void fetchResponseBlob() {
         java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream();
         assertArrayEquals(new byte[0], new U.FetchResponse(true, 100, null, stream).blob());
         assertNull(new U.FetchResponse(true, 100, null, stream).getHeaderFields());
@@ -548,7 +548,7 @@ public class LodashTest {
     }
 
     @Test
-    public void fetchGetHttps() {
+    void fetchGetHttps() {
         U.FetchResponse result = U.fetch("https://api.lob.com/v1/addresses");
         assertEquals(
                 "{\n"
@@ -562,7 +562,7 @@ public class LodashTest {
     }
 
     @Test
-    public void fetchPut() {
+    void fetchPut() {
         U.FetchResponse result =
                 U.fetch(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
@@ -615,18 +615,18 @@ public class LodashTest {
     }
 
     @Test
-    public void fetchWrongUrl() {
+    void fetchWrongUrl() {
         assertThrows(UnsupportedOperationException.class, () -> U.fetch("ttt"));
     }
 
     @Test
-    public void fetchWrongUrlWithRetry() {
+    void fetchWrongUrlWithRetry() {
         assertThrows(
                 UnsupportedOperationException.class, () -> U.fetch("ttt", 30000, 30000, 1, 100));
     }
 
     @Test
-    public void xmlToJson() {
+    void xmlToJson() {
         assertEquals(
                 "{\n"
                         + "  \"root\": [\n"
@@ -745,7 +745,7 @@ public class LodashTest {
     }
 
     @Test
-    public void xmlToJson2() {
+    void xmlToJson2() {
         assertEquals(
                 "{\n" + "  \"debug\": \"&amp;\"\n" + "}",
                 U.xmlToJson(
@@ -753,7 +753,7 @@ public class LodashTest {
     }
 
     @Test
-    public void removeMapKey() {
+    void removeMapKey() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
         U.remove(map, "test");
@@ -770,7 +770,7 @@ public class LodashTest {
     }
 
     @Test
-    public void renameMapKey() {
+    void renameMapKey() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
         U.rename(map, "test", "test1");
@@ -787,7 +787,7 @@ public class LodashTest {
     }
 
     @Test
-    public void renameRoot() {
+    void renameRoot() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<json></json>",
                 U.jsonToXml("{}", "json"));
@@ -803,7 +803,7 @@ public class LodashTest {
     }
 
     @Test
-    public void forceAddRoot() {
+    void forceAddRoot() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<root>\n"
@@ -856,7 +856,7 @@ public class LodashTest {
     }
 
     @Test
-    public void updateMapKey() {
+    void updateMapKey() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
         U.rename(map, "test", "test1");
@@ -878,7 +878,7 @@ public class LodashTest {
     }
 
     @Test
-    public void setValue() {
+    void setValue() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
         U.setValue(map, "test", "test1");
@@ -895,7 +895,7 @@ public class LodashTest {
     }
 
     @Test
-    public void jsonToXml() {
+    void jsonToXml() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>",
                 U.jsonToXml("{\n  \"a\": {\n  }\n}"));
@@ -919,7 +919,7 @@ public class LodashTest {
     }
 
     @Test
-    public void formatXml() {
+    void formatXml() {
         assertEquals(
                 "<root>\n  <element>1</element>\n  <element>2</element>\n</root>",
                 U.formatXml("<root><element>1</element><element>2</element></root>"));
@@ -951,7 +951,7 @@ public class LodashTest {
     }
 
     @Test
-    public void forceAttributeUsage() {
+    void forceAttributeUsage() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<RootElm>\n"
@@ -988,7 +988,7 @@ public class LodashTest {
     }
 
     @Test
-    public void replaceNullWithEmptyValue() {
+    void replaceNullWithEmptyValue() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<RootElm>\n"
@@ -1020,7 +1020,7 @@ public class LodashTest {
     }
 
     @Test
-    public void replaceNilWithNull() {
+    void replaceNilWithNull() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<RootElm>\n"
@@ -1080,7 +1080,7 @@ public class LodashTest {
     }
 
     @Test
-    public void replaceEmptyStringWithEmptyValue() {
+    void replaceEmptyStringWithEmptyValue() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<RootElm>\n"
@@ -1112,7 +1112,7 @@ public class LodashTest {
     }
 
     @Test
-    public void changeXmlEncoding() {
+    void changeXmlEncoding() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"windows-1251\"?>\n<a>Test</a>",
                 U.changeXmlEncoding(
@@ -1129,7 +1129,7 @@ public class LodashTest {
     }
 
     @Test
-    public void formatJson() {
+    void formatJson() {
         assertEquals("{\n  \"a\": {\n  }\n}", U.formatJson("{\n  \"a\": {\n  }\n}"));
         assertEquals("[\n]", U.formatJson("[]"));
         assertEquals("[\n  1.00\n]", U.formatJson("[1.00]"));
@@ -1146,7 +1146,7 @@ public class LodashTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void removeMinusesAndConvertNumbers() {
+    void removeMinusesAndConvertNumbers() {
         Map<String, Object> result =
                 U.removeMinusesAndConvertNumbers((Map<String, Object>) U.fromXml("<a/>"));
         assertEquals("{a={}}", result.toString());
@@ -1191,7 +1191,7 @@ public class LodashTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void replaceFirstLevel() {
+    void replaceFirstLevel() {
         Map<String, Object> result = U.replaceFirstLevel((Map<String, Object>) U.fromXml("<a/>"));
         assertEquals("{}", result.toString());
         Map<String, Object> result2 =
@@ -1216,7 +1216,7 @@ public class LodashTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void deepCopyMap() {
+    void deepCopyMap() {
         Map<String, Object> result = U.deepCopyMap(U.fromXml("<a/>"));
         assertEquals("{a={-self-closing=true}, #omit-xml-declaration=yes}", result.toString());
         Map<String, Object> result2 = U.deepCopyMap(U.fromXml("<a><b>c</b></a>"));
@@ -1237,7 +1237,7 @@ public class LodashTest {
     }
 
     @Test
-    public void objectBuilder() {
+    void objectBuilder() {
         U.Builder builder = U.objectBuilder().add("1", "2").add("2");
         builder.add(builder);
         builder.toJson();
@@ -1287,7 +1287,7 @@ public class LodashTest {
     }
 
     @Test
-    public void arrayBuilder() {
+    void arrayBuilder() {
         U.ArrayBuilder builder = U.arrayBuilder().add("1").add("2");
         builder.add(builder);
         builder.toJson();
@@ -1339,7 +1339,7 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void main() {
+    void main() {
         new U(new ArrayList<String>());
         new U("");
         new U(Collections.emptyList()).chain();
@@ -1360,7 +1360,7 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void chain() {
+    void chain() {
         U.chain(new String[] {""}).first();
         U.chain(new String[] {""}).first(1);
         U.chain(new String[] {""}).firstOrNull();
@@ -1431,7 +1431,7 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void chain2() {
+    void chain2() {
         U.chain(new String[] {""}).union();
         U.chain(new String[] {""}).intersection();
         U.chain(new String[] {""}).difference();
@@ -1458,7 +1458,7 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void stackoverflow() {
+    void stackoverflow() {
         // http://stackoverflow.com/questions/443499/convert-json-to-map
         String json =
                 "{"
@@ -1475,7 +1475,7 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void stackoverflow2() {
+    void stackoverflow2() {
         // http://stackoverflow.com/questions/21720759/convert-a-json-string-to-a-hashmap
         String json =
                 "{"
@@ -1487,7 +1487,7 @@ public class LodashTest {
     }
 
     @Test
-    public void stackoverflow3() {
+    void stackoverflow3() {
         // http://stackoverflow.com/questions/4550662/how-do-you-find-the-sum-of-all-the-numbers-in-an-array-in-java
         int sum = U.sum(Arrays.asList(1, 2, 3, 4));
         assertEquals(10, sum);
@@ -1495,7 +1495,7 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void sqlrujava() {
+    void sqlrujava() {
         // http://www.sql.ru/forum/1232207/kak-pravilno-razobrat-json-org-json-simple
         String json =
                 "{"
@@ -1535,7 +1535,7 @@ public class LodashTest {
     }
 
     @Test
-    public void stackoverflow4() {
+    void stackoverflow4() {
         // http://stackoverflow.com/questions/25085399/converting-xml-into-java-mapstring-integer
         String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
@@ -1565,7 +1565,7 @@ public class LodashTest {
     }
 
     @Test
-    public void stackoverflow5() {
+    void stackoverflow5() {
         // https://stackoverflow.com/questions/59429211/
         // convert-xml-to-json-and-vice-versa-and-also-how-to-identify-rest-endpoint-while
         String xmlData =
@@ -1588,7 +1588,7 @@ public class LodashTest {
     }
 
     @Test
-    public void stackoverflow6() {
+    void stackoverflow6() {
         // https://stackoverflow.com/questions/59585708/getting-null-pointer-while-reading-the-fileds-from-json-to-pojo
         String jsonData =
                 "{\n"
@@ -1610,7 +1610,7 @@ public class LodashTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void sqlru1() {
+    void sqlru1() {
         // http://www.sql.ru/forum/1296485/poluchit-nazvaniya-iz-json-v-jsp
         String json =
                 "{\"memory\":[{\"alert\":\"false\",\"value\":\"50%\"}],\"cpu\":"
@@ -1622,14 +1622,14 @@ public class LodashTest {
     }
 
     @Test
-    public void sqlru2() {
+    void sqlru2() {
         // https://www.sql.ru/forum/1321326/kolichestvo-naydennyh-slov-v-stroke
         assertEquals(
                 2, U.countBy(U.words("Маша ищет Мишу а Миша ищет Машу")).get("ищет").intValue());
     }
 
     @Test
-    public void stackoverflow7() {
+    void stackoverflow7() {
         String json =
                 U.objectBuilder()
                         .add("key1", "value1")
@@ -1647,7 +1647,7 @@ public class LodashTest {
     }
 
     @Test
-    public void stackoverflow8() {
+    void stackoverflow8() {
         class Customer {
             String name;
             int age;
@@ -1677,14 +1677,14 @@ public class LodashTest {
     }
 
     @Test
-    public void issue306() {
+    void issue306() {
         String json =
                 U.objectBuilder().add("firstName", "John").add("lastName", (Object) null).toJson();
         assertEquals("{\n  \"firstName\": \"John\",\n" + "  \"lastName\": null\n" + "}", json);
     }
 
     @Test
-    public void issue308() {
+    void issue308() {
         String xml =
                 "<some_root>\n"
                         + "  <ABC some_attribute=\"attribute\">\n"

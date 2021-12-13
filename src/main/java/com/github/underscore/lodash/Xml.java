@@ -39,6 +39,7 @@ import java.util.function.Function;
 @SuppressWarnings("java:S3776")
 public final class Xml {
     private Xml() {}
+
     private static final String NULL = "null";
     private static final String ELEMENT_TEXT = "element";
     private static final String CDATA = "#cdata-section";
@@ -200,6 +201,7 @@ public final class Xml {
 
     public static class XmlArray {
         private XmlArray() {}
+
         public static void writeXml(
                 Collection<?> collection,
                 String name,
@@ -456,6 +458,7 @@ public final class Xml {
 
     public static class XmlObject {
         private XmlObject() {}
+
         @SuppressWarnings("unchecked")
         public static void writeXml(
                 final Map map,
@@ -761,6 +764,7 @@ public final class Xml {
 
     public static class XmlValue {
         private XmlValue() {}
+
         public static void writeXml(
                 Object value,
                 String name,

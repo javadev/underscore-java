@@ -24,8 +24,9 @@
 package com.github.underscore.lodash;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -34,17 +35,17 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
  *
  * @author Valentyn Kolesnikov
  */
-public class MathTest {
+class MathTest {
 
     @Test
-    public void average() {
+    void average() {
         final Double result = U.average(asList((byte) 1, (byte) 2, (byte) 3));
         assertEquals("2.0", result.toString());
         final Double resultFunc =
@@ -56,7 +57,7 @@ public class MathTest {
     }
 
     @Test
-    public void average2() {
+    void average2() {
         final Double result2 = U.average(asList((double) 1, (double) 2, (double) 3));
         assertEquals("2.0", result2.toString());
         final Double result3 = U.average(asList((float) 1, (float) 2, (float) 3));
@@ -86,7 +87,7 @@ public class MathTest {
     }
 
     @Test
-    public void average3() {
+    void average3() {
         final Double result10 = U.average(asList(1, (Integer) null));
         assertEquals("0.5", result10.toString());
         final Double result11 = U.average(asList((double) 0.2, (double) 0.1, Math.PI));
@@ -114,7 +115,7 @@ public class MathTest {
     }
 
     @Test
-    public void average4() {
+    void average4() {
         final Double result20 =
                 U.average(
                         new BigDecimal[] {
@@ -140,7 +141,7 @@ public class MathTest {
     }
 
     @Test
-    public void average5() {
+    void average5() {
         final Double result29 = U.average((byte) 2, (byte) 4);
         assertEquals("3.0", result29.toString());
         final Double result30 = U.average(Double.valueOf(2), null);
@@ -160,7 +161,7 @@ public class MathTest {
     }
 
     @Test
-    public void average6() {
+    void average6() {
         final Double result37 = U.average(null, 2);
         assertNull(result37);
         final Double result38 = U.average(2, 4);
@@ -187,9 +188,9 @@ public class MathTest {
     _.sum([-1, -2, -3]);
     => -6
     */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "java:S5961"})
     @Test
-    public void sum() {
+    void sum() {
         final Byte result = U.sum(asList((byte) 1, (byte) 2, (byte) 3));
         assertEquals("6", result.toString());
         final Byte resultFunc =
@@ -259,8 +260,8 @@ public class MathTest {
         assertEquals("12", resultObjFunc.toString());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void sumError() {
+    @Test
+    void sumError() {
         class MyNumber extends Number {
             public int intValue() {
                 return 0;
@@ -278,7 +279,10 @@ public class MathTest {
                 return 0;
             }
         }
-        U.sum(asList(new MyNumber(), new MyNumber()));
+        List<MyNumber> numbers = asList(new MyNumber(), new MyNumber());
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> U.sum(numbers));
     }
 
     /*
@@ -291,7 +295,7 @@ public class MathTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void subtract() {
+    void subtract() {
         assertEquals("-1", U.subtract((byte) 1, (byte) 2).toString());
         assertEquals("-1", U.subtract((short) 1, (short) 2).toString());
         assertEquals("-1", U.subtract((int) 1, (int) 2).toString());
@@ -309,11 +313,11 @@ public class MathTest {
         assertEquals("-1", U.subtract((Number) 1, (Number) 2).toString());
         assertEquals("-4", U.subtract((int) 1, (int) 2, (int) 3).toString());
         assertEquals("1", U.subtract((int) 1).toString());
-        assertEquals(null, U.subtract());
+        assertEquals((Object) null, U.subtract());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void subtractError() {
+    @Test
+    void subtractError() {
         class MyNumber extends Number {
             public int intValue() {
                 return 0;
@@ -331,7 +335,10 @@ public class MathTest {
                 return 0;
             }
         }
-        U.subtract(new MyNumber(), new MyNumber());
+        MyNumber myNumber = new MyNumber();
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> U.subtract(myNumber, myNumber));
     }
 
     /*
@@ -342,7 +349,7 @@ public class MathTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void mean() {
+    void mean() {
         final Double result = U.mean(asList((double) 0, (double) 0.5, (double) 1));
         assertEquals("0.5", result.toString());
         final Double resultObj = new U(asList((double) 0, (double) 0.5, (double) 1)).mean();
@@ -368,7 +375,7 @@ public class MathTest {
     */
     @SuppressWarnings("unchecked")
     @Test
-    public void median() {
+    void median() {
         final Double result = U.median(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5));
         assertEquals("0.0", result.toString());
         final Double resultObj =
@@ -389,14 +396,15 @@ public class MathTest {
         assertEquals("1.5", result4.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void medianForEmpty() {
-        U.median(new ArrayList<Double>());
+    @Test
+    void medianForEmpty() {
+        ArrayList<Double> iterable = new ArrayList<>();
+        assertThrows(IllegalArgumentException.class, () -> U.median(iterable));
     }
 
     // http://stackoverflow.com/questions/27772432/is-there-a-underscore-js-lib-for-java
     @Test
-    public void sumOfInt() {
+    void sumOfInt() {
         /*
         String[] words = {"Gallinule", "Escambio", "Aciform", "Entortilation", "Extensibility"};
         int sum = Arrays.stream(words)
@@ -417,7 +425,7 @@ public class MathTest {
     }
 
     @Test
-    public void createLruCache() {
+    void createLruCache() {
         new U.LruCache<Integer, String>(0);
         U.LruCache<Integer, String> cache = U.createLruCache(2);
         cache.put(0, "Value 0");
@@ -433,7 +441,7 @@ public class MathTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void createPermutationWithRepetition() {
+    void createPermutationWithRepetition() {
         List<List<String>> result = U.createPermutationWithRepetition(asList("apple", "orange"), 3);
         assertEquals(
                 "[[apple, apple, apple],"
@@ -472,7 +480,7 @@ public class MathTest {
     }
 
     @Test
-    public void gcd() {
+    void gcd() {
         assertEquals(12, U.gcd(24, 36));
         assertEquals(5, U.gcd(5, 0));
         assertEquals(12, U.findGcd(24, 36));
@@ -481,9 +489,9 @@ public class MathTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void main() {
+    void main() {
         U.main(new String[] {});
-        new U("");
+        assertNull(new U("").value());
         new U(Collections.emptyList()).chain();
         U.chain(new HashSet<String>());
         U.chain(new String[] {});
