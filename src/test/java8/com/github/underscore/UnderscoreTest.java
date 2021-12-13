@@ -33,11 +33,11 @@ import org.junit.Test;
  *
  * @author Valentyn Kolesnikov
  */
-public class UnderscoreTest {
+class UnderscoreTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void stackoverflow() {
+    void stackoverflow() {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
         assertEquals(
                 "{D=67.3, B=67.4, C=67.4, A=99.5}",

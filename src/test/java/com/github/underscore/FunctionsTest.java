@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valentyn Kolesnikov
  */
-public class FunctionsTest {
+class FunctionsTest {
 
     /*
     var func = function(greeting){ return greeting + ': ' + this.name };
@@ -53,7 +53,7 @@ public class FunctionsTest {
     => 'hi: moe'
     */
     @Test
-    public void bind() {
+    void bind() {
         class GreetingFunction implements Function<String, String> {
             private final String name;
 
@@ -75,7 +75,7 @@ public class FunctionsTest {
     => 15
     */
     @Test
-    public void partial() {
+    void partial() {
         class SubtractFunction implements Function<Integer, Integer> {
             private final Integer arg1;
 
@@ -97,7 +97,7 @@ public class FunctionsTest {
     });
     */
     @Test
-    public void memoize() {
+    void memoize() {
         class FibonacciFuncion1 extends MemoizeFunction<Integer, Integer> {
             public Integer calc(final Integer n) {
                 return n < 2 ? n : apply(n - 1) + apply(n - 2);
@@ -124,7 +124,7 @@ public class FunctionsTest {
     */
 
     @Test
-    public void throttle() {
+    void throttle() {
         final Integer[] counter = new Integer[] {0};
         Supplier<Void> incr =
                 () -> {
@@ -161,7 +161,7 @@ public class FunctionsTest {
     */
 
     @Test
-    public void debounce() {
+    void debounce() {
         final Integer[] counter = new Integer[] {0};
         Supplier<Void> incr =
                 () -> {
@@ -187,7 +187,7 @@ public class FunctionsTest {
     // Returns from the function before the alert runs.
     */
     @Test
-    public void defer() {
+    void defer() {
         final Integer[] counter = new Integer[] {0};
         Underscore.defer(
                 (Supplier<Void>)
@@ -218,7 +218,7 @@ public class FunctionsTest {
     // Application is only created once.
     */
     @Test
-    public void once() {
+    void once() {
         final Integer[] counter = new Integer[] {0};
         Supplier<Integer> incr =
                 () -> {
@@ -249,7 +249,7 @@ public class FunctionsTest {
     => 'before, hello: moe, after'
     */
     @Test
-    public void wrap() {
+    void wrap() {
         Function<String, String> hello = name -> "hello: " + name;
         Function<Void, String> result =
                 Underscore.wrap(hello, func -> "before, " + func.apply("moe") + ", after");
@@ -262,7 +262,7 @@ public class FunctionsTest {
     => 0
     */
     @Test
-    public void negate() {
+    void negate() {
         Predicate<Integer> isFalsy = Underscore.negate(item -> item != 0);
         Optional<Integer> result = Underscore.find(asList(-2, -1, 0, 1, 2), isFalsy);
         assertEquals(0, result.get().intValue());
@@ -277,7 +277,7 @@ public class FunctionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void compose() {
+    void compose() {
         Function<String, String> greet = name -> "hi: " + name;
         Function<String, String> exclaim = statement -> statement.toUpperCase() + "!";
         Function<String, String> welcome = Underscore.compose(greet, exclaim);
@@ -292,7 +292,7 @@ public class FunctionsTest {
     // renderNotes is run once, after all notes have saved.
     */
     @Test
-    public void after() {
+    void after() {
         final List<Integer> notes = asList(1, 2, 3);
         final Supplier<Integer> renderNotes = Underscore.after(notes.size(), () -> 4);
         final List<Integer> result = new ArrayList<>();
@@ -316,7 +316,7 @@ public class FunctionsTest {
     // the result of any subsequent calls is the same as the second call
     */
     @Test
-    public void before() {
+    void before() {
         final List<Integer> notes = asList(1, 2, 3);
         final Supplier<Integer> renderNotes = Underscore.before(notes.size() - 1, () -> 4);
         final List<Integer> result = new ArrayList<>();
@@ -339,7 +339,7 @@ public class FunctionsTest {
     */
     @Test
     @SuppressWarnings("unchecked")
-    public void iteratee() {
+    void iteratee() {
         List<Map<String, Object>> stooges =
                 Arrays.<Map<String, Object>>asList(
                         new LinkedHashMap<String, Object>() {
@@ -365,7 +365,7 @@ public class FunctionsTest {
     }
 
     @Test
-    public void setTimeout() {
+    void setTimeout() {
         final Integer[] counter = new Integer[] {0};
         Supplier<Void> incr =
                 () -> {
@@ -382,7 +382,7 @@ public class FunctionsTest {
     }
 
     @Test
-    public void clearTimeout() {
+    void clearTimeout() {
         final Integer[] counter = new Integer[] {0};
         Supplier<Void> incr =
                 () -> {
@@ -401,7 +401,7 @@ public class FunctionsTest {
     }
 
     @Test
-    public void setInterval() {
+    void setInterval() {
         final Integer[] counter = new Integer[] {0};
         Supplier<Void> incr =
                 () -> {
@@ -422,7 +422,7 @@ public class FunctionsTest {
     }
 
     @Test
-    public void clearInterval() {
+    void clearInterval() {
         final Integer[] counter = new Integer[] {0};
         Supplier<Void> incr =
                 () -> {

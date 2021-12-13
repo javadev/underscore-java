@@ -48,7 +48,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valentyn Kolesnikov
  */
-public class StringTest {
+class StringTest {
 
     /*
     _.camelCase('Foo Bar');
@@ -62,7 +62,7 @@ public class StringTest {
     */
 
     @Test
-    public void camelCase() {
+    void camelCase() {
         assertEquals("fooBar", U.camelCase("Foo Bar"));
         assertEquals("fooBar", new U<String>("Foo Bar").camelCase());
         assertEquals("fooBar", U.chain("Foo Bar").camelCase().item());
@@ -79,7 +79,7 @@ public class StringTest {
     => ["a", "b", "c"]
     */
     @Test
-    public void explode() {
+    void explode() {
         assertEquals(asList("a", "b", "c"), U.explode("abc"));
         assertEquals(U.newArrayList(), U.explode(null));
     }
@@ -89,7 +89,7 @@ public class StringTest {
     => "abc"
     */
     @Test
-    public void implode() {
+    void implode() {
         assertEquals("abc", U.implode(new String[] {"a", "b", "c"}));
         assertEquals("ac", U.implode(new String[] {"a", null, "c"}));
         assertEquals("abc", U.implode(asList("a", "b", "c")));
@@ -104,7 +104,7 @@ public class StringTest {
     // => 'fRED'
     */
     @Test
-    public void lowerFirst() {
+    void lowerFirst() {
         assertEquals("fred", U.lowerFirst("Fred"));
         assertEquals("fred", new U<String>("Fred").lowerFirst());
         assertEquals("fred", U.chain("Fred").lowerFirst().item());
@@ -119,7 +119,7 @@ public class StringTest {
     // => 'FRED'
     */
     @Test
-    public void upperFirst() {
+    void upperFirst() {
         assertEquals("Fred", U.upperFirst("fred"));
         assertEquals("Fred", new U<String>("fred").upperFirst());
         assertEquals("Fred", U.chain("fred").upperFirst().item());
@@ -131,7 +131,7 @@ public class StringTest {
     => 'Fred'
     */
     @Test
-    public void capitalize() {
+    void capitalize() {
         assertEquals("Fred", U.capitalize("fred"));
         assertEquals("Fred", new U<String>("fred").capitalize());
         assertEquals("Fred", U.chain("fred").capitalize().item());
@@ -144,7 +144,7 @@ public class StringTest {
     => 'fred'
     */
     @Test
-    public void uncapitalize() {
+    void uncapitalize() {
         assertEquals("fred", U.uncapitalize("Fred"));
         assertEquals("fred", new U<String>("Fred").uncapitalize());
         assertEquals("fred", U.chain("Fred").uncapitalize().item());
@@ -157,7 +157,7 @@ public class StringTest {
     => 'deja vu'
     */
     @Test
-    public void deburr() {
+    void deburr() {
         assertEquals("deja vu", U.deburr("déjà vu"));
         assertEquals("deja vu", new U<String>("déjà vu").deburr());
         assertEquals("deja vu", U.chain("déjà vu").deburr().item());
@@ -176,7 +176,7 @@ public class StringTest {
     => true
     */
     @Test
-    public void endsWith() {
+    void endsWith() {
         assertTrue(U.endsWith("abc", "c"));
         assertTrue(new U<String>("abc").endsWith("c"));
         assertTrue(U.chain("abc").endsWith("c").item());
@@ -202,7 +202,7 @@ public class StringTest {
     => 'foo-bar'
     */
     @Test
-    public void kebabCase() {
+    void kebabCase() {
         assertEquals("foo-bar", U.kebabCase("Foo Bar"));
         assertEquals("foo-bar", new U<String>("Foo Bar").kebabCase());
         assertEquals("foo-bar", U.chain("Foo Bar").kebabCase().item());
@@ -223,7 +223,7 @@ public class StringTest {
     => 'foo_bar'
     */
     @Test
-    public void snakeCase() {
+    void snakeCase() {
         assertEquals("foo_bar", U.snakeCase("Foo Bar"));
         assertEquals("foo_bar", new U<String>("Foo Bar").snakeCase());
         assertEquals("foo_bar", U.chain("Foo Bar").snakeCase().item());
@@ -244,7 +244,7 @@ public class StringTest {
     => 'Foo Bar
     */
     @Test
-    public void startCase() {
+    void startCase() {
         assertEquals("Foo Bar", U.startCase("--foo-bar"));
         assertEquals("Foo Bar", new U<String>("--foo-bar").startCase());
         assertEquals("Foo Bar", U.chain("--foo-bar").startCase().item());
@@ -261,7 +261,7 @@ public class StringTest {
     => true
     */
     @Test
-    public void startsWith() {
+    void startsWith() {
         assertTrue(U.startsWith("abc", "a"));
         assertTrue(new U<String>("abc").startsWith("a"));
         assertTrue(U.chain("abc").startsWith("a").item());
@@ -284,7 +284,7 @@ public class StringTest {
     => 'abc'
     */
     @Test
-    public void trim() {
+    void trim() {
         assertEquals("abc", U.trim("  abc  "));
         assertEquals("abc", new U<String>("  abc  ").trim());
         assertEquals("abc", U.chain("  abc  ").trim().item());
@@ -305,7 +305,7 @@ public class StringTest {
     */
 
     @Test
-    public void trimStart() {
+    void trimStart() {
         assertEquals("abc  ", U.trimStart("  abc  "));
         assertEquals("abc  ", new U<String>("  abc  ").trimStart());
         assertEquals("abc  ", U.chain("  abc  ").trimStart().item());
@@ -326,7 +326,7 @@ public class StringTest {
     */
 
     @Test
-    public void trimEnd() {
+    void trimEnd() {
         assertEquals("  abc", U.trimEnd("  abc  "));
         assertEquals("  abc", new U<String>("  abc  ").trimEnd());
         assertEquals("  abc", U.chain("  abc  ").trimEnd().item());
@@ -347,7 +347,7 @@ public class StringTest {
     */
 
     @Test
-    public void trunc() {
+    void trunc() {
         assertEquals("hi-diddly-ho there, neighbo...", U.trunc("hi-diddly-ho there, neighborino"));
         assertEquals("hi-diddly-ho there, n...", U.trunc("hi-diddly-ho there, neighborino", 24));
         assertEquals(
@@ -365,7 +365,7 @@ public class StringTest {
     => ['fred', 'barney', 'pebbles']
     */
     @Test
-    public void words() {
+    void words() {
         assertEquals("[fred, barney, pebbles]", U.words("fred, barney, & pebbles").toString());
         assertEquals(
                 "[fred, barney, pebbles]",
@@ -388,7 +388,7 @@ public class StringTest {
     => 'abc'
     */
     @Test
-    public void pad() {
+    void pad() {
         assertEquals("abc", U.pad("abc", 2));
         assertEquals("abc", new U<String>("abc").pad(2));
         assertEquals("abc", U.chain("abc").pad(2).item());
@@ -410,7 +410,7 @@ public class StringTest {
     => 'abc'
     */
     @Test
-    public void padStart() {
+    void padStart() {
         assertEquals("   abc", U.padStart("abc", 6));
         assertEquals("   abc", new U<String>("abc").padStart(6));
         assertEquals("   abc", U.chain("abc").padStart(6).item());
@@ -431,7 +431,7 @@ public class StringTest {
     // → 'abc'
     */
     @Test
-    public void padEnd() {
+    void padEnd() {
         assertEquals("abc   ", U.padEnd("abc", 6));
         assertEquals("abc   ", new U<String>("abc").padEnd(6));
         assertEquals("abc   ", U.chain("abc").padEnd(6).item());
@@ -452,7 +452,7 @@ public class StringTest {
     => ''
     */
     @Test
-    public void repeat() {
+    void repeat() {
         assertEquals("***", U.repeat("*", 3));
         assertEquals("***", new U<String>("*").repeat(3));
         assertEquals("***", U.chain("*").repeat(3).item());
@@ -462,7 +462,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJsonArray() {
+    void testJsonArray() {
         JsonStringBuilder builder = new JsonStringBuilder();
         Json.JsonArray.writeJson((Collection) null, builder);
         assertEquals("null", builder.toString());
@@ -479,7 +479,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testJsonArrayCollection() {
+    void testJsonArrayCollection() {
         assertEquals(
                 "[\n  \"First item\",\n  \"Second item\"\n]",
                 U.toJson(Arrays.asList("First item", "Second item")));
@@ -544,7 +544,7 @@ public class StringTest {
     }
 
     @Test
-    public void escape() {
+    void escape() {
         assertNull(Json.JsonValue.escape(null));
         assertEquals("\\\"", Json.JsonValue.escape("\""));
         assertEquals("\\\\", Json.JsonValue.escape("\\"));
@@ -568,7 +568,7 @@ public class StringTest {
     }
 
     @Test
-    public void testByteArrayToString() {
+    void testByteArrayToString() {
         Json.JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
@@ -589,7 +589,7 @@ public class StringTest {
     }
 
     @Test
-    public void testShortArrayToString() {
+    void testShortArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
@@ -610,7 +610,7 @@ public class StringTest {
     }
 
     @Test
-    public void testIntArrayToString() {
+    void testIntArrayToString() {
         Json.JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
@@ -631,7 +631,7 @@ public class StringTest {
     }
 
     @Test
-    public void testLongArrayToString() {
+    void testLongArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
@@ -652,7 +652,7 @@ public class StringTest {
     }
 
     @Test
-    public void testFloatArrayToString() {
+    void testFloatArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
@@ -673,7 +673,7 @@ public class StringTest {
     }
 
     @Test
-    public void testDoubleArrayToString() {
+    void testDoubleArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
@@ -694,7 +694,7 @@ public class StringTest {
     }
 
     @Test
-    public void testBooleanArrayToString() {
+    void testBooleanArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
@@ -715,7 +715,7 @@ public class StringTest {
     }
 
     @Test
-    public void testCharArrayToString() {
+    void testCharArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
@@ -736,7 +736,7 @@ public class StringTest {
     }
 
     @Test
-    public void testObjectArrayToString() {
+    void testObjectArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder();
@@ -759,7 +759,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromList() {
+    void toJsonFromList() {
         final List<String> testList = new ArrayList<>();
         testList.add("First item");
         testList.add("Second item");
@@ -775,7 +775,7 @@ public class StringTest {
     }
 
     @Test
-    public void toJsonFromMap() {
+    void toJsonFromMap() {
         final Map<String, String> testMap = new LinkedHashMap<>();
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
@@ -794,7 +794,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromMapFormatted() {
+    void toJsonFromMapFormatted() {
         String string =
                 "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
                         + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
@@ -812,7 +812,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testDecode() {
+    void testDecode() {
         String string = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
         assertEquals(
                 "[\n  0,\n  {\n    \"1\": {\n      \"2\": {\n        \"3\": {\n          \"4\": [\n"
@@ -833,7 +833,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testDecode2() {
+    void testDecode2() {
         String string = "[\"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"]";
         assertEquals(
                 "[\n  \"hello\\bworld\\\"abc\\tdef\\\\ghi\\rjkl\\n123\\f356\"\n]",
@@ -842,13 +842,13 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testDecode3() {
+    void testDecode3() {
         assertEquals("[\n]", U.toJson((List<Object>) U.fromJson("[]")));
     }
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testDecodeMap() {
+    void testDecodeMap() {
         String string =
                 "{\"first\": 123e+10,\"second\":[{\"k1\":{\"id\":\"id1\"}},"
                         + "4,5,6,{\"id\":-123E-1}],\t\n\r \"third\":789,\"id\":null}";
@@ -862,13 +862,13 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testDecodeMap2() {
+    void testDecodeMap2() {
         assertEquals("{\n}", U.toJson((Map<String, Object>) U.fromJson("{}")));
     }
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testDecodeMap3() {
+    void testDecodeMap3() {
         // http://stackoverflow.com/questions/12155800/how-to-convert-hashmap-to-json-object-in-java
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("1", "a");
@@ -880,7 +880,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testDecodeTrueFalse() {
+    void testDecodeTrueFalse() {
         List<Object> array1 = new ArrayList<>();
         array1.add("abc\u0010a/");
         array1.add(123);
@@ -898,7 +898,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testDecodeUnicode() {
+    void testDecodeUnicode() {
         assertEquals(
                 "[\n  \"abc\u0A00\"\n]", U.toJson((List<Object>) U.fromJson("[\"abc\\u0a00\"]")));
         assertEquals(
@@ -907,7 +907,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testJsonDecodeCyrillic() {
+    void testJsonDecodeCyrillic() {
         assertEquals(
                 "[\n  \"Текст на русском\"\n]",
                 U.toJson((List<Object>) U.fromJson("[\"Текст на русском\"]")));
@@ -915,7 +915,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testDecodeSpecialCharacter() {
+    void testDecodeSpecialCharacter() {
         assertEquals(
                 "{\n  \"description\": \"c:\\\\userDescription.txt\"\n}",
                 U.toJson(
@@ -934,62 +934,62 @@ public class StringTest {
     }
 
     @Test
-    public void testDecodeUnicode1() {
+    void testDecodeUnicode1() {
         assertEquals("[abc\\u0$00]", U.fromJson("[\"abc\\u0$00\"]").toString());
     }
 
     @Test
-    public void testDecodeUnicode2() {
+    void testDecodeUnicode2() {
         assertEquals("[abc\\u001g/]", U.fromJson("[\"abc\\u001g\\/\"]").toString());
     }
 
     @Test
-    public void testDecodeUnicode3() {
+    void testDecodeUnicode3() {
         assertEquals("[abc\\u001G/]", U.fromJson("[\"abc\\u001G\\/\"]").toString());
     }
 
     @Test
-    public void testDecodeParseErr1() {
+    void testDecodeParseErr1() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("$"));
     }
 
     @Test
-    public void testDecodeParseErr2() {
+    void testDecodeParseErr2() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("[\"value\""));
     }
 
     @Test
-    public void testDecodeParseErr3() {
+    void testDecodeParseErr3() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("{\"value\":123"));
     }
 
     @Test
-    public void testDecodeParseErr4() {
+    void testDecodeParseErr4() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("{\"value\"123"));
     }
 
     @Test
-    public void testDecodeParseErr5() {
+    void testDecodeParseErr5() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("{value"));
     }
 
     @Test
-    public void testDecodeParseErr6() {
+    void testDecodeParseErr6() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("[ture]"));
     }
 
     @Test
-    public void testDecodeParseErr8() {
+    void testDecodeParseErr8() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("[\"\\abc\"]"));
     }
 
     @Test
-    public void testDecodeParseErr9() {
+    void testDecodeParseErr9() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("[123ea]"));
     }
 
     @Test
-    public void testDecodeParseErr10() {
+    void testDecodeParseErr10() {
         Json.ParseException ex =
                 assertThrows(Json.ParseException.class, () -> U.fromJson("[123.a]"));
         ex.getOffset();
@@ -998,27 +998,27 @@ public class StringTest {
     }
 
     @Test
-    public void testDecodeParseErr11() {
+    void testDecodeParseErr11() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("[1g]"));
     }
 
     @Test
-    public void testDecodeParseErr12() {
+    void testDecodeParseErr12() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("[--1"));
     }
 
     @Test
-    public void testDecodeParseErr13() {
+    void testDecodeParseErr13() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("[\"abc\u0010\"]"));
     }
 
     @Test
-    public void testDecodeParseErr14() {
+    void testDecodeParseErr14() {
         assertThrows(Json.ParseException.class, () -> U.fromJson("[\"abc\"][]"));
     }
 
     @Test
-    public void testXmlArray() {
+    void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(null, null, builder, false, Collections.<String>emptySet(), false);
         assertEquals(
@@ -1064,7 +1064,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testXmlArrayCollection() {
+    void testXmlArrayCollection() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>First item</element>"
                         + "\n  <element>Second item</element>\n</root>",
@@ -1156,7 +1156,7 @@ public class StringTest {
     }
 
     @Test
-    public void escapeXml() {
+    void escapeXml() {
         assertEquals("", Xml.XmlValue.escape(null));
         assertEquals("\"", Xml.XmlValue.escape("\""));
         assertEquals("€", Xml.XmlValue.escape("€"));
@@ -1184,7 +1184,7 @@ public class StringTest {
     }
 
     @Test
-    public void unescapeXml() {
+    void unescapeXml() {
         assertEquals("", Xml.XmlValue.unescape(null));
         assertEquals("\"", Xml.XmlValue.unescape("&quot;"));
         assertEquals("\" ", Xml.XmlValue.unescape("&quot; "));
@@ -1196,7 +1196,7 @@ public class StringTest {
     }
 
     @Test
-    public void testXmlByteArrayToString() {
+    void testXmlByteArrayToString() {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
@@ -1226,7 +1226,7 @@ public class StringTest {
     }
 
     @Test
-    public void testXmlShortArrayToString() {
+    void testXmlShortArrayToString() {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
@@ -1256,7 +1256,7 @@ public class StringTest {
     }
 
     @Test
-    public void testXmlIntArrayToString() {
+    void testXmlIntArrayToString() {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
@@ -1286,7 +1286,7 @@ public class StringTest {
     }
 
     @Test
-    public void testXmlLongArrayToString() {
+    void testXmlLongArrayToString() {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
@@ -1316,7 +1316,7 @@ public class StringTest {
     }
 
     @Test
-    public void testXmlFloatArrayToString() {
+    void testXmlFloatArrayToString() {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
@@ -1346,7 +1346,7 @@ public class StringTest {
     }
 
     @Test
-    public void testXmlDoubleArrayToString() {
+    void testXmlDoubleArrayToString() {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
@@ -1376,7 +1376,7 @@ public class StringTest {
     }
 
     @Test
-    public void testXmlBooleanArrayToString() {
+    void testXmlBooleanArrayToString() {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
@@ -1406,7 +1406,7 @@ public class StringTest {
     }
 
     @Test
-    public void testXmlCharArrayToString() {
+    void testXmlCharArrayToString() {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
@@ -1436,7 +1436,7 @@ public class StringTest {
     }
 
     @Test
-    public void testXmlObjectArrayToString() {
+    void testXmlObjectArrayToString() {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
@@ -1474,7 +1474,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testXmlDecodeCyrillic() {
+    void testXmlDecodeCyrillic() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\">"
                         + "Текст на русском</element>\n"
@@ -1483,7 +1483,7 @@ public class StringTest {
     }
 
     @Test
-    public void toXmlFromList() {
+    void toXmlFromList() {
         final List<String> testList = new ArrayList<>();
         testList.add("First item");
         testList.add("Second item");
@@ -1514,7 +1514,7 @@ public class StringTest {
     }
 
     @Test
-    public void toXmlFromMap() {
+    void toXmlFromMap() {
         final Map<String, String> testMap = new LinkedHashMap<>();
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
@@ -1557,7 +1557,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlAndFromXmlFromMap() {
+    void toXmlAndFromXmlFromMap() {
         final Map<String, String> testMap = new LinkedHashMap<>();
         testMap.put("FirstItem", "1");
         testMap.put("SecondItem", "2");
@@ -1570,7 +1570,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml() {
+    void toJsonFromXml() {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
                         + "  <FirstItem>1</FirstItem>\n  <SecondItem>2</SecondItem>\n</root>";
@@ -1581,7 +1581,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml2() {
+    void toJsonFromXml2() {
         final String xml =
                 "<widget>\n"
                         + "  <debug>on</debug>\n"
@@ -1626,7 +1626,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml3() {
+    void toJsonFromXml3() {
         final String xml = "<a></a>";
         assertEquals(
                 "{\n" + "  \"a\": {\n" + "  },\n" + "  \"#omit-xml-declaration\": \"yes\"\n" + "}",
@@ -1635,7 +1635,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml4() {
+    void toJsonFromXml4() {
         final String xml = "<__FU__a>" + "</__FU__a>";
         assertEquals(
                 "{\n" + "  \"-a\": {\n" + "  },\n" + "  \"#omit-xml-declaration\": \"yes\"\n" + "}",
@@ -1652,7 +1652,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml5() {
+    void toJsonFromXml5() {
         final String xml = "<__FU____EE__a>" + "</__FU____EE__a>";
         assertEquals(
                 "{\n"
@@ -1665,7 +1665,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml6() {
+    void toJsonFromXml6() {
         final String xml = "<__FU__a__EE__a>" + "</__FU__a__EE__a>";
         assertEquals(
                 "{\n"
@@ -1678,7 +1678,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml7() {
+    void toJsonFromXml7() {
         final String xml = "<__EE__EMPTY__EE__ __EE__EMPTY__EE__=\"1\">" + "</__EE__EMPTY__EE__>";
         assertEquals(
                 "{\n"
@@ -1691,13 +1691,13 @@ public class StringTest {
     }
 
     @Test
-    public void toJsonFromXml8() {
+    void toJsonFromXml8() {
         assertNull(U.fromXml(null));
     }
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml9() {
+    void toJsonFromXml9() {
         final String xml = "<root>\n  <element>1</element>\n</root>";
         assertEquals(
                 "{\n" + "  \"root\": \"1\",\n" + "  \"#omit-xml-declaration\": \"yes\"\n" + "}",
@@ -1706,7 +1706,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml10() {
+    void toJsonFromXml10() {
         final String xml =
                 "<a>\n"
                         + "<!--a-->\n"
@@ -1737,7 +1737,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml11() {
+    void toJsonFromXml11() {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<a>\n"
@@ -1862,7 +1862,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml12() {
+    void toJsonFromXml12() {
         final String xml = "<?xml version=\"1.0\" encoding=\"windows-1251\"?><a></a>";
         assertEquals(
                 "{\n" + "  \"a\": {\n" + "  },\n" + "  \"#encoding\": \"windows-1251\"\n" + "}",
@@ -1871,7 +1871,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml13() {
+    void toJsonFromXml13() {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b null=\"true\"></b>"
                         + "<c null=\"a\"></c><d null=\"true\">1</d></a>";
@@ -1890,7 +1890,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml14() {
+    void toJsonFromXml14() {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b string=\"true\"></b>"
                         + "<c string=\"a\"></c></a>";
@@ -1934,7 +1934,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml15() {
+    void toJsonFromXml15() {
         final String xml =
                 "<!DOCTYPE address [\n"
                         + "]>\n"
@@ -1958,7 +1958,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml16() {
+    void toJsonFromXml16() {
         final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a __n__=\"1\"/>";
         final String json =
                 "{\n"
@@ -2055,7 +2055,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml17() {
+    void toJsonFromXml17() {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<a number=\"true\">1</a>";
         assertEquals("{\n" + "  \"a\": 1\n" + "}", U.toJson((Map<String, Object>) U.fromXml(xml)));
@@ -2128,7 +2128,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml18() {
+    void toJsonFromXml18() {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<a boolean=\"true\">true</a>";
         assertEquals(
@@ -2190,7 +2190,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml19() {
+    void toJsonFromXml19() {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<a number=\"true\">500500500500500500500</a>";
@@ -2207,7 +2207,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml20() {
+    void toJsonFromXml20() {
         final String xml = "<a empty-array=\"true\"></a>";
         final String json =
                 "{\n" + "  \"a\": [\n" + "  ],\n" + "  \"#omit-xml-declaration\": \"yes\"\n" + "}";
@@ -2258,7 +2258,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml21() {
+    void toJsonFromXml21() {
         final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<a/>";
         final String json =
                 "{\n"
@@ -2307,7 +2307,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml22() {
+    void toJsonFromXml22() {
         final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a b=\">c\"></a>";
         final String json = "{\n" + "  \"a\": {\n" + "    \"-b\": \">c\"\n" + "  }\n" + "}";
         assertEquals(json, U.toJson((Map<String, Object>) U.fromXml(xml)));
@@ -2316,7 +2316,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml23() {
+    void toJsonFromXml23() {
         final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<a/>";
         final String json =
                 "{\n"
@@ -2370,7 +2370,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml24() {
+    void toJsonFromXml24() {
         final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a>\n  <?b c=\"d\"?>\n</a>";
         final String json =
                 "{\n" + "  \"a\": {\n" + "    \"?b\": \"c=\\\"d\\\"\"\n" + "  }\n" + "}";
@@ -2389,7 +2389,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml25() {
+    void toJsonFromXml25() {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE address SYSTEM \"address.dtd\"><a></a>";
         final String json =
@@ -2403,7 +2403,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml26() {
+    void toJsonFromXml26() {
         final String json =
                 "{\n"
                         + "  \"a\": {\n"
@@ -2432,7 +2432,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml27() {
+    void toJsonFromXml27() {
         final String xml = "<root>\n  <element/>\n</root>";
         final String json =
                 "{\n"
@@ -2449,7 +2449,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml28() {
+    void toJsonFromXml28() {
         final String xml =
                 "<!DOCTYPE module PUBLIC\n"
                         + "\"-//Puppy Crawl//DTD Check Configuration 1.3//EN\"\n"
@@ -2472,7 +2472,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonFromXml29() {
+    void toJsonFromXml29() {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<root>\n"
@@ -2485,7 +2485,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson() {
+    void toXmlFromJson() {
         final String json =
                 "{\n"
                         + "  \"root\": {\n"
@@ -2501,7 +2501,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson2() {
+    void toXmlFromJson2() {
         final String json =
                 "{\n"
                         + "  \"widget\": {\n"
@@ -2551,7 +2551,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson3() {
+    void toXmlFromJson3() {
         final String json =
                 "{\n"
                         + "  \"process-list\": {\n"
@@ -2600,7 +2600,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson4() {
+    void toXmlFromJson4() {
         final String json =
                 "{\n"
                         + "    \"image\": {\n"
@@ -2628,7 +2628,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson5() {
+    void toXmlFromJson5() {
         final String json = "{\n" + "  \"\": {\n" + "  }\n" + "}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2638,7 +2638,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson6() {
+    void toXmlFromJson6() {
         final String json = "{\n  \"element\": {\n    \"id\": \"3\",\n    \"#text\": \"1\"\n  }\n}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2649,7 +2649,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson7() {
+    void toXmlFromJson7() {
         final String json =
                 "{\n  \"widget\": {\n    \"debug\": \"on\",\n    \"#text\": \"выапвыап\\n  пвыапыв\",\n"
                         + "    \"image\": {\n      \"alignment\": \"center\"\n    }\n  }\n}";
@@ -2662,7 +2662,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson8() {
+    void toXmlFromJson8() {
         final String json = "{\n  \"element\": {\n    \"#comment\": \" comment &&\"\n  }\n}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2690,7 +2690,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson9() {
+    void toXmlFromJson9() {
         final String json =
                 "{\n  \"element\": {\n    \"#cdata-section\": [\n      \" 1 \",\n"
                         + "      \" 2 \"\n    ]\n  }\n}";
@@ -2712,7 +2712,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson10() {
+    void toXmlFromJson10() {
         final String json = "{\n  \"element\": {\n    \"#cdata-section\": \"&&\"\n  }\n}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2728,7 +2728,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson11() {
+    void toXmlFromJson11() {
         final String json = "{\n  \"-id\": 1\n}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2740,7 +2740,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson12() {
+    void toXmlFromJson12() {
         final String json =
                 "{\n  \"a\": {\n    \"#text\": \"\\ntext\\n\",\n    \"b\": [\n"
                         + "      {\n      },\n      {\n      }\n    ]\n  }\n}";
@@ -2752,7 +2752,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson13() {
+    void toXmlFromJson13() {
         final String json =
                 "{\n  \"a\": {\n    \"#text\": [\n"
                         + "      \"\\ntest\\n\",\n      \"\\ntest\\n\"\n"
@@ -2766,7 +2766,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson14() {
+    void toXmlFromJson14() {
         final String json =
                 "{\n  \"a\": {\n    \"#comment\": \"&&\",\n" + "    \"#text\": \"1\"\n  }\n}";
         assertEquals(
@@ -2787,7 +2787,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson15() {
+    void toXmlFromJson15() {
         final String json =
                 "{  \"a\": {    \"b\": {      \"c\": {"
                         + "\"#cdata-section\": \"d\",        \"#text\": \"1\\n    \"      }    }  }}";
@@ -2804,7 +2804,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson16() {
+    void toXmlFromJson16() {
         final String json =
                 "{  \"a\": {    \"b\": {      \"c\": [        {"
                         + "},        {        }      ],      \"#text\": \"\\n1\\n  \"    }  }}";
@@ -2822,7 +2822,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson17() {
+    void toXmlFromJson17() {
         final String json =
                 "{\n  \"x\": {\n    \"-xmlns:edi\": \"http:\\/\\/ecommerce.example.org\\/schema\",\n"
                         + "    \"lineItem\": {\n      \"-edi:taxClass\": \"exempt\"\n    }\n  }\n}";
@@ -2864,7 +2864,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson18() {
+    void toXmlFromJson18() {
         String json =
                 "{\n"
                         + "   \"a\": {\n"
@@ -2890,7 +2890,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson19() {
+    void toXmlFromJson19() {
         final String json =
                 "{\n" + "  \"a\": {\n" + "  },\n" + "  \"#encoding\": \"windows-1251\"\n" + "}";
         assertEquals(
@@ -2905,7 +2905,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson20() {
+    void toXmlFromJson20() {
         final String json =
                 "{\n"
                         + "  \"a\": [\n"
@@ -2946,7 +2946,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson21() {
+    void toXmlFromJson21() {
         final String json = "{\"a\": [0]}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2956,7 +2956,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson22() {
+    void toXmlFromJson22() {
         final String json = "{  \"c\": [{    \"-id\": \"a\"  }]}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<c id=\"a\" array=\"true\"></c>",
@@ -2965,7 +2965,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson23() {
+    void toXmlFromJson23() {
         final String json = "{  \"c\": [{    \"id\": \"\"  }]}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2977,7 +2977,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson24() {
+    void toXmlFromJson24() {
         final String json = "{  \"#comment\": \"c\",\n  \"a\": {\n    \"b\": {\n    }\n  }\n}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2998,7 +2998,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson25() {
+    void toXmlFromJson25() {
         final String json =
                 "{\n" + "  \"a\": [\n" + "    [\n" + "      1\n" + "    ]\n" + "  ]\n" + "}";
         final String xml =
@@ -3025,7 +3025,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson26() {
+    void toXmlFromJson26() {
         final String json = "{\n  \"a\": [\n    {\n      \"-array\": \"false\"\n    }\n  ]\n}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<a array=\"false\"></a>",
@@ -3069,7 +3069,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson27() {
+    void toXmlFromJson27() {
         final String json = "[\n" + "  1,\n" + "  [\n" + "    2\n" + "  ]\n" + "]";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -3084,7 +3084,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXmlFromJson28() {
+    void toXmlFromJson28() {
         final String json =
                 "{\n"
                         + "  \"root\": [\n"
@@ -3098,7 +3098,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXml() {
+    void toXml() {
         String string =
                 "{\n  \"glossary\": {\n    \"title\": \"example glossary\",\n    \"GlossDiv\": {\n      \"title\":"
                         + " \"S\",\n      \"GlossList\": {\n        \"GlossEntry\": {\n          \"ID\": \"SGML\",\n"
@@ -3148,7 +3148,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toXml2() {
+    void toXml2() {
         String string = "{\n" + "  \"root\": {\n" + "  }\n" + "}";
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n<root></root>",
@@ -3157,7 +3157,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void fromXmlMakeArrays() {
+    void fromXmlMakeArrays() {
         String string =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                         + "\n"
@@ -3237,7 +3237,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void fromXmlWithoutNamespaces() {
+    void fromXmlWithoutNamespaces() {
         String string =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
                         + "<ns2:orders xmlns=\"http://www.demandware.com/xml/impex/inventory/2007-05-31\""
@@ -3267,7 +3267,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void fromXmlWithoutNamespacesAndAttributes() {
+    void fromXmlWithoutNamespacesAndAttributes() {
         String string =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
                         + "<ns2:orders xmlns=\"http://www.demandware.com/xml/impex/inventory/2007-05-31\""
@@ -3294,7 +3294,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void fromXml() {
+    void fromXml() {
         String string =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                         + "\n"
@@ -3406,7 +3406,7 @@ public class StringTest {
     }
 
     @Test
-    public void fromXmlMap() {
+    void fromXmlMap() {
         String stringXml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                         + "\n<root empty-array=\"true\"></root>";
@@ -3418,7 +3418,7 @@ public class StringTest {
     }
 
     @Test
-    public void fromJsonMap() {
+    void fromJsonMap() {
         String stringJson = "[]";
         assertEquals("{value=[]}", U.fromJsonMap(stringJson).toString());
         String stringJson2 = "{}";
@@ -3426,24 +3426,24 @@ public class StringTest {
     }
 
     @Test
-    public void testDecodeParseXmlErr13() {
+    void testDecodeParseXmlErr13() {
         assertThrows(IllegalArgumentException.class, () -> U.fromXml("[\"abc\u0010\"]"));
     }
 
     @Test
-    public void testDecodeParseXmlErr14() {
+    void testDecodeParseXmlErr14() {
         assertThrows(IllegalArgumentException.class, () -> U.fromXmlMakeArrays("[\"abc\u0010\"]"));
     }
 
     @Test
-    public void testDecodeParseXmlErr15() {
+    void testDecodeParseXmlErr15() {
         assertThrows(
                 IllegalArgumentException.class,
                 () -> U.fromXmlWithoutNamespaces("[\"abc\u0010\"]"));
     }
 
     @Test
-    public void testJsonJavaArray() {
+    void testJsonJavaArray() {
         JsonStringBuilder builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
 
         Json.JsonArray.writeJson((Collection) null, builder);
@@ -3460,7 +3460,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJsonToXml() {
+    void testJsonToXml() {
         String json =
                 "{\"name\":\"JSON\",\"integer\":1,\"double\":2.0,\"boolean\":true,\"nested\": {\"id\":42},"
                         + "\"array\":[1,2,3]}";
@@ -3484,7 +3484,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testJsonJavaArrayCollection() {
+    void testJsonJavaArrayCollection() {
         assertEquals(
                 "\"[\\n\"\n"
                         + " + \"  \\\"First item\\\",\\n\"\n"
@@ -3619,7 +3619,7 @@ public class StringTest {
     }
 
     @Test
-    public void escapeJava() {
+    void escapeJava() {
         assertNull(Json.JsonValue.escape(null));
         assertEquals("\\\"", Json.JsonValue.escape("\""));
         assertEquals("\\\\", Json.JsonValue.escape("\\"));
@@ -3642,7 +3642,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJavaByteArrayToString() {
+    void testJavaByteArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
@@ -3670,7 +3670,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJavaShortArrayToString() {
+    void testJavaShortArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
@@ -3698,7 +3698,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJavaIntArrayToString() {
+    void testJavaIntArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
@@ -3726,7 +3726,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJavaLongArrayToString() {
+    void testJavaLongArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
@@ -3754,7 +3754,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJavaFloatArrayToString() {
+    void testJavaFloatArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
@@ -3782,7 +3782,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJavaDoubleArrayToString() {
+    void testJavaDoubleArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
@@ -3810,7 +3810,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJavaBooleanArrayToString() {
+    void testJavaBooleanArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
@@ -3837,7 +3837,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJavaCharArrayToString() {
+    void testJavaCharArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
@@ -3864,7 +3864,7 @@ public class StringTest {
     }
 
     @Test
-    public void testJavaObjectArrayToString() {
+    void testJavaObjectArrayToString() {
         JsonStringBuilder builder;
 
         builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
@@ -3896,7 +3896,7 @@ public class StringTest {
     }
 
     @Test
-    public void toJsonJavaFromList() {
+    void toJsonJavaFromList() {
         final List<String> testList = new ArrayList<>();
         testList.add("First item");
         testList.add("Second item");
@@ -3934,7 +3934,7 @@ public class StringTest {
     }
 
     @Test
-    public void toJsonJavaFromMap() {
+    void toJsonJavaFromMap() {
         final Map<String, String> testMap = new LinkedHashMap<>();
         testMap.put("First item", "1");
         testMap.put("Second item", "2");
@@ -3950,7 +3950,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void toJsonJavaString() {
+    void toJsonJavaString() {
         String javaString =
                 "\"{\\n\"\n"
                         + " + \"  \\\"glossary\\\": {\\n\"\n"
@@ -3994,7 +3994,7 @@ public class StringTest {
     }
 
     @Test
-    public void main() {
+    void main() {
         U.main(new String[] {});
         new U<>(new ArrayList<>());
         new U<String>("");
@@ -4006,7 +4006,7 @@ public class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void chain() {
+    void chain() {
         U.chain(new String[] {""}).first();
         U.chain(new String[] {""}).first(1);
         U.chain(new String[] {""}).initial();
