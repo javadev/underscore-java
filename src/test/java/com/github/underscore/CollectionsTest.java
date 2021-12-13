@@ -24,9 +24,7 @@
 package com.github.underscore;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -821,15 +819,18 @@ public class CollectionsTest {
                         .toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("unchecked")
     public void invokeError() {
-        Underscore.invoke(asList("foo", 123), "concat", Collections.<Object>singletonList("1"));
+        assertThrows(IllegalArgumentException.class,
+                () -> Underscore.invoke(asList("foo", 123), "concat",
+                        Collections.<Object>singletonList("1")));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void invokeError2() {
-        Underscore.invoke(asList(" foo ", "  bar"), "trim2");
+        assertThrows(IllegalArgumentException.class,
+                () -> Underscore.invoke(asList(" foo ", "  bar"), "trim2"));
     }
 
     /*
@@ -923,7 +924,7 @@ public class CollectionsTest {
         assertEquals("[moe, larry, curly]", resultSet2.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void pluck2() {
         class Person {
             public final String name;
@@ -934,12 +935,12 @@ public class CollectionsTest {
                 this.age = age;
             }
         }
-        Underscore.pluck(
+        assertThrows(IllegalArgumentException.class, () -> Underscore.pluck(
                 asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)),
-                "name2");
+                "name2"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("unchecked")
     public void pluck3() {
         class Person {
@@ -951,13 +952,13 @@ public class CollectionsTest {
                 this.age = age;
             }
         }
-        Underscore.pluck(
+        assertThrows(IllegalArgumentException.class, () -> Underscore.pluck(
                 new LinkedHashSet(
                         asList(
                                 new Person("moe", 40),
                                 new Person("larry", 50),
                                 new Person("curly", 40))),
-                "name2");
+                "name2"));
     }
 
     /*

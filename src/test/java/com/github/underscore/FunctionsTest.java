@@ -25,8 +25,8 @@ package com.github.underscore;
 
 import static java.util.Arrays.asList;
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -138,7 +138,7 @@ public class FunctionsTest {
         Underscore.delay(
                 (Supplier<Void>)
                         () -> {
-                            assertEquals("incr was throttled", 1, counter[0].intValue());
+                            assertEquals(1, counter[0].intValue(), "incr was throttled");
                             throttleIncr.get();
                             return null;
                         },
@@ -175,7 +175,7 @@ public class FunctionsTest {
         Underscore.delay(
                 (Supplier<Void>)
                         () -> {
-                            assertEquals("incr was debounced", 1, counter[0].intValue());
+                            assertEquals(1, counter[0].intValue(), "incr was debounced");
                             return null;
                         },
                 60);
@@ -200,11 +200,11 @@ public class FunctionsTest {
                             counter[0]++;
                             return null;
                         });
-        assertEquals("incr was debounced", 0, counter[0].intValue());
+        assertEquals(0, counter[0].intValue(), "incr was debounced");
         await().atLeast(60, TimeUnit.MILLISECONDS)
                 .until(
                         () -> {
-                            assertEquals("incr was debounced", 1, counter[0].intValue());
+                            assertEquals(1, counter[0].intValue(), "incr was debounced");
                             return true;
                         });
         Underscore.defer(() -> {
@@ -231,11 +231,10 @@ public class FunctionsTest {
         await().atLeast(60, TimeUnit.MILLISECONDS)
                 .until(
                         () -> {
-                            assertEquals("incr was called only once", 1, counter[0].intValue());
-                            assertEquals(
-                                    "stores a memo to the last value",
-                                    1,
-                                    onceIncr.get().intValue());
+                            assertEquals(1, counter[0].intValue(), "incr was called only once");
+                            assertEquals(1,
+                                    onceIncr.get().intValue(),
+                                    "stores a memo to the last value");
                             return true;
                         });
     }
@@ -415,8 +414,8 @@ public class FunctionsTest {
                 .until(
                         () -> {
                             assertTrue(
-                                    "Counter is not in range [0, 4] " + counter[0],
-                                    asList(0, 4).contains(counter[0]));
+                                    asList(0, 4).contains(counter[0]),
+                                    "Counter is not in range [0, 4] " + counter[0]);
                             return true;
                         });
     }

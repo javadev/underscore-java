@@ -24,8 +24,7 @@
 package com.github.underscore.lodash;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -34,7 +33,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -259,7 +258,7 @@ public class MathTest {
         assertEquals("12", resultObjFunc.toString());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void sumError() {
         class MyNumber extends Number {
             public int intValue() {
@@ -278,7 +277,8 @@ public class MathTest {
                 return 0;
             }
         }
-        U.sum(asList(new MyNumber(), new MyNumber()));
+        assertThrows(UnsupportedOperationException.class,
+                () -> U.sum(asList(new MyNumber(), new MyNumber())));
     }
 
     /*
@@ -309,10 +309,10 @@ public class MathTest {
         assertEquals("-1", U.subtract((Number) 1, (Number) 2).toString());
         assertEquals("-4", U.subtract((int) 1, (int) 2, (int) 3).toString());
         assertEquals("1", U.subtract((int) 1).toString());
-        assertEquals(null, U.subtract());
+        assertEquals((Object) null, U.subtract());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void subtractError() {
         class MyNumber extends Number {
             public int intValue() {
@@ -331,7 +331,8 @@ public class MathTest {
                 return 0;
             }
         }
-        U.subtract(new MyNumber(), new MyNumber());
+        assertThrows(UnsupportedOperationException.class,
+                () -> U.subtract(new MyNumber(), new MyNumber()));
     }
 
     /*
@@ -389,9 +390,9 @@ public class MathTest {
         assertEquals("1.5", result4.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void medianForEmpty() {
-        U.median(new ArrayList<Double>());
+        assertThrows(IllegalArgumentException.class, () -> U.median(new ArrayList<Double>()));
     }
 
     // http://stackoverflow.com/questions/27772432/is-there-a-underscore-js-lib-for-java

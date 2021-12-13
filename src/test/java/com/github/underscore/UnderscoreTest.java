@@ -25,12 +25,7 @@ package com.github.underscore;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -38,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -369,9 +364,10 @@ public class UnderscoreTest {
     var arr = [ 1, 2, 3 ]
     _.elementAt(arr, 3) // => IndexOutOfBoundsException
     */
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void elementAtOutOfBounds() {
-        Underscore.<Integer>elementAt(asList(1, 2, 3), 3);
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> Underscore.<Integer>elementAt(asList(1, 2, 3), 3));
     }
 
     /*
@@ -515,9 +511,9 @@ public class UnderscoreTest {
         assertEquals("Optional[1]", Optional.of(1).toJavaOptional().toString());
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void optionalOrThrow() throws RuntimeException {
-        Optional.empty().orThrow(RuntimeException::new);
+        assertThrows(Exception.class, () -> Optional.empty().orThrow(RuntimeException::new));
     }
 
     @Test
@@ -525,9 +521,9 @@ public class UnderscoreTest {
         assertEquals("1", Optional.of(1).orThrow(RuntimeException::new).toString());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void checkNotNull() {
-        Underscore.checkNotNull(null);
+        assertThrows(NullPointerException.class, () -> Underscore.checkNotNull(null));
     }
 
     @Test
@@ -535,14 +531,15 @@ public class UnderscoreTest {
         assertEquals("123", Underscore.checkNotNull("123"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void checkNotNullWithMessage() {
-        Underscore.checkNotNull(null, "Error message");
+        assertThrows(NullPointerException.class,
+                () -> Underscore.checkNotNull(null, "Error message"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void checkNotNull2() {
-        Underscore.checkNotNullElements(null);
+        assertThrows(NullPointerException.class, () -> Underscore.checkNotNullElements(null));
     }
 
     @Test

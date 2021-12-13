@@ -24,7 +24,7 @@
 package com.github.underscore;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.

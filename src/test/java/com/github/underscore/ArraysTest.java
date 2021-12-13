@@ -25,8 +25,9 @@ package com.github.underscore;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -126,10 +127,10 @@ public class ArraysTest {
                         .firstOrNull(item -> item % 2 == 0));
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     @SuppressWarnings("unchecked")
     public void firstEmpty() {
-        Underscore.first(Collections.emptyList());
+        assertThrows(NoSuchElementException.class, () -> Underscore.first(Collections.emptyList()));
     }
 
     /*
@@ -592,9 +593,9 @@ public class ArraysTest {
         final Integer[] resultListArray = Underscore.initial(new Integer[] {5, 4, 3, 2, 1}, 2);
         assertEquals("[5, 4, 3]", asList(resultListArray).toString());
         List<Integer> res = new Underscore(asList(1, 2, 3, 4, 5)).initial();
-        assertEquals("initial one item did not work", asList(1, 2, 3, 4), res);
+        assertEquals(asList(1, 2, 3, 4), res, "initial one item did not work");
         res = new Underscore(asList(1, 2, 3, 4, 5)).initial(3);
-        assertEquals("initial multi item did not wok", asList(1, 2), res);
+        assertEquals(asList(1, 2), res, "initial multi item did not wok");
     }
 
     /*
@@ -615,9 +616,9 @@ public class ArraysTest {
         final Integer resultArray = Underscore.last(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("1", resultArray.toString());
         Integer res = new Underscore<>(asList(1, 2, 3, 4, 5)).last();
-        assertEquals("last one item did not work", 5, res.intValue());
+        assertEquals(5, res.intValue(), "last one item did not work");
         List<Integer> resList = new Underscore(asList(1, 2, 3, 4, 5)).last(3);
-        assertEquals("last multi item did not wok", asList(3, 4, 5), resList);
+        assertEquals(asList(3, 4, 5), resList, "last multi item did not wok");
         final int resultPred = Underscore.last(asList(5, 4, 3, 2, 1), item -> item % 2 == 0);
         assertEquals(2, resultPred);
         final int resultPredObj =
@@ -795,14 +796,15 @@ public class ArraysTest {
         assertEquals(1, resultArray);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void sortedIndex2Error() {
         class Person implements Comparable<Person> {
             public int compareTo(Person person) {
                 return 0;
             }
         }
-        Underscore.<Person>sortedIndex(singletonList(new Person()), new Person(), "age");
+        assertThrows(IllegalArgumentException.class,
+                () -> Underscore.sortedIndex(singletonList(new Person()), new Person(), "age"));
     }
 
     /*

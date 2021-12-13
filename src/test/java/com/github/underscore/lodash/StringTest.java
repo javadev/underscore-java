@@ -24,11 +24,7 @@
 package com.github.underscore.lodash;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.github.underscore.Tuple;
 import com.github.underscore.lodash.Json.JsonStringBuilder;
@@ -41,7 +37,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -179,11 +175,11 @@ public class StringTest {
     public void endsWith() {
         assertTrue(U.endsWith("abc", "c"));
         assertTrue(new U<String>("abc").endsWith("c"));
-        assertTrue((Boolean) U.chain("abc").endsWith("c").item());
+        assertTrue(U.chain("abc").endsWith("c").item());
         assertFalse(U.endsWith("abc", "b"));
         assertTrue(U.endsWith("abc", "b", 2));
         assertTrue(new U<String>("abc").endsWith("b", 2));
-        assertTrue((Boolean) U.chain("abc").endsWith("b", 2).item());
+        assertTrue(U.chain("abc").endsWith("b", 2).item());
         assertFalse(U.endsWith("abc", "c", -4));
         assertFalse(U.endsWith((String) null, (String) null));
         assertFalse(U.endsWith("1", (String) null));
@@ -470,7 +466,7 @@ public class StringTest {
         Json.JsonArray.writeJson(
                 new ArrayList<String>() {
                     {
-                        add((String) null);
+                        add(null);
                     }
                 },
                 builder);
@@ -526,7 +522,7 @@ public class StringTest {
                                         put("3", null);
                                     }
                                 })));
-        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(new String[] {(String) null})));
+        assertEquals("[\n  null\n]", U.toJson(Arrays.asList(new String[] {null})));
         assertEquals("null", U.toJson((Collection) null));
         class Test {
             public String toString() {
@@ -874,7 +870,7 @@ public class StringTest {
         map.put("1", "a");
         map.put("2", "b");
         assertEquals("{\n  \"1\": \"a\",\n  \"2\": \"b\"\n}", U.toJson(map));
-        Map<String, Object> newMap = (Map<String, Object>) U.fromJson(U.toJson(map));
+        Map<String, Object> newMap = U.fromJson(U.toJson(map));
         assertEquals("a", newMap.get("1"));
     }
 
@@ -948,84 +944,79 @@ public class StringTest {
         assertEquals("[abc\\u001G/]", U.fromJson("[\"abc\\u001G\\/\"]").toString());
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr1() {
-        U.fromJson("$");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("$"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr2() {
-        U.fromJson("[\"value\"");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("[\"value\""));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr3() {
-        U.fromJson("{\"value\":123");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("{\"value\":123"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr4() {
-        U.fromJson("{\"value\"123");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("{\"value\"123"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr5() {
-        U.fromJson("{value");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("{value"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr6() {
-        U.fromJson("[ture]");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("[ture]"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr8() {
-        U.fromJson("[\"\\abc\"]");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("[\"\\abc\"]"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr9() {
-        U.fromJson("[123ea]");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("[123ea]"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr10() {
-        try {
-            U.fromJson("[123.a]");
-            fail("Expected ParseException");
-        } catch (Json.ParseException ex) {
-            ex.getOffset();
-            ex.getLine();
-            ex.getColumn();
-            throw ex;
-        }
+        Json.ParseException ex = assertThrows(Json.ParseException.class, () -> U.fromJson("[123.a]"));
+        ex.getOffset();
+        ex.getLine();
+        ex.getColumn();
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr11() {
-        U.fromJson("[1g]");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("[1g]"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr12() {
-        U.fromJson("[--1");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("[--1"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr13() {
-        U.fromJson("[\"abc\u0010\"]");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("[\"abc\u0010\"]"));
     }
 
-    @Test(expected = Json.ParseException.class)
+    @Test
     public void testDecodeParseErr14() {
-        U.fromJson("[\"abc\"][]");
+        assertThrows(Json.ParseException.class, () -> U.fromJson("[\"abc\"][]"));
     }
 
     @Test
     public void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(
-                (Collection) null, null, builder, false, Collections.<String>emptySet(), false);
+                null, null, builder, false, Collections.<String>emptySet(), false);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
                 builder.toString());
@@ -1140,7 +1131,7 @@ public class StringTest {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
                         + "  <element array=\"true\" null=\"true\"/>\n</root>",
-                U.toXml(Arrays.asList(new String[] {(String) null})));
+                U.toXml(Arrays.asList(new String[] {null})));
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>null</root>",
                 U.toXml((Collection) null));
@@ -1446,7 +1437,7 @@ public class StringTest {
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(
-                (Object[]) null, null, builder, false, Collections.<String>emptySet());
+                null, null, builder, false, Collections.emptySet());
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
                 builder.toString());
@@ -2428,7 +2419,7 @@ public class StringTest {
                         + "    \"d\": null"
                         + "  }\n"
                         + "}";
-        Map<String, Object> map = (Map<String, Object>) U.fromJson(json);
+        Map<String, Object> map = U.fromJson(json);
         assertNull(U.get(map, "a.b.0.#text"));
         assertEquals("\n1", U.get(map, "a.b.1.#text"));
         assertEquals("{#item=null}", U.get(map, "a.b.2").toString());
@@ -3431,19 +3422,19 @@ public class StringTest {
         assertEquals("{}", U.fromJsonMap(stringJson2).toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDecodeParseXmlErr13() {
-        U.fromXml("[\"abc\u0010\"]");
+        assertThrows(IllegalArgumentException.class, () -> U.fromXml("[\"abc\u0010\"]"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDecodeParseXmlErr14() {
-        U.fromXmlMakeArrays("[\"abc\u0010\"]");
+        assertThrows(IllegalArgumentException.class, () -> U.fromXmlMakeArrays("[\"abc\u0010\"]"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDecodeParseXmlErr15() {
-        U.fromXmlWithoutNamespaces("[\"abc\u0010\"]");
+        assertThrows(IllegalArgumentException.class, () -> U.fromXmlWithoutNamespaces("[\"abc\u0010\"]"));
     }
 
     @Test
@@ -3456,7 +3447,7 @@ public class StringTest {
         Json.JsonArray.writeJson(
                 new ArrayList<String>() {
                     {
-                        add((String) null);
+                        add(null);
                     }
                 },
                 builder);

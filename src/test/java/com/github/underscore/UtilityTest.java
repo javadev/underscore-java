@@ -24,9 +24,9 @@
 package com.github.underscore;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +37,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -164,9 +164,8 @@ public class UtilityTest {
     @Test
     public void uniquePassword() {
         String password = Underscore.uniquePassword();
-        assertTrue(
-                "Password doesn't matches the pattern [A-Z]+[0-9]+.*?[a-z]+ " + password,
-                password.matches("[A-Z]+[0-9]+.*?[a-z]+.*"));
+        assertTrue(password.matches("[A-Z]+[0-9]+.*?[a-z]+.*"),
+                "Password doesn't matches the pattern [A-Z]+[0-9]+.*?[a-z]+ " + password);
     }
 
     /*
