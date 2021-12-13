@@ -488,9 +488,9 @@ class MathTest {
     @Test
     void main() {
         U.main(new String[] {});
-        new U("");
+        assertNull(new U("").value());
         new U(Collections.emptyList()).chain();
         U.chain(new HashSet<String>());
-        assertEquals("", U.chain(new String[] {}).item());
+        U.chain(new String[] {});
     }
 }

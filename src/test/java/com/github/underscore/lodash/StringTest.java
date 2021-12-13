@@ -4001,13 +4001,13 @@ class StringTest {
         new U<>(Collections.<Object>emptyList()).chain();
         U.chain(new ArrayList<String>());
         U.chain(new HashSet<String>());
-        assertNull("", U.chain(new String[] {}).item());
+        assertNull(U.chain(new String[] {}).item());
     }
 
     @SuppressWarnings("unchecked")
     @Test
     void chain() {
-        assertNull(U.chain(new String[] {""}).first());
+        assertEquals("", U.chain(new String[] {""}).first().item());
         U.chain(new String[] {""}).first(1);
         U.chain(new String[] {""}).initial();
         U.chain(new String[] {""}).initial(1);
