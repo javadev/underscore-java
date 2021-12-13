@@ -803,7 +803,8 @@ public class ArraysTest {
                 return 0;
             }
         }
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(
+                IllegalArgumentException.class,
                 () -> Underscore.sortedIndex(singletonList(new Person()), new Person(), "age"));
     }
 

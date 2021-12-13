@@ -279,7 +279,8 @@ public class MathTest {
                 return 0;
             }
         }
-        assertThrows(UnsupportedOperationException.class,
+        assertThrows(
+                UnsupportedOperationException.class,
                 () -> U.sum(asList(new MyNumber(), new MyNumber())));
     }
 
@@ -333,7 +334,8 @@ public class MathTest {
                 return 0;
             }
         }
-        assertThrows(UnsupportedOperationException.class,
+        assertThrows(
+                UnsupportedOperationException.class,
                 () -> U.subtract(new MyNumber(), new MyNumber()));
     }
 

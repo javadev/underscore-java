@@ -990,7 +990,8 @@ public class StringTest {
 
     @Test
     public void testDecodeParseErr10() {
-        Json.ParseException ex = assertThrows(Json.ParseException.class, () -> U.fromJson("[123.a]"));
+        Json.ParseException ex =
+                assertThrows(Json.ParseException.class, () -> U.fromJson("[123.a]"));
         ex.getOffset();
         ex.getLine();
         ex.getColumn();
@@ -1019,8 +1020,7 @@ public class StringTest {
     @Test
     public void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(
-                null, null, builder, false, Collections.<String>emptySet(), false);
+        Xml.XmlArray.writeXml(null, null, builder, false, Collections.<String>emptySet(), false);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
                 builder.toString());
@@ -1440,8 +1440,7 @@ public class StringTest {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(
-                null, null, builder, false, Collections.emptySet());
+        Xml.XmlArray.writeXml(null, null, builder, false, Collections.emptySet());
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
                 builder.toString());
@@ -3438,7 +3437,9 @@ public class StringTest {
 
     @Test
     public void testDecodeParseXmlErr15() {
-        assertThrows(IllegalArgumentException.class, () -> U.fromXmlWithoutNamespaces("[\"abc\u0010\"]"));
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> U.fromXmlWithoutNamespaces("[\"abc\u0010\"]"));
     }
 
     @Test

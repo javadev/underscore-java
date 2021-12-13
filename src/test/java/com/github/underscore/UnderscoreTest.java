@@ -372,7 +372,8 @@ public class UnderscoreTest {
     */
     @Test
     public void elementAtOutOfBounds() {
-        assertThrows(IndexOutOfBoundsException.class,
+        assertThrows(
+                IndexOutOfBoundsException.class,
                 () -> Underscore.<Integer>elementAt(asList(1, 2, 3), 3));
     }
 
@@ -539,8 +540,8 @@ public class UnderscoreTest {
 
     @Test
     public void checkNotNullWithMessage() {
-        assertThrows(NullPointerException.class,
-                () -> Underscore.checkNotNull(null, "Error message"));
+        assertThrows(
+                NullPointerException.class, () -> Underscore.checkNotNull(null, "Error message"));
     }
 
     @Test

@@ -164,7 +164,8 @@ public class UtilityTest {
     @Test
     public void uniquePassword() {
         String password = Underscore.uniquePassword();
-        assertTrue(password.matches("[A-Z]+[0-9]+.*?[a-z]+.*"),
+        assertTrue(
+                password.matches("[A-Z]+[0-9]+.*?[a-z]+.*"),
                 "Password doesn't matches the pattern [A-Z]+[0-9]+.*?[a-z]+ " + password);
     }
 

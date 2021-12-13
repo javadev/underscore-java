@@ -30,6 +30,7 @@ import java.util.Map;
 
 public final class Json {
     private Json() {}
+
     private static final String NULL = "null";
     private static final String DIGIT = "digit";
 
@@ -151,6 +152,7 @@ public final class Json {
 
     public static class JsonArray {
         private JsonArray() {}
+
         public static void writeJson(Collection collection, JsonStringBuilder builder) {
             if (collection == null) {
                 builder.append(NULL);
@@ -339,6 +341,7 @@ public final class Json {
 
     public static class JsonObject {
         private JsonObject() {}
+
         public static void writeJson(Map map, JsonStringBuilder builder) {
             if (map == null) {
                 builder.append(NULL);
@@ -371,6 +374,7 @@ public final class Json {
 
     public static class JsonValue {
         private JsonValue() {}
+
         public static void writeJson(Object value, JsonStringBuilder builder) {
             if (value == null) {
                 builder.append(NULL);

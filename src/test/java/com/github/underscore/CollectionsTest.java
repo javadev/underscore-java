@@ -825,14 +825,19 @@ public class CollectionsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void invokeError() {
-        assertThrows(IllegalArgumentException.class,
-                () -> Underscore.invoke(asList("foo", 123), "concat",
-                        Collections.<Object>singletonList("1")));
+        assertThrows(
+                IllegalArgumentException.class,
+                () ->
+                        Underscore.invoke(
+                                asList("foo", 123),
+                                "concat",
+                                Collections.<Object>singletonList("1")));
     }
 
     @Test
     public void invokeError2() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(
+                IllegalArgumentException.class,
                 () -> Underscore.invoke(asList(" foo ", "  bar"), "trim2"));
     }
 
@@ -938,9 +943,15 @@ public class CollectionsTest {
                 this.age = age;
             }
         }
-        assertThrows(IllegalArgumentException.class, () -> Underscore.pluck(
-                asList(new Person("moe", 40), new Person("larry", 50), new Person("curly", 40)),
-                "name2"));
+        assertThrows(
+                IllegalArgumentException.class,
+                () ->
+                        Underscore.pluck(
+                                asList(
+                                        new Person("moe", 40),
+                                        new Person("larry", 50),
+                                        new Person("curly", 40)),
+                                "name2"));
     }
 
     @Test
@@ -955,13 +966,16 @@ public class CollectionsTest {
                 this.age = age;
             }
         }
-        assertThrows(IllegalArgumentException.class, () -> Underscore.pluck(
-                new LinkedHashSet(
-                        asList(
-                                new Person("moe", 40),
-                                new Person("larry", 50),
-                                new Person("curly", 40))),
-                "name2"));
+        assertThrows(
+                IllegalArgumentException.class,
+                () ->
+                        Underscore.pluck(
+                                new LinkedHashSet(
+                                        asList(
+                                                new Person("moe", 40),
+                                                new Person("larry", 50),
+                                                new Person("curly", 40))),
+                                "name2"));
     }
 
     /*

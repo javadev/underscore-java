@@ -232,7 +232,8 @@ public class FunctionsTest {
                 .until(
                         () -> {
                             assertEquals(1, counter[0].intValue(), "incr was called only once");
-                            assertEquals(1,
+                            assertEquals(
+                                    1,
                                     onceIncr.get().intValue(),
                                     "stores a memo to the last value");
                             return true;
