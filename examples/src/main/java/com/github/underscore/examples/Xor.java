@@ -67,6 +67,7 @@ public class Xor {
         return filter(list1, elem -> !contains(list2, elem));
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> List<T> concat(final List<T>... other) {
         final List<T> result = new ArrayList<>();
         for (final List<T> otherItem : other) {
