@@ -30,8 +30,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.org/javadev/underscore-java</url>
+    <system>GitHub Actions</system>
+    <url>https://github.com/javadev/underscore-java/actions</url>
   </ciManagement>
   <issueManagement>
     <system>GitHub Issues</system>
