@@ -3914,7 +3914,7 @@ public class Underscore<T> {
 
     public static class ValueThenKeyComparator<
                     K extends Comparable<? super K>, V extends Comparable<? super V>>
-            implements Comparator<Map.Entry<K, V>> {
+            implements Comparator<Map.Entry<K, V>>, java.io.Serializable {
 
         public int compare(Map.Entry<K, V> a, Map.Entry<K, V> b) {
             int cmp1 = b.getValue().compareTo(a.getValue());
