@@ -23,10 +23,10 @@
  */
 package com.github.underscore.examples;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore examples unit test.
