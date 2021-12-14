@@ -101,6 +101,10 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <failOnError>false</failOnError>
+          <useStandardDocletOptions>true</useStandardDocletOptions>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
