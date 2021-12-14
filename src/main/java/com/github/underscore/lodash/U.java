@@ -2796,11 +2796,11 @@ public class U<T> extends Underscore<T> {
         Map<String, Object> outMap = newLinkedHashMap();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(
-                    !(entry.getValue() instanceof Map
+                    entry.getValue() instanceof Map
                                     || entry.getValue() instanceof List
-                                    || String.valueOf(entry.getKey()).startsWith("-"))
-                            ? "-" + entry.getKey()
-                            : String.valueOf(entry.getKey()),
+                                    || String.valueOf(entry.getKey()).startsWith("-")
+                            ? String.valueOf(entry.getKey())
+                            : "-" + entry.getKey(),
                     makeAttributeUsage(entry.getValue()));
         }
         return outMap;
