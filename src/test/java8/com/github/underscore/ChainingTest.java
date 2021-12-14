@@ -23,10 +23,14 @@
  */
 package com.github.underscore;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.*;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -74,15 +78,11 @@ class ChainingTest {
                     }
                 };
         final String youngest =
-                U.chain(stooges)
+                Underscore.chain(stooges)
                         .sortBy(
-                                (item) -> {
-                                    return (Integer) ((Map<String, Object>) item).get("age");
-                                })
+                                (item) -> (Integer) item.get("age"))
                         .map(
-                                (item) -> {
-                                    return item.get("name") + " is " + item.get("age");
-                                })
+                                (item) -> item.get("name") + " is " + item.get("age"))
                         .first()
                         .item();
         assertEquals("moe is 21", youngest);

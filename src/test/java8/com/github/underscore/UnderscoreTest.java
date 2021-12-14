@@ -23,10 +23,11 @@
  */
 package com.github.underscore;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.*;
-import org.junit.Test;
+import java.util.LinkedHashMap;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -41,7 +42,7 @@ class UnderscoreTest {
         // http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java?rq=1
         assertEquals(
                 "{D=67.3, B=67.4, C=67.4, A=99.5}",
-                U.chain(
+                Underscore.chain(
                                 (new LinkedHashMap<String, Double>() {
                                             {
                                                 put("A", 99.5);

@@ -24,14 +24,17 @@
 package com.github.underscore;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -48,53 +51,53 @@ class ArraysTest {
     */
     @Test
     void first() {
-        final Integer result = U.first(asList(5, 4, 3, 2, 1));
+        final Integer result = Underscore.first(asList(5, 4, 3, 2, 1));
         assertEquals("5", result.toString());
-        final Object resultChain = U.chain(asList(5, 4, 3, 2, 1)).first().item();
+        final Object resultChain = Underscore.chain(asList(5, 4, 3, 2, 1)).first().item();
         assertEquals("5", resultChain.toString());
-        final Object resultChainTwo = U.chain(asList(5, 4, 3, 2, 1)).first(2).value();
+        final Object resultChainTwo = Underscore.chain(asList(5, 4, 3, 2, 1)).first(2).value();
         assertEquals("[5, 4]", resultChainTwo.toString());
-        final List<Integer> resultList = U.first(asList(5, 4, 3, 2, 1), 2);
+        final List<Integer> resultList = Underscore.first(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[5, 4]", resultList.toString());
-        final int resultInt = U.first(new Integer[] {5, 4, 3, 2, 1});
+        final int resultInt = Underscore.first(new Integer[] {5, 4, 3, 2, 1});
         assertEquals(5, resultInt);
-        final int resultPred = U.first(asList(5, 4, 3, 2, 1), (Integer item) -> item % 2 == 0);
+        final int resultPred = Underscore.first(asList(5, 4, 3, 2, 1), (Integer item) -> item % 2 == 0);
         assertEquals(4, resultPred);
         final int resultPredObj =
-                new U<>(asList(5, 4, 3, 2, 1)).first((Integer item) -> item % 2 == 0);
+                new Underscore<>(asList(5, 4, 3, 2, 1)).first((Integer item) -> item % 2 == 0);
         assertEquals(4, resultPredObj);
     }
 
     @Test
     void firstOrNull() {
-        final Integer result = U.firstOrNull(asList(5, 4, 3, 2, 1));
+        final Integer result = Underscore.firstOrNull(asList(5, 4, 3, 2, 1));
         assertEquals("5", result.toString());
-        final Integer resultObj = new U<>(asList(5, 4, 3, 2, 1)).firstOrNull();
+        final Integer resultObj = new Underscore<>(asList(5, 4, 3, 2, 1)).firstOrNull();
         assertEquals("5", resultObj.toString());
-        final Integer resultChain = U.chain(asList(5, 4, 3, 2, 1)).firstOrNull().item();
+        final Integer resultChain = Underscore.chain(asList(5, 4, 3, 2, 1)).firstOrNull().item();
         assertEquals("5", resultChain.toString());
-        assertNull(U.firstOrNull(Collections.emptyList()));
-        assertNull(new U<>(Collections.<Integer>emptyList()).firstOrNull());
+        assertNull(Underscore.firstOrNull(Collections.emptyList()));
+        assertNull(new Underscore<>(Collections.<Integer>emptyList()).firstOrNull());
         final int resultPred =
-                U.firstOrNull(asList(5, 4, 3, 2, 1), (Integer item) -> item % 2 == 0);
+                Underscore.firstOrNull(asList(5, 4, 3, 2, 1), (Integer item) -> item % 2 == 0);
         assertEquals(4, resultPred);
         final int resultPredChain =
-                U.chain(asList(5, 4, 3, 2, 1)).firstOrNull((Integer item) -> item % 2 == 0).item();
+                Underscore.chain(asList(5, 4, 3, 2, 1)).firstOrNull((Integer item) -> item % 2 == 0).item();
         assertEquals(4, resultPredChain);
         assertNull(
-                U.firstOrNull(Collections.<Integer>emptyList(), (Integer item) -> item % 2 == 0));
+                Underscore.firstOrNull(Collections.emptyList(), (Integer item) -> item % 2 == 0));
         final int resultPredObj =
-                new U<>(asList(5, 4, 3, 2, 1)).firstOrNull((Integer item) -> item % 2 == 0);
+                new Underscore<>(asList(5, 4, 3, 2, 1)).firstOrNull((Integer item) -> item % 2 == 0);
         assertEquals(4, resultPredObj);
         assertNull(
-                new U<>(Collections.<Integer>emptyList())
+                new Underscore<>(Collections.<Integer>emptyList())
                         .firstOrNull((Integer item) -> item % 2 == 0));
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     @SuppressWarnings("unchecked")
     void firstEmpty() {
-        U.first(asList());
+        assertThrows(NoSuchElementException.class, () -> Underscore.first(asList()));
     }
 
     /*
@@ -105,15 +108,15 @@ class ArraysTest {
     */
     @Test
     void head() {
-        final Integer result = U.head(asList(5, 4, 3, 2, 1));
+        final Integer result = Underscore.head(asList(5, 4, 3, 2, 1));
         assertEquals("5", result.toString());
-        final Integer resultObj = new U<>(asList(5, 4, 3, 2, 1)).head();
+        final Integer resultObj = new Underscore<>(asList(5, 4, 3, 2, 1)).head();
         assertEquals("5", resultObj.toString());
-        final List<Integer> resultList = U.head(asList(5, 4, 3, 2, 1), 2);
+        final List<Integer> resultList = Underscore.head(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[5, 4]", resultList.toString());
-        final List<Integer> resultListObj = new U<>(asList(5, 4, 3, 2, 1)).head(2);
+        final List<Integer> resultListObj = new Underscore<>(asList(5, 4, 3, 2, 1)).head(2);
         assertEquals("[5, 4]", resultListObj.toString());
-        final int resultInt = U.head(new Integer[] {5, 4, 3, 2, 1});
+        final int resultInt = Underscore.head(new Integer[] {5, 4, 3, 2, 1});
         assertEquals(5, resultInt);
     }
 
@@ -125,20 +128,20 @@ class ArraysTest {
     */
     @Test
     void singleOrNull() {
-        U<Integer> uWithMoreElement = new U<Integer>(asList(1, 2, 3));
-        U<Integer> uWithOneElement = new U<Integer>(asList(1));
+        Underscore<Integer> uWithMoreElement = new Underscore<Integer>(asList(1, 2, 3));
+        Underscore<Integer> uWithOneElement = new Underscore<Integer>(asList(1));
 
-        final Integer result1 = U.singleOrNull(asList(1, 2, 3, 4));
+        final Integer result1 = Underscore.singleOrNull(asList(1, 2, 3, 4));
         assertEquals(result1, null);
-        final int result2 = U.singleOrNull(asList(1));
+        final int result2 = Underscore.singleOrNull(asList(1));
         assertEquals(result2, 1);
-        final Integer result3 = U.singleOrNull(new ArrayList<Integer>());
+        final Integer result3 = Underscore.singleOrNull(new ArrayList<Integer>());
         assertEquals(result3, null);
-        final Integer result4 = U.singleOrNull(asList(1, 2, 3), number -> number % 2 == 1);
+        final Integer result4 = Underscore.singleOrNull(asList(1, 2, 3), number -> number % 2 == 1);
         assertEquals(result4, null);
-        final int result5 = U.singleOrNull(asList(1, 2, 3), number -> number % 2 == 0);
+        final int result5 = Underscore.singleOrNull(asList(1, 2, 3), number -> number % 2 == 0);
         assertEquals(result5, 2);
-        final Integer result6 = U.singleOrNull(asList(1, 2, 3), number -> number == 5);
+        final Integer result6 = Underscore.singleOrNull(asList(1, 2, 3), number -> number == 5);
         assertEquals(result6, null);
         final Integer result7 = uWithMoreElement.singleOrNull();
         assertEquals(result7, null);
@@ -159,17 +162,17 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void rest() {
-        final List<Integer> result = U.rest(asList(5, 4, 3, 2, 1));
+        final List<Integer> result = Underscore.rest(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
-        final List<Integer> resultChain = U.chain(asList(5, 4, 3, 2, 1)).rest().value();
+        final List<Integer> resultChain = Underscore.chain(asList(5, 4, 3, 2, 1)).rest().value();
         assertEquals("[4, 3, 2, 1]", resultChain.toString());
-        final List<Integer> result2 = U.rest(asList(5, 4, 3, 2, 1), 2);
+        final List<Integer> result2 = Underscore.rest(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[3, 2, 1]", result2.toString());
-        final List<Integer> result2Chain = U.chain(asList(5, 4, 3, 2, 1)).rest(2).value();
+        final List<Integer> result2Chain = Underscore.chain(asList(5, 4, 3, 2, 1)).rest(2).value();
         assertEquals("[3, 2, 1]", result2Chain.toString());
-        final Object[] resultArray = U.rest(new Integer[] {5, 4, 3, 2, 1});
+        final Object[] resultArray = Underscore.rest(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
-        final Object[] resultArray2 = U.rest(new Integer[] {5, 4, 3, 2, 1}, 2);
+        final Object[] resultArray2 = Underscore.rest(new Integer[] {5, 4, 3, 2, 1}, 2);
         assertEquals("[3, 2, 1]", asList(resultArray2).toString());
     }
 
@@ -183,12 +186,12 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void chunk() {
-        assertEquals("[[a, b], [c, d]]", U.chunk(asList("a", "b", "c", "d"), 2).toString());
-        assertEquals("[[a, b], [c, d]]", new U(asList("a", "b", "c", "d")).chunk(2).toString());
+        assertEquals("[[a, b], [c, d]]", Underscore.chunk(asList("a", "b", "c", "d"), 2).toString());
+        assertEquals("[[a, b], [c, d]]", new Underscore(asList("a", "b", "c", "d")).chunk(2).toString());
         assertEquals(
                 "[[a, b], [c, d]]",
-                U.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
-        assertEquals("[[a, b, c], [d]]", U.chunk(asList("a", "b", "c", "d"), 3).toString());
+                Underscore.chain(asList("a", "b", "c", "d")).chunk(2).value().toString());
+        assertEquals("[[a, b, c], [d]]", Underscore.chunk(asList("a", "b", "c", "d"), 3).toString());
     }
 
     /*
@@ -199,17 +202,17 @@ class ArraysTest {
     */
     @Test
     void tail() {
-        final List<Integer> result = U.tail(asList(5, 4, 3, 2, 1));
+        final List<Integer> result = Underscore.tail(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
-        final List<Integer> result2 = U.tail(asList(5, 4, 3, 2, 1), 2);
+        final List<Integer> result2 = Underscore.tail(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[3, 2, 1]", result2.toString());
-        final Object[] resultArray = U.tail(new Integer[] {5, 4, 3, 2, 1});
+        final Object[] resultArray = Underscore.tail(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
-        final List<Integer> resultArrayObj = new U<>(asList(5, 4, 3, 2, 1)).tail();
+        final List<Integer> resultArrayObj = new Underscore<>(asList(5, 4, 3, 2, 1)).tail();
         assertEquals("[4, 3, 2, 1]", resultArrayObj.toString());
-        final Object[] resultArray2 = U.tail(new Integer[] {5, 4, 3, 2, 1}, 2);
+        final Object[] resultArray2 = Underscore.tail(new Integer[] {5, 4, 3, 2, 1}, 2);
         assertEquals("[3, 2, 1]", asList(resultArray2).toString());
-        final List<Integer> resultArray2Obj = new U<>(asList(5, 4, 3, 2, 1)).tail(2);
+        final List<Integer> resultArray2Obj = new Underscore<>(asList(5, 4, 3, 2, 1)).tail(2);
         assertEquals("[3, 2, 1]", resultArray2Obj.toString());
     }
 
@@ -221,13 +224,13 @@ class ArraysTest {
     */
     @Test
     void drop() {
-        final List<Integer> result = U.drop(asList(5, 4, 3, 2, 1));
+        final List<Integer> result = Underscore.drop(asList(5, 4, 3, 2, 1));
         assertEquals("[4, 3, 2, 1]", result.toString());
-        final List<Integer> result2 = U.drop(asList(5, 4, 3, 2, 1), 2);
+        final List<Integer> result2 = Underscore.drop(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[3, 2, 1]", result2.toString());
-        final Object[] resultArray = U.drop(new Integer[] {5, 4, 3, 2, 1});
+        final Object[] resultArray = Underscore.drop(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("[4, 3, 2, 1]", asList(resultArray).toString());
-        final Object[] resultArray2 = U.drop(new Integer[] {5, 4, 3, 2, 1}, 2);
+        final Object[] resultArray2 = Underscore.drop(new Integer[] {5, 4, 3, 2, 1}, 2);
         assertEquals("[3, 2, 1]", asList(resultArray2).toString());
     }
 
@@ -240,22 +243,22 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void initial() {
-        final List<Integer> result = U.initial(asList(5, 4, 3, 2, 1));
+        final List<Integer> result = Underscore.initial(asList(5, 4, 3, 2, 1));
         assertEquals("[5, 4, 3, 2]", result.toString());
-        final List<Integer> resultChain = U.chain(asList(5, 4, 3, 2, 1)).initial().value();
+        final List<Integer> resultChain = Underscore.chain(asList(5, 4, 3, 2, 1)).initial().value();
         assertEquals("[5, 4, 3, 2]", resultChain.toString());
-        final List<Integer> resultList = U.initial(asList(5, 4, 3, 2, 1), 2);
+        final List<Integer> resultList = Underscore.initial(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[5, 4, 3]", resultList.toString());
-        final List<Integer> resultListChain = U.chain(asList(5, 4, 3, 2, 1)).initial(2).value();
+        final List<Integer> resultListChain = Underscore.chain(asList(5, 4, 3, 2, 1)).initial(2).value();
         assertEquals("[5, 4, 3]", resultListChain.toString());
-        final Integer[] resultArray = U.initial(new Integer[] {5, 4, 3, 2, 1});
+        final Integer[] resultArray = Underscore.initial(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("[5, 4, 3, 2]", asList(resultArray).toString());
-        final Integer[] resultListArray = U.initial(new Integer[] {5, 4, 3, 2, 1}, 2);
+        final Integer[] resultListArray = Underscore.initial(new Integer[] {5, 4, 3, 2, 1}, 2);
         assertEquals("[5, 4, 3]", asList(resultListArray).toString());
-        List<Integer> res = new U(asList(1, 2, 3, 4, 5)).initial();
-        assertEquals("initial one item did not work", asList(1, 2, 3, 4), res);
-        res = new U(asList(1, 2, 3, 4, 5)).initial(3);
-        assertEquals("initial multi item did not wok", asList(1, 2), res);
+        List<Integer> res = new Underscore(asList(1, 2, 3, 4, 5)).initial();
+        assertEquals(asList(1, 2, 3, 4), res, "initial one item did not work");
+        res = new Underscore(asList(1, 2, 3, 4, 5)).initial(3);
+        assertEquals(asList(1, 2), res, "initial multi item did not wok");
     }
 
     /*
@@ -265,48 +268,48 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void last() {
-        final Integer result = U.last(asList(5, 4, 3, 2, 1));
+        final Integer result = Underscore.last(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
-        final List<Integer> resultTwo = U.last(asList(5, 4, 3, 2, 1), 2);
+        final List<Integer> resultTwo = Underscore.last(asList(5, 4, 3, 2, 1), 2);
         assertEquals("[2, 1]", resultTwo.toString());
-        final Object resultChain = U.chain(asList(5, 4, 3, 2, 1)).last().item();
+        final Object resultChain = Underscore.chain(asList(5, 4, 3, 2, 1)).last().item();
         assertEquals("1", resultChain.toString());
-        final Object resultChainTwo = U.chain(asList(5, 4, 3, 2, 1)).last(2).value();
+        final Object resultChainTwo = Underscore.chain(asList(5, 4, 3, 2, 1)).last(2).value();
         assertEquals("[2, 1]", resultChainTwo.toString());
-        final Integer resultArray = U.last(new Integer[] {5, 4, 3, 2, 1});
+        final Integer resultArray = Underscore.last(new Integer[] {5, 4, 3, 2, 1});
         assertEquals("1", resultArray.toString());
-        Integer res = new U<>(asList(1, 2, 3, 4, 5)).last();
-        assertEquals("last one item did not work", 5, res.intValue());
-        List<Integer> resList = new U(asList(1, 2, 3, 4, 5)).last(3);
-        assertEquals("last multi item did not wok", asList(3, 4, 5), resList);
-        final int resultPred = U.last(asList(5, 4, 3, 2, 1), (Integer item) -> item % 2 == 0);
+        Integer res = new Underscore<>(asList(1, 2, 3, 4, 5)).last();
+        assertEquals(5, res.intValue(), "last one item did not work");
+        List<Integer> resList = new Underscore(asList(1, 2, 3, 4, 5)).last(3);
+        assertEquals(asList(3, 4, 5), resList, "last multi item did not wok");
+        final int resultPred = Underscore.last(asList(5, 4, 3, 2, 1), (Integer item) -> item % 2 == 0);
         assertEquals(2, resultPred);
         final int resultPredObj =
-                new U<>(asList(5, 4, 3, 2, 1)).last((Integer item) -> item % 2 == 0);
+                new Underscore<>(asList(5, 4, 3, 2, 1)).last((Integer item) -> item % 2 == 0);
         assertEquals(2, resultPredObj);
     }
 
     @Test
     void lastOrNull() {
-        final Integer result = U.lastOrNull(asList(5, 4, 3, 2, 1));
+        final Integer result = Underscore.lastOrNull(asList(5, 4, 3, 2, 1));
         assertEquals("1", result.toString());
-        final Integer resultObj = new U<>(asList(5, 4, 3, 2, 1)).lastOrNull();
+        final Integer resultObj = new Underscore<>(asList(5, 4, 3, 2, 1)).lastOrNull();
         assertEquals("1", resultObj.toString());
-        final Integer resultChain = U.chain(asList(5, 4, 3, 2, 1)).lastOrNull().item();
+        final Integer resultChain = Underscore.chain(asList(5, 4, 3, 2, 1)).lastOrNull().item();
         assertEquals("1", resultChain.toString());
-        assertNull(U.lastOrNull(Collections.emptyList()));
-        assertNull(new U<>(Collections.<Integer>emptyList()).lastOrNull());
-        final int resultPred = U.lastOrNull(asList(5, 4, 3, 2, 1), (Integer item) -> item % 2 == 0);
+        assertNull(Underscore.lastOrNull(Collections.emptyList()));
+        assertNull(new Underscore<>(Collections.<Integer>emptyList()).lastOrNull());
+        final int resultPred = Underscore.lastOrNull(asList(5, 4, 3, 2, 1), (Integer item) -> item % 2 == 0);
         assertEquals(2, resultPred);
         final int resultPredChain =
-                U.chain(asList(5, 4, 3, 2, 1)).lastOrNull((Integer item) -> item % 2 == 0).item();
+                Underscore.chain(asList(5, 4, 3, 2, 1)).lastOrNull((Integer item) -> item % 2 == 0).item();
         assertEquals(2, resultPredChain);
-        assertNull(U.lastOrNull(Collections.<Integer>emptyList(), (Integer item) -> item % 2 == 0));
+        assertNull(Underscore.lastOrNull(Collections.<Integer>emptyList(), (Integer item) -> item % 2 == 0));
         final int resultPredObj =
-                new U<>(asList(5, 4, 3, 2, 1)).lastOrNull((Integer item) -> item % 2 == 0);
+                new Underscore<>(asList(5, 4, 3, 2, 1)).lastOrNull((Integer item) -> item % 2 == 0);
         assertEquals(2, resultPredObj);
         assertNull(
-                new U<>(Collections.<Integer>emptyList())
+                new Underscore<>(Collections.<Integer>emptyList())
                         .lastOrNull((Integer item) -> item % 2 == 0));
     }
     /*
@@ -316,27 +319,27 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void compact() {
-        final List<?> result = U.compact(asList(0, 1, false, 2, "", 3));
+        final List<?> result = Underscore.compact(asList(0, 1, false, 2, "", 3));
         assertEquals("[1, 2, 3]", result.toString());
-        final List<?> result2 = U.compact(asList(0, 1, false, 2, "", 3), 1);
+        final List<?> result2 = Underscore.compact(asList(0, 1, false, 2, "", 3), 1);
         assertEquals("[0, false, 2, , 3]", result2.toString());
-        final List<?> result3 = U.compact(asList(0, 1, null, 2, "", 3));
+        final List<?> result3 = Underscore.compact(asList(0, 1, null, 2, "", 3));
         assertEquals("[1, 2, 3]", result3.toString());
-        final List<?> resultChain = U.chain(asList(0, 1, false, 2, "", 3)).compact().value();
+        final List<?> resultChain = Underscore.chain(asList(0, 1, false, 2, "", 3)).compact().value();
         assertEquals("[1, 2, 3]", resultChain.toString());
-        final List<?> result2Chain = U.chain(asList(0, 1, false, 2, "", 3)).compact(1).value();
+        final List<?> result2Chain = Underscore.chain(asList(0, 1, false, 2, "", 3)).compact(1).value();
         assertEquals("[0, false, 2, , 3]", result2Chain.toString());
-        final List<?> result4 = new U(asList(0, 1, false, 2, "", 3)).compact();
+        final List<?> result4 = new Underscore(asList(0, 1, false, 2, "", 3)).compact();
         assertEquals("[1, 2, 3]", result4.toString());
-        final List<?> result5 = new U(asList(0, 1, false, 2, "", 3)).compact(1);
+        final List<?> result5 = new Underscore(asList(0, 1, false, 2, "", 3)).compact(1);
         assertEquals("[0, false, 2, , 3]", result5.toString());
-        final List<?> result6 = new U(asList(0, 1, null, 2, "", 3)).compact(1);
+        final List<?> result6 = new Underscore(asList(0, 1, null, 2, "", 3)).compact(1);
         assertEquals("[0, null, 2, , 3]", result6.toString());
-        final List<?> result7 = new U(asList(0, 1, null, 2, "", 3)).compact((Integer) null);
+        final List<?> result7 = new Underscore(asList(0, 1, null, 2, "", 3)).compact((Integer) null);
         assertEquals("[0, 1, 2, , 3]", result7.toString());
-        final Object[] resultArray = U.compact(new Object[] {0, 1, false, 2, "", 3});
+        final Object[] resultArray = Underscore.compact(new Object[] {0, 1, false, 2, "", 3});
         assertEquals("[1, 2, 3]", asList(resultArray).toString());
-        final Object[] resultArray2 = U.compact(new Object[] {0, 1, false, 2, "", 3}, 1);
+        final Object[] resultArray2 = Underscore.compact(new Object[] {0, 1, false, 2, "", 3}, 1);
         assertEquals("[0, false, 2, , 3]", asList(resultArray2).toString());
     }
 
@@ -347,22 +350,22 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void flatten() {
-        final List<Integer> result = U.flatten(asList(1, asList(2, asList(3, asList(asList(4))))));
+        final List<Integer> result = Underscore.flatten(asList(1, asList(2, asList(3, asList(asList(4))))));
         assertEquals("[1, 2, 3, 4]", result.toString());
         final List<Integer> result2 =
-                U.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), true);
+                Underscore.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), true);
         assertEquals("[1, 2, [3, [[4]]]]", result2.toString());
         final List<Integer> result3 =
-                U.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), false);
+                Underscore.flatten(asList(1, asList(2, asList(3, asList(asList(4))))), false);
         assertEquals("[1, 2, 3, 4]", result3.toString());
         final List<Integer> resultObj =
-                new U(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten();
+                new Underscore(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten();
         assertEquals("[1, 2, 3, 4]", resultObj.toString());
         final List<Integer> resultObj2 =
-                new U(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(true);
+                new Underscore(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(true);
         assertEquals("[1, 2, [3, [[4]]]]", resultObj2.toString());
         final List<Integer> resultObj3 =
-                new U(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(false);
+                new Underscore(asList(1, asList(2, asList(3, asList(asList(4)))))).flatten(false);
         assertEquals("[1, 2, 3, 4]", resultObj3.toString());
     }
 
@@ -372,16 +375,16 @@ class ArraysTest {
     */
     @Test
     void without() {
-        final List<Integer> result = U.without(asList(1, 2, 1, 0, 3, 1, 4), 0, 1);
+        final List<Integer> result = Underscore.without(asList(1, 2, 1, 0, 3, 1, 4), 0, 1);
         assertEquals("[2, 3, 4]", result.toString());
-        final List<Integer> result2 = U.without(asList(1, 2, 1, 0, 3, 1, 4), 1);
+        final List<Integer> result2 = Underscore.without(asList(1, 2, 1, 0, 3, 1, 4), 1);
         assertEquals("[2, 0, 3, 4]", result2.toString());
         final List<Integer> result3 =
-                U.without(asList(null, 2, null, 0, 3, null, 4), (Integer) null);
+                Underscore.without(asList(null, 2, null, 0, 3, null, 4), (Integer) null);
         assertEquals("[2, 0, 3, 4]", result3.toString());
-        final Object[] resultArray = U.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 0, 1);
+        final Object[] resultArray = Underscore.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 0, 1);
         assertEquals("[2, 3, 4]", asList(resultArray).toString());
-        final Object[] resultArray2 = U.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 1);
+        final Object[] resultArray2 = Underscore.without(new Integer[] {1, 2, 1, 0, 3, 1, 4}, 1);
         assertEquals("[2, 0, 3, 4]", asList(resultArray2).toString());
     }
 
@@ -391,11 +394,11 @@ class ArraysTest {
     */
     @Test
     void sortedIndex() {
-        final Integer result = U.sortedIndex(asList(10, 20, 30, 40, 50), 35);
+        final Integer result = Underscore.sortedIndex(asList(10, 20, 30, 40, 50), 35);
         assertEquals(3, result.intValue());
-        final Integer result2 = U.sortedIndex(new Integer[] {10, 20, 30, 40, 50}, 35);
+        final Integer result2 = Underscore.sortedIndex(new Integer[] {10, 20, 30, 40, 50}, 35);
         assertEquals(3, result2.intValue());
-        final Integer result3 = U.sortedIndex(asList(10, 20, 30, 40, 50), 60);
+        final Integer result3 = Underscore.sortedIndex(asList(10, 20, 30, 40, 50), 60);
         assertEquals(-1, result3.intValue());
     }
 
@@ -421,7 +424,7 @@ class ArraysTest {
             }
         }
         final int result =
-                U.<Person>sortedIndex(
+                Underscore.<Person>sortedIndex(
                         asList(
                                 new Person("moe", 40),
                                 new Person("moe", 50),
@@ -430,7 +433,7 @@ class ArraysTest {
                         "age");
         assertEquals(1, result);
         final int result2 =
-                U.<Person>sortedIndex(
+                Underscore.<Person>sortedIndex(
                         asList(
                                 new Person("moe", 40),
                                 new Person("moe", 50),
@@ -439,7 +442,7 @@ class ArraysTest {
                         "age");
         assertEquals(-1, result2);
         final int resultArray =
-                U.<Person>sortedIndex(
+                Underscore.<Person>sortedIndex(
                         new Person[] {
                             new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)
                         },
@@ -448,7 +451,7 @@ class ArraysTest {
         assertEquals(1, resultArray);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     void sortedIndex2Error() {
         class Person implements Comparable<Person> {
             @Override
@@ -456,7 +459,8 @@ class ArraysTest {
                 return 0;
             }
         }
-        U.<Person>sortedIndex(asList(new Person()), new Person(), "age");
+        assertThrows(IllegalArgumentException.class,
+                () -> Underscore.<Person>sortedIndex(asList(new Person()), new Person(), "age"));
     }
 
     /*
@@ -466,9 +470,9 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void uniq() {
-        final List<Integer> result = U.uniq(asList(1, 2, 1, 3, 1, 4));
+        final List<Integer> result = Underscore.uniq(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
-        final Object[] resultArray = U.uniq(new Integer[] {1, 2, 1, 3, 1, 4});
+        final Object[] resultArray = Underscore.uniq(new Integer[] {1, 2, 1, 3, 1, 4});
         assertEquals("[1, 2, 3, 4]", asList(resultArray).toString());
         class Person {
             public final String name;
@@ -484,7 +488,7 @@ class ArraysTest {
             }
         }
         final Collection<Person> resultObject =
-                U.uniq(
+                Underscore.uniq(
                         asList(
                                 new Person("moe", 40),
                                 new Person("moe", 50),
@@ -492,7 +496,7 @@ class ArraysTest {
                         (Person person) -> person.name);
         assertEquals("[moe, 50, curly, 60]", resultObject.toString());
         final List<Person> resultObjectChain =
-                U.chain(
+                Underscore.chain(
                                 asList(
                                         new Person("moe", 40),
                                         new Person("moe", 50),
@@ -501,9 +505,9 @@ class ArraysTest {
                         .value();
         assertEquals("[moe, 50, curly, 60]", resultObjectChain.toString());
         assertEquals(
-                "[1, 2, 3, 4, 5]", U.chain(asList(1, 2, 3, 3, 4, 5)).uniq().value().toString());
+                "[1, 2, 3, 4, 5]", Underscore.chain(asList(1, 2, 3, 3, 4, 5)).uniq().value().toString());
         final Object[] resultObjectArray =
-                U.uniq(
+                Underscore.uniq(
                         asList(
                                         new Person("moe", 40),
                                         new Person("moe", 50),
@@ -520,9 +524,9 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void distinct() {
-        final List<Integer> result = U.distinct(asList(1, 2, 1, 3, 1, 4));
+        final List<Integer> result = Underscore.distinct(asList(1, 2, 1, 3, 1, 4));
         assertEquals("[1, 2, 3, 4]", result.toString());
-        final Object[] resultArray = U.distinct(new Integer[] {1, 2, 1, 3, 1, 4});
+        final Object[] resultArray = Underscore.distinct(new Integer[] {1, 2, 1, 3, 1, 4});
         assertEquals("[1, 2, 3, 4]", asList(resultArray).toString());
         class Person {
             public final String name;
@@ -539,7 +543,7 @@ class ArraysTest {
             }
         }
         final Collection<Person> resultObject =
-                U.distinctBy(
+                Underscore.distinctBy(
                         asList(
                                 new Person("moe", 40),
                                 new Person("moe", 50),
@@ -547,7 +551,7 @@ class ArraysTest {
                         (Person person) -> person.name);
         assertEquals("[moe, 50, curly, 60]", resultObject.toString());
         final List<String> resultObjectChain =
-                U.chain(
+                Underscore.chain(
                                 asList(
                                         new Person("moe", 40),
                                         new Person("moe", 50),
@@ -556,9 +560,9 @@ class ArraysTest {
                         .value();
         assertEquals("[moe, 50, curly, 60]", resultObjectChain.toString());
         assertEquals(
-                "[1, 2, 3, 4, 5]", U.chain(asList(1, 2, 3, 3, 4, 5)).distinct().value().toString());
+                "[1, 2, 3, 4, 5]", Underscore.chain(asList(1, 2, 3, 3, 4, 5)).distinct().value().toString());
         final Object[] resultObjectArray =
-                U.distinctBy(
+                Underscore.distinctBy(
                         asList(
                                         new Person("moe", 40),
                                         new Person("moe", 50),
@@ -576,16 +580,16 @@ class ArraysTest {
     @SuppressWarnings("unchecked")
     void intersection() {
         final List<Integer> result =
-                U.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
+                Underscore.intersection(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", result.toString());
         final List<Integer> resultObj =
-                new U(asList(1, 2, 3)).intersectionWith(asList(101, 2, 1, 10), asList(2, 1));
+                new Underscore(asList(1, 2, 3)).intersectionWith(asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2]", resultObj.toString());
         final List<Integer> resultChain =
-                U.chain(asList(1, 2, 3)).intersection(asList(101, 2, 1, 10), asList(2, 1)).value();
+                Underscore.chain(asList(1, 2, 3)).intersection(asList(101, 2, 1, 10), asList(2, 1)).value();
         assertEquals("[1, 2]", resultChain.toString());
         final Object[] resultArray =
-                U.intersection(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
+                Underscore.intersection(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
         assertEquals("[1, 2]", asList(resultArray).toString());
     }
 
@@ -596,16 +600,16 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void union() {
-        final List<Integer> result = U.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
+        final List<Integer> result = Underscore.union(asList(1, 2, 3), asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", result.toString());
         final List<Integer> resultObj =
-                new U(asList(1, 2, 3)).unionWith(asList(101, 2, 1, 10), asList(2, 1));
+                new Underscore(asList(1, 2, 3)).unionWith(asList(101, 2, 1, 10), asList(2, 1));
         assertEquals("[1, 2, 3, 101, 10]", resultObj.toString());
         final List<Integer> resultChain =
-                U.chain(asList(1, 2, 3)).union(asList(101, 2, 1, 10), asList(2, 1)).value();
+                Underscore.chain(asList(1, 2, 3)).union(asList(101, 2, 1, 10), asList(2, 1)).value();
         assertEquals("[1, 2, 3, 101, 10]", resultChain.toString());
         final Object[] resultArray =
-                U.union(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
+                Underscore.union(new Integer[] {1, 2, 3}, new Integer[] {101, 2, 1, 10});
         assertEquals("[1, 2, 3, 101, 10]", asList(resultArray).toString());
     }
 
@@ -616,22 +620,22 @@ class ArraysTest {
     @Test
     @SuppressWarnings("unchecked")
     void difference() {
-        final List<Integer> result = U.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
+        final List<Integer> result = Underscore.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10));
         assertEquals("[1, 3, 4]", result.toString());
         final List<Integer> resultObj =
-                new U(asList(1, 2, 3, 4, 5)).differenceWith(asList(5, 2, 10));
+                new Underscore(asList(1, 2, 3, 4, 5)).differenceWith(asList(5, 2, 10));
         assertEquals("[1, 3, 4]", resultObj.toString());
         final List<Integer> resultChain =
-                U.chain(asList(1, 2, 3, 4, 5)).difference(asList(5, 2, 10)).value();
+                Underscore.chain(asList(1, 2, 3, 4, 5)).difference(asList(5, 2, 10)).value();
         assertEquals("[1, 3, 4]", resultChain.toString());
         final List<Integer> resultList =
-                U.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10), asList(8, 4));
+                Underscore.difference(asList(1, 2, 3, 4, 5), asList(5, 2, 10), asList(8, 4));
         assertEquals("[1, 3]", resultList.toString());
         final Object[] resultArray =
-                U.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10});
+                Underscore.difference(new Integer[] {1, 2, 3, 4, 5}, new Integer[] {5, 2, 10});
         assertEquals("[1, 3, 4]", asList(resultArray).toString());
         final Object[] resultArray2 =
-                U.difference(
+                Underscore.difference(
                         new Integer[] {1, 2, 3, 4, 5},
                         new Integer[] {5, 2, 10},
                         new Integer[] {8, 4});
@@ -646,7 +650,7 @@ class ArraysTest {
     @SuppressWarnings("unchecked")
     void zip() {
         final List<List<String>> result =
-                U.zip(
+                Underscore.zip(
                         asList("moe", "larry", "curly"),
                         asList("30", "40", "50"),
                         asList("true", "false", "false"));
@@ -662,7 +666,7 @@ class ArraysTest {
     @SuppressWarnings("unchecked")
     void unzip() {
         final List<List<String>> result =
-                U.unzip(
+                Underscore.unzip(
                         asList("moe", "30", "true"),
                         asList("larry", "40", "false"),
                         asList("curly", "50", "false"));
@@ -677,7 +681,7 @@ class ArraysTest {
     @Test
     void object() {
         final List<Tuple<String, String>> result =
-                U.object(asList("moe", "larry", "curly"), asList("30", "40", "50"));
+                Underscore.object(asList("moe", "larry", "curly"), asList("30", "40", "50"));
         assertEquals("[(moe, 30), (larry, 40), (curly, 50)]", result.toString());
     }
 
@@ -687,9 +691,9 @@ class ArraysTest {
     */
     @Test
     void indexOf() {
-        final Integer result = U.indexOf(asList(1, 2, 3), 2);
+        final Integer result = Underscore.indexOf(asList(1, 2, 3), 2);
         assertEquals(1, result.intValue());
-        final Integer resultArray = U.indexOf(new Integer[] {1, 2, 3}, 2);
+        final Integer resultArray = Underscore.indexOf(new Integer[] {1, 2, 3}, 2);
         assertEquals(1, resultArray.intValue());
     }
 
@@ -699,9 +703,9 @@ class ArraysTest {
     */
     @Test
     void lastIndexOf() {
-        final Integer result = U.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);
+        final Integer result = Underscore.lastIndexOf(asList(1, 2, 3, 1, 2, 3), 2);
         assertEquals(4, result.intValue());
-        final Integer resultArray = U.lastIndexOf(new Integer[] {1, 2, 3, 1, 2, 3}, 2);
+        final Integer resultArray = Underscore.lastIndexOf(new Integer[] {1, 2, 3, 1, 2, 3}, 2);
         assertEquals(4, resultArray.intValue());
     }
 
@@ -711,12 +715,12 @@ class ArraysTest {
     */
     @Test
     void findIndex() {
-        final Integer result = U.findIndex(asList(1, 2, 3), (Integer item) -> item % 2 == 0);
+        final Integer result = Underscore.findIndex(asList(1, 2, 3), (Integer item) -> item % 2 == 0);
         assertEquals(1, result.intValue());
-        final Integer resultNotFound = U.findIndex(asList(1, 2, 3), (Integer item) -> item > 3);
+        final Integer resultNotFound = Underscore.findIndex(asList(1, 2, 3), (Integer item) -> item > 3);
         assertEquals(-1, resultNotFound.intValue());
         final Integer resultArray =
-                U.findIndex(new Integer[] {1, 2, 3}, (Integer item) -> item % 2 == 0);
+                Underscore.findIndex(new Integer[] {1, 2, 3}, (Integer item) -> item % 2 == 0);
         assertEquals(1, resultArray.intValue());
     }
 
@@ -727,13 +731,13 @@ class ArraysTest {
     @Test
     void findLastIndex() {
         final Integer result =
-                U.findLastIndex(asList(1, 2, 3, 4, 5), (Integer item) -> item % 2 == 0);
+                Underscore.findLastIndex(asList(1, 2, 3, 4, 5), (Integer item) -> item % 2 == 0);
         assertEquals(3, result.intValue());
         final Integer resultNotFound =
-                U.findLastIndex(asList(1, 2, 3, 4, 5), (Integer item) -> item > 5);
+                Underscore.findLastIndex(asList(1, 2, 3, 4, 5), (Integer item) -> item > 5);
         assertEquals(-1, resultNotFound.intValue());
         final Integer resultArray =
-                U.findLastIndex(new Integer[] {1, 2, 3, 4, 5}, (Integer item) -> item % 2 == 0);
+                Underscore.findLastIndex(new Integer[] {1, 2, 3, 4, 5}, (Integer item) -> item % 2 == 0);
         assertEquals(3, resultArray.intValue());
     }
 
@@ -751,21 +755,21 @@ class ArraysTest {
     */
     @Test
     void range() {
-        final List<Integer> result = U.range(10);
+        final List<Integer> result = Underscore.range(10);
         assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", result.toString());
-        final List<Integer> resultChain = U.chain("").range(10).value();
+        final List<Integer> resultChain = Underscore.chain("").range(10).value();
         assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", resultChain.toString());
-        final List<Integer> result2 = U.range(1, 11);
+        final List<Integer> result2 = Underscore.range(1, 11);
         assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]", result2.toString());
-        final List<Integer> result2Chain = U.chain("").range(1, 11).value();
+        final List<Integer> result2Chain = Underscore.chain("").range(1, 11).value();
         assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]", result2Chain.toString());
-        final List<Integer> result3 = U.range(0, 30, 5);
+        final List<Integer> result3 = Underscore.range(0, 30, 5);
         assertEquals("[0, 5, 10, 15, 20, 25]", result3.toString());
-        final List<Integer> result3Chain = U.chain("").range(0, 30, 5).value();
+        final List<Integer> result3Chain = Underscore.chain("").range(0, 30, 5).value();
         assertEquals("[0, 5, 10, 15, 20, 25]", result3Chain.toString());
-        final List<Integer> result4 = U.range(0, -10, -1);
+        final List<Integer> result4 = Underscore.range(0, -10, -1);
         assertEquals("[0, -1, -2, -3, -4, -5, -6, -7, -8, -9]", result4.toString());
-        final List<Integer> result5 = U.range(0);
+        final List<Integer> result5 = Underscore.range(0);
         assertEquals("[]", result5.toString());
     }
 
@@ -775,8 +779,8 @@ class ArraysTest {
     */
     @Test
     void lastIndex() {
-        assertEquals(4, U.lastIndex(asList(1, 2, 3, 4, 5)));
-        assertEquals(4, U.lastIndex(new Integer[] {1, 2, 3, 4, 5}));
-        assertEquals(4, U.lastIndex(new int[] {1, 2, 3, 4, 5}));
+        assertEquals(4, Underscore.lastIndex(asList(1, 2, 3, 4, 5)));
+        assertEquals(4, Underscore.lastIndex(new Integer[] {1, 2, 3, 4, 5}));
+        assertEquals(4, Underscore.lastIndex(new int[] {1, 2, 3, 4, 5}));
     }
 }
