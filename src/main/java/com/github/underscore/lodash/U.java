@@ -2156,8 +2156,13 @@ public class U<T> extends Underscore<T> {
                 UnsupportedOperationException saveException;
                 do {
                     try {
-                        return U.fetch(
+                        final FetchResponse fetchResponse = U.fetch(
                                 url, method, body, headerFields, connectTimeout, readTimeout);
+                        if (fetchResponse.getStatus() == 429) {
+                            saveException = new UnsupportedOperationException("Too Many Requests");
+                        } else {
+                            return fetchResponse;
+                        }
                     } catch (UnsupportedOperationException ex) {
                         saveException = ex;
                     }
