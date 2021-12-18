@@ -31,6 +31,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.github.underscore.Tuple;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -490,6 +494,21 @@ class LodashTest {
         U.chain(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
                 .fetch();
+    }
+
+    @Test
+    void downloadUrl() throws IOException {
+        long result =
+                U.downloadUrl(
+                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json", "test.json");
+        assertEquals(65, result);
+    }
+
+    @Test
+    void decompressGzip() throws IOException {
+        Files.deleteIfExists(Paths.get("file.txt"));
+        U.decompressGzip("src/test/resources/file.gz", "file.txt");
+        assertEquals(65, Files.readAllBytes(Paths.get("file.txt")).length);
     }
 
     @Test
