@@ -506,6 +506,7 @@ class LodashTest {
 
     @Test
     void decompressGzip() throws IOException {
+        Files.deleteIfExists(Paths.get("file.txt"));
         U.decompressGzip("src/test/resources/file.gz", "file.txt");
         assertEquals(65, Files.readAllBytes(Paths.get("file.txt")).length);
     }

@@ -28,7 +28,6 @@ import com.github.underscore.Optional;
 import com.github.underscore.PredicateIndexed;
 import com.github.underscore.Tuple;
 import com.github.underscore.Underscore;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -1961,14 +1960,16 @@ public class U<T> extends Underscore<T> {
 
     public static long downloadUrl(final String url, final String fileName) throws IOException {
         final URL website = new URL(url);
-        final ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-        final FileOutputStream fos = new FileOutputStream(fileName);
-        return fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        try (ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+                final FileOutputStream fos = new FileOutputStream(fileName)) {
+            return fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        }
     }
 
-    public static void decompressGzip(final String sourceFileName, final String targetFileName) throws IOException {
-        try (GZIPInputStream gis = new GZIPInputStream(
-                new FileInputStream(new File(sourceFileName)))) {
+    public static void decompressGzip(final String sourceFileName, final String targetFileName)
+            throws IOException {
+        try (GZIPInputStream gis =
+                new GZIPInputStream(new FileInputStream(new File(sourceFileName)))) {
             Files.copy(gis, Paths.get(targetFileName));
         }
     }
@@ -2181,8 +2182,14 @@ public class U<T> extends Underscore<T> {
                 UnsupportedOperationException saveException;
                 do {
                     try {
-                        final FetchResponse fetchResponse = U.fetch(
-                                url, method, body, headerFields, connectTimeout, readTimeout);
+                        final FetchResponse fetchResponse =
+                                U.fetch(
+                                        url,
+                                        method,
+                                        body,
+                                        headerFields,
+                                        connectTimeout,
+                                        readTimeout);
                         if (fetchResponse.getStatus() == 429) {
                             saveException = new UnsupportedOperationException("Too Many Requests");
                         } else {
