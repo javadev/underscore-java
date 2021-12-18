@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 public final class Json {
     private Json() {}
@@ -84,42 +85,42 @@ public final class Json {
             }
         }
 
-        private final StringBuilder builder;
+        private final StringJoiner builder;
         private final Step identStep;
         private final Type type;
         private int ident;
 
         public JsonStringBuilder(Step identStep) {
-            builder = new StringBuilder(Type.PURE.getInitial());
+            builder = new StringJoiner("").add(Type.PURE.getInitial());
             this.identStep = identStep;
             this.type = Type.PURE;
         }
 
         public JsonStringBuilder(Type type) {
-            builder = new StringBuilder(type.getInitial());
+            builder = new StringJoiner("").add(type.getInitial());
             this.identStep = Step.TWO_SPACES;
             this.type = type;
         }
 
         public JsonStringBuilder() {
-            builder = new StringBuilder();
+            builder = new StringJoiner("");
             this.identStep = Step.TWO_SPACES;
             this.type = Type.PURE;
         }
 
         public JsonStringBuilder append(final char character) {
-            builder.append(character);
+            builder.add(String.valueOf(character));
             return this;
         }
 
         public JsonStringBuilder append(final String string) {
-            builder.append(string);
+            builder.add(string);
             return this;
         }
 
         public JsonStringBuilder fillSpaces() {
             for (int index = 0; index < ident; index += 1) {
-                builder.append(identStep == Step.TABS ? '\t' : ' ');
+                builder.add(String.valueOf(identStep == Step.TABS ? '\t' : ' '));
             }
             return this;
         }
@@ -136,7 +137,7 @@ public final class Json {
 
         public JsonStringBuilder newLine() {
             if (identStep != Step.COMPACT) {
-                builder.append(type.getNewLine());
+                builder.add(type.getNewLine());
             }
             return this;
         }
@@ -435,52 +436,52 @@ public final class Json {
             if (s == null) {
                 return null;
             }
-            StringBuilder sb = new StringBuilder();
+            StringJoiner sb = new StringJoiner("");
             escape(s, sb);
             return sb.toString();
         }
 
-        private static void escape(String s, StringBuilder sb) {
+        private static void escape(String s, StringJoiner sb) {
             final int len = s.length();
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
                 switch (ch) {
                     case '"':
-                        sb.append("\\\"");
+                        sb.add("\\\"");
                         break;
                     case '\\':
-                        sb.append("\\\\");
+                        sb.add("\\\\");
                         break;
                     case '\b':
-                        sb.append("\\b");
+                        sb.add("\\b");
                         break;
                     case '\f':
-                        sb.append("\\f");
+                        sb.add("\\f");
                         break;
                     case '\n':
-                        sb.append("\\n");
+                        sb.add("\\n");
                         break;
                     case '\r':
-                        sb.append("\\r");
+                        sb.add("\\r");
                         break;
                     case '\t':
-                        sb.append("\\t");
+                        sb.add("\\t");
                         break;
                     case '€':
-                        sb.append("€");
+                        sb.add("€");
                         break;
                     default:
                         if (ch <= '\u001F'
                                 || ch >= '\u007F' && ch <= '\u009F'
                                 || ch >= '\u2000' && ch <= '\u20FF') {
                             String ss = Integer.toHexString(ch);
-                            sb.append("\\u");
+                            sb.add("\\u");
                             for (int k = 0; k < 4 - ss.length(); k++) {
-                                sb.append('0');
+                                sb.add("0");
                             }
-                            sb.append(ss.toUpperCase());
+                            sb.add(ss.toUpperCase());
                         } else {
-                            sb.append(ch);
+                            sb.add(String.valueOf(ch));
                         }
                         break;
                 }
