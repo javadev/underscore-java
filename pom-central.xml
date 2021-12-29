@@ -104,6 +104,7 @@
         <configuration>
           <failOnError>false</failOnError>
           <useStandardDocletOptions>true</useStandardDocletOptions>
+          <show>private</show>
         </configuration>
       </plugin>
       <plugin>
