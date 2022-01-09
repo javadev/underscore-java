@@ -710,6 +710,19 @@ class LodashTest {
                 U.xmlToJson(
                         "<c><b></b><b></b><a/></c>", U.Mode.REPLACE_EMPTY_TAG_WITH_EMPTY_STRING));
         assertEquals(
+                "{\n"
+                        + "  \"c\": {\n"
+                        + "    \"b\": [\n"
+                        + "      \"\",\n"
+                        + "      \"\"\n"
+                        + "    ],\n"
+                        + "    \"a\": \"\"\n"
+                        + "  },\n"
+                        + "  \"#omit-xml-declaration\": \"yes\"\n"
+                        + "}",
+                U.xmlToJson(
+                        "<c><b/><b/><a/></c>", U.Mode.REPLACE_EMPTY_TAG_WITH_EMPTY_STRING));
+        assertEquals(
                 "{\n" + "  \"a\": \"\",\n" + "  \"#omit-xml-declaration\": \"yes\"\n" + "}",
                 U.xmlToJson("<a/>", U.Mode.REPLACE_SELF_CLOSING_WITH_EMPTY));
         assertEquals(

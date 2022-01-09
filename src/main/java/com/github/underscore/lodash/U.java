@@ -2801,7 +2801,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Object replaceEmptyValueWithEmptyString(Map<String, Object> map) {
-        if (map.isEmpty()) {
+        if (map == null || map.isEmpty()) {
             return "";
         }
         Map<String, Object> outMap = newLinkedHashMap();
