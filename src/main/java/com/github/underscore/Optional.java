@@ -101,7 +101,7 @@ public final class Optional<T> {
             return false;
         }
 
-        final Optional<?> optional = (Optional) o;
+        final Optional<?> optional = (Optional<?>) o;
 
         return absent == optional.absent && Objects.equals(arg, optional.arg);
     }

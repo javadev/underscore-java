@@ -1520,7 +1520,7 @@ public final class Xml {
                                     result.append(Base32.decode(nameToDecode.toString()));
                                 } catch (Base32.DecodingException ex) {
                                     result.append("__")
-                                            .append(nameToDecode.toString())
+                                            .append(nameToDecode)
                                             .append(lastChars);
                                 }
                                 i = j;

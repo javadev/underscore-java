@@ -1503,7 +1503,7 @@ public class U<T> extends Underscore<T> {
                 result.append(localString);
             }
             n = (int) Math.floor(n / (double) 2);
-            localString.append(localString.toString());
+            localString.append(localString);
         } while (n > 0);
         return result.toString();
     }

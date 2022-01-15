@@ -191,7 +191,6 @@ public final class Json {
                     builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
-
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
@@ -209,7 +208,6 @@ public final class Json {
                     builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
-
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
@@ -227,7 +225,6 @@ public final class Json {
                     builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
-
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
@@ -245,7 +242,6 @@ public final class Json {
                     builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
-
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
@@ -263,7 +259,6 @@ public final class Json {
                     builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
-
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
@@ -281,7 +276,6 @@ public final class Json {
                     builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
-
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
@@ -299,7 +293,6 @@ public final class Json {
                     builder.append(',').newLine().fillSpaces();
                     builder.append(String.valueOf(array[i]));
                 }
-
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
@@ -317,7 +310,6 @@ public final class Json {
                     builder.append(',').newLine().fillSpaces();
                     builder.append('\"').append(String.valueOf(array[i])).append('\"');
                 }
-
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
@@ -335,7 +327,6 @@ public final class Json {
                     builder.append(',').newLine().fillSpaces();
                     JsonValue.writeJson(array[i], builder);
                 }
-
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
         }
@@ -349,9 +340,7 @@ public final class Json {
                 builder.append(NULL);
                 return;
             }
-
             Iterator iter = map.entrySet().iterator();
-
             builder.append('{').incIdent();
             if (!map.isEmpty()) {
                 builder.newLine();
