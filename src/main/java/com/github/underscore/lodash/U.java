@@ -59,6 +59,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
 
+@SuppressWarnings({"java:S1168", "java:S3740", "java:S3776", "java:S5843"})
 public class U<T> extends Underscore<T> {
     private static final int DEFAULT_TRUNC_LENGTH = 30;
     private static final String DEFAULT_TRUNC_OMISSION = "...";

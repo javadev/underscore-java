@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
+@SuppressWarnings("java:S3740")
 public final class Json {
     private Json() {}
 
