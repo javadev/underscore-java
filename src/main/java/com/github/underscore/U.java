@@ -59,6 +59,7 @@ import java.util.zip.GZIPInputStream;
     "java:S3740",
     "java:S3776",
     "java:S4423",
+    "java:S4830",
     "java:S5843",
     "java:S5998"
 })
