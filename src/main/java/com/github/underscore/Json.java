@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@SuppressWarnings("java:S3740")
+@SuppressWarnings({"java:S3740", "java:S3776"})
 public final class Json {
     private Json() {}
 

@@ -51,6 +51,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valentyn Kolesnikov
  */
+@SuppressWarnings("java:S2699")
 class LodashTest {
 
     /*
