@@ -43,6 +43,7 @@ import java.util.function.Function;
     "java:S4276",
     "java:S5843",
     "java:S5852",
+    "java:S5998",
     "java:S6019",
     "java:S6035"
 })
