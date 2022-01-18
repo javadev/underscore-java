@@ -21,13 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.lodash;
+package com.github.underscore;
 
-import com.github.underscore.Function3;
-import com.github.underscore.Optional;
-import com.github.underscore.PredicateIndexed;
-import com.github.underscore.Tuple;
-import com.github.underscore.Underscore;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
