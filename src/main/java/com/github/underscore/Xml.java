@@ -36,7 +36,15 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-@SuppressWarnings({"java:S107", "java:S3740", "java:S3776", "java:S4276", "java:S5843", "java:S6019", "java:S6035"})
+@SuppressWarnings({
+    "java:S107",
+    "java:S3740",
+    "java:S3776",
+    "java:S4276",
+    "java:S5843",
+    "java:S6019",
+    "java:S6035"
+})
 public final class Xml {
     private Xml() {}
 
@@ -1519,9 +1527,7 @@ public final class Xml {
                                 try {
                                     result.append(Base32.decode(nameToDecode.toString()));
                                 } catch (Base32.DecodingException ex) {
-                                    result.append("__")
-                                            .append(nameToDecode)
-                                            .append(lastChars);
+                                    result.append("__").append(nameToDecode).append(lastChars);
                                 }
                                 i = j;
                                 underlineCount = 0;
