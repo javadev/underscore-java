@@ -1748,15 +1748,19 @@ public final class Xml {
                 final javax.xml.parsers.DocumentBuilderFactory factory =
                         javax.xml.parsers.DocumentBuilderFactory.newInstance();
                 factory.setNamespaceAware(true);
-                try {
-                    factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-                } catch (Exception ignored) {
-                    // ignored
-                }
+                setupFactory(factory);
                 final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
                 return builder.newDocument();
             } catch (javax.xml.parsers.ParserConfigurationException ex) {
                 return null;
+            }
+        }
+
+        private static void setupFactory(javax.xml.parsers.DocumentBuilderFactory factory) {
+            try {
+                factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            } catch (Exception ignored) {
+                // ignored
             }
         }
     }

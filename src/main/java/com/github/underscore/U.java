@@ -1593,8 +1593,13 @@ public class U<T> extends Underscore<T> {
         final String localString = baseToString(string);
 
         final int length = localString.length();
-        final int localPosition =
-                position == null ? 0 : Math.min(position < 0 ? 0 : position, length);
+        final int localPosition;
+        if (position == null) {
+            localPosition = 0;
+        } else {
+            final int from = position < 0 ? 0 : position;
+            localPosition = Math.min(from, length);
+        }
 
         return localString.lastIndexOf(target, localPosition) == localPosition;
     }
