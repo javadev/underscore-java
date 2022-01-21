@@ -21,13 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.lodash;
+package com.github.underscore;
 
-import com.github.underscore.Function3;
-import com.github.underscore.Optional;
-import com.github.underscore.PredicateIndexed;
-import com.github.underscore.Tuple;
-import com.github.underscore.Underscore;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -59,7 +54,15 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
 
-@SuppressWarnings({"java:S1168", "java:S3740", "java:S3776", "java:S5843"})
+@SuppressWarnings({
+    "java:S1168",
+    "java:S3740",
+    "java:S3776",
+    "java:S4423",
+    "java:S4830",
+    "java:S5843",
+    "java:S5998"
+})
 public class U<T> extends Underscore<T> {
     private static final int DEFAULT_TRUNC_LENGTH = 30;
     private static final String DEFAULT_TRUNC_OMISSION = "...";
@@ -1590,8 +1593,13 @@ public class U<T> extends Underscore<T> {
         final String localString = baseToString(string);
 
         final int length = localString.length();
-        final int localPosition =
-                position == null ? 0 : Math.min(position < 0 ? 0 : position, length);
+        final int localPosition;
+        if (position == null) {
+            localPosition = 0;
+        } else {
+            final int from = position < 0 ? 0 : position;
+            localPosition = Math.min(from, length);
+        }
 
         return localString.lastIndexOf(target, localPosition) == localPosition;
     }

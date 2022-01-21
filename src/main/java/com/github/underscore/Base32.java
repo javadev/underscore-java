@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.lodash;
+package com.github.underscore;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;

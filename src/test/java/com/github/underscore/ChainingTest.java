@@ -627,7 +627,6 @@ class ChainingTest {
                 "{name1=one, name2=two, 1=2}",
                 com.github
                         .underscore
-                        .lodash
                         .U
                         .chain(
                                 new LinkedHashMap<String, Object>() {
@@ -643,7 +642,6 @@ class ChainingTest {
                 "{name1=one, name2=two, 1=2}",
                 com.github
                         .underscore
-                        .lodash
                         .U
                         .of(
                                 new LinkedHashMap<String, Object>() {

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.lodash;
+package com.github.underscore;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -36,7 +36,17 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-@SuppressWarnings({"java:S107", "java:S3740", "java:S3776", "java:S4276"})
+@SuppressWarnings({
+    "java:S107",
+    "java:S3740",
+    "java:S3776",
+    "java:S4276",
+    "java:S5843",
+    "java:S5852",
+    "java:S5998",
+    "java:S6019",
+    "java:S6035"
+})
 public final class Xml {
     private Xml() {}
 
@@ -1519,9 +1529,7 @@ public final class Xml {
                                 try {
                                     result.append(Base32.decode(nameToDecode.toString()));
                                 } catch (Base32.DecodingException ex) {
-                                    result.append("__")
-                                            .append(nameToDecode)
-                                            .append(lastChars);
+                                    result.append("__").append(nameToDecode).append(lastChars);
                                 }
                                 i = j;
                                 underlineCount = 0;
@@ -1740,15 +1748,19 @@ public final class Xml {
                 final javax.xml.parsers.DocumentBuilderFactory factory =
                         javax.xml.parsers.DocumentBuilderFactory.newInstance();
                 factory.setNamespaceAware(true);
-                try {
-                    factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-                } catch (Exception ignored) {
-                    // ignored
-                }
+                setupFactory(factory);
                 final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
                 return builder.newDocument();
             } catch (javax.xml.parsers.ParserConfigurationException ex) {
                 return null;
+            }
+        }
+
+        private static void setupFactory(javax.xml.parsers.DocumentBuilderFactory factory) {
+            try {
+                factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            } catch (Exception ignored) {
+                // ignored
             }
         }
     }

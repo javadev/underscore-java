@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.lodash;
+package com.github.underscore;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@SuppressWarnings("java:S3740")
+@SuppressWarnings({"java:S3740", "java:S3776"})
 public final class Json {
     private Json() {}
 

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.underscore.lodash;
+package com.github.underscore;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,9 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.github.underscore.Tuple;
-import com.github.underscore.lodash.Json.JsonStringBuilder;
-import com.github.underscore.lodash.Xml.XmlStringBuilder;
+import com.github.underscore.Json.JsonStringBuilder;
+import com.github.underscore.Xml.XmlStringBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
