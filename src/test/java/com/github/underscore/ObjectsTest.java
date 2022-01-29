@@ -48,6 +48,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valentyn Kolesnikov
  */
+@SuppressWarnings("java:S5785")
 class ObjectsTest {
 
     /*

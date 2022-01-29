@@ -55,6 +55,7 @@ import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
 
 @SuppressWarnings({
+    "java:S135",
     "java:S1168",
     "java:S3740",
     "java:S3776",

@@ -60,7 +60,7 @@ import java.util.function.UnaryOperator;
  *
  * @author Valentyn Kolesnikov
  */
-@SuppressWarnings("java:S3740")
+@SuppressWarnings({"java:S106", "java:S3740"})
 public class Underscore<T> {
     private static final Map<String, Function<String, String>> FUNCTIONS = newLinkedHashMap();
     private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<>();

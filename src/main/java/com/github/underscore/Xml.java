@@ -38,6 +38,7 @@ import java.util.function.Function;
 
 @SuppressWarnings({
     "java:S107",
+    "java:S1119",
     "java:S3740",
     "java:S3776",
     "java:S4276",
