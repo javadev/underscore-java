@@ -2581,6 +2581,10 @@ public class U<T> extends Underscore<T> {
         return Xml.toXml((List) object, identStep);
     }
 
+    public static String jsonToXml(String json, Xml.XmlStringBuilder.Step identStep) {
+        return jsonToXml(json, identStep, null, ROOT);
+    }
+
     public static String jsonToXml(String json, Mode mode) {
         return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, mode, ROOT);
     }
@@ -2633,6 +2637,10 @@ public class U<T> extends Underscore<T> {
 
     public static String xmlToJson(String xml) {
         return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, null);
+    }
+
+    public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep) {
+        return xmlToJson(xml, identStep, null);
     }
 
     public static String xmlToJson(String xml, Mode mode) {

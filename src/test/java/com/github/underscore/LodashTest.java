@@ -662,6 +662,16 @@ class LodashTest {
                         + "  ],\n"
                         + "  \"#omit-xml-declaration\": \"yes\"\n"
                         + "}",
+                U.xmlToJson("<root><element>1</element><element>2</element></root>",
+                    Json.JsonStringBuilder.Step.TWO_SPACES));
+        assertEquals(
+                "{\n"
+                        + "  \"root\": [\n"
+                        + "    \"1\",\n"
+                        + "    \"2\"\n"
+                        + "  ],\n"
+                        + "  \"#omit-xml-declaration\": \"yes\"\n"
+                        + "}",
                 U.chain("<root><element>1</element><element>2</element></root>")
                         .xmlToJson()
                         .item());
@@ -917,6 +927,9 @@ class LodashTest {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>",
                 U.jsonToXml("{\n  \"a\": {\n  }\n}"));
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>",
+                U.jsonToXml("{\n  \"a\": {\n  }\n}", Xml.XmlStringBuilder.Step.TWO_SPACES));
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a></a>",
                 U.chain("{\n  \"a\": {\n  }\n}").jsonToXml().item());
