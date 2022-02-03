@@ -32,6 +32,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.underscore.Json.JsonStringBuilder;
 import com.github.underscore.Xml.XmlStringBuilder;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -3422,6 +3426,26 @@ class StringTest {
         assertEquals("{value=[]}", U.fromJsonMap(stringJson).toString());
         String stringJson2 = "{}";
         assertEquals("{}", U.fromJsonMap(stringJson2).toString());
+    }
+
+    @Test
+    void fromJsonStackoverflowObject() throws IOException {
+        String stringJson = new String(Files.readAllBytes(Paths.get("src/test/resources/wellFormedObject.json")));
+        try {
+            U.fromJsonMap(stringJson);
+        } catch (Throwable throwable) {
+            assertTrue(throwable instanceof StackOverflowError);
+        }
+    }
+
+    @Test
+    void fromJsonStackoverflowArray() throws IOException {
+        String stringJson = new String(Files.readAllBytes(Paths.get("src/test/resources/wellFormedArray.json")));
+        try {
+            U.fromJsonMap(stringJson);
+        } catch (Throwable throwable) {
+            assertTrue(throwable instanceof StackOverflowError);
+        }
     }
 
     @Test
