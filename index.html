@@ -232,8 +232,9 @@ iterator.<br></p><pre>U.reduce(asList(1, 2, 3),
 );
 // 6</pre><p></p>
 
-<p id="reduceRight"><b class="header">reduceRight</b>
-<code>U.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
+<p id="reduceRight"><b class="header">reduceRight</b> <code>U.reduceRight(collection, iterator,
+memo)</code>
+<pre>U.reduceRight(asList(asList(0, 1), asList(2, 3), asList(4, 5)),
         (BiFunction&lt;List&lt;Integer&gt;, List&lt;Integer&gt;, List&lt;Integer&gt;&gt;) (item1, item2) -&gt; {
             List&lt;Integer&gt; list = new ArrayList&lt;&gt;(item1);
             list.addAll(item2);
