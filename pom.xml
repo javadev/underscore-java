@@ -63,6 +63,9 @@
             <version>[5.8.2,)</version>
           </dependency>
         </dependencies>
+        <configuration>
+        	<forkCount>1.5C</forkCount>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
