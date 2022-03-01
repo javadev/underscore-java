@@ -33,9 +33,7 @@ public abstract class MemoizeFunction<F, T> implements Function<F, T> {
     public abstract T calc(final F n);
 
     public T apply(final F key) {
-        if (!cache.containsKey(key)) {
-            cache.put(key, calc(key));
-        }
+        cache.putIfAbsent(key, calc(key));
         return cache.get(key);
     }
 }
