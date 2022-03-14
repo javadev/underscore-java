@@ -1985,12 +1985,12 @@ public class U<T> extends Underscore<T> {
     }
 
     public static FetchResponse fetch(final String url) {
-        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, null, null, false);
+        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, null, null);
     }
 
     public static FetchResponse fetch(
             final String url, final Integer connectTimeout, final Integer readTimeout) {
-        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, connectTimeout, readTimeout, false);
+        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, connectTimeout, readTimeout);
     }
 
     public static FetchResponse fetch(
@@ -2011,7 +2011,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static FetchResponse fetch(final String url, final String method, final String body) {
-        return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null, false);
+        return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null);
     }
 
     public static FetchResponse fetchOnlyHeaders(final String url) {
@@ -2137,6 +2137,16 @@ public class U<T> extends Underscore<T> {
             final String body,
             final Map<String, List<String>> headerFields,
             final Integer connectTimeout,
+            final Integer readTimeout) {
+        return fetch(url, method, body, headerFields, connectTimeout, readTimeout, false);
+    }
+
+    public static FetchResponse fetch(
+            final String url,
+            final String method,
+            final String body,
+            final Map<String, List<String>> headerFields,
+            final Integer connectTimeout,
             final Integer readTimeout,
             final boolean onlyHeaders) {
         try {
@@ -2206,8 +2216,7 @@ public class U<T> extends Underscore<T> {
                                         body,
                                         headerFields,
                                         connectTimeout,
-                                        readTimeout,
-                                        false);
+                                        readTimeout);
                         if (fetchResponse.getStatus() == 429) {
                             saveException = new UnsupportedOperationException("Too Many Requests");
                         } else {
@@ -2226,7 +2235,7 @@ public class U<T> extends Underscore<T> {
                 } while (localRetryCount <= retryCount);
                 throw saveException;
             }
-            return U.fetch(url, method, body, headerFields, connectTimeout, readTimeout, false);
+            return U.fetch(url, method, body, headerFields, connectTimeout, readTimeout);
         }
     }
 

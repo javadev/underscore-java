@@ -611,24 +611,7 @@ class LodashTest {
                                 + "}",
                         null,
                         null,
-                        null,
-                        false);
-        U.FetchResponse result3 =
-                U.fetch(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
-                        "PUT",
-                        "{"
-                                + "    \"dragon\": {"
-                                + "        \"scaleThickness\": 4,"
-                                + "        \"clawSharpness\": 2,"
-                                + "        \"wingStrength\": 4,"
-                                + "        \"fireBreath\": 10"
-                                + "    }"
-                                + "}",
-                        null,
-                        null,
-                        null,
-                        true);
+                        null);
         //        assertEquals("{\"status\":\"Defeat\",\"message\":"
         //            + "\"No dragon showed up, knight dealt his deeds as he pleased.\"}",
         // result2.text());
@@ -652,7 +635,8 @@ class LodashTest {
 
     @Test
     void fetchOnlyHeaders() {
-        assertTrue(U.fetchOnlyHeaders("https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json").isOk());
+        assertTrue(U.fetchOnlyHeaders("https://support.oneskyapp.com/hc/en-us/"
+                + "article_attachments/202761627/example_1.json").isOk());
     }
 
     @Test
