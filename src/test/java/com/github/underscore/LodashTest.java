@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -610,7 +611,24 @@ class LodashTest {
                                 + "}",
                         null,
                         null,
-                        null);
+                        null,
+                        false);
+        U.FetchResponse result3 =
+                U.fetch(
+                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                        "PUT",
+                        "{"
+                                + "    \"dragon\": {"
+                                + "        \"scaleThickness\": 4,"
+                                + "        \"clawSharpness\": 2,"
+                                + "        \"wingStrength\": 4,"
+                                + "        \"fireBreath\": 10"
+                                + "    }"
+                                + "}",
+                        null,
+                        null,
+                        null,
+                        true);
         //        assertEquals("{\"status\":\"Defeat\",\"message\":"
         //            + "\"No dragon showed up, knight dealt his deeds as he pleased.\"}",
         // result2.text());
@@ -630,6 +648,11 @@ class LodashTest {
         //        assertEquals("{\"status\":\"Victory\",\"message\":\"Dragon was successful in a
         // glorious battle\"}",
         //            resultChain.item());
+    }
+
+    @Test
+    void fetchOnlyHeaders() {
+        assertTrue(U.fetchOnlyHeaders("https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json").isOk());
     }
 
     @Test

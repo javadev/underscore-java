@@ -1985,12 +1985,12 @@ public class U<T> extends Underscore<T> {
     }
 
     public static FetchResponse fetch(final String url) {
-        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, null, null);
+        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, null, null, false);
     }
 
     public static FetchResponse fetch(
             final String url, final Integer connectTimeout, final Integer readTimeout) {
-        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, connectTimeout, readTimeout);
+        return fetch(url, null, null, DEFAULT_HEADER_FIELDS, connectTimeout, readTimeout, false);
     }
 
     public static FetchResponse fetch(
@@ -2011,7 +2011,11 @@ public class U<T> extends Underscore<T> {
     }
 
     public static FetchResponse fetch(final String url, final String method, final String body) {
-        return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null);
+        return fetch(url, method, body, DEFAULT_HEADER_FIELDS, null, null, false);
+    }
+
+    public static FetchResponse fetchOnlyHeaders(final String url) {
+        return fetch(url, "GET", null, DEFAULT_HEADER_FIELDS, null, null, true);
     }
 
     public static class BaseHttpSslSocketFactory extends javax.net.ssl.SSLSocketFactory {
@@ -2133,7 +2137,8 @@ public class U<T> extends Underscore<T> {
             final String body,
             final Map<String, List<String>> headerFields,
             final Integer connectTimeout,
-            final Integer readTimeout) {
+            final Integer readTimeout,
+            final boolean onlyHeaders) {
         try {
             final java.net.URL localUrl = new java.net.URL(url);
             final java.net.HttpURLConnection connection =
@@ -2154,10 +2159,12 @@ public class U<T> extends Underscore<T> {
                 inputStream = connection.getErrorStream();
             }
             final java.io.ByteArrayOutputStream result = new java.io.ByteArrayOutputStream();
-            final byte[] buffer = new byte[BUFFER_LENGTH_1024];
-            int length;
-            while ((length = inputStream.read(buffer)) != -1) {
-                result.write(buffer, 0, length);
+            if (!onlyHeaders) {
+                final byte[] buffer = new byte[BUFFER_LENGTH_1024];
+                int length;
+                while ((length = inputStream.read(buffer)) != -1) {
+                    result.write(buffer, 0, length);
+                }
             }
             inputStream.close();
             return new FetchResponse(
@@ -2199,7 +2206,8 @@ public class U<T> extends Underscore<T> {
                                         body,
                                         headerFields,
                                         connectTimeout,
-                                        readTimeout);
+                                        readTimeout,
+                                        false);
                         if (fetchResponse.getStatus() == 429) {
                             saveException = new UnsupportedOperationException("Too Many Requests");
                         } else {
@@ -2218,7 +2226,7 @@ public class U<T> extends Underscore<T> {
                 } while (localRetryCount <= retryCount);
                 throw saveException;
             }
-            return U.fetch(url, method, body, headerFields, connectTimeout, readTimeout);
+            return U.fetch(url, method, body, headerFields, connectTimeout, readTimeout, false);
         }
     }
 
