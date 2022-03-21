@@ -37,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -250,7 +252,7 @@ class FunctionsTest {
     */
     @Test
     void wrap() {
-        Function<String, String> hello = name -> "hello: " + name;
+        UnaryOperator<String> hello = name -> "hello: " + name;
         Function<Void, String> result =
                 Underscore.wrap(hello, func -> "before, " + func.apply("moe") + ", after");
         assertEquals("before, hello: moe, after", result.apply(null));
