@@ -1517,7 +1517,7 @@ public final class Xml {
         StringBuilder lastChars = new StringBuilder();
         int i = 0;
         outer:
-        while(i < length) {
+        while (i < length) {
             char ch = name.charAt(i);
             if (ch == '_') {
                 lastChars.append(ch);
