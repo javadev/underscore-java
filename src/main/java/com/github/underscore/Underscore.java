@@ -2182,7 +2182,7 @@ public class Underscore<T> {
      * Documented, #wrap
      */
     public static <T> Function<Void, T> wrap(
-            final Function<T, T> function, final Function<Function<T, T>, T> wrapper) {
+            final UnaryOperator<T> function, final Function<UnaryOperator<T>, T> wrapper) {
         return arg -> wrapper.apply(function);
     }
 
