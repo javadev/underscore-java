@@ -1515,8 +1515,9 @@ public final class Xml {
         StringBuilder result = new StringBuilder();
         int underlineCount = 0;
         StringBuilder lastChars = new StringBuilder();
+        int i = 0;
         outer:
-        for (int i = 0; i < length; ++i) {
+        while (i < length) {
             char ch = name.charAt(i);
             if (ch == '_') {
                 lastChars.append(ch);
@@ -1535,6 +1536,7 @@ public final class Xml {
                                 i = j;
                                 underlineCount = 0;
                                 lastChars.setLength(0);
+                                i++;
                                 continue outer;
                             }
                         } else {
@@ -1546,6 +1548,7 @@ public final class Xml {
                 result.append(lastChars).append(ch);
                 lastChars.setLength(0);
             }
+            i++;
         }
         return result.append(lastChars).toString();
     }

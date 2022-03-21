@@ -1945,7 +1945,7 @@ public class U<T> extends Underscore<T> {
 
         public String text() {
             try {
-                return stream.toString("UTF-8");
+                return stream.toString(StandardCharsets.UTF_8.name());
             } catch (java.io.UnsupportedEncodingException ex) {
                 throw new UnsupportedOperationException(ex);
             }
