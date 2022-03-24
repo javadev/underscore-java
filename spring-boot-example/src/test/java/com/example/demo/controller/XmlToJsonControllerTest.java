@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-import com.github.underscore.lodash.U;
+import com.github.underscore.U;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
