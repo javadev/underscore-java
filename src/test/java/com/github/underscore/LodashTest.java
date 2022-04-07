@@ -42,6 +42,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -881,6 +882,24 @@ class LodashTest {
                                 + "  ]\n"
                                 + "}",
                         U.Mode.FORCE_ADD_ROOT_JSON_TO_XML));
+    }
+
+    @Test
+    void forceRemoveArrayTrue() {
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<data>\n"
+                        + "  <a>b</a>\n"
+                        + "</data>",
+                U.jsonToXml(
+                        "{\n"
+                                + "  \"data\": [\n"
+                                + "    {\n"
+                                + "      \"a\": \"b\"\n"
+                                + "    }\n"
+                                + "  ]\n"
+                                + "}",
+                        U.Mode.FORCE_REMOVE_ARRAY_TRUE_JSON_TO_XML));
     }
 
     @Test
