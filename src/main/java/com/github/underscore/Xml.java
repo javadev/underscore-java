@@ -1142,6 +1142,9 @@ public final class Xml {
 
     public static String toXml(
             Map map, XmlStringBuilder.Step identStep, String newRootName, String arrayTrue) {
+        if (!ARRAY_TRUE.equals(arrayTrue) && !arrayTrue.isEmpty()) {
+            return "";
+        }
         final XmlStringBuilder builder;
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {

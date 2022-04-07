@@ -899,6 +899,8 @@ class LodashTest {
                                 + "  ]\n"
                                 + "}",
                         U.Mode.FORCE_REMOVE_ARRAY_TRUE_JSON_TO_XML));
+        assertEquals("", Xml.toXml(new LinkedHashMap<String, Object>(),
+                Xml.XmlStringBuilder.Step.TWO_SPACES, "root", "1"));
     }
 
     @Test
