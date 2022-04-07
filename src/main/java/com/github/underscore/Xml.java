@@ -799,12 +799,24 @@ public final class Xml {
                 String arrayTrue) {
             if (value instanceof Map) {
                 XmlObject.writeXml(
-                        (Map) value, name, builder, parentTextFound, namespaces, addArray, arrayTrue);
+                        (Map) value,
+                        name,
+                        builder,
+                        parentTextFound,
+                        namespaces,
+                        addArray,
+                        arrayTrue);
                 return;
             }
             if (value instanceof Collection) {
                 XmlArray.writeXml(
-                        (Collection) value, name, builder, parentTextFound, namespaces, addArray, arrayTrue);
+                        (Collection) value,
+                        name,
+                        builder,
+                        parentTextFound,
+                        namespaces,
+                        addArray,
+                        arrayTrue);
                 return;
             }
             if (!parentTextFound) {
@@ -837,7 +849,8 @@ public final class Xml {
                     }
                 }
             } else {
-                processArrays(value, builder, name, parentTextFound, namespaces, addArray, arrayTrue);
+                processArrays(
+                        value, builder, name, parentTextFound, namespaces, addArray, arrayTrue);
             }
         }
 
@@ -935,7 +948,8 @@ public final class Xml {
                 builder.decIdent().newLine().fillSpaces();
             } else if (value instanceof Object[]) {
                 builder.newLine().incIdent();
-                XmlArray.writeXml((Object[]) value, name, builder, parentTextFound, namespaces, arrayTrue);
+                XmlArray.writeXml(
+                        (Object[]) value, name, builder, parentTextFound, namespaces, arrayTrue);
                 builder.decIdent().newLine().fillSpaces();
             } else {
                 builder.append(value.toString());
@@ -1126,7 +1140,8 @@ public final class Xml {
         return toXml(map, identStep, newRootName, ARRAY_TRUE);
     }
 
-    public static String toXml(Map map, XmlStringBuilder.Step identStep, String newRootName, String arrayTrue) {
+    public static String toXml(
+            Map map, XmlStringBuilder.Step identStep, String newRootName, String arrayTrue) {
         final XmlStringBuilder builder;
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {
@@ -1156,7 +1171,10 @@ public final class Xml {
     }
 
     private static void checkLocalMap(
-            final XmlStringBuilder builder, final Map localMap, final String newRootName, final String arrayTrue) {
+            final XmlStringBuilder builder,
+            final Map localMap,
+            final String newRootName,
+            final String arrayTrue) {
         final Map localMap2;
         if (localMap != null && localMap.containsKey(DOCTYPE_TEXT)) {
             localMap2 = (Map) ((LinkedHashMap) localMap).clone();
@@ -1196,8 +1214,8 @@ public final class Xml {
         }
     }
 
-    private static void writeArray(final Collection collection, final XmlStringBuilder builder,
-                                   final String arrayTrue) {
+    private static void writeArray(
+            final Collection collection, final XmlStringBuilder builder, final String arrayTrue) {
         builder.append("<root");
         if (collection != null && collection.isEmpty()) {
             builder.append(" empty-array=\"true\"");
