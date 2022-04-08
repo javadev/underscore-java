@@ -96,6 +96,11 @@ public final class Xml {
         XML_UNESCAPE.put("&apos;", "'");
     }
 
+    public enum ArrayTrue {
+        ADD,
+        SKIP
+    }
+
     public static class XmlStringBuilder {
         public enum Step {
             TWO_SPACES(2),
@@ -1133,18 +1138,15 @@ public final class Xml {
     }
 
     public static String toXml(Map map, XmlStringBuilder.Step identStep) {
-        return toXml(map, identStep, ROOT, ARRAY_TRUE);
+        return toXml(map, identStep, ROOT, ArrayTrue.ADD);
     }
 
     public static String toXml(Map map, XmlStringBuilder.Step identStep, String newRootName) {
-        return toXml(map, identStep, newRootName, ARRAY_TRUE);
+        return toXml(map, identStep, newRootName, ArrayTrue.ADD);
     }
 
     public static String toXml(
-            Map map, XmlStringBuilder.Step identStep, String newRootName, String arrayTrue) {
-        if (!ARRAY_TRUE.equals(arrayTrue) && !arrayTrue.isEmpty()) {
-            return "";
-        }
+            Map map, XmlStringBuilder.Step identStep, String newRootName, ArrayTrue arrayTrue) {
         final XmlStringBuilder builder;
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {
@@ -1169,7 +1171,7 @@ public final class Xml {
             builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), "");
             localMap = map;
         }
-        checkLocalMap(builder, localMap, newRootName, arrayTrue);
+        checkLocalMap(builder, localMap, newRootName, arrayTrue == ArrayTrue.ADD ? ARRAY_TRUE : "");
         return builder.toString();
     }
 

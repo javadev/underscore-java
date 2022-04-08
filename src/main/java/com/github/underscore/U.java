@@ -2575,7 +2575,7 @@ public class U<T> extends Underscore<T> {
                 map.put(newRootName, object);
                 result = Xml.toXml(map, identStep);
             } else if (mode == Mode.FORCE_REMOVE_ARRAY_TRUE_JSON_TO_XML) {
-                result = Xml.toXml((Map) object, identStep, newRootName, "");
+                result = Xml.toXml((Map) object, identStep, newRootName, Xml.ArrayTrue.SKIP);
             } else {
                 result = Xml.toXml((Map) object, identStep);
             }
