@@ -134,7 +134,8 @@ public class U<T> extends Underscore<T> {
         REPLACE_NULL_WITH_EMPTY_VALUE,
         REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE,
         REMOVE_FIRST_LEVEL_XML_TO_JSON,
-        FORCE_ADD_ROOT_JSON_TO_XML
+        FORCE_ADD_ROOT_JSON_TO_XML,
+        FORCE_REMOVE_ARRAY_TRUE_JSON_TO_XML
     }
 
     public U(final Iterable<T> iterable) {
@@ -2573,6 +2574,8 @@ public class U<T> extends Underscore<T> {
                 final Map<String, Object> map = U.newLinkedHashMap();
                 map.put(newRootName, object);
                 result = Xml.toXml(map, identStep);
+            } else if (mode == Mode.FORCE_REMOVE_ARRAY_TRUE_JSON_TO_XML) {
+                result = Xml.toXml((Map) object, identStep, newRootName, Xml.ArrayTrue.SKIP);
             } else {
                 result = Xml.toXml((Map) object, identStep);
             }

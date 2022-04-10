@@ -52,6 +52,7 @@ import org.junit.jupiter.api.Test;
  * @author Valentyn Kolesnikov
  */
 class StringTest {
+    private static final String ARRAY_TRUE = " array=\"true\"";
 
     /*
     _.camelCase('Foo Bar');
@@ -1023,7 +1024,8 @@ class StringTest {
     @Test
     void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(null, null, builder, false, Collections.<String>emptySet(), false);
+        Xml.XmlArray.writeXml(null, null, builder, false, Collections.<String>emptySet(), false,
+                ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
                 builder.toString());
@@ -1038,7 +1040,8 @@ class StringTest {
                 builder,
                 false,
                 Collections.<String>emptySet(),
-                false);
+                false,
+                ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
                         + "  <element array=\"true\" null=\"true\"/>\n</root>",
@@ -1054,7 +1057,8 @@ class StringTest {
                 builder,
                 false,
                 Collections.<String>emptySet(),
-                false);
+                false,
+                ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<root>\n"
@@ -1443,20 +1447,23 @@ class StringTest {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(null, null, builder, false, Collections.emptySet());
+        Xml.XmlArray.writeXml(null, null, builder, false, Collections.emptySet(),
+                ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
                 builder.toString());
 
         builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(new Object[0], null, builder, false, Collections.<String>emptySet());
+        Xml.XmlArray.writeXml(new Object[0], null, builder, false, Collections.<String>emptySet(),
+                ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
                 builder.toString());
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(
-                new Object[] {"Hello"}, null, builder, false, Collections.<String>emptySet());
+                new Object[] {"Hello"}, null, builder, false, Collections.<String>emptySet(),
+                ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n</root>",
                 builder.toString());
@@ -1467,7 +1474,8 @@ class StringTest {
                 null,
                 builder,
                 false,
-                Collections.<String>emptySet());
+                Collections.<String>emptySet(),
+                ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n"
                         + "  <element number=\"true\">12</element>\n  <element>\n    <element>1</element>\n    "

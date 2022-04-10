@@ -884,6 +884,24 @@ class LodashTest {
     }
 
     @Test
+    void forceRemoveArrayTrue() {
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<data>\n"
+                        + "  <a>b</a>\n"
+                        + "</data>",
+                U.jsonToXml(
+                        "{\n"
+                                + "  \"data\": [\n"
+                                + "    {\n"
+                                + "      \"a\": \"b\"\n"
+                                + "    }\n"
+                                + "  ]\n"
+                                + "}",
+                        U.Mode.FORCE_REMOVE_ARRAY_TRUE_JSON_TO_XML));
+    }
+
+    @Test
     void updateMapKey() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
