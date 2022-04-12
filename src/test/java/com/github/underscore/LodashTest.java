@@ -898,7 +898,31 @@ class LodashTest {
                                 + "    }\n"
                                 + "  ]\n"
                                 + "}",
-                        U.Mode.FORCE_REMOVE_ARRAY_TRUE_JSON_TO_XML));
+                        U.Mode.FORCE_REMOVE_ARRAY_ATTRIBUTE_JSON_TO_XML));
+    }
+
+    @Test
+    void forceRemoveArrayTrueBooleanAndNumber() {
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<data>\n"
+                        + "  <a>b</a>\n"
+                        + "  <c>true</c>\n"
+                        + "  <d>1</d>\n"
+                        + "  <e></e>\n"
+                        + "</data>",
+                U.jsonToXml(
+                        "{\n"
+                                + "  \"data\": [\n"
+                                + "    {\n"
+                                + "      \"a\": \"b\",\n"
+                                + "      \"c\": true,\n"
+                                + "      \"d\": 1,\n"
+                                + "      \"e\": {}\n"
+                                + "    }\n"
+                                + "  ]\n"
+                                + "}",
+                        U.Mode.FORCE_REMOVE_ARRAY_BOOLEAN_NUMBER_ATTRIBUTES_JSON_TO_XML));
     }
 
     @Test
