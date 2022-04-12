@@ -902,6 +902,30 @@ class LodashTest {
     }
 
     @Test
+    void forceRemoveArrayTrueBooleanAndNumber() {
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<data>\n"
+                        + "  <a>b</a>\n"
+                        + "  <c>true</c>\n"
+                        + "  <d>1</d>\n"
+                        + "  <e></e>\n"
+                        + "</data>",
+                U.jsonToXml(
+                        "{\n"
+                                + "  \"data\": [\n"
+                                + "    {\n"
+                                + "      \"a\": \"b\",\n"
+                                + "      \"c\": true,\n"
+                                + "      \"d\": 1,\n"
+                                + "      \"e\": {}\n"
+                                + "    }\n"
+                                + "  ]\n"
+                                + "}",
+                        U.Mode.FORCE_REMOVE_ARRAY_TRUE_NUMBER_AND_BOOLEAN_JSON_TO_XML));
+    }
+
+    @Test
     void updateMapKey() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
