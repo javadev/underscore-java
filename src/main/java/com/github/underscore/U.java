@@ -2578,8 +2578,12 @@ public class U<T> extends Underscore<T> {
             } else if (mode == Mode.FORCE_REMOVE_ARRAY_TRUE_JSON_TO_XML) {
                 result = Xml.toXml((Map) object, identStep, newRootName, Xml.ArrayTrue.SKIP);
             } else if (mode == Mode.FORCE_REMOVE_ARRAY_TRUE_NUMBER_AND_BOOLEAN_JSON_TO_XML) {
-                result = Xml.toXml(replaceNumberAndBooleanWithString((Map) object), identStep,
-                        newRootName, Xml.ArrayTrue.SKIP);
+                result =
+                        Xml.toXml(
+                                replaceNumberAndBooleanWithString((Map) object),
+                                identStep,
+                                newRootName,
+                                Xml.ArrayTrue.SKIP);
             } else {
                 result = Xml.toXml((Map) object, identStep);
             }
