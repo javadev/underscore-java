@@ -881,6 +881,14 @@ class LodashTest {
                                 + "  ]\n"
                                 + "}",
                         U.Mode.FORCE_ADD_ROOT_JSON_TO_XML));
+        Map<String, Object> map2 = U.newLinkedHashMap();
+        List<Object> list = U.newArrayList();
+        list.add(U.newArrayList());
+        list.add(U.newLinkedHashMap());
+        map2.put("list", list);
+        U.replaceNumberAndBooleanWithString(map2);
+        map2.put("list", U.newLinkedHashMap());
+        U.replaceNumberAndBooleanWithString(map2);
     }
 
     @Test
