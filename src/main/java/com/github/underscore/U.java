@@ -62,6 +62,7 @@ import java.util.zip.GZIPInputStream;
     "java:S4423",
     "java:S4830",
     "java:S5843",
+    "java:S5996",
     "java:S5998"
 })
 public class U<T> extends Underscore<T> {
