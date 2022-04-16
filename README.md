@@ -12,7 +12,6 @@ underscore-java
 [![Build status](https://ci.appveyor.com/api/projects/status/tx7icv3i08qowv6r?svg=true)](https://ci.appveyor.com/project/javadev/underscore-java)
 [![Build Status](https://semaphoreci.com/api/v1/javadev/underscore-java/branches/main/badge.svg)](https://semaphoreci.com/javadev/underscore-java)
 [![Known Vulnerabilities](https://snyk.io/test/github/javadev/underscore-java/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/javadev/underscore-java?targetFile=pom.xml)
-[![Sputnik](https://sputnik.ci/conf/badge)](https://sputnik.ci/app#/builds/javadev/underscore-java)
 [![Code Scene](https://img.shields.io/badge/codescene-analyzed-brightgreen.svg)](https://codescene.io/projects/1173/jobs/latest-successful/results)
 [![javadoc](https://javadoc.io/badge2/com.github.javadev/underscore/javadoc.svg)](https://javadoc.io/doc/com.github.javadev/underscore)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=alert_status)](https://sonarcloud.io/summary/overall?id=javadev_underscore-java)
