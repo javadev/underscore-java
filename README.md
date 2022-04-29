@@ -38,7 +38,7 @@ Include the following in your `pom.xml` for Maven:
   <dependency>
     <groupId>com.github.javadev</groupId>
     <artifactId>underscore</artifactId>
-    <version>1.76</version>
+    <version>1.77</version>
   </dependency>
   ...
 </dependencies>
@@ -47,7 +47,7 @@ Include the following in your `pom.xml` for Maven:
 Gradle:
 
 ```groovy
-implementation 'com.github.javadev:underscore:1.76'
+implementation 'com.github.javadev:underscore:1.77'
 ```
 
 ### Usage
