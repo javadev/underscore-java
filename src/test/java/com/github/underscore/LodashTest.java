@@ -644,6 +644,53 @@ class LodashTest {
     }
 
     @Test
+    void toJson() {
+        Map<String, Object> map = U.newLinkedHashMap();
+        map.put(null, 3);
+        assertEquals(
+                "{\n"
+                        + "  \"null\": 3\n"
+                        + "}",
+                U.toJson(map));
+        Map<Object, Object> map2 = U.newLinkedHashMap();
+        map2.put(1, 3);
+        assertEquals(
+                "{\n"
+                        + "  \"1\": 3\n"
+                        + "}",
+                U.toJson(map2));
+        Map<Object, Object> map3 = U.newLinkedHashMap();
+        map3.put(true, 3);
+        assertEquals(
+                "{\n"
+                        + "  \"true\": 3\n"
+                        + "}",
+                U.toJson(map3));
+    }
+
+    @Test
+    void toXml() {
+        Map<String, Object> map = U.newLinkedHashMap();
+        map.put(null, 3);
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                        "<null number=\"true\">3</null>",
+                U.toXml(map));
+        Map<Object, Object> map2 = U.newLinkedHashMap();
+        map2.put(1, 3);
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                        "<__GE__ number=\"true\">3</__GE__>",
+                U.toXml(map2));
+        Map<Object, Object> map3 = U.newLinkedHashMap();
+        map3.put(true, 3);
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                        "<true number=\"true\">3</true>",
+                U.toXml(map3));
+    }
+
+    @Test
     void xmlToJson() {
         assertEquals(
                 "{\n"
