@@ -499,7 +499,8 @@ class LodashTest {
     void downloadUrl() throws IOException {
         long result =
                 U.downloadUrl(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json", "test.json");
+                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                        "test.json");
         assertEquals(65, result);
     }
 
@@ -647,25 +648,13 @@ class LodashTest {
     void toJson() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put(null, 3);
-        assertEquals(
-                "{\n"
-                        + "  \"null\": 3\n"
-                        + "}",
-                U.toJson(map));
+        assertEquals("{\n  \"null\": 3\n}", U.toJson(map));
         Map<Object, Object> map2 = U.newLinkedHashMap();
         map2.put(1, 3);
-        assertEquals(
-                "{\n"
-                        + "  \"1\": 3\n"
-                        + "}",
-                U.toJson(map2));
+        assertEquals("{\n  \"1\": 3\n}", U.toJson(map2));
         Map<Object, Object> map3 = U.newLinkedHashMap();
         map3.put(true, 3);
-        assertEquals(
-                "{\n"
-                        + "  \"true\": 3\n"
-                        + "}",
-                U.toJson(map3));
+        assertEquals("{\n  \"true\": 3\n}", U.toJson(map3));
     }
 
     @Test
@@ -673,20 +662,18 @@ class LodashTest {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put(null, 3);
         assertEquals(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                        "<null number=\"true\">3</null>",
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<null number=\"true\">3</null>",
                 U.toXml(map));
         Map<Object, Object> map2 = U.newLinkedHashMap();
         map2.put(1, 3);
         assertEquals(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                        "<__GE__ number=\"true\">3</__GE__>",
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<__GE__ number=\"true\">3</__GE__>",
                 U.toXml(map2));
         Map<Object, Object> map3 = U.newLinkedHashMap();
         map3.put(true, 3);
         assertEquals(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                        "<true number=\"true\">3</true>",
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<true number=\"true\">3</true>",
                 U.toXml(map3));
     }
 
@@ -709,8 +696,9 @@ class LodashTest {
                         + "  ],\n"
                         + "  \"#omit-xml-declaration\": \"yes\"\n"
                         + "}",
-                U.xmlToJson("<root><element>1</element><element>2</element></root>",
-                    Json.JsonStringBuilder.Step.TWO_SPACES));
+                U.xmlToJson(
+                        "<root><element>1</element><element>2</element></root>",
+                        Json.JsonStringBuilder.Step.TWO_SPACES));
         assertEquals(
                 "{\n"
                         + "  \"root\": [\n"
