@@ -2760,7 +2760,11 @@ public class U<T> extends Underscore<T> {
 
     @SuppressWarnings("unchecked")
     public static Map<String, Object> replaceSelfClosingWithEmpty(Map<String, Object> map) {
-        return (Map<String, Object>) replaceSelfClosingWithValue(map, "");
+        Object result = replaceSelfClosingWithValue(map, "");
+        if (result instanceof Map) {
+            return (Map<String, Object>) result;
+        }
+        return Collections.emptyMap();
     }
 
     @SuppressWarnings("unchecked")

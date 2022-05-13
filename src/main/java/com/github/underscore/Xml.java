@@ -1929,8 +1929,9 @@ public final class Xml {
         Object result = fromXml(xml, FromType.FOR_FORMAT);
         if (result instanceof Map) {
             ((Map) result).put(ENCODING, encoding);
+            return toXml((Map) result, identStep, ROOT);
         }
-        return toXml((Map) result, identStep, ROOT);
+        return xml;
     }
 
     public static String changeXmlEncoding(String xml, String encoding) {
