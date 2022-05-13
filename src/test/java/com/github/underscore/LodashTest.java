@@ -778,6 +778,9 @@ class LodashTest {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
         U.replaceSelfClosingWithNull(map);
+        Map<String, Object> mapEmpty = U.newLinkedHashMap();
+        mapEmpty.put("-self-closing", "true");
+        U.replaceSelfClosingWithEmpty(mapEmpty);
         Map<String, Object> map2 = U.newLinkedHashMap();
         List<Object> list = U.newArrayList();
         list.add(U.newArrayList());
