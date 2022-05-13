@@ -1239,8 +1239,7 @@ class LodashTest {
                         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><a>Test</a>",
                         Xml.XmlStringBuilder.Step.COMPACT,
                         "windows-1251"));
-        assertEquals(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>null</root>",
+        assertNull(
                 U.changeXmlEncoding(null, Xml.XmlStringBuilder.Step.COMPACT, "windows-1251"));
     }
 
