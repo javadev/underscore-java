@@ -3116,6 +3116,10 @@ public class U<T> extends Underscore<T> {
             return this;
         }
 
+        public <T> T get(final String path) {
+            return U.get(data, path);
+        }
+
         public Builder set(final String path, final Object value) {
             U.set(data, path, value);
             return this;
@@ -3216,6 +3220,10 @@ public class U<T> extends Underscore<T> {
         public ArrayBuilder addNull() {
             data.add(null);
             return this;
+        }
+
+        public <T> T get(final String path) {
+            return U.get(U.getStringObjectMap(data), "value." + path);
         }
 
         public ArrayBuilder set(final int index, final Object value) {

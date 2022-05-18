@@ -1367,12 +1367,14 @@ class LodashTest {
         builder.set("1", "3");
         builder.toString();
         assertEquals("{1=3}", builder.build().toString());
+        assertEquals("3", builder.<String>get("1"));
         builder.remove("1");
         assertEquals("{}", builder.build().toString());
         builder.clear();
         assertEquals("{}", builder.build().toString());
         builder.toChain();
         builder.addNull("key");
+        assertEquals(null, builder.<String>get("key"));
         Map<String, Object> value =
                 U.objectBuilder()
                         .add("firstName", "John")
@@ -1409,6 +1411,7 @@ class LodashTest {
         U.ArrayBuilder builder = U.arrayBuilder().add("1").add("2");
         builder.add(builder);
         builder.toJson();
+        assertEquals("1", builder.<String>get("0"));
         U.ArrayBuilder.fromJson("[]");
         builder.toXml();
         U.ArrayBuilder.fromXml(
