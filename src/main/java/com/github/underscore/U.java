@@ -3135,6 +3135,10 @@ public class U<T> extends Underscore<T> {
             return this;
         }
 
+        public boolean isEmpty() {
+            return data.isEmpty();
+        }
+
         public Builder add(final Builder builder) {
             data.put(String.valueOf(data.size()), builder.build());
             return this;
@@ -3239,6 +3243,10 @@ public class U<T> extends Underscore<T> {
         public ArrayBuilder clear() {
             data.clear();
             return this;
+        }
+
+        public boolean isEmpty() {
+            return data.isEmpty();
         }
 
         public ArrayBuilder add(final ArrayBuilder builder) {

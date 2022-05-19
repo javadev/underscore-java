@@ -1371,6 +1371,7 @@ class LodashTest {
         builder.remove("1");
         assertEquals("{}", builder.build().toString());
         builder.clear();
+        builder.isEmpty();
         assertEquals("{}", builder.build().toString());
         builder.toChain();
         builder.addNull("key");
@@ -1422,6 +1423,7 @@ class LodashTest {
         builder.remove(1);
         assertEquals("[1, 1, 2]", builder.build().toString());
         builder.clear();
+        builder.isEmpty();
         assertEquals("[]", builder.build().toString());
         builder.toChain();
         builder.addNull();
