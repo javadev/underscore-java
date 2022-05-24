@@ -503,7 +503,7 @@ class LodashTest {
                             "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
                             "test.json");
             assertEquals(65, result);
-        } catch(javax.net.ssl.SSLHandshakeException ignored) {
+        } catch (javax.net.ssl.SSLHandshakeException ignored) {
             // ignored
         }
     }
