@@ -46,7 +46,8 @@ import java.util.function.Function;
     "java:S5852",
     "java:S5998",
     "java:S6019",
-    "java:S6035"
+    "java:S6035",
+    "java:S6395"
 })
 public final class Xml {
     private Xml() {}
