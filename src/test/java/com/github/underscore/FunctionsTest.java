@@ -41,11 +41,7 @@ import java.util.function.UnaryOperator;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Underscore library unit test.
- *
- * @author Valentyn Kolesnikov
- */
+@SuppressWarnings("java:S2925")
 class FunctionsTest {
 
     /*
