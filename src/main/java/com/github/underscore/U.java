@@ -3139,10 +3139,6 @@ public class U<T> extends Underscore<T> {
             return data.isEmpty();
         }
 
-        public int size() {
-            return data.size();
-        }
-
         public Builder add(final Builder builder) {
             data.put(String.valueOf(data.size()), builder.build());
             return this;
@@ -3160,11 +3156,6 @@ public class U<T> extends Underscore<T> {
 
         public Builder add(final Map<String, Object> map) {
             deepCopyMap(map).forEach(data::put);
-            return this;
-        }
-
-        public Builder update(final Map<String, Object> map) {
-            U.update(data, deepCopyMap(map));
             return this;
         }
 
@@ -3258,10 +3249,6 @@ public class U<T> extends Underscore<T> {
             return data.isEmpty();
         }
 
-        public int size() {
-            return data.size();
-        }
-
         public ArrayBuilder add(final ArrayBuilder builder) {
             data.addAll(builder.build());
             return this;
@@ -3269,12 +3256,6 @@ public class U<T> extends Underscore<T> {
 
         public ArrayBuilder add(final Builder builder) {
             data.add(builder.build());
-            return this;
-        }
-
-        @SuppressWarnings("unchecked")
-        public ArrayBuilder merge(final List<Object> list) {
-            U.merge(data, (List<Object>) ((ArrayList) list).clone());
             return this;
         }
 
