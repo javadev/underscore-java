@@ -24,6 +24,8 @@
 package com.github.underscore;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -433,6 +435,21 @@ class MathTest {
         assertEquals("Value 1+", cache.get(1));
         cache.put(2, "Value 2");
         assertEquals("Value 2", cache.get(2));
+    }
+
+    @Test
+    void createLfuCache() {
+        U.LfuCache lfuCache = new U.LfuCache(2);
+        lfuCache.put(1, 1);
+        lfuCache.put(2, 2);
+        assertThat(lfuCache.get(1), equalTo(1));
+        lfuCache.put(3, 3);
+        assertThat(lfuCache.get(2), equalTo(null));
+        assertThat(lfuCache.get(3), equalTo(3));
+        lfuCache.put(4, 4);
+        assertThat(lfuCache.get(1), equalTo(null));
+        assertThat(lfuCache.get(3), equalTo(3));
+        assertThat(lfuCache.get(4), equalTo(4));
     }
 
     @SuppressWarnings("unchecked")

@@ -2401,6 +2401,113 @@ public class U<T> extends Underscore<T> {
         return new LruCache<>(capacity);
     }
 
+    public static class LfuCache<K, V> {
+        private static class Node<K, V> {
+            Node<K, V> prev;
+            Node<K, V> next;
+            K key;
+            V val;
+            int freq;
+        }
+
+        private final Map<Integer, Node<K, V>> endOfBlock;
+        private final Map<K, Node<K, V>> map;
+        private final int capacity;
+        private final Node<K, V> linkedList;
+
+        public LfuCache(int capacity) {
+            endOfBlock = new HashMap<>();
+            map = new HashMap<>();
+            this.capacity = capacity;
+            linkedList = new Node<>();
+        }
+
+        public V get(K key) {
+            if (map.containsKey(key)) {
+                Node<K, V> newEndNode = map.get(key);
+                Node<K, V> endNode;
+                Node<K, V> currEndNode = endOfBlock.get(newEndNode.freq);
+                if (currEndNode == newEndNode) {
+                    findNewEndOfBlock(newEndNode);
+                    if (currEndNode.next == null || currEndNode.next.freq > newEndNode.freq + 1) {
+                        newEndNode.freq++;
+                        endOfBlock.put(newEndNode.freq, newEndNode);
+                        return newEndNode.val;
+                    }
+                }
+                if (newEndNode.next != null) {
+                    newEndNode.next.prev = newEndNode.prev;
+                }
+                newEndNode.prev.next = newEndNode.next;
+                newEndNode.freq++;
+                if (currEndNode.next == null || currEndNode.next.freq > newEndNode.freq) {
+                    endNode = currEndNode;
+                } else {
+                    endNode = endOfBlock.get(newEndNode.freq);
+                }
+                endOfBlock.put(newEndNode.freq, newEndNode);
+                if (endNode.next != null) {
+                    endNode.next.prev = newEndNode;
+                }
+                newEndNode.next = endNode.next;
+                endNode.next = newEndNode;
+                newEndNode.prev = endNode;
+                return newEndNode.val;
+            }
+            return null;
+        }
+
+        public void put(K key, V value) {
+            Node<K, V> endNode;
+            Node<K, V> newEndNode;
+            if (capacity == 0) {
+                return;
+            }
+            if (map.containsKey(key)) {
+                map.get(key).val = value;
+                get(key);
+            } else {
+                if (map.size() == capacity) {
+                    Node<K, V> toDelete = linkedList.next;
+                    map.remove(toDelete.key);
+                    if (toDelete.next != null) {
+                        toDelete.next.prev = linkedList;
+                    }
+                    linkedList.next = toDelete.next;
+                    if (endOfBlock.get(toDelete.freq) == toDelete) {
+                        endOfBlock.remove(toDelete.freq);
+                    }
+                }
+                newEndNode = new Node<>();
+                newEndNode.key = key;
+                newEndNode.val = value;
+                newEndNode.freq = 1;
+                map.put(key, newEndNode);
+                endNode = endOfBlock.getOrDefault(1, linkedList);
+                endOfBlock.put(1, newEndNode);
+                if (endNode.next != null) {
+                    endNode.next.prev = newEndNode;
+                }
+                newEndNode.next = endNode.next;
+                endNode.next = newEndNode;
+                newEndNode.prev = endNode;
+            }
+        }
+
+        private void findNewEndOfBlock(Node<K, V> node) {
+            Node<K, V> prev = node.prev;
+            if (prev.freq == node.freq) {
+                endOfBlock.put(node.freq, prev);
+            } else {
+                endOfBlock.remove(node.freq);
+            }
+        }
+    }
+
+    public static <K, V> LfuCache<K, V> createLfuCache(final int capacity) {
+        return new LfuCache<>(capacity);
+    }
+
     public static <T> List<List<T>> createPermutationWithRepetition(
             final List<T> list, final int permutationLength) {
         final long resultSize = (long) Math.pow(list.size(), permutationLength);
