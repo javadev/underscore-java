@@ -85,7 +85,6 @@ public class U<T> extends Underscore<T> {
     private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
     private static String selfClosing = "-self-closing";
     private static String nilKey = "-nil";
-    private static String nilKeyNs = ":nil";
     private static java.util.regex.Pattern reWords =
             java.util.regex.Pattern.compile(
                     upper
@@ -3027,7 +3026,7 @@ public class U<T> extends Underscore<T> {
             Object outValue = makeReplaceNilWithNull(entry.getValue());
             if (outValue instanceof Map
                     && (nilKey.equals(Xml.XmlValue.getMapKey(outValue))
-                            || Xml.XmlValue.getMapKey(outValue).endsWith(nilKeyNs))
+                            || Xml.XmlValue.getMapKey(outValue).endsWith(":nil"))
                     && "true".equals(Xml.XmlValue.getMapValue(outValue))
                     && ((Map) outValue).containsKey(selfClosing)
                     && "true".equals(((Map) outValue).get(selfClosing))) {
