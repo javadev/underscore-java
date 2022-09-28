@@ -29,7 +29,7 @@ underscore-java
 Requirements
 ============
 
-Java 1.8 and later or [Java 11](https://github.com/javadev/underscore-java11).
+Java 11 and later or [Java 17](https://github.com/javadev/underscore-java11).
 
 
 ## Installation
@@ -41,7 +41,7 @@ Include the following in your `pom.xml` for Maven:
   <dependency>
     <groupId>com.github.javadev</groupId>
     <artifactId>underscore</artifactId>
-    <version>1.81</version>
+    <version>1.82</version>
   </dependency>
   ...
 </dependencies>
@@ -50,7 +50,7 @@ Include the following in your `pom.xml` for Maven:
 Gradle:
 
 ```groovy
-implementation 'com.github.javadev:underscore:1.81'
+implementation 'com.github.javadev:underscore:1.82'
 ```
 
 ### Usage
