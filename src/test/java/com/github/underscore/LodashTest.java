@@ -431,6 +431,9 @@ class LodashTest {
         Map<String, Object> map4 = U.newLinkedHashMap();
         map4.put("a", "b");
         assertNull(U.<String>set(map4, "a.b", "b"));
+        Map<String, Object> map5 = U.newLinkedHashMap();
+        map5.put("a", "b");
+        assertNull(U.chain(map5.entrySet()).set(asList("a", "b"), "b").value());
     }
 
     @Test
@@ -1374,6 +1377,10 @@ class LodashTest {
         assertEquals("{1=3}", builder.build().toString());
         assertEquals("3", builder.<String>get("1"));
         builder.remove("1");
+        builder.set(asList("2"), "4");
+        assertEquals("{2=4}", builder.build().toString());
+        assertEquals("4", builder.<String>get(asList("2")));
+        builder.remove(asList("2"));
         assertEquals("{}", builder.build().toString());
         builder.clear();
         builder.isEmpty();
@@ -1419,6 +1426,7 @@ class LodashTest {
         builder.add(builder);
         builder.toJson();
         assertEquals("1", builder.<String>get("0"));
+        assertEquals("1", builder.<String>get(asList("0")));
         U.ArrayBuilder.fromJson("[]");
         builder.toXml();
         U.ArrayBuilder.fromXml(
