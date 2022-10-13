@@ -29,6 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -1077,6 +1079,37 @@ class LodashTest {
     }
 
     @Test
+    void isXmlTest() {
+        assertTrue(U.isXml("<root>\n  <element>1</element>\n  <element>2</element>\n</root>"));
+        assertTrue(U.isXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>1</element>\n"
+                + "  <element>2</element>\n</root>"));
+        assertTrue(U.isXml("<a>\n  <b></b>\n  <b></b>\n</a>"));
+        assertTrue(U.isXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?><a><b></b><b></b></a>"));
+        assertTrue(U.isXml("<a>\n\t<b></b>\n\t<b></b>\n</a>"));
+        assertTrue(U.isXml("<a number=\"true\">1.00</a>"));
+        assertFalse(U.isXml("just string"));
+        assertFalse(U.isXml("<a number=\"true\">1.00 broken"));
+        assertFalse(U.isXml("broken number=\"true\">1.00</a>"));
+    }
+
+    @Test
+    void formatXmlAsSingleMethod() {
+        assertEquals(
+                "<root>\n  <element>1</element>\n  <element>2</element>\n</root>",
+                U.format("<root><element>1</element><element>2</element></root>"));
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>1</element>\n"
+                        + "  <element>2</element>\n</root>",
+                U.format(
+                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root><element>1</element>"
+                                + "<element>2</element></root>"));
+        assertEquals(
+                "<a>\n  <b></b>\n  <b></b>\n</a>", U.format("<a>\n  <b></b>\n  <b></b>\n</a>"));
+        assertEquals("<a number=\"true\">1.00</a>", U.format("<a number=\"true\">1.00</a>"));
+        assertEquals("<a number=\"true\">2.01</a>", U.format("<a number=\"true\">2.01</a>"));
+    }
+
+    @Test
     void forceAttributeUsage() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -1267,6 +1300,31 @@ class LodashTest {
         assertEquals(
                 "{\n\t\"a\": {\n\t}\n}",
                 U.formatJson("{\n  \"a\": {\n  }\n}", Json.JsonStringBuilder.Step.TABS));
+    }
+
+    @Test
+    void isJsonTest() {
+        assertTrue(U.isJson("{\n  \"a\": {\n  }\n}"));
+        assertTrue(U.isJson("{\n\t\"a\": {\n\t}\n}"));
+        assertTrue(U.isJson("{\n    \"a\": {\n    }\n}"));
+        assertTrue(U.isJson("{\n  \"a\": {\n  }\n}     "));
+        assertTrue(U.isJson("     {\n  \"a\": {\n  }\n}"));
+        assertTrue(U.isJson("     {\n  \"a\": {\n  }\n}     "));
+        assertTrue(U.isJson("[\n  1.00\n]"));
+        assertTrue(U.isJson("[\n  1.00\n]     "));
+        assertTrue(U.isJson("     [\n  1.00\n]"));
+        assertTrue(U.isJson("     [\n  1.00\n]     "));
+        assertTrue(U.isJson("[\n  1.00\n]"));
+        assertFalse(U.isJson("just string"));
+        assertFalse(U.isJson("[\n  1.00\n unclosed json"));
+        assertFalse(U.isJson("</xml>"));
+    }
+
+    @Test
+    void formatJsonAsSingleMethod() {
+        assertEquals("{\n  \"a\": {\n  }\n}", U.format("{\n  \"a\": {\n  }\n}"));
+        assertEquals("[\n]", U.format("[]"));
+        assertEquals("[\n  1.00\n]", U.format("[1.00]"));
     }
 
     @Test

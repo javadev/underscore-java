@@ -2682,12 +2682,32 @@ public class U<T> extends Underscore<T> {
         return Json.formatJson(json);
     }
 
+    public static boolean isJson(String json) {
+        final String trimed = trim(json);
+        return (trimed.startsWith("{") && trimed.contains("}")) || (trimed.startsWith("[") && trimed.contains("]"));
+    }
+
     public static String formatXml(String xml, Xml.XmlStringBuilder.Step identStep) {
         return Xml.formatXml(xml, identStep);
     }
 
     public static String formatXml(String xml) {
         return Xml.formatXml(xml);
+    }
+
+    public static boolean isXml(String xml) {
+        final String trimed = trim(xml);
+        return trimed.startsWith("<") && (trimed.contains("/>") || trimed.contains("</"));
+    }
+
+    public static String format(String something) {
+        if (isXml(something)) {
+            return formatXml(something);
+        } else if (isJson(something)) {
+            return formatJson(something);
+        } else {
+            throw new UnsupportedOperationException("Could not recognize format for string: " + something);
+        }
     }
 
     public static String changeXmlEncoding(
