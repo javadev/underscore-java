@@ -1789,7 +1789,8 @@ public class U<T> extends Underscore<T> {
         return set(object, stringToPath(path), value);
     }
 
-    public static <T> T set(final Map<String, Object> object, final List<String> paths, Object value) {
+    public static <T> T set(
+            final Map<String, Object> object, final List<String> paths, Object value) {
         return baseGetOrSetOrRemove(object, paths, value, OperationType.SET);
     }
 
@@ -2672,6 +2673,43 @@ public class U<T> extends Underscore<T> {
 
     public static String xmlToJson(String xml, Mode mode) {
         return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, mode);
+    }
+
+    public enum TextType {
+        JSON,
+        XML,
+        OTHER
+    }
+
+    public static TextType getTextType(String text) {
+        String trimmed = trim(text);
+        final TextType textType;
+        if (trimmed.startsWith("{") && trimmed.endsWith("}")
+                || trimmed.startsWith("[") && trimmed.endsWith("]")) {
+            textType = TextType.JSON;
+        } else if (trimmed.startsWith("<") && trimmed.endsWith(">")) {
+            textType = TextType.XML;
+        } else {
+            textType = TextType.OTHER;
+        }
+        return textType;
+    }
+
+    public static String formatJsonOrXml(String jsonOrXml, String identStep) {
+        TextType textType = getTextType(jsonOrXml);
+        final String result;
+        if (textType == TextType.JSON) {
+            result = formatJson(jsonOrXml, Json.JsonStringBuilder.Step.valueOf(identStep));
+        } else if (textType == TextType.XML) {
+            result = formatXml(jsonOrXml, Xml.XmlStringBuilder.Step.valueOf(identStep));
+        } else {
+            result = jsonOrXml;
+        }
+        return result;
+    }
+
+    public static String formatJsonOrXml(String jsonOrXml) {
+        return formatJsonOrXml(jsonOrXml, "TWO_SPACES");
     }
 
     public static String formatJson(String json, Json.JsonStringBuilder.Step identStep) {
