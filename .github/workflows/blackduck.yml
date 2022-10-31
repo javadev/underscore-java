@@ -1,2 +1,0 @@
-- name: Detect Rapid Scan Action
-  uses: synopsys-sig/detect-action@v0.3.3
