@@ -471,6 +471,93 @@ class LodashTest {
                         "a[0].d.c"));
     }
 
+    @Test
+    void selectTokenGetBookTitleWrittenAfter2001() {
+        String inventory =
+                "{\n"
+                        + "  \"inventory\": {\n"
+                        + "    \"#comment\": \"Test is test comment\",\n"
+                        + "    \"book\": [\n"
+                        + "      {\n"
+                        + "        \"-year\": \"2000\",\n"
+                        + "        \"title\": \"Snow Crash\",\n"
+                        + "        \"author\": \"Neal Stephenson\",\n"
+                        + "        \"publisher\": \"Spectra\",\n"
+                        + "        \"isbn\": \"0553380958\",\n"
+                        + "        \"price\": \"14.95\"\n"
+                        + "      },\n"
+                        + "      {\n"
+                        + "        \"-year\": \"2005\",\n"
+                        + "        \"title\": \"Burning Tower\",\n"
+                        + "        \"author\": [\n"
+                        + "          \"Larry Niven\",\n"
+                        + "          \"Jerry Pournelle\"\n"
+                        + "        ],\n"
+                        + "        \"publisher\": \"Pocket\",\n"
+                        + "        \"isbn\": \"0743416910\",\n"
+                        + "        \"price\": \"5.99\"\n"
+                        + "      },\n"
+                        + "      {\n"
+                        + "        \"-year\": \"1995\",\n"
+                        + "        \"title\": \"Zodiac\",\n"
+                        + "        \"author\": \"Neal Stephenson\",\n"
+                        + "        \"publisher\": \"Spectra\",\n"
+                        + "        \"isbn\": \"0553573862\",\n"
+                        + "        \"price\": \"7.50\"\n"
+                        + "      }\n"
+                        + "    ]\n"
+                        + "  }\n"
+                        + "}";
+        assertEquals(
+                "Burning Tower",
+                U.selectToken(U.fromJson(inventory), "//book[@year>2001]/title/text()"));
+        assertNull(U.selectToken(U.fromJson(inventory), "//book[@year>2001]/title1/text()"));
+    }
+
+    @Test
+    void selectTokensGetAllWriters() {
+        String inventory =
+                "{\n"
+                        + "  \"inventory\": {\n"
+                        + "    \"#comment\": \"Test is test comment\",\n"
+                        + "    \"book\": [\n"
+                        + "      {\n"
+                        + "        \"-year\": \"2000\",\n"
+                        + "        \"title\": \"Snow Crash\",\n"
+                        + "        \"author\": \"Neal Stephenson\",\n"
+                        + "        \"publisher\": \"Spectra\",\n"
+                        + "        \"isbn\": \"0553380958\",\n"
+                        + "        \"price\": \"14.95\"\n"
+                        + "      },\n"
+                        + "      {\n"
+                        + "        \"-year\": \"2005\",\n"
+                        + "        \"title\": \"Burning Tower\",\n"
+                        + "        \"author\": [\n"
+                        + "          \"Larry Niven\",\n"
+                        + "          \"Jerry Pournelle\"\n"
+                        + "        ],\n"
+                        + "        \"publisher\": \"Pocket\",\n"
+                        + "        \"isbn\": \"0743416910\",\n"
+                        + "        \"price\": \"5.99\"\n"
+                        + "      },\n"
+                        + "      {\n"
+                        + "        \"-year\": \"1995\",\n"
+                        + "        \"title\": \"Zodiac\",\n"
+                        + "        \"author\": \"Neal Stephenson\",\n"
+                        + "        \"publisher\": \"Spectra\",\n"
+                        + "        \"isbn\": \"0553573862\",\n"
+                        + "        \"price\": \"7.50\"\n"
+                        + "      }\n"
+                        + "    ]\n"
+                        + "  }\n"
+                        + "}";
+        assertEquals(
+                "[Neal Stephenson, Larry Niven, Jerry Pournelle, Neal Stephenson]",
+                U.selectTokens(U.fromJson(inventory), "//book/author/text()").toString());
+        assertEquals(
+                "[]", U.selectTokens(U.fromJson(inventory), "//book/author1/text()").toString());
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     void fetchGet() {
