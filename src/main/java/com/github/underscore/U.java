@@ -1793,9 +1793,7 @@ public class U<T> extends Underscore<T> {
         final XPath xPath = XPathFactory.newInstance().newXPath();
         final String xml = toXml(object);
         try {
-            final org.w3c.dom.Document document = Xml.Document.createDocument(xml);
-            final NodeList nodes =
-                    (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+            final NodeList nodes = getNodes(expression, xPath, xml);
             if (nodes.getLength() == 0) {
                 return null;
             }
@@ -1805,14 +1803,17 @@ public class U<T> extends Underscore<T> {
         }
     }
 
+    public static NodeList getNodes(String expression, XPath xPath, String xml) throws Exception {
+        final org.w3c.dom.Document document = Xml.Document.createDocument(xml);
+        return (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+    }
+
     public static List<String> selectTokens(
             final Map<String, Object> object, final String expression) {
         final XPath xPath = XPathFactory.newInstance().newXPath();
         final String xml = toXml(object);
         try {
-            final org.w3c.dom.Document document = Xml.Document.createDocument(xml);
-            final NodeList nodes =
-                    (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+            final NodeList nodes = getNodes(expression, xPath, xml);
             final List<String> result = new ArrayList<>();
             for (int i = 0; i < nodes.getLength(); i++) {
                 result.add(nodes.item(i).getNodeValue());
