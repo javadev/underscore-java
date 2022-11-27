@@ -2116,6 +2116,9 @@ public class U<T> extends Underscore<T> {
                     response.statusCode(),
                     response.headers().map(),
                     response.body());
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new UnsupportedOperationException(ex);
         } catch (Exception ex) {
             throw new UnsupportedOperationException(ex);
         }
