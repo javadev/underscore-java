@@ -59,7 +59,6 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.NodeList;
 
 @SuppressWarnings({
-    "java:S112",
     "java:S135",
     "java:S1168",
     "java:S3740",
@@ -1793,7 +1792,10 @@ public class U<T> extends Underscore<T> {
     public static String selectToken(final Map<String, Object> object, final String expression) {
         final String xml = toXml(object);
         try {
-            final NodeList nodes = getNodes(expression, xml);
+            final XPath xPath = XPathFactory.newInstance().newXPath();
+            final org.w3c.dom.Document document = Xml.Document.createDocument(xml);
+            final NodeList nodes =
+                    (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
             if (nodes.getLength() == 0) {
                 return null;
             }
@@ -1803,17 +1805,14 @@ public class U<T> extends Underscore<T> {
         }
     }
 
-    public static NodeList getNodes(final String expression, final String xml) throws Exception {
-        final XPath xPath = XPathFactory.newInstance().newXPath();
-        final org.w3c.dom.Document document = Xml.Document.createDocument(xml);
-        return (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-    }
-
     public static List<String> selectTokens(
             final Map<String, Object> object, final String expression) {
         final String xml = toXml(object);
         try {
-            final NodeList nodes = getNodes(expression, xml);
+            final XPath xPath = XPathFactory.newInstance().newXPath();
+            final org.w3c.dom.Document document = Xml.Document.createDocument(xml);
+            final NodeList nodes =
+                    (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
             final List<String> result = new ArrayList<>();
             for (int i = 0; i < nodes.getLength(); i++) {
                 result.add(nodes.item(i).getNodeValue());
