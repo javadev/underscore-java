@@ -515,6 +515,53 @@ class LodashTest {
     }
 
     @Test
+    void selectTokenManufacturerWithName() {
+        String json =
+                "{\n"
+                        + "  \"Stores\": [\n"
+                        + "    \"Lambton Quay\",\n"
+                        + "    \"Willis Street\"\n"
+                        + "  ],\n"
+                        + "  \"Manufacturers\": [\n"
+                        + "    {\n"
+                        + "      \"Name\": \"Acme Co\",\n"
+                        + "      \"Products\": [\n"
+                        + "        {\n"
+                        + "          \"Name\": \"Anvil\",\n"
+                        + "          \"Price\": 50\n"
+                        + "        }\n"
+                        + "      ]\n"
+                        + "    },\n"
+                        + "    {\n"
+                        + "      \"Name\": \"Contoso\",\n"
+                        + "      \"Products\": [\n"
+                        + "        {\n"
+                        + "          \"Name\": \"Elbow Grease\",\n"
+                        + "          \"Price\": 99.95\n"
+                        + "        },\n"
+                        + "        {\n"
+                        + "          \"Name\": \"Headlight Fluid\",\n"
+                        + "          \"Price\": 4\n"
+                        + "        }\n"
+                        + "      ]\n"
+                        + "    }\n"
+                        + "  ]\n"
+                        + "}";
+        assertEquals(
+                "Anvil",
+                U.selectToken(
+                        U.fromJson(json), "//Manufacturers[Name='Acme Co']/Products/Name/text()"));
+        assertEquals(
+                "50",
+                U.selectToken(
+                        U.fromJson(json), "//Manufacturers[Name='Acme Co']/Products/Price/text()"));
+        assertEquals("Anvil", U.selectToken(U.fromJson(json), "//Products[Price>=50]/Name/text()"));
+        assertEquals(
+                "[Anvil, Elbow Grease]",
+                U.selectTokens(U.fromJson(json), "//Products[Price>=50]/Name/text()").toString());
+    }
+
+    @Test
     void selectTokensGetAllWriters() {
         String inventory =
                 "{\n"
