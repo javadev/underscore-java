@@ -217,8 +217,7 @@ System.out.println(builder.toXml());
                         + "    ]\n"
                         + "  }\n"
                         + "}";
-        Map<String, Object> objectMap = U.fromJson(inventory);
-        String title = U.selectToken(objectMap, "//book[@year>2001]/title/text()");
+        String title = U.selectToken(U.fromJsonMap(inventory), "//book[@year>2001]/title/text()");
         // "Burning Tower"
 
         String json =
@@ -252,7 +251,7 @@ System.out.println(builder.toXml());
                         + "    }\n"
                         + "  ]\n"
                         + "}";
-        List<String> names = U.selectTokens(U.fromJson(json), "//Products[Price>=50]/Name/text()");
+        List<String> names = U.selectTokens(U.fromJsonMap(json), "//Products[Price>=50]/Name/text()");
         // [Anvil, Elbow Grease]
 ```
 

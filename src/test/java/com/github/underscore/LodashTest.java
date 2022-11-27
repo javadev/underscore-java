@@ -508,7 +508,7 @@ class LodashTest {
                         + "    ]\n"
                         + "  }\n"
                         + "}";
-        Map<String, Object> objectMap = U.fromJson(inventory);
+        Map<String, Object> objectMap = U.fromJsonMap(inventory);
         assertEquals("Burning Tower", U.selectToken(objectMap, "//book[@year>2001]/title/text()"));
         assertNull(U.selectToken(objectMap, "//book[@year>2001]/title1/text()"));
         assertThrows(IllegalArgumentException.class, () -> U.selectToken(objectMap, "\\"));
@@ -547,18 +547,17 @@ class LodashTest {
                         + "    }\n"
                         + "  ]\n"
                         + "}";
+        Map<String, Object> objectMap = U.fromJsonMap(json);
         assertEquals(
                 "Anvil",
-                U.selectToken(
-                        U.fromJson(json), "//Manufacturers[Name='Acme Co']/Products/Name/text()"));
+                U.selectToken(objectMap, "//Manufacturers[Name='Acme Co']/Products/Name/text()"));
         assertEquals(
                 "50",
-                U.selectToken(
-                        U.fromJson(json), "//Manufacturers[Name='Acme Co']/Products/Price/text()"));
-        assertEquals("Anvil", U.selectToken(U.fromJson(json), "//Products[Price>=50]/Name/text()"));
+                U.selectToken(objectMap, "//Manufacturers[Name='Acme Co']/Products/Price/text()"));
+        assertEquals("Anvil", U.selectToken(objectMap, "//Products[Price>=50]/Name/text()"));
         assertEquals(
                 Arrays.asList("Anvil", "Elbow Grease"),
-                U.selectTokens(U.fromJson(json), "//Products[Price>=50]/Name/text()"));
+                U.selectTokens(objectMap, "//Products[Price>=50]/Name/text()"));
     }
 
     @Test
@@ -598,7 +597,7 @@ class LodashTest {
                         + "    ]\n"
                         + "  }\n"
                         + "}";
-        Map<String, Object> objectMap = U.fromJson(inventory);
+        Map<String, Object> objectMap = U.fromJsonMap(inventory);
         assertEquals(
                 "[Neal Stephenson, Larry Niven, Jerry Pournelle, Neal Stephenson]",
                 U.selectTokens(objectMap, "//book/author/text()").toString());
