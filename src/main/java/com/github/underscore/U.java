@@ -88,7 +88,6 @@ public class U<T> extends Underscore<T> {
     private static final Map<String, List<String>> DEFAULT_HEADER_FIELDS = new HashMap<>();
     private static final Set<String> SUPPORTED_HTTP_METHODS =
             new HashSet<>(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-    private static final int BUFFER_LENGTH_1024 = 1024;
     private static final int RESPONSE_CODE_400 = 400;
     private static final String ROOT = "root";
     private static String upper = "[A-Z\\xc0-\\xd6\\xd8-\\xde\\u0400-\\u04FF]";
