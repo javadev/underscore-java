@@ -27,12 +27,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,6 +50,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -1971,13 +1977,13 @@ public class U<T> extends Underscore<T> {
         private final boolean ok;
         private final int status;
         private final Map<String, List<String>> headerFields;
-        private final java.io.ByteArrayOutputStream stream;
+        private final String stream;
 
         public FetchResponse(
                 final boolean ok,
                 final int status,
                 final Map<String, List<String>> headerFields,
-                final java.io.ByteArrayOutputStream stream) {
+                final String stream) {
             this.ok = ok;
             this.status = status;
             this.stream = stream;
@@ -1997,15 +2003,11 @@ public class U<T> extends Underscore<T> {
         }
 
         public byte[] blob() {
-            return stream.toByteArray();
+            return stream.getBytes(StandardCharsets.UTF_8);
         }
 
         public String text() {
-            try {
-                return stream.toString(StandardCharsets.UTF_8.name());
-            } catch (java.io.UnsupportedEncodingException ex) {
-                throw new UnsupportedOperationException(ex);
-            }
+            return stream;
         }
 
         public Object json() {
@@ -2192,37 +2194,42 @@ public class U<T> extends Underscore<T> {
             final Integer connectTimeout,
             final Integer readTimeout) {
         try {
-            final java.net.URL localUrl = new java.net.URL(url);
-            final java.net.HttpURLConnection connection =
-                    (java.net.HttpURLConnection) localUrl.openConnection();
-            setupConnection(connection, method, headerFields, connectTimeout, readTimeout);
-            if (body != null) {
-                connection.setDoOutput(true);
-                final java.io.DataOutputStream outputStream =
-                        new java.io.DataOutputStream(connection.getOutputStream());
-                outputStream.write(body.getBytes(StandardCharsets.UTF_8));
-                outputStream.close();
+            final HttpClient.Builder clientBuilder =
+                    HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL);
+            if (Objects.nonNull(connectTimeout)) {
+                clientBuilder.connectTimeout(Duration.ofMillis(connectTimeout));
             }
-            final int responseCode = connection.getResponseCode();
-            final java.io.InputStream inputStream;
-            if (responseCode < RESPONSE_CODE_400) {
-                inputStream = connection.getInputStream();
+            final HttpClient client = clientBuilder.build();
+            final String localMethod;
+            if (SUPPORTED_HTTP_METHODS.contains(method)) {
+                localMethod = method;
             } else {
-                inputStream = connection.getErrorStream();
+                localMethod = "GET";
             }
-            final java.io.ByteArrayOutputStream result = new java.io.ByteArrayOutputStream();
-            final byte[] buffer = new byte[BUFFER_LENGTH_1024];
-            int length;
-            while ((length = inputStream.read(buffer)) != -1) {
-                result.write(buffer, 0, length);
+            final HttpRequest.Builder requestBuilder =
+                    HttpRequest.newBuilder()
+                            .uri(URI.create(url))
+                            .method(
+                                    localMethod,
+                                    Objects.nonNull(body)
+                                            ? HttpRequest.BodyPublishers.ofString(body)
+                                            : HttpRequest.BodyPublishers.noBody());
+            if (Objects.nonNull(headerFields)) {
+                headerFields.forEach(
+                        (key, value) -> requestBuilder.setHeader(key, join(value, ";")));
             }
-            inputStream.close();
+            if (Objects.nonNull(readTimeout)) {
+                requestBuilder.timeout(Duration.ofMillis(readTimeout));
+            }
+            final HttpRequest request = requestBuilder.build();
+            final HttpResponse<String> response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
             return new FetchResponse(
-                    responseCode < RESPONSE_CODE_400,
-                    responseCode,
-                    connection.getHeaderFields(),
-                    result);
-        } catch (java.io.IOException ex) {
+                    response.statusCode() < RESPONSE_CODE_400,
+                    response.statusCode(),
+                    response.headers().map(),
+                    response.body());
+        } catch (Exception ex) {
             throw new UnsupportedOperationException(ex);
         }
     }
