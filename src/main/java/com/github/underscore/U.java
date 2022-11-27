@@ -59,6 +59,7 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.NodeList;
 
 @SuppressWarnings({
+    "java:S112",
     "java:S135",
     "java:S1168",
     "java:S3740",
