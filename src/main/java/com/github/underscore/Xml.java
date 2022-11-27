@@ -1776,8 +1776,10 @@ public final class Xml {
         }
     }
 
-    private static class Document {
-        private static org.w3c.dom.Document createDocument(final String xml)
+    protected static class Document {
+        private Document() {}
+
+        public static org.w3c.dom.Document createDocument(final String xml)
                 throws java.io.IOException, javax.xml.parsers.ParserConfigurationException,
                         org.xml.sax.SAXException {
             final javax.xml.parsers.DocumentBuilderFactory factory =

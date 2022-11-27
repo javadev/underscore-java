@@ -53,6 +53,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.NodeList;
 
 @SuppressWarnings({
     "java:S135",
@@ -1783,6 +1787,40 @@ public class U<T> extends Underscore<T> {
 
     public static <T> T get(final Map<String, Object> object, final List<String> paths) {
         return baseGetOrSetOrRemove(object, paths, null, OperationType.GET);
+    }
+
+    public static String selectToken(final Map<String, Object> object, final String expression) {
+        final String xml = toXml(object);
+        try {
+            final XPath xPath = XPathFactory.newInstance().newXPath();
+            final org.w3c.dom.Document document = Xml.Document.createDocument(xml);
+            final NodeList nodes =
+                    (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+            if (nodes.getLength() == 0) {
+                return null;
+            }
+            return nodes.item(0).getNodeValue();
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
+    public static List<String> selectTokens(
+            final Map<String, Object> object, final String expression) {
+        final String xml = toXml(object);
+        try {
+            final XPath xPath = XPathFactory.newInstance().newXPath();
+            final org.w3c.dom.Document document = Xml.Document.createDocument(xml);
+            final NodeList nodes =
+                    (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+            final List<String> result = new ArrayList<>();
+            for (int i = 0; i < nodes.getLength(); i++) {
+                result.add(nodes.item(i).getNodeValue());
+            }
+            return result;
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
+        }
     }
 
     public static <T> T set(final Map<String, Object> object, final String path, Object value) {
