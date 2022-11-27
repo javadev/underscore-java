@@ -512,6 +512,8 @@ class LodashTest {
                 "Burning Tower",
                 U.selectToken(U.fromJson(inventory), "//book[@year>2001]/title/text()"));
         assertNull(U.selectToken(U.fromJson(inventory), "//book[@year>2001]/title1/text()"));
+        assertThrows(
+                IllegalArgumentException.class, () -> U.selectToken(U.fromJson(inventory), "\\"));
     }
 
     @Test
@@ -556,6 +558,8 @@ class LodashTest {
                 U.selectTokens(U.fromJson(inventory), "//book/author/text()").toString());
         assertEquals(
                 "[]", U.selectTokens(U.fromJson(inventory), "//book/author1/text()").toString());
+        assertThrows(
+                IllegalArgumentException.class, () -> U.selectTokens(U.fromJson(inventory), "\\"));
     }
 
     @SuppressWarnings("unchecked")
