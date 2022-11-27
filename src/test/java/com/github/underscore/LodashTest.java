@@ -557,8 +557,8 @@ class LodashTest {
                         U.fromJson(json), "//Manufacturers[Name='Acme Co']/Products/Price/text()"));
         assertEquals("Anvil", U.selectToken(U.fromJson(json), "//Products[Price>=50]/Name/text()"));
         assertEquals(
-                "[Anvil, Elbow Grease]",
-                U.selectTokens(U.fromJson(json), "//Products[Price>=50]/Name/text()").toString());
+                Arrays.asList("Anvil", "Elbow Grease"),
+                U.selectTokens(U.fromJson(json), "//Products[Price>=50]/Name/text()"));
     }
 
     @Test

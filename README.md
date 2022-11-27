@@ -181,6 +181,81 @@ System.out.println(builder.toXml());
 </root>
 ```
 
+```java
+        String inventory =
+                "{\n"
+                        + "  \"inventory\": {\n"
+                        + "    \"#comment\": \"Test is test comment\",\n"
+                        + "    \"book\": [\n"
+                        + "      {\n"
+                        + "        \"-year\": \"2000\",\n"
+                        + "        \"title\": \"Snow Crash\",\n"
+                        + "        \"author\": \"Neal Stephenson\",\n"
+                        + "        \"publisher\": \"Spectra\",\n"
+                        + "        \"isbn\": \"0553380958\",\n"
+                        + "        \"price\": \"14.95\"\n"
+                        + "      },\n"
+                        + "      {\n"
+                        + "        \"-year\": \"2005\",\n"
+                        + "        \"title\": \"Burning Tower\",\n"
+                        + "        \"author\": [\n"
+                        + "          \"Larry Niven\",\n"
+                        + "          \"Jerry Pournelle\"\n"
+                        + "        ],\n"
+                        + "        \"publisher\": \"Pocket\",\n"
+                        + "        \"isbn\": \"0743416910\",\n"
+                        + "        \"price\": \"5.99\"\n"
+                        + "      },\n"
+                        + "      {\n"
+                        + "        \"-year\": \"1995\",\n"
+                        + "        \"title\": \"Zodiac\",\n"
+                        + "        \"author\": \"Neal Stephenson\",\n"
+                        + "        \"publisher\": \"Spectra\",\n"
+                        + "        \"isbn\": \"0553573862\",\n"
+                        + "        \"price\": \"7.50\"\n"
+                        + "      }\n"
+                        + "    ]\n"
+                        + "  }\n"
+                        + "}";
+        Map<String, Object> objectMap = U.fromJson(inventory);
+        String title = U.selectToken(objectMap, "//book[@year>2001]/title/text()");
+        // "Burning Tower"
+
+        String json =
+                "{\n"
+                        + "  \"Stores\": [\n"
+                        + "    \"Lambton Quay\",\n"
+                        + "    \"Willis Street\"\n"
+                        + "  ],\n"
+                        + "  \"Manufacturers\": [\n"
+                        + "    {\n"
+                        + "      \"Name\": \"Acme Co\",\n"
+                        + "      \"Products\": [\n"
+                        + "        {\n"
+                        + "          \"Name\": \"Anvil\",\n"
+                        + "          \"Price\": 50\n"
+                        + "        }\n"
+                        + "      ]\n"
+                        + "    },\n"
+                        + "    {\n"
+                        + "      \"Name\": \"Contoso\",\n"
+                        + "      \"Products\": [\n"
+                        + "        {\n"
+                        + "          \"Name\": \"Elbow Grease\",\n"
+                        + "          \"Price\": 99.95\n"
+                        + "        },\n"
+                        + "        {\n"
+                        + "          \"Name\": \"Headlight Fluid\",\n"
+                        + "          \"Price\": 4\n"
+                        + "        }\n"
+                        + "      ]\n"
+                        + "    }\n"
+                        + "  ]\n"
+                        + "}";
+        List<String> names = U.selectTokens(U.fromJson(json), "//Products[Price>=50]/Name/text()");
+        // [Anvil, Elbow Grease]
+```
+
 Underscore-java is a java port of [Underscore.js](https://underscorejs.org/).
 
 In addition to porting Underscore's functionality, Underscore-java includes matching unit tests.
