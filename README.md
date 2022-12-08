@@ -17,7 +17,6 @@ underscore-java
 [![javadoc](https://javadoc.io/badge2/com.github.javadev/underscore/javadoc.svg)](https://javadoc.io/doc/com.github.javadev/underscore)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=alert_status)](https://sonarcloud.io/summary/overall?id=javadev_underscore-java)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=javadev_underscore-java)
-[![Scrutinizer](https://img.shields.io/scrutinizer/g/javadev/underscore-java.svg)](https://scrutinizer-ci.com/g/javadev/underscore-java/)
 [![Build Status](https://dev.azure.com/javadevazure/underscore-java/_apis/build/status/javadev.underscore-java?branchName=main)](https://dev.azure.com/javadevazure/underscore-java/_build/latest?definitionId=1&branchName=main)
 [![Hits-of-Code](https://hitsofcode.com/github/javadev/underscore-java)](https://hitsofcode.com/view/github/javadev/underscore-java)
 [![codebeat badge](https://codebeat.co/badges/3c32993b-056e-4e34-a4b6-7e7792c6c123)](https://codebeat.co/projects/github-com-javadev-underscore-java-main)
