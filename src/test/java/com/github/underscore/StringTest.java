@@ -32,7 +32,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.underscore.Json.JsonStringBuilder;
 import com.github.underscore.Xml.XmlStringBuilder;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -1024,8 +1023,8 @@ class StringTest {
     @Test
     void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(null, null, builder, false, Collections.<String>emptySet(), false,
-                ARRAY_TRUE);
+        Xml.XmlArray.writeXml(
+                null, null, builder, false, Collections.<String>emptySet(), false, ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
                 builder.toString());
@@ -1447,22 +1446,25 @@ class StringTest {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(null, null, builder, false, Collections.emptySet(),
-                ARRAY_TRUE);
+        Xml.XmlArray.writeXml(null, null, builder, false, Collections.emptySet(), ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
                 builder.toString());
 
         builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(new Object[0], null, builder, false, Collections.<String>emptySet(),
-                ARRAY_TRUE);
+        Xml.XmlArray.writeXml(
+                new Object[0], null, builder, false, Collections.<String>emptySet(), ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
                 builder.toString());
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(
-                new Object[] {"Hello"}, null, builder, false, Collections.<String>emptySet(),
+                new Object[] {"Hello"},
+                null,
+                builder,
+                false,
+                Collections.<String>emptySet(),
                 ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n</root>",
@@ -3469,7 +3471,9 @@ class StringTest {
 
     @Test
     void fromJsonStackoverflowObject() throws IOException {
-        String stringJson = new String(Files.readAllBytes(Paths.get("src/test/resources/wellFormedObject.json")));
+        String stringJson =
+                new String(
+                        Files.readAllBytes(Paths.get("src/test/resources/wellFormedObject.json")));
         try {
             U.fromJsonMap(stringJson);
         } catch (Throwable throwable) {
@@ -3479,7 +3483,9 @@ class StringTest {
 
     @Test
     void fromJsonStackoverflowArray() throws IOException {
-        String stringJson = new String(Files.readAllBytes(Paths.get("src/test/resources/wellFormedArray.json")));
+        String stringJson =
+                new String(
+                        Files.readAllBytes(Paths.get("src/test/resources/wellFormedArray.json")));
         try {
             U.fromJsonMap(stringJson);
         } catch (Throwable throwable) {
