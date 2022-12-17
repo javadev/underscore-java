@@ -32,7 +32,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.underscore.Json.JsonStringBuilder;
 import com.github.underscore.Xml.XmlStringBuilder;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -1024,8 +1023,8 @@ class StringTest {
     @Test
     void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(null, null, builder, false, Collections.<String>emptySet(), false,
-                ARRAY_TRUE);
+        Xml.XmlArray.writeXml(
+                null, null, builder, false, Collections.<String>emptySet(), false, ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
                 builder.toString());
@@ -1447,22 +1446,25 @@ class StringTest {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(null, null, builder, false, Collections.emptySet(),
-                ARRAY_TRUE);
+        Xml.XmlArray.writeXml(null, null, builder, false, Collections.emptySet(), ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
                 builder.toString());
 
         builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(new Object[0], null, builder, false, Collections.<String>emptySet(),
-                ARRAY_TRUE);
+        Xml.XmlArray.writeXml(
+                new Object[0], null, builder, false, Collections.<String>emptySet(), ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
                 builder.toString());
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(
-                new Object[] {"Hello"}, null, builder, false, Collections.<String>emptySet(),
+                new Object[] {"Hello"},
+                null,
+                builder,
+                false,
+                Collections.<String>emptySet(),
                 ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n</root>",
@@ -3278,6 +3280,37 @@ class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    void fromXmlWithoutNamespacesMap() {
+        String string =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+                        + "<ns2:orders xmlns=\"http://www.demandware.com/xml/impex/inventory/2007-05-31\""
+                        + " xmlns:ns2=\"http://www.demandware.com/xml/impex/order/2006-10-31\">\n"
+                        + "    <ns2:order ns2:order-no=\"00250551\">\n"
+                        + "        <ns2:order-date>2018-11-20T09:47:47Z</ns2:order-date>\n"
+                        + "        <ns2:created-by>storefront</ns2:created-by>\n"
+                        + "        <ns2:original-order-no>00250551</ns2:original-order-no>\n"
+                        + "    </ns2:order>\n"
+                        + "</ns2:orders>";
+        String json =
+                "{\n"
+                        + "  \"orders\": {\n"
+                        + "    \"-xmlns\": \"http://www.demandware.com/xml/impex/inventory/2007-05-31\",\n"
+                        + "    \"-xmlns:ns2\": \"http://www.demandware.com/xml/impex/order/2006-10-31\",\n"
+                        + "    \"order\": {\n"
+                        + "      \"-order-no\": \"00250551\",\n"
+                        + "      \"order-date\": \"2018-11-20T09:47:47Z\",\n"
+                        + "      \"created-by\": \"storefront\",\n"
+                        + "      \"original-order-no\": \"00250551\"\n"
+                        + "    }\n"
+                        + "  },\n"
+                        + "  \"#standalone\": \"yes\"\n"
+                        + "}";
+        assertEquals(json, U.toJson(U.fromXmlWithoutNamespacesMap(string)));
+        assertEquals(json, U.xmlToJson(string, U.Mode.WITHOUT_NAMESPACES_XML_TO_JSON));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     void fromXmlWithoutNamespacesAndAttributes() {
         String string =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
@@ -3438,7 +3471,9 @@ class StringTest {
 
     @Test
     void fromJsonStackoverflowObject() throws IOException {
-        String stringJson = new String(Files.readAllBytes(Paths.get("src/test/resources/wellFormedObject.json")));
+        String stringJson =
+                new String(
+                        Files.readAllBytes(Paths.get("src/test/resources/wellFormedObject.json")));
         try {
             U.fromJsonMap(stringJson);
         } catch (Throwable throwable) {
@@ -3448,7 +3483,9 @@ class StringTest {
 
     @Test
     void fromJsonStackoverflowArray() throws IOException {
-        String stringJson = new String(Files.readAllBytes(Paths.get("src/test/resources/wellFormedArray.json")));
+        String stringJson =
+                new String(
+                        Files.readAllBytes(Paths.get("src/test/resources/wellFormedArray.json")));
         try {
             U.fromJsonMap(stringJson);
         } catch (Throwable throwable) {

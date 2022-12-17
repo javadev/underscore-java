@@ -140,7 +140,8 @@ public class U<T> extends Underscore<T> {
         REMOVE_FIRST_LEVEL_XML_TO_JSON,
         FORCE_ADD_ROOT_JSON_TO_XML,
         FORCE_REMOVE_ARRAY_ATTRIBUTE_JSON_TO_XML,
-        FORCE_REMOVE_ARRAY_BOOLEAN_NUMBER_ATTRIBUTES_JSON_TO_XML
+        FORCE_REMOVE_ARRAY_BOOLEAN_NUMBER_ATTRIBUTES_JSON_TO_XML,
+        WITHOUT_NAMESPACES_XML_TO_JSON
     }
 
     public U(final Iterable<T> iterable) {
@@ -2555,6 +2556,11 @@ public class U<T> extends Underscore<T> {
         return (T) Xml.fromXmlWithoutNamespaces(xml);
     }
 
+    public static Map<String, Object> fromXmlWithoutNamespacesMap(final String xml) {
+        final Object object = Xml.fromXmlWithoutNamespaces(xml);
+        return getStringObjectMap(object);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> T fromXmlWithoutAttributes(final String xml) {
         return (T) Xml.fromXmlWithoutAttributes(xml);
@@ -2693,6 +2699,8 @@ public class U<T> extends Underscore<T> {
                                 identStep);
             } else if (mode == Mode.REMOVE_FIRST_LEVEL_XML_TO_JSON) {
                 result = Json.toJson(replaceFirstLevel((Map) object), identStep);
+            } else if (mode == Mode.WITHOUT_NAMESPACES_XML_TO_JSON) {
+                result = Json.toJson((Map) Xml.fromXmlWithoutNamespaces(xml), identStep);
             } else {
                 result = Json.toJson((Map) object, identStep);
             }
