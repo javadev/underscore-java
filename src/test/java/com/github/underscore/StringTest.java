@@ -3289,7 +3289,7 @@ class StringTest {
                         + "        <ns2:original-order-no>00250551</ns2:original-order-no>\n"
                         + "    </ns2:order>\n"
                         + "</ns2:orders>";
-        assertEquals(
+        String json =
                 "{\n"
                         + "  \"orders\": {\n"
                         + "    \"-xmlns\": \"http://www.demandware.com/xml/impex/inventory/2007-05-31\",\n"
@@ -3302,8 +3302,9 @@ class StringTest {
                         + "    }\n"
                         + "  },\n"
                         + "  \"#standalone\": \"yes\"\n"
-                        + "}",
-                U.toJson(U.fromXmlWithoutNamespacesMap(string)));
+                        + "}";
+        assertEquals(json, U.toJson(U.fromXmlWithoutNamespacesMap(string)));
+        assertEquals(json, U.xmlToJson(string, U.Mode.WITHOUT_NAMESPACES_XML_TO_JSON));
     }
 
     @SuppressWarnings("unchecked")
