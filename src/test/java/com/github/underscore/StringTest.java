@@ -3278,6 +3278,36 @@ class StringTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    void fromXmlWithoutNamespacesMap() {
+        String string =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+                        + "<ns2:orders xmlns=\"http://www.demandware.com/xml/impex/inventory/2007-05-31\""
+                        + " xmlns:ns2=\"http://www.demandware.com/xml/impex/order/2006-10-31\">\n"
+                        + "    <ns2:order ns2:order-no=\"00250551\">\n"
+                        + "        <ns2:order-date>2018-11-20T09:47:47Z</ns2:order-date>\n"
+                        + "        <ns2:created-by>storefront</ns2:created-by>\n"
+                        + "        <ns2:original-order-no>00250551</ns2:original-order-no>\n"
+                        + "    </ns2:order>\n"
+                        + "</ns2:orders>";
+        assertEquals(
+                "{\n"
+                        + "  \"orders\": {\n"
+                        + "    \"-xmlns\": \"http://www.demandware.com/xml/impex/inventory/2007-05-31\",\n"
+                        + "    \"-xmlns:ns2\": \"http://www.demandware.com/xml/impex/order/2006-10-31\",\n"
+                        + "    \"order\": {\n"
+                        + "      \"-order-no\": \"00250551\",\n"
+                        + "      \"order-date\": \"2018-11-20T09:47:47Z\",\n"
+                        + "      \"created-by\": \"storefront\",\n"
+                        + "      \"original-order-no\": \"00250551\"\n"
+                        + "    }\n"
+                        + "  },\n"
+                        + "  \"#standalone\": \"yes\"\n"
+                        + "}",
+                U.toJson(U.fromXmlWithoutNamespacesMap(string)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     void fromXmlWithoutNamespacesAndAttributes() {
         String string =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"

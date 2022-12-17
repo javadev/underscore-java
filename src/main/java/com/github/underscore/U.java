@@ -2555,6 +2555,11 @@ public class U<T> extends Underscore<T> {
         return (T) Xml.fromXmlWithoutNamespaces(xml);
     }
 
+    public static Map<String, Object> fromXmlWithoutNamespacesMap(final String xml) {
+        final Object object = Xml.fromXmlWithoutNamespaces(xml);
+        return getStringObjectMap(object);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> T fromXmlWithoutAttributes(final String xml) {
         return (T) Xml.fromXmlWithoutAttributes(xml);
