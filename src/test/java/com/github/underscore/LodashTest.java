@@ -1092,12 +1092,18 @@ class LodashTest {
     void forceRemoveArrayTrueBooleanAndNumber() {
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                        + "<data>\n"
-                        + "  <a>b</a>\n"
-                        + "  <c>true</c>\n"
-                        + "  <d>1</d>\n"
-                        + "  <e></e>\n"
-                        + "</data>",
+                        + "<root>\n"
+                        + "  <data>\n"
+                        + "    <a>b</a>\n"
+                        + "    <c>true</c>\n"
+                        + "    <d>1</d>\n"
+                        + "    <e></e>\n"
+                        + "    <f>null</f>\n"
+                        + "  </data>\n"
+                        + "  <data2>true</data2>\n"
+                        + "  <data2>1</data2>\n"
+                        + "  <data2>null</data2>\n"
+                        + "</root>",
                 U.jsonToXml(
                         "{\n"
                                 + "  \"data\": [\n"
@@ -1105,8 +1111,14 @@ class LodashTest {
                                 + "      \"a\": \"b\",\n"
                                 + "      \"c\": true,\n"
                                 + "      \"d\": 1,\n"
-                                + "      \"e\": {}\n"
+                                + "      \"e\": {},\n"
+                                + "      \"f\": null\n"
                                 + "    }\n"
+                                + "  ],\n"
+                                + "  \"data2\": [\n"
+                                + "      true,\n"
+                                + "      1,\n"
+                                + "      null\n"
                                 + "  ]\n"
                                 + "}",
                         U.Mode.FORCE_REMOVE_ARRAY_BOOLEAN_NUMBER_ATTRIBUTES_JSON_TO_XML));

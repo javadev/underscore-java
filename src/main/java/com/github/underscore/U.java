@@ -3070,12 +3070,19 @@ public class U<T> extends Underscore<T> {
         if (value instanceof List) {
             List<Object> values = newArrayList();
             for (Object item : (List) value) {
-                values.add(
-                        item instanceof Map ? replaceNumberAndBooleanWithString((Map) item) : item);
+                if (item instanceof Map) {
+                    values.add(replaceNumberAndBooleanWithString((Map) item));
+                } else if (item instanceof Number || item instanceof Boolean || isNull(item)) {
+                    values.add(String.valueOf(item));
+                } else {
+                    values.add(item);
+                }
             }
             result = values;
         } else if (value instanceof Map) {
             result = replaceNumberAndBooleanWithString((Map) value);
+        } else if (isNull(value)) {
+            result = "null";
         } else {
             result = value;
         }
