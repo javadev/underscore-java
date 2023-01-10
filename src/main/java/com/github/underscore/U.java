@@ -2618,7 +2618,10 @@ public class U<T> extends Underscore<T> {
 
     @SuppressWarnings("unchecked")
     public static String jsonToXml(
-            String json, Xml.XmlStringBuilder.Step identStep, JsonToXmlMode mode, String newRootName) {
+            String json,
+            Xml.XmlStringBuilder.Step identStep,
+            JsonToXmlMode mode,
+            String newRootName) {
         Object object = Json.fromJson(json);
         final String result;
         if (object instanceof Map) {
@@ -2670,7 +2673,10 @@ public class U<T> extends Underscore<T> {
 
     public static String jsonToXml(String json, String newRootName) {
         return jsonToXml(
-                json, Xml.XmlStringBuilder.Step.TWO_SPACES, JsonToXmlMode.DEFINE_ROOT_NAME, newRootName);
+                json,
+                Xml.XmlStringBuilder.Step.TWO_SPACES,
+                JsonToXmlMode.DEFINE_ROOT_NAME,
+                newRootName);
     }
 
     public static String jsonToXml(String json) {
@@ -2678,7 +2684,8 @@ public class U<T> extends Underscore<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep, XmlToJsonMode mode) {
+    public static String xmlToJson(
+            String xml, Json.JsonStringBuilder.Step identStep, XmlToJsonMode mode) {
         Object object = Xml.fromXml(xml);
         final String result;
         if (object instanceof Map) {

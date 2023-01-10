@@ -126,7 +126,9 @@ public final class Xml {
         private int ident;
 
         public XmlStringBuilder() {
-            builder = new StringJoiner("").add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
+            builder =
+                    new StringJoiner("")
+                            .add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
             identStep = Step.TWO_SPACES;
             ident = 2;
         }
@@ -183,13 +185,14 @@ public final class Xml {
         public XmlStringBuilderWithoutRoot(
                 XmlStringBuilder.Step identStep, String encoding, String standalone) {
             super(
-                    new StringJoiner("").add(
-                            "<?xml version=\"1.0\" encoding=\""
-                                    + XmlValue.escape(encoding).replace("\"", QUOT)
-                                    + "\""
-                                    + standalone
-                                    + "?>"
-                                    + (identStep == Step.COMPACT ? "" : "\n")),
+                    new StringJoiner("")
+                            .add(
+                                    "<?xml version=\"1.0\" encoding=\""
+                                            + XmlValue.escape(encoding).replace("\"", QUOT)
+                                            + "\""
+                                            + standalone
+                                            + "?>"
+                                            + (identStep == Step.COMPACT ? "" : "\n")),
                     identStep,
                     0);
         }
@@ -993,9 +996,7 @@ public final class Xml {
                         DOCUMENT.createElement("a" + ch);
                         result.add(Character.toString(ch));
                     } catch (Exception ex) {
-                        result.add("__")
-                                .add(Base32.encode(Character.toString(ch)))
-                                .add("__");
+                        result.add("__").add(Base32.encode(Character.toString(ch))).add("__");
                     }
                 } else {
                     result.add("__").add(Base32.encode(Character.toString(ch))).add("__");
