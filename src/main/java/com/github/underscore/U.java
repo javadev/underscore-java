@@ -127,21 +127,24 @@ public class U<T> extends Underscore<T> {
                 "Content-Type", Arrays.asList("application/json", "charset=utf-8"));
     }
 
-    public enum Mode {
+    public enum XmlToJsonMode {
         REPLACE_SELF_CLOSING_WITH_NULL,
-        REPLACE_SELF_CLOSING_WITH_EMPTY,
+        REPLACE_SELF_CLOSING_WITH_STRING,
         REPLACE_EMPTY_VALUE_WITH_NULL,
         REPLACE_EMPTY_TAG_WITH_NULL,
-        REPLACE_EMPTY_TAG_WITH_EMPTY_STRING,
+        REPLACE_EMPTY_TAG_WITH_STRING,
+        REMOVE_FIRST_LEVEL,
+        WITHOUT_NAMESPACES
+    }
+
+    public enum JsonToXmlMode {
         FORCE_ATTRIBUTE_USAGE,
         DEFINE_ROOT_NAME,
         REPLACE_NULL_WITH_EMPTY_VALUE,
         REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE,
-        REMOVE_FIRST_LEVEL_XML_TO_JSON,
-        FORCE_ADD_ROOT_JSON_TO_XML,
-        FORCE_REMOVE_ARRAY_ATTRIBUTE_JSON_TO_XML,
-        FORCE_REMOVE_ARRAY_BOOLEAN_NUMBER_ATTRIBUTES_JSON_TO_XML,
-        WITHOUT_NAMESPACES_XML_TO_JSON
+        ADD_ROOT,
+        REMOVE_ARRAY_ATTRIBUTE,
+        REMOVE_ATTRIBUTES
     }
 
     public U(final Iterable<T> iterable) {
@@ -2615,30 +2618,30 @@ public class U<T> extends Underscore<T> {
 
     @SuppressWarnings("unchecked")
     public static String jsonToXml(
-            String json, Xml.XmlStringBuilder.Step identStep, Mode mode, String newRootName) {
+            String json, Xml.XmlStringBuilder.Step identStep, JsonToXmlMode mode, String newRootName) {
         Object object = Json.fromJson(json);
         final String result;
         if (object instanceof Map) {
-            if (mode == Mode.FORCE_ATTRIBUTE_USAGE) {
+            if (mode == JsonToXmlMode.FORCE_ATTRIBUTE_USAGE) {
                 result = Xml.toXml(forceAttributeUsage((Map) object), identStep, newRootName);
-            } else if (mode == Mode.DEFINE_ROOT_NAME) {
+            } else if (mode == JsonToXmlMode.DEFINE_ROOT_NAME) {
                 result = Xml.toXml((Map) object, identStep, newRootName);
-            } else if (mode == Mode.REPLACE_NULL_WITH_EMPTY_VALUE) {
+            } else if (mode == JsonToXmlMode.REPLACE_NULL_WITH_EMPTY_VALUE) {
                 result = Xml.toXml(replaceNullWithEmptyValue((Map) object), identStep, newRootName);
-            } else if (mode == Mode.REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE) {
+            } else if (mode == JsonToXmlMode.REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE) {
                 result =
                         Xml.toXml(
                                 replaceEmptyStringWithEmptyValue((Map) object),
                                 identStep,
                                 newRootName);
-            } else if (mode == Mode.FORCE_ADD_ROOT_JSON_TO_XML
+            } else if (mode == JsonToXmlMode.ADD_ROOT
                     && !Xml.XmlValue.getMapKey(object).equals(ROOT)) {
                 final Map<String, Object> map = U.newLinkedHashMap();
                 map.put(newRootName, object);
                 result = Xml.toXml(map, identStep);
-            } else if (mode == Mode.FORCE_REMOVE_ARRAY_ATTRIBUTE_JSON_TO_XML) {
+            } else if (mode == JsonToXmlMode.REMOVE_ARRAY_ATTRIBUTE) {
                 result = Xml.toXml((Map) object, identStep, newRootName, Xml.ArrayTrue.SKIP);
-            } else if (mode == Mode.FORCE_REMOVE_ARRAY_BOOLEAN_NUMBER_ATTRIBUTES_JSON_TO_XML) {
+            } else if (mode == JsonToXmlMode.REMOVE_ATTRIBUTES) {
                 result =
                         Xml.toXml(
                                 replaceNumberAndBooleanWithString((Map) object),
@@ -2657,17 +2660,17 @@ public class U<T> extends Underscore<T> {
         return jsonToXml(json, identStep, null, ROOT);
     }
 
-    public static String jsonToXml(String json, Mode mode) {
+    public static String jsonToXml(String json, JsonToXmlMode mode) {
         return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, mode, ROOT);
     }
 
-    public static String jsonToXml(String json, Mode mode, String newRootName) {
+    public static String jsonToXml(String json, JsonToXmlMode mode, String newRootName) {
         return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, mode, newRootName);
     }
 
     public static String jsonToXml(String json, String newRootName) {
         return jsonToXml(
-                json, Xml.XmlStringBuilder.Step.TWO_SPACES, Mode.DEFINE_ROOT_NAME, newRootName);
+                json, Xml.XmlStringBuilder.Step.TWO_SPACES, JsonToXmlMode.DEFINE_ROOT_NAME, newRootName);
     }
 
     public static String jsonToXml(String json) {
@@ -2675,31 +2678,31 @@ public class U<T> extends Underscore<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep, Mode mode) {
+    public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep, XmlToJsonMode mode) {
         Object object = Xml.fromXml(xml);
         final String result;
         if (object instanceof Map) {
-            if (mode == Mode.REPLACE_SELF_CLOSING_WITH_NULL) {
+            if (mode == XmlToJsonMode.REPLACE_SELF_CLOSING_WITH_NULL) {
                 result = Json.toJson(replaceSelfClosingWithNull((Map) object), identStep);
-            } else if (mode == Mode.REPLACE_SELF_CLOSING_WITH_EMPTY) {
+            } else if (mode == XmlToJsonMode.REPLACE_SELF_CLOSING_WITH_STRING) {
                 result = Json.toJson(replaceSelfClosingWithEmpty((Map) object), identStep);
-            } else if (mode == Mode.REPLACE_EMPTY_VALUE_WITH_NULL) {
+            } else if (mode == XmlToJsonMode.REPLACE_EMPTY_VALUE_WITH_NULL) {
                 result = Json.toJson(replaceEmptyValueWithNull((Map) object), identStep);
-            } else if (mode == Mode.REPLACE_EMPTY_TAG_WITH_NULL) {
+            } else if (mode == XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_NULL) {
                 result =
                         Json.toJson(
                                 replaceEmptyValueWithNull(replaceSelfClosingWithNull((Map) object)),
                                 identStep);
-            } else if (mode == Mode.REPLACE_EMPTY_TAG_WITH_EMPTY_STRING) {
+            } else if (mode == XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_STRING) {
                 result =
                         Json.toJson(
                                 (Map<String, Object>)
                                         replaceEmptyValueWithEmptyString(
                                                 replaceSelfClosingWithEmpty((Map) object)),
                                 identStep);
-            } else if (mode == Mode.REMOVE_FIRST_LEVEL_XML_TO_JSON) {
+            } else if (mode == XmlToJsonMode.REMOVE_FIRST_LEVEL) {
                 result = Json.toJson(replaceFirstLevel((Map) object), identStep);
-            } else if (mode == Mode.WITHOUT_NAMESPACES_XML_TO_JSON) {
+            } else if (mode == XmlToJsonMode.WITHOUT_NAMESPACES) {
                 result = Json.toJson((Map) Xml.fromXmlWithoutNamespaces(xml), identStep);
             } else {
                 result = Json.toJson((Map) object, identStep);
@@ -2717,7 +2720,7 @@ public class U<T> extends Underscore<T> {
         return xmlToJson(xml, identStep, null);
     }
 
-    public static String xmlToJson(String xml, Mode mode) {
+    public static String xmlToJson(String xml, XmlToJsonMode mode) {
         return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, mode);
     }
 

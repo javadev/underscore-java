@@ -3306,7 +3306,7 @@ class StringTest {
                         + "  \"#standalone\": \"yes\"\n"
                         + "}";
         assertEquals(json, U.toJson(U.fromXmlWithoutNamespacesMap(string)));
-        assertEquals(json, U.xmlToJson(string, U.Mode.WITHOUT_NAMESPACES_XML_TO_JSON));
+        assertEquals(json, U.xmlToJson(string, U.XmlToJsonMode.WITHOUT_NAMESPACES));
     }
 
     @SuppressWarnings("unchecked")
