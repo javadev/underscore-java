@@ -82,16 +82,16 @@ U.of(1, 2, 3) // or java.util.Arrays.asList(1, 2, 3) or new Integer[] {1, 2, 3}
     .forEach(System.out::println);
     // "a1", "a2", "a2", "a3", "a3", "a3"
     
-U.formatXml("<a><b>data</b></a>");
+U.formatXml("<a><b>data</b></a>", Xml.XmlStringBuilder.Step.TWO_SPACES);
     // <a>
-    //    <b>data</b>
+    //   <b>data</b>
     // </a>
 
-U.formatJson("{\"a\":{\"b\":\"data\"}}");
+U.formatJson("{\"a\":{\"b\":\"data\"}}", Json.JsonStringBuilder.Step.TWO_SPACES);
     // {
-    //    "a": {
-    //      "b": "data"
-    //    }
+    //   "a": {
+    //     "b": "data"
+    //   }
     // }
 
 U.xmlToJson("<mydocument has=\"an attribute\">\n" +
