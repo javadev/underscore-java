@@ -94,20 +94,59 @@ U.formatJson("{\"a\":{\"b\":\"data\"}}");
     //    }
     // }
 
-U.xmlToJson("<a attr=\"c\"><b>data</b></a>");
+U.xmlToJson("<mydocument has=\"an attribute\">\n" +
+    "   <and>\n" +
+    "   <many>elements</many>\n" +
+    "    <many>more elements</many>\n" +
+    "   </and>\n" +
+    " <plus a=\"complex\">\n" +
+    "     element as well\n" +
+    "   </plus>\n" +
+    "</mydocument>", Json.JsonStringBuilder.Step.TWO_SPACES);
+
     // {
-    //   "a": {
-    //     "-attr": "c",
-    //     "b": "data"
+    //   "mydocument": {
+    //     "-has": "an attribute",
+    //     "and": {
+    //       "many": [
+    //         "elements",
+    //         "more elements"
+    //       ]
+    //     },
+    //     "plus": {
+    //       "-a": "complex",
+    //       "#text": "\n     element as well\n   "
+    //     }
     //   },
     //   "#omit-xml-declaration": "yes"
     // }
 
-U.jsonToXml("{\"a\":{\"-attr\":\"c\",\"b\":\"data\"}}");
-    // <?xml version="1.0" encoding="UTF-8"?>
-    // <a attr="c">
-    //   <b>data</b>
-    // </a>
+U.jsonToXml("{\n" +
+    "  \"mydocument\": {\n" +
+    "    \"-has\": \"an attribute\",\n" +
+    "    \"and\": {\n" +
+    "      \"many\": [\n" +
+    "        \"elements\",\n" +
+    "        \"more elements\"\n" +
+    "      ]\n" +
+    "    },\n" +
+    "    \"plus\": {\n" +
+    "      \"-a\": \"complex\",\n" +
+    "      \"#text\": \"\\n     element as well\\n   \"\n" +
+    "    }\n" +
+    "  },\n" +
+    "  \"#omit-xml-declaration\": \"yes\"\n" +
+    "}", Xml.XmlStringBuilder.Step.TWO_SPACES);
+
+    // <mydocument has="an attribute">
+    //   <and>
+    //     <many>elements</many>
+    //     <many>more elements</many>
+    //   </and>
+    //   <plus a="complex">
+    //      element as well
+    //    </plus>
+    // </mydocument>
 
 U.Builder builder = U.objectBuilder()
     .add("firstName", "John")
