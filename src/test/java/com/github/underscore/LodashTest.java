@@ -893,7 +893,8 @@ class LodashTest {
                         + "  \"#omit-xml-declaration\": \"yes\"\n"
                         + "}",
                 U.xmlToJson(
-                        "<c><b></b><b></b><a/></c>", U.XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_STRING));
+                        "<c><b></b><b></b><a/></c>",
+                        U.XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_STRING));
         assertEquals(
                 "{\n" + "  \"a\": \"\",\n" + "  \"#omit-xml-declaration\": \"yes\"\n" + "}",
                 U.xmlToJson("<a/>", U.XmlToJsonMode.REPLACE_SELF_CLOSING_WITH_STRING));
@@ -937,7 +938,8 @@ class LodashTest {
                         + "  },\n"
                         + "  \"#omit-xml-declaration\": \"yes\"\n"
                         + "}",
-                U.xmlToJson("<a><b></b><b></b></a>", U.XmlToJsonMode.REPLACE_EMPTY_VALUE_WITH_NULL));
+                U.xmlToJson(
+                        "<a><b></b><b></b></a>", U.XmlToJsonMode.REPLACE_EMPTY_VALUE_WITH_NULL));
         Map<String, Object> map3 = U.newLinkedHashMap();
         List<Object> list2 = U.newArrayList();
         list2.add(U.newArrayList());
@@ -957,6 +959,45 @@ class LodashTest {
                 "{\n" + "  \"debug\": \"&amp;\"\n" + "}",
                 U.xmlToJson(
                         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<debug>&amp;amp;</debug>"));
+    }
+
+    @Test
+    void xmlOrJsonToJson() {
+        assertEquals(
+                "{\n"
+                        + "  \"a\": {\n"
+                        + "    \"-self-closing\": \"true\"\n"
+                        + "  },\n"
+                        + "  \"#omit-xml-declaration\": \"yes\"\n"
+                        + "}",
+                U.xmlOrJsonToJson("<a/>"));
+        assertEquals(
+                "[\n]",
+                U.xmlOrJsonToJson(
+                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                + "<root empty-array=\"true\"></root>"));
+        assertEquals("{\n" + "  \"a\": 1\n" + "}", U.xmlOrJsonToJson("{\"a\":1}"));
+        assertEquals("[\n]", U.xmlOrJsonToJson("[]"));
+        assertEquals("", U.xmlOrJsonToJson(""));
+    }
+
+    @Test
+    void xmlOrJsonToXml() {
+        assertEquals("<a/>", U.xmlOrJsonToXml("<a/>"));
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root empty-array=\"true\"></root>",
+                U.xmlOrJsonToXml(
+                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                + "<root empty-array=\"true\"></root>"));
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<a number=\"true\">1</a>",
+                U.xmlOrJsonToXml("{\"a\":1}"));
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root empty-array=\"true\"></root>",
+                U.xmlOrJsonToXml("[]"));
+        assertEquals("", U.xmlOrJsonToXml(""));
     }
 
     @Test
@@ -1006,7 +1047,10 @@ class LodashTest {
                 U.jsonToXml("{\"a\": \"b\", \"c\": \"d\"}", "json"));
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<json a=\"b\" c=\"d\"></json>",
-                U.jsonToXml("{\"a\": \"b\", \"c\": \"d\"}", U.JsonToXmlMode.FORCE_ATTRIBUTE_USAGE, "json"));
+                U.jsonToXml(
+                        "{\"a\": \"b\", \"c\": \"d\"}",
+                        U.JsonToXmlMode.FORCE_ATTRIBUTE_USAGE,
+                        "json"));
     }
 
     @Test
