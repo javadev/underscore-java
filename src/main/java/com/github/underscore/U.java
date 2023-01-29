@@ -2618,7 +2618,10 @@ public class U<T> extends Underscore<T> {
 
     @SuppressWarnings("unchecked")
     public static String jsonToXml(
-            String json, Xml.XmlStringBuilder.Step identStep, JsonToXmlMode mode, String newRootName) {
+            String json,
+            Xml.XmlStringBuilder.Step identStep,
+            JsonToXmlMode mode,
+            String newRootName) {
         Object object = Json.fromJson(json);
         final String result;
         if (object instanceof Map) {
@@ -2670,7 +2673,10 @@ public class U<T> extends Underscore<T> {
 
     public static String jsonToXml(String json, String newRootName) {
         return jsonToXml(
-                json, Xml.XmlStringBuilder.Step.TWO_SPACES, JsonToXmlMode.DEFINE_ROOT_NAME, newRootName);
+                json,
+                Xml.XmlStringBuilder.Step.TWO_SPACES,
+                JsonToXmlMode.DEFINE_ROOT_NAME,
+                newRootName);
     }
 
     public static String jsonToXml(String json) {
@@ -2678,7 +2684,8 @@ public class U<T> extends Underscore<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep, XmlToJsonMode mode) {
+    public static String xmlToJson(
+            String xml, Json.JsonStringBuilder.Step identStep, XmlToJsonMode mode) {
         Object object = Xml.fromXml(xml);
         final String result;
         if (object instanceof Map) {
@@ -2722,6 +2729,62 @@ public class U<T> extends Underscore<T> {
 
     public static String xmlToJson(String xml, XmlToJsonMode mode) {
         return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, mode);
+    }
+
+    public static String xmlOrJsonToJson(String xmlOrJson, Json.JsonStringBuilder.Step identStep) {
+        TextType textType = getTextType(xmlOrJson);
+        final String result;
+        if (textType == TextType.JSON) {
+            result = getJsonString(identStep, fromJson(xmlOrJson));
+        } else if (textType == TextType.XML) {
+            result = getJsonString(identStep, fromXml(xmlOrJson));
+        } else {
+            result = xmlOrJson;
+        }
+        return result;
+    }
+
+    public static String xmlOrJsonToJson(String xmlOrJson) {
+        return xmlOrJsonToJson(xmlOrJson, Json.JsonStringBuilder.Step.TWO_SPACES);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static String getJsonString(Json.JsonStringBuilder.Step identStep, Object object) {
+        final String result;
+        if (object instanceof Map) {
+            result = Json.toJson((Map) object, identStep);
+        } else {
+            result = Json.toJson((List) object, identStep);
+        }
+        return result;
+    }
+
+    public static String xmlOrJsonToXml(String xmlOrJson, Xml.XmlStringBuilder.Step identStep) {
+        TextType textType = getTextType(xmlOrJson);
+        final String result;
+        if (textType == TextType.JSON) {
+            result = getXmlString(identStep, fromJson(xmlOrJson));
+        } else if (textType == TextType.XML) {
+            result = getXmlString(identStep, fromXml(xmlOrJson));
+        } else {
+            result = xmlOrJson;
+        }
+        return result;
+    }
+
+    public static String xmlOrJsonToXml(String xmlOrJson) {
+        return xmlOrJsonToXml(xmlOrJson, Xml.XmlStringBuilder.Step.TWO_SPACES);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static String getXmlString(Xml.XmlStringBuilder.Step identStep, Object object) {
+        final String result;
+        if (object instanceof Map) {
+            result = Xml.toXml((Map) object, identStep);
+        } else {
+            result = Xml.toXml((List) object, identStep);
+        }
+        return result;
     }
 
     public enum TextType {
