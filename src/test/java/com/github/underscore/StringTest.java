@@ -3494,6 +3494,33 @@ class StringTest {
     }
 
     @Test
+    void fromXmlBrokenContentObject() throws IOException {
+        String stringXml =
+                new String(
+                        Files.readAllBytes(
+                                Paths.get("src/test/resources/brokenContentObject.xml")));
+        IllegalArgumentException illegalArgumentException =
+                assertThrows(IllegalArgumentException.class, () -> U.fromXmlMap(stringXml));
+        assertEquals(
+                "org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1;"
+                        + " Content is not allowed in prolog.",
+                illegalArgumentException.getMessage());
+    }
+
+    @Test
+    void fromXmlStackoverflowObject() throws IOException {
+        String stringXml =
+                new String(
+                        Files.readAllBytes(
+                                Paths.get("src/test/resources/wellFormedObject.xml")));
+        try {
+            U.fromXmlMap(stringXml);
+        } catch (Throwable throwable) {
+            assertTrue(throwable instanceof StackOverflowError);
+        }
+    }
+
+    @Test
     void testDecodeParseXmlErr13() {
         assertThrows(IllegalArgumentException.class, () -> U.fromXml("[\"abc\u0010\"]"));
     }
