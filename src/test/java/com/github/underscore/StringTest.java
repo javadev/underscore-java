@@ -3508,6 +3508,19 @@ class StringTest {
     }
 
     @Test
+    void fromXmlStackoverflowObject() throws IOException {
+        String stringXml =
+                new String(
+                        Files.readAllBytes(
+                                Paths.get("src/test/resources/wellFormedObject.xml")));
+        try {
+            U.fromXmlMap(stringXml);
+        } catch (Throwable throwable) {
+            assertTrue(throwable instanceof StackOverflowError);
+        }
+    }
+
+    @Test
     void testDecodeParseXmlErr13() {
         assertThrows(IllegalArgumentException.class, () -> U.fromXml("[\"abc\u0010\"]"));
     }
