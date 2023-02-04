@@ -3494,10 +3494,11 @@ class StringTest {
     }
 
     @Test
-    void fromXmlStackoverflowObject() throws IOException {
+    void fromXmlBrokenContentObject() throws IOException {
         String stringXml =
                 new String(
-                        Files.readAllBytes(Paths.get("src/test/resources/wellFormedObject.xml")));
+                        Files.readAllBytes(
+                                Paths.get("src/test/resources/brokenContentObject.xml")));
         IllegalArgumentException illegalArgumentException =
                 assertThrows(IllegalArgumentException.class, () -> U.fromXmlMap(stringXml));
         assertEquals(
