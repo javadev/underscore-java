@@ -9,6 +9,7 @@ on:
   schedule:
   - cron: '0 0 * * 0'
 name: Semgrep
+permissions: read-all
 jobs:
   semgrep:
     name: Scan
