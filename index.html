@@ -12,7 +12,7 @@
 <body>
     <div id="sidebar" class="interface">
         <a class="toc_title" href="#">
-                Underscore-java <span class="version">(1.74)</span>
+                Underscore-java <span class="version">(1.86)</span>
             </a>
     <ul class="toc_section">
       <li>» <a href="https://github.com/javadev/underscore-java">GitHub Repository</a></li>
@@ -182,7 +182,7 @@ equality testing, and so on. It delegates to built-in functions where
 applicable.<br><br>Underscore-java is compatible with Java 8 and later.<br><br>The project is <a href="http://github.com/javadev/underscore-java">hosted on GitHub</a>. Contributions are welcome.<br>
         </p>
         <h2>Download</h2>
-        <div><a href="https://github.com/javadev/underscore-java/archive/v1.74.zip">Version 1.74</a> - <i>~217Kb, Includes all development files</i></div>
+        <div><a href="https://github.com/javadev/underscore-java/archive/v1.86.zip">Version 1.86</a> - <i>~217Kb, Includes all development files</i></div>
         <h2 id="Collections">Collection Functions (Arrays, Structs, Queries, or Objects)</h2>
 
 
@@ -1089,6 +1089,125 @@ final String youngest = U.chain(stooges)
  <p
 id="changelog">
  </p><h2>Change Log</h2>
+ <p>
+ <b class="header">1.86</b> --
+<small><i>February 1st, 2023</i></small><br>
+ </p>
+ <ul>
+ <li>Improved modes for U.xmlToJson() and U.jsonToXml() methods</li>
+ <li>Added methods U.xmlOrJsonToXml() and U.xmlOrJsonToJson()</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.85</b> --
+<small><i>January 2nd, 2023</i></small><br>
+ </p>
+ <ul>
+ <li>Added method U.fromXmlWithoutNamespacesMap().</li>
+ <li>Improved json to xml without attributes.</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.84</b> --
+<small><i>December 1st, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Added methods U.selectToken(map, expression) and U.selectTokens(map, expression).</li>
+ <li>Updated readme.</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.83</b> --
+<small><i>November 1st, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Improved methods U.get(), U.set() and U.remove().</li>
+ <li>Added methods U.formatJsonOrXml(text) and U.getTextType(text).</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.82</b> --
+<small><i>October 1st, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Set up minimum java version 11.</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.81</b> --
+<small><i>September 2nd, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Fixed semgrep warning</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.80</b> --
+<small><i>August 1st, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Added code analysis semgrep</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.79</b> --
+<small><i>July 1st, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Fixed sonar warnings.</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.78</b> --
+<small><i>June 1st, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Bumpt to the awaitility 4.2.0.</li>
+ <li>Added unit tests toJson and toXml.</li>
+ <li>Fixed sonar warnings.</li>
+ <li>Added methods U.Builder.get(path) and U.ArrayBuilder.get(path).</li>
+ <li>Introduced methods U.Builder.isEmpty() and U.ArrayBuilder.isEmpty().</li>
+ <li>Added methods U.Builder.size(), U.Builder.update(map), U.ArrayBuilder.size(), U.ArrayBuilder.merge(list).</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.77</b> --
+<small><i>May 1st, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Added new modes FORCE_REMOVE_ARRAY_ATTRIBUTE_JSON_TO_XML and FORCE_REMOVE_ARRAY_BOOLEAN_NUMBER_ATTRIBUTES_JSON_TO_XML to the U.jsonToXml().</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.76</b> --
+<small><i>April 1st, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Updated appveyor.yml</li>
+ <li>Fixed sonar warnings</li>
+ <li>Updated spring-boot-example</li>
+ </ul>
+ <p>
+ </p><p>
+ <p>
+ <b class="header">1.75</b> --
+<small><i>March 1st, 2022</i></small><br>
+ </p>
+ <ul>
+ <li>Added methods U.jsonToXml(json, identStep) and U.xmlToJson(xml, identStep).</li>
+ </ul>
+ <p>
+ </p><p>
  <p>
  <b class="header">1.74</b> --
 <small><i>February 1st, 2022</i></small><br>
