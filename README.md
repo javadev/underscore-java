@@ -152,32 +152,24 @@ U.jsonToXml(
     //    </plus>
     // </mydocument>
 
-U.Builder builder =
-        U.objectBuilder()
-                .add("firstName", "John")
-                .add("lastName", "Smith")
-                .add("age", 25)
-                .add(
-                        "address",
-                        U.arrayBuilder()
-                                .add(
-                                        U.objectBuilder()
-                                                .add("streetAddress", "21 2nd Street")
-                                                .add("city", "New York")
-                                                .addNull("cityId")
-                                                .add("state", "NY")
-                                                .add("postalCode", "10021")))
-                .add(
-                        "phoneNumber",
-                        U.arrayBuilder()
-                                .add(
-                                        U.objectBuilder()
-                                                .add("type", "home")
-                                                .add("number", "212 555-1234"))
-                                .add(
-                                        U.objectBuilder()
-                                                .add("type", "fax")
-                                                .add("number", "646 555-4567")));
+U.Builder builder = U.objectBuilder()
+    .add("firstName", "John")
+    .add("lastName", "Smith")
+    .add("age", 25)
+    .add("address", U.arrayBuilder()
+        .add(U.objectBuilder()
+            .add("streetAddress", "21 2nd Street")
+            .add("city", "New York")
+            .addNull("cityId")
+            .add("state", "NY")
+            .add("postalCode", "10021")))
+    .add("phoneNumber", U.arrayBuilder()
+        .add(U.objectBuilder()
+            .add("type", "home")
+            .add("number", "212 555-1234"))
+        .add(U.objectBuilder()
+            .add("type", "fax")
+            .add("number", "646 555-4567")));
 System.out.println(builder.toJson());
 System.out.println(builder.toXml());
 ```
