@@ -125,7 +125,6 @@ U.xmlToJson(
     //   "#omit-xml-declaration": "yes"
     // }
 
-
 U.jsonToXml(
         "{\n"
                 + "  \"mydocument\": {\n"
