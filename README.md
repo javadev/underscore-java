@@ -107,7 +107,6 @@ U.xmlToJson(
                 + "   </plus>\n"
                 + "</mydocument>",
         Json.JsonStringBuilder.Step.TWO_SPACES);
-
     // {
     //   "mydocument": {
     //     "-has": "an attribute",
@@ -143,7 +142,6 @@ U.jsonToXml(
                 + "  \"#omit-xml-declaration\": \"yes\"\n"
                 + "}",
         Xml.XmlStringBuilder.Step.TWO_SPACES);
-
     // <mydocument has="an attribute">
     //   <and>
     //     <many>elements</many>
