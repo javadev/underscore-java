@@ -3252,21 +3252,6 @@ public class U<T> extends Underscore<T> {
         return result;
     }
 
-    public static long gcd(long value1, long value2) {
-        if (value1 == 0) {
-            return value2;
-        }
-        return gcd(value2 % value1, value1);
-    }
-
-    public static long findGcd(long... array) {
-        long result = array[0];
-        for (int index = 1; index < array.length; index += 1) {
-            result = gcd(array[index], result);
-        }
-        return result;
-    }
-
     public static Builder objectBuilder() {
         return new U.Builder();
     }
