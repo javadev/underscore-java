@@ -1001,8 +1001,8 @@ class CollectionsTest {
                 Underscore.where(
                                 listOfPlays,
                                 asList(
-                                        Tuple.<String, Object>create("author", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .toString());
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
@@ -1010,9 +1010,9 @@ class CollectionsTest {
                 Underscore.where(
                                 listOfPlays,
                                 asList(
-                                        Tuple.<String, Object>create("author", "Shakespeare"),
-                                        Tuple.<String, Object>create("author2", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.<String, Object>entry("author2", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .toString());
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
@@ -1020,8 +1020,8 @@ class CollectionsTest {
                 Underscore.where(
                                 new LinkedHashSet<>(listOfPlays),
                                 asList(
-                                        Tuple.<String, Object>create("author", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .toString());
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
@@ -1029,9 +1029,9 @@ class CollectionsTest {
                 Underscore.where(
                                 new LinkedHashSet<>(listOfPlays),
                                 asList(
-                                        Tuple.<String, Object>create("author", "Shakespeare"),
-                                        Tuple.<String, Object>create("author2", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.<String, Object>entry("author2", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .toString());
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
@@ -1039,8 +1039,8 @@ class CollectionsTest {
                 new Underscore(listOfPlays)
                         .where(
                                 asList(
-                                        Tuple.<String, Object>create("author", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .toString());
         assertEquals(
                 "[title: Cymbeline, author: Shakespeare, year: 1611,"
@@ -1048,8 +1048,8 @@ class CollectionsTest {
                 Underscore.chain(listOfPlays)
                         .where(
                                 asList(
-                                        Tuple.<String, Object>create("author", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .value()
                         .toString());
         class Book2 {
@@ -1085,9 +1085,9 @@ class CollectionsTest {
                 Underscore.where(
                                 listOfPlays2,
                                 asList(
-                                        Tuple.<String, Object>create("getAuthor", "Shakespeare"),
-                                        Tuple.<String, Object>create("author2", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("getAuthor", "Shakespeare"),
+                                        Map.<String, Object>entry("author2", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .toString());
     }
 
@@ -1126,8 +1126,8 @@ class CollectionsTest {
                 Underscore.findWhere(
                                 listOfPlays,
                                 asList(
-                                        Tuple.<String, Object>create("author", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .get()
                         .toString());
         assertEquals(
@@ -1135,8 +1135,8 @@ class CollectionsTest {
                 new Underscore(listOfPlays)
                         .findWhere(
                                 asList(
-                                        Tuple.<String, Object>create("author", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .get()
                         .toString());
         assertEquals(
@@ -1144,9 +1144,8 @@ class CollectionsTest {
                 (Underscore.chain(listOfPlays)
                                 .findWhere(
                                         asList(
-                                                Tuple.<String, Object>create(
-                                                        "author", "Shakespeare"),
-                                                Tuple.<String, Object>create("year", 1611)))
+                                                Map.<String, Object>entry("author", "Shakespeare"),
+                                                Map.<String, Object>entry("year", 1611)))
                                 .item())
                         .get()
                         .toString());
@@ -1155,9 +1154,9 @@ class CollectionsTest {
                 Underscore.findWhere(
                                 listOfPlays,
                                 asList(
-                                        Tuple.<String, Object>create("author", "Shakespeare"),
-                                        Tuple.<String, Object>create("author2", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.<String, Object>entry("author2", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .get()
                         .toString());
         class Book2 {
@@ -1192,8 +1191,8 @@ class CollectionsTest {
                 Underscore.findWhere(
                                 listOfPlays2,
                                 asList(
-                                        Tuple.<String, Object>create("getAuthor", "Shakespeare"),
-                                        Tuple.<String, Object>create("year", 1611)))
+                                        Map.<String, Object>entry("getAuthor", "Shakespeare"),
+                                        Map.<String, Object>entry("year", 1611)))
                         .get()
                         .toString());
         assertEquals(
@@ -1201,8 +1200,8 @@ class CollectionsTest {
                 Underscore.findWhere(
                         listOfPlays2,
                         asList(
-                                Tuple.<String, Object>create("getAuthor", "Shakespeare2"),
-                                Tuple.<String, Object>create("year", 1611))));
+                                Map.<String, Object>entry("getAuthor", "Shakespeare2"),
+                                Map.<String, Object>entry("year", 1611))));
     }
 
     /*
@@ -1650,10 +1649,10 @@ class CollectionsTest {
         assertEquals(
                 "{name1=one, name2=two}",
                 Underscore.toMap(
-                                new ArrayList<Tuple<String, String>>() {
+                                new ArrayList<Map.Entry<String, String>>() {
                                     {
-                                        add(Tuple.create("name1", "one"));
-                                        add(Tuple.create("name2", "two"));
+                                        add(Map.entry("name1", "one"));
+                                        add(Map.entry("name2", "two"));
                                     }
                                 })
                         .toString());

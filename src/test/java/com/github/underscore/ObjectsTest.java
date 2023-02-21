@@ -93,7 +93,7 @@ class ObjectsTest {
     */
     @Test
     void pairs() {
-        List<Tuple<String, Integer>> result =
+        List<Map.Entry<String, Integer>> result =
                 Underscore.pairs(
                         new LinkedHashMap<String, Integer>() {
                             {
@@ -102,7 +102,7 @@ class ObjectsTest {
                                 put("three", 3);
                             }
                         });
-        assertEquals("[(one, 1), (two, 2), (three, 3)]", result.toString());
+        assertEquals("[one=1, two=2, three=3]", result.toString());
     }
 
     /*
@@ -111,7 +111,7 @@ class ObjectsTest {
     */
     @Test
     void invert() {
-        List<Tuple<String, String>> result =
+        List<Map.Entry<String, String>> result =
                 Underscore.invert(
                         new LinkedHashMap<String, String>() {
                             {
@@ -120,7 +120,7 @@ class ObjectsTest {
                                 put("Curly", "Jerome");
                             }
                         });
-        assertEquals("[(Moses, Moe), (Louis, Larry), (Jerome, Curly)]", result.toString());
+        assertEquals("[Moses=Moe, Louis=Larry, Jerome=Curly]", result.toString());
     }
 
     /*
@@ -153,7 +153,7 @@ class ObjectsTest {
     */
     @Test
     void pick() {
-        final List<Tuple<String, Object>> result =
+        final List<Map.Entry<String, Object>> result =
                 Underscore.pick(
                         new LinkedHashMap<String, Object>() {
                             {
@@ -164,8 +164,8 @@ class ObjectsTest {
                         },
                         "name",
                         "age");
-        assertEquals("[(name, moe), (age, 50)]", result.toString());
-        final List<Tuple<String, Object>> result2 =
+        assertEquals("[name=moe, age=50]", result.toString());
+        final List<Map.Entry<String, Object>> result2 =
                 Underscore.pick(
                         new LinkedHashMap<String, Object>() {
                             {
@@ -175,7 +175,7 @@ class ObjectsTest {
                             }
                         },
                         value -> value instanceof Number);
-        assertEquals("[(age, 50)]", result2.toString());
+        assertEquals("[age=50]", result2.toString());
     }
 
     /*
@@ -188,7 +188,7 @@ class ObjectsTest {
     */
     @Test
     void omit() {
-        final List<Tuple<String, Object>> result =
+        final List<Map.Entry<String, Object>> result =
                 Underscore.omit(
                         new LinkedHashMap<String, Object>() {
                             {
@@ -198,8 +198,8 @@ class ObjectsTest {
                             }
                         },
                         "userid");
-        assertEquals("[(name, moe), (age, 50)]", result.toString());
-        final List<Tuple<String, Object>> result2 =
+        assertEquals("[name=moe, age=50]", result.toString());
+        final List<Map.Entry<String, Object>> result2 =
                 Underscore.omit(
                         new LinkedHashMap<String, Object>() {
                             {
@@ -209,7 +209,7 @@ class ObjectsTest {
                             }
                         },
                         value -> value instanceof Number);
-        assertEquals("[(name, moe), (userid, moe1)]", result2.toString());
+        assertEquals("[name=moe, userid=moe1]", result2.toString());
     }
 
     /*
@@ -686,7 +686,7 @@ class ObjectsTest {
     */
     @Test
     void mapObject() {
-        List<Tuple<String, Integer>> result =
+        List<Map.Entry<String, Integer>> result =
                 Underscore.mapObject(
                         new LinkedHashMap<String, Integer>() {
                             {
@@ -695,6 +695,6 @@ class ObjectsTest {
                             }
                         },
                         item -> item + 5);
-        assertEquals("[(start, 10), (end, 17)]", result.toString());
+        assertEquals("[start=10, end=17]", result.toString());
     }
 }

@@ -38,7 +38,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
-
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("java:S2925")

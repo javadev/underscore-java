@@ -458,12 +458,12 @@ public class U<T> extends Underscore<T> {
         }
 
         @Override
-        public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
+        public <E> Chain<T> where(final List<Map.Entry<String, E>> properties) {
             return new Chain<>(Underscore.where(value(), properties));
         }
 
         @Override
-        public <E> Chain<Optional<T>> findWhere(final List<Tuple<String, E>> properties) {
+        public <E> Chain<Optional<T>> findWhere(final List<Map.Entry<String, E>> properties) {
             return new Chain<>(Underscore.findWhere(value(), properties));
         }
 

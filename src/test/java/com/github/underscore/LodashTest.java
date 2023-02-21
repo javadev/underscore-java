@@ -1780,8 +1780,8 @@ class LodashTest {
         U.chain(new String[] {""}).invoke("toString", Collections.emptyList());
         U.chain(new String[] {""}).invoke("toString");
         U.chain(new String[] {""}).pluck("toString");
-        U.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
-        U.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
+        U.chain(new String[] {""}).where(Collections.<Map.Entry<String, String>>emptyList());
+        U.chain(new String[] {""}).findWhere(Collections.<Map.Entry<String, String>>emptyList());
         U.chain(new Integer[] {0}).uniq();
         U.chain(new Integer[] {0}).uniq(value -> value);
         U.chain(new Integer[] {0}).distinct();
