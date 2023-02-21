@@ -118,25 +118,28 @@ public class Underscore<T> {
     }
 
     private static final class WherePredicate<E, T> implements Predicate<E> {
-        private final List<Tuple<String, T>> properties;
+        private final List<Map.Entry<String, T>> properties;
 
-        private WherePredicate(List<Tuple<String, T>> properties) {
+        private WherePredicate(List<Map.Entry<String, T>> properties) {
             this.properties = properties;
         }
 
         @Override
         public boolean test(final E elem) {
-            for (Tuple<String, T> prop : properties) {
+            for (Map.Entry<String, T> prop : properties) {
                 try {
-                    if (!elem.getClass().getField(prop.fst()).get(elem).equals(prop.snd())) {
+                    if (!elem.getClass()
+                            .getField(prop.getKey())
+                            .get(elem)
+                            .equals(prop.getValue())) {
                         return false;
                     }
                 } catch (Exception ex) {
                     try {
                         if (!elem.getClass()
-                                .getMethod(prop.fst())
+                                .getMethod(prop.getKey())
                                 .invoke(elem)
-                                .equals(prop.snd())) {
+                                .equals(prop.getValue())) {
                             return false;
                         }
                     } catch (Exception ignored) {
@@ -856,15 +859,16 @@ public class Underscore<T> {
      * Documented, #where
      */
     public static <T, E> List<E> where(
-            final List<E> list, final List<Tuple<String, T>> properties) {
+            final List<E> list, final List<Map.Entry<String, T>> properties) {
         return filter(list, new WherePredicate<>(properties));
     }
 
-    public <E> List<T> where(final List<Tuple<String, E>> properties) {
+    public <E> List<T> where(final List<Map.Entry<String, E>> properties) {
         return where(newArrayList(iterable), properties);
     }
 
-    public static <T, E> Set<E> where(final Set<E> set, final List<Tuple<String, T>> properties) {
+    public static <T, E> Set<E> where(
+            final Set<E> set, final List<Map.Entry<String, T>> properties) {
         return filter(set, new WherePredicate<>(properties));
     }
 
@@ -872,11 +876,11 @@ public class Underscore<T> {
      * Documented, #findWhere
      */
     public static <T, E> Optional<E> findWhere(
-            final Iterable<E> iterable, final List<Tuple<String, T>> properties) {
+            final Iterable<E> iterable, final List<Map.Entry<String, T>> properties) {
         return find(iterable, new WherePredicate<>(properties));
     }
 
-    public <E> Optional<T> findWhere(final List<Tuple<String, E>> properties) {
+    public <E> Optional<T> findWhere(final List<Map.Entry<String, E>> properties) {
         return findWhere(iterable, properties);
     }
 
@@ -1122,10 +1126,10 @@ public class Underscore<T> {
         return toMap((Iterable<Map.Entry<K, V>>) iterable);
     }
 
-    public static <K, V> Map<K, V> toMap(final List<Tuple<K, V>> tuples) {
+    public static <K, V> Map<K, V> toMap(final List<Map.Entry<K, V>> tuples) {
         final Map<K, V> result = newLinkedHashMap();
-        for (final Tuple<K, V> entry : tuples) {
-            result.put(entry.fst(), entry.snd());
+        for (final Map.Entry<K, V> entry : tuples) {
+            result.put(entry.getKey(), entry.getValue());
         }
         return result;
     }
@@ -1719,15 +1723,15 @@ public class Underscore<T> {
     /*
      * Documented, #object
      */
-    public static <K, V> List<Tuple<K, V>> object(final List<K> keys, final List<V> values) {
+    public static <K, V> List<Map.Entry<K, V>> object(final List<K> keys, final List<V> values) {
         return map(
                 keys,
-                new Function<K, Tuple<K, V>>() {
+                new Function<K, Map.Entry<K, V>>() {
                     private int index;
 
                     @Override
-                    public Tuple<K, V> apply(K key) {
-                        return Tuple.create(key, values.get(index++));
+                    public Map.Entry<K, V> apply(K key) {
+                        return Map.entry(key, values.get(index++));
                     }
                 });
     }
@@ -2287,29 +2291,29 @@ public class Underscore<T> {
         return object.values();
     }
 
-    public static <K, V> List<Tuple<K, V>> mapObject(
+    public static <K, V> List<Map.Entry<K, V>> mapObject(
             final Map<K, V> object, final Function<? super V, V> func) {
         return map(
                 newArrayList(object.entrySet()),
-                entry -> Tuple.create(entry.getKey(), func.apply(entry.getValue())));
+                entry -> Map.entry(entry.getKey(), func.apply(entry.getValue())));
     }
 
     /*
      * Documented, #pairs
      */
-    public static <K, V> List<Tuple<K, V>> pairs(final Map<K, V> object) {
+    public static <K, V> List<Map.Entry<K, V>> pairs(final Map<K, V> object) {
         return map(
                 newArrayList(object.entrySet()),
-                entry -> Tuple.create(entry.getKey(), entry.getValue()));
+                entry -> Map.entry(entry.getKey(), entry.getValue()));
     }
 
     /*
      * Documented, #invert
      */
-    public static <K, V> List<Tuple<V, K>> invert(final Map<K, V> object) {
+    public static <K, V> List<Map.Entry<V, K>> invert(final Map<K, V> object) {
         return map(
                 newArrayList(object.entrySet()),
-                entry -> Tuple.create(entry.getValue(), entry.getKey()));
+                entry -> Map.entry(entry.getValue(), entry.getKey()));
     }
 
     /*
@@ -2374,40 +2378,41 @@ public class Underscore<T> {
      * Documented, #pick
      */
     @SuppressWarnings("unchecked")
-    public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final K... keys) {
+    public static <K, V> List<Map.Entry<K, V>> pick(final Map<K, V> object, final K... keys) {
         return without(
                 map(
                         newArrayList(object.entrySet()),
                         entry -> {
                             if (Arrays.asList(keys).contains(entry.getKey())) {
-                                return Tuple.create(entry.getKey(), entry.getValue());
+                                return Map.entry(entry.getKey(), entry.getValue());
                             } else {
                                 return null;
                             }
                         }),
-                (Tuple<K, V>) null);
+                (Map.Entry<K, V>) null);
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> List<Tuple<K, V>> pick(final Map<K, V> object, final Predicate<V> pred) {
+    public static <K, V> List<Map.Entry<K, V>> pick(
+            final Map<K, V> object, final Predicate<V> pred) {
         return without(
                 map(
                         newArrayList(object.entrySet()),
                         entry -> {
                             if (pred.test(object.get(entry.getKey()))) {
-                                return Tuple.create(entry.getKey(), entry.getValue());
+                                return Map.entry(entry.getKey(), entry.getValue());
                             } else {
                                 return null;
                             }
                         }),
-                (Tuple<K, V>) null);
+                (Map.Entry<K, V>) null);
     }
 
     /*
      * Documented, #omit
      */
     @SuppressWarnings("unchecked")
-    public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final K... keys) {
+    public static <K, V> List<Map.Entry<K, V>> omit(final Map<K, V> object, final K... keys) {
         return without(
                 map(
                         newArrayList(object.entrySet()),
@@ -2415,14 +2420,15 @@ public class Underscore<T> {
                             if (Arrays.asList(keys).contains(entry.getKey())) {
                                 return null;
                             } else {
-                                return Tuple.create(entry.getKey(), entry.getValue());
+                                return Map.entry(entry.getKey(), entry.getValue());
                             }
                         }),
-                (Tuple<K, V>) null);
+                (Map.Entry<K, V>) null);
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> List<Tuple<K, V>> omit(final Map<K, V> object, final Predicate<V> pred) {
+    public static <K, V> List<Map.Entry<K, V>> omit(
+            final Map<K, V> object, final Predicate<V> pred) {
         return without(
                 map(
                         newArrayList(object.entrySet()),
@@ -2430,10 +2436,10 @@ public class Underscore<T> {
                             if (pred.test(entry.getValue())) {
                                 return null;
                             } else {
-                                return Tuple.create(entry.getKey(), entry.getValue());
+                                return Map.entry(entry.getKey(), entry.getValue());
                             }
                         }),
-                (Tuple<K, V>) null);
+                (Map.Entry<K, V>) null);
     }
 
     /*
@@ -3071,11 +3077,11 @@ public class Underscore<T> {
             return new Chain<>(Underscore.pluck(list, propertyName));
         }
 
-        public <E> Chain<T> where(final List<Tuple<String, E>> properties) {
+        public <E> Chain<T> where(final List<Map.Entry<String, E>> properties) {
             return new Chain<>(Underscore.where(list, properties));
         }
 
-        public <E> Chain<Optional<T>> findWhere(final List<Tuple<String, E>> properties) {
+        public <E> Chain<Optional<T>> findWhere(final List<Map.Entry<String, E>> properties) {
             return new Chain<>(Underscore.findWhere(list, properties));
         }
 
@@ -3189,11 +3195,11 @@ public class Underscore<T> {
             return new Chain<>(Underscore.push(value(), values));
         }
 
-        public Chain<Tuple<T, List<T>>> pop() {
+        public Chain<Map.Entry<T, List<T>>> pop() {
             return new Chain<>(Underscore.pop(value()));
         }
 
-        public Chain<Tuple<T, List<T>>> shift() {
+        public Chain<Map.Entry<T, List<T>>> shift() {
             return new Chain<>(Underscore.shift(value()));
         }
 
@@ -3331,11 +3337,11 @@ public class Underscore<T> {
         return push((List<T>) getIterable(), values);
     }
 
-    public static <T> Tuple<T, List<T>> pop(final List<T> list) {
-        return Tuple.create(last(list), initial(list));
+    public static <T> Map.Entry<T, List<T>> pop(final List<T> list) {
+        return Map.entry(last(list), initial(list));
     }
 
-    public Tuple<T, List<T>> pop() {
+    public Map.Entry<T, List<T>> pop() {
         return pop((List<T>) getIterable());
     }
 
@@ -3355,11 +3361,11 @@ public class Underscore<T> {
         return unshift((List<T>) getIterable(), values);
     }
 
-    public static <T> Tuple<T, List<T>> shift(final List<T> list) {
-        return Tuple.create(first(list), rest(list));
+    public static <T> Map.Entry<T, List<T>> shift(final List<T> list) {
+        return Map.entry(first(list), rest(list));
     }
 
-    public Tuple<T, List<T>> shift() {
+    public Map.Entry<T, List<T>> shift() {
         return shift((List<T>) getIterable());
     }
 
@@ -3615,12 +3621,13 @@ public class Underscore<T> {
         return elementAt((List<T>) value(), index);
     }
 
-    public static <T> Tuple<T, List<T>> set(final List<T> list, final int index, final T value) {
+    public static <T> Map.Entry<T, List<T>> set(
+            final List<T> list, final int index, final T value) {
         final List<T> newList = newArrayList(list);
-        return Tuple.create(newList.set(index, value), newList);
+        return Map.entry(newList.set(index, value), newList);
     }
 
-    public Tuple<T, List<T>> set(final int index, final T value) {
+    public Map.Entry<T, List<T>> set(final int index, final T value) {
         return set((List<T>) value(), index, value);
     }
 

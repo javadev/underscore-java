@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -1033,9 +1034,9 @@ class ArraysTest {
     */
     @Test
     void object() {
-        final List<Tuple<String, String>> result =
+        final List<Map.Entry<String, String>> result =
                 Underscore.object(asList("moe", "larry", "curly"), asList("30", "40", "50"));
-        assertEquals("[(moe, 30), (larry, 40), (curly, 50)]", result.toString());
+        assertEquals("[moe=30, larry=40, curly=50]", result.toString());
     }
 
     /*

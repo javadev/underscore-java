@@ -3511,8 +3511,7 @@ class StringTest {
     void fromXmlStackoverflowObject() throws IOException {
         String stringXml =
                 new String(
-                        Files.readAllBytes(
-                                Paths.get("src/test/resources/wellFormedObject.xml")));
+                        Files.readAllBytes(Paths.get("src/test/resources/wellFormedObject.xml")));
         try {
             U.fromXmlMap(stringXml);
         } catch (Throwable throwable) {
@@ -4139,8 +4138,8 @@ class StringTest {
         U.chain(new String[] {""}).invoke("toString", Collections.emptyList());
         U.chain(new String[] {""}).invoke("toString");
         U.chain(new String[] {""}).pluck("toString");
-        U.chain(new String[] {""}).where(Collections.<Tuple<String, String>>emptyList());
-        U.chain(new String[] {""}).findWhere(Collections.<Tuple<String, String>>emptyList());
+        U.chain(new String[] {""}).where(Collections.<Map.Entry<String, String>>emptyList());
+        U.chain(new String[] {""}).findWhere(Collections.<Map.Entry<String, String>>emptyList());
         U.chain(new Integer[] {0}).uniq();
         U.chain(new Integer[] {0}).uniq(value -> value);
         U.chain(new String[] {""}).union();

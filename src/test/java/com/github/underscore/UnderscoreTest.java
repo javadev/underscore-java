@@ -137,9 +137,9 @@ class UnderscoreTest {
     @SuppressWarnings("unchecked")
     @Test
     void pop() {
-        assertEquals("c", Underscore.pop(asList("a", "b", "c")).fst().toString());
-        assertEquals("c", new Underscore(asList("a", "b", "c")).pop().fst().toString());
-        assertEquals("c", Underscore.chain(asList("a", "b", "c")).pop().item().fst().toString());
+        assertEquals("c", Underscore.pop(asList("a", "b", "c")).getKey().toString());
+        assertEquals("c", new Underscore(asList("a", "b", "c")).pop().getKey().toString());
+        assertEquals("c", Underscore.chain(asList("a", "b", "c")).pop().item().getKey().toString());
     }
 
     /*
@@ -149,9 +149,10 @@ class UnderscoreTest {
     @SuppressWarnings("unchecked")
     @Test
     void shift() {
-        assertEquals("a", Underscore.shift(asList("a", "b", "c")).fst().toString());
-        assertEquals("a", new Underscore(asList("a", "b", "c")).shift().fst().toString());
-        assertEquals("a", Underscore.chain(asList("a", "b", "c")).shift().item().fst().toString());
+        assertEquals("a", Underscore.shift(asList("a", "b", "c")).getKey().toString());
+        assertEquals("a", new Underscore(asList("a", "b", "c")).shift().getKey().toString());
+        assertEquals(
+                "a", Underscore.chain(asList("a", "b", "c")).shift().item().getKey().toString());
     }
 
     /*
@@ -359,12 +360,12 @@ class UnderscoreTest {
     */
     @Test
     void set() {
-        Tuple<Integer, List<Integer>> result = Underscore.<Integer>set(asList(1, 2, 3), 1, 100);
-        assertEquals(2, result.fst().intValue());
-        assertEquals(100, Underscore.<Integer>get(result.snd(), 1).intValue());
-        Tuple<Integer, List<Integer>> result2 = new Underscore<>(asList(1, 2, 3)).set(2, 200);
-        assertEquals(3, result2.fst().intValue());
-        assertEquals(200, result2.snd().get(2).intValue());
+        Map.Entry<Integer, List<Integer>> result = Underscore.<Integer>set(asList(1, 2, 3), 1, 100);
+        assertEquals(2, result.getKey().intValue());
+        assertEquals(100, Underscore.<Integer>get(result.getValue(), 1).intValue());
+        Map.Entry<Integer, List<Integer>> result2 = new Underscore<>(asList(1, 2, 3)).set(2, 200);
+        assertEquals(3, result2.getKey().intValue());
+        assertEquals(200, result2.getValue().get(2).intValue());
     }
 
     /*
