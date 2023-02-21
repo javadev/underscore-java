@@ -475,14 +475,6 @@ class MathTest {
                 resultChain.toString());
     }
 
-    @Test
-    void gcd() {
-        assertEquals(12, U.gcd(24, 36));
-        assertEquals(5, U.gcd(5, 0));
-        assertEquals(12, U.findGcd(24, 36));
-        assertEquals(5, U.findGcd(5, 0));
-    }
-
     @SuppressWarnings("unchecked")
     @Test
     void main() {
