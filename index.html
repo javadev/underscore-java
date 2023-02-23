@@ -287,8 +287,8 @@ List&lt;Book&gt; listOfPlays =
       add(new Book(&quot;The Tempest&quot;, &quot;Shakespeare&quot;, 1611));
     } };
 U.where(listOfPlays, asList(
-            Tuple.&lt;String, Object&gt;create(&quot;author&quot;, &quot;Shakespeare&quot;),
-            Tuple.&lt;String, Object&gt;create(&quot;year&quot;, Integer.valueOf(1611))));
+            Map.&lt;String, Object&gt;entry(&quot;author&quot;, &quot;Shakespeare&quot;),
+            Map.&lt;String, Object&gt;entry(&quot;year&quot;, Integer.valueOf(1611))));
 // [title: Cymbeline, author: Shakespeare, year: 1611,
 title: The Tempest, author: Shakespeare, year: 1611]</pre><p></p>
 
@@ -315,8 +315,8 @@ List&lt;Book&gt; listOfPlays =
       add(new Book(&quot;The Tempest&quot;, &quot;Shakespeare&quot;, 1611));
     } };
 U.findWhere(listOfPlays, asList(
-    Tuple.&lt;String, Object&gt;create(&quot;author&quot;, &quot;Shakespeare&quot;),
-    Tuple.&lt;String, Object&gt;create(&quot;year&quot;, Integer.valueOf(1611)))).get();
+    Map.&lt;String, Object&gt;entry(&quot;author&quot;, &quot;Shakespeare&quot;),
+    Map.&lt;String, Object&gt;entry(&quot;year&quot;, Integer.valueOf(1611)))).get();
 // &quot;title: Cymbeline, author: Shakespeare, year: 1611&quot;
 </pre><p></p>
 
