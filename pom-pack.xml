@@ -106,7 +106,8 @@
             <option>-keep public class com.github.underscore.*$ParseException { *; }</option>
             <option>-keep public class com.github.underscore.*$FetchResponse { *; }</option>
             <option>-keep public class com.github.underscore.*$LRUCache { *; }</option>
-            <option>-keep public class com.github.underscore.*$Mode { *; }</option>
+            <option>-keep public class com.github.underscore.*$XmlToJsonMode { *; }</option>
+            <option>-keep public class com.github.underscore.*$JsonToXmlMode { *; }</option>
             <option>-keep public class com.github.underscore.*$Builder { *; }</option>
             <option>-keep public class com.github.underscore.*$ArrayBuilder { *; }</option>
             <option>-keep public class com.github.underscore.Json$JsonStringBuilder$Step { *; }</option>
