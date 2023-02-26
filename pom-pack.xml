@@ -97,9 +97,6 @@
             <option>-keep public class com.github.underscore.Optional { *; }</option>
             <option>-keep public class com.github.underscore.PredicateIndexed { *; }</option>
             <option>-keep public class com.github.underscore.Template { *; }</option>
-            <option>-keep public class com.github.underscore.Trie { *; }</option>
-            <option>-keep public class com.github.underscore.Trie$TrieNode { *; }</option>
-            <option>-keep public class com.github.underscore.Tuple { *; }</option>
             <option>-keep public class com.github.underscore.Base32 { *; }</option>
             <option>-keep public class com.github.underscore.Json { *; }</option>
             <option>-keep public class com.github.underscore.U { *; }</option>
@@ -109,7 +106,8 @@
             <option>-keep public class com.github.underscore.*$ParseException { *; }</option>
             <option>-keep public class com.github.underscore.*$FetchResponse { *; }</option>
             <option>-keep public class com.github.underscore.*$LRUCache { *; }</option>
-            <option>-keep public class com.github.underscore.*$Mode { *; }</option>
+            <option>-keep public class com.github.underscore.*$XmlToJsonMode { *; }</option>
+            <option>-keep public class com.github.underscore.*$JsonToXmlMode { *; }</option>
             <option>-keep public class com.github.underscore.*$Builder { *; }</option>
             <option>-keep public class com.github.underscore.*$ArrayBuilder { *; }</option>
             <option>-keep public class com.github.underscore.Json$JsonStringBuilder$Step { *; }</option>
