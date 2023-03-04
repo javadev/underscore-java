@@ -97,16 +97,16 @@ U.formatJson("{\"a\":{\"b\":\"data\"}}", Json.JsonStringBuilder.Step.TWO_SPACES)
     // }
 
 U.xmlToJson(
-        "<mydocument has=\"an attribute\">\n"
-                + "   <and>\n"
-                + "   <many>elements</many>\n"
-                + "    <many>more elements</many>\n"
-                + "   </and>\n"
-                + " <plus a=\"complex\">\n"
-                + "     element as well\n"
-                + "   </plus>\n"
-                + "</mydocument>",
-        Json.JsonStringBuilder.Step.TWO_SPACES);
+    "<mydocument has=\"an attribute\">\n"
+        + "   <and>\n"
+        + "   <many>elements</many>\n"
+        + "    <many>more elements</many>\n"
+        + "   </and>\n"
+        + " <plus a=\"complex\">\n"
+        + "     element as well\n"
+        + "   </plus>\n"
+        + "</mydocument>",
+    Json.JsonStringBuilder.Step.TWO_SPACES);
     // {
     //   "mydocument": {
     //     "-has": "an attribute",
@@ -125,23 +125,23 @@ U.xmlToJson(
     // }
 
 U.jsonToXml(
-        "{\n"
-                + "  \"mydocument\": {\n"
-                + "    \"-has\": \"an attribute\",\n"
-                + "    \"and\": {\n"
-                + "      \"many\": [\n"
-                + "        \"elements\",\n"
-                + "        \"more elements\"\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"plus\": {\n"
-                + "      \"-a\": \"complex\",\n"
-                + "      \"#text\": \"\\n     element as well\\n   \"\n"
-                + "    }\n"
-                + "  },\n"
-                + "  \"#omit-xml-declaration\": \"yes\"\n"
-                + "}",
-        Xml.XmlStringBuilder.Step.TWO_SPACES);
+    "{\n"
+        + "  \"mydocument\": {\n"
+        + "    \"-has\": \"an attribute\",\n"
+        + "    \"and\": {\n"
+        + "      \"many\": [\n"
+        + "        \"elements\",\n"
+        + "        \"more elements\"\n"
+        + "      ]\n"
+        + "    },\n"
+        + "    \"plus\": {\n"
+        + "      \"-a\": \"complex\",\n"
+        + "      \"#text\": \"\\n     element as well\\n   \"\n"
+        + "    }\n"
+        + "  },\n"
+        + "  \"#omit-xml-declaration\": \"yes\"\n"
+        + "}",
+    Xml.XmlStringBuilder.Step.TWO_SPACES);
     // <mydocument has="an attribute">
     //   <and>
     //     <many>elements</many>
