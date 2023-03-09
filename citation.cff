@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Kolesnikov"
+  given-names: "Valentyn"
+  orcid: "https://orcid.org/0009-0003-9608-3364"
+
+title: "underscore-java"
+version: 1.87
+date-released: 2023-03-01
+url: "https://github.com/javadev/underscore-java"
+license: MIT
