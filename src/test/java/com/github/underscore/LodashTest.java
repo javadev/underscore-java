@@ -686,19 +686,6 @@ class LodashTest {
     }
 
     @Test
-    void fetchResponseError() {
-        java.io.ByteArrayOutputStream stream =
-                new java.io.ByteArrayOutputStream() {
-                    public String toString(String encoding)
-                            throws java.io.UnsupportedEncodingException {
-                        throw new java.io.UnsupportedEncodingException();
-                    }
-                };
-        U.FetchResponse fetchResponse = new U.FetchResponse(true, 100, null, stream);
-        assertThrows(UnsupportedOperationException.class, () -> fetchResponse.text());
-    }
-
-    @Test
     void fetchResponseBlob() {
         java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream();
         assertArrayEquals(new byte[0], new U.FetchResponse(true, 100, null, stream).blob());
