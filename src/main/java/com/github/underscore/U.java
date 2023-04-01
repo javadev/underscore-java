@@ -2005,11 +2005,7 @@ public class U<T> extends Underscore<T> {
         }
 
         public String text() {
-            try {
-                return stream.toString(StandardCharsets.UTF_8.name());
-            } catch (java.io.UnsupportedEncodingException ex) {
-                throw new UnsupportedOperationException(ex);
-            }
+            return stream.toString(StandardCharsets.UTF_8);
         }
 
         public Object json() {
@@ -3330,7 +3326,7 @@ public class U<T> extends Underscore<T> {
         }
 
         public Builder add(final Map<String, Object> map) {
-            deepCopyMap(map).forEach(data::put);
+            data.putAll(deepCopyMap(map));
             return this;
         }
 
@@ -3361,7 +3357,7 @@ public class U<T> extends Underscore<T> {
 
         public static Builder fromMap(final Map<String, Object> map) {
             final Builder builder = new Builder();
-            deepCopyMap(map).forEach(builder.data::put);
+            builder.data.putAll(deepCopyMap(map));
             return builder;
         }
 

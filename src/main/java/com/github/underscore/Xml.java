@@ -142,9 +142,8 @@ public final class Xml {
         }
 
         public XmlStringBuilder fillSpaces() {
-            for (int index = 0; index < ident; index += 1) {
-                builder.append(identStep == Step.TABS ? '\t' : ' ');
-            }
+            builder.append(
+                    String.valueOf(identStep == Step.TABS ? '\t' : ' ').repeat(Math.max(0, ident)));
             return this;
         }
 
@@ -1053,9 +1052,7 @@ public final class Xml {
                                 || ch >= '\u2000' && ch <= '\u20FF') {
                             String ss = Integer.toHexString(ch);
                             sb.append("&#x");
-                            for (int k = 0; k < 4 - ss.length(); k++) {
-                                sb.append('0');
-                            }
+                            sb.append("0".repeat(4 - ss.length()));
                             sb.append(ss.toUpperCase()).append(";");
                         } else {
                             sb.append(ch);

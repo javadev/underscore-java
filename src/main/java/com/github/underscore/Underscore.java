@@ -254,7 +254,7 @@ public class Underscore<T> {
         }
 
         public Iterator<T> iterator() {
-            return new Iterator<T>() {
+            return new Iterator<>() {
                 @Override
                 public boolean hasNext() {
                     return true;
@@ -1726,7 +1726,7 @@ public class Underscore<T> {
     public static <K, V> List<Map.Entry<K, V>> object(final List<K> keys, final List<V> values) {
         return map(
                 keys,
-                new Function<K, Map.Entry<K, V>>() {
+                new Function<>() {
                     private int index;
 
                     @Override
@@ -2065,7 +2065,7 @@ public class Underscore<T> {
      * Documented, #memoize
      */
     public static <T, F> Function<F, T> memoize(final Function<F, T> function) {
-        return new MemoizeFunction<F, T>() {
+        return new MemoizeFunction<>() {
             @Override
             public T calc(F arg) {
                 return function.apply(arg);
@@ -2170,7 +2170,7 @@ public class Underscore<T> {
      */
     public static <T> Supplier<T> debounce(
             final Supplier<T> function, final int delayMilliseconds) {
-        return new Supplier<T>() {
+        return new Supplier<>() {
             private java.util.concurrent.ScheduledFuture<T> timeout;
 
             @Override
@@ -2262,7 +2262,7 @@ public class Underscore<T> {
      * Documented, #once
      */
     public static <T> Supplier<T> once(final Supplier<T> function) {
-        return new Supplier<T>() {
+        return new Supplier<>() {
             private volatile boolean executed;
             private T result;
 
@@ -2337,13 +2337,9 @@ public class Underscore<T> {
     @SuppressWarnings("unchecked")
     public static <K, V> Map<K, V> extend(final Map<K, V> destination, final Map<K, V>... sources) {
         final Map<K, V> result = newLinkedHashMap();
-        for (final Map.Entry<K, V> entry : destination.entrySet()) {
-            result.put(entry.getKey(), entry.getValue());
-        }
+        result.putAll(destination);
         for (final Map<K, V> source : sources) {
-            for (final Map.Entry<K, V> entry : source.entrySet()) {
-                result.put(entry.getKey(), entry.getValue());
-            }
+            result.putAll(source);
         }
         return result;
     }
@@ -2447,12 +2443,8 @@ public class Underscore<T> {
      */
     public static <K, V> Map<K, V> defaults(final Map<K, V> object, final Map<K, V> defaults) {
         final Map<K, V> result = newLinkedHashMap();
-        for (final Map.Entry<K, V> entry : defaults.entrySet()) {
-            result.put(entry.getKey(), entry.getValue());
-        }
-        for (final Map.Entry<K, V> entry : object.entrySet()) {
-            result.put(entry.getKey(), entry.getValue());
-        }
+        result.putAll(defaults);
+        result.putAll(object);
         return result;
     }
 
