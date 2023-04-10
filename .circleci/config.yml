@@ -5,7 +5,7 @@ jobs:
     working_directory: ~/underscore-java
 
     docker:
-      - image: circleci/openjdk:11.0.8-jdk
+      - image: cimg/openjdk:19.0.2
 
     steps:
 
