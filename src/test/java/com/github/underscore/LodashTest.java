@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -633,7 +634,7 @@ class LodashTest {
     }
 
     @Test
-    void downloadUrl() throws IOException {
+    void downloadUrl() throws IOException, URISyntaxException {
         try {
             long result =
                     U.downloadUrl(
@@ -763,13 +764,24 @@ class LodashTest {
 
     @Test
     void fetchWrongUrl() {
-        assertThrows(UnsupportedOperationException.class, () -> U.fetch("ttt"));
+        assertThrows(IllegalArgumentException.class, () -> U.fetch("ttt"));
     }
 
     @Test
     void fetchWrongUrlWithRetry() {
+        assertThrows(IllegalArgumentException.class, () -> U.fetch("ttt", 30000, 30000, 1, 100));
+    }
+
+    @Test
+    void fetchWrongUrl2() {
+        assertThrows(UnsupportedOperationException.class, () -> U.fetch("test://ttt"));
+    }
+
+    @Test
+    void fetchWrongUrlWithRetry2() {
         assertThrows(
-                UnsupportedOperationException.class, () -> U.fetch("ttt", 30000, 30000, 1, 100));
+                UnsupportedOperationException.class,
+                () -> U.fetch("test://ttt", 30000, 30000, 1, 100));
     }
 
     @Test
