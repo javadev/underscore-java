@@ -27,6 +27,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -2025,8 +2027,9 @@ public class U<T> extends Underscore<T> {
         }
     }
 
-    public static long downloadUrl(final String url, final String fileName) throws IOException {
-        final URL website = new URL(url);
+    public static long downloadUrl(final String url, final String fileName)
+            throws IOException, URISyntaxException {
+        final URL website = new URI(url).toURL();
         try (ReadableByteChannel rbc = Channels.newChannel(website.openStream());
                 final FileOutputStream fos = new FileOutputStream(fileName)) {
             return fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
@@ -2192,7 +2195,7 @@ public class U<T> extends Underscore<T> {
             final Integer connectTimeout,
             final Integer readTimeout) {
         try {
-            final java.net.URL localUrl = new java.net.URL(url);
+            final java.net.URL localUrl = new java.net.URI(url).toURL();
             final java.net.HttpURLConnection connection =
                     (java.net.HttpURLConnection) localUrl.openConnection();
             setupConnection(connection, method, headerFields, connectTimeout, readTimeout);
@@ -2222,7 +2225,7 @@ public class U<T> extends Underscore<T> {
                     responseCode,
                     connection.getHeaderFields(),
                     result);
-        } catch (java.io.IOException ex) {
+        } catch (java.io.IOException | java.net.URISyntaxException ex) {
             throw new UnsupportedOperationException(ex);
         }
     }
