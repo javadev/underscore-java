@@ -21,6 +21,13 @@ public class XmlBuilder {
         return new XmlBuilder(rootName);
     }
 
+    public static XmlBuilder parse(String xml) {
+        Map<String, Object> xmlData = U.fromXmlMap(xml);
+        XmlBuilder xmlBuilder = new XmlBuilder(Xml.XmlValue.getMapKey(xmlData));
+        xmlBuilder.setData(xmlData);
+        return xmlBuilder;
+    }
+
     public XmlBuilder e(String elementName) {
         U.remove(data, path + "." + SELF_CLOSING);
         Map<String, Object> value = new LinkedHashMap<>();
@@ -46,7 +53,24 @@ public class XmlBuilder {
         return this;
     }
 
+    public org.w3c.dom.Document root() {
+        try {
+            return Xml.Document.createDocument(createXml());
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
+    String createXml() {
+        return U.toXml(data);
+    }
+
     public String xml() {
         return U.toXml(data);
+    }
+
+    private void setData(Map<String, Object> newData) {
+        data.clear();
+        data.putAll(newData);
     }
 }
