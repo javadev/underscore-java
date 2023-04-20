@@ -22,7 +22,6 @@ public class XmlBuilder {
     }
 
     public XmlBuilder e(String elementName) {
-        Object object = U.get(data, path);
         U.remove(data, path + "." + SELF_CLOSING);
         Map<String, Object> value = new LinkedHashMap<>();
         value.put(SELF_CLOSING, TRUE);
