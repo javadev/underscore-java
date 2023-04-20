@@ -55,7 +55,7 @@ public class XmlBuilder {
 
     public org.w3c.dom.Document root() {
         try {
-            return Xml.Document.createDocument(createXml());
+            return Xml.Document.createDocument(asString());
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
@@ -63,10 +63,6 @@ public class XmlBuilder {
 
     public org.w3c.dom.Document getDocument() {
         return root();
-    }
-
-    String createXml() {
-        return U.toXml(data);
     }
 
     public String asString() {

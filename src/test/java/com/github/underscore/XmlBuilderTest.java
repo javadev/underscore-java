@@ -60,7 +60,7 @@ class XmlBuilderTest {
             }
 
             @Override
-            String createXml() {
+            public String asString() {
                 return "[\"abc\u0010\"]";
             }
         }
