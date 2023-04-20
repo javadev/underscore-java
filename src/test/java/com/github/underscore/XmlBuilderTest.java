@@ -73,4 +73,16 @@ class XmlBuilderTest {
         XmlBuilder xmlBuilder = new XmlBuilder(null);
         assertTrue(xmlBuilder.getDocument() instanceof Document);
     }
+
+    @Test
+    void xml() {
+        XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
+        assertEquals(XML, xmlBuilder.xml());
+    }
+
+    @Test
+    void json() {
+        XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
+        assertEquals(U.xmlToJson(XML), xmlBuilder.json());
+    }
 }

@@ -69,6 +69,14 @@ public class XmlBuilder {
         return U.toXml(data);
     }
 
+    public String xml() {
+        return U.toXml(data);
+    }
+
+    public String json() {
+        return U.toJson(data);
+    }
+
     private void setData(Map<String, Object> newData) {
         data.clear();
         data.putAll(newData);
