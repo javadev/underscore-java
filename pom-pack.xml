@@ -115,6 +115,7 @@
             <option>-keep public class com.github.underscore.Xml$XmlStringBuilder { *; }</option>
             <option>-keep public class com.github.underscore.Xml$FromType { *; }</option>
             <option>-keep public class com.github.underscore.Xml$ArrayTrue { *; }</option>
+            <option>-keep public class com.github.underscore.XmlBuilder { *; }</option>
             <option>-keepclassmembers class * { *** newArrayList(); *** newLinkedHashSet(); *** newHashSet(java.lang.Iterable); *** newLinkedHashMap(); }</option>
             <option>-dontnote com.github.underscore.*$ClassForName</option>
             <option>-dontnote com.github.underscore.*$OperationType</option>
