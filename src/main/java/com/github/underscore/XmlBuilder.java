@@ -61,6 +61,10 @@ public class XmlBuilder {
         }
     }
 
+    public org.w3c.dom.Document getDocument() {
+        return root();
+    }
+
     String createXml() {
         return U.toXml(data);
     }

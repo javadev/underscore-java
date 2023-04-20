@@ -65,6 +65,12 @@ class XmlBuilderTest {
             }
         }
         XmlBuilder xmlBuilder = new XmlBuilderCustom(null);
-        assertThrows(IllegalArgumentException.class, () -> xmlBuilder.root());
+        assertThrows(IllegalArgumentException.class, xmlBuilder::root);
+    }
+
+    @Test
+    void getDocument() {
+        XmlBuilder xmlBuilder = new XmlBuilder(null);
+        assertTrue(xmlBuilder.getDocument() instanceof Document);
     }
 }
