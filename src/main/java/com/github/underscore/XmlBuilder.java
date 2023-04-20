@@ -2,6 +2,7 @@ package com.github.underscore;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class XmlBuilder {
     private static final String SELF_CLOSING = "-self-closing";
@@ -44,7 +45,12 @@ public class XmlBuilder {
     }
 
     public XmlBuilder t(String text) {
-        U.set(data, path + ".#text", text);
+        U.remove(data, path + "." + SELF_CLOSING);
+        if (Objects.nonNull(U.get(data, path + ".#text"))) {
+            U.set(data, path + ".#text1", text);
+        } else {
+            U.set(data, path + ".#text", text);
+        }
         return this;
     }
 

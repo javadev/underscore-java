@@ -85,4 +85,16 @@ class XmlBuilderTest {
         XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
         assertEquals(U.xmlToJson(XML), xmlBuilder.json());
     }
+
+    @Test
+    void bug21() {
+        XmlBuilder xmlBuilder = XmlBuilder.create("root");
+        xmlBuilder.e("g1").t("Styles like ").e("g2").t("bold").up().t("is supported");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root>\n"
+                        + "  <g1>Styles like <g2>bold</g2>is supported</g1>\n"
+                        + "</root>",
+                xmlBuilder.asString());
+    }
 }
