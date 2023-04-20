@@ -69,7 +69,7 @@ public class XmlBuilder {
         return U.toXml(data);
     }
 
-    public String xml() {
+    public String asString() {
         return U.toXml(data);
     }
 

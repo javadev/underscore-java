@@ -37,13 +37,13 @@ class XmlBuilderTest {
                         .e("Location")
                         .a("type", "URL")
                         .t("http://jets3t.s3.amazonaws.com/index.html");
-        assertEquals(XML, xmlBuilder.xml());
+        assertEquals(XML, xmlBuilder.asString());
     }
 
     @Test
     void parse() {
         XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
-        assertEquals(XML, xmlBuilder.xml());
+        assertEquals(XML, xmlBuilder.asString());
     }
 
     @Test
