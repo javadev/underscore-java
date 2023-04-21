@@ -66,16 +66,19 @@ public class XmlBuilder {
         return this;
     }
 
-    public org.w3c.dom.Document root() {
+    public XmlBuilder root() {
+        int index = path.indexOf(".");
+        XmlBuilder xmlBuilder = new XmlBuilder(index == -1 ? path : path.substring(0, index));
+        xmlBuilder.setData(data);
+        return xmlBuilder;
+    }
+
+    public org.w3c.dom.Document getDocument() {
         try {
             return Xml.Document.createDocument(asString());
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
-    }
-
-    public org.w3c.dom.Document getDocument() {
-        return root();
     }
 
     public String asString() {
