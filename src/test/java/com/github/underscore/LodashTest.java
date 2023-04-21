@@ -1017,6 +1017,27 @@ class LodashTest {
     }
 
     @Test
+    void updateMapValue() {
+        Map<String, Object> map = U.newLinkedHashMap();
+        map.put("-self-closing1", "true");
+        map.put("-self-closing2", "false");
+        U.update(map, "-self-closing1", "false");
+        U.update(map, "-self-closing3", "true");
+        U.update(map, asList("-self-closing1"), "false");
+        U.update(map, asList("-self-closing3"), "true");
+        assertEquals(
+                "{\n"
+                        + "  \"-self-closing1\": \"true\",\n"
+                        + "  \"-self-closing2\": \"false\",\n"
+                        + "  \"-self-closing11\": \"false\",\n"
+                        + "  \"-self-closing3\": \"true\",\n"
+                        + "  \"-self-closing12\": \"false\",\n"
+                        + "  \"-self-closing33\": \"true\"\n"
+                        + "}",
+                U.toJson(map));
+    }
+
+    @Test
     void renameMapKey() {
         Map<String, Object> map = U.newLinkedHashMap();
         map.put("-self-closing", "false");
