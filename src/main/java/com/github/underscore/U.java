@@ -1771,12 +1771,8 @@ public class U<T> extends Underscore<T> {
             Object value, OperationType operationType, Object savedLocalObject, String savedPath) {
         if (operationType == OperationType.SET || operationType == OperationType.UPDATE) {
             if (savedLocalObject instanceof Map) {
-                if (operationType == OperationType.UPDATE
-                        && ((Map) savedLocalObject).containsKey(savedPath)) {
-                    ((Map) savedLocalObject).put(Underscore.uniqueId(savedPath), value);
-                } else {
-                    ((Map) savedLocalObject).put(savedPath, value);
-                }
+                checkSetOrUpdate(
+                        value, operationType, (Map<String, Object>) savedLocalObject, savedPath);
             } else {
                 ((List) savedLocalObject).set(Integer.parseInt(savedPath), value);
             }
@@ -1786,6 +1782,18 @@ public class U<T> extends Underscore<T> {
             } else {
                 ((List) savedLocalObject).remove(Integer.parseInt(savedPath));
             }
+        }
+    }
+
+    private static void checkSetOrUpdate(
+            Object value,
+            OperationType operationType,
+            Map<String, Object> savedLocalObject,
+            String savedPath) {
+        if (operationType == OperationType.UPDATE && savedLocalObject.containsKey(savedPath)) {
+            savedLocalObject.put(Underscore.uniqueId(savedPath), value);
+        } else {
+            savedLocalObject.put(savedPath, value);
         }
     }
 
