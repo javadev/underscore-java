@@ -2,7 +2,6 @@ package com.github.underscore;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class XmlBuilder {
     private static final String SELF_CLOSING = "-self-closing";
@@ -44,13 +43,21 @@ public class XmlBuilder {
         return this;
     }
 
+    public XmlBuilder c(String comment) {
+        U.remove(data, path + "." + SELF_CLOSING);
+        U.update(data, path + ".#comment", comment);
+        return this;
+    }
+
+    public XmlBuilder d(String cdata) {
+        U.remove(data, path + "." + SELF_CLOSING);
+        U.update(data, path + ".#cdata-section", cdata);
+        return this;
+    }
+
     public XmlBuilder t(String text) {
         U.remove(data, path + "." + SELF_CLOSING);
-        if (Objects.nonNull(U.get(data, path + ".#text"))) {
-            U.set(data, path + ".#text1", text);
-        } else {
-            U.set(data, path + ".#text", text);
-        }
+        U.update(data, path + ".#text", text);
         return this;
     }
 
@@ -59,16 +66,19 @@ public class XmlBuilder {
         return this;
     }
 
-    public org.w3c.dom.Document root() {
+    public XmlBuilder root() {
+        int index = path.indexOf(".");
+        XmlBuilder xmlBuilder = new XmlBuilder(index == -1 ? path : path.substring(0, index));
+        xmlBuilder.setData(data);
+        return xmlBuilder;
+    }
+
+    public org.w3c.dom.Document getDocument() {
         try {
             return Xml.Document.createDocument(asString());
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
-    }
-
-    public org.w3c.dom.Document getDocument() {
-        return root();
     }
 
     public String asString() {

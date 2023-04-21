@@ -157,8 +157,8 @@ class UtilityTest {
     */
     @Test
     void uniqueId() {
-        assertEquals("contact_1", Underscore.uniqueId("contact_"));
-        assertEquals("2", Underscore.uniqueId(null));
+        assertTrue(Underscore.uniqueId("contact_").matches("contact_\\d+"));
+        assertTrue(Underscore.uniqueId(null).matches("\\d+"));
     }
 
     @Test

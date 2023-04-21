@@ -41,19 +41,39 @@ class XmlBuilderTest {
     }
 
     @Test
+    void comment() {
+        XmlBuilder xmlBuilder = XmlBuilder.create("Projects").c("text");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<Projects>\n"
+                        + "  <!--text-->\n"
+                        + "</Projects>",
+                xmlBuilder.asString());
+    }
+
+    @Test
+    void cdata() {
+        XmlBuilder xmlBuilder = XmlBuilder.create("Projects").d("text");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<Projects><![CDATA[text]]></Projects>",
+                xmlBuilder.asString());
+    }
+
+    @Test
     void parse() {
         XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
         assertEquals(XML, xmlBuilder.asString());
     }
 
     @Test
-    void root() {
+    void getDocument() {
         XmlBuilder xmlBuilder = new XmlBuilder(null);
-        assertTrue(xmlBuilder.root() instanceof Document);
+        assertTrue(xmlBuilder.getDocument() instanceof Document);
     }
 
     @Test
-    void rootError() {
+    void getDocumentError() {
         class XmlBuilderCustom extends XmlBuilder {
             public XmlBuilderCustom(String rootName) {
                 super(rootName);
@@ -65,13 +85,22 @@ class XmlBuilderTest {
             }
         }
         XmlBuilder xmlBuilder = new XmlBuilderCustom(null);
-        assertThrows(IllegalArgumentException.class, xmlBuilder::root);
+        assertThrows(IllegalArgumentException.class, xmlBuilder::getDocument);
     }
 
     @Test
-    void getDocument() {
-        XmlBuilder xmlBuilder = new XmlBuilder(null);
-        assertTrue(xmlBuilder.getDocument() instanceof Document);
+    void root() {
+        XmlBuilder xmlBuilder = new XmlBuilder("root");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root/>",
+                xmlBuilder.root().asString());
+        XmlBuilder xmlBuilder2 = new XmlBuilder("root").e("e");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root>\n"
+                        + "  <e/>\n"
+                        + "</root>",
+                xmlBuilder2.root().asString());
     }
 
     @Test

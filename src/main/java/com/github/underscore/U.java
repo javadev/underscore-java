@@ -1724,6 +1724,7 @@ public class U<T> extends Underscore<T> {
     private enum OperationType {
         GET,
         SET,
+        UPDATE,
         REMOVE
     }
 
@@ -1768,9 +1769,10 @@ public class U<T> extends Underscore<T> {
     @SuppressWarnings("unchecked")
     private static void checkSetAndRemove(
             Object value, OperationType operationType, Object savedLocalObject, String savedPath) {
-        if (operationType == OperationType.SET) {
+        if (operationType == OperationType.SET || operationType == OperationType.UPDATE) {
             if (savedLocalObject instanceof Map) {
-                ((Map) savedLocalObject).put(savedPath, value);
+                checkSetOrUpdate(
+                        value, operationType, (Map<String, Object>) savedLocalObject, savedPath);
             } else {
                 ((List) savedLocalObject).set(Integer.parseInt(savedPath), value);
             }
@@ -1780,6 +1782,18 @@ public class U<T> extends Underscore<T> {
             } else {
                 ((List) savedLocalObject).remove(Integer.parseInt(savedPath));
             }
+        }
+    }
+
+    private static void checkSetOrUpdate(
+            Object value,
+            OperationType operationType,
+            Map<String, Object> savedLocalObject,
+            String savedPath) {
+        if (operationType == OperationType.UPDATE && savedLocalObject.containsKey(savedPath)) {
+            savedLocalObject.put(Underscore.uniqueId(savedPath), value);
+        } else {
+            savedLocalObject.put(savedPath, value);
         }
     }
 
@@ -1836,6 +1850,15 @@ public class U<T> extends Underscore<T> {
     public static <T> T set(
             final Map<String, Object> object, final List<String> paths, Object value) {
         return baseGetOrSetOrRemove(object, paths, value, OperationType.SET);
+    }
+
+    public static <T> T update(final Map<String, Object> object, final String path, Object value) {
+        return update(object, stringToPath(path), value);
+    }
+
+    public static <T> T update(
+            final Map<String, Object> object, final List<String> paths, Object value) {
+        return baseGetOrSetOrRemove(object, paths, value, OperationType.UPDATE);
     }
 
     public static <T> T remove(final Map<String, Object> object, final String path) {
