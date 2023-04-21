@@ -295,6 +295,35 @@ String json =
 List<String> names = U.selectTokens(U.fromJsonMap(json), "//Products[Price>=50]/Name/text()");
 // [Anvil, Elbow Grease]
 ```
+Easily build XML documents using code structured like the final document.
+
+This code:
+
+```java
+XMLBuilder builder = XMLBuilder.create("Projects")
+    .e("java-xmlbuilder").a("language", "Java").a("scm","SVN")
+        .e("Location").a("type", "URL")
+            .t("http://code.google.com/p/java-xmlbuilder/")
+        .up()
+    .up()
+    .e("JetS3t").a("language", "Java").a("scm","CVS")
+        .e("Location").a("type", "URL")
+            .t("http://jets3t.s3.amazonaws.com/index.html");
+```
+
+Produces this XML document:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Projects>
+    <java-xmlbuilder language="Java" scm="SVN">
+        <Location type="URL">http://code.google.com/p/java-xmlbuilder/</Location>
+    </java-xmlbuilder>
+    <JetS3t language="Java" scm="CVS">
+        <Location type="URL">http://jets3t.s3.amazonaws.com/index.html</Location>
+    </JetS3t>
+</Projects>
+```
 
 Underscore-java is a java port of [Underscore.js](https://underscorejs.org/).
 
