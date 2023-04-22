@@ -301,7 +301,7 @@ This code:
 
 ```java
 XMLBuilder builder = XMLBuilder.create("Projects")
-    .e("java-xmlbuilder").a("language", "Java").a("scm", "SVN")
+    .e("underscore-java").a("language", "Java").a("scm", "SVN")
         .e("Location").a("type", "URL")
             .t("https://github.com/javadev/underscore-java/")
         .up()
@@ -316,11 +316,11 @@ Produces this XML document:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Projects>
-    <java-xmlbuilder language="Java" scm="SVN">
+    <underscore-java language="Java" scm="SVN">
         <Location type="URL">https://github.com/javadev/underscore-java/</Location>
-    </java-xmlbuilder>
+    </underscore-java>
     <JetS3t language="Java" scm="CVS">
-        <Location type="URL">http://jets3t.s3.amazonaws.com/index.html</Location>
+        <Location type="URL">https://jets3t.s3.amazonaws.com/index.html</Location>
     </JetS3t>
 </Projects>
 ```
