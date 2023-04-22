@@ -301,12 +301,12 @@ This code:
 
 ```java
 XMLBuilder builder = XMLBuilder.create("Projects")
-    .e("java-xmlbuilder").a("language", "Java").a("scm","SVN")
+    .e("java-xmlbuilder").a("language", "Java").a("scm", "SVN")
         .e("Location").a("type", "URL")
-            .t("http://code.google.com/p/java-xmlbuilder/")
+            .t("https://github.com/javadev/underscore-java/")
         .up()
     .up()
-    .e("JetS3t").a("language", "Java").a("scm","CVS")
+    .e("JetS3t").a("language", "Java").a("scm", "CVS")
         .e("Location").a("type", "URL")
             .t("http://jets3t.s3.amazonaws.com/index.html");
 ```
@@ -317,7 +317,7 @@ Produces this XML document:
 <?xml version="1.0" encoding="UTF-8"?>
 <Projects>
     <java-xmlbuilder language="Java" scm="SVN">
-        <Location type="URL">http://code.google.com/p/java-xmlbuilder/</Location>
+        <Location type="URL">https://github.com/javadev/underscore-java/</Location>
     </java-xmlbuilder>
     <JetS3t language="Java" scm="CVS">
         <Location type="URL">http://jets3t.s3.amazonaws.com/index.html</Location>
