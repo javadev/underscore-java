@@ -308,7 +308,7 @@ XMLBuilder builder = XMLBuilder.create("Projects")
     .up()
     .e("JetS3t").a("language", "Java").a("scm", "CVS")
         .e("Location").a("type", "URL")
-            .t("http://jets3t.s3.amazonaws.com/index.html");
+            .t("https://jets3t.s3.amazonaws.com/index.html");
 ```
 
 Produces this XML document:
