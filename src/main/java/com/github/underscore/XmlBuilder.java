@@ -1,6 +1,8 @@
 package com.github.underscore;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class XmlBuilder {
@@ -8,6 +10,7 @@ public class XmlBuilder {
     private static final String TRUE = "true";
     private final Map<String, Object> data;
     private String path;
+    private String savedPath;
 
     XmlBuilder(String rootName) {
         data = new LinkedHashMap<>();
@@ -28,12 +31,27 @@ public class XmlBuilder {
         return xmlBuilder;
     }
 
+    @SuppressWarnings("unchecked")
     public XmlBuilder e(String elementName) {
         U.remove(data, path + "." + SELF_CLOSING);
         Map<String, Object> value = new LinkedHashMap<>();
         value.put(SELF_CLOSING, TRUE);
-        U.set(data, path + "." + elementName, value);
-        path += "." + elementName;
+        Object object = U.get(data, path + "." + elementName);
+        if (object instanceof Map) {
+            List<Object> list = new ArrayList<>();
+            list.add(object);
+            list.add(value);
+            U.set(data, path + "." + elementName, list);
+            path += "." + elementName + ".1";
+            savedPath = path;
+        } else if (object instanceof List) {
+            path += "." + elementName + "." + ((List<Object>) object).size();
+            savedPath = path;
+            ((List<Object>) object).add(value);
+        } else {
+            U.set(data, path + "." + elementName, value);
+            path += "." + elementName;
+        }
         return this;
     }
 
@@ -62,6 +80,9 @@ public class XmlBuilder {
     }
 
     public XmlBuilder up() {
+        if (path.equals(savedPath)) {
+            path = path.substring(0, path.lastIndexOf("."));
+        }
         path = path.substring(0, path.lastIndexOf("."));
         return this;
     }
@@ -81,15 +102,38 @@ public class XmlBuilder {
         }
     }
 
+    public XmlBuilder set(final String path, final Object value) {
+        U.set(data, path, value);
+        return this;
+    }
+
+    public XmlBuilder remove(final String key) {
+        U.remove(data, key);
+        return this;
+    }
+
+    public XmlBuilder clear() {
+        data.clear();
+        return this;
+    }
+
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+
+    public int size() {
+        return data.size();
+    }
+
     public String asString() {
         return U.toXml(data);
     }
 
-    public String xml() {
+    public String toXml() {
         return U.toXml(data);
     }
 
-    public String json() {
+    public String toJson() {
         return U.toJson(data);
     }
 

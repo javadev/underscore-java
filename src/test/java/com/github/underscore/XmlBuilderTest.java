@@ -1,6 +1,7 @@
 package com.github.underscore;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -89,6 +90,51 @@ class XmlBuilderTest {
     }
 
     @Test
+    void set() {
+        XmlBuilder xmlBuilder = new XmlBuilder("json");
+        xmlBuilder.set("xml", "123");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root>\n"
+                        + "  <json/>\n"
+                        + "  <xml>123</xml>\n"
+                        + "</root>",
+                xmlBuilder.asString());
+    }
+
+    @Test
+    void remove() {
+        XmlBuilder xmlBuilder = new XmlBuilder("root").e("123");
+        xmlBuilder.remove("root.123");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root></root>",
+                xmlBuilder.asString());
+    }
+
+    @Test
+    void clear() {
+        XmlBuilder xmlBuilder = new XmlBuilder("xml").e("123");
+        xmlBuilder.clear();
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root></root>",
+                xmlBuilder.asString());
+    }
+
+    @Test
+    void isEmpty() {
+        XmlBuilder xmlBuilder = new XmlBuilder("xml").e("123");
+        assertFalse(xmlBuilder.isEmpty());
+        xmlBuilder.clear();
+        assertTrue(xmlBuilder.isEmpty());
+    }
+
+    @Test
+    void size() {
+        XmlBuilder xmlBuilder = new XmlBuilder("xml").e("123");
+        assertEquals(1, xmlBuilder.size());
+    }
+
+    @Test
     void root() {
         XmlBuilder xmlBuilder = new XmlBuilder("root");
         assertEquals(
@@ -104,15 +150,54 @@ class XmlBuilderTest {
     }
 
     @Test
-    void xml() {
-        XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
-        assertEquals(XML, xmlBuilder.xml());
+    void xmlBuilderArray() {
+        String lines = "1,name1,department1\n2,name2,department2\n3,name3,department3";
+        XmlBuilder xmlBuilder = XmlBuilder.create("Employees");
+        for (String line : lines.split("\n")) {
+            String[] columns = line.split(",");
+            xmlBuilder
+                    .e("Employee")
+                    .e("Code")
+                    .t(columns[0])
+                    .up()
+                    .e("Name")
+                    .t(columns[1])
+                    .up()
+                    .e("Department")
+                    .t(columns[2])
+                    .up()
+                    .up();
+        }
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<Employees>\n"
+                        + "  <Employee>\n"
+                        + "    <Code>1</Code>\n"
+                        + "    <Name>name1</Name>\n"
+                        + "    <Department>department1</Department>\n"
+                        + "  </Employee>  <Employee>\n"
+                        + "    <Code>2</Code>\n"
+                        + "    <Name>name2</Name>\n"
+                        + "    <Department>department2</Department>\n"
+                        + "  </Employee>  <Employee>\n"
+                        + "    <Code>3</Code>\n"
+                        + "    <Name>name3</Name>\n"
+                        + "    <Department>department3</Department>\n"
+                        + "  </Employee>\n"
+                        + "</Employees>",
+                xmlBuilder.asString());
     }
 
     @Test
-    void json() {
+    void toXml() {
         XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
-        assertEquals(U.xmlToJson(XML), xmlBuilder.json());
+        assertEquals(XML, xmlBuilder.toXml());
+    }
+
+    @Test
+    void toJson() {
+        XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
+        assertEquals(U.xmlToJson(XML), xmlBuilder.toJson());
     }
 
     @Test
