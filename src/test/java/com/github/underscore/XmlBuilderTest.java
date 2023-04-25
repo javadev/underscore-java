@@ -101,11 +101,15 @@ class XmlBuilderTest {
                         + "  <e/>\n"
                         + "</root>",
                 xmlBuilder2.root().asString());
+    }
+
+    @Test
+    void xmlBuilderArray() {
         String lines = "1,name1,department1\n2,name2,department2\n3,name3,department3";
-        XmlBuilder xmlBuilder3 = XmlBuilder.create("Employees");
+        XmlBuilder xmlBuilder = XmlBuilder.create("Employees");
         for (String line : lines.split("\n")) {
             String[] columns = line.split(",");
-            xmlBuilder3
+            xmlBuilder
                     .e("Employee")
                     .e("Code")
                     .t(columns[0])
@@ -135,7 +139,7 @@ class XmlBuilderTest {
                         + "    <Department>department3</Department>\n"
                         + "  </Employee>\n"
                         + "</Employees>",
-                xmlBuilder3.asString());
+                xmlBuilder.asString());
     }
 
     @Test
