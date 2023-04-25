@@ -67,6 +67,12 @@ public class XmlBuilder {
         return this;
     }
 
+    public XmlBuilder i(String target, String value) {
+        U.remove(data, path + "." + SELF_CLOSING);
+        U.set(data, "?" + target, value);
+        return this;
+    }
+
     public XmlBuilder d(String cdata) {
         U.remove(data, path + "." + SELF_CLOSING);
         U.update(data, path + ".#cdata-section", cdata);

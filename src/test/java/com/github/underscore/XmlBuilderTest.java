@@ -53,6 +53,16 @@ class XmlBuilderTest {
     }
 
     @Test
+    void inst() {
+        XmlBuilder xmlBuilder = XmlBuilder.create("Projects").i("target", "text");
+        assertEquals(
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<Projects></Projects>\n"
+                + "<?target text?>",
+            xmlBuilder.asString());
+    }
+
+    @Test
     void cdata() {
         XmlBuilder xmlBuilder = XmlBuilder.create("Projects").d("text");
         assertEquals(
