@@ -1193,7 +1193,7 @@ public final class Xml {
                 || localMap2.size() != 1
                 || XmlValue.getMapKey(localMap2).startsWith("-")
                 || XmlValue.getMapValue(localMap2) instanceof List) {
-            if ("root".equals(XmlValue.getMapKey(localMap2))) {
+            if (ROOT.equals(XmlValue.getMapKey(localMap2))) {
                 writeArray((List) XmlValue.getMapValue(localMap2), builder, arrayTrue);
             } else {
                 XmlObject.writeXml(

@@ -101,15 +101,38 @@ public class XmlBuilder {
         }
     }
 
+    public XmlBuilder set(final String path, final Object value) {
+        U.set(data, path, value);
+        return this;
+    }
+
+    public XmlBuilder remove(final String key) {
+        U.remove(data, key);
+        return this;
+    }
+
+    public XmlBuilder clear() {
+        data.clear();
+        return this;
+    }
+
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+
+    public int size() {
+        return data.size();
+    }
+
     public String asString() {
         return U.toXml(data);
     }
 
-    public String xml() {
+    public String toXml() {
         return U.toXml(data);
     }
 
-    public String json() {
+    public String toJson() {
         return U.toJson(data);
     }
 

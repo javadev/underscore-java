@@ -1,6 +1,7 @@
 package com.github.underscore;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -89,6 +90,51 @@ class XmlBuilderTest {
     }
 
     @Test
+    void set() {
+        XmlBuilder xmlBuilder = new XmlBuilder("json");
+        xmlBuilder.set("xml", "123");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root>\n"
+                        + "  <json/>\n"
+                        + "  <xml>123</xml>\n"
+                        + "</root>",
+                xmlBuilder.asString());
+    }
+
+    @Test
+    void remove() {
+        XmlBuilder xmlBuilder = new XmlBuilder("root").e("123");
+        xmlBuilder.remove("root.123");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root></root>",
+                xmlBuilder.asString());
+    }
+
+    @Test
+    void clear() {
+        XmlBuilder xmlBuilder = new XmlBuilder("xml").e("123");
+        xmlBuilder.clear();
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root></root>",
+                xmlBuilder.asString());
+    }
+
+    @Test
+    void isEmpty() {
+        XmlBuilder xmlBuilder = new XmlBuilder("xml").e("123");
+        assertFalse(xmlBuilder.isEmpty());
+        xmlBuilder.clear();
+        assertTrue(xmlBuilder.isEmpty());
+    }
+
+    @Test
+    void size() {
+        XmlBuilder xmlBuilder = new XmlBuilder("xml").e("123");
+        assertEquals(1, xmlBuilder.size());
+    }
+
+    @Test
     void root() {
         XmlBuilder xmlBuilder = new XmlBuilder("root");
         assertEquals(
@@ -143,15 +189,15 @@ class XmlBuilderTest {
     }
 
     @Test
-    void xml() {
+    void toXml() {
         XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
-        assertEquals(XML, xmlBuilder.xml());
+        assertEquals(XML, xmlBuilder.toXml());
     }
 
     @Test
-    void json() {
+    void toJson() {
         XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
-        assertEquals(U.xmlToJson(XML), xmlBuilder.json());
+        assertEquals(U.xmlToJson(XML), xmlBuilder.toJson());
     }
 
     @Test
