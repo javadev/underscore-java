@@ -56,10 +56,22 @@ class XmlBuilderTest {
     void inst() {
         XmlBuilder xmlBuilder = XmlBuilder.create("Projects").i("target", "text");
         assertEquals(
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<Projects></Projects>\n"
-                + "<?target text?>",
-            xmlBuilder.asString());
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<Projects></Projects>\n"
+                        + "<?target text?>",
+                xmlBuilder.asString());
+    }
+
+    @Test
+    void importXmlBuilder() {
+        XmlBuilder xmlBuilder = XmlBuilder.create("a");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root>\n"
+                        + "  <b/>\n"
+                        + "  <a/>\n"
+                        + "</root>",
+                XmlBuilder.create("b").importXmlBuilder(xmlBuilder).asString());
     }
 
     @Test
@@ -117,8 +129,7 @@ class XmlBuilderTest {
         XmlBuilder xmlBuilder = new XmlBuilder("root").e("123");
         xmlBuilder.remove("root.123");
         assertEquals(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root></root>",
-                xmlBuilder.asString());
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root></root>", xmlBuilder.asString());
     }
 
     @Test
@@ -126,8 +137,7 @@ class XmlBuilderTest {
         XmlBuilder xmlBuilder = new XmlBuilder("xml").e("123");
         xmlBuilder.clear();
         assertEquals(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root></root>",
-                xmlBuilder.asString());
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root></root>", xmlBuilder.asString());
     }
 
     @Test

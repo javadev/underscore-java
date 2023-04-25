@@ -85,6 +85,11 @@ public class XmlBuilder {
         return this;
     }
 
+    public XmlBuilder importXmlBuilder(XmlBuilder xmlBuilder) {
+        data.putAll(xmlBuilder.data);
+        return this;
+    }
+
     public XmlBuilder up() {
         if (path.equals(savedPath)) {
             path = path.substring(0, path.lastIndexOf("."));
