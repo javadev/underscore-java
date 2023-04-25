@@ -1,6 +1,8 @@
 package com.github.underscore;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class XmlBuilder {
@@ -8,6 +10,7 @@ public class XmlBuilder {
     private static final String TRUE = "true";
     private final Map<String, Object> data;
     private String path;
+    private String savedPath;
 
     XmlBuilder(String rootName) {
         data = new LinkedHashMap<>();
@@ -28,13 +31,31 @@ public class XmlBuilder {
         return xmlBuilder;
     }
 
+    @SuppressWarnings("unchecked")
     public XmlBuilder e(String elementName) {
         U.remove(data, path + "." + SELF_CLOSING);
         Map<String, Object> value = new LinkedHashMap<>();
         value.put(SELF_CLOSING, TRUE);
-        U.set(data, path + "." + elementName, value);
-        path += "." + elementName;
+        Object object = U.get(data, path + "." + elementName);
+        if (object instanceof Map) {
+            List<Object> list = new ArrayList<>();
+            list.add(object);
+            list.add(value);
+            U.set(data, path + "." + elementName, list);
+            setupPath(elementName, 1);
+        } else if (object instanceof List) {
+            setupPath(elementName, ((List<Object>) object).size());
+            ((List<Object>) object).add(value);
+        } else {
+            U.set(data, path + "." + elementName, value);
+            path += "." + elementName;
+        }
         return this;
+    }
+
+    private void setupPath(String elementName, int size) {
+        path += "." + elementName + "." + size;
+        savedPath = path;
     }
 
     public XmlBuilder a(String attributeName, String value) {
@@ -62,6 +83,9 @@ public class XmlBuilder {
     }
 
     public XmlBuilder up() {
+        if (path.equals(savedPath)) {
+            path = path.substring(0, path.lastIndexOf("."));
+        }
         path = path.substring(0, path.lastIndexOf("."));
         return this;
     }

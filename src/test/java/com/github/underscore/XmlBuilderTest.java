@@ -101,6 +101,41 @@ class XmlBuilderTest {
                         + "  <e/>\n"
                         + "</root>",
                 xmlBuilder2.root().asString());
+        String lines = "1,name1,department1\n2,name2,department2\n3,name3,department3";
+        XmlBuilder xmlBuilder3 = XmlBuilder.create("Employees");
+        for (String line : lines.split("\n")) {
+            String[] columns = line.split(",");
+            xmlBuilder3
+                    .e("Employee")
+                    .e("Code")
+                    .t(columns[0])
+                    .up()
+                    .e("Name")
+                    .t(columns[1])
+                    .up()
+                    .e("Department")
+                    .t(columns[2])
+                    .up()
+                    .up();
+        }
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<Employees>\n"
+                        + "  <Employee>\n"
+                        + "    <Code>1</Code>\n"
+                        + "    <Name>name1</Name>\n"
+                        + "    <Department>department1</Department>\n"
+                        + "  </Employee>  <Employee>\n"
+                        + "    <Code>2</Code>\n"
+                        + "    <Name>name2</Name>\n"
+                        + "    <Department>department2</Department>\n"
+                        + "  </Employee>  <Employee>\n"
+                        + "    <Code>3</Code>\n"
+                        + "    <Name>name3</Name>\n"
+                        + "    <Department>department3</Department>\n"
+                        + "  </Employee>\n"
+                        + "</Employees>",
+                xmlBuilder3.asString());
     }
 
     @Test
