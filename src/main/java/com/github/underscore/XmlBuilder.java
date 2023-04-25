@@ -1,6 +1,7 @@
 package com.github.underscore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,24 +39,19 @@ public class XmlBuilder {
         value.put(SELF_CLOSING, TRUE);
         Object object = U.get(data, path + "." + elementName);
         if (object instanceof Map) {
-            List<Object> list = new ArrayList<>();
-            list.add(object);
-            list.add(value);
+            List<Object> list = new ArrayList<>(Arrays.asList(object, value));
             U.set(data, path + "." + elementName, list);
-            setupPath(elementName, 1);
+            path += "." + elementName + ".1";
+            savedPath = path;
         } else if (object instanceof List) {
-            setupPath(elementName, ((List<Object>) object).size());
+            path += "." + elementName + "." + ((List<Object>) object).size();
+            savedPath = path;
             ((List<Object>) object).add(value);
         } else {
             U.set(data, path + "." + elementName, value);
             path += "." + elementName;
         }
         return this;
-    }
-
-    private void setupPath(String elementName, int size) {
-        path += "." + elementName + "." + size;
-        savedPath = path;
     }
 
     public XmlBuilder a(String attributeName, String value) {
