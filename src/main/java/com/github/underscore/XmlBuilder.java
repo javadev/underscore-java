@@ -123,6 +123,10 @@ public class XmlBuilder {
         return this;
     }
 
+    public Map<String, Object> build() {
+        return U.deepCopyMap(data);
+    }
+
     public XmlBuilder clear() {
         data.clear();
         return this;
