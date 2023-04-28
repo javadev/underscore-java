@@ -133,6 +133,12 @@ class XmlBuilderTest {
     }
 
     @Test
+    void build() {
+        XmlBuilder xmlBuilder = new XmlBuilder("xml").e("123");
+        assertEquals("{xml={123={-self-closing=true}}}", xmlBuilder.build().toString());
+    }
+
+    @Test
     void clear() {
         XmlBuilder xmlBuilder = new XmlBuilder("xml").e("123");
         xmlBuilder.clear();
