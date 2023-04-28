@@ -144,8 +144,16 @@ public class XmlBuilder {
         return U.toXml(data);
     }
 
+    public String toXml(Xml.XmlStringBuilder.Step identStep) {
+        return Xml.toXml(data, identStep);
+    }
+
     public String toXml() {
         return U.toXml(data);
+    }
+
+    public String toJson(Json.JsonStringBuilder.Step identStep) {
+        return Json.toJson(data, identStep);
     }
 
     public String toJson() {

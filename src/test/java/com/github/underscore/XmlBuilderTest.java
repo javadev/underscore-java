@@ -215,9 +215,25 @@ class XmlBuilderTest {
     }
 
     @Test
+    void toXmlFormat() {
+        XmlBuilder xmlBuilder = new XmlBuilder("xml").e("a").e("b");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xml><a><b/></a></xml>",
+                xmlBuilder.toXml(Xml.XmlStringBuilder.Step.COMPACT));
+    }
+
+    @Test
     void toXml() {
         XmlBuilder xmlBuilder = XmlBuilder.parse(XML);
         assertEquals(XML, xmlBuilder.toXml());
+    }
+
+    @Test
+    void toJsonFormat() {
+        XmlBuilder xmlBuilder = new XmlBuilder("json").e("a").e("b");
+        assertEquals(
+                "{\"json\":{\"a\":{\"b\":{\"-self-closing\":\"true\"}}}}",
+                xmlBuilder.toJson(Json.JsonStringBuilder.Step.COMPACT));
     }
 
     @Test

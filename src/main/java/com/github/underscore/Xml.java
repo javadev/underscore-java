@@ -1935,6 +1935,6 @@ public final class Xml {
     }
 
     public static String changeXmlEncoding(String xml, String encoding) {
-        return changeXmlEncoding(xml, XmlStringBuilder.Step.THREE_SPACES, encoding);
+        return changeXmlEncoding(xml, XmlStringBuilder.Step.TWO_SPACES, encoding);
     }
 }
