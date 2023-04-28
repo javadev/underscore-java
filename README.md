@@ -300,7 +300,7 @@ Easily build XML documents using code structured like the final document.
 This code:
 
 ```java
-XMLBuilder builder = XMLBuilder.create("Projects")
+XmlBuilder builder = XmlBuilder.create("Projects")
     .e("underscore-java").a("language", "Java").a("scm", "SVN")
         .e("Location").a("type", "URL")
             .t("https://github.com/javadev/underscore-java/")
