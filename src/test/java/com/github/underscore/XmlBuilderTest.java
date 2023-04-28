@@ -12,11 +12,11 @@ class XmlBuilderTest {
     private static final String XML =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                     + "<Projects>\n"
-                    + "  <java-xmlbuilder language=\"Java\" scm=\"SVN\">\n"
-                    + "    <Location type=\"URL\">http://code.google.com/p/java-xmlbuilder/</Location>\n"
-                    + "  </java-xmlbuilder>\n"
+                    + "  <underscore-java language=\"Java\" scm=\"SVN\">\n"
+                    + "    <Location type=\"URL\">https://github.com/javadev/underscore-java/</Location>\n"
+                    + "  </underscore-java>\n"
                     + "  <JetS3t language=\"Java\" scm=\"CVS\">\n"
-                    + "    <Location type=\"URL\">http://jets3t.s3.amazonaws.com/index.html</Location>\n"
+                    + "    <Location type=\"URL\">https://jets3t.s3.amazonaws.com/index.html</Location>\n"
                     + "  </JetS3t>\n"
                     + "</Projects>";
 
@@ -24,12 +24,12 @@ class XmlBuilderTest {
     void createXml() {
         XmlBuilder xmlBuilder =
                 XmlBuilder.create("Projects")
-                        .e("java-xmlbuilder")
+                        .e("underscore-java")
                         .a("language", "Java")
                         .a("scm", "SVN")
                         .e("Location")
                         .a("type", "URL")
-                        .t("http://code.google.com/p/java-xmlbuilder/")
+                        .t("https://github.com/javadev/underscore-java/")
                         .up()
                         .up()
                         .e("JetS3t")
@@ -37,7 +37,7 @@ class XmlBuilderTest {
                         .a("scm", "CVS")
                         .e("Location")
                         .a("type", "URL")
-                        .t("http://jets3t.s3.amazonaws.com/index.html");
+                        .t("https://jets3t.s3.amazonaws.com/index.html");
         assertEquals(XML, xmlBuilder.asString());
     }
 
