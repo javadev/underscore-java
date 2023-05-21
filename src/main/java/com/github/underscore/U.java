@@ -863,10 +863,6 @@ public class U<T> extends Underscore<T> {
             return new Chain<>(U.createPermutationWithRepetition(value(), permutationLength));
         }
 
-        public Chain<String> toJsonJavaString() {
-            return new Chain<>(Json.toJsonJavaString(value()));
-        }
-
         public Chain<String> xmlToJson() {
             return new Chain<>(U.xmlToJson((String) item()));
         }
@@ -2538,18 +2534,6 @@ public class U<T> extends Underscore<T> {
 
     public String toJson() {
         return Json.toJson((Collection) getIterable());
-    }
-
-    public static String toJsonJavaString(Collection collection) {
-        return Json.toJsonJavaString(collection);
-    }
-
-    public static String toJsonJavaString(Map map) {
-        return Json.toJsonJavaString(map);
-    }
-
-    public String toJsonJavaString() {
-        return Json.toJsonJavaString((Collection) getIterable());
     }
 
     @SuppressWarnings("unchecked")
