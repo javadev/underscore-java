@@ -69,7 +69,7 @@ public final class Json {
         }
 
         public JsonStringBuilder append(final char character) {
-            builder.add(String.valueOf(character));
+            builder.add(Character.toString(character));
             return this;
         }
 
@@ -80,7 +80,7 @@ public final class Json {
 
         public JsonStringBuilder fillSpaces() {
             for (int index = 0; index < ident; index += 1) {
-                builder.add(String.valueOf(identStep == Step.TABS ? '\t' : ' '));
+                builder.add(Character.toString(identStep == Step.TABS ? '\t' : ' '));
             }
             return this;
         }
@@ -144,11 +144,11 @@ public final class Json {
                 builder.append("[]");
             } else {
                 builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
+                builder.fillSpaces().append(Byte.toString(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(Byte.toString(array[i]));
                 }
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
@@ -161,11 +161,11 @@ public final class Json {
                 builder.append("[]");
             } else {
                 builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
+                builder.fillSpaces().append(Short.toString(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(Short.toString(array[i]));
                 }
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
@@ -178,11 +178,11 @@ public final class Json {
                 builder.append("[]");
             } else {
                 builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
+                builder.fillSpaces().append(Integer.toString(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(Integer.toString(array[i]));
                 }
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
@@ -195,11 +195,11 @@ public final class Json {
                 builder.append("[]");
             } else {
                 builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
+                builder.fillSpaces().append(Long.toString(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(Long.toString(array[i]));
                 }
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
@@ -212,11 +212,11 @@ public final class Json {
                 builder.append("[]");
             } else {
                 builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
+                builder.fillSpaces().append(Float.toString(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(Float.toString(array[i]));
                 }
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
@@ -229,11 +229,11 @@ public final class Json {
                 builder.append("[]");
             } else {
                 builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
+                builder.fillSpaces().append(Double.toString(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(Double.toString(array[i]));
                 }
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
@@ -246,11 +246,11 @@ public final class Json {
                 builder.append("[]");
             } else {
                 builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
+                builder.fillSpaces().append(Boolean.toString(array[0]));
 
                 for (int i = 1; i < array.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(Boolean.toString(array[i]));
                 }
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
@@ -263,11 +263,11 @@ public final class Json {
                 builder.append("[]");
             } else {
                 builder.append('[').incIdent().newLine();
-                builder.fillSpaces().append('\"').append(String.valueOf(array[0])).append('\"');
+                builder.fillSpaces().append('\"').append(Character.toString(array[0])).append('\"');
 
                 for (int i = 1; i < array.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append('\"').append(String.valueOf(array[i])).append('\"');
+                    builder.append('\"').append(Character.toString(array[i])).append('\"');
                 }
                 builder.newLine().decIdent().fillSpaces().append(']');
             }
@@ -430,7 +430,7 @@ public final class Json {
                             }
                             sb.add(ss.toUpperCase());
                         } else {
-                            sb.add(String.valueOf(ch));
+                            sb.add(Character.toString(ch));
                         }
                         break;
                 }
