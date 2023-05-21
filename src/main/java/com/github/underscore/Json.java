@@ -54,59 +54,18 @@ public final class Json {
             }
         }
 
-        public enum Type {
-            PURE("", "\n", "", "\""),
-            JAVA("\"", "\\n\"\n + \"", "\";", "\\\"");
-            private final String initial;
-            private final String newLine;
-            private final String tailLine;
-            private final String wrapLine;
-
-            Type(String initial, String newLine, String tailLine, String wrapLine) {
-                this.initial = initial;
-                this.newLine = newLine;
-                this.tailLine = tailLine;
-                this.wrapLine = wrapLine;
-            }
-
-            public String getInitial() {
-                return initial;
-            }
-
-            public String getNewLine() {
-                return newLine;
-            }
-
-            public String getTailLine() {
-                return tailLine;
-            }
-
-            public String getWrapLine() {
-                return wrapLine;
-            }
-        }
-
         private final StringJoiner builder;
         private final Step identStep;
-        private final Type type;
         private int ident;
 
         public JsonStringBuilder(Step identStep) {
-            builder = new StringJoiner("").add(Type.PURE.getInitial());
+            builder = new StringJoiner("");
             this.identStep = identStep;
-            this.type = Type.PURE;
-        }
-
-        public JsonStringBuilder(Type type) {
-            builder = new StringJoiner("").add(type.getInitial());
-            this.identStep = Step.TWO_SPACES;
-            this.type = type;
         }
 
         public JsonStringBuilder() {
             builder = new StringJoiner("");
             this.identStep = Step.TWO_SPACES;
-            this.type = Type.PURE;
         }
 
         public JsonStringBuilder append(final char character) {
@@ -138,7 +97,7 @@ public final class Json {
 
         public JsonStringBuilder newLine() {
             if (identStep != Step.COMPACT) {
-                builder.add(type.getNewLine());
+                builder.add("\n");
             }
             return this;
         }
@@ -148,7 +107,7 @@ public final class Json {
         }
 
         public String toString() {
-            return builder.toString() + type.getTailLine();
+            return builder.toString();
         }
     }
 
@@ -347,9 +306,9 @@ public final class Json {
             }
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
-                builder.fillSpaces().append(builder.type.getWrapLine());
+                builder.fillSpaces().append('"');
                 builder.append(JsonValue.escape(String.valueOf(entry.getKey())));
-                builder.append(builder.type.getWrapLine());
+                builder.append('"');
                 builder.append(':');
                 if (builder.getIdentStep() != JsonStringBuilder.Step.COMPACT) {
                     builder.append(' ');
@@ -370,9 +329,9 @@ public final class Json {
             if (value == null) {
                 builder.append(NULL);
             } else if (value instanceof String) {
-                builder.append(builder.type.getWrapLine())
+                builder.append('"')
                         .append(escape((String) value))
-                        .append(builder.type.getWrapLine());
+                        .append('"');
             } else if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
                     builder.append(NULL);
@@ -886,20 +845,6 @@ public final class Json {
 
     public static String toJson(Map map) {
         return toJson(map, JsonStringBuilder.Step.TWO_SPACES);
-    }
-
-    public static String toJsonJavaString(Collection collection) {
-        final JsonStringBuilder builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
-
-        JsonArray.writeJson(collection, builder);
-        return builder.toString();
-    }
-
-    public static String toJsonJavaString(Map map) {
-        final JsonStringBuilder builder = new JsonStringBuilder(JsonStringBuilder.Type.JAVA);
-
-        JsonObject.writeJson(map, builder);
-        return builder.toString();
     }
 
     public static Object fromJson(String string) {
