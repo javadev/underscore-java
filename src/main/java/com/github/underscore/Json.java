@@ -23,8 +23,10 @@
  */
 package com.github.underscore;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -430,7 +432,7 @@ public final class Json {
         private final int column;
 
         public ParseException(String message, int offset, int line, int column) {
-            super(message + " at " + line + ":" + column);
+            super(String.format("%s at %d:%d", message, line, column));
             this.offset = offset;
             this.line = line;
             this.column = column;
@@ -508,7 +510,7 @@ public final class Json {
 
         private List<Object> readArray() {
             read();
-            List<Object> array = U.newArrayList();
+            List<Object> array = new ArrayList<>();
             skipWhiteSpace();
             if (readChar(']')) {
                 return array;
@@ -526,7 +528,7 @@ public final class Json {
 
         private Map<String, Object> readObject() {
             read();
-            Map<String, Object> object = U.newLinkedHashMap();
+            Map<String, Object> object = new LinkedHashMap<>();
             skipWhiteSpace();
             if (readChar('}')) {
                 return object;
