@@ -26,7 +26,7 @@ jobs:
     - name: Build with Maven
       run: mvn test jacoco:report --file pom.xml -B 
 
-    - uses: codecov/codecov-action@v2
+    - uses: codecov/codecov-action@v3
       with:
         file: target/site/jacoco/jacoco.xml
         name: codecov
