@@ -2,7 +2,7 @@ underscore-java
 ===============
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.javadev/underscore.svg)](https://central.sonatype.com/artifact/com.github.javadev/underscore/1.89)
-[![MIT License](http://img.shields.io/badge/license-MIT-green.svg) ](https://github.com/javadev/underscore-java/blob/main/LICENSE)
+[![MIT License](http://img.shields.io/badge/license-MIT-green.svg)](https://github.com/javadev/underscore-java/blob/main/LICENSE)
 [![Java CI](https://github.com/javadev/underscore-java/actions/workflows/maven.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/maven.yml)
 [![CodeQL](https://github.com/javadev/underscore-java/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/codeql-analysis.yml)
 [![Semgrep](https://github.com/javadev/underscore-java/actions/workflows/semgrep.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/semgrep.yml)
