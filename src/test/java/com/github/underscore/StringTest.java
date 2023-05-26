@@ -537,13 +537,29 @@ class StringTest {
             }
         }
         assertEquals(
-                "[\n  [\n    test,\n    test\n  ]\n]",
+                "[\n  [\n    \"test\",\n    \"test\"\n  ]\n]",
                 U.toJson(
                         new ArrayList<Test[]>() {
                             {
                                 add(new Test[] {new Test(), new Test()});
                             }
                         }));
+    }
+
+    enum A {
+        X,
+        Y,
+        Z
+    }
+
+    @Test
+    void testJsonArrayCollectionEnum() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(A.X);
+        list.add(A.Y);
+        map.put("l", list);
+        assertEquals("{\n  \"l\": [\n    \"X\",\n    \"Y\"\n  ]\n}", U.toJson(map));
     }
 
     @Test

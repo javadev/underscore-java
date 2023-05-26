@@ -365,7 +365,7 @@ public final class Json {
             } else if (value instanceof Object[]) {
                 JsonArray.writeJson((Object[]) value, builder);
             } else {
-                builder.append(value.toString());
+                builder.append('"').append(escape(value.toString())).append('"');
             }
         }
 
