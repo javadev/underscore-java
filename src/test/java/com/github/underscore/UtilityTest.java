@@ -445,61 +445,6 @@ class UtilityTest {
         assertEquals("hello: mo\\e", fortmatted6);
     }
 
-    @Test
-    void minimumDays() {
-        List<List<Integer>> ll = new ArrayList<>();
-        ll.add(Arrays.asList(1, 1, 1, 1, 1));
-        ll.add(Arrays.asList(1, 1, 1, 0, 1));
-        ll.add(Arrays.asList(1, 0, 1, 1, 1));
-        ll.add(Arrays.asList(1, 1, 1, 1, 1));
-        assertEquals(1, Underscore.minimumDays(4, 5, ll));
-        List<List<Integer>> ll2 = new ArrayList<>();
-        ll2.add(Arrays.asList(0, 0, 0, 0, 0));
-        ll2.add(Arrays.asList(0, 0, 0, 0, 0));
-        ll2.add(Arrays.asList(0, 0, 0, 0, 0));
-        ll2.add(Arrays.asList(0, 0, 0, 0, 0));
-        assertEquals(-1, Underscore.minimumDays(4, 5, ll2));
-    }
-
-    @Test
-    void topNCompetitors() {
-        List<String> competitors =
-                Arrays.asList("anacell", "betacellular", "cetracular", "deltacellular", "eurocell");
-        List<String> reviews =
-                Arrays.asList(
-                        "I love anacell Best services provided by anacell in the town",
-                        "betacellular has great services",
-                        "deltacellular provides much betacellular",
-                        "cetracular is worse than eurocell",
-                        "betacellular is better than deltacellular");
-        List<String> strings = Underscore.topNCompetitors(6, 2, competitors, 6, reviews);
-        assertEquals("[betacellular, deltacellular]", strings.toString());
-        List<String> competitors2 = Arrays.asList("ААА", "БББ");
-        List<String> reviews2 =
-                Arrays.asList(
-                        "I love anacell Best services provided by anacell in the town",
-                        "betacellular has great services",
-                        "deltacellular provides much betacellular",
-                        "cetracular is worse than eurocell",
-                        "betacellular is better than deltacellular");
-        List<String> strings2 = Underscore.topNCompetitors(2, 2, competitors2, 6, reviews2);
-        assertEquals("[]", strings2.toString());
-        List<String> strings3 = Underscore.topNCompetitors(2, 2, competitors2, 6, null);
-        assertEquals("[]", strings3.toString());
-        List<String> strings4 =
-                Underscore.topNCompetitors(2, 2, competitors2, 6, Collections.<String>emptyList());
-        assertEquals("[]", strings4.toString());
-        List<String> strings5 = Underscore.topNCompetitors(2, 2, null, 6, reviews2);
-        assertEquals("[]", strings5.toString());
-        List<String> strings6 =
-                Underscore.topNCompetitors(2, 2, Collections.<String>emptyList(), 6, reviews2);
-        assertEquals("[]", strings6.toString());
-        List<String> strings7 = Underscore.topNCompetitors(0, 2, competitors2, 6, reviews2);
-        assertEquals("[]", strings7.toString());
-        List<String> strings8 = Underscore.topNCompetitors(2, 2, competitors2, 0, reviews2);
-        assertEquals("[]", strings8.toString());
-    }
-
     /*
     var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
     _.result(object, 'cheese');
