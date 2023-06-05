@@ -30,16 +30,16 @@ import java.util.function.Supplier;
 
 public final class Optional<T> {
     private static final Optional<?> EMPTY = new Optional<>();
-    private final T arg;
+    private final T value;
     private final boolean absent;
 
     private Optional() {
-        this.arg = null;
+        this.value = null;
         this.absent = true;
     }
 
-    private Optional(final T arg) {
-        this.arg = arg;
+    private Optional(final T value) {
+        this.value = value;
         this.absent = false;
     }
 
@@ -60,21 +60,21 @@ public final class Optional<T> {
         if (absent) {
             throw new IllegalStateException("Optional.get() cannot be called on an empty value");
         }
-        return arg;
+        return value;
     }
 
     public T or(final T defaultValue) {
         if (absent) {
             return defaultValue;
         }
-        return arg;
+        return value;
     }
 
     public T orNull() {
         if (absent) {
             return null;
         }
-        return arg;
+        return value;
     }
 
     public boolean isEmpty() {
@@ -88,7 +88,7 @@ public final class Optional<T> {
     public Optional<T> filter(Predicate<? super T> predicate) {
         Underscore.checkNotNull(predicate);
         if (isPresent()) {
-            return predicate.test(arg) ? this : Optional.empty();
+            return predicate.test(value) ? this : Optional.empty();
         } else {
             return this;
         }
@@ -97,7 +97,7 @@ public final class Optional<T> {
     public <F> Optional<F> map(Function<? super T, F> mapper) {
         Underscore.checkNotNull(mapper);
         if (isPresent()) {
-            return Optional.fromNullable(mapper.apply(arg));
+            return Optional.fromNullable(mapper.apply(value));
         } else {
             return empty();
         }
@@ -107,12 +107,12 @@ public final class Optional<T> {
         if (absent) {
             throw exceptionFunction.get();
         } else {
-            return arg;
+            return value;
         }
     }
 
     public java.util.Optional<T> toJavaOptional() {
-        return java.util.Optional.ofNullable(arg);
+        return java.util.Optional.ofNullable(value);
     }
 
     @Override
@@ -126,18 +126,18 @@ public final class Optional<T> {
 
         final Optional<?> optional = (Optional<?>) o;
 
-        return absent == optional.absent && Objects.equals(arg, optional.arg);
+        return absent == optional.absent && Objects.equals(value, optional.value);
     }
 
     @Override
     public int hashCode() {
-        int result = arg == null ? 0 : arg.hashCode();
+        int result = value == null ? 0 : value.hashCode();
         result = 31 * result + (absent ? 1 : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return absent ? "Optional.empty" : "Optional[" + arg + "]";
+        return absent ? "Optional.empty" : "Optional[" + value + "]";
     }
 }
