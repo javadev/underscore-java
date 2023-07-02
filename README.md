@@ -31,10 +31,9 @@ Requirements
 
 Java 11 and later or [Java 17](https://github.com/javadev/underscore-java17)
 
-
 ## Installation
 
-Include the following in your `pom.xml` for Maven:
+To configure your Maven project, add the following code to your pom.xml file:
 
 ```xml
 <dependencies>
@@ -47,7 +46,7 @@ Include the following in your `pom.xml` for Maven:
 </dependencies>
 ```
 
-Gradle:
+Gradle configuration:
 
 ```groovy
 implementation 'com.github.javadev:underscore:1.91'
@@ -101,7 +100,7 @@ U.xmlToJson(
         + "   <many>elements</many>\n"
         + "    <many>more elements</many>\n"
         + "   </and>\n"
-        + " <plus a=\"complex\">\n"
+        + "   <plus a=\"complex\">\n"
         + "     element as well\n"
         + "   </plus>\n"
         + "</mydocument>",
@@ -295,7 +294,7 @@ String json =
 List<String> names = U.selectTokens(U.fromJsonMap(json), "//Products[Price>=50]/Name/text()");
 // [Anvil, Elbow Grease]
 ```
-Easily build XML documents using code structured like the final document.
+Simplify XML document creation by structuring your code like the final document.
 
 This code:
 
@@ -311,7 +310,7 @@ XmlBuilder builder = XmlBuilder.create("Projects")
             .t("https://jets3t.s3.amazonaws.com/index.html");
 ```
 
-Produces this XML document:
+Generates the following XML document:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
