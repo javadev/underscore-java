@@ -383,7 +383,7 @@ public class Underscore<T> {
         return flattened;
     }
 
-    public <T> List<T> flatMap() {
+    public List<T> flatMap() {
         return flatMap(newArrayList(iterable));
     }
 
