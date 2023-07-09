@@ -376,6 +376,17 @@ public class Underscore<T> {
         return transformed;
     }
 
+
+    public static <T, E> List<T> flatMap(final List<E> list) {
+        List<T> flattened = newArrayList();
+        flatten(list, flattened, 1);
+        return flattened;
+    }
+
+    public <T> List<T> flatMap() {
+        return flatMap(newArrayList(iterable));
+    }
+
     public static <T, E> List<T> mapIndexed(
             final List<E> list, final BiFunction<Integer, ? super E, T> func) {
         final List<T> transformed = newArrayListWithExpectedSize(list.size());
@@ -2888,6 +2899,10 @@ public class Underscore<T> {
 
         public <F> Chain<F> map(final Function<? super T, F> func) {
             return new Chain<>(Underscore.map(list, func));
+        }
+
+        public <F> Chain<F> flatMap() {
+            return new Chain<>(Underscore.flatMap(list));
         }
 
         public <F> Chain<F> mapMulti(final BiConsumer<? super T, ? super Consumer<F>> mapper) {

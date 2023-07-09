@@ -251,6 +251,11 @@ public class U<T> extends Underscore<T> {
         }
 
         @Override
+        public <F> Chain<F> flatMap() {
+            return new Chain<>(Underscore.flatMap(value()));
+        }
+
+        @Override
         public <F> Chain<F> mapMulti(final BiConsumer<? super T, ? super Consumer<F>> mapper) {
             return new Chain<>(Underscore.mapMulti(value(), mapper));
         }

@@ -587,6 +587,69 @@ class ChainingTest {
         assertEquals(4, result.size());
     }
 
+    /*
+    var lyrics = [
+      {line: 1, words: "I'm a lumberjack and I'm okay"},
+      {line: 2, words: "I sleep all night and I work all day"},
+      {line: 3, words: "He's a lumberjack and he's okay"},
+      {line: 4, words: "He sleeps all night and he works all day"}
+    ];
+
+    _.chain(lyrics)
+      .map(function(line) { return line.words.split(' '); })
+      .flatMap()
+      .uniq()
+      .value();
+
+    => ["I'm", "a", "lumberjack", "and"...]"
+    */
+    @Test
+    void chain10() {
+        final List<Map<String, Object>> lyrics =
+                new ArrayList<>() {
+                    {
+                        add(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("line", 1);
+                                        put("words", "I'm a lumberjack and I'm okay");
+                                    }
+                                });
+                        add(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("line", 2);
+                                        put("words", "I sleep all night and I work all day");
+                                    }
+                                });
+                        add(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("line", 3);
+                                        put("words", "He's a lumberjack and he's okay");
+                                    }
+                                });
+                        add(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("line", 4);
+                                        put("words", "He sleeps all night and he works all day");
+                                    }
+                                });
+                    }
+                };
+        final List<Object> result =
+                Underscore.chain(lyrics)
+                        .map(item -> asList(String.valueOf(item.get("words")).split(" ")))
+                        .flatMap()
+                        .uniq()
+                        .value();
+        assertEquals(
+                List.of("I'm", "a", "lumberjack", "and", "okay", "I", "sleep", "all", "night",
+                        "work", "day", "He's", "he's", "He", "sleeps", "he", "works"),
+                result);
+    }
+
     @Test
     void chainToMap() {
         assertEquals(

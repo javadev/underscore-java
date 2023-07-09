@@ -1750,6 +1750,8 @@ class LodashTest {
         U.chain(new String[] {""}).compact("1");
         U.chain(new String[] {""}).flatten();
         U.chain(new Integer[] {0}).map(value -> value);
+        U.chain(new Integer[] {0}).flatMap();
+        new U(new ArrayList<String>()).flatMap();
         U.chain(new Integer[] {0}).mapMulti((integer, consumer) -> consumer.accept(integer));
         U.chain(new Integer[] {0}).mapIndexed((index, value) -> value);
         U.chain(new String[] {""}).filter(str -> true);
