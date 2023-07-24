@@ -92,11 +92,11 @@
             <option>-keepattributes Signature,InnerClasses</option>
             <option>-keep public class com.github.underscore.Underscore { *; }</option>
             <option>-keep public class com.github.underscore.*$Chain { *; }</option>
-            <option>-keep public class com.github.underscore.Function3 { *; }</option>
-            <option>-keep public class com.github.underscore.MemoizeFunction { *; }</option>
+            <option>-keep public class com.github.underscore.Underscore.Function3 { *; }</option>
+            <option>-keep public class com.github.underscore.Underscore.MemoizeFunction { *; }</option>
             <option>-keep public class com.github.underscore.Optional { *; }</option>
-            <option>-keep public class com.github.underscore.PredicateIndexed { *; }</option>
-            <option>-keep public class com.github.underscore.Template { *; }</option>
+            <option>-keep public class com.github.underscore.Underscore.PredicateIndexed { *; }</option>
+            <option>-keep public class com.github.underscore.Underscore.Template { *; }</option>
             <option>-keep public class com.github.underscore.Base32 { *; }</option>
             <option>-keep public class com.github.underscore.Json { *; }</option>
             <option>-keep public class com.github.underscore.U { *; }</option>

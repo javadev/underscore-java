@@ -29,7 +29,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -230,7 +229,7 @@ class UtilityTest {
     */
     @Test
     void template() {
-        Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
+        Underscore.Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
         assertEquals(
                 "hello: moe",
                 compiled.apply(
@@ -243,7 +242,7 @@ class UtilityTest {
 
     @Test
     void template2() {
-        Template<Map<String, Object>> compiled =
+        Underscore.Template<Map<String, Object>> compiled =
                 Underscore.template("hello: <%= name %>, hello2: <%= name %>");
         assertEquals(
                 "hello: moe, hello2: moe",
@@ -257,7 +256,7 @@ class UtilityTest {
 
     @Test
     void template3() {
-        Template<Map<String, Object>> compiled =
+        Underscore.Template<Map<String, Object>> compiled =
                 Underscore.template("hello: <%= name %>, hello2: <%= name2 %>");
         assertEquals(
                 "hello: moe, hello2: moe2",
@@ -284,7 +283,7 @@ class UtilityTest {
                         put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}");
                     }
                 });
-        Template<Map<String, Object>> compiled = Underscore.template("hello: {{= name }}");
+        Underscore.Template<Map<String, Object>> compiled = Underscore.template("hello: {{= name }}");
         assertEquals(
                 "hello: moe",
                 compiled.apply(
@@ -308,7 +307,7 @@ class UtilityTest {
     */
     @Test
     void templateValue() {
-        Template<Map<String, Object>> template = Underscore.template("<b><%- value %></b>");
+        Underscore.Template<Map<String, Object>> template = Underscore.template("<b><%- value %></b>");
         assertEquals(
                 "<b>&lt;script&gt;</b>",
                 template.apply(
@@ -321,7 +320,7 @@ class UtilityTest {
 
     @Test
     void templateValue2() {
-        Template<Map<String, Object>> template =
+        Underscore.Template<Map<String, Object>> template =
                 Underscore.template("hello: <%= name %>, <b><%- value %></b>");
         assertEquals(
                 "hello: moe, <b>&lt;script&gt;</b>",
@@ -336,7 +335,7 @@ class UtilityTest {
 
     @Test
     void templateValue3() {
-        Template<Map<String, Object>> template =
+        Underscore.Template<Map<String, Object>> template =
                 Underscore.template("hello: <% name %>, <b><%- value %></b>");
         assertEquals(
                 "hello: moe, <b>&lt;script&gt;</b>",
@@ -351,7 +350,7 @@ class UtilityTest {
 
     @Test
     void templateValue4() {
-        Template<Map<String, Object>> template =
+        Underscore.Template<Map<String, Object>> template =
                 Underscore.template("hello: <% name %>, <b><%- value %></b>");
         assertEquals(
                 "hello: $moe$, <b>&lt;script&gt;</b>",
@@ -366,7 +365,7 @@ class UtilityTest {
 
     @Test
     void templateCheck() {
-        Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
+        Underscore.Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
         assertTrue(
                 compiled.check(
                                 new LinkedHashMap<String, Object>() {
@@ -388,7 +387,7 @@ class UtilityTest {
 
     @Test
     void templateCheck2() {
-        Template<Map<String, Object>> compiled =
+        Underscore.Template<Map<String, Object>> compiled =
                 Underscore.template("hello: <%= name %> <%= name2 %>");
         assertEquals(
                 "name2",
@@ -399,7 +398,7 @@ class UtilityTest {
                                     }
                                 })
                         .get(0));
-        Template<Map<String, Object>> compiled2 =
+        Underscore.Template<Map<String, Object>> compiled2 =
                 Underscore.template("hello: <%- name %> <%- name2 %>");
         assertEquals(
                 "name2",
@@ -411,7 +410,7 @@ class UtilityTest {
                                     }
                                 })
                         .get(0));
-        Template<Map<String, Object>> compiled3 =
+        Underscore.Template<Map<String, Object>> compiled3 =
                 Underscore.template("hello: <% name %> <% name2 %>");
         assertEquals(
                 "name2",

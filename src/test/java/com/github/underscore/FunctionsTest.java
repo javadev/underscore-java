@@ -95,7 +95,7 @@ class FunctionsTest {
     */
     @Test
     void memoize() {
-        class FibonacciFuncion1 extends MemoizeFunction<Integer, Integer> {
+        class FibonacciFuncion1 extends Underscore.MemoizeFunction<Integer, Integer> {
             public Integer calc(final Integer n) {
                 return n < 2 ? n : apply(n - 1) + apply(n - 2);
             }

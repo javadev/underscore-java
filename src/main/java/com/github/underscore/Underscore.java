@@ -3806,4 +3806,27 @@ public class Underscore<T> {
                         + "For docs, license, tests, and downloads, see: https://javadev.github.io/underscore-java";
         System.out.println(message);
     }
+
+    public static interface Function3<F1, F2, F3, T> {
+        T apply(F1 arg1, F2 arg2, F3 arg3);
+    }
+
+    public abstract static class MemoizeFunction<F, T> implements Function<F, T> {
+        private final Map<F, T> cache = new LinkedHashMap<>();
+
+        public abstract T calc(final F n);
+
+        public T apply(final F key) {
+            cache.putIfAbsent(key, calc(key));
+            return cache.get(key);
+        }
+    }
+
+    public static interface PredicateIndexed<T> {
+        boolean test(int index, T arg);
+    }
+
+    public static interface Template<T> extends Function<T, String> {
+        List<String> check(T arg);
+    }
 }
