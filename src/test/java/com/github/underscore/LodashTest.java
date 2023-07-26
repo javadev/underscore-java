@@ -1829,6 +1829,52 @@ class LodashTest {
         U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
     }
 
+    @Test
+    @SuppressWarnings("unchecked")
+    void chainMap() {
+        assertEquals(
+                "{name1=one, name2=two}",
+                Underscore.chain(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("name1", "one");
+                                        put("name2", "two");
+                                    }
+                                })
+                        .map()
+                        .toString());
+        assertEquals(
+                "{name1=one, name2=two, 1=2}",
+                com.github
+                        .underscore
+                        .U
+                        .chain(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("name1", "one");
+                                        put("name2", "two");
+                                    }
+                                })
+                        .set("1", "2")
+                        .map()
+                        .toString());
+        assertEquals(
+                "{name1=one, name2=two, 1=2}",
+                com.github
+                        .underscore
+                        .U
+                        .of(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("name1", "one");
+                                        put("name2", "two");
+                                    }
+                                })
+                        .set("1", "2")
+                        .map()
+                        .toString());
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     void stackoverflow() {
