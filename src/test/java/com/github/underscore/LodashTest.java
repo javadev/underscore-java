@@ -1026,9 +1026,12 @@ class LodashTest {
         U.update(map, "-self-closing3", "true");
         U.update(map, asList("-self-closing1"), "false");
         U.update(map, asList("-self-closing3"), "true");
-        assertTrue(U.toJson(map).startsWith("{\n"
-                    + "  \"-self-closing1\": \"true\",\n"
-                    + "  \"-self-closing2\": \"false\",\n"));
+        assertTrue(
+                U.toJson(map)
+                        .startsWith(
+                                "{\n"
+                                        + "  \"-self-closing1\": \"true\",\n"
+                                        + "  \"-self-closing2\": \"false\",\n"));
     }
 
     @Test
