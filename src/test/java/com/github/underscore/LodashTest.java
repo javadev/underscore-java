@@ -1026,9 +1026,12 @@ class LodashTest {
         U.update(map, "-self-closing3", "true");
         U.update(map, asList("-self-closing1"), "false");
         U.update(map, asList("-self-closing3"), "true");
-        assertTrue(U.toJson(map).startsWith("{\n"
-                    + "  \"-self-closing1\": \"true\",\n"
-                    + "  \"-self-closing2\": \"false\",\n"));
+        assertTrue(
+                U.toJson(map)
+                        .startsWith(
+                                "{\n"
+                                        + "  \"-self-closing1\": \"true\",\n"
+                                        + "  \"-self-closing2\": \"false\",\n"));
     }
 
     @Test
@@ -1827,6 +1830,52 @@ class LodashTest {
         U.chain(new String[] {""}).skip(0);
         U.chain(new String[] {""}).limit(0);
         U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).toMap();
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void chainMap() {
+        assertEquals(
+                "{name1=one, name2=two}",
+                Underscore.chain(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("name1", "one");
+                                        put("name2", "two");
+                                    }
+                                })
+                        .map()
+                        .toString());
+        assertEquals(
+                "{name1=one, name2=two, 1=2}",
+                com.github
+                        .underscore
+                        .U
+                        .chain(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("name1", "one");
+                                        put("name2", "two");
+                                    }
+                                })
+                        .set("1", "2")
+                        .map()
+                        .toString());
+        assertEquals(
+                "{name1=one, name2=two, 1=2}",
+                com.github
+                        .underscore
+                        .U
+                        .of(
+                                new LinkedHashMap<String, Object>() {
+                                    {
+                                        put("name1", "one");
+                                        put("name2", "two");
+                                    }
+                                })
+                        .set("1", "2")
+                        .map()
+                        .toString());
     }
 
     @SuppressWarnings("unchecked")
