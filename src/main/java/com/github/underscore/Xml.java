@@ -25,11 +25,13 @@ package com.github.underscore;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -262,7 +264,7 @@ public final class Xml {
                 Set<String> namespaces,
                 String arrayTrue) {
             boolean localParentTextFound = parentTextFound;
-            final List<?> entries = U.newArrayList(collection);
+            final List<?> entries = new ArrayList<>(collection);
             for (int index = 0; index < entries.size(); index += 1) {
                 final Object value = entries.get(index);
                 final boolean addNewLine =
@@ -495,13 +497,13 @@ public final class Xml {
                 return;
             }
 
-            final List<XmlStringBuilder> elems = U.newArrayList();
-            final List<String> attrs = U.newArrayList();
+            final List<XmlStringBuilder> elems = new ArrayList<>();
+            final List<String> attrs = new ArrayList<>();
             final XmlStringBuilder.Step identStep = builder.getIdentStep();
             final int ident =
                     builder.getIdent() + (name == null ? 0 : builder.getIdentStep().getIdent());
-            final List<Map.Entry> entries = U.newArrayList(map.entrySet());
-            final Set<String> attrKeys = U.newLinkedHashSet();
+            final List<Map.Entry> entries = new ArrayList<>(map.entrySet());
+            final Set<String> attrKeys = new LinkedHashSet<>();
             fillNamespacesAndAttrs(map, namespaces, attrKeys);
             for (int index = 0; index < entries.size(); index += 1) {
                 final Map.Entry entry = entries.get(index);
@@ -599,7 +601,7 @@ public final class Xml {
                 }
                 builder.append("<")
                         .append(XmlValue.escapeName(name, namespaces))
-                        .append(U.join(attrs, ""));
+                        .append(String.join("", attrs));
                 if (selfClosing) {
                     builder.append("/");
                 }
@@ -1201,7 +1203,7 @@ public final class Xml {
                         getRootName(localMap2, newRootName),
                         builder,
                         false,
-                        U.newLinkedHashSet(),
+                        new LinkedHashSet<>(),
                         false,
                         arrayTrue);
             }
@@ -1211,7 +1213,7 @@ public final class Xml {
                     getRootName(localMap2, newRootName),
                     builder,
                     false,
-                    U.newLinkedHashSet(),
+                    new LinkedHashSet<>(),
                     false,
                     arrayTrue);
         }
@@ -1227,7 +1229,8 @@ public final class Xml {
         if (collection != null && !collection.isEmpty()) {
             builder.newLine();
         }
-        XmlArray.writeXml(collection, null, builder, false, U.newLinkedHashSet(), false, arrayTrue);
+        XmlArray.writeXml(
+                collection, null, builder, false, new LinkedHashSet<>(), false, arrayTrue);
         if (collection != null && !collection.isEmpty()) {
             builder.newLine();
         }
@@ -1328,7 +1331,7 @@ public final class Xml {
             final int[] sourceIndex,
             final Set<String> namespaces,
             final FromType fromType) {
-        final Map<String, Object> map = U.newLinkedHashMap();
+        final Map<String, Object> map = new LinkedHashMap<>();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
         for (int index = 0; index < nodeList.getLength(); index++) {
@@ -1421,13 +1424,13 @@ public final class Xml {
             localMap4.remove(SELF_CLOSING);
             object =
                     name.equals(XmlValue.getMapKey(localMap4))
-                            ? U.newArrayList(
+                            ? new ArrayList<>(
                                     Collections.singletonList(
                                             getValue(
                                                     name,
                                                     XmlValue.getMapValue(localMap4),
                                                     FromType.FOR_CONVERT)))
-                            : U.newArrayList(
+                            : new ArrayList<>(
                                     Collections.singletonList(
                                             getValue(name, localMap4, FromType.FOR_CONVERT)));
         } else {
@@ -1440,10 +1443,10 @@ public final class Xml {
             if (localMap4.containsKey(ARRAY)
                     && TRUE.equals(localMap4.get(ARRAY))
                     && localMap4.size() == 1) {
-                object2 = U.newArrayList();
-                ((List) object2).add(U.newArrayList());
+                object2 = new ArrayList<>();
+                ((List) object2).add(new ArrayList<>());
             } else {
-                object2 = localMap4.isEmpty() ? U.newArrayList() : localMap4;
+                object2 = localMap4.isEmpty() ? new ArrayList<>() : localMap4;
             }
         } else {
             object2 = object;
@@ -1485,7 +1488,7 @@ public final class Xml {
             final org.w3c.dom.Node currentNode,
             final Set<String> namespaces,
             final FromType fromType) {
-        final Map<String, Object> attrMapLocal = U.newLinkedHashMap();
+        final Map<String, Object> attrMapLocal = new LinkedHashMap<>();
         if (currentNode.getAttributes().getLength() > 0) {
             final java.util.regex.Matcher matcher =
                     ATTRS.matcher(getAttributes(sourceIndex[0], source));
@@ -1629,7 +1632,7 @@ public final class Xml {
                 if (object instanceof List) {
                     addText(map, elementName, (List<Object>) object, value, fromType);
                 } else {
-                    final List<Object> objects = U.newArrayList();
+                    final List<Object> objects = new ArrayList<>();
                     objects.add(object);
                     addText(map, elementName, objects, value, fromType);
                     map.put(elementName, objects);
@@ -1655,8 +1658,8 @@ public final class Xml {
             if (name.equals(String.valueOf(lastElement.getKey()))) {
                 break;
             }
-            final Map<String, Object> item = U.newLinkedHashMap();
-            final Map<String, Object> text = U.newLinkedHashMap();
+            final Map<String, Object> item = new LinkedHashMap<>();
+            final Map<String, Object> text = new LinkedHashMap<>();
             text.put(String.valueOf(lastElement.getKey()), map.remove(lastElement.getKey()));
             item.put("#item", text);
             objects.add(index, item);
@@ -1694,7 +1697,7 @@ public final class Xml {
                             new int[] {1, 1, 1},
                             xml,
                             new int[] {0},
-                            U.newLinkedHashSet(),
+                            new LinkedHashSet<>(),
                             fromType);
             if (checkResult(xml, document, result, fromType)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
@@ -1736,7 +1739,7 @@ public final class Xml {
     }
 
     private static Map<String, String> getHeaderAttributes(final String xml) {
-        final Map<String, String> result = U.newLinkedHashMap();
+        final Map<String, String> result = new LinkedHashMap<>();
         if (xml.startsWith(XML_HEADER)) {
             final String xmlLocal =
                     xml.substring(
@@ -1825,12 +1828,12 @@ public final class Xml {
                             object ->
                                     object instanceof List
                                             ? object
-                                            : U.newArrayList(Collections.singletonList(object)),
+                                            : new ArrayList<>(Collections.singletonList(object)),
                             Collections.emptyMap(),
                             new int[] {1, 1, 1},
                             xml,
                             new int[] {0},
-                            U.newLinkedHashSet(),
+                            new LinkedHashSet<>(),
                             FromType.FOR_CONVERT);
             if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
@@ -1854,7 +1857,7 @@ public final class Xml {
                             new int[] {1, 1, 1},
                             xml,
                             new int[] {0},
-                            U.newLinkedHashSet(),
+                            new LinkedHashSet<>(),
                             FromType.FOR_CONVERT);
             if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
