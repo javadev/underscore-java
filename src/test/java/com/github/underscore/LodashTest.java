@@ -1732,6 +1732,7 @@ class LodashTest {
         U.of(new int[] {});
         U.of("");
         U.of(new LinkedHashMap<>());
+        U.newLinkedHashSet();
     }
 
     @SuppressWarnings("unchecked")
