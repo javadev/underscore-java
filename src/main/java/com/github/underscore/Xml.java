@@ -1545,9 +1545,7 @@ public final class Xml {
                     equalFound = false;
                 }
                 quoteFound = !quoteFound;
-                continue;
-            }
-            if (quoteFound || source.charAt(index) == ' ') {
+            } else if (quoteFound || source.charAt(index) == ' ') {
                 if (quoteFound) {
                     value.append(source.charAt(index));
                 }
