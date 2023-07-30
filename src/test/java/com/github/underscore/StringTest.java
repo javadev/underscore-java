@@ -2343,6 +2343,26 @@ class StringTest {
         assertEquals("", Xml.getAttributes(0, ""));
     }
 
+    @Test
+    void parseAttributes() {
+        assertEquals(
+                "{version=1.0, encoding=UTF-8}",
+                Xml.parseAttributes("version=\"1.0\" encoding=\"UTF-8\"").toString());
+        assertEquals(
+                "{version=1.0, encoding=UTF-8}",
+                Xml.parseAttributes(" version = \"1.0\"  encoding= \"UTF-8\" ").toString());
+        assertEquals(
+                "{version= 1.0, encoding=UTF-8 }",
+                Xml.parseAttributes(" version = \" 1.0\"  encoding= \"UTF-8 \" ").toString());
+        assertEquals(
+                "{version=1.0}",
+                Xml.parseAttributes(" version = \"1.0\"  encoding= \"UTF-8 ").toString());
+        assertEquals(
+                "{}", Xml.parseAttributes(" version = \"1.0  encoding= \"UTF-8\" ").toString());
+        assertEquals(
+                "{}", Xml.parseAttributes(" version = 1.0\"  encoding= \"UTF-8\" ").toString());
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     void toJsonFromXml23() {
