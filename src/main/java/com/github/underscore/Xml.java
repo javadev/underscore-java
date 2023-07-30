@@ -39,17 +39,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @SuppressWarnings({
-    "java:S107",
-    "java:S1119",
-    "java:S3740",
-    "java:S3776",
-    "java:S4276",
-    "java:S5843",
-    "java:S5852",
-    "java:S5998",
-    "java:S6019",
-    "java:S6035",
-    "java:S6395"
+    "java:S107"
 })
 public final class Xml {
     private Xml() {}
