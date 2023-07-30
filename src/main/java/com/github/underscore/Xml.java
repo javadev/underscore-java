@@ -84,10 +84,6 @@ public final class Xml {
     private static final String DOCTYPE_TEXT = "!DOCTYPE";
     private static final String ROOT = "root";
     private static final String DOCTYPE_HEADER = "<" + DOCTYPE_TEXT + " ";
-    private static final java.util.regex.Pattern ATTRS =
-            java.util.regex.Pattern.compile(
-                    "((?:(?!\\s|=).)*)\\s*?=\\s*?[\"']?((?:(?<=\")(?:(?<=\\\\)\"|[^\"])*|(?<=')"
-                            + "(?:(?<=\\\\)'|[^'])*)|(?:(?!\"|')(?:(?!\\/>|>|\\s).)+))");
     private static final Map<String, String> XML_UNESCAPE = new HashMap<>();
     private static final org.w3c.dom.Document DOCUMENT = Document.createDocument();
 
@@ -1490,19 +1486,18 @@ public final class Xml {
             final FromType fromType) {
         final Map<String, Object> attrMapLocal = new LinkedHashMap<>();
         if (currentNode.getAttributes().getLength() > 0) {
-            final java.util.regex.Matcher matcher =
-                    ATTRS.matcher(getAttributes(sourceIndex[0], source));
-            while (matcher.find()) {
-                if (matcher.group(1).startsWith("xmlns:")) {
-                    namespaces.add(matcher.group(1).substring(6));
+            final Map<String, String> attributes =
+                    parseAttributes(getAttributes(sourceIndex[0], source));
+            for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+                if (attribute.getKey().startsWith("xmlns:")) {
+                    namespaces.add(attribute.getKey().substring(6));
                 }
             }
-            matcher.reset();
-            while (matcher.find()) {
+            for (Map.Entry<String, String> attribute : attributes.entrySet()) {
                 addNodeValue(
                         attrMapLocal,
-                        '-' + matcher.group(1),
-                        matcher.group(2),
+                        '-' + attribute.getKey(),
+                        attribute.getValue(),
                         elementMapper,
                         nodeMapper,
                         uniqueIds,
@@ -1529,6 +1524,38 @@ public final class Xml {
                 sourceIndex,
                 namespaces,
                 fromType);
+    }
+
+    static Map<String, String> parseAttributes(final String source) {
+        final Map<String, String> result = new LinkedHashMap<>();
+        final StringBuilder key = new StringBuilder();
+        final StringBuilder value = new StringBuilder();
+        boolean quoteFound = false;
+        boolean equalFound = false;
+        for (int index = 0; index < source.length(); index += 1) {
+            if (source.charAt(index) == '=') {
+                equalFound = !equalFound;
+                continue;
+            }
+            if (source.charAt(index) == '"') {
+                if (quoteFound && equalFound) {
+                    result.put(key.toString(), value.toString());
+                    key.setLength(0);
+                    value.setLength(0);
+                    equalFound = false;
+                }
+                quoteFound = !quoteFound;
+                continue;
+            }
+            if (quoteFound || source.charAt(index) == ' ') {
+                if (quoteFound) {
+                    value.append(source.charAt(index));
+                }
+            } else {
+                key.append(source.charAt(index));
+            }
+        }
+        return result;
     }
 
     static String getAttributes(final int sourceIndex, final String source) {
@@ -1745,9 +1772,9 @@ public final class Xml {
                     xml.substring(
                             XML_HEADER.length(),
                             Math.max(XML_HEADER.length(), xml.indexOf("?>", XML_HEADER.length())));
-            final java.util.regex.Matcher matcher = ATTRS.matcher(xmlLocal);
-            while (matcher.find()) {
-                result.put(matcher.group(1), matcher.group(2));
+            final Map<String, String> attributes = parseAttributes(xmlLocal);
+            for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+                result.put(attribute.getKey(), attribute.getValue());
             }
         }
         return result;
