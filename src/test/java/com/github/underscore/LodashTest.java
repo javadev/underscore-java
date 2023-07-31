@@ -1296,6 +1296,10 @@ class LodashTest {
         assertEquals(
                 "<a>\n  <b></b>\n  <b></b>\n</a>", U.formatXml("<a>\n  <b></b>\n  <b></b>\n</a>"));
         assertEquals(
+                "<a>\n   <b></b>\n   <b></b>\n</a>",
+                U.formatXml(
+                        "<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.THREE_SPACES));
+        assertEquals(
                 "<a>\n    <b></b>\n    <b></b>\n</a>",
                 U.formatXml(
                         "<a>\n  <b></b>\n  <b></b>\n</a>", Xml.XmlStringBuilder.Step.FOUR_SPACES));
