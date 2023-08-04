@@ -3555,6 +3555,62 @@ class StringTest {
         }
     }
 
+    private String repeat(String s, int times) {
+        StringBuilder stringBuilder = new StringBuilder(s.length() * times);
+        for (int i = 0; i < times; i++) {
+            stringBuilder.append(s);
+        }
+        return stringBuilder.toString();
+    }
+
+    @Test
+    void testParseDeeplyNestedArrays() throws IOException {
+        int times = 10000;
+        // [[[ ... ]]]
+        String json = repeat("[", times) + repeat("]", times);
+
+        int actualTimes = 0;
+        try {
+            List<Object> current = U.fromJson(json);
+            while (true) {
+                actualTimes++;
+                if (current.isEmpty()) {
+                    break;
+                }
+                assertEquals(1, current.size());
+                current = (List<Object>) current.get(0);
+            }
+            assertEquals(times, actualTimes);
+        } catch (Throwable throwable) {
+            assertTrue(throwable instanceof StackOverflowError);
+        }
+    }
+
+    @Test
+    void testParseDeeplyNestedObjects() throws IOException {
+        int times = 10000;
+        // {"a":{"a": ... {"a":null} ... }}
+        String json = repeat("{\"a\":", times) + "null" + repeat("}", times);
+
+        int actualTimes = 0;
+        try {
+            Map<String, Object> current = U.fromJsonMap(json);
+            while (true) {
+                assertEquals(1, current.size());
+                actualTimes++;
+                Map<String, Object> next = (Map<String, Object>) current.get("a");
+                if (next == null) {
+                    break;
+                } else {
+                    current = next;
+                }
+            }
+            assertEquals(times, actualTimes);
+        } catch (Throwable throwable) {
+            assertTrue(throwable instanceof StackOverflowError);
+        }
+    }
+
     @Test
     void testDecodeParseXmlErr13() {
         assertThrows(IllegalArgumentException.class, () -> U.fromXml("[\"abc\u0010\"]"));
