@@ -58,7 +58,14 @@ import java.util.function.UnaryOperator;
  *
  * @author Valentyn Kolesnikov
  */
-@SuppressWarnings({"java:S106", "java:S2189", "java:S2272", "java:S2789", "java:S3740", "java:S5852"})
+@SuppressWarnings({
+    "java:S106",
+    "java:S2189",
+    "java:S2272",
+    "java:S2789",
+    "java:S3740",
+    "java:S5852"
+})
 public class Underscore<T> {
     private static final Map<String, Function<String, String>> FUNCTIONS = newLinkedHashMap();
     private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<>();
