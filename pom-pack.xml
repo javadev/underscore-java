@@ -94,7 +94,6 @@
             <option>-keep public class com.github.underscore.*$Chain { *; }</option>
             <option>-keep public class com.github.underscore.Underscore.Function3 { *; }</option>
             <option>-keep public class com.github.underscore.Underscore.MemoizeFunction { *; }</option>
-            <option>-keep public class com.github.underscore.Optional { *; }</option>
             <option>-keep public class com.github.underscore.Underscore.PredicateIndexed { *; }</option>
             <option>-keep public class com.github.underscore.Underscore.Template { *; }</option>
             <option>-keep public class com.github.underscore.Base32 { *; }</option>
