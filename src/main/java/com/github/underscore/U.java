@@ -64,6 +64,7 @@ import org.w3c.dom.NodeList;
 @SuppressWarnings({
     "java:S135",
     "java:S1168",
+    "java:S3655",
     "java:S3740",
     "java:S3776",
     "java:S4423",
