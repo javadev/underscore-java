@@ -229,7 +229,8 @@ class UtilityTest {
     */
     @Test
     void template() {
-        Underscore.Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
+        Underscore.Template<Map<String, Object>> compiled =
+                Underscore.template("hello: <%= name %>");
         assertEquals(
                 "hello: moe",
                 compiled.apply(
@@ -283,7 +284,8 @@ class UtilityTest {
                         put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}");
                     }
                 });
-        Underscore.Template<Map<String, Object>> compiled = Underscore.template("hello: {{= name }}");
+        Underscore.Template<Map<String, Object>> compiled =
+                Underscore.template("hello: {{= name }}");
         assertEquals(
                 "hello: moe",
                 compiled.apply(
@@ -307,7 +309,8 @@ class UtilityTest {
     */
     @Test
     void templateValue() {
-        Underscore.Template<Map<String, Object>> template = Underscore.template("<b><%- value %></b>");
+        Underscore.Template<Map<String, Object>> template =
+                Underscore.template("<b><%- value %></b>");
         assertEquals(
                 "<b>&lt;script&gt;</b>",
                 template.apply(
@@ -365,7 +368,8 @@ class UtilityTest {
 
     @Test
     void templateCheck() {
-        Underscore.Template<Map<String, Object>> compiled = Underscore.template("hello: <%= name %>");
+        Underscore.Template<Map<String, Object>> compiled =
+                Underscore.template("hello: <%= name %>");
         assertTrue(
                 compiled.check(
                                 new LinkedHashMap<String, Object>() {

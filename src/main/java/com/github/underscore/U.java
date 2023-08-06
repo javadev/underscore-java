@@ -47,6 +47,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -63,6 +64,7 @@ import org.w3c.dom.NodeList;
 @SuppressWarnings({
     "java:S135",
     "java:S1168",
+    "java:S3655",
     "java:S3740",
     "java:S3776",
     "java:S4423",

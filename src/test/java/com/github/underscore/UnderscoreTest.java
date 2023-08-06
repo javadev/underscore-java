@@ -37,7 +37,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
@@ -488,46 +490,45 @@ class UnderscoreTest {
         assertTrue(one.equals(one));
         assertFalse(Optional.of(1L).equals(Optional.of(1)));
         assertFalse(Optional.of(1L).equals(null));
-        assertTrue(Optional.of(null).equals(Optional.of(null)));
+        assertTrue(Optional.ofNullable(null).equals(Optional.ofNullable(null)));
         assertFalse(Optional.empty().equals(Optional.of(1)));
-        assertFalse(Optional.of(null).equals(Optional.of(1)));
-        assertFalse(Optional.of(1).equals(Optional.of(null)));
+        assertFalse(Optional.ofNullable(null).equals(Optional.of(1)));
+        assertFalse(Optional.of(1).equals(Optional.ofNullable(null)));
         assertFalse(Optional.of(1).equals(Optional.empty()));
         assertFalse(Optional.of(1).equals(Optional.of(2)));
         assertFalse(Optional.of(1).equals("test"));
-        assertEquals(1, Optional.empty().hashCode());
+        assertEquals(0, Optional.empty().hashCode());
         assertEquals(Optional.of("123").hashCode(), Optional.of("123").hashCode());
         assertEquals("Optional.empty", Optional.empty().toString());
         assertEquals("Optional[1]", Optional.of(1).toString());
-        assertEquals("Optional.empty", Optional.fromNullable(null).toString());
-        assertEquals("Optional[1]", Optional.fromNullable(1).toString());
-        assertEquals("1", Optional.empty().or(1).toString());
-        assertEquals("1", Optional.of(1).or(2).toString());
-        assertEquals(null, Optional.empty().orNull());
-        assertEquals("1", Optional.of(1).orNull().toString());
+        assertEquals("Optional.empty", Optional.ofNullable(null).toString());
+        assertEquals("Optional[1]", Optional.ofNullable(1).toString());
+        assertEquals("1", Optional.<Integer>empty().orElse(1).toString());
+        assertEquals("1", Optional.of(1).orElse(2).toString());
+        assertEquals(null, Optional.empty().orElse(null));
+        assertEquals("1", Optional.of(1).orElse(null).toString());
         assertFalse(Optional.<Integer>empty().map(arg -> "" + arg).isPresent());
         assertTrue(Optional.<Integer>empty().map(arg -> "" + arg).isEmpty());
         assertEquals("1", Optional.of(1).map(arg -> "" + arg).get().toString());
         try {
             Optional.empty().get();
             fail("IllegalStateException expected");
-        } catch (IllegalStateException ignored) {
+        } catch (NoSuchElementException ignored) {
         }
         assertFalse(Optional.<Integer>empty().filter(arg -> true).isPresent());
         assertTrue(Optional.<Integer>empty().filter(arg -> false).isEmpty());
         assertEquals("1", Optional.of(1).filter(arg -> true).get().toString());
         assertTrue(Optional.of(1).filter(arg -> false).isEmpty());
-        assertEquals("Optional[1]", Optional.of(1).toJavaOptional().toString());
     }
 
     @Test
     void optionalOrThrow() throws RuntimeException {
-        assertThrows(Exception.class, () -> Optional.empty().orThrow(RuntimeException::new));
+        assertThrows(Exception.class, () -> Optional.empty().orElseThrow(RuntimeException::new));
     }
 
     @Test
     void optionalOrThrowWithValue() {
-        assertEquals("1", Optional.of(1).orThrow(RuntimeException::new).toString());
+        assertEquals("1", Optional.of(1).orElseThrow(RuntimeException::new).toString());
     }
 
     @Test
