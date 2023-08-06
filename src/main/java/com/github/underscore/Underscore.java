@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiConsumer;
@@ -531,7 +532,7 @@ public class Underscore<T> {
     public static <E> Optional<E> find(final Iterable<E> iterable, final Predicate<E> pred) {
         for (E element : iterable) {
             if (pred.test(element)) {
-                return Optional.of(element);
+                return isNull(element) ? null : Optional.of(element);
             }
         }
         return Optional.empty();
@@ -664,7 +665,8 @@ public class Underscore<T> {
     }
 
     public static <E> boolean some(final Iterable<E> iterable, final Predicate<E> pred) {
-        return find(iterable, pred).isPresent();
+        Optional<E> optional = find(iterable, pred);
+        return isNull(optional) || optional.isPresent();
     }
 
     public boolean some(final Predicate<T> pred) {
