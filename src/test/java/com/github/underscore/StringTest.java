@@ -3563,52 +3563,46 @@ class StringTest {
         return stringBuilder.toString();
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testParseDeeplyNestedArrays() throws IOException {
-        int times = 10000;
+        int times = 1000;
         // [[[ ... ]]]
         String json = repeat("[", times) + repeat("]", times);
 
         int actualTimes = 0;
-        try {
-            List<Object> current = U.fromJson(json);
-            while (true) {
-                actualTimes++;
-                if (current.isEmpty()) {
-                    break;
-                }
-                assertEquals(1, current.size());
-                current = (List<Object>) current.get(0);
+        List<Object> current = U.fromJson(json);
+        while (true) {
+            actualTimes++;
+            if (current.isEmpty()) {
+                break;
             }
-            assertEquals(times, actualTimes);
-        } catch (Throwable throwable) {
-            assertTrue(throwable instanceof StackOverflowError);
+            assertEquals(1, current.size());
+            current = (List<Object>) current.get(0);
         }
+        assertEquals(times, actualTimes);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testParseDeeplyNestedObjects() throws IOException {
-        int times = 10000;
+        int times = 1000;
         // {"a":{"a": ... {"a":null} ... }}
         String json = repeat("{\"a\":", times) + "null" + repeat("}", times);
 
         int actualTimes = 0;
-        try {
-            Map<String, Object> current = U.fromJsonMap(json);
-            while (true) {
-                assertEquals(1, current.size());
-                actualTimes++;
-                Map<String, Object> next = (Map<String, Object>) current.get("a");
-                if (next == null) {
-                    break;
-                } else {
-                    current = next;
-                }
+        Map<String, Object> current = U.fromJsonMap(json);
+        while (true) {
+            assertEquals(1, current.size());
+            actualTimes++;
+            Map<String, Object> next = (Map<String, Object>) current.get("a");
+            if (next == null) {
+                break;
+            } else {
+                current = next;
             }
-            assertEquals(times, actualTimes);
-        } catch (Throwable throwable) {
-            assertTrue(throwable instanceof StackOverflowError);
         }
+        assertEquals(times, actualTimes);
     }
 
     @Test
