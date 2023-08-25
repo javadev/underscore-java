@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.12</version>
+        <version>2.7.14</version>
         <relativePath/>
     </parent>
     <groupId>com.example</groupId>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>com.github.javadev</groupId>
             <artifactId>underscore</artifactId>
-            <version>1.89</version>
+            <version>1.92</version>
         </dependency>
     </dependencies>
     <build>
