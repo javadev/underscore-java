@@ -29,7 +29,7 @@ underscore-java
 Requirements
 ============
 
-Java 11 and later or [Java 17](https://github.com/javadev/underscore-java17)
+Java 11 and later, [Java 17](https://github.com/javadev/underscore-java17) or [Kotlin](https://github.com/kotlindev/underscore-kotlin)
 
 ## Installation
 
