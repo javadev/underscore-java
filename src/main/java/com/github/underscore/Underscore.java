@@ -1051,9 +1051,7 @@ public class Underscore<T> {
         final Map<K, E> retVal = newLinkedHashMap();
         for (E e : iterable) {
             final K key = func.apply(e);
-            if (!retVal.containsKey(key)) {
-                retVal.put(key, e);
-            }
+            retVal.putIfAbsent(key, e);
         }
         return retVal;
     }
