@@ -368,6 +368,11 @@ public class U<T> extends Underscore<T> {
         }
 
         @Override
+        public <F> Chain<Map<F, T>> associateBy(final Function<T, F> func) {
+            return new Chain<>(Underscore.associateBy(value(), func));
+        }
+
+        @Override
         public <F> Chain<Map<F, Optional<T>>> groupBy(
                 final Function<T, F> func, final BinaryOperator<T> binaryOperator) {
             return new Chain<>(Underscore.groupBy(value(), func, binaryOperator));

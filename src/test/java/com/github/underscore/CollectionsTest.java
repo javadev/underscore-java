@@ -1437,6 +1437,26 @@ class CollectionsTest {
     }
 
     /*
+    _.associateBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
+    => {1: [1.3], 2: [2.1, 2.4]}
+    */
+    @Test
+    @SuppressWarnings("unchecked")
+    void associateBy() {
+        final Map<Double, Double> result =
+                Underscore.associateBy(asList(1.3, 2.1, 2.4), Math::floor);
+        assertEquals("{1.0=1.3, 2.0=2.1}", result.toString());
+        final Map<Double, Double> resultObj =
+                new Underscore(asList(1.3, 2.1, 2.4))
+                        .associateBy((Function<Double, Double>) Math::floor);
+        assertEquals("{1.0=1.3, 2.0=2.1}", resultObj.toString());
+        final Map<Double, Double> resultChain =
+                (Map<Double, Double>)
+                        Underscore.chain(asList(1.3, 2.1, 2.4)).associateBy(Math::floor).item();
+        assertEquals("{1.0=1.3, 2.0=2.1}", resultChain.toString());
+    }
+
+    /*
     _.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
     => {1: [1.3], 2: [2.1, 2.4]}
     */

@@ -1046,6 +1046,21 @@ public class Underscore<T> {
         return groupBy((Iterable<E>) iterable, func, binaryOperator);
     }
 
+    public static <K, E> Map<K, E> associateBy(
+            final Iterable<E> iterable, final Function<E, K> func) {
+        final Map<K, E> retVal = newLinkedHashMap();
+        for (E e : iterable) {
+            final K key = func.apply(e);
+            retVal.putIfAbsent(key, e);
+        }
+        return retVal;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <K, E> Map<K, E> associateBy(final Function<E, K> func) {
+        return associateBy((Iterable<E>) iterable, func);
+    }
+
     @SuppressWarnings("unchecked")
     public static <K, E> Map<K, List<E>> indexBy(
             final Iterable<E> iterable, final String property) {
@@ -2998,6 +3013,10 @@ public class Underscore<T> {
 
         public <F> Chain<Map<F, List<T>>> groupBy(final Function<T, F> func) {
             return new Chain<>(Underscore.groupBy(list, func));
+        }
+
+        public <F> Chain<Map<F, T>> associateBy(final Function<T, F> func) {
+            return new Chain<>(Underscore.associateBy(list, func));
         }
 
         public <F> Chain<Map<F, Optional<T>>> groupBy(
