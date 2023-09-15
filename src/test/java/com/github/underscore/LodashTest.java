@@ -1780,6 +1780,7 @@ class LodashTest {
         U.chain(new Integer[] {0}).sortBy(value -> value);
         U.chain(new LinkedHashMap<Integer, Integer>().entrySet()).sortBy("");
         U.chain(new Integer[] {0}).groupBy(value -> value);
+        U.chain(new Integer[] {0}).associateBy(value -> value);
         U.chain(new Integer[] {0}).groupBy(num -> num, (a, b) -> a);
         U.chain(new Integer[] {0}).indexBy("");
         U.chain(new Integer[] {0}).countBy(value -> value);
