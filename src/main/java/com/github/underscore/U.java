@@ -3066,7 +3066,7 @@ public class U<T> extends Underscore<T> {
             outMap.put(
                     entry.getKey(),
                     entry.getValue() == null
-                            ? (Map<Object, Object>) new LinkedHashMap<Object, Object>()
+                            ? new LinkedHashMap<>()
                             : makeReplaceNullValue(entry.getValue()));
         }
         return outMap;
@@ -3095,7 +3095,7 @@ public class U<T> extends Underscore<T> {
             outMap.put(
                     entry.getKey(),
                     "".equals(entry.getValue())
-                            ? (Map<Object, Object>) new LinkedHashMap<Object, Object>()
+                            ? new LinkedHashMap<>()
                             : makeReplaceEmptyString(entry.getValue()));
         }
         return outMap;

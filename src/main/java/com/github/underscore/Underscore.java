@@ -1715,7 +1715,7 @@ public class Underscore<T> {
                     int index = 0;
                     for (T elem : list) {
                         final List<T> nTuple;
-                        nTuple = index >= zipped.size() ? new ArrayList<T>() : zipped.get(index);
+                        nTuple = index >= zipped.size() ? new ArrayList<>() : zipped.get(index);
                         if (index >= zipped.size()) {
                             zipped.add(nTuple);
                         }
