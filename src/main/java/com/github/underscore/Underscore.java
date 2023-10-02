@@ -67,7 +67,7 @@ import java.util.function.UnaryOperator;
     "java:S5852"
 })
 public class Underscore<T> {
-    private static final Map<String, Function<String, String>> FUNCTIONS = newLinkedHashMap();
+    private static final Map<String, Function<String, String>> FUNCTIONS = new LinkedHashMap<>();
     private static final Map<String, String> TEMPLATE_SETTINGS = new HashMap<>();
     private static final int MIN_PASSWORD_LENGTH_8 = 8;
     private static final long CAPACITY_SIZE_5 = 5L;
@@ -557,7 +557,7 @@ public class Underscore<T> {
      * Documented, #filter
      */
     public static <E> List<E> filter(final Iterable<E> iterable, final Predicate<E> pred) {
-        final List<E> filtered = newArrayList();
+        final List<E> filtered = new ArrayList<>();
         for (E element : iterable) {
             if (pred.test(element)) {
                 filtered.add(element);
@@ -567,7 +567,7 @@ public class Underscore<T> {
     }
 
     public static <E> List<E> filter(final List<E> list, final Predicate<E> pred) {
-        final List<E> filtered = newArrayList();
+        final List<E> filtered = new ArrayList<>();
         for (E element : list) {
             if (pred.test(element)) {
                 filtered.add(element);
@@ -577,7 +577,7 @@ public class Underscore<T> {
     }
 
     public List<T> filter(final Predicate<T> pred) {
-        final List<T> filtered = newArrayList();
+        final List<T> filtered = new ArrayList<>();
         for (final T element : value()) {
             if (pred.test(element)) {
                 filtered.add(element);
@@ -587,7 +587,7 @@ public class Underscore<T> {
     }
 
     public static <E> List<E> filterIndexed(final List<E> list, final PredicateIndexed<E> pred) {
-        final List<E> filtered = newArrayList();
+        final List<E> filtered = new ArrayList<>();
         int index = 0;
         for (E element : list) {
             if (pred.test(index, element)) {
@@ -599,7 +599,7 @@ public class Underscore<T> {
     }
 
     public static <E> Set<E> filter(final Set<E> set, final Predicate<E> pred) {
-        final Set<E> filtered = newLinkedHashSet();
+        final Set<E> filtered = new LinkedHashSet<>();
         for (E element : set) {
             if (pred.test(element)) {
                 filtered.add(element);
@@ -778,7 +778,7 @@ public class Underscore<T> {
     @SuppressWarnings("unchecked")
     public static <E> List<E> invoke(
             final Iterable<E> iterable, final String methodName, final List<Object> args) {
-        final List<E> result = newArrayList();
+        final List<E> result = new ArrayList<>();
         final List<Class<?>> argTypes = map(args, Object::getClass);
         try {
             final Method method =
@@ -1009,14 +1009,14 @@ public class Underscore<T> {
      */
     public static <K, E> Map<K, List<E>> groupBy(
             final Iterable<E> iterable, final Function<E, K> func) {
-        final Map<K, List<E>> retVal = newLinkedHashMap();
+        final Map<K, List<E>> retVal = new LinkedHashMap<>();
         for (E e : iterable) {
             final K key = func.apply(e);
             List<E> val;
             if (retVal.containsKey(key)) {
                 val = retVal.get(key);
             } else {
-                val = newArrayList();
+                val = new ArrayList<>();
             }
             val.add(e);
             retVal.put(key, val);
@@ -1033,7 +1033,7 @@ public class Underscore<T> {
             final Iterable<E> iterable,
             final Function<E, K> func,
             final BinaryOperator<E> binaryOperator) {
-        final Map<K, Optional<E>> retVal = newLinkedHashMap();
+        final Map<K, Optional<E>> retVal = new LinkedHashMap<>();
         for (Map.Entry<K, List<E>> entry : groupBy(iterable, func).entrySet()) {
             retVal.put(entry.getKey(), reduce(entry.getValue(), binaryOperator));
         }
@@ -1048,7 +1048,7 @@ public class Underscore<T> {
 
     public static <K, E> Map<K, E> associateBy(
             final Iterable<E> iterable, final Function<E, K> func) {
-        final Map<K, E> retVal = newLinkedHashMap();
+        final Map<K, E> retVal = new LinkedHashMap<>();
         for (E e : iterable) {
             final K key = func.apply(e);
             retVal.putIfAbsent(key, e);
@@ -1084,7 +1084,7 @@ public class Underscore<T> {
      * Documented, #countBy
      */
     public static <K, E> Map<K, Integer> countBy(final Iterable<E> iterable, Function<E, K> func) {
-        final Map<K, Integer> retVal = newLinkedHashMap();
+        final Map<K, Integer> retVal = new LinkedHashMap<>();
         for (E e : iterable) {
             final K key = func.apply(e);
             if (retVal.containsKey(key)) {
@@ -1097,7 +1097,7 @@ public class Underscore<T> {
     }
 
     public static <K> Map<K, Integer> countBy(final Iterable<K> iterable) {
-        final Map<K, Integer> retVal = newLinkedHashMap();
+        final Map<K, Integer> retVal = new LinkedHashMap<>();
         for (K key : iterable) {
             if (retVal.containsKey(key)) {
                 retVal.put(key, 1 + retVal.get(key));
@@ -1135,7 +1135,7 @@ public class Underscore<T> {
      * Documented, #toMap
      */
     public static <K, V> Map<K, V> toMap(final Iterable<Map.Entry<K, V>> iterable) {
-        final Map<K, V> result = newLinkedHashMap();
+        final Map<K, V> result = new LinkedHashMap<>();
         for (Map.Entry<K, V> entry : iterable) {
             result.put(entry.getKey(), entry.getValue());
         }
@@ -1148,7 +1148,7 @@ public class Underscore<T> {
     }
 
     public static <K, V> Map<K, V> toMap(final List<Map.Entry<K, V>> tuples) {
-        final Map<K, V> result = newLinkedHashMap();
+        final Map<K, V> result = new LinkedHashMap<>();
         for (final Map.Entry<K, V> entry : tuples) {
             result.put(entry.getKey(), entry.getValue());
         }
@@ -1161,7 +1161,7 @@ public class Underscore<T> {
 
     public static <K> Map<K, Integer> toCardinalityMap(final Iterable<K> iterable) {
         Iterator<K> iterator = iterable.iterator();
-        Map<K, Integer> result = newLinkedHashMap();
+        Map<K, Integer> result = new LinkedHashMap<>();
 
         while (iterator.hasNext()) {
             K item = iterator.next();
@@ -1200,8 +1200,8 @@ public class Underscore<T> {
     }
 
     public static <E> List<List<E>> partition(final Iterable<E> iterable, final Predicate<E> pred) {
-        final List<E> retVal1 = newArrayList();
-        final List<E> retVal2 = newArrayList();
+        final List<E> retVal1 = new ArrayList<>();
+        final List<E> retVal2 = new ArrayList<>();
         for (final E e : iterable) {
             if (pred.test(e)) {
                 retVal1.add(e);
@@ -1511,13 +1511,13 @@ public class Underscore<T> {
      * Documented, #flatten
      */
     public static <E> List<E> flatten(final List<?> list) {
-        List<E> flattened = newArrayList();
+        List<E> flattened = new ArrayList<>();
         flatten(list, flattened, -1);
         return flattened;
     }
 
     public static <E> List<E> flatten(final List<?> list, final boolean shallow) {
-        List<E> flattened = newArrayList();
+        List<E> flattened = new ArrayList<>();
         flatten(list, flattened, shallow ? 1 : -1);
         return flattened;
     }
@@ -1569,7 +1569,7 @@ public class Underscore<T> {
     }
 
     public static <K, E> Collection<E> uniq(final Iterable<E> iterable, final Function<E, K> func) {
-        final Map<K, E> retVal = newLinkedHashMap();
+        final Map<K, E> retVal = new LinkedHashMap<>();
         for (final E e : iterable) {
             final K key = func.apply(e);
             retVal.put(key, e);
@@ -1605,7 +1605,7 @@ public class Underscore<T> {
      */
     @SuppressWarnings("unchecked")
     public static <E> List<E> union(final List<E> list, final List<E>... lists) {
-        final Set<E> union = newLinkedHashSet();
+        final Set<E> union = new LinkedHashSet<>();
         union.addAll(list);
         for (List<E> localList : lists) {
             union.addAll(localList);
@@ -1620,7 +1620,7 @@ public class Underscore<T> {
 
     @SuppressWarnings("unchecked")
     public static <E> E[] union(final E[]... arrays) {
-        final Set<E> union = newLinkedHashSet();
+        final Set<E> union = new LinkedHashSet<>();
         for (E[] array : arrays) {
             union.addAll(Arrays.asList(array));
         }
@@ -1631,7 +1631,7 @@ public class Underscore<T> {
      * Documented, #intersection
      */
     public static <E> List<E> intersection(final List<E> list1, final List<E> list2) {
-        final List<E> result = newArrayList();
+        final List<E> result = new ArrayList<>();
         for (final E item : list1) {
             if (list2.contains(item)) {
                 result.add(item);
@@ -1669,7 +1669,7 @@ public class Underscore<T> {
      * Documented, #difference
      */
     public static <E> List<E> difference(final List<E> list1, final List<E> list2) {
-        final List<E> result = newArrayList();
+        final List<E> result = new ArrayList<>();
         for (final E item : list1) {
             if (!list2.contains(item)) {
                 result.add(item);
@@ -1708,16 +1708,14 @@ public class Underscore<T> {
      */
     @SuppressWarnings("unchecked")
     public static <T> List<List<T>> zip(final List<T>... lists) {
-        final List<List<T>> zipped = newArrayList();
+        final List<List<T>> zipped = new ArrayList<>();
         each(
                 Arrays.asList(lists),
                 list -> {
                     int index = 0;
                     for (T elem : list) {
-                        final List<T> nTuple =
-                                index >= zipped.size()
-                                        ? Underscore.newArrayList()
-                                        : zipped.get(index);
+                        final List<T> nTuple;
+                        nTuple = index >= zipped.size() ? new ArrayList<>() : zipped.get(index);
                         if (index >= zipped.size()) {
                             zipped.add(nTuple);
                         }
@@ -1730,9 +1728,9 @@ public class Underscore<T> {
 
     @SuppressWarnings("unchecked")
     public static <T> List<List<T>> unzip(final List<T>... lists) {
-        final List<List<T>> unzipped = newArrayList();
+        final List<List<T>> unzipped = new ArrayList<>();
         for (int index = 0; index < lists[0].size(); index += 1) {
-            final List<T> nTuple = newArrayList();
+            final List<T> nTuple = new ArrayList<>();
             for (List<T> list : lists) {
                 nTuple.add(list.get(index));
             }
@@ -1893,7 +1891,7 @@ public class Underscore<T> {
     }
 
     public static List<Integer> range(int start, int stop, int step) {
-        List<Integer> list = Underscore.newArrayList();
+        List<Integer> list = new ArrayList<>();
         if (step == 0) {
             return list;
         }
@@ -1918,7 +1916,7 @@ public class Underscore<T> {
     }
 
     public static List<Character> range(char start, char stop, int step) {
-        List<Character> list = Underscore.newArrayList();
+        List<Character> list = new ArrayList<>();
         if (step == 0) {
             return list;
         }
@@ -1936,7 +1934,7 @@ public class Underscore<T> {
 
     public static <T> List<List<T>> chunk(final Iterable<T> iterable, final int size) {
         if (size <= 0) {
-            return newArrayList();
+            return new ArrayList<>();
         }
         return chunk(iterable, size, size);
     }
@@ -1944,7 +1942,7 @@ public class Underscore<T> {
     public static <T> List<List<T>> chunk(
             final Iterable<T> iterable, final int size, final int step) {
         if (step <= 0 || size < 0) {
-            return newArrayList();
+            return new ArrayList<>();
         }
         int index = 0;
         int length = size(iterable);
@@ -1959,7 +1957,7 @@ public class Underscore<T> {
     public static <T> List<List<T>> chunkFill(
             final Iterable<T> iterable, final int size, final T fillValue) {
         if (size <= 0) {
-            return newArrayList();
+            return new ArrayList<>();
         }
         return chunkFill(iterable, size, size, fillValue);
     }
@@ -1967,7 +1965,7 @@ public class Underscore<T> {
     public static <T> List<List<T>> chunkFill(
             final Iterable<T> iterable, final int size, final int step, final T fillValue) {
         if (step <= 0 || size < 0) {
-            return newArrayList();
+            return new ArrayList<>();
         }
         final List<List<T>> result = chunk(iterable, size, step);
         int difference = size - result.get(result.size() - 1).size();
@@ -1996,7 +1994,7 @@ public class Underscore<T> {
     public static <T> List<T> cycle(final Iterable<T> iterable, final int times) {
         int size = Math.abs(size(iterable) * times);
         if (size == 0) {
-            return newArrayList();
+            return new ArrayList<>();
         }
         List<T> list = newArrayListWithExpectedSize(size);
         int round = 0;
@@ -2019,7 +2017,7 @@ public class Underscore<T> {
 
     public static <T> List<T> repeat(final T element, final int times) {
         if (times <= 0) {
-            return newArrayList();
+            return new ArrayList<>();
         }
         List<T> result = newArrayListWithExpectedSize(times);
         for (int i = 0; i < times; i++) {
@@ -2341,7 +2339,7 @@ public class Underscore<T> {
      * Documented, #functions
      */
     public static List<String> functions(final Object object) {
-        final List<String> result = newArrayList();
+        final List<String> result = new ArrayList<>();
         for (final Method method : object.getClass().getDeclaredMethods()) {
             result.add(method.getName());
         }
@@ -2357,7 +2355,7 @@ public class Underscore<T> {
      */
     @SuppressWarnings("unchecked")
     public static <K, V> Map<K, V> extend(final Map<K, V> destination, final Map<K, V>... sources) {
-        final Map<K, V> result = newLinkedHashMap();
+        final Map<K, V> result = new LinkedHashMap<>();
         result.putAll(destination);
         for (final Map<K, V> source : sources) {
             result.putAll(source);
@@ -2463,7 +2461,7 @@ public class Underscore<T> {
      * Documented, #defaults
      */
     public static <K, V> Map<K, V> defaults(final Map<K, V> object, final Map<K, V> defaults) {
-        final Map<K, V> result = newLinkedHashMap();
+        final Map<K, V> result = new LinkedHashMap<>();
         result.putAll(defaults);
         result.putAll(object);
         return result;
@@ -2748,7 +2746,7 @@ public class Underscore<T> {
         }
         matcher.appendTail(buffer);
         final String newTemplate = buffer.toString();
-        final Map<Integer, String> args = newLinkedHashMap();
+        final Map<Integer, String> args = new LinkedHashMap<>();
         index = 0;
         for (Object param : params) {
             args.put(index, param.toString());
@@ -3488,7 +3486,7 @@ public class Underscore<T> {
     }
 
     public static <T> List<List<T>> splitAt(final Iterable<T> iterable, final int position) {
-        List<List<T>> result = newArrayList();
+        List<List<T>> result = new ArrayList<>();
         int size = size(iterable);
         final int index;
         if (position < 0) {
@@ -3510,7 +3508,7 @@ public class Underscore<T> {
     }
 
     public static <T> List<T> takeSkipping(final Iterable<T> iterable, final int stepSize) {
-        List<T> result = newArrayList();
+        List<T> result = new ArrayList<>();
         if (stepSize <= 0) {
             return result;
         }
@@ -3719,10 +3717,6 @@ public class Underscore<T> {
         return value;
     }
 
-    protected static <T> List<T> newArrayList() {
-        return new ArrayList<>();
-    }
-
     protected static <T> List<T> newArrayList(final Iterable<T> iterable) {
         final List<T> result;
         if (iterable instanceof Collection) {
@@ -3762,10 +3756,6 @@ public class Underscore<T> {
         return new ArrayList<>((int) (CAPACITY_SIZE_5 + size + (size / 10)));
     }
 
-    protected static <T> Set<T> newLinkedHashSet() {
-        return new LinkedHashSet<>();
-    }
-
     protected static <T> Set<T> newLinkedHashSet(Iterable<T> iterable) {
         final Set<T> result = new LinkedHashSet<>();
         for (final T item : iterable) {
@@ -3776,10 +3766,6 @@ public class Underscore<T> {
 
     protected static <T> Set<T> newLinkedHashSetWithExpectedSize(int size) {
         return new LinkedHashSet<>((int) Math.max(size * CAPACITY_COEFF_2, CAPACITY_SIZE_16));
-    }
-
-    protected static <K, E> Map<K, E> newLinkedHashMap() {
-        return new LinkedHashMap<>();
     }
 
     @SuppressWarnings("unchecked")

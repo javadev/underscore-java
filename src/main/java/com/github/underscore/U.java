@@ -1045,7 +1045,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static List<Object> pullAt(final List<Object> list, final Integer... indexes) {
-        final List<Object> result = newArrayList();
+        final List<Object> result = new ArrayList<>();
         final List<Integer> indexesList = Arrays.asList(indexes);
         int index = 0;
         for (final Iterator<Object> iterator = list.iterator(); iterator.hasNext(); ) {
@@ -1065,7 +1065,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static <T> List<T> remove(final List<T> list, final Predicate<T> pred) {
-        final List<T> result = newArrayList();
+        final List<T> result = new ArrayList<>();
         for (final Iterator<T> iterator = list.iterator(); iterator.hasNext(); ) {
             final T object = iterator.next();
             if (pred.test(object)) {
@@ -1149,7 +1149,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static <T> List<T> at(final List<T> list, final Integer... indexes) {
-        final List<T> result = newArrayList();
+        final List<T> result = new ArrayList<>();
         final List<Integer> indexesList = Arrays.asList(indexes);
         int index = 0;
         for (final T object : list) {
@@ -1874,7 +1874,7 @@ public class U<T> extends Underscore<T> {
 
     public static Map<String, Object> rename(
             final Map<String, Object> map, final String oldKey, final String newKey) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if (entry.getKey().equals(oldKey)) {
                 outMap.put(newKey, makeObjectForRename(entry.getValue(), oldKey, newKey));
@@ -1890,7 +1890,7 @@ public class U<T> extends Underscore<T> {
             Object value, final String oldKey, final String newKey) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(
                         item instanceof Map
@@ -1915,7 +1915,7 @@ public class U<T> extends Underscore<T> {
             final Map<String, Object> map,
             final String key,
             final BiFunction<String, Object, Object> newValue) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if (entry.getKey().equals(key)) {
                 outMap.put(
@@ -1934,7 +1934,7 @@ public class U<T> extends Underscore<T> {
             Object value, final String key, final BiFunction<String, Object, Object> newValue) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(
                         item instanceof Map
@@ -1952,7 +1952,7 @@ public class U<T> extends Underscore<T> {
 
     public static Map<String, Object> update(
             final Map<String, Object> map1, final Map<String, Object> map2) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map1.entrySet()) {
             String key = entry.getKey();
             Object value2 = entry.getValue();
@@ -2309,7 +2309,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static List<String> explode(final String input) {
-        List<String> result = newArrayList();
+        List<String> result = new ArrayList<>();
         if (isNull(input)) {
             return result;
         }
@@ -2511,20 +2511,8 @@ public class U<T> extends Underscore<T> {
         return createPermutationWithRepetition((List<T>) value(), permutationLength);
     }
 
-    protected static <T> List<T> newArrayList() {
-        return Underscore.newArrayList();
-    }
-
     protected static <T> List<T> newArrayList(final Iterable<T> iterable) {
         return Underscore.newArrayList(iterable);
-    }
-
-    protected static <T> Set<T> newLinkedHashSet() {
-        return Underscore.newLinkedHashSet();
-    }
-
-    protected static <K, E> Map<K, E> newLinkedHashMap() {
-        return Underscore.newLinkedHashMap();
     }
 
     public static <T> String join(final Iterable<T> iterable, final String separator) {
@@ -2615,7 +2603,7 @@ public class U<T> extends Underscore<T> {
         if (object instanceof Map) {
             result = (Map<String, Object>) object;
         } else {
-            result = newLinkedHashMap();
+            result = new LinkedHashMap<>();
             result.put("value", object);
         }
         return result;
@@ -2652,7 +2640,7 @@ public class U<T> extends Underscore<T> {
                                 newRootName);
             } else if (mode == JsonToXmlMode.ADD_ROOT
                     && !Xml.XmlValue.getMapKey(object).equals(ROOT)) {
-                final Map<String, Object> map = U.newLinkedHashMap();
+                final Map<String, Object> map = new LinkedHashMap<>();
                 map.put(newRootName, object);
                 result = Xml.toXml(map, identStep);
             } else if (mode == JsonToXmlMode.REMOVE_ARRAY_ATTRIBUTE) {
@@ -2863,7 +2851,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Map<String, Object> removeMinusesAndConvertNumbers(Map<String, Object> map) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             final String newKey;
             if (entry.getKey().startsWith("-")) {
@@ -2883,7 +2871,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeObject(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(
                         item instanceof Map
@@ -2947,7 +2935,7 @@ public class U<T> extends Underscore<T> {
 
     @SuppressWarnings("unchecked")
     public static Object replaceSelfClosingWithValue(Map<String, Object> map, String value) {
-        Object outMap = newLinkedHashMap();
+        Object outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if (selfClosing.equals(entry.getKey()) && "true".equals(entry.getValue())) {
                 if (map.size() == 1) {
@@ -2968,7 +2956,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeObjectSelfClose(Object value, String newValue) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(
                         item instanceof Map
@@ -2988,7 +2976,7 @@ public class U<T> extends Underscore<T> {
         if (map == null || map.isEmpty()) {
             return null;
         }
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(String.valueOf(entry.getKey()), makeObjectEmptyValue(entry.getValue()));
         }
@@ -2999,7 +2987,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeObjectEmptyValue(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(item instanceof Map ? replaceEmptyValueWithNull((Map) item) : item);
             }
@@ -3016,7 +3004,7 @@ public class U<T> extends Underscore<T> {
         if (map.isEmpty()) {
             return "";
         }
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(String.valueOf(entry.getKey()), makeObjectEmptyString(entry.getValue()));
         }
@@ -3027,7 +3015,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeObjectEmptyString(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(
                         item instanceof Map ? replaceEmptyValueWithEmptyString((Map) item) : item);
@@ -3042,7 +3030,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Map<String, Object> forceAttributeUsage(Map<String, Object> map) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(
                     entry.getValue() instanceof Map
@@ -3059,7 +3047,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeAttributeUsage(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(item instanceof Map ? forceAttributeUsage((Map) item) : item);
             }
@@ -3073,12 +3061,12 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Map<String, Object> replaceNullWithEmptyValue(Map<String, Object> map) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(
                     entry.getKey(),
                     entry.getValue() == null
-                            ? newLinkedHashMap()
+                            ? new LinkedHashMap<>()
                             : makeReplaceNullValue(entry.getValue()));
         }
         return outMap;
@@ -3088,7 +3076,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeReplaceNullValue(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(item instanceof Map ? replaceNullWithEmptyValue((Map) item) : item);
             }
@@ -3102,12 +3090,12 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Map<String, Object> replaceEmptyStringWithEmptyValue(Map<String, Object> map) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(
                     entry.getKey(),
                     "".equals(entry.getValue())
-                            ? newLinkedHashMap()
+                            ? new LinkedHashMap<>()
                             : makeReplaceEmptyString(entry.getValue()));
         }
         return outMap;
@@ -3117,7 +3105,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeReplaceEmptyString(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(
                         item instanceof Map ? replaceEmptyStringWithEmptyValue((Map) item) : item);
@@ -3132,7 +3120,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Map<String, Object> replaceNumberAndBooleanWithString(Map<String, Object> map) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(
                     entry.getKey(),
@@ -3147,7 +3135,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeReplaceNumberAndBoolean(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 if (item instanceof Map) {
                     values.add(replaceNumberAndBooleanWithString((Map) item));
@@ -3174,7 +3162,7 @@ public class U<T> extends Underscore<T> {
 
     @SuppressWarnings("unchecked")
     public static Map<String, Object> replaceFirstLevel(Map<String, Object> map, int level) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(entry.getKey(), makeReplaceFirstLevel(entry.getValue(), level + 1));
         }
@@ -3193,7 +3181,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeReplaceFirstLevel(Object value, int level) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(item instanceof Map ? replaceFirstLevel((Map) item, level + 1) : item);
             }
@@ -3207,7 +3195,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Map<String, Object> replaceNilWithNull(Map<String, Object> map) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Object outValue = makeReplaceNilWithNull(entry.getValue());
             if (outValue instanceof Map
@@ -3227,7 +3215,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeReplaceNilWithNull(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(item instanceof Map ? replaceNilWithNull((Map) item) : item);
             }
@@ -3241,7 +3229,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Map<String, Object> deepCopyMap(Map<String, Object> map) {
-        Map<String, Object> outMap = newLinkedHashMap();
+        Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(entry.getKey(), makeDeepCopyMap(entry.getValue()));
         }
@@ -3252,7 +3240,7 @@ public class U<T> extends Underscore<T> {
     private static Object makeDeepCopyMap(Object value) {
         final Object result;
         if (value instanceof List) {
-            List<Object> values = newArrayList();
+            List<Object> values = new ArrayList<>();
             for (Object item : (List) value) {
                 values.add(item instanceof Map ? deepCopyMap((Map) item) : item);
             }
@@ -3273,7 +3261,7 @@ public class U<T> extends Underscore<T> {
         private final Map<String, Object> data;
 
         public Builder() {
-            data = newLinkedHashMap();
+            data = new LinkedHashMap<>();
         }
 
         public Builder add(final String key, final Object value) {
@@ -3406,7 +3394,7 @@ public class U<T> extends Underscore<T> {
         private final List<Object> data;
 
         public ArrayBuilder() {
-            data = newArrayList();
+            data = new ArrayList<>();
         }
 
         public ArrayBuilder add(final Object value) {

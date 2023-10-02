@@ -84,7 +84,7 @@ class StringTest {
     @Test
     void explode() {
         assertEquals(asList("a", "b", "c"), U.explode("abc"));
-        assertEquals(U.newArrayList(), U.explode(null));
+        assertEquals(new ArrayList<Object>(), U.explode(null));
     }
 
     /*

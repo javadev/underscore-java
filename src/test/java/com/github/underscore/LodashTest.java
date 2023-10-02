@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -421,19 +422,19 @@ class LodashTest {
                                 "a[0]",
                                 "e")
                         .toString());
-        Map<String, Object> map = U.newLinkedHashMap();
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        Map<String, Object> map3 = U.newLinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<>();
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        Map<String, Object> map3 = new LinkedHashMap<>();
         map.put("a", map2);
         map2.put("#item", map3);
         map3.put("b", "c");
         assertEquals("c", U.<String>set(map, "a.b", "b").toString());
         assertNull(U.<String>set((Map<String, Object>) null, "a", "b"));
-        assertNull(U.<String>set(U.<String, Object>newLinkedHashMap(), "a.b", "b"));
-        Map<String, Object> map4 = U.newLinkedHashMap();
+        assertNull(U.<String>set(new LinkedHashMap<String, Object>(), "a.b", "b"));
+        Map<String, Object> map4 = new LinkedHashMap<>();
         map4.put("a", "b");
         assertNull(U.<String>set(map4, "a.b", "b"));
-        Map<String, Object> map5 = U.newLinkedHashMap();
+        Map<String, Object> map5 = new LinkedHashMap<>();
         map5.put("a", "b");
         assertNull(U.chain(map5.entrySet()).set(asList("a", "b"), "b").value());
     }
@@ -787,31 +788,31 @@ class LodashTest {
 
     @Test
     void toJson() {
-        Map<String, Object> map = U.newLinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put(null, 3);
         assertEquals("{\n  \"null\": 3\n}", U.toJson(map));
-        Map<Object, Object> map2 = U.newLinkedHashMap();
+        Map<Object, Object> map2 = new LinkedHashMap<>();
         map2.put(1, 3);
         assertEquals("{\n  \"1\": 3\n}", U.toJson(map2));
-        Map<Object, Object> map3 = U.newLinkedHashMap();
+        Map<Object, Object> map3 = new LinkedHashMap<>();
         map3.put(true, 3);
         assertEquals("{\n  \"true\": 3\n}", U.toJson(map3));
     }
 
     @Test
     void toXml() {
-        Map<String, Object> map = U.newLinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put(null, 3);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<null number=\"true\">3</null>",
                 U.toXml(map));
-        Map<Object, Object> map2 = U.newLinkedHashMap();
+        Map<Object, Object> map2 = new LinkedHashMap<>();
         map2.put(1, 3);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<__GE__ number=\"true\">3</__GE__>",
                 U.toXml(map2));
-        Map<Object, Object> map3 = U.newLinkedHashMap();
+        Map<Object, Object> map3 = new LinkedHashMap<>();
         map3.put(true, 3);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<true number=\"true\">3</true>",
@@ -917,15 +918,15 @@ class LodashTest {
                         + "  \"#omit-xml-declaration\": \"yes\"\n"
                         + "}",
                 U.xmlToJson("<a><b/><b/></a>", U.XmlToJsonMode.REPLACE_SELF_CLOSING_WITH_NULL));
-        Map<String, Object> map = U.newLinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put("-self-closing", "false");
         U.replaceSelfClosingWithNull(map);
-        Map<String, Object> mapEmpty = U.newLinkedHashMap();
+        Map<String, Object> mapEmpty = new LinkedHashMap<>();
         mapEmpty.put("-self-closing", "true");
         U.replaceSelfClosingWithEmpty(mapEmpty);
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newArrayList());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new ArrayList<Object>());
         map2.put("list", list);
         U.replaceSelfClosingWithNull(map2);
         assertEquals(
@@ -940,15 +941,15 @@ class LodashTest {
                         + "}",
                 U.xmlToJson(
                         "<a><b></b><b></b></a>", U.XmlToJsonMode.REPLACE_EMPTY_VALUE_WITH_NULL));
-        Map<String, Object> map3 = U.newLinkedHashMap();
-        List<Object> list2 = U.newArrayList();
-        list2.add(U.newArrayList());
+        Map<String, Object> map3 = new LinkedHashMap<>();
+        List<Object> list2 = new ArrayList<>();
+        list2.add(new ArrayList<Object>());
         map3.put("list", list2);
         U.replaceEmptyValueWithNull(map3);
         U.replaceEmptyValueWithNull(null);
-        Map<String, Object> map4 = U.newLinkedHashMap();
-        List<Object> list3 = U.newArrayList();
-        list3.add(U.newArrayList());
+        Map<String, Object> map4 = new LinkedHashMap<>();
+        List<Object> list3 = new ArrayList<>();
+        list3.add(new ArrayList<Object>());
         map4.put("list", list3);
         U.replaceEmptyValueWithEmptyString(map4);
     }
@@ -1002,24 +1003,24 @@ class LodashTest {
 
     @Test
     void removeMapKey() {
-        Map<String, Object> map = U.newLinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put("-self-closing", "false");
         U.remove(map, "test");
         U.remove(map, "-self-closing");
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newArrayList());
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new ArrayList<Object>());
+        list.add(new LinkedHashMap<Object, Object>());
         map2.put("list", list);
         U.remove(map2, "test");
-        map2.put("list2", U.newLinkedHashMap());
+        map2.put("list2", new LinkedHashMap<Object, Object>());
         U.remove(map2, "test");
         U.remove(map2, "list.0");
     }
 
     @Test
     void updateMapValue() {
-        Map<String, Object> map = U.newLinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put("-self-closing1", "true");
         map.put("-self-closing2", "false");
         U.update(map, "-self-closing1", "false");
@@ -1036,18 +1037,18 @@ class LodashTest {
 
     @Test
     void renameMapKey() {
-        Map<String, Object> map = U.newLinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put("-self-closing", "false");
         U.rename(map, "test", "test1");
         Map<String, Object> newMap = U.rename(map, "-self-closing", "-self-closing1");
         assertEquals("{\n" + "  \"-self-closing1\": \"false\"\n" + "}", U.toJson(newMap));
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newArrayList());
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new ArrayList<Object>());
+        list.add(new LinkedHashMap<Object, Object>());
         map2.put("list", list);
         U.rename(map2, "test", "test1");
-        map2.put("list", U.newLinkedHashMap());
+        map2.put("list", new LinkedHashMap<Object, Object>());
         U.rename(map2, "test", "test1");
     }
 
@@ -1121,13 +1122,13 @@ class LodashTest {
                                 + "  ]\n"
                                 + "}",
                         U.JsonToXmlMode.ADD_ROOT));
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newArrayList());
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new ArrayList<Object>());
+        list.add(new LinkedHashMap<Object, Object>());
         map2.put("list", list);
         U.replaceNumberAndBooleanWithString(map2);
-        map2.put("list", U.newLinkedHashMap());
+        map2.put("list", new LinkedHashMap<Object, Object>());
         U.replaceNumberAndBooleanWithString(map2);
     }
 
@@ -1187,40 +1188,40 @@ class LodashTest {
 
     @Test
     void updateMapKey() {
-        Map<String, Object> map = U.newLinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put("-self-closing", "false");
         U.rename(map, "test", "test1");
         Map<String, Object> newMap = U.update(map, map);
         assertEquals("{\n" + "  \"-self-closing\": \"false\"\n" + "}", U.toJson(newMap));
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newArrayList());
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new ArrayList<Object>());
+        list.add(new LinkedHashMap<Object, Object>());
         map2.put("list", list);
         U.update(map2, map2);
-        map2.put("list", U.newLinkedHashMap());
+        map2.put("list", new LinkedHashMap<Object, Object>());
         U.update(map2, map2);
         U.update(map2, map);
-        Map<String, Object> map3 = U.newLinkedHashMap();
-        map3.put("list", U.newArrayList());
+        Map<String, Object> map3 = new LinkedHashMap<>();
+        map3.put("list", new ArrayList<Object>());
         U.update(map2, map3);
         U.update(map3, map2);
     }
 
     @Test
     void setValue() {
-        Map<String, Object> map = U.newLinkedHashMap();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put("-self-closing", "false");
         U.setValue(map, "test", "test1");
         Map<String, Object> newMap = U.setValue(map, "-self-closing", "true");
         assertEquals("{\n" + "  \"-self-closing\": \"true\"\n" + "}", U.toJson(newMap));
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newArrayList());
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new ArrayList<Object>());
+        list.add(new LinkedHashMap<Object, Object>());
         map2.put("list", list);
         U.setValue(map2, "test", "test1");
-        map2.put("list", U.newLinkedHashMap());
+        map2.put("list", new LinkedHashMap<Object, Object>());
         U.setValue(map2, "test", "test1");
     }
 
@@ -1343,14 +1344,14 @@ class LodashTest {
                                 + "  }\n"
                                 + "}",
                         U.JsonToXmlMode.FORCE_ATTRIBUTE_USAGE));
-        Map<String, Object> map = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new LinkedHashMap<Object, Object>());
         map.put("list", list);
         U.forceAttributeUsage(map);
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list2 = U.newArrayList();
-        list2.add(U.newArrayList());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list2 = new ArrayList<>();
+        list2.add(new ArrayList<Object>());
         map2.put("list", list2);
         U.forceAttributeUsage(map2);
     }
@@ -1375,14 +1376,14 @@ class LodashTest {
                                 + "  }\n"
                                 + "}",
                         U.JsonToXmlMode.REPLACE_NULL_WITH_EMPTY_VALUE));
-        Map<String, Object> map = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new LinkedHashMap<Object, Object>());
         map.put("list", list);
         U.replaceNullWithEmptyValue(map);
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list2 = U.newArrayList();
-        list2.add(U.newArrayList());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list2 = new ArrayList<>();
+        list2.add(new ArrayList<Object>());
         map2.put("list", list2);
         U.replaceNullWithEmptyValue(map2);
     }
@@ -1429,20 +1430,20 @@ class LodashTest {
                                                 + "    <value2 xsi:nil=\"true1\"/>\n"
                                                 + "  </author>\n"
                                                 + "</RootElm>"))));
-        Map<String, Object> map = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new LinkedHashMap<Object, Object>());
         map.put("list", list);
         U.replaceNilWithNull(map);
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list2 = U.newArrayList();
-        list2.add(U.newArrayList());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list2 = new ArrayList<>();
+        list2.add(new ArrayList<Object>());
         map2.put("list", list2);
         U.replaceNilWithNull(map2);
-        Map<String, Object> map3 = U.newLinkedHashMap();
+        Map<String, Object> map3 = new LinkedHashMap<>();
         map3.put("-nil", "true");
         map3.put("-self-closing", "true1");
-        Map<String, Object> map4 = U.newLinkedHashMap();
+        Map<String, Object> map4 = new LinkedHashMap<>();
         map4.put("map", map3);
         U.replaceNilWithNull(map4);
     }
@@ -1467,14 +1468,14 @@ class LodashTest {
                                 + "  }\n"
                                 + "}",
                         U.JsonToXmlMode.REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE));
-        Map<String, Object> map = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new LinkedHashMap<Object, Object>());
         map.put("list", list);
         U.replaceEmptyStringWithEmptyValue(map);
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list2 = U.newArrayList();
-        list2.add(U.newArrayList());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list2 = new ArrayList<>();
+        list2.add(new ArrayList<Object>());
         map2.put("list", list2);
         U.replaceEmptyStringWithEmptyValue(map2);
     }
@@ -1547,9 +1548,9 @@ class LodashTest {
                 U.removeMinusesAndConvertNumbers(
                         (Map<String, Object>) U.fromXml("<a><b c=\"+1ee\"/></a>"));
         assertEquals("{a={b={c=+1ee}}}", result9.toString());
-        Map<String, Object> map = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newArrayList());
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new ArrayList<Object>());
         map.put("list", list);
         Map<String, Object> result10 = U.removeMinusesAndConvertNumbers(map);
         assertEquals("{list=[[]]}", result10.toString());
@@ -1565,14 +1566,14 @@ class LodashTest {
         assertEquals("{b=c}", result2.toString());
         String result3 = U.xmlToJson("<a><b>c</b></a>", U.XmlToJsonMode.REMOVE_FIRST_LEVEL);
         assertEquals("{\n  \"b\": \"c\"\n}", result3);
-        Map<String, Object> map = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new LinkedHashMap<Object, Object>());
         map.put("list", list);
         U.replaceFirstLevel(map);
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list2 = U.newArrayList();
-        list2.add(U.newArrayList());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list2 = new ArrayList<>();
+        list2.add(new ArrayList<Object>());
         map2.put("list", list2);
         U.replaceFirstLevel(map2);
         Map<String, Object> result4 = U.fromXml("<a/>");
@@ -1587,14 +1588,14 @@ class LodashTest {
         assertEquals("{a={-self-closing=true}, #omit-xml-declaration=yes}", result.toString());
         Map<String, Object> result2 = U.deepCopyMap(U.fromXml("<a><b>c</b></a>"));
         assertEquals("{a={b=c}, #omit-xml-declaration=yes}", result2.toString());
-        Map<String, Object> map = U.newLinkedHashMap();
-        List<Object> list = U.newArrayList();
-        list.add(U.newLinkedHashMap());
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new LinkedHashMap<Object, Object>());
         map.put("list", list);
         U.deepCopyMap(map);
-        Map<String, Object> map2 = U.newLinkedHashMap();
-        List<Object> list2 = U.newArrayList();
-        list2.add(U.newArrayList());
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list2 = new ArrayList<>();
+        list2.add(new ArrayList<Object>());
         map2.put("list", list2);
         U.deepCopyMap(map2);
         Map<String, Object> result3 = U.fromXml("<a/>");
@@ -1610,9 +1611,9 @@ class LodashTest {
         U.Builder.fromJson("{}");
         builder.toXml();
         U.Builder.fromXml("<a/>");
-        U.Builder.fromMap(U.newLinkedHashMap());
-        builder.add(U.newLinkedHashMap());
-        builder.update(U.newLinkedHashMap());
+        U.Builder.fromMap(new LinkedHashMap<String, Object>());
+        builder.add(new LinkedHashMap<String, Object>());
+        builder.update(new LinkedHashMap<String, Object>());
         builder.set("1", "3");
         builder.toString();
         assertEquals("{1=3}", builder.build().toString());
@@ -1736,7 +1737,7 @@ class LodashTest {
         U.of(new int[] {});
         U.of("");
         U.of(new LinkedHashMap<>());
-        U.newLinkedHashSet();
+        new LinkedHashSet<>();
     }
 
     @SuppressWarnings("unchecked")
