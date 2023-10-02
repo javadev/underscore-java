@@ -318,7 +318,7 @@ class ArraysTest {
     @Test
     void cycle() {
         assertEquals("[]", Underscore.cycle(Underscore.range(5), 0).toString());
-        assertEquals("[]", Underscore.cycle(Underscore.newArrayList(), 5).toString());
+        assertEquals("[]", Underscore.cycle(new ArrayList<Object>(), 5).toString());
         assertEquals("[4, 3, 2, 1, 0]", Underscore.cycle(Underscore.range(5), -1).toString());
         assertEquals(
                 "[0, 1, 2, 0, 1, 2, 0, 1, 2]", Underscore.cycle(Underscore.range(3), 3).toString());
@@ -370,8 +370,8 @@ class ArraysTest {
         assertEquals(
                 "[0, 500, 1, 500, 2, 500, 3]",
                 Underscore.interpose(Underscore.range(4), 500).toString());
-        assertEquals("[]", Underscore.interpose(Underscore.newArrayList(), 500).toString());
-        assertEquals("[]", Underscore.interpose(Underscore.newArrayList(), null).toString());
+        assertEquals("[]", Underscore.interpose(new ArrayList<Integer>(), 500).toString());
+        assertEquals("[]", Underscore.interpose(new ArrayList<Object>(), null).toString());
         assertEquals(
                 "[0, 1, 2, 3]",
                 Underscore.interpose(Underscore.newArrayList(Underscore.range(4)), null)
@@ -385,7 +385,7 @@ class ArraysTest {
         assertEquals("[a]", Underscore.chain(singletonList("a")).interpose("interpose").toString());
         assertEquals(
                 "[]",
-                Underscore.chain(Underscore.newArrayList()).interpose("interpose").toString());
+                Underscore.chain(new ArrayList<Object>()).interpose("interpose").toString());
         assertEquals(
                 "[a, b, c]", Underscore.chain(asList("a", "b", "c")).interpose(null).toString());
         assertEquals(
@@ -405,8 +405,8 @@ class ArraysTest {
     */
     @Test
     void interposeByList() {
-        List<String> list1 = Underscore.newArrayList();
-        List<Integer> list2 = Underscore.newArrayList();
+        List<String> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
         assertEquals(
                 "[0, 100, 1, 200, 2, 300, 3]",
                 Underscore.interposeByList(Underscore.range(4), Underscore.range(100, 600, 100))
