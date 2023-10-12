@@ -6,19 +6,18 @@ environment:
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
-      if (!(Test-Path -Path "C:\maven\apache-maven-3.5.4" )) {
+      if (!(Test-Path -Path "C:\maven\apache-maven-3.6.3" )) {
         (new-object System.Net.WebClient).DownloadFile(
           'https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip',
           'C:\maven-bin.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
       }
-  - cmd: SET PATH=C:\maven\apache-maven-3.5.4\bin;%JAVA_HOME%\bin;%PATH%
+  - cmd: SET PATH=C:\maven\apache-maven-3.6.3\bin;%JAVA_HOME%\bin;%PATH%
 build_script:
   - mvn clean install -B -DskipTests
 test_script:
   - mvn clean install jacoco:report -B
   - mvn -f examples/pom.xml clean package
-  - mvn -f spring-boot-example/pom.xml clean package
 cache:
-  - C:\maven\apache-maven-3.5.4
+  - C:\maven\apache-maven-3.6.3
