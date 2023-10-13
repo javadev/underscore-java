@@ -3498,7 +3498,7 @@ public class U<T> extends Underscore<T> {
         Map<String, Object> map = new LinkedHashMap<>();
         if (properties != null && !properties.isEmpty()) {
             Enumeration<?> enumProperties = properties.propertyNames();
-            while(enumProperties.hasMoreElements()) {
+            while (enumProperties.hasMoreElements()) {
                 String name = (String)enumProperties.nextElement();
                 map.put(name, properties.getProperty(name));
             }
