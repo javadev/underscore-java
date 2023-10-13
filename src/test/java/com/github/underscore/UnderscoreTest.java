@@ -748,7 +748,7 @@ class UnderscoreTest {
     }
 
     @Test
-    public void testPropertiesToMap() {
+    void testPropertiesToMap() {
         Properties properties = new Properties();
         properties.setProperty("key1", "value1");
         properties.setProperty("key2", "value2");
@@ -761,14 +761,14 @@ class UnderscoreTest {
     }
 
     @Test
-    public void testPropertiesToMapWithEmptyProperties() {
+    void testPropertiesToMapWithEmptyProperties() {
         Properties properties = new Properties();
         Map<String, Object> map = U.propertiesToMap(properties);
         assertEquals(0, map.size());
     }
 
     @Test
-    public void testMapToProperties() {
+    void testMapToProperties() {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("key1", "value1");
         map.put("key2", "value2");
@@ -781,7 +781,7 @@ class UnderscoreTest {
     }
 
     @Test
-    public void testMapToPropertiesWithNullValues() {
+    void testMapToPropertiesWithNullValues() {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("key1", "value1");
         map.put("key2", null);
