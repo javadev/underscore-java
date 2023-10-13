@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
@@ -744,5 +745,54 @@ class UnderscoreTest {
                         + "{string=Go back rocket man into the sky you'll see, longestWord=6}, "
                         + "{string=Hear it all the time, come back rewind, longestWord=6}]",
                 result.toString());
+    }
+
+    @Test
+    void testPropertiesToMap() {
+        Properties properties = new Properties();
+        properties.setProperty("key1", "value1");
+        properties.setProperty("key2", "value2");
+        properties.setProperty("key3", "value3");
+        Map<String, Object> map = U.propertiesToMap(properties);
+        assertEquals(3, map.size());
+        assertEquals("value1", map.get("key1"));
+        assertEquals("value2", map.get("key2"));
+        assertEquals("value3", map.get("key3"));
+    }
+
+    @Test
+    void testPropertiesToMapWithEmptyProperties() {
+        Properties properties = new Properties();
+        Map<String, Object> map = U.propertiesToMap(properties);
+        assertEquals(0, map.size());
+        Map<String, Object> map2 = U.propertiesToMap(null);
+        assertEquals(0, map.size());
+    }
+
+    @Test
+    void testMapToProperties() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("key1", "value1");
+        map.put("key2", "value2");
+        map.put("key3", "value3");
+        Properties properties = U.mapToProperties(map);
+        assertEquals(3, properties.size());
+        assertEquals("value1", properties.getProperty("key1"));
+        assertEquals("value2", properties.getProperty("key2"));
+        assertEquals("value3", properties.getProperty("key3"));
+    }
+
+    @Test
+    void testMapToPropertiesWithNullValues() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("key1", "value1");
+        map.put("key2", null);
+        map.put("key3", "value3");
+        Properties properties = U.mapToProperties(map);
+        assertEquals(2, properties.size());
+        assertEquals("value1", properties.getProperty("key1"));
+        assertEquals("value3", properties.getProperty("key3"));
+        Properties properties2 = U.mapToProperties(null);
+        assertEquals(0, properties2.size());
     }
 }

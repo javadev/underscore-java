@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -48,6 +49,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -3490,5 +3492,29 @@ public class U<T> extends Underscore<T> {
         public String toString() {
             return data.toString();
         }
+    }
+
+    public static Map<String, Object> propertiesToMap(Properties properties) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        if (properties != null && !properties.isEmpty()) {
+            Enumeration<?> enumProperties = properties.propertyNames();
+            while (enumProperties.hasMoreElements()) {
+                String name = (String)enumProperties.nextElement();
+                map.put(name, properties.getProperty(name));
+            }
+        }
+        return map;
+    }
+
+    public static Properties mapToProperties(Map<String, Object> map) {
+        Properties  properties = new Properties();
+        if (map != null) {
+            for (final Map.Entry<String, Object> entry : map.entrySet()) {
+                if (!isNull(entry.getValue())) {
+                    properties.put(entry.getKey(), String.valueOf(entry.getValue()));
+                }
+            }
+        }
+        return properties;
     }
 }
