@@ -765,6 +765,8 @@ class UnderscoreTest {
         Properties properties = new Properties();
         Map<String, Object> map = U.propertiesToMap(properties);
         assertEquals(0, map.size());
+        Map<String, Object> map2 = U.propertiesToMap(null);
+        assertEquals(0, map.size());
     }
 
     @Test
@@ -790,5 +792,7 @@ class UnderscoreTest {
         assertEquals(2, properties.size());
         assertEquals("value1", properties.getProperty("key1"));
         assertEquals("value3", properties.getProperty("key3"));
+        Properties properties2 = U.mapToProperties(null);
+        assertEquals(0, properties2.size());
     }
 }
