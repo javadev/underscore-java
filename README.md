@@ -40,7 +40,7 @@ To configure your Maven project, add the following code to your pom.xml file:
   <dependency>
     <groupId>com.github.javadev</groupId>
     <artifactId>underscore</artifactId>
-    <version>1.95</version>
+    <version>1.96</version>
   </dependency>
   ...
 </dependencies>
@@ -49,7 +49,7 @@ To configure your Maven project, add the following code to your pom.xml file:
 Gradle configuration:
 
 ```groovy
-implementation 'com.github.javadev:underscore:1.95'
+implementation 'com.github.javadev:underscore:1.96'
 ```
 
 ### Usage
