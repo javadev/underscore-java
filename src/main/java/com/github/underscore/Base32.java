@@ -37,7 +37,7 @@ public final class Base32 {
     private final Map<Character, Integer> charMap;
 
     private Base32() {
-        digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef".toCharArray();
+        digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".toCharArray();
         mask = digits.length - 1;
         shift = Integer.numberOfTrailingZeros(digits.length);
         charMap = new HashMap<>();
