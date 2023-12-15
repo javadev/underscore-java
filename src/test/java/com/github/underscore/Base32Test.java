@@ -33,7 +33,7 @@ class Base32Test {
     @Test
     void decode() {
         assertEquals("!", Base32.decode("EE"));
-        assertEquals("-Hello world!+-", Base32.decode("FVEGKbDMNcQHObbSNRSCCKZN"));
+        assertEquals("-Hello world!+-", Base32.decode("FVEGK3DMN4QHO33SNRSCCKZN"));
     }
 
     @Test
@@ -49,7 +49,7 @@ class Base32Test {
     @Test
     void encode() {
         assertEquals("EE", Base32.encode("!"));
-        assertEquals("FVEGKbDMNcQHObbSNRSCCKZN", Base32.encode("-Hello world!+-"));
+        assertEquals("FVEGK3DMN4QHO33SNRSCCKZN", Base32.encode("-Hello world!+-"));
     }
 
     @Test
