@@ -1146,12 +1146,14 @@ public final class Xml {
         return toXml(map, identStep, ROOT, ArrayTrue.ADD, base32encoder);
     }
 
-    public static String toXml(Map map, XmlStringBuilder.Step identStep, String newRootName, UnaryOperator<String> base32encoder) {
+    public static String toXml(Map map, XmlStringBuilder.Step identStep, String newRootName,
+                               UnaryOperator<String> base32encoder) {
         return toXml(map, identStep, newRootName, ArrayTrue.ADD, base32encoder);
     }
 
     public static String toXml(
-            Map map, XmlStringBuilder.Step identStep, String newRootName, ArrayTrue arrayTrue, UnaryOperator<String> base32encoder) {
+            Map map, XmlStringBuilder.Step identStep, String newRootName, ArrayTrue arrayTrue,
+            UnaryOperator<String> base32encoder) {
         final XmlStringBuilder builder;
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {
@@ -1228,7 +1230,8 @@ public final class Xml {
     }
 
     private static void writeArray(
-            final Collection collection, final XmlStringBuilder builder, final String arrayTrue, UnaryOperator<String> base32encoder) {
+            final Collection collection, final XmlStringBuilder builder, final String arrayTrue,
+            UnaryOperator<String> base32encoder) {
         builder.append("<root");
         if (collection != null && collection.isEmpty()) {
             builder.append(" empty-array=\"true\"");
@@ -1339,7 +1342,7 @@ public final class Xml {
             final int[] sourceIndex,
             final Set<String> namespaces,
             final FromType fromType,
-            UnaryOperator<String> base32encoder) {
+            UnaryOperator<String> base32decoder) {
         final Map<String, Object> map = new LinkedHashMap<>();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
@@ -1364,7 +1367,7 @@ public final class Xml {
                                 currentNode,
                                 namespaces,
                                 fromType,
-                                base32encoder);
+                                base32decoder);
             } else {
                 if (COMMENT.equals(name)) {
                     sourceIndex[0] = source.indexOf("-->", sourceIndex[0]) + 3;
@@ -1388,7 +1391,7 @@ public final class Xml {
                         uniqueIds,
                         namespaces,
                         fromType,
-                        base32encoder);
+                        base32decoder);
             } else {
                 addNodeValue(
                         map,
@@ -1399,7 +1402,7 @@ public final class Xml {
                         uniqueIds,
                         namespaces,
                         fromType,
-                        base32encoder);
+                        base32decoder);
             }
         }
         return checkNumberAndBoolean(map, node.getNodeName());
@@ -1500,7 +1503,7 @@ public final class Xml {
             final org.w3c.dom.Node currentNode,
             final Set<String> namespaces,
             final FromType fromType,
-            UnaryOperator<String> base32encoder) {
+            UnaryOperator<String> base32decoder) {
         final Map<String, Object> attrMapLocal = new LinkedHashMap<>();
         if (currentNode.getAttributes().getLength() > 0) {
             final Map<String, String> attributes =
@@ -1520,7 +1523,7 @@ public final class Xml {
                         uniqueIds,
                         namespaces,
                         fromType,
-                        base32encoder);
+                        base32decoder);
             }
         }
         if (getAttributes(sourceIndex[0], source).endsWith("/")
@@ -1542,7 +1545,7 @@ public final class Xml {
                 sourceIndex,
                 namespaces,
                 fromType,
-                base32encoder);
+                base32decoder);
     }
 
     static Map<String, String> parseAttributes(final String source) {
