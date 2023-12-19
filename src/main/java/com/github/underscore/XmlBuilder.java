@@ -168,7 +168,7 @@ public class XmlBuilder {
     }
 
     public String toXml(Xml.XmlStringBuilder.Step identStep) {
-        return Xml.toXml(data, identStep);
+        return Xml.toXml(data, identStep, Base32::encode);
     }
 
     public String toXml() {

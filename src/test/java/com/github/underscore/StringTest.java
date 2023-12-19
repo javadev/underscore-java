@@ -1040,7 +1040,7 @@ class StringTest {
     void testXmlArray() {
         XmlStringBuilder builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(
-                null, null, builder, false, Collections.<String>emptySet(), false, ARRAY_TRUE);
+                null, null, builder, false, Collections.<String>emptySet(), false, ARRAY_TRUE, Base32::encode);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\nnull\n</root>",
                 builder.toString());
@@ -1056,7 +1056,8 @@ class StringTest {
                 false,
                 Collections.<String>emptySet(),
                 false,
-                ARRAY_TRUE);
+                ARRAY_TRUE,
+                Base32::encode);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n"
                         + "  <element array=\"true\" null=\"true\"/>\n</root>",
@@ -1073,7 +1074,8 @@ class StringTest {
                 false,
                 Collections.<String>emptySet(),
                 false,
-                ARRAY_TRUE);
+                ARRAY_TRUE,
+                Base32::encode);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<root>\n"
@@ -1462,14 +1464,14 @@ class StringTest {
         XmlStringBuilder builder;
 
         builder = new XmlStringBuilder();
-        Xml.XmlArray.writeXml(null, null, builder, false, Collections.emptySet(), ARRAY_TRUE);
+        Xml.XmlArray.writeXml(null, null, builder, false, Collections.emptySet(), ARRAY_TRUE, Base32::encode);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element null=\"true\"/>\n</root>",
                 builder.toString());
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(
-                new Object[0], null, builder, false, Collections.<String>emptySet(), ARRAY_TRUE);
+                new Object[0], null, builder, false, Collections.<String>emptySet(), ARRAY_TRUE, Base32::encode);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element></element>\n</root>",
                 builder.toString());
@@ -1481,7 +1483,8 @@ class StringTest {
                 builder,
                 false,
                 Collections.<String>emptySet(),
-                ARRAY_TRUE);
+                ARRAY_TRUE,
+                Base32::encode);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n</root>",
                 builder.toString());
@@ -1493,7 +1496,8 @@ class StringTest {
                 builder,
                 false,
                 Collections.<String>emptySet(),
-                ARRAY_TRUE);
+                ARRAY_TRUE,
+                Base32::encode);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n"
                         + "  <element number=\"true\">12</element>\n  <element>\n    <element>1</element>\n    "

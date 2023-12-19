@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 @SuppressWarnings({"java:S107", "java:S1119", "java:S3740", "java:S3776", "java:S4276"})
 public final class Xml {
@@ -211,14 +212,15 @@ public final class Xml {
                 boolean parentTextFound,
                 Set<String> namespaces,
                 boolean addArray,
-                String arrayTrue) {
+                String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             if (collection == null) {
                 builder.append(NULL);
                 return;
             }
 
             if (name != null) {
-                builder.fillSpaces().append("<").append(XmlValue.escapeName(name, namespaces));
+                builder.fillSpaces().append("<").append(XmlValue.escapeName(name, namespaces, base32encoder));
                 if (addArray) {
                     builder.append(arrayTrue);
                 }
@@ -230,13 +232,13 @@ public final class Xml {
                     builder.newLine();
                 }
             }
-            writeXml(collection, builder, name, parentTextFound, namespaces, arrayTrue);
+            writeXml(collection, builder, name, parentTextFound, namespaces, arrayTrue, base32encoder);
             if (name != null) {
                 builder.decIdent();
                 if (!collection.isEmpty()) {
                     builder.newLine().fillSpaces();
                 }
-                builder.append("</").append(XmlValue.escapeName(name, namespaces)).append(">");
+                builder.append("</").append(XmlValue.escapeName(name, namespaces, base32encoder)).append(">");
             }
         }
 
@@ -246,7 +248,8 @@ public final class Xml {
                 String name,
                 final boolean parentTextFound,
                 Set<String> namespaces,
-                String arrayTrue) {
+                String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             boolean localParentTextFound = parentTextFound;
             final List<?> entries = new ArrayList<>(collection);
             for (int index = 0; index < entries.size(); index += 1) {
@@ -261,7 +264,7 @@ public final class Xml {
                                     "<"
                                             + (name == null
                                                     ? ELEMENT_TEXT
-                                                    : XmlValue.escapeName(name, namespaces))
+                                                    : XmlValue.escapeName(name, namespaces, base32encoder))
                                             + (collection.size() == 1 ? arrayTrue : "")
                                             + NULL_TRUE);
                 } else {
@@ -276,7 +279,8 @@ public final class Xml {
                                 localParentTextFound,
                                 namespaces,
                                 true,
-                                arrayTrue);
+                                arrayTrue,
+                                base32encoder);
                         if (XmlValue.getMapKey(XmlValue.getMapValue(value)).startsWith(TEXT)) {
                             localParentTextFound = true;
                             continue;
@@ -289,7 +293,8 @@ public final class Xml {
                                 localParentTextFound,
                                 namespaces,
                                 collection.size() == 1 || value instanceof Collection,
-                                arrayTrue);
+                                arrayTrue,
+                                base32encoder);
                     }
                     localParentTextFound = false;
                 }
@@ -441,7 +446,8 @@ public final class Xml {
                 XmlStringBuilder builder,
                 boolean parentTextFound,
                 Set<String> namespaces,
-                String arrayTrue) {
+                String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
             } else if (array.length == 0) {
@@ -455,7 +461,8 @@ public final class Xml {
                             parentTextFound,
                             namespaces,
                             false,
-                            arrayTrue);
+                            arrayTrue,
+                            base32encoder);
                     if (i != array.length - 1) {
                         builder.newLine();
                     }
@@ -475,9 +482,10 @@ public final class Xml {
                 final boolean parentTextFound,
                 final Set<String> namespaces,
                 final boolean addArray,
-                final String arrayTrue) {
+                final String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             if (map == null) {
-                XmlValue.writeXml(NULL, name, builder, false, namespaces, addArray, arrayTrue);
+                XmlValue.writeXml(NULL, name, builder, false, namespaces, addArray, arrayTrue, base32encoder);
                 return;
             }
 
@@ -500,7 +508,7 @@ public final class Xml {
                     attrs.add(
                             " "
                                     + XmlValue.escapeName(
-                                            String.valueOf(entry.getKey()).substring(1), namespaces)
+                                            String.valueOf(entry.getKey()).substring(1), namespaces, base32encoder)
                                     + "=\""
                                     + XmlValue.escape(String.valueOf(entry.getValue()))
                                             .replace("\"", QUOT)
@@ -521,13 +529,14 @@ public final class Xml {
                             elems,
                             namespaces,
                             localParentTextFound,
-                            arrayTrue);
+                            arrayTrue,
+                            base32encoder);
                 }
             }
             if (addArray && !attrKeys.contains(ARRAY)) {
                 attrs.add(arrayTrue);
             }
-            addToBuilder(name, parentTextFound, builder, namespaces, attrs, elems);
+            addToBuilder(name, parentTextFound, builder, namespaces, attrs, elems, base32encoder);
         }
 
         @SuppressWarnings("unchecked")
@@ -551,9 +560,10 @@ public final class Xml {
                 final XmlStringBuilder builder,
                 final Set<String> namespaces,
                 final List<String> attrs,
-                final List<XmlStringBuilder> elems) {
+                final List<XmlStringBuilder> elems,
+                UnaryOperator<String> base32encoder) {
             final boolean selfClosing = attrs.remove(" self-closing=\"true\"");
-            addOpenElement(name, parentTextFound, builder, namespaces, selfClosing, attrs, elems);
+            addOpenElement(name, parentTextFound, builder, namespaces, selfClosing, attrs, elems, base32encoder);
             if (!selfClosing) {
                 for (XmlStringBuilder localBuilder1 : elems) {
                     builder.append(localBuilder1.toString());
@@ -566,7 +576,7 @@ public final class Xml {
                     builder.newLine().fillSpaces();
                 }
                 if (!selfClosing) {
-                    builder.append("</").append(XmlValue.escapeName(name, namespaces)).append(">");
+                    builder.append("</").append(XmlValue.escapeName(name, namespaces, base32encoder)).append(">");
                 }
             }
         }
@@ -578,13 +588,14 @@ public final class Xml {
                 final Set<String> namespaces,
                 final boolean selfClosing,
                 final List<String> attrs,
-                final List<XmlStringBuilder> elems) {
+                final List<XmlStringBuilder> elems,
+                UnaryOperator<String> base32encoder) {
             if (name != null) {
                 if (!parentTextFound) {
                     builder.fillSpaces();
                 }
                 builder.append("<")
-                        .append(XmlValue.escapeName(name, namespaces))
+                        .append(XmlValue.escapeName(name, namespaces, base32encoder))
                         .append(String.join("", attrs));
                 if (selfClosing) {
                     builder.append("/");
@@ -604,15 +615,16 @@ public final class Xml {
                 final List<XmlStringBuilder> elems,
                 final Set<String> namespaces,
                 final boolean parentTextFound,
-                final String arrayTrue) {
+                final String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             if (String.valueOf(entry.getKey()).startsWith(COMMENT)) {
                 addComment(entry, identStep, ident, parentTextFound, addNewLine, elems);
             } else if (String.valueOf(entry.getKey()).startsWith(CDATA)) {
                 addCdata(entry, identStep, ident, addNewLine, elems);
             } else if (entry.getValue() instanceof List && !((List) entry.getValue()).isEmpty()) {
-                addElements(identStep, ident, entry, namespaces, elems, addNewLine, arrayTrue);
+                addElements(identStep, ident, entry, namespaces, elems, addNewLine, arrayTrue, base32encoder);
             } else {
-                addElement(identStep, ident, entry, namespaces, elems, addNewLine, arrayTrue);
+                addElement(identStep, ident, entry, namespaces, elems, addNewLine, arrayTrue, base32encoder);
             }
         }
 
@@ -654,7 +666,8 @@ public final class Xml {
                 Set<String> namespaces,
                 final List<XmlStringBuilder> elems,
                 final boolean addNewLine,
-                final String arrayTrue) {
+                final String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             boolean parentTextFound =
                     !elems.isEmpty() && elems.get(elems.size() - 1) instanceof XmlStringBuilderText;
             final XmlStringBuilder localBuilder =
@@ -665,7 +678,8 @@ public final class Xml {
                     String.valueOf(entry.getKey()),
                     parentTextFound,
                     namespaces,
-                    arrayTrue);
+                    arrayTrue,
+                    base32encoder);
             if (addNewLine) {
                 localBuilder.newLine();
             }
@@ -679,7 +693,8 @@ public final class Xml {
                 Set<String> namespaces,
                 final List<XmlStringBuilder> elems,
                 final boolean addNewLine,
-                final String arrayTrue) {
+                final String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             boolean parentTextFound =
                     !elems.isEmpty() && elems.get(elems.size() - 1) instanceof XmlStringBuilderText;
             XmlStringBuilder localBuilder = new XmlStringBuilderWithoutHeader(identStep, ident);
@@ -690,7 +705,8 @@ public final class Xml {
                     parentTextFound,
                     namespaces,
                     false,
-                    arrayTrue);
+                    arrayTrue,
+                    base32encoder);
             if (addNewLine) {
                 localBuilder.newLine();
             }
@@ -787,7 +803,8 @@ public final class Xml {
                 boolean parentTextFound,
                 Set<String> namespaces,
                 boolean addArray,
-                String arrayTrue) {
+                String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             if (value instanceof Map) {
                 XmlObject.writeXml(
                         (Map) value,
@@ -796,7 +813,8 @@ public final class Xml {
                         parentTextFound,
                         namespaces,
                         addArray,
-                        arrayTrue);
+                        arrayTrue,
+                        base32encoder);
                 return;
             }
             if (value instanceof Collection) {
@@ -807,19 +825,20 @@ public final class Xml {
                         parentTextFound,
                         namespaces,
                         addArray,
-                        arrayTrue);
+                        arrayTrue,
+                        base32encoder);
                 return;
             }
             if (!parentTextFound) {
                 builder.fillSpaces();
             }
             if (value == null) {
-                builder.append("<" + XmlValue.escapeName(name, namespaces) + NULL_TRUE);
+                builder.append("<" + XmlValue.escapeName(name, namespaces, base32encoder) + NULL_TRUE);
             } else if (value instanceof String) {
                 if (((String) value).isEmpty()) {
                     builder.append(
                             "<"
-                                    + XmlValue.escapeName(name, namespaces)
+                                    + XmlValue.escapeName(name, namespaces, base32encoder)
                                     + (addArray ? arrayTrue : ""));
                     if (name.startsWith("?")) {
                         builder.append("?>");
@@ -829,19 +848,19 @@ public final class Xml {
                 } else {
                     builder.append(
                             "<"
-                                    + XmlValue.escapeName(name, namespaces)
+                                    + XmlValue.escapeName(name, namespaces, base32encoder)
                                     + (addArray ? arrayTrue : "")
                                     + (name.startsWith("?") ? " " : ">"));
                     builder.append(escape((String) value));
                     if (name.startsWith("?")) {
                         builder.append("?>");
                     } else {
-                        builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                        builder.append("</" + XmlValue.escapeName(name, namespaces, base32encoder) + ">");
                     }
                 }
             } else {
                 processArrays(
-                        value, builder, name, parentTextFound, namespaces, addArray, arrayTrue);
+                        value, builder, name, parentTextFound, namespaces, addArray, arrayTrue, base32encoder);
             }
         }
 
@@ -852,45 +871,46 @@ public final class Xml {
                 boolean parentTextFound,
                 Set<String> namespaces,
                 boolean addArray,
-                String arrayTrue) {
+                String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             if (value instanceof Double) {
                 if (((Double) value).isInfinite() || ((Double) value).isNaN()) {
                     builder.append(NULL_ELEMENT);
                 } else {
                     builder.append(
                             "<"
-                                    + XmlValue.escapeName(name, namespaces)
+                                    + XmlValue.escapeName(name, namespaces, base32encoder)
                                     + (addArray ? arrayTrue : "")
                                     + NUMBER_TRUE);
                     builder.append(value.toString());
-                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                    builder.append("</" + XmlValue.escapeName(name, namespaces, base32encoder) + ">");
                 }
             } else if (value instanceof Float) {
                 if (((Float) value).isInfinite() || ((Float) value).isNaN()) {
                     builder.append(NULL_ELEMENT);
                 } else {
-                    builder.append("<" + XmlValue.escapeName(name, namespaces) + NUMBER_TRUE);
+                    builder.append("<" + XmlValue.escapeName(name, namespaces, base32encoder) + NUMBER_TRUE);
                     builder.append(value.toString());
-                    builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                    builder.append("</" + XmlValue.escapeName(name, namespaces, base32encoder) + ">");
                 }
             } else if (value instanceof Number) {
                 builder.append(
                         "<"
-                                + XmlValue.escapeName(name, namespaces)
+                                + XmlValue.escapeName(name, namespaces, base32encoder)
                                 + (addArray ? arrayTrue : "")
                                 + NUMBER_TRUE);
                 builder.append(value.toString());
-                builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                builder.append("</" + XmlValue.escapeName(name, namespaces, base32encoder) + ">");
             } else if (value instanceof Boolean) {
                 builder.append(
                         "<"
-                                + XmlValue.escapeName(name, namespaces)
+                                + XmlValue.escapeName(name, namespaces, base32encoder)
                                 + (addArray ? arrayTrue : "")
                                 + " boolean=\"true\">");
                 builder.append(value.toString());
-                builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                builder.append("</" + XmlValue.escapeName(name, namespaces, base32encoder) + ">");
             } else {
-                builder.append("<" + XmlValue.escapeName(name, namespaces) + ">");
+                builder.append("<" + XmlValue.escapeName(name, namespaces, base32encoder) + ">");
                 if (value instanceof byte[]) {
                     builder.newLine().incIdent();
                     XmlArray.writeXml((byte[]) value, builder);
@@ -900,9 +920,9 @@ public final class Xml {
                     XmlArray.writeXml((short[]) value, builder);
                     builder.decIdent().newLine().fillSpaces();
                 } else {
-                    processArrays2(value, builder, name, parentTextFound, namespaces, arrayTrue);
+                    processArrays2(value, builder, name, parentTextFound, namespaces, arrayTrue, base32encoder);
                 }
-                builder.append("</" + XmlValue.escapeName(name, namespaces) + ">");
+                builder.append("</" + XmlValue.escapeName(name, namespaces, base32encoder) + ">");
             }
         }
 
@@ -912,7 +932,8 @@ public final class Xml {
                 String name,
                 boolean parentTextFound,
                 Set<String> namespaces,
-                String arrayTrue) {
+                String arrayTrue,
+                UnaryOperator<String> base32encoder) {
             if (value instanceof int[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml((int[]) value, builder);
@@ -940,14 +961,14 @@ public final class Xml {
             } else if (value instanceof Object[]) {
                 builder.newLine().incIdent();
                 XmlArray.writeXml(
-                        (Object[]) value, name, builder, parentTextFound, namespaces, arrayTrue);
+                        (Object[]) value, name, builder, parentTextFound, namespaces, arrayTrue, base32encoder);
                 builder.decIdent().newLine().fillSpaces();
             } else {
                 builder.append(value.toString());
             }
         }
 
-        public static String escapeName(String name, Set<String> namespaces) {
+        public static String escapeName(String name, Set<String> namespaces, UnaryOperator<String> base32encoder) {
             final int length = name.length();
             if (length == 0) {
                 return "__EE__EMPTY__EE__";
@@ -961,10 +982,10 @@ public final class Xml {
                     }
                     result.append(ch);
                 } catch (Exception ex) {
-                    result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
+                    result.append("__").append(base32encoder.apply(Character.toString(ch))).append("__");
                 }
             } else {
-                result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
+                result.append("__").append(base32encoder.apply((Character.toString(ch)))).append("__");
             }
             for (int i = 1; i < length; ++i) {
                 ch = name.charAt(i);
@@ -978,11 +999,11 @@ public final class Xml {
                         result.append(ch);
                     } catch (Exception ex) {
                         result.append("__")
-                                .append(Base32.encode(Character.toString(ch)))
+                                .append(base32encoder.apply(Character.toString(ch)))
                                 .append("__");
                     }
                 } else {
-                    result.append("__").append(Base32.encode(Character.toString(ch))).append("__");
+                    result.append("__").append(base32encoder.apply(Character.toString(ch))).append("__");
                 }
             }
             return result.toString();
@@ -1113,7 +1134,7 @@ public final class Xml {
     public static String toXml(Collection collection, XmlStringBuilder.Step identStep) {
         final XmlStringBuilder builder =
                 new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), "");
-        writeArray(collection, builder, ARRAY_TRUE);
+        writeArray(collection, builder, ARRAY_TRUE, Base32::encode);
         return builder.toString();
     }
 
@@ -1121,16 +1142,16 @@ public final class Xml {
         return toXml(collection, XmlStringBuilder.Step.TWO_SPACES);
     }
 
-    public static String toXml(Map map, XmlStringBuilder.Step identStep) {
-        return toXml(map, identStep, ROOT, ArrayTrue.ADD);
+    public static String toXml(Map map, XmlStringBuilder.Step identStep, UnaryOperator<String> base32encoder) {
+        return toXml(map, identStep, ROOT, ArrayTrue.ADD, base32encoder);
     }
 
-    public static String toXml(Map map, XmlStringBuilder.Step identStep, String newRootName) {
-        return toXml(map, identStep, newRootName, ArrayTrue.ADD);
+    public static String toXml(Map map, XmlStringBuilder.Step identStep, String newRootName, UnaryOperator<String> base32encoder) {
+        return toXml(map, identStep, newRootName, ArrayTrue.ADD, base32encoder);
     }
 
     public static String toXml(
-            Map map, XmlStringBuilder.Step identStep, String newRootName, ArrayTrue arrayTrue) {
+            Map map, XmlStringBuilder.Step identStep, String newRootName, ArrayTrue arrayTrue, UnaryOperator<String> base32encoder) {
         final XmlStringBuilder builder;
         final Map localMap;
         if (map != null && map.containsKey(ENCODING)) {
@@ -1155,7 +1176,7 @@ public final class Xml {
             builder = new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), "");
             localMap = map;
         }
-        checkLocalMap(builder, localMap, newRootName, arrayTrue == ArrayTrue.ADD ? ARRAY_TRUE : "");
+        checkLocalMap(builder, localMap, newRootName, arrayTrue == ArrayTrue.ADD ? ARRAY_TRUE : "", base32encoder);
         return builder.toString();
     }
 
@@ -1163,7 +1184,8 @@ public final class Xml {
             final XmlStringBuilder builder,
             final Map localMap,
             final String newRootName,
-            final String arrayTrue) {
+            final String arrayTrue,
+            UnaryOperator<String> base32encoder) {
         final Map localMap2;
         if (localMap != null && localMap.containsKey(DOCTYPE_TEXT)) {
             localMap2 = (Map) ((LinkedHashMap) localMap).clone();
@@ -1180,7 +1202,7 @@ public final class Xml {
                 || XmlValue.getMapKey(localMap2).startsWith("-")
                 || XmlValue.getMapValue(localMap2) instanceof List) {
             if (ROOT.equals(XmlValue.getMapKey(localMap2))) {
-                writeArray((List) XmlValue.getMapValue(localMap2), builder, arrayTrue);
+                writeArray((List) XmlValue.getMapValue(localMap2), builder, arrayTrue, base32encoder);
             } else {
                 XmlObject.writeXml(
                         localMap2,
@@ -1189,7 +1211,8 @@ public final class Xml {
                         false,
                         new LinkedHashSet<>(),
                         false,
-                        arrayTrue);
+                        arrayTrue,
+                        base32encoder);
             }
         } else {
             XmlObject.writeXml(
@@ -1199,12 +1222,13 @@ public final class Xml {
                     false,
                     new LinkedHashSet<>(),
                     false,
-                    arrayTrue);
+                    arrayTrue,
+                    base32encoder);
         }
     }
 
     private static void writeArray(
-            final Collection collection, final XmlStringBuilder builder, final String arrayTrue) {
+            final Collection collection, final XmlStringBuilder builder, final String arrayTrue, UnaryOperator<String> base32encoder) {
         builder.append("<root");
         if (collection != null && collection.isEmpty()) {
             builder.append(" empty-array=\"true\"");
@@ -1214,7 +1238,7 @@ public final class Xml {
             builder.newLine();
         }
         XmlArray.writeXml(
-                collection, null, builder, false, new LinkedHashSet<>(), false, arrayTrue);
+                collection, null, builder, false, new LinkedHashSet<>(), false, arrayTrue, base32encoder);
         if (collection != null && !collection.isEmpty()) {
             builder.newLine();
         }
@@ -1262,7 +1286,7 @@ public final class Xml {
     }
 
     public static String toXml(Map map) {
-        return toXml(map, XmlStringBuilder.Step.TWO_SPACES, ROOT);
+        return toXml(map, XmlStringBuilder.Step.TWO_SPACES, ROOT, Base32::encode);
     }
 
     @SuppressWarnings("unchecked")
@@ -1314,7 +1338,8 @@ public final class Xml {
             final String source,
             final int[] sourceIndex,
             final Set<String> namespaces,
-            final FromType fromType) {
+            final FromType fromType,
+            UnaryOperator<String> base32encoder) {
         final Map<String, Object> map = new LinkedHashMap<>();
         map.putAll(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
@@ -1338,7 +1363,8 @@ public final class Xml {
                                 uniqueIds,
                                 currentNode,
                                 namespaces,
-                                fromType);
+                                fromType,
+                                base32encoder);
             } else {
                 if (COMMENT.equals(name)) {
                     sourceIndex[0] = source.indexOf("-->", sourceIndex[0]) + 3;
@@ -1361,7 +1387,8 @@ public final class Xml {
                         nodeMapper,
                         uniqueIds,
                         namespaces,
-                        fromType);
+                        fromType,
+                        base32encoder);
             } else {
                 addNodeValue(
                         map,
@@ -1371,7 +1398,8 @@ public final class Xml {
                         nodeMapper,
                         uniqueIds,
                         namespaces,
-                        fromType);
+                        fromType,
+                        base32encoder);
             }
         }
         return checkNumberAndBoolean(map, node.getNodeName());
@@ -1471,7 +1499,8 @@ public final class Xml {
             final int[] uniqueIds,
             final org.w3c.dom.Node currentNode,
             final Set<String> namespaces,
-            final FromType fromType) {
+            final FromType fromType,
+            UnaryOperator<String> base32encoder) {
         final Map<String, Object> attrMapLocal = new LinkedHashMap<>();
         if (currentNode.getAttributes().getLength() > 0) {
             final Map<String, String> attributes =
@@ -1490,7 +1519,8 @@ public final class Xml {
                         nodeMapper,
                         uniqueIds,
                         namespaces,
-                        fromType);
+                        fromType,
+                        base32encoder);
             }
         }
         if (getAttributes(sourceIndex[0], source).endsWith("/")
@@ -1511,7 +1541,8 @@ public final class Xml {
                 source,
                 sourceIndex,
                 namespaces,
-                fromType);
+                fromType,
+                base32encoder);
     }
 
     static Map<String, String> parseAttributes(final String source) {
@@ -1558,7 +1589,7 @@ public final class Xml {
         return "";
     }
 
-    private static String unescapeName(final String name) {
+    private static String unescapeName(final String name, UnaryOperator<String> base32decoder) {
         if (name == null) {
             return null;
         }
@@ -1589,7 +1620,7 @@ public final class Xml {
                             underlineCount += 1;
                             if (underlineCount == 2) {
                                 try {
-                                    result.append(Base32.decode(nameToDecode.toString()));
+                                    result.append(base32decoder.apply(nameToDecode.toString()));
                                 } catch (Base32.DecodingException ex) {
                                     result.append("__").append(nameToDecode).append(lastChars);
                                 }
@@ -1622,8 +1653,9 @@ public final class Xml {
             final Function<Object, Object> nodeMapper,
             final int[] uniqueIds,
             final Set<String> namespaces,
-            final FromType fromType) {
-        final String elementName = unescapeName(elementMapper.apply(name, namespaces));
+            final FromType fromType,
+            UnaryOperator<String> base32decoder) {
+        final String elementName = unescapeName(elementMapper.apply(name, namespaces), base32decoder);
         if (map.containsKey(elementName)) {
             if (TEXT.equals(elementName)) {
                 map.put(
@@ -1711,7 +1743,8 @@ public final class Xml {
                             xml,
                             new int[] {0},
                             new LinkedHashSet<>(),
-                            fromType);
+                            fromType,
+                            Base32::decode);
             if (checkResult(xml, document, result, fromType)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
             }
@@ -1847,7 +1880,8 @@ public final class Xml {
                             xml,
                             new int[] {0},
                             new LinkedHashSet<>(),
-                            FromType.FOR_CONVERT);
+                            FromType.FOR_CONVERT,
+                            Base32::encode);
             if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
             }
@@ -1871,7 +1905,8 @@ public final class Xml {
                             xml,
                             new int[] {0},
                             new LinkedHashSet<>(),
-                            FromType.FOR_CONVERT);
+                            FromType.FOR_CONVERT,
+                            Base32::encode);
             if (checkResult(xml, document, result, FromType.FOR_CONVERT)) {
                 return ((Map.Entry) ((Map) result).entrySet().iterator().next()).getValue();
             }
@@ -1932,7 +1967,7 @@ public final class Xml {
 
     public static String formatXml(String xml, XmlStringBuilder.Step identStep) {
         Object result = fromXml(xml, FromType.FOR_FORMAT);
-        return toXml((Map) result, identStep, ROOT);
+        return toXml((Map) result, identStep, ROOT, Base32::encode);
     }
 
     public static String formatXml(String xml) {
@@ -1945,7 +1980,7 @@ public final class Xml {
         Object result = fromXml(xml, FromType.FOR_FORMAT);
         if (result instanceof Map) {
             ((Map) result).put(ENCODING, encoding);
-            return toXml((Map) result, identStep, ROOT);
+            return toXml((Map) result, identStep, ROOT, Base32::encode);
         }
         return xml;
     }

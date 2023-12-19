@@ -2629,33 +2629,35 @@ public class U<T> extends Underscore<T> {
         final String result;
         if (object instanceof Map) {
             if (mode == JsonToXmlMode.FORCE_ATTRIBUTE_USAGE) {
-                result = Xml.toXml(forceAttributeUsage((Map) object), identStep, newRootName);
+                result = Xml.toXml(forceAttributeUsage((Map) object), identStep, newRootName, Base32::encode);
             } else if (mode == JsonToXmlMode.DEFINE_ROOT_NAME) {
-                result = Xml.toXml((Map) object, identStep, newRootName);
+                result = Xml.toXml((Map) object, identStep, newRootName, Base32::encode);
             } else if (mode == JsonToXmlMode.REPLACE_NULL_WITH_EMPTY_VALUE) {
-                result = Xml.toXml(replaceNullWithEmptyValue((Map) object), identStep, newRootName);
+                result = Xml.toXml(replaceNullWithEmptyValue((Map) object), identStep, newRootName, Base32::encode);
             } else if (mode == JsonToXmlMode.REPLACE_EMPTY_STRING_WITH_EMPTY_VALUE) {
                 result =
                         Xml.toXml(
                                 replaceEmptyStringWithEmptyValue((Map) object),
                                 identStep,
-                                newRootName);
+                                newRootName,
+                                Base32::encode);
             } else if (mode == JsonToXmlMode.ADD_ROOT
                     && !Xml.XmlValue.getMapKey(object).equals(ROOT)) {
                 final Map<String, Object> map = new LinkedHashMap<>();
                 map.put(newRootName, object);
-                result = Xml.toXml(map, identStep);
+                result = Xml.toXml(map, identStep, Base32::encode);
             } else if (mode == JsonToXmlMode.REMOVE_ARRAY_ATTRIBUTE) {
-                result = Xml.toXml((Map) object, identStep, newRootName, Xml.ArrayTrue.SKIP);
+                result = Xml.toXml((Map) object, identStep, newRootName, Xml.ArrayTrue.SKIP, Base32::encode);
             } else if (mode == JsonToXmlMode.REMOVE_ATTRIBUTES) {
                 result =
                         Xml.toXml(
                                 replaceNumberAndBooleanWithString((Map) object),
                                 identStep,
                                 newRootName,
-                                Xml.ArrayTrue.SKIP);
+                                Xml.ArrayTrue.SKIP,
+                                Base32::encode);
             } else {
-                result = Xml.toXml((Map) object, identStep);
+                result = Xml.toXml((Map) object, identStep, Base32::encode);
             }
             return result;
         }
@@ -2783,7 +2785,7 @@ public class U<T> extends Underscore<T> {
     private static String getXmlString(Xml.XmlStringBuilder.Step identStep, Object object) {
         final String result;
         if (object instanceof Map) {
-            result = Xml.toXml((Map) object, identStep);
+            result = Xml.toXml((Map) object, identStep, Base32::encode);
         } else {
             result = Xml.toXml((List) object, identStep);
         }
