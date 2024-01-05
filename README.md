@@ -22,7 +22,7 @@ underscore-java
 [![Hits-of-Code](https://hitsofcode.com/github/javadev/underscore-java?branch=main)](https://hitsofcode.com/github/javadev/underscore-java/view?branch=main)
 [![codebeat badge](https://codebeat.co/badges/3c32993b-056e-4e34-a4b6-7e7792c6c123)](https://codebeat.co/projects/github-com-javadev-underscore-java-main)
 ![Java Version](https://img.shields.io/badge/java-%3E%3D%2011-success)
-[![](https://img.shields.io/github/forks/javadev/underscore-java)](https://github.com/javadev/underscore-java/fork)
+[![](https://img.shields.io/github/forks/javadev/underscore-java?style=flat-square)](https://github.com/javadev/underscore-java/fork)
 
 [![Join the chat at https://gitter.im/javadev/underscore-java](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/javadev/underscore-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
