@@ -384,8 +384,7 @@ class ArraysTest {
         assertEquals("[a, b]", new Underscore<>(singletonList("a, b")).interpose(null).toString());
         assertEquals("[a]", Underscore.chain(singletonList("a")).interpose("interpose").toString());
         assertEquals(
-                "[]",
-                Underscore.chain(new ArrayList<Object>()).interpose("interpose").toString());
+                "[]", Underscore.chain(new ArrayList<Object>()).interpose("interpose").toString());
         assertEquals(
                 "[a, b, c]", Underscore.chain(asList("a", "b", "c")).interpose(null).toString());
         assertEquals(

@@ -3499,7 +3499,7 @@ public class U<T> extends Underscore<T> {
         if (properties != null && !properties.isEmpty()) {
             Enumeration<?> enumProperties = properties.propertyNames();
             while (enumProperties.hasMoreElements()) {
-                String name = (String)enumProperties.nextElement();
+                String name = (String) enumProperties.nextElement();
                 map.put(name, properties.getProperty(name));
             }
         }
@@ -3507,7 +3507,7 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Properties mapToProperties(Map<String, Object> map) {
-        Properties  properties = new Properties();
+        Properties properties = new Properties();
         if (map != null) {
             for (final Map.Entry<String, Object> entry : map.entrySet()) {
                 if (!isNull(entry.getValue())) {

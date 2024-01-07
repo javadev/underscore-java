@@ -1688,8 +1688,7 @@ class CollectionsTest {
         assertEquals(
                 "{a=2, b=1, c=2}",
                 new Underscore<>(asList("a", "a", "b", "c", "c")).toCardinalityMap().toString());
-        assertEquals(
-                "{}", new Underscore<>(new ArrayList<Object>()).toCardinalityMap().toString());
+        assertEquals("{}", new Underscore<>(new ArrayList<Object>()).toCardinalityMap().toString());
     }
 
     /*
