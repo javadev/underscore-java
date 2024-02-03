@@ -1029,7 +1029,7 @@ public final class Xml {
                     case '\t':
                         sb.append("\t");
                         break;
-                    case '€':
+                    case '\u20AC':
                         sb.append("€");
                         break;
                     default:

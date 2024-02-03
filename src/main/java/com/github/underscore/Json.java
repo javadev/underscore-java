@@ -404,8 +404,8 @@ public final class Json {
                     case '\t':
                         sb.append("\\t");
                         break;
-                    case '€':
-                        sb.append('€');
+                    case '\u20AC':
+                        sb.append('\u20AC');
                         break;
                     default:
                         if (ch <= '\u001F'
