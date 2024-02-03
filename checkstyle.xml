@@ -112,7 +112,7 @@
 -->
         <module name="AbbreviationAsWordInName">
             <property name="ignoreFinal" value="false"/>
-            <property name="allowedAbbreviationLength" value="1"/>
+            <property name="allowedAbbreviationLength" value="4"/>
         </module>
 <!--
         <module name="OverloadMethodsDeclarationOrder"/>

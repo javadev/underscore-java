@@ -38,6 +38,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/** The type Xml. */
 @SuppressWarnings({"java:S107", "java:S1119", "java:S3740", "java:S3776", "java:S4276"})
 public final class Xml {
     private Xml() {}
@@ -83,17 +84,27 @@ public final class Xml {
         XML_UNESCAPE.put("&apos;", "'");
     }
 
+    /** The enum Array true. */
     public enum ArrayTrue {
+        /** Add array true. */
         ADD,
+        /** Skip array true. */
         SKIP
     }
 
+    /** The type Xml string builder. */
     public static class XmlStringBuilder {
+        /** The enum Step. */
         public enum Step {
+            /** Two spaces step. */
             TWO_SPACES(2),
+            /** Three spaces step. */
             THREE_SPACES(3),
+            /** Four spaces step. */
             FOUR_SPACES(4),
+            /** Compact step. */
             COMPACT(0),
+            /** Tabs step. */
             TABS(1);
             private int ident;
 
@@ -101,48 +112,89 @@ public final class Xml {
                 this.ident = ident;
             }
 
+            /**
+             * Gets ident.
+             *
+             * @return the ident
+             */
             public int getIdent() {
                 return ident;
             }
         }
 
+        /** The Builder. */
         protected final StringBuilder builder;
+
         private final Step identStep;
         private int ident;
 
+        /** Instantiates a new Xml string builder. */
         public XmlStringBuilder() {
             builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
             identStep = Step.TWO_SPACES;
             ident = 2;
         }
 
+        /**
+         * Instantiates a new Xml string builder.
+         *
+         * @param builder the builder
+         * @param identStep the ident step
+         * @param ident the ident
+         */
         public XmlStringBuilder(StringBuilder builder, Step identStep, int ident) {
             this.builder = builder;
             this.identStep = identStep;
             this.ident = ident;
         }
 
+        /**
+         * Append xml string builder.
+         *
+         * @param string the string
+         * @return the xml string builder
+         */
         public XmlStringBuilder append(final String string) {
             builder.append(string);
             return this;
         }
 
+        /**
+         * Fill spaces xml string builder.
+         *
+         * @return the xml string builder
+         */
         public XmlStringBuilder fillSpaces() {
             builder.append(
                     String.valueOf(identStep == Step.TABS ? '\t' : ' ').repeat(Math.max(0, ident)));
             return this;
         }
 
+        /**
+         * Inc ident xml string builder.
+         *
+         * @return the xml string builder
+         */
         public XmlStringBuilder incIdent() {
             ident += identStep.getIdent();
             return this;
         }
 
+        /**
+         * Dec ident xml string builder.
+         *
+         * @return the xml string builder
+         */
         public XmlStringBuilder decIdent() {
             ident -= identStep.getIdent();
             return this;
         }
 
+        /**
+         * New line xml string builder.
+         *
+         * @return the xml string builder
+         */
         public XmlStringBuilder newLine() {
             if (identStep != Step.COMPACT) {
                 builder.append("\n");
@@ -150,10 +202,20 @@ public final class Xml {
             return this;
         }
 
+        /**
+         * Gets ident.
+         *
+         * @return the ident
+         */
         public int getIdent() {
             return ident;
         }
 
+        /**
+         * Gets ident step.
+         *
+         * @return the ident step
+         */
         public Step getIdentStep() {
             return identStep;
         }
@@ -163,7 +225,15 @@ public final class Xml {
         }
     }
 
+    /** The type Xml string builder without root. */
     public static class XmlStringBuilderWithoutRoot extends XmlStringBuilder {
+        /**
+         * Instantiates a new Xml string builder without root.
+         *
+         * @param identStep the ident step
+         * @param encoding the encoding
+         * @param standalone the standalone
+         */
         public XmlStringBuilderWithoutRoot(
                 XmlStringBuilder.Step identStep, String encoding, String standalone) {
             super(
@@ -184,7 +254,14 @@ public final class Xml {
         }
     }
 
+    /** The type Xml string builder without header. */
     public static class XmlStringBuilderWithoutHeader extends XmlStringBuilder {
+        /**
+         * Instantiates a new Xml string builder without header.
+         *
+         * @param identStep the ident step
+         * @param ident the ident
+         */
         public XmlStringBuilderWithoutHeader(XmlStringBuilder.Step identStep, int ident) {
             super(new StringBuilder(), identStep, ident);
         }
@@ -195,15 +272,34 @@ public final class Xml {
         }
     }
 
+    /** The type Xml string builder text. */
     public static class XmlStringBuilderText extends XmlStringBuilderWithoutHeader {
+        /**
+         * Instantiates a new Xml string builder text.
+         *
+         * @param identStep the ident step
+         * @param ident the ident
+         */
         public XmlStringBuilderText(XmlStringBuilder.Step identStep, int ident) {
             super(identStep, ident);
         }
     }
 
+    /** The type Xml array. */
     public static class XmlArray {
         private XmlArray() {}
 
+        /**
+         * Write xml.
+         *
+         * @param collection the collection
+         * @param name the name
+         * @param builder the builder
+         * @param parentTextFound the parent text found
+         * @param namespaces the namespaces
+         * @param addArray the add array
+         * @param arrayTrue the array true
+         */
         public static void writeXml(
                 Collection<?> collection,
                 String name,
@@ -299,6 +395,12 @@ public final class Xml {
             }
         }
 
+        /**
+         * Write xml.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeXml(byte[] array, XmlStringBuilder builder) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
@@ -316,6 +418,12 @@ public final class Xml {
             }
         }
 
+        /**
+         * Write xml.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeXml(short[] array, XmlStringBuilder builder) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
@@ -333,6 +441,12 @@ public final class Xml {
             }
         }
 
+        /**
+         * Write xml.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeXml(int[] array, XmlStringBuilder builder) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
@@ -350,6 +464,12 @@ public final class Xml {
             }
         }
 
+        /**
+         * Write xml.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeXml(long[] array, XmlStringBuilder builder) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
@@ -367,6 +487,12 @@ public final class Xml {
             }
         }
 
+        /**
+         * Write xml.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeXml(float[] array, XmlStringBuilder builder) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
@@ -384,6 +510,12 @@ public final class Xml {
             }
         }
 
+        /**
+         * Write xml.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeXml(double[] array, XmlStringBuilder builder) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
@@ -401,6 +533,12 @@ public final class Xml {
             }
         }
 
+        /**
+         * Write xml.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeXml(boolean[] array, XmlStringBuilder builder) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
@@ -418,6 +556,12 @@ public final class Xml {
             }
         }
 
+        /**
+         * Write xml.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeXml(char[] array, XmlStringBuilder builder) {
             if (array == null) {
                 builder.fillSpaces().append(NULL_ELEMENT);
@@ -435,6 +579,16 @@ public final class Xml {
             }
         }
 
+        /**
+         * Write xml.
+         *
+         * @param array the array
+         * @param name the name
+         * @param builder the builder
+         * @param parentTextFound the parent text found
+         * @param namespaces the namespaces
+         * @param arrayTrue the array true
+         */
         public static void writeXml(
                 Object[] array,
                 String name,
@@ -464,9 +618,21 @@ public final class Xml {
         }
     }
 
+    /** The type Xml object. */
     public static class XmlObject {
         private XmlObject() {}
 
+        /**
+         * Write xml.
+         *
+         * @param map the map
+         * @param name the name
+         * @param builder the builder
+         * @param parentTextFound the parent text found
+         * @param namespaces the namespaces
+         * @param addArray the add array
+         * @param arrayTrue the array true
+         */
         @SuppressWarnings("unchecked")
         public static void writeXml(
                 final Map map,
@@ -777,9 +943,21 @@ public final class Xml {
         }
     }
 
+    /** The type Xml value. */
     public static class XmlValue {
         private XmlValue() {}
 
+        /**
+         * Write xml.
+         *
+         * @param value the value
+         * @param name the name
+         * @param builder the builder
+         * @param parentTextFound the parent text found
+         * @param namespaces the namespaces
+         * @param addArray the add array
+         * @param arrayTrue the array true
+         */
         public static void writeXml(
                 Object value,
                 String name,
@@ -947,6 +1125,13 @@ public final class Xml {
             }
         }
 
+        /**
+         * Escape name string.
+         *
+         * @param name the name
+         * @param namespaces the namespaces
+         * @return the string
+         */
         public static String escapeName(String name, Set<String> namespaces) {
             final int length = name.length();
             if (length == 0) {
@@ -988,6 +1173,12 @@ public final class Xml {
             return result.toString();
         }
 
+        /**
+         * Escape string.
+         *
+         * @param s the s
+         * @return the string
+         */
         public static String escape(String s) {
             if (s == null) {
                 return "";
@@ -1048,6 +1239,12 @@ public final class Xml {
             }
         }
 
+        /**
+         * Unescape string.
+         *
+         * @param s the s
+         * @return the string
+         */
         public static String unescape(String s) {
             if (s == null) {
                 return "";
@@ -1096,6 +1293,12 @@ public final class Xml {
             return 0;
         }
 
+        /**
+         * Gets map key.
+         *
+         * @param map the map
+         * @return the map key
+         */
         public static String getMapKey(Object map) {
             return map instanceof Map && !((Map) map).isEmpty()
                     ? String.valueOf(
@@ -1103,6 +1306,12 @@ public final class Xml {
                     : "";
         }
 
+        /**
+         * Gets map value.
+         *
+         * @param map the map
+         * @return the map value
+         */
         public static Object getMapValue(Object map) {
             return map instanceof Map && !((Map) map).isEmpty()
                     ? ((Map.Entry) ((Map) map).entrySet().iterator().next()).getValue()
@@ -1110,6 +1319,13 @@ public final class Xml {
         }
     }
 
+    /**
+     * To xml string.
+     *
+     * @param collection the collection
+     * @param identStep the ident step
+     * @return the string
+     */
     public static String toXml(Collection collection, XmlStringBuilder.Step identStep) {
         final XmlStringBuilder builder =
                 new XmlStringBuilderWithoutRoot(identStep, UTF_8.name(), "");
@@ -1117,18 +1333,48 @@ public final class Xml {
         return builder.toString();
     }
 
+    /**
+     * To xml string.
+     *
+     * @param collection the collection
+     * @return the string
+     */
     public static String toXml(Collection collection) {
         return toXml(collection, XmlStringBuilder.Step.TWO_SPACES);
     }
 
+    /**
+     * To xml string.
+     *
+     * @param map the map
+     * @param identStep the ident step
+     * @return the string
+     */
     public static String toXml(Map map, XmlStringBuilder.Step identStep) {
         return toXml(map, identStep, ROOT, ArrayTrue.ADD);
     }
 
+    /**
+     * To xml string.
+     *
+     * @param map the map
+     * @param identStep the ident step
+     * @param newRootName the new root name
+     * @return the string
+     */
     public static String toXml(Map map, XmlStringBuilder.Step identStep, String newRootName) {
         return toXml(map, identStep, newRootName, ArrayTrue.ADD);
     }
 
+    /**
+     * To xml string.
+     *
+     * @param map the map
+     * @param identStep the ident step
+     * @param newRootName the new root name
+     * @param arrayTrue the array true
+     * @return the string
+     */
     public static String toXml(
             Map map, XmlStringBuilder.Step identStep, String newRootName, ArrayTrue arrayTrue) {
         final XmlStringBuilder builder;
@@ -1261,6 +1507,12 @@ public final class Xml {
         return foundAttrs == 0 && foundElements == 1 && foundListElements == 0 ? null : newRootName;
     }
 
+    /**
+     * To xml string.
+     *
+     * @param map the map
+     * @return the string
+     */
     public static String toXml(Map map) {
         return toXml(map, XmlStringBuilder.Step.TWO_SPACES, ROOT);
     }
@@ -1285,6 +1537,12 @@ public final class Xml {
                 : localValue;
     }
 
+    /**
+     * String to number object.
+     *
+     * @param number the number
+     * @return the object
+     */
     public static Object stringToNumber(String number) {
         final Object localValue;
         if (number.contains(".") || number.contains("e") || number.contains("E")) {
@@ -1514,6 +1772,12 @@ public final class Xml {
                 fromType);
     }
 
+    /**
+     * Parse attributes map.
+     *
+     * @param source the source
+     * @return the map
+     */
     static Map<String, String> parseAttributes(final String source) {
         final Map<String, String> result = new LinkedHashMap<>();
         final StringBuilder key = new StringBuilder();
@@ -1544,6 +1808,13 @@ public final class Xml {
         return result;
     }
 
+    /**
+     * Gets attributes.
+     *
+     * @param sourceIndex the source index
+     * @param source the source
+     * @return the attributes
+     */
     static String getAttributes(final int sourceIndex, final String source) {
         boolean scanQuote = false;
         for (int index = sourceIndex; index < source.length(); index += 1) {
@@ -1686,15 +1957,31 @@ public final class Xml {
         }
     }
 
+    /**
+     * From xml object.
+     *
+     * @param xml the xml
+     * @return the object
+     */
     public static Object fromXml(final String xml) {
         return fromXml(xml, FromType.FOR_CONVERT);
     }
 
+    /** The enum From type. */
     public enum FromType {
+        /** For convert from type. */
         FOR_CONVERT,
+        /** For format from type. */
         FOR_FORMAT
     }
 
+    /**
+     * From xml object.
+     *
+     * @param xml the xml
+     * @param fromType the from type
+     * @return the object
+     */
     public static Object fromXml(final String xml, final FromType fromType) {
         if (xml == null) {
             return null;
@@ -1766,6 +2053,12 @@ public final class Xml {
         return result;
     }
 
+    /**
+     * Gets doctype value.
+     *
+     * @param xml the xml
+     * @return the doctype value
+     */
     protected static String getDoctypeValue(final String xml) {
         int startIndex = xml.indexOf(DOCTYPE_HEADER) + DOCTYPE_HEADER.length();
         char charToFind = '>';
@@ -1789,9 +2082,19 @@ public final class Xml {
         }
     }
 
+    /** The type Document. */
     protected static class Document {
         private Document() {}
 
+        /**
+         * Create document org . w 3 c . dom . document.
+         *
+         * @param xml the xml
+         * @return the org . w 3 c . dom . document
+         * @throws java.io.IOException the io exception
+         * @throws javax.xml.parsers.ParserConfigurationException the parser configuration exception
+         * @throws org.xml.sax.SAXException the sax exception
+         */
         public static org.w3c.dom.Document createDocument(final String xml)
                 throws java.io.IOException, javax.xml.parsers.ParserConfigurationException,
                         org.xml.sax.SAXException {
@@ -1831,6 +2134,12 @@ public final class Xml {
         }
     }
 
+    /**
+     * From xml make arrays object.
+     *
+     * @param xml the xml
+     * @return the object
+     */
     public static Object fromXmlMakeArrays(final String xml) {
         try {
             org.w3c.dom.Document document = Document.createDocument(xml);
@@ -1857,6 +2166,13 @@ public final class Xml {
         }
     }
 
+    /**
+     * From xml with element mapper object.
+     *
+     * @param xml the xml
+     * @param elementMapper the element mapper
+     * @return the object
+     */
     public static Object fromXmlWithElementMapper(
             final String xml, final BiFunction<Object, Set<String>, String> elementMapper) {
         try {
@@ -1881,6 +2197,12 @@ public final class Xml {
         }
     }
 
+    /**
+     * From xml without namespaces object.
+     *
+     * @param xml the xml
+     * @return the object
+     */
     public static Object fromXmlWithoutNamespaces(final String xml) {
         return fromXmlWithElementMapper(
                 xml,
@@ -1905,6 +2227,12 @@ public final class Xml {
                 });
     }
 
+    /**
+     * From xml without attributes object.
+     *
+     * @param xml the xml
+     * @return the object
+     */
     public static Object fromXmlWithoutAttributes(final String xml) {
         return fromXmlWithElementMapper(
                 xml,
@@ -1912,6 +2240,12 @@ public final class Xml {
                         String.valueOf(object).startsWith("-") ? null : String.valueOf(object));
     }
 
+    /**
+     * From xml without namespaces and attributes object.
+     *
+     * @param xml the xml
+     * @return the object
+     */
     public static Object fromXmlWithoutNamespacesAndAttributes(final String xml) {
         return fromXmlWithElementMapper(
                 xml,
@@ -1930,15 +2264,36 @@ public final class Xml {
                 });
     }
 
+    /**
+     * Format xml string.
+     *
+     * @param xml the xml
+     * @param identStep the ident step
+     * @return the string
+     */
     public static String formatXml(String xml, XmlStringBuilder.Step identStep) {
         Object result = fromXml(xml, FromType.FOR_FORMAT);
         return toXml((Map) result, identStep, ROOT);
     }
 
+    /**
+     * Format xml string.
+     *
+     * @param xml the xml
+     * @return the string
+     */
     public static String formatXml(String xml) {
         return formatXml(xml, XmlStringBuilder.Step.TWO_SPACES);
     }
 
+    /**
+     * Change xml encoding string.
+     *
+     * @param xml the xml
+     * @param identStep the ident step
+     * @param encoding the encoding
+     * @return the string
+     */
     @SuppressWarnings("unchecked")
     public static String changeXmlEncoding(
             String xml, XmlStringBuilder.Step identStep, String encoding) {
@@ -1950,6 +2305,13 @@ public final class Xml {
         return xml;
     }
 
+    /**
+     * Change xml encoding string.
+     *
+     * @param xml the xml
+     * @param encoding the encoding
+     * @return the string
+     */
     public static String changeXmlEncoding(String xml, String encoding) {
         return changeXmlEncoding(xml, XmlStringBuilder.Step.TWO_SPACES, encoding);
     }

@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/** The type Json. */
 @SuppressWarnings({"java:S3740", "java:S3776"})
 public final class Json {
     private Json() {}
@@ -37,12 +38,19 @@ public final class Json {
     private static final String NULL = "null";
     private static final String DIGIT = "digit";
 
+    /** The type Json string builder. */
     public static class JsonStringBuilder {
+        /** The enum Step. */
         public enum Step {
+            /** Two spaces step. */
             TWO_SPACES(2),
+            /** Three spaces step. */
             THREE_SPACES(3),
+            /** Four spaces step. */
             FOUR_SPACES(4),
+            /** Compact step. */
             COMPACT(0),
+            /** Tabs step. */
             TABS(1);
             private final int indent;
 
@@ -50,6 +58,11 @@ public final class Json {
                 this.indent = indent;
             }
 
+            /**
+             * Gets indent.
+             *
+             * @return the indent
+             */
             public int getIndent() {
                 return indent;
             }
@@ -59,26 +72,49 @@ public final class Json {
         private final Step identStep;
         private int indent;
 
+        /**
+         * Instantiates a new Json string builder.
+         *
+         * @param identStep the ident step
+         */
         public JsonStringBuilder(Step identStep) {
             builder = new StringBuilder();
             this.identStep = identStep;
         }
 
+        /** Instantiates a new Json string builder. */
         public JsonStringBuilder() {
             builder = new StringBuilder();
             this.identStep = Step.TWO_SPACES;
         }
 
+        /**
+         * Append json string builder.
+         *
+         * @param character the character
+         * @return the json string builder
+         */
         public JsonStringBuilder append(final char character) {
             builder.append(character);
             return this;
         }
 
+        /**
+         * Append json string builder.
+         *
+         * @param string the string
+         * @return the json string builder
+         */
         public JsonStringBuilder append(final String string) {
             builder.append(string);
             return this;
         }
 
+        /**
+         * Fill spaces json string builder.
+         *
+         * @return the json string builder
+         */
         public JsonStringBuilder fillSpaces() {
             for (int index = 0; index < indent; index += 1) {
                 builder.append(identStep == Step.TABS ? '\t' : ' ');
@@ -86,16 +122,31 @@ public final class Json {
             return this;
         }
 
+        /**
+         * Inc indent json string builder.
+         *
+         * @return the json string builder
+         */
         public JsonStringBuilder incIndent() {
             indent += identStep.getIndent();
             return this;
         }
 
+        /**
+         * Dec indent json string builder.
+         *
+         * @return the json string builder
+         */
         public JsonStringBuilder decIndent() {
             indent -= identStep.getIndent();
             return this;
         }
 
+        /**
+         * New line json string builder.
+         *
+         * @return the json string builder
+         */
         public JsonStringBuilder newLine() {
             if (identStep != Step.COMPACT) {
                 builder.append('\n');
@@ -103,6 +154,11 @@ public final class Json {
             return this;
         }
 
+        /**
+         * Gets ident step.
+         *
+         * @return the ident step
+         */
         public Step getIdentStep() {
             return identStep;
         }
@@ -112,9 +168,16 @@ public final class Json {
         }
     }
 
+    /** The type Json array. */
     public static class JsonArray {
         private JsonArray() {}
 
+        /**
+         * Write json.
+         *
+         * @param collection the collection
+         * @param builder the builder
+         */
         public static void writeJson(Collection collection, JsonStringBuilder builder) {
             if (collection == null) {
                 builder.append(NULL);
@@ -136,6 +199,12 @@ public final class Json {
             builder.newLine().decIndent().fillSpaces().append(']');
         }
 
+        /**
+         * Write json.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeJson(byte[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
@@ -152,6 +221,12 @@ public final class Json {
             }
         }
 
+        /**
+         * Write json.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeJson(short[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
@@ -168,6 +243,12 @@ public final class Json {
             }
         }
 
+        /**
+         * Write json.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeJson(int[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
@@ -184,6 +265,12 @@ public final class Json {
             }
         }
 
+        /**
+         * Write json.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeJson(long[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
@@ -200,6 +287,12 @@ public final class Json {
             }
         }
 
+        /**
+         * Write json.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeJson(float[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
@@ -216,6 +309,12 @@ public final class Json {
             }
         }
 
+        /**
+         * Write json.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeJson(double[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
@@ -232,6 +331,12 @@ public final class Json {
             }
         }
 
+        /**
+         * Write json.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeJson(boolean[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
@@ -248,6 +353,12 @@ public final class Json {
             }
         }
 
+        /**
+         * Write json.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeJson(char[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
@@ -264,6 +375,12 @@ public final class Json {
             }
         }
 
+        /**
+         * Write json.
+         *
+         * @param array the array
+         * @param builder the builder
+         */
         public static void writeJson(Object[] array, JsonStringBuilder builder) {
             if (array == null) {
                 builder.append(NULL);
@@ -281,9 +398,16 @@ public final class Json {
         }
     }
 
+    /** The type Json object. */
     public static class JsonObject {
         private JsonObject() {}
 
+        /**
+         * Write json.
+         *
+         * @param map the map
+         * @param builder the builder
+         */
         public static void writeJson(Map map, JsonStringBuilder builder) {
             if (map == null) {
                 builder.append(NULL);
@@ -312,9 +436,16 @@ public final class Json {
         }
     }
 
+    /** The type Json value. */
     public static class JsonValue {
         private JsonValue() {}
 
+        /**
+         * Write json.
+         *
+         * @param value the value
+         * @param builder the builder
+         */
         public static void writeJson(Object value, JsonStringBuilder builder) {
             if (value == null) {
                 builder.append(NULL);
@@ -369,6 +500,12 @@ public final class Json {
             }
         }
 
+        /**
+         * Escape string.
+         *
+         * @param s the s
+         * @return the string
+         */
         public static String escape(String s) {
             if (s == null) {
                 return null;
@@ -426,11 +563,23 @@ public final class Json {
         }
     }
 
+    /** The type Parse exception. */
     public static class ParseException extends RuntimeException {
+        /** offset */
         private final int offset;
+        /** line */
         private final int line;
+        /** column */
         private final int column;
 
+        /**
+         * Instantiates a new Parse exception.
+         *
+         * @param message the message
+         * @param offset the offset
+         * @param line the line
+         * @param column the column
+         */
         public ParseException(String message, int offset, int line, int column) {
             super(String.format("%s at %d:%d", message, line, column));
             this.offset = offset;
@@ -438,19 +587,35 @@ public final class Json {
             this.column = column;
         }
 
+        /**
+         * Gets offset.
+         *
+         * @return the offset
+         */
         public int getOffset() {
             return offset;
         }
 
+        /**
+         * Gets line.
+         *
+         * @return the line
+         */
         public int getLine() {
             return line;
         }
 
+        /**
+         * Gets column.
+         *
+         * @return the column
+         */
         public int getColumn() {
             return column;
         }
     }
 
+    /** The type Json parser. */
     public static class JsonParser {
         private final String json;
         private int index;
@@ -460,12 +625,22 @@ public final class Json {
         private StringBuilder captureBuffer;
         private int captureStart;
 
+        /**
+         * Instantiates a new Json parser.
+         *
+         * @param string the string
+         */
         public JsonParser(String string) {
             this.json = string;
             line = 1;
             captureStart = -1;
         }
 
+        /**
+         * Parse object.
+         *
+         * @return the object
+         */
         public Object parse() {
             read();
             skipWhiteSpace();
@@ -813,30 +988,69 @@ public final class Json {
         }
     }
 
+    /**
+     * To json string.
+     *
+     * @param collection the collection
+     * @param identStep the ident step
+     * @return the string
+     */
     public static String toJson(Collection collection, JsonStringBuilder.Step identStep) {
         final JsonStringBuilder builder = new JsonStringBuilder(identStep);
         JsonArray.writeJson(collection, builder);
         return builder.toString();
     }
 
+    /**
+     * To json string.
+     *
+     * @param collection the collection
+     * @return the string
+     */
     public static String toJson(Collection collection) {
         return toJson(collection, JsonStringBuilder.Step.TWO_SPACES);
     }
 
+    /**
+     * To json string.
+     *
+     * @param map the map
+     * @param identStep the ident step
+     * @return the string
+     */
     public static String toJson(Map map, JsonStringBuilder.Step identStep) {
         final JsonStringBuilder builder = new JsonStringBuilder(identStep);
         JsonObject.writeJson(map, builder);
         return builder.toString();
     }
 
+    /**
+     * To json string.
+     *
+     * @param map the map
+     * @return the string
+     */
     public static String toJson(Map map) {
         return toJson(map, JsonStringBuilder.Step.TWO_SPACES);
     }
 
+    /**
+     * From json object.
+     *
+     * @param string the string
+     * @return the object
+     */
     public static Object fromJson(String string) {
         return new JsonParser(string).parse();
     }
 
+    /**
+     * Format json string.
+     *
+     * @param json the json
+     * @param identStep the ident step
+     * @return the string
+     */
     public static String formatJson(String json, JsonStringBuilder.Step identStep) {
         Object result = fromJson(json);
         if (result instanceof Map) {
@@ -845,6 +1059,12 @@ public final class Json {
         return toJson((List) result, identStep);
     }
 
+    /**
+     * Format json string.
+     *
+     * @param json the json
+     * @return the string
+     */
     public static String formatJson(String json) {
         return formatJson(json, JsonStringBuilder.Step.TWO_SPACES);
     }

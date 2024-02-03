@@ -27,6 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+/** The type Base 32. */
 public final class Base32 {
 
     private static final Base32 INSTANCE = new Base32();
@@ -46,6 +47,12 @@ public final class Base32 {
         }
     }
 
+    /**
+     * Decode string.
+     *
+     * @param encoded the encoded
+     * @return the string
+     */
     public static String decode(final String encoded) {
         return new String(INSTANCE.decodeInternal(encoded), StandardCharsets.UTF_8);
     }
@@ -75,6 +82,12 @@ public final class Base32 {
         return result;
     }
 
+    /**
+     * Encode string.
+     *
+     * @param data the data
+     * @return the string
+     */
     public static String encode(final String data) {
         return INSTANCE.encodeInternal(data.getBytes(StandardCharsets.UTF_8));
     }
@@ -109,8 +122,14 @@ public final class Base32 {
         return result.toString();
     }
 
+    /** The type Decoding exception. */
     public static class DecodingException extends RuntimeException {
 
+        /**
+         * Instantiates a new Decoding exception.
+         *
+         * @param message the message
+         */
         public DecodingException(final String message) {
             super(message);
         }
