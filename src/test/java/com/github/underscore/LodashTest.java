@@ -964,12 +964,18 @@ class LodashTest {
         assertEquals(
                 "{\n"
                         + "  \"a\": {\n"
-                        + "    \"@c\": \"1\"\n"
+                        + "    \"@c\": \"1\",\n"
+                        + "    \"b\": [\n"
+                        + "      {\n"
+                        + "      },\n"
+                        + "      {\n"
+                        + "      }\n"
+                        + "    ]\n"
                         + "  },\n"
                         + "  \"#omit-xml-declaration\": \"yes\"\n"
                         + "}",
                 U.xmlToJson(
-                        "<a c=\"1\"></a>", U.XmlToJsonMode.REPLACE_MINUS_WITH_AT));
+                        "<a c=\"1\"><b></b><b></b></a>", U.XmlToJsonMode.REPLACE_MINUS_WITH_AT));
         Map<String, Object> map3 = new LinkedHashMap<>();
         List<Object> list2 = new ArrayList<>();
         list2.add(new ArrayList<Object>());
