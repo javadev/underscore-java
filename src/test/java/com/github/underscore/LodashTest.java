@@ -955,6 +955,30 @@ class LodashTest {
     }
 
     @Test
+    void xmpToJson3() {
+        Map<String, Object> map2 = new LinkedHashMap<>();
+        List<Object> list = new ArrayList<>();
+        list.add(new ArrayList<Object>());
+        map2.put("list", list);
+        U.replaceMinusWithAt(map2);
+        assertEquals(
+                "{\n"
+                        + "  \"a\": {\n"
+                        + "    \"@c\": \"1\"\n"
+                        + "  },\n"
+                        + "  \"#omit-xml-declaration\": \"yes\"\n"
+                        + "}",
+                U.xmlToJson(
+                        "<a c=\"1\"></a>", U.XmlToJsonMode.REPLACE_MINUS_WITH_AT));
+        Map<String, Object> map3 = new LinkedHashMap<>();
+        List<Object> list2 = new ArrayList<>();
+        list2.add(new ArrayList<Object>());
+        map3.put("list", list2);
+        U.replaceMinusWithAt(map3);
+        U.replaceMinusWithAt(null);
+    }
+
+    @Test
     void xmlToJson2() {
         assertEquals(
                 "{\n" + "  \"debug\": \"&amp;\"\n" + "}",

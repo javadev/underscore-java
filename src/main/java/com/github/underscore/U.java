@@ -140,7 +140,8 @@ public class U<T> extends Underscore<T> {
         REPLACE_EMPTY_TAG_WITH_NULL,
         REPLACE_EMPTY_TAG_WITH_STRING,
         REMOVE_FIRST_LEVEL,
-        WITHOUT_NAMESPACES
+        WITHOUT_NAMESPACES,
+        REPLACE_MINUS_WITH_AT
     }
 
     public enum JsonToXmlMode {
@@ -2698,6 +2699,8 @@ public class U<T> extends Underscore<T> {
                 result = Json.toJson(replaceSelfClosingWithEmpty((Map) object), identStep);
             } else if (mode == XmlToJsonMode.REPLACE_EMPTY_VALUE_WITH_NULL) {
                 result = Json.toJson(replaceEmptyValueWithNull((Map) object), identStep);
+            } else if (mode == XmlToJsonMode.REPLACE_MINUS_WITH_AT) {
+                result = Json.toJson(replaceMinusWithAt((Map) object), identStep);
             } else if (mode == XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_NULL) {
                 result =
                         Json.toJson(
@@ -2968,6 +2971,36 @@ public class U<T> extends Underscore<T> {
             result = values;
         } else if (value instanceof Map) {
             result = replaceSelfClosingWithValue((Map) value, newValue);
+        } else {
+            result = value;
+        }
+        return result;
+    }
+
+    public static Map<String, Object> replaceMinusWithAt(Map<String, Object> map) {
+        if (map == null) {
+            return null;
+        }
+        Map<String, Object> outMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            outMap.put(String.valueOf(entry.getKey()).startsWith("-")
+                    ? "@" + String.valueOf(entry.getKey()).substring(1)
+                    : String.valueOf(entry.getKey()), replaceMinusWithAtValue(entry.getValue()));
+        }
+        return outMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object replaceMinusWithAtValue(Object value) {
+        final Object result;
+        if (value instanceof List) {
+            List<Object> values = new ArrayList<>();
+            for (Object item : (List) value) {
+                values.add(item instanceof Map ? replaceMinusWithAt((Map) item) : item);
+            }
+            result = values;
+        } else if (value instanceof Map) {
+            result = replaceMinusWithAt((Map) value);
         } else {
             result = value;
         }
