@@ -2983,9 +2983,11 @@ public class U<T> extends Underscore<T> {
         }
         Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            outMap.put(String.valueOf(entry.getKey()).startsWith("-")
-                    ? "@" + String.valueOf(entry.getKey()).substring(1)
-                    : String.valueOf(entry.getKey()), replaceMinusWithAtValue(entry.getValue()));
+            outMap.put(
+                    String.valueOf(entry.getKey()).startsWith("-")
+                            ? "@" + String.valueOf(entry.getKey()).substring(1)
+                            : String.valueOf(entry.getKey()),
+                    replaceMinusWithAtValue(entry.getValue()));
         }
         return outMap;
     }
