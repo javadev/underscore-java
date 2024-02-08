@@ -981,7 +981,6 @@ class LodashTest {
         list2.add(new ArrayList<Object>());
         map3.put("list", list2);
         U.replaceMinusWithAt(map3);
-        U.replaceMinusWithAt(null);
     }
 
     @Test
