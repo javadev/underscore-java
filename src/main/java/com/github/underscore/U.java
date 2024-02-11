@@ -141,7 +141,8 @@ public class U<T> extends Underscore<T> {
         REPLACE_EMPTY_TAG_WITH_STRING,
         REMOVE_FIRST_LEVEL,
         WITHOUT_NAMESPACES,
-        REPLACE_MINUS_WITH_AT
+        REPLACE_MINUS_WITH_AT,
+        REPLACE_EMPTY_TAG_WITH_NULL_AND_MINUS_WITH_AT
     }
 
     public enum JsonToXmlMode {
@@ -2701,6 +2702,13 @@ public class U<T> extends Underscore<T> {
                 result = Json.toJson(replaceEmptyValueWithNull((Map) object), identStep);
             } else if (mode == XmlToJsonMode.REPLACE_MINUS_WITH_AT) {
                 result = Json.toJson(replaceMinusWithAt((Map) object), identStep);
+            } else if (mode == XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_NULL_AND_MINUS_WITH_AT) {
+                result =
+                        Json.toJson(
+                                replaceMinusWithAt(
+                                        replaceEmptyValueWithNull(
+                                                replaceSelfClosingWithNull((Map) object))),
+                                identStep);
             } else if (mode == XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_NULL) {
                 result =
                         Json.toJson(
@@ -2978,6 +2986,9 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Map<String, Object> replaceMinusWithAt(Map<String, Object> map) {
+        if (map == null) {
+            return null;
+        }
         Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(

@@ -981,6 +981,10 @@ class LodashTest {
         list2.add(new ArrayList<Object>());
         map3.put("list", list2);
         U.replaceMinusWithAt(map3);
+        U.replaceMinusWithAt(null);
+        U.xmlToJson(
+                "<a c=\"1\"><b></b><b></b></a>",
+                U.XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_NULL_AND_MINUS_WITH_AT);
     }
 
     @Test
