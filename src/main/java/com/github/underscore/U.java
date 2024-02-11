@@ -2985,6 +2985,9 @@ public class U<T> extends Underscore<T> {
     }
 
     public static Map<String, Object> replaceMinusWithAt(Map<String, Object> map) {
+        if (map == null) {
+            return null;
+        }
         Map<String, Object> outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             outMap.put(
