@@ -983,7 +983,8 @@ class LodashTest {
         U.replaceMinusWithAt(map3);
         U.replaceMinusWithAt(null);
         U.xmlToJson(
-                "<a c=\"1\"><b></b><b></b></a>", U.XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_NULL_AND_MINUS_WITH_AT);
+                "<a c=\"1\"><b></b><b></b></a>",
+                U.XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_NULL_AND_MINUS_WITH_AT);
     }
 
     @Test

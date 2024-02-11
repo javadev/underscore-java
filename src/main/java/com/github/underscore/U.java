@@ -2707,7 +2707,8 @@ public class U<T> extends Underscore<T> {
                         Json.toJson(
                                 replaceMinusWithAt(
                                         replaceEmptyValueWithNull(
-                                                replaceSelfClosingWithNull((Map) object))), identStep);
+                                                replaceSelfClosingWithNull((Map) object))),
+                                identStep);
             } else if (mode == XmlToJsonMode.REPLACE_EMPTY_TAG_WITH_NULL) {
                 result =
                         Json.toJson(
