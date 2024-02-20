@@ -955,6 +955,14 @@ class LodashTest {
     }
 
     @Test
+    void xmlToJson2() {
+        assertEquals(
+                "{\n" + "  \"debug\": \"&amp;\"\n" + "}",
+                U.xmlToJson(
+                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<debug>&amp;amp;</debug>"));
+    }
+
+    @Test
     void xmpToJson3() {
         Map<String, Object> map2 = new LinkedHashMap<>();
         List<Object> list = new ArrayList<>();
@@ -988,11 +996,28 @@ class LodashTest {
     }
 
     @Test
-    void xmlToJson2() {
-        assertEquals(
-                "{\n" + "  \"debug\": \"&amp;\"\n" + "}",
-                U.xmlToJson(
-                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<debug>&amp;amp;</debug>"));
+    void xmpToJson4() {
+        assertEquals("{\n"
+                        + "  \"z:catalog\": {\n"
+                        + "    \"-xmlns:xsi\": \"http://www.w3.org/2001/XMLSchema-instance\",\n"
+                        + "    \"-xmlns:z\": \"www.microsoft.com/zzz\",\n"
+                        + "    \"book\": {\n"
+                        + "      \"-xsi:noNamespaceSchemaLocation\": \"http://www.example.com/MyData.xsd\",\n"
+                        + "      \"-id\": \"bk101\",\n"
+                        + "      \"title\": \"Presenting XML\",\n"
+                        + "      \"author\": \"Richard Light\"\n"
+                        + "    }\n"
+                        + "  },\n"
+                        + "  \"#omit-xml-declaration\": \"yes\"\n"
+                        + "}",
+                U.xmlToJson("<z:catalog xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                        + "xmlns:z=\"www.microsoft.com/zzz\">\n"
+                        + "   <book xsi:noNamespaceSchemaLocation=\"http://www.example.com/MyData.xsd\"\n"
+                        + "         id=\"bk101\">\n"
+                        + "      <title>Presenting XML</title>\n"
+                        + "      <author>Richard Light</author>\n"
+                        + "   </book>\n"
+                        + "</z:catalog>"));
     }
 
     @Test
