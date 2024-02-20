@@ -997,7 +997,8 @@ class LodashTest {
 
     @Test
     void xmpToJson4() {
-        assertEquals("{\n"
+        assertEquals(
+                "{\n"
                         + "  \"z:catalog\": {\n"
                         + "    \"-xmlns:xsi\": \"http://www.w3.org/2001/XMLSchema-instance\",\n"
                         + "    \"-xmlns:z\": \"www.microsoft.com/zzz\",\n"
@@ -1010,14 +1011,15 @@ class LodashTest {
                         + "  },\n"
                         + "  \"#omit-xml-declaration\": \"yes\"\n"
                         + "}",
-                U.xmlToJson("<z:catalog xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-                        + "xmlns:z=\"www.microsoft.com/zzz\">\n"
-                        + "   <book xsi:noNamespaceSchemaLocation=\"http://www.example.com/MyData.xsd\"\n"
-                        + "         id=\"bk101\">\n"
-                        + "      <title>Presenting XML</title>\n"
-                        + "      <author>Richard Light</author>\n"
-                        + "   </book>\n"
-                        + "</z:catalog>"));
+                U.xmlToJson(
+                        "<z:catalog xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                + "xmlns:z=\"www.microsoft.com/zzz\">\n"
+                                + "   <book xsi:noNamespaceSchemaLocation=\"http://www.example.com/MyData.xsd\"\n"
+                                + "         id=\"bk101\">\n"
+                                + "      <title>Presenting XML</title>\n"
+                                + "      <author>Richard Light</author>\n"
+                                + "   </book>\n"
+                                + "</z:catalog>"));
     }
 
     @Test
