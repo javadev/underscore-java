@@ -1014,7 +1014,7 @@ class LodashTest {
                 U.xmlToJson(
                         "<z:catalog xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
                                 + "xmlns:z=\"www.microsoft.com/zzz\">\n"
-                                + "   <book xsi:noNamespaceSchemaLocation=\"http://www.example.com/MyData.xsd\"\n"
+                                + "   <book xsi:noNamespaceSchemaLocation=\"http://www.example.com/MyData.xsd\"\r\n"
                                 + "         id=\"bk101\">\n"
                                 + "      <title>Presenting XML</title>\n"
                                 + "      <author>Richard Light</author>\n"

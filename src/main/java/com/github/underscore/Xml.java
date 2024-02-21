@@ -1533,7 +1533,8 @@ public final class Xml {
                     equalFound = false;
                 }
                 quoteFound = !quoteFound;
-            } else if (quoteFound || source.charAt(index) == ' ' || source.charAt(index) == '\n') {
+            } else if (quoteFound || source.charAt(index) == ' '
+                    || source.charAt(index) == '\n' || source.charAt(index) == '\r') {
                 if (quoteFound) {
                     value.append(source.charAt(index));
                 }
