@@ -72,6 +72,7 @@ public final class Xml {
     private static final String DOCTYPE_TEXT = "!DOCTYPE";
     private static final String ROOT = "root";
     private static final String DOCTYPE_HEADER = "<" + DOCTYPE_TEXT + " ";
+    private static final Set<Character> SKIPPED_CHARS = Set.of(' ', '\n', '\r');
     private static final Map<String, String> XML_UNESCAPE = new HashMap<>();
     private static final org.w3c.dom.Document DOCUMENT = Document.createDocument();
 
@@ -1533,7 +1534,7 @@ public final class Xml {
                     equalFound = false;
                 }
                 quoteFound = !quoteFound;
-            } else if (quoteFound || source.charAt(index) == ' ') {
+            } else if (quoteFound || SKIPPED_CHARS.contains(source.charAt(index))) {
                 if (quoteFound) {
                     value.append(source.charAt(index));
                 }
