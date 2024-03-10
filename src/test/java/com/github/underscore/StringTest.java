@@ -3503,6 +3503,7 @@ class StringTest {
         assertEquals("{value=[]}", U.fromJsonMap(stringJson).toString());
         String stringJson2 = "{}";
         assertEquals("{}", U.fromJsonMap(stringJson2).toString());
+        assertEquals("{}", U.fromJsonMap(stringJson2, 100).toString());
     }
 
     @Test
