@@ -2601,8 +2601,8 @@ public class U<T> extends Underscore<T> {
         return getStringObjectMap(object);
     }
 
-    public static Map<String, Object> fromJsonMap(final String string, final int depth) {
-        final Object object = Json.fromJson(string, depth);
+    public static Map<String, Object> fromJsonMap(final String string, final int maxDepth) {
+        final Object object = Json.fromJson(string, maxDepth);
         return getStringObjectMap(object);
     }
 
