@@ -32,6 +32,9 @@ import java.util.Map;
 
 @SuppressWarnings({"java:S3740", "java:S3776"})
 public final class Json {
+
+    private static final int MAX_DEPTH = 10_000;
+
     private Json() {}
 
     private static final String NULL = "null";
@@ -459,9 +462,11 @@ public final class Json {
         private int current;
         private StringBuilder captureBuffer;
         private int captureStart;
+        private final int maxDepth;
 
-        public JsonParser(String string) {
+        public JsonParser(String string, int maxDepth) {
             this.json = string;
+            this.maxDepth = maxDepth;
             line = 1;
             captureStart = -1;
         }
@@ -469,7 +474,7 @@ public final class Json {
         public Object parse() {
             read();
             skipWhiteSpace();
-            final Object result = readValue();
+            final Object result = readValue(0);
             skipWhiteSpace();
             if (!isEndOfText()) {
                 throw error("Unexpected character");
@@ -477,7 +482,10 @@ public final class Json {
             return result;
         }
 
-        private Object readValue() {
+        private Object readValue(int depth) {
+            if (depth > maxDepth) {
+                throw error("Maximum depth exceeded");
+            }
             switch (current) {
                 case 'n':
                     return readNull();
@@ -488,9 +496,9 @@ public final class Json {
                 case '"':
                     return readString();
                 case '[':
-                    return readArray();
+                    return readArray(depth + 1);
                 case '{':
-                    return readObject();
+                    return readObject(depth + 1);
                 case '-':
                 case '0':
                 case '1':
@@ -508,7 +516,7 @@ public final class Json {
             }
         }
 
-        private List<Object> readArray() {
+        private List<Object> readArray(int depth) {
             read();
             List<Object> array = new ArrayList<>();
             skipWhiteSpace();
@@ -517,7 +525,7 @@ public final class Json {
             }
             do {
                 skipWhiteSpace();
-                array.add(readValue());
+                array.add(readValue(depth));
                 skipWhiteSpace();
             } while (readChar(','));
             if (!readChar(']')) {
@@ -526,7 +534,7 @@ public final class Json {
             return array;
         }
 
-        private Map<String, Object> readObject() {
+        private Map<String, Object> readObject(int depth) {
             read();
             Map<String, Object> object = new LinkedHashMap<>();
             skipWhiteSpace();
@@ -541,7 +549,7 @@ public final class Json {
                     throw expected("':'");
                 }
                 skipWhiteSpace();
-                object.put(name, readValue());
+                object.put(name, readValue(depth));
                 skipWhiteSpace();
             } while (readChar(','));
             if (!readChar('}')) {
@@ -834,7 +842,7 @@ public final class Json {
     }
 
     public static Object fromJson(String string) {
-        return new JsonParser(string).parse();
+        return new JsonParser(string, MAX_DEPTH).parse();
     }
 
     public static String formatJson(String json, JsonStringBuilder.Step identStep) {
