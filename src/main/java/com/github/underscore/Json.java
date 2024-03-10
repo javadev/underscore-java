@@ -842,7 +842,11 @@ public final class Json {
     }
 
     public static Object fromJson(String string) {
-        return new JsonParser(string, MAX_DEPTH).parse();
+        return fromJson(string, MAX_DEPTH);
+    }
+
+    public static Object fromJson(String string, int maxDepth) {
+        return new JsonParser(string, maxDepth).parse();
     }
 
     public static String formatJson(String json, JsonStringBuilder.Step identStep) {

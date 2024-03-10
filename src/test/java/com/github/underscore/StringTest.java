@@ -3518,6 +3518,18 @@ class StringTest {
     }
 
     @Test
+    void fromJsonParseException() throws IOException {
+        String stringJson =
+                new String(
+                        Files.readAllBytes(Paths.get("src/test/resources/wellFormedObject.json")));
+        try {
+            U.fromJsonMap(stringJson, 1000);
+        } catch (Throwable throwable) {
+            assertTrue(throwable instanceof Json.ParseException);
+        }
+    }
+
+    @Test
     void fromJsonStackoverflowArray() throws IOException {
         String stringJson =
                 new String(
