@@ -2601,6 +2601,11 @@ public class U<T> extends Underscore<T> {
         return getStringObjectMap(object);
     }
 
+    public static Map<String, Object> fromJsonMap(final String string, final int maxDepth) {
+        final Object object = Json.fromJson(string, maxDepth);
+        return getStringObjectMap(object);
+    }
+
     @SuppressWarnings("unchecked")
     private static Map<String, Object> getStringObjectMap(Object object) {
         final Map<String, Object> result;
