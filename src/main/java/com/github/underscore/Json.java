@@ -33,7 +33,7 @@ import java.util.Map;
 @SuppressWarnings({"java:S3740", "java:S3776"})
 public final class Json {
 
-    private static final int MAX_DEPTH = 10_000;
+    private static final int PARSE_MAX_DEPTH = 10_000;
 
     private Json() {}
 
@@ -842,7 +842,7 @@ public final class Json {
     }
 
     public static Object fromJson(String string) {
-        return fromJson(string, MAX_DEPTH);
+        return fromJson(string, PARSE_MAX_DEPTH);
     }
 
     public static Object fromJson(String string, int maxDepth) {
