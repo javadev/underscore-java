@@ -107,17 +107,17 @@ public final class Xml {
             }
         }
 
-        protected final StringBuilder builder;
+        protected final StringBuffer builder;
         private final Step identStep;
         private int ident;
 
         public XmlStringBuilder() {
-            builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
+            builder = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n");
             identStep = Step.TWO_SPACES;
             ident = 2;
         }
 
-        public XmlStringBuilder(StringBuilder builder, Step identStep, int ident) {
+        public XmlStringBuilder(StringBuffer builder, Step identStep, int ident) {
             this.builder = builder;
             this.identStep = identStep;
             this.ident = ident;
@@ -168,7 +168,7 @@ public final class Xml {
         public XmlStringBuilderWithoutRoot(
                 XmlStringBuilder.Step identStep, String encoding, String standalone) {
             super(
-                    new StringBuilder(
+                    new StringBuffer(
                             "<?xml version=\"1.0\" encoding=\""
                                     + XmlValue.escape(encoding).replace("\"", QUOT)
                                     + "\""
@@ -187,7 +187,7 @@ public final class Xml {
 
     public static class XmlStringBuilderWithoutHeader extends XmlStringBuilder {
         public XmlStringBuilderWithoutHeader(XmlStringBuilder.Step identStep, int ident) {
-            super(new StringBuilder(), identStep, ident);
+            super(new StringBuffer(), identStep, ident);
         }
 
         @Override
@@ -953,7 +953,7 @@ public final class Xml {
             if (length == 0) {
                 return "__EE__EMPTY__EE__";
             }
-            final StringBuilder result = new StringBuilder();
+            final StringBuffer result = new StringBuffer();
             char ch = name.charAt(0);
             if (ch != ':') {
                 try {
@@ -993,12 +993,12 @@ public final class Xml {
             if (s == null) {
                 return "";
             }
-            StringBuilder sb = new StringBuilder();
+            StringBuffer sb = new StringBuffer();
             escape(s, sb);
             return sb.toString();
         }
 
-        private static void escape(String s, StringBuilder sb) {
+        private static void escape(String s, StringBuffer sb) {
             final int len = s.length();
             for (int i = 0; i < len; i++) {
                 char ch = s.charAt(i);
@@ -1053,14 +1053,14 @@ public final class Xml {
             if (s == null) {
                 return "";
             }
-            StringBuilder sb = new StringBuilder();
+            StringBuffer sb = new StringBuffer();
             unescape(s, sb);
             return sb.toString();
         }
 
-        private static void unescape(String s, StringBuilder sb) {
+        private static void unescape(String s, StringBuffer sb) {
             final int len = s.length();
-            final StringBuilder localSb = new StringBuilder();
+            final StringBuffer localSb = new StringBuffer();
             int index = 0;
             while (index < len) {
                 final int skipChars = translate(s, index, localSb);
@@ -1076,7 +1076,7 @@ public final class Xml {
         }
 
         private static int translate(
-                final CharSequence input, final int index, final StringBuilder builder) {
+                final CharSequence input, final int index, final StringBuffer builder) {
             final int shortest = 4;
             final int longest = 6;
 
@@ -1517,8 +1517,8 @@ public final class Xml {
 
     static Map<String, String> parseAttributes(final String source) {
         final Map<String, String> result = new LinkedHashMap<>();
-        final StringBuilder key = new StringBuilder();
-        final StringBuilder value = new StringBuilder();
+        final StringBuffer key = new StringBuffer();
+        final StringBuffer value = new StringBuffer();
         boolean quoteFound = false;
         boolean equalFound = false;
         for (int index = 0; index < source.length(); index += 1) {
@@ -1573,9 +1573,9 @@ public final class Xml {
         if (!name.contains("__")) {
             return name;
         }
-        StringBuilder result = new StringBuilder();
+        StringBuffer result = new StringBuffer();
         int underlineCount = 0;
-        StringBuilder lastChars = new StringBuilder();
+        StringBuffer lastChars = new StringBuffer();
         int i = 0;
         outer:
         while (i < length) {
@@ -1584,7 +1584,7 @@ public final class Xml {
                 lastChars.append(ch);
             } else {
                 if (lastChars.length() == 2) {
-                    StringBuilder nameToDecode = new StringBuilder();
+                    StringBuffer nameToDecode = new StringBuffer();
                     for (int j = i; j < length; ++j) {
                         if (name.charAt(j) == '_') {
                             underlineCount += 1;
