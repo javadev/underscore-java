@@ -38,7 +38,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-@SuppressWarnings({"java:S107", "java:S1119", "java:S3740", "java:S3776", "java:S4276"})
+@SuppressWarnings({"java:S107", "java:S1119", "java:S2583", "java:S3740", "java:S3776", "java:S4276"})
 public final class Xml {
     private Xml() {}
 
@@ -96,7 +96,7 @@ public final class Xml {
             FOUR_SPACES(4),
             COMPACT(0),
             TABS(1);
-            private int ident;
+            private final int ident;
 
             Step(int ident) {
                 this.ident = ident;
@@ -1030,7 +1030,7 @@ public final class Xml {
                     case '\t':
                         sb.append("\t");
                         break;
-                    case '\u20AC':
+                    case '€':
                         sb.append("€");
                         break;
                     default:
@@ -1316,8 +1316,7 @@ public final class Xml {
             final int[] sourceIndex,
             final Set<String> namespaces,
             final FromType fromType) {
-        final Map<String, Object> map = new LinkedHashMap<>();
-        map.putAll(attrMap);
+        final Map<String, Object> map = new LinkedHashMap<>(attrMap);
         final org.w3c.dom.NodeList nodeList = node.getChildNodes();
         for (int index = 0; index < nodeList.getLength(); index++) {
             final org.w3c.dom.Node currentNode = nodeList.item(index);
@@ -1760,14 +1759,12 @@ public final class Xml {
                             XML_HEADER.length(),
                             Math.max(XML_HEADER.length(), xml.indexOf("?>", XML_HEADER.length())));
             final Map<String, String> attributes = parseAttributes(xmlLocal);
-            for (Map.Entry<String, String> attribute : attributes.entrySet()) {
-                result.put(attribute.getKey(), attribute.getValue());
-            }
+            result.putAll(attributes);
         }
         return result;
     }
 
-    protected static String getDoctypeValue(final String xml) {
+    static String getDoctypeValue(final String xml) {
         int startIndex = xml.indexOf(DOCTYPE_HEADER) + DOCTYPE_HEADER.length();
         char charToFind = '>';
         int endIndexPlus = 0;
@@ -1819,7 +1816,7 @@ public final class Xml {
                 final javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
                 return builder.newDocument();
             } catch (javax.xml.parsers.ParserConfigurationException ex) {
-                return null;
+                throw new IllegalArgumentException(ex);
             }
         }
 
@@ -1888,17 +1885,18 @@ public final class Xml {
                 (object, namespaces) -> {
                     final String localString = String.valueOf(object);
                     final String result;
+                    String substring = localString.substring(
+                            Math.max(0, localString.indexOf(':') + 1));
                     if (localString.startsWith("-")
                             && namespaces.contains(
                                     localString.substring(
                                             1, Math.max(1, localString.indexOf(':'))))) {
                         result =
                                 "-"
-                                        + localString.substring(
-                                                Math.max(0, localString.indexOf(':') + 1));
+                                        + substring;
                     } else if (namespaces.contains(
                             localString.substring(0, Math.max(0, localString.indexOf(':'))))) {
-                        result = localString.substring(Math.max(0, localString.indexOf(':') + 1));
+                        result = substring;
                     } else {
                         result = String.valueOf(object);
                     }
