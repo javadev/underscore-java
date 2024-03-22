@@ -1564,6 +1564,9 @@ class LodashTest {
                 "{\n    \"a\": {\n    }\n}",
                 U.formatJson("{\n  \"a\": {\n  }\n}", Json.JsonStringBuilder.Step.FOUR_SPACES));
         assertEquals(
+                "{\n   \"a\": {\n   }\n}",
+                U.formatJson("{\n  \"a\": {\n  }\n}", Json.JsonStringBuilder.Step.THREE_SPACES));
+        assertEquals(
                 "{\"a\":{}}",
                 U.formatJson("{\n  \"a\": {\n  }\n}", Json.JsonStringBuilder.Step.COMPACT));
         assertEquals(
