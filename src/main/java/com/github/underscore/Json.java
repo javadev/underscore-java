@@ -407,8 +407,8 @@ public final class Json {
                     case '\t':
                         sb.append("\\t");
                         break;
-                    case '\u20AC':
-                        sb.append('\u20AC');
+                    case '€':
+                        sb.append('€');
                         break;
                     default:
                         if (ch <= '\u001F'
@@ -416,9 +416,7 @@ public final class Json {
                                 || ch >= '\u2000' && ch <= '\u20FF') {
                             String ss = Integer.toHexString(ch);
                             sb.append("\\u");
-                            for (int k = 0; k < 4 - ss.length(); k++) {
-                                sb.append("0");
-                            }
+                            sb.append("0".repeat(4 - ss.length()));
                             sb.append(ss.toUpperCase());
                         } else {
                             sb.append(ch);
