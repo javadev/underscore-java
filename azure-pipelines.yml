@@ -16,5 +16,5 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    goals: 'test'
+    goals: 'test -B'
 
