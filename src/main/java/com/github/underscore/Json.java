@@ -139,145 +139,145 @@ public final class Json {
             builder.newLine().decIndent().fillSpaces().append(']');
         }
 
-        public static void writeJson(byte[] array, JsonStringBuilder builder) {
-            if (array == null) {
+        public static void writeJson(byte[] byteArray, JsonStringBuilder builder) {
+            if (byteArray == null) {
                 builder.append(NULL);
-            } else if (array.length == 0) {
+            } else if (byteArray.length == 0) {
                 builder.append("[]");
             } else {
                 builder.append('[').incIndent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-                for (int i = 1; i < array.length; i++) {
+                builder.fillSpaces().append(String.valueOf(byteArray[0]));
+                for (int i = 1; i < byteArray.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(String.valueOf(byteArray[i]));
                 }
                 builder.newLine().decIndent().fillSpaces().append(']');
             }
         }
 
-        public static void writeJson(short[] array, JsonStringBuilder builder) {
-            if (array == null) {
+        public static void writeJson(short[] shortArray, JsonStringBuilder builder) {
+            if (shortArray == null) {
                 builder.append(NULL);
-            } else if (array.length == 0) {
+            } else if (shortArray.length == 0) {
                 builder.append("[]");
             } else {
                 builder.append('[').incIndent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-                for (int i = 1; i < array.length; i++) {
+                builder.fillSpaces().append(String.valueOf(shortArray[0]));
+                for (int i = 1; i < shortArray.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(String.valueOf(shortArray[i]));
                 }
                 builder.newLine().decIndent().fillSpaces().append(']');
             }
         }
 
-        public static void writeJson(int[] array, JsonStringBuilder builder) {
-            if (array == null) {
+        public static void writeJson(int[] intArray, JsonStringBuilder builder) {
+            if (intArray == null) {
                 builder.append(NULL);
-            } else if (array.length == 0) {
+            } else if (intArray.length == 0) {
                 builder.append("[]");
             } else {
                 builder.append('[').incIndent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-                for (int i = 1; i < array.length; i++) {
+                builder.fillSpaces().append(String.valueOf(intArray[0]));
+                for (int i = 1; i < intArray.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(String.valueOf(intArray[i]));
                 }
                 builder.newLine().decIndent().fillSpaces().append(']');
             }
         }
 
-        public static void writeJson(long[] array, JsonStringBuilder builder) {
-            if (array == null) {
+        public static void writeJson(long[] longArray, JsonStringBuilder builder) {
+            if (longArray == null) {
                 builder.append(NULL);
-            } else if (array.length == 0) {
+            } else if (longArray.length == 0) {
                 builder.append("[]");
             } else {
                 builder.append('[').incIndent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-                for (int i = 1; i < array.length; i++) {
+                builder.fillSpaces().append(String.valueOf(longArray[0]));
+                for (int i = 1; i < longArray.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(String.valueOf(longArray[i]));
                 }
                 builder.newLine().decIndent().fillSpaces().append(']');
             }
         }
 
-        public static void writeJson(float[] array, JsonStringBuilder builder) {
-            if (array == null) {
+        public static void writeJson(float[] floatArray, JsonStringBuilder builder) {
+            if (floatArray == null) {
                 builder.append(NULL);
-            } else if (array.length == 0) {
+            } else if (floatArray.length == 0) {
                 builder.append("[]");
             } else {
                 builder.append('[').incIndent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-                for (int i = 1; i < array.length; i++) {
+                builder.fillSpaces().append(String.valueOf(floatArray[0]));
+                for (int i = 1; i < floatArray.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(String.valueOf(floatArray[i]));
                 }
                 builder.newLine().decIndent().fillSpaces().append(']');
             }
         }
 
-        public static void writeJson(double[] array, JsonStringBuilder builder) {
-            if (array == null) {
+        public static void writeJson(double[] doubleArray, JsonStringBuilder builder) {
+            if (doubleArray == null) {
                 builder.append(NULL);
-            } else if (array.length == 0) {
+            } else if (doubleArray.length == 0) {
                 builder.append("[]");
             } else {
                 builder.append('[').incIndent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-                for (int i = 1; i < array.length; i++) {
+                builder.fillSpaces().append(String.valueOf(doubleArray[0]));
+                for (int i = 1; i < doubleArray.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(String.valueOf(doubleArray[i]));
                 }
                 builder.newLine().decIndent().fillSpaces().append(']');
             }
         }
 
-        public static void writeJson(boolean[] array, JsonStringBuilder builder) {
-            if (array == null) {
+        public static void writeJson(boolean[] booleanArray, JsonStringBuilder builder) {
+            if (booleanArray == null) {
                 builder.append(NULL);
-            } else if (array.length == 0) {
+            } else if (booleanArray.length == 0) {
                 builder.append("[]");
             } else {
                 builder.append('[').incIndent().newLine();
-                builder.fillSpaces().append(String.valueOf(array[0]));
-                for (int i = 1; i < array.length; i++) {
+                builder.fillSpaces().append(String.valueOf(booleanArray[0]));
+                for (int i = 1; i < booleanArray.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append(String.valueOf(array[i]));
+                    builder.append(String.valueOf(booleanArray[i]));
                 }
                 builder.newLine().decIndent().fillSpaces().append(']');
             }
         }
 
-        public static void writeJson(char[] array, JsonStringBuilder builder) {
-            if (array == null) {
+        public static void writeJson(char[] charArray, JsonStringBuilder builder) {
+            if (charArray == null) {
                 builder.append(NULL);
-            } else if (array.length == 0) {
+            } else if (charArray.length == 0) {
                 builder.append("[]");
             } else {
                 builder.append('[').incIndent().newLine();
-                builder.fillSpaces().append('\"').append(String.valueOf(array[0])).append('\"');
-                for (int i = 1; i < array.length; i++) {
+                builder.fillSpaces().append('\"').append(String.valueOf(charArray[0])).append('\"');
+                for (int i = 1; i < charArray.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    builder.append('"').append(String.valueOf(array[i])).append('"');
+                    builder.append('"').append(String.valueOf(charArray[i])).append('"');
                 }
                 builder.newLine().decIndent().fillSpaces().append(']');
             }
         }
 
-        public static void writeJson(Object[] array, JsonStringBuilder builder) {
-            if (array == null) {
+        public static void writeJson(Object[] objectArray, JsonStringBuilder builder) {
+            if (objectArray == null) {
                 builder.append(NULL);
-            } else if (array.length == 0) {
+            } else if (objectArray.length == 0) {
                 builder.append("[]");
             } else {
                 builder.append('[').newLine().incIndent().fillSpaces();
-                JsonValue.writeJson(array[0], builder);
-                for (int i = 1; i < array.length; i++) {
+                JsonValue.writeJson(objectArray[0], builder);
+                for (int i = 1; i < objectArray.length; i++) {
                     builder.append(',').newLine().fillSpaces();
-                    JsonValue.writeJson(array[i], builder);
+                    JsonValue.writeJson(objectArray[i], builder);
                 }
                 builder.newLine().decIndent().fillSpaces().append(']');
             }
