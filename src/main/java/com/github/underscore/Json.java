@@ -372,19 +372,19 @@ public final class Json {
             }
         }
 
-        public static String escape(String s) {
-            if (s == null) {
+        public static String escape(String inputString) {
+            if (inputString == null) {
                 return null;
             }
             StringBuilder sb = new StringBuilder();
-            escape(s, sb);
+            escape(inputString, sb);
             return sb.toString();
         }
 
-        private static void escape(String s, StringBuilder sb) {
-            final int len = s.length();
+        private static void escape(String inputString, StringBuilder sb) {
+            final int len = inputString.length();
             for (int i = 0; i < len; i++) {
-                char ch = s.charAt(i);
+                char ch = inputString.charAt(i);
                 switch (ch) {
                     case '"':
                         sb.append("\\\"");
@@ -458,7 +458,7 @@ public final class Json {
         private int line;
         private int lineOffset;
         private int current;
-        private StringBuilder captureBuffer;
+        private StringBuilder captureBuffer = new StringBuilder();
         private int captureStart;
         private final int maxDepth;
 
@@ -761,9 +761,6 @@ public final class Json {
         }
 
         private void startCapture() {
-            if (captureBuffer == null) {
-                captureBuffer = new StringBuilder();
-            }
             captureStart = index - 1;
         }
 
