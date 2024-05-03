@@ -3320,6 +3320,36 @@ public class Underscore<T> {
         return sb.toString();
     }
 
+    public static <T> String joinToString(final Iterable<T> iterable, final String separator,
+                                          final String prefix, final String postfix,
+                                          final int limit,
+                                          final String truncated,
+                                          final Function<T, String> transform) {
+        final StringBuilder sb = new StringBuilder();
+        int index = 0;
+        if (prefix != null) {
+            sb.append(prefix);
+        }
+        for (final T item : iterable) {
+            if (index > 0) {
+                sb.append(separator);
+            }
+            index += 1;
+            if (limit < 0 || index <= limit) {
+                sb.append(transform == null ? item.toString() : transform.apply(item));
+            } else {
+                break;
+            }
+        }
+        if (limit >= 0 && index > limit) {
+            sb.append(truncated);
+        }
+        if (postfix != null) {
+            sb.append(postfix);
+        }
+        return sb.toString();
+    }
+
     public static <T> String join(final Iterable<T> iterable) {
         return join(iterable, " ");
     }
