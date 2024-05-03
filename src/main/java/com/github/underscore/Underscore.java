@@ -3341,13 +3341,17 @@ public class Underscore<T> {
                 break;
             }
         }
+        joinToStringPostfix(postfix, limit, truncated, index, sb);
+        return sb.toString();
+    }
+
+    private static void joinToStringPostfix(String postfix, int limit, String truncated, int index, StringBuilder sb) {
         if (limit >= 0 && index > limit) {
-            sb.append(truncated);
+            sb.append(truncated == null ? "..." : truncated);
         }
         if (postfix != null) {
             sb.append(postfix);
         }
-        return sb.toString();
     }
 
     public static <T> String join(final Iterable<T> iterable) {

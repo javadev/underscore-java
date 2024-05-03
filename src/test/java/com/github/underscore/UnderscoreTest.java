@@ -139,6 +139,8 @@ class UnderscoreTest {
                 "", "", 2, "...", null));
         assertEquals("1, 2, ...", Underscore.joinToString(List.of(1, 2, 3, 4), ", ",
                 null, null, 2, "...", null));
+        assertEquals("1, 2, ...", Underscore.joinToString(List.of(1, 2, 3, 4), ", ",
+                null, null, 2, null, null));
     }
 
     /*
