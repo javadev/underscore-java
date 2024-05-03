@@ -2523,6 +2523,14 @@ public class U<T> extends Underscore<T> {
         return Underscore.join(iterable, separator);
     }
 
+    public static <T> String joinToString(final Iterable<T> iterable, final String separator,
+                                  final String prefix, final String postfix,
+                                  final int limit,
+                                  final String truncated,
+                                  final Function<T, String> transform) {
+        return Underscore.joinToString(iterable, separator, prefix, postfix, limit, truncated, transform);
+    }
+
     public static String toJson(Collection collection) {
         return Json.toJson(collection);
     }

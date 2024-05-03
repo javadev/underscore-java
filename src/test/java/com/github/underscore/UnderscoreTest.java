@@ -41,6 +41,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
@@ -115,6 +116,31 @@ class UnderscoreTest {
                 "some words example",
                 Underscore.chain(asList("some", "words", "example")).join().item());
         assertEquals("--", Underscore.join(asList("", "", ""), "-"));
+    }
+
+    @Test
+    void joinToString() {
+        assertEquals("[]", Underscore.joinToString(List.of(), ",", "[", "]",
+                3, "...", null));
+        assertEquals("[1,2,3]", Underscore.joinToString(List.of(1, 2, 3), ",",
+                "[", "]", -1, "...", null));
+        assertEquals("[1,2,3]", Underscore.joinToString(List.of(1, 2, 3), ",",
+                "[", "]", 3, "...", null));
+        assertEquals("[1,2,3,...]", Underscore.joinToString(List.of(1, 2, 3, 4, 5), ",",
+                "[", "]", 3, "...", null));
+        Function<Integer, String> transform = i -> "Value-" + i;
+        assertEquals("[Value-1,Value-2,Value-3]", Underscore.joinToString(List.of(1, 2, 3), ",",
+                "[", "]", -1, "...", transform));
+        assertEquals("[1,2,3]", Underscore.joinToString(List.of(1, 2, 3), ",",
+                "[", "]", -1, "...", null));
+        assertEquals("{1, 2, 3}", Underscore.joinToString(List.of(1, 2, 3), ", ",
+                "{", "}", -1, "...", null));
+        assertEquals("1, 2, ...", Underscore.joinToString(List.of(1, 2, 3, 4), ", ",
+                "", "", 2, "...", null));
+        assertEquals("1, 2, ...", Underscore.joinToString(List.of(1, 2, 3, 4), ", ",
+                null, null, 2, "...", null));
+        assertEquals("1, 2, ...", Underscore.joinToString(List.of(1, 2, 3, 4), ", ",
+                null, null, 2, null, null));
     }
 
     /*

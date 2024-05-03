@@ -478,4 +478,12 @@ class UtilityTest {
                 null,
                 Underscore.result(asList("result1", "result2"), item -> item.equals("result3")));
     }
+
+    @Test
+    void joinToString() {
+        assertEquals("[]", U.joinToString(List.of(), ",",
+                "[", "]", 3, "...", null));
+        assertEquals("[1,2,3]", U.joinToString(List.of(1, 2, 3), ",",
+                "[", "]", -1, "...", null));
+    }
 }
