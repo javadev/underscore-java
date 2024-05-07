@@ -28,32 +28,32 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-class Base32Test {
+class XmlTest {
 
     @Test
     void decode() {
-        assertEquals("!", Base32.decode("EE"));
-        assertEquals("-Hello world!+-", Base32.decode("FVEGKbDMNcQHObbSNRSCCKZN"));
+        assertEquals("!", Xml.Base32.decode("EE"));
+        assertEquals("-Hello world!+-", Xml.Base32.decode("FVEGKbDMNcQHObbSNRSCCKZN"));
     }
 
     @Test
     void decodeEmpty() {
-        assertEquals("", Base32.decode(""));
+        assertEquals("", Xml.Base32.decode(""));
     }
 
     @Test
     void decodeIllegal() {
-        assertThrows(Base32.DecodingException.class, () -> Base32.decode("EE!"));
+        assertThrows(Xml.Base32.DecodingException.class, () -> Xml.Base32.decode("EE!"));
     }
 
     @Test
     void encode() {
-        assertEquals("EE", Base32.encode("!"));
-        assertEquals("FVEGKbDMNcQHObbSNRSCCKZN", Base32.encode("-Hello world!+-"));
+        assertEquals("EE", Xml.Base32.encode("!"));
+        assertEquals("FVEGKbDMNcQHObbSNRSCCKZN", Xml.Base32.encode("-Hello world!+-"));
     }
 
     @Test
     void encodeEmpty() {
-        assertEquals("", Base32.encode(""));
+        assertEquals("", Xml.Base32.encode(""));
     }
 }

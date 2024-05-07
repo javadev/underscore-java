@@ -1952,4 +1952,94 @@ public final class Xml {
     public static String changeXmlEncoding(String xml, String encoding) {
         return changeXmlEncoding(xml, XmlStringBuilder.Step.TWO_SPACES, encoding);
     }
+
+    public static final class Base32 {
+
+        private static final Base32 INSTANCE = new Base32();
+
+        private final char[] digits;
+        private final int mask;
+        private final int shift;
+        private final Map<Character, Integer> charMap;
+
+        private Base32() {
+            digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef".toCharArray();
+            mask = digits.length - 1;
+            shift = Integer.numberOfTrailingZeros(digits.length);
+            charMap = new HashMap<>();
+            for (int index = 0; index < digits.length; index += 1) {
+                charMap.put(digits[index], index);
+            }
+        }
+
+        public static String decode(final String encoded) {
+            return new String(INSTANCE.decodeInternal(encoded), UTF_8);
+        }
+
+        private byte[] decodeInternal(final String encoded) {
+            if (encoded.length() == 0) {
+                return new byte[0];
+            }
+            int encodedLength = encoded.length();
+            int outLength = encodedLength * shift / 8;
+            byte[] result = new byte[outLength];
+            int buffer = 0;
+            int next = 0;
+            int bitsLeft = 0;
+            for (char c : encoded.toCharArray()) {
+                if (!charMap.containsKey(c)) {
+                    throw new DecodingException("Illegal character: " + c);
+                }
+                buffer <<= shift;
+                buffer |= charMap.get(c) & mask;
+                bitsLeft += shift;
+                if (bitsLeft >= 8) {
+                    result[next++] = (byte) (buffer >> (bitsLeft - 8));
+                    bitsLeft -= 8;
+                }
+            }
+            return result;
+        }
+
+        public static String encode(final String data) {
+            return INSTANCE.encodeInternal(data.getBytes(UTF_8));
+        }
+
+        private String encodeInternal(final byte[] data) {
+            if (data.length == 0) {
+                return "";
+            }
+
+            int outputLength = (data.length * 8 + shift - 1) / shift;
+            StringBuilder result = new StringBuilder(outputLength);
+
+            int buffer = data[0];
+            int next = 1;
+            int bitsLeft = 8;
+            while (bitsLeft > 0 || next < data.length) {
+                if (bitsLeft < shift) {
+                    if (next < data.length) {
+                        buffer <<= 8;
+                        buffer = buffer | (data[next++] & 0xff);
+                        bitsLeft += 8;
+                    } else {
+                        int pad = shift - bitsLeft;
+                        buffer <<= pad;
+                        bitsLeft += pad;
+                    }
+                }
+                int index = mask & (buffer >> (bitsLeft - shift));
+                bitsLeft -= shift;
+                result.append(digits[index]);
+            }
+            return result.toString();
+        }
+
+        public static class DecodingException extends RuntimeException {
+
+            public DecodingException(final String message) {
+                super(message);
+            }
+        }
+    }
 }
