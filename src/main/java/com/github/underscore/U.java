@@ -91,22 +91,22 @@ public class U<T> extends Underscore<T> {
     private static final int BUFFER_LENGTH_1024 = 1024;
     private static final int RESPONSE_CODE_400 = 400;
     private static final String ROOT = "root";
-    private static String upper = "[A-Z\\xc0-\\xd6\\xd8-\\xde\\u0400-\\u04FF]";
-    private static String lower = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
-    private static String selfClosing = "-self-closing";
-    private static String nilKey = "-nil";
-    private static java.util.regex.Pattern reWords =
+    private static final String UPPER = "[A-Z\\xc0-\\xd6\\xd8-\\xde\\u0400-\\u04FF]";
+    private static final String LOWER = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
+    private static final String SELF_CLOSING = "-self-closing";
+    private static final String NIL_KEY = "-nil";
+    private static final java.util.regex.Pattern RE_WORDS =
             java.util.regex.Pattern.compile(
-                    upper
+                    UPPER
                             + "+(?="
-                            + upper
-                            + lower
+                            + UPPER
+                            + LOWER
                             + ")|"
-                            + upper
+                            + UPPER
                             + "?"
-                            + lower
+                            + LOWER
                             + "|"
-                            + upper
+                            + UPPER
                             + "+|[0-9]+");
 
     static {
@@ -1460,7 +1460,7 @@ public class U<T> extends Underscore<T> {
     public static List<String> words(final String string) {
         final String localString = baseToString(string);
         final List<String> result = new ArrayList<>();
-        final java.util.regex.Matcher matcher = reWords.matcher(localString);
+        final java.util.regex.Matcher matcher = RE_WORDS.matcher(localString);
         while (matcher.find()) {
             result.add(matcher.group());
         }
@@ -2885,7 +2885,7 @@ public class U<T> extends Underscore<T> {
             } else {
                 newKey = entry.getKey();
             }
-            if (!entry.getKey().equals(selfClosing)
+            if (!entry.getKey().equals(SELF_CLOSING)
                     && !entry.getKey().equals("#omit-xml-declaration")) {
                 outMap.put(newKey, makeObject(entry.getValue()));
             }
@@ -2963,7 +2963,7 @@ public class U<T> extends Underscore<T> {
     public static Object replaceSelfClosingWithValue(Map<String, Object> map, String value) {
         Object outMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if (selfClosing.equals(entry.getKey()) && "true".equals(entry.getValue())) {
+            if (SELF_CLOSING.equals(entry.getKey()) && "true".equals(entry.getValue())) {
                 if (map.size() == 1) {
                     outMap = value;
                     break;
@@ -3226,9 +3226,9 @@ public class U<T> extends Underscore<T> {
         }
         if (level == 0 && Xml.XmlValue.getMapValue(outMap) instanceof Map) {
             Map<String, Object> outMap2 = (Map<String, Object>) Xml.XmlValue.getMapValue(outMap);
-            if (selfClosing.equals(Xml.XmlValue.getMapKey(outMap2))
+            if (SELF_CLOSING.equals(Xml.XmlValue.getMapKey(outMap2))
                     && "true".equals(Xml.XmlValue.getMapValue(outMap2))) {
-                outMap2.remove(selfClosing);
+                outMap2.remove(SELF_CLOSING);
             }
             return outMap2;
         }
@@ -3257,11 +3257,11 @@ public class U<T> extends Underscore<T> {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Object outValue = makeReplaceNilWithNull(entry.getValue());
             if (outValue instanceof Map
-                    && (nilKey.equals(Xml.XmlValue.getMapKey(outValue))
+                    && (NIL_KEY.equals(Xml.XmlValue.getMapKey(outValue))
                             || Xml.XmlValue.getMapKey(outValue).endsWith(":nil"))
                     && "true".equals(Xml.XmlValue.getMapValue(outValue))
-                    && ((Map) outValue).containsKey(selfClosing)
-                    && "true".equals(((Map) outValue).get(selfClosing))) {
+                    && ((Map) outValue).containsKey(SELF_CLOSING)
+                    && "true".equals(((Map) outValue).get(SELF_CLOSING))) {
                 outValue = null;
             }
             outMap.put(entry.getKey(), outValue);
@@ -3405,7 +3405,7 @@ public class U<T> extends Underscore<T> {
 
         @SuppressWarnings("unchecked")
         public Map<String, Object> build() {
-            return (Map<String, Object>) ((LinkedHashMap) data).clone();
+            return (Map<String, Object>) ((LinkedHashMap<?, ?>) data).clone();
         }
 
         public String toXml() {
@@ -3511,13 +3511,13 @@ public class U<T> extends Underscore<T> {
 
         @SuppressWarnings("unchecked")
         public ArrayBuilder merge(final List<Object> list) {
-            U.merge(data, (List<Object>) ((ArrayList) list).clone());
+            U.merge(data, (List<Object>) ((ArrayList<?>) list).clone());
             return this;
         }
 
         @SuppressWarnings("unchecked")
         public List<Object> build() {
-            return (List<Object>) ((ArrayList) data).clone();
+            return (List<Object>) ((ArrayList<?>) data).clone();
         }
 
         public String toXml() {
