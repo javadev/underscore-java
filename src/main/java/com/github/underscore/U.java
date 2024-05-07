@@ -107,7 +107,7 @@ public class U<T> extends Underscore<T> {
                             + LOWER
                             + "|"
                             + UPPER
-                            + "+|[0-9]+");
+                            + "+|\\d+");
 
     static {
         String[] deburredLetters =
