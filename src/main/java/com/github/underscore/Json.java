@@ -83,9 +83,7 @@ public final class Json {
         }
 
         public JsonStringBuilder fillSpaces() {
-            for (int index = 0; index < indent; index += 1) {
-                builder.append(identStep == Step.TABS ? '\t' : ' ');
-            }
+            builder.append(String.valueOf(identStep == Step.TABS ? '\t' : ' ').repeat(Math.max(0, indent)));
             return this;
         }
 
@@ -458,7 +456,7 @@ public final class Json {
         private int line;
         private int lineOffset;
         private int current;
-        private StringBuilder captureBuffer = new StringBuilder();
+        private final StringBuilder captureBuffer = new StringBuilder();
         private int captureStart;
         private final int maxDepth;
 

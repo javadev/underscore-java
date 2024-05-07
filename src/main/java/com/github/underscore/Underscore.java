@@ -1214,7 +1214,7 @@ public class Underscore<T> {
 
     @SuppressWarnings("unchecked")
     public static <E> List<E>[] partition(final E[] iterable, final Predicate<E> pred) {
-        return partition(Arrays.asList(iterable), pred).toArray(new ArrayList[0]);
+        return partition(Arrays.asList(iterable), pred).toArray(new List[0]);
     }
 
     public T singleOrNull() {
@@ -1482,7 +1482,7 @@ public class Underscore<T> {
                         !String.valueOf(arg).equals("null")
                                 && !String.valueOf(arg).equals("0")
                                 && !String.valueOf(arg).equals("false")
-                                && !String.valueOf(arg).equals(""));
+                                && !String.valueOf(arg).isEmpty());
     }
 
     @SuppressWarnings("unchecked")
@@ -1605,8 +1605,7 @@ public class Underscore<T> {
      */
     @SuppressWarnings("unchecked")
     public static <E> List<E> union(final List<E> list, final List<E>... lists) {
-        final Set<E> union = new LinkedHashSet<>();
-        union.addAll(list);
+        final Set<E> union = new LinkedHashSet<>(list);
         for (List<E> localList : lists) {
             union.addAll(localList);
         }
@@ -2355,8 +2354,7 @@ public class Underscore<T> {
      */
     @SuppressWarnings("unchecked")
     public static <K, V> Map<K, V> extend(final Map<K, V> destination, final Map<K, V>... sources) {
-        final Map<K, V> result = new LinkedHashMap<>();
-        result.putAll(destination);
+        final Map<K, V> result = new LinkedHashMap<>(destination);
         for (final Map<K, V> source : sources) {
             result.putAll(source);
         }
@@ -2735,7 +2733,7 @@ public class Underscore<T> {
 
     public static String format(final String template, final Object... params) {
         final java.util.regex.Matcher matcher = FORMAT_PATTERN.matcher(template);
-        final StringBuffer buffer = new StringBuffer();
+        final StringBuilder buffer = new StringBuilder();
         int index = 0;
         while (matcher.find()) {
             if (matcher.group(1).isEmpty()) {
@@ -3526,7 +3524,7 @@ public class Underscore<T> {
         if (position < 0) {
             index = 0;
         } else {
-            index = position > size ? size : position;
+            index = Math.min(position, size);
         }
         result.add(newArrayList(iterable).subList(0, index));
         result.add(newArrayList(iterable).subList(index, size));
@@ -3855,7 +3853,7 @@ public class Underscore<T> {
         System.out.println(message);
     }
 
-    public static interface Function3<F1, F2, F3, T> {
+    public interface Function3<F1, F2, F3, T> {
         T apply(F1 arg1, F2 arg2, F3 arg3);
     }
 
@@ -3870,11 +3868,11 @@ public class Underscore<T> {
         }
     }
 
-    public static interface PredicateIndexed<T> {
+    public interface PredicateIndexed<T> {
         boolean test(int index, T arg);
     }
 
-    public static interface Template<T> extends Function<T, String> {
+    public interface Template<T> extends Function<T, String> {
         List<String> check(T arg);
     }
 }
