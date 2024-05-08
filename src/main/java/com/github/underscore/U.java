@@ -2069,7 +2069,7 @@ public class U<T> extends Underscore<T> {
     public static void decompressGzip(final String sourceFileName, final String targetFileName)
             throws IOException {
         try (GZIPInputStream gis =
-                new GZIPInputStream(new FileInputStream(new File(sourceFileName)))) {
+                new GZIPInputStream(new FileInputStream(sourceFileName))) {
             Files.copy(gis, Paths.get(targetFileName));
         }
     }
