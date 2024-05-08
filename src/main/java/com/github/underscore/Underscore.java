@@ -1255,7 +1255,7 @@ public class Underscore<T> {
     }
 
     public static <E> List<E> first(final List<E> list, final int n) {
-        return list.subList(0, Math.min(n < 0 ? 0 : n, list.size()));
+        return list.subList(0, Math.min(Math.max(n, 0), list.size()));
     }
 
     public T first() {
@@ -1273,7 +1273,7 @@ public class Underscore<T> {
     public static <E> List<E> first(
             final Iterable<E> iterable, final Predicate<E> pred, final int n) {
         List<E> list = filter(newArrayList(iterable), pred);
-        return list.subList(0, Math.min(n < 0 ? 0 : n, list.size()));
+        return list.subList(0, Math.min(Math.max(n, 0), list.size()));
     }
 
     public T first(final Predicate<T> pred) {

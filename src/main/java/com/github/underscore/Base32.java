@@ -51,7 +51,7 @@ public final class Base32 {
     }
 
     private byte[] decodeInternal(final String encoded) {
-        if (encoded.length() == 0) {
+        if (encoded.isEmpty()) {
             return new byte[0];
         }
         int encodedLength = encoded.length();
