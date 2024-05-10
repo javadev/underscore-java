@@ -23,31 +23,25 @@
  */
 package com.github.underscore;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class Base32 {
 
     private static final Base32 INSTANCE = new Base32();
-
-    private final char[] digits;
-    private final int mask;
-    private final int shift;
-    private final Map<Character, Integer> charMap;
+    private final char[] digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef".toCharArray();
+    private final int mask = digits.length - 1;
+    private final int shift = Integer.numberOfTrailingZeros(digits.length);
+    private final Map<Character, Integer> charMap = new HashMap<>();
 
     private Base32() {
-        digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef".toCharArray();
-        mask = digits.length - 1;
-        shift = Integer.numberOfTrailingZeros(digits.length);
-        charMap = new HashMap<>();
-        for (int index = 0; index < digits.length; index += 1) {
+        for (int index = 0; index < digits.length; index++) {
             charMap.put(digits[index], index);
         }
     }
 
     public static String decode(final String encoded) {
-        return new String(INSTANCE.decodeInternal(encoded), StandardCharsets.UTF_8);
+        return new String(INSTANCE.decodeInternal(encoded));
     }
 
     private byte[] decodeInternal(final String encoded) {
@@ -76,17 +70,15 @@ public final class Base32 {
     }
 
     public static String encode(final String data) {
-        return INSTANCE.encodeInternal(data.getBytes(StandardCharsets.UTF_8));
+        return INSTANCE.encodeInternal(data.getBytes());
     }
 
     private String encodeInternal(final byte[] data) {
         if (data.length == 0) {
             return "";
         }
-
         int outputLength = (data.length * 8 + shift - 1) / shift;
         StringBuilder result = new StringBuilder(outputLength);
-
         int buffer = data[0];
         int next = 1;
         int bitsLeft = 8;
@@ -94,7 +86,7 @@ public final class Base32 {
             if (bitsLeft < shift) {
                 if (next < data.length) {
                     buffer <<= 8;
-                    buffer = buffer | (data[next++] & 0xff);
+                    buffer |= (data[next++] & 0xff);
                     bitsLeft += 8;
                 } else {
                     int pad = shift - bitsLeft;
@@ -110,7 +102,6 @@ public final class Base32 {
     }
 
     public static class DecodingException extends RuntimeException {
-
         public DecodingException(final String message) {
             super(message);
         }
