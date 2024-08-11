@@ -242,7 +242,7 @@ public class U<T> extends Underscore<T> {
 
         @Override
         public Chain<T> compact(final T falsyValue) {
-            return new Chain<>(Underscore.compact(value(), falsyValue));
+            return new Chain<>(Underscore.compactList(value(), falsyValue));
         }
 
         @Override
