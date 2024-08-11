@@ -1490,13 +1490,13 @@ public class Underscore<T> {
         return (E[]) compact(Arrays.asList(array)).toArray();
     }
 
-    public static <E> List<E> compact(final List<E> list, final E falsyValue) {
+    public static <E> List<E> compactList(final List<E> list, final E falsyValue) {
         return filter(list, arg -> !(Objects.equals(arg, falsyValue)));
     }
 
     @SuppressWarnings("unchecked")
     public static <E> E[] compact(final E[] array, final E falsyValue) {
-        return (E[]) compact(Arrays.asList(array), falsyValue).toArray();
+        return (E[]) compactList(Arrays.asList(array), falsyValue).toArray();
     }
 
     public List<T> compact() {
@@ -1504,7 +1504,7 @@ public class Underscore<T> {
     }
 
     public List<T> compact(final T falsyValue) {
-        return compact((List<T>) iterable, falsyValue);
+        return compactList((List<T>) iterable, falsyValue);
     }
 
     /*
@@ -2898,7 +2898,7 @@ public class Underscore<T> {
         }
 
         public Chain<T> compact(final T falsyValue) {
-            return new Chain<>(Underscore.compact(list, falsyValue));
+            return new Chain<>(Underscore.compactList(list, falsyValue));
         }
 
         @SuppressWarnings("unchecked")
