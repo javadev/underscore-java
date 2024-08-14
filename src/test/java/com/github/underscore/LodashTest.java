@@ -1035,6 +1035,16 @@ class LodashTest {
                         + "  }\n"
                         + "}",
                 U.xmlToJsonMinimum("<root><element>1</element><element>2</element><a/></root>"));
+        assertEquals(
+                "[\n"
+                        + "  \"a\",\n"
+                        + "  \"b\"\n"
+                        + "]",
+                U.xmlToJsonMinimum("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root>\n"
+                        + "  <element>a</element>\n"
+                        + "  <element>b</element>\n"
+                        + "</root>"));
     }
 
     @Test
