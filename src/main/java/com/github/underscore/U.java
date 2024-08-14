@@ -94,6 +94,7 @@ public class U<T> extends Underscore<T> {
     private static final String LOWER = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
     private static final String SELF_CLOSING = "-self-closing";
     private static final String NIL_KEY = "-nil";
+    private static final String OMIT_XML_DECL = "#omit-xml-declaration";
     private static final java.util.regex.Pattern RE_WORDS =
             java.util.regex.Pattern.compile(
                     UPPER
@@ -2749,6 +2750,20 @@ public class U<T> extends Underscore<T> {
         return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, null);
     }
 
+    @SuppressWarnings("unchecked")
+    public static String xmlToJsonMinimum(String xml, Json.JsonStringBuilder.Step identStep) {
+        Object object = Xml.fromXml(xml);
+        if (object instanceof Map) {
+            ((Map) object).remove(OMIT_XML_DECL);
+            return Json.toJson(replaceSelfClosingWithEmpty((Map) object), identStep);
+        }
+        return Json.toJson((List) object, identStep);
+    }
+
+    public static String xmlToJsonMinimum(String xml) {
+        return xmlToJsonMinimum(xml, Json.JsonStringBuilder.Step.TWO_SPACES);
+    }
+
     public static String xmlToJson(String xml, Json.JsonStringBuilder.Step identStep) {
         return xmlToJson(xml, identStep, null);
     }
@@ -2885,7 +2900,7 @@ public class U<T> extends Underscore<T> {
                 newKey = entry.getKey();
             }
             if (!entry.getKey().equals(SELF_CLOSING)
-                    && !entry.getKey().equals("#omit-xml-declaration")) {
+                    && !entry.getKey().equals(OMIT_XML_DECL)) {
                 outMap.put(newKey, makeObject(entry.getValue()));
             }
         }
