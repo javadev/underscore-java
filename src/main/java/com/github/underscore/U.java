@@ -94,7 +94,7 @@ public class U<T> extends Underscore<T> {
     private static final String LOWER = "[a-z\\xdf-\\xf6\\xf8-\\xff]+";
     private static final String SELF_CLOSING = "-self-closing";
     private static final String NIL_KEY = "-nil";
-    private static final String OMITXMLDECLARATION = "#omit-xml-declaration";
+    private static final String OMIT_XML_DECL = "#omit-xml-declaration";
     private static final java.util.regex.Pattern RE_WORDS =
             java.util.regex.Pattern.compile(
                     UPPER
@@ -2754,7 +2754,7 @@ public class U<T> extends Underscore<T> {
     public static String xmlToJsonMinimum(String xml, Json.JsonStringBuilder.Step identStep) {
         Object object = Xml.fromXml(xml);
         if (object instanceof Map) {
-            ((Map) object).remove(OMITXMLDECLARATION);
+            ((Map) object).remove(OMIT_XML_DECL);
             return Json.toJson(replaceSelfClosingWithEmpty((Map) object), identStep);
         }
         return Json.toJson((List) object, identStep);
