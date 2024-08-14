@@ -1023,6 +1023,21 @@ class LodashTest {
     }
 
     @Test
+    void xmlToJsonMinimum() {
+        assertEquals(
+                "{\n"
+                        + "  \"root\": {\n"
+                        + "    \"element\": [\n"
+                        + "      \"1\",\n"
+                        + "      \"2\"\n"
+                        + "    ],\n"
+                        + "    \"a\": \"\"\n"
+                        + "  }\n"
+                        + "}",
+                U.xmlToJsonMinimum("<root><element>1</element><element>2</element><a/></root>"));
+    }
+
+    @Test
     void xmlOrJsonToJson() {
         assertEquals(
                 "{\n"
