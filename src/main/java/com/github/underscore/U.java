@@ -2900,7 +2900,7 @@ public class U<T> extends Underscore<T> {
                 newKey = entry.getKey();
             }
             if (!entry.getKey().equals(SELF_CLOSING)
-                    && !entry.getKey().equals("#omit-xml-declaration")) {
+                    && !entry.getKey().equals(OMIT_XML_DECL)) {
                 outMap.put(newKey, makeObject(entry.getValue()));
             }
         }
