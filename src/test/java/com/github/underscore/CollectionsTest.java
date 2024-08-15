@@ -53,6 +53,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valentyn Kolesnikov
  */
+@SuppressWarnings("java:S1186")
 class CollectionsTest {
 
     /*
@@ -1718,7 +1719,9 @@ class CollectionsTest {
                                 return array[index++];
                             }
 
-                            public void remove() {}
+                            @Override
+                            public void remove() {
+                            }
                         };
         assertEquals(6, Underscore.size(iterable));
         assertEquals(5, Underscore.size(new Integer[] {5, 4, 3, 2, 1}));
