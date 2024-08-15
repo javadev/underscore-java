@@ -266,6 +266,7 @@ class ObjectsTest {
 
     @Test
     void cloneError2() {
+        @SuppressWarnings("java:S1172")
         class Test implements Cloneable {
             public Object clone(String arg) {
                 return null;
