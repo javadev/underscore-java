@@ -616,20 +616,24 @@ class LodashTest {
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json");
         result.json();
         result.jsonMap();
-        //        assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
-        //            + "\"Sir. Russell Jones of
-        // Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
-        //            result.text());
-        //        assertEquals("Sir. Russell Jones of Alberta",
-        //            (String) Underscore.get((Map<String, Object>) result.json(), "knight.name"));
+                assertEquals("{\n"
+                                + "    \"fruit\": \"Apple\",\n"
+                                + "    \"size\": \"Large\",\n"
+                                + "    \"color\": \"Red\"\n"
+                                + "}",
+                    result.text());
+                assertEquals("Apple",
+                        U.get((Map<String, Object>) result.json(), "fruit"));
         U.Chain<?> resultChain =
                 U.chain(
                                 "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
                         .fetch();
-        //        assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
-        //            + "\"Sir. Russell Jones of
-        // Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
-        //            resultChain.item());
+                assertEquals("{\n"
+                                + "    \"fruit\": \"Apple\",\n"
+                                + "    \"size\": \"Large\",\n"
+                                + "    \"color\": \"Red\"\n"
+                                + "}",
+                    resultChain.item());
         U.chain(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
                 .fetch();
@@ -662,10 +666,12 @@ class LodashTest {
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
                         30000,
                         30000);
-        //        assertEquals("{\"gameId\":483159,\"knight\":{\"name\":"
-        //            + "\"Sir. Russell Jones of
-        // Alberta\",\"attack\":2,\"armor\":7,\"agility\":3,\"endurance\":8}}",
-        //            result.text());
+                assertEquals("{\n"
+                                + "    \"fruit\": \"Apple\",\n"
+                                + "    \"size\": \"Large\",\n"
+                                + "    \"color\": \"Red\"\n"
+                                + "}",
+                    result.text());
     }
 
     @Test
@@ -725,9 +731,7 @@ class LodashTest {
                                 + "        \"fireBreath\": 10"
                                 + "    }"
                                 + "}");
-        //        assertEquals("{\"status\":\"Victory\",\"message\":\"Dragon was successful in a
-        // glorious battle\"}",
-        //            result.text());
+                assertEquals(403, result.getStatus());
         U.FetchResponse result2 =
                 U.fetch(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
@@ -743,10 +747,8 @@ class LodashTest {
                         null,
                         null,
                         null);
-        //        assertEquals("{\"status\":\"Defeat\",\"message\":"
-        //            + "\"No dragon showed up, knight dealt his deeds as he pleased.\"}",
-        // result2.text());
-        U.Chain resultChain =
+        assertEquals(403, result2.getStatus());
+        U.Chain<String> resultChain =
                 U.chain(
                                 "http://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
                         .fetch(
@@ -759,9 +761,13 @@ class LodashTest {
                                         + "        \"fireBreath\": 10"
                                         + "    }"
                                         + "}");
-        //        assertEquals("{\"status\":\"Victory\",\"message\":\"Dragon was successful in a
-        // glorious battle\"}",
-        //            resultChain.item());
+        assertEquals("<html>\n"
+                + "<head><title>301 Moved Permanently</title></head>\n"
+                + "<body>\n"
+                + "<center><h1>301 Moved Permanently</h1></center>\n"
+                + "<hr><center>cloudflare</center>\n"
+                + "</body>\n"
+                + "</html>\n", resultChain.item().replace("\r\n", "\n"));
     }
 
     @Test
