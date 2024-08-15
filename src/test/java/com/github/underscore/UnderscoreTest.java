@@ -463,7 +463,10 @@ class UnderscoreTest {
                                 return array[index++];
                             }
 
-                            public void remove() {}
+                            @Override
+                            public void remove() {
+                                // ignored
+                            }
                         };
         final Optional<Integer> result = Underscore.findLast(iterable, item -> item % 2 == 0);
         assertEquals("Optional[6]", result.toString());
@@ -501,7 +504,9 @@ class UnderscoreTest {
                     }
 
                     @Override
-                    public void remove() {}
+                    public void remove() {
+                        // ignored
+                    }
                 };
             }
         }
@@ -541,6 +546,7 @@ class UnderscoreTest {
             Optional.empty().get();
             fail("IllegalStateException expected");
         } catch (NoSuchElementException ignored) {
+            // ignored
         }
         assertFalse(Optional.<Integer>empty().filter(arg -> true).isPresent());
         assertTrue(Optional.<Integer>empty().filter(arg -> false).isEmpty());
