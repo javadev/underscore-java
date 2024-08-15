@@ -162,11 +162,13 @@
           </excludes>
         </configuration>
       </plugin>
+      <!--suppress MavenModelInspection -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
         <version>3.3.1</version>
       </plugin>
+      <!--suppress MavenModelInspection -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
@@ -181,6 +183,7 @@
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
         </configuration>
       </plugin>
+      <!--suppress MavenModelInspection -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
@@ -203,11 +206,13 @@
           </rulesets>
         </configuration>
       </plugin>
+      <!--suppress MavenModelInspection -->
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
         <version>4.8.6.2</version>
       </plugin>
+      <!--suppress MavenModelInspection -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>taglist-maven-plugin</artifactId>

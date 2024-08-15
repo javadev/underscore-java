@@ -1920,11 +1920,11 @@ public class Underscore<T> {
             return list;
         }
         if (start < stop) {
-            for (char value = start; value < stop; value += step) {
+            for (char value = start; value < stop; value += (char) step) {
                 list.add(value);
             }
         } else {
-            for (char value = start; value > stop; value += step) {
+            for (char value = start; value > stop; value += (char) step) {
                 list.add(value);
             }
         }

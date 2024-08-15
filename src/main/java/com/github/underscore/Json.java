@@ -695,9 +695,9 @@ public final class Json {
             return result;
         }
 
-        private boolean readFraction() {
+        private void readFraction() {
             if (!readChar('.')) {
-                return false;
+                return;
             }
             if (!readDigit()) {
                 throw expected(DIGIT);
@@ -705,12 +705,11 @@ public final class Json {
             while (readDigit()) {
                 // ignored
             }
-            return true;
         }
 
-        private boolean readExponent() {
+        private void readExponent() {
             if (!readChar('e') && !readChar('E')) {
-                return false;
+                return;
             }
             if (!readChar('+')) {
                 readChar('-');
@@ -721,7 +720,6 @@ public final class Json {
             while (readDigit()) {
                 // ignored
             }
-            return true;
         }
 
         private boolean readChar(char ch) {
