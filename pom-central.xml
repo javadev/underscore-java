@@ -4,7 +4,7 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore</artifactId>
   <packaging>jar</packaging>
-  <version>1.104</version>
+  <version>1.105</version>
   <name>java port of Underscore.js</name>
   <description>The java port of Underscore.js</description>
   <url>https://github.com/javadev/underscore-java</url>
@@ -57,7 +57,7 @@
           <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>[5.10.2,)</version>
+            <version>[5.10.3,)</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -90,7 +90,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.6.3</version>
+        <version>3.8.0</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -109,7 +109,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.2.5</version>
         <executions>
           <execution>
             <id>sign-artifacts</id>
@@ -126,13 +126,13 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>[5.10.2,)</version>
+      <version>[5.10.3,)</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
-      <version>[1.10.2,)</version>
+      <version>[1.10.3,)</version>
       <scope>test</scope>
     </dependency>
     <dependency>
