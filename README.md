@@ -1,3 +1,5 @@
+<img src="underscore-logo.png" alt="drawing" width="220" align = "right"/>
+
 underscore-java 
 ===============
 
