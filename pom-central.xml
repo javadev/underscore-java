@@ -57,7 +57,7 @@
           <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>[5.10.3,)</version>
+            <version>[5.11.0,)</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -90,7 +90,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.10.0</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -126,19 +126,19 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>[5.10.3,)</version>
+      <version>[5.11.0,)</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
-      <version>[1.10.3,)</version>
+      <version>[1.11.0,)</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.awaitility</groupId>
       <artifactId>awaitility</artifactId>
-      <version>[4.2.0,)</version>
+      <version>[4.2.2,)</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
