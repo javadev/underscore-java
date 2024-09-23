@@ -210,7 +210,7 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.8.6.3</version>
+        <version>4.8.6.4</version>
       </plugin>
       <!--suppress MavenModelInspection -->
       <plugin>
