@@ -185,29 +185,6 @@
       </plugin>
       <!--suppress MavenModelInspection -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.25.0</version>
-        <configuration>
-          <targetJdk>11</targetJdk>
-          <rulesets>
-            <ruleset>rulesets/java/basic.xml</ruleset>
-            <ruleset>rulesets/java/design.xml</ruleset>
-            <ruleset>rulesets/java/junit.xml</ruleset>
-            <ruleset>rulesets/java/finalizers.xml</ruleset>
-            <ruleset>rulesets/java/clone.xml</ruleset>
-            <ruleset>rulesets/java/unusedcode.xml</ruleset>
-            <ruleset>rulesets/java/imports.xml</ruleset>
-            <ruleset>rulesets/java/strings.xml</ruleset>
-            <ruleset>rulesets/java/braces.xml</ruleset>
-            <ruleset>rulesets/java/codesize.xml</ruleset>
-            <ruleset>rulesets/java/coupling.xml</ruleset>
-            <ruleset>rulesets/java/strictexception.xml</ruleset>
-          </rulesets>
-        </configuration>
-      </plugin>
-      <!--suppress MavenModelInspection -->
-      <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
         <version>4.8.6.4</version>
