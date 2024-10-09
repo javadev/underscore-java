@@ -1118,6 +1118,12 @@ public final class Xml {
         return builder.toString();
     }
 
+    public static String toXmlWithoutRoot(Collection collection, XmlStringBuilder.Step identStep) {
+        final XmlStringBuilder builder = new XmlStringBuilderWithoutHeader(identStep, 0);
+        writeArray(collection, builder, ARRAY_TRUE);
+        return builder.toString();
+    }
+
     public static String toXml(Collection collection) {
         return toXml(collection, XmlStringBuilder.Step.TWO_SPACES);
     }

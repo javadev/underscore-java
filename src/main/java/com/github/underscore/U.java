@@ -95,6 +95,7 @@ public class U<T> extends Underscore<T> {
     private static final String SELF_CLOSING = "-self-closing";
     private static final String NIL_KEY = "-nil";
     private static final String OMIT_XML_DECL = "#omit-xml-declaration";
+    private static final String YES = "yes";
     private static final java.util.regex.Pattern RE_WORDS =
             java.util.regex.Pattern.compile(
                     UPPER
@@ -2699,6 +2700,20 @@ public class U<T> extends Underscore<T> {
 
     public static String jsonToXml(String json) {
         return jsonToXml(json, Xml.XmlStringBuilder.Step.TWO_SPACES, null, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String jsonToXmlMinimum(String json, Xml.XmlStringBuilder.Step identStep) {
+        Object object = Json.fromJson(json);
+        if (object instanceof Map) {
+            ((Map<String, Object>) object).put(OMIT_XML_DECL, YES);
+            return Xml.toXml(replaceNumberAndBooleanWithString((Map) object), identStep);
+        }
+        return Xml.toXmlWithoutRoot((List) object, identStep);
+    }
+
+    public static String jsonToXmlMinimum(String json) {
+        return jsonToXmlMinimum(json, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
     @SuppressWarnings("unchecked")
