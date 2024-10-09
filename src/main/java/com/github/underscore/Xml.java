@@ -1119,8 +1119,7 @@ public final class Xml {
     }
 
     public static String toXmlWithoutRoot(Collection collection, XmlStringBuilder.Step identStep) {
-        final XmlStringBuilder builder =
-                new XmlStringBuilderWithoutHeader(identStep, 0);
+        final XmlStringBuilder builder = new XmlStringBuilderWithoutHeader(identStep, 0);
         writeArray(collection, builder, ARRAY_TRUE);
         return builder.toString();
     }
