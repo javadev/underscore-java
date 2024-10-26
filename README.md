@@ -15,7 +15,7 @@ underscore-java
 [![codecov](https://codecov.io/gh/javadev/underscore-java/branch/master/graph/badge.svg?token=IZXYx3kg5y)](https://codecov.io/gh/javadev/underscore-java)
 [![CircleCI](https://circleci.com/gh/javadev/underscore-java.svg?style=svg)](https://circleci.com/gh/javadev/underscore-java)
 [![Build status](https://ci.appveyor.com/api/projects/status/tx7icv3i08qowv6r?svg=true)](https://ci.appveyor.com/project/javadev/underscore-java)
-[![Build Status](https://javadev.semaphoreci.com/badges/underscore-java/branches/main.svg?style=shields&key=bb2652ef-e776-4a3e-bbcb-6b4d0c8a805a)](https://javadev.semaphoreci.com/projects/underscore-java)
+[![Build Status](https://javadev.semaphoreci.com/badges/underscore-java/branches/main.svg?key=bb2652ef-e776-4a3e-bbcb-6b4d0c8a805a)](https://javadev.semaphoreci.com/projects/underscore-java)
 [![Known Vulnerabilities](https://snyk.io/test/github/javadev/underscore-java/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/javadev/underscore-java?targetFile=pom.xml)
 [![javadoc](https://javadoc.io/badge2/com.github.javadev/underscore/javadoc.svg)](https://javadoc.io/doc/com.github.javadev/underscore)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=alert_status)](https://sonarcloud.io/summary/overall?id=javadev_underscore-java)
