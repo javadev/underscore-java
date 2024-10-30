@@ -2098,13 +2098,14 @@ public class Underscore<T> {
             final Supplier<T> function, final int delayMilliseconds) {
         final java.util.concurrent.ScheduledExecutorService scheduler =
                 java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
-        final java.util.concurrent.ScheduledFuture<T> future =
-                scheduler.schedule(
-                        function::get,
-                        delayMilliseconds,
-                        java.util.concurrent.TimeUnit.MILLISECONDS);
-        scheduler.shutdown();
-        return future;
+        try {
+            return scheduler.schedule(
+                    function::get,
+                    delayMilliseconds,
+                    java.util.concurrent.TimeUnit.MILLISECONDS);
+        } finally {
+            scheduler.shutdown();
+        }
     }
 
     public static <T> java.util.concurrent.ScheduledFuture<T> defer(final Supplier<T> function) {
@@ -3624,6 +3625,7 @@ public class Underscore<T> {
             final Supplier<T> function, final int delayMilliseconds) {
         final java.util.concurrent.ScheduledExecutorService scheduler =
                 java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
+        Runtime.getRuntime().addShutdownHook(new Thread(scheduler::shutdown));
         return scheduler.scheduleAtFixedRate(
                 function::get,
                 delayMilliseconds,
