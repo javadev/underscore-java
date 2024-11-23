@@ -57,5 +57,8 @@ jobs:
         run: mvn -B -f spring-boot-example/pom.xml package
       - uses: codecov/codecov-action@v5
         with:
-          file: target/site/jacoco/jacoco.xml
+          files: target/site/jacoco/jacoco.xml
           name: codecov
+          fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: a7a3a75d-8ee9-483e-8430-59b6b39471e2
