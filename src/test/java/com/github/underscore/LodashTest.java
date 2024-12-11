@@ -1029,6 +1029,19 @@ class LodashTest {
     }
 
     @Test
+    void xmpToJson5() {
+        assertEquals("{\n"
+                        + "  \"Comment\": {\n"
+                        + "    \"-stringValue\": \"============================\",\n"
+                        + "    \"-self-closing\": \"true\"\n"
+                        + "  },\n"
+                        + "  \"#omit-xml-declaration\": \"yes\"\n"
+                        + "}",
+                U.xmlToJson(
+                        "<Comment stringValue=\"============================\"/>"));
+    }
+
+    @Test
     void xmlToJsonMinimum() {
         assertEquals(
                 "{\n"

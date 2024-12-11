@@ -1521,30 +1521,26 @@ public final class Xml {
     }
 
     static Map<String, String> parseAttributes(final String source) {
-        final Map<String, String> result = new LinkedHashMap<>();
-        final StringBuilder key = new StringBuilder();
-        final StringBuilder value = new StringBuilder();
-        boolean quoteFound = false;
-        boolean equalFound = false;
-        for (int index = 0; index < source.length(); index += 1) {
-            if (source.charAt(index) == '=') {
-                equalFound = !equalFound;
-                continue;
-            }
-            if (source.charAt(index) == '"') {
-                if (quoteFound && equalFound) {
+        Map<String, String> result = new LinkedHashMap<>();
+        StringBuilder key = new StringBuilder();
+        StringBuilder value = new StringBuilder();
+        boolean inQuotes = false;
+        boolean expectingValue = false;
+        for (char c : source.toCharArray()) {
+            if (c == '"') {
+                inQuotes = !inQuotes;
+                if (!inQuotes && expectingValue) {
                     result.put(key.toString(), value.toString());
                     key.setLength(0);
                     value.setLength(0);
-                    equalFound = false;
+                    expectingValue = false;
                 }
-                quoteFound = !quoteFound;
-            } else if (quoteFound || SKIPPED_CHARS.contains(source.charAt(index))) {
-                if (quoteFound) {
-                    value.append(source.charAt(index));
-                }
-            } else {
-                key.append(source.charAt(index));
+            } else if (c == '=' && !inQuotes) {
+                expectingValue = true;
+            } else if (inQuotes) {
+                value.append(c);
+            } else if (!SKIPPED_CHARS.contains(c)) {
+                key.append(c);
             }
         }
         return result;
