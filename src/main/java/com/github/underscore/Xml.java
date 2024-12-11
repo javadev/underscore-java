@@ -1527,7 +1527,7 @@ public final class Xml {
         boolean quoteFound = false;
         boolean equalFound = false;
         for (int index = 0; index < source.length(); index += 1) {
-            if (source.charAt(index) == '=') {
+            if (source.charAt(index) == '=' && !quoteFound) {
                 equalFound = !equalFound;
                 continue;
             }

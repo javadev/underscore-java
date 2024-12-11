@@ -2358,9 +2358,11 @@ class StringTest {
                 "{version=1.0}",
                 Xml.parseAttributes(" version = \"1.0\"  encoding= \"UTF-8 ").toString());
         assertEquals(
-                "{}", Xml.parseAttributes(" version = \"1.0  encoding= \"UTF-8\" ").toString());
+                "{version=1.0  encoding= }",
+                Xml.parseAttributes(" version = \"1.0  encoding= \"UTF-8\" ").toString());
         assertEquals(
-                "{}", Xml.parseAttributes(" version = 1.0\"  encoding= \"UTF-8\" ").toString());
+                "{version1.0=  encoding= }",
+                Xml.parseAttributes(" version = 1.0\"  encoding= \"UTF-8\" ").toString());
     }
 
     @SuppressWarnings("unchecked")
