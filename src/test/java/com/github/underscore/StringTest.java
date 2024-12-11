@@ -2365,6 +2365,66 @@ class StringTest {
                 Xml.parseAttributes(" version = 1.0\"  encoding= \"UTF-8\" ").toString());
     }
 
+    @Test
+    void testSingleAttribute() {
+        Map<String, String> result = Xml.parseAttributes("key1=\"value1\"");
+        assertEquals(Map.of("key1", "value1"), result);
+    }
+
+    @Test
+    void testMultipleAttributes() {
+        Map<String, String> result = Xml.parseAttributes("key1=\"value1\" key2=\"value2\"");
+        assertEquals(Map.of("key1", "value1", "key2", "value2"), result);
+    }
+
+    @Test
+    void testAttributeWithSpaces() {
+        Map<String, String> result = Xml.parseAttributes("key1=\"value with spaces\" key2=\"another value\"");
+        assertEquals(Map.of("key1", "value with spaces", "key2", "another value"), result);
+    }
+
+    @Test
+    void testEmptyValue() {
+        Map<String, String> result = Xml.parseAttributes("key1=\"value1\" key2=\"\"");
+        assertEquals(Map.of("key1", "value1", "key2", ""), result);
+    }
+
+    @Test
+    void testAttributesWithoutSpaceSeparation() {
+        Map<String, String> result = Xml.parseAttributes("key1=\"value1\"key2=\"value2\"");
+        assertEquals(Map.of("key1", "value1", "key2", "value2"), result);
+    }
+
+    @Test
+    void testUnclosedQuotes() {
+        Map<String, String> result = Xml.parseAttributes("key1=\"value1 key2=\"value2\"");
+        assertEquals(Map.of("key1", "value1 key2="), result);
+    }
+
+    @Test
+    void testEqualsSignInValue() {
+        Map<String, String> result = Xml.parseAttributes("key1=\"value=1\" key2=\"value=2\"");
+        assertEquals(Map.of("key1", "value=1", "key2", "value=2"), result);
+    }
+
+    @Test
+    void testTrailingWhitespace() {
+        Map<String, String> result = Xml.parseAttributes("key1=\"value1\" key2=\"value2\"   ");
+        assertEquals(Map.of("key1", "value1", "key2", "value2"), result);
+    }
+
+    @Test
+    void testLeadingWhitespace() {
+        Map<String, String> result = Xml.parseAttributes("   key1=\"value1\" key2=\"value2\"");
+        assertEquals(Map.of("key1", "value1", "key2", "value2"), result);
+    }
+
+    @Test
+    void testNoEqualsSign() {
+        Map<String, String> result = Xml.parseAttributes("key1\"value1\" key2=\"value2\"");
+        assertEquals(Map.of("key1key2", "value1value2"), result);
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     void toJsonFromXml23() {
