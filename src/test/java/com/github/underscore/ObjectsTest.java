@@ -174,7 +174,7 @@ class ObjectsTest {
                                 put("userid", "moe1");
                             }
                         },
-                        value -> value instanceof Number);
+                        Number.class::isInstance);
         assertEquals("[age=50]", result2.toString());
     }
 
@@ -208,7 +208,7 @@ class ObjectsTest {
                                 put("userid", "moe1");
                             }
                         },
-                        value -> value instanceof Number);
+                        Number.class::isInstance);
         assertEquals("[name=moe, userid=moe1]", result2.toString());
     }
 
