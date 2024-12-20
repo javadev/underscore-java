@@ -166,9 +166,9 @@ class UnderscoreTest {
     @SuppressWarnings("unchecked")
     @Test
     void pop() {
-        assertEquals("c", Underscore.pop(asList("a", "b", "c")).getKey().toString());
+        assertEquals("c", Underscore.pop(asList("a", "b", "c")).getKey());
         assertEquals("c", new Underscore(asList("a", "b", "c")).pop().getKey().toString());
-        assertEquals("c", Underscore.chain(asList("a", "b", "c")).pop().item().getKey().toString());
+        assertEquals("c", Underscore.chain(asList("a", "b", "c")).pop().item().getKey());
     }
 
     /*
@@ -178,7 +178,7 @@ class UnderscoreTest {
     @SuppressWarnings("unchecked")
     @Test
     void shift() {
-        assertEquals("a", Underscore.shift(asList("a", "b", "c")).getKey().toString());
+        assertEquals("a", Underscore.shift(asList("a", "b", "c")).getKey());
         assertEquals("a", new Underscore(asList("a", "b", "c")).shift().getKey().toString());
         assertEquals(
                 "a", Underscore.chain(asList("a", "b", "c")).shift().item().getKey().toString());
@@ -541,7 +541,7 @@ class UnderscoreTest {
         assertEquals("1", Optional.of(1).orElse(null).toString());
         assertFalse(Optional.<Integer>empty().map(arg -> "" + arg).isPresent());
         assertTrue(Optional.<Integer>empty().map(arg -> "" + arg).isEmpty());
-        assertEquals("1", Optional.of(1).map(arg -> "" + arg).get().toString());
+        assertEquals("1", Optional.of(1).map(arg -> "" + arg).get());
         try {
             Optional.empty().get();
             fail("IllegalStateException expected");

@@ -413,8 +413,7 @@ class LodashTest {
                 U.<String>set(
                                 (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"),
                                 "a[0].b.c",
-                                "e")
-                        .toString());
+                                "e"));
         assertEquals(
                 "{b={c=d}}",
                 U.set(
@@ -428,7 +427,7 @@ class LodashTest {
         map.put("a", map2);
         map2.put("#item", map3);
         map3.put("b", "c");
-        assertEquals("c", U.<String>set(map, "a.b", "b").toString());
+        assertEquals("c", U.<String>set(map, "a.b", "b"));
         assertNull(U.<String>set((Map<String, Object>) null, "a", "b"));
         assertNull(U.<String>set(new LinkedHashMap<String, Object>(), "a.b", "b"));
         Map<String, Object> map4 = new LinkedHashMap<>();
