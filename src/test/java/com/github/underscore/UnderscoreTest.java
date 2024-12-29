@@ -180,8 +180,7 @@ class UnderscoreTest {
     void shift() {
         assertEquals("a", Underscore.shift(asList("a", "b", "c")).getKey());
         assertEquals("a", new Underscore(asList("a", "b", "c")).shift().getKey().toString());
-        assertEquals(
-                "a", Underscore.chain(asList("a", "b", "c")).shift().item().getKey().toString());
+        assertEquals("a", Underscore.chain(asList("a", "b", "c")).shift().item().getKey());
     }
 
     /*
