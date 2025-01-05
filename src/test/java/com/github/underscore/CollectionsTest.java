@@ -1301,26 +1301,25 @@ class CollectionsTest {
                 Underscore.sortWith(
                         asList(1, 2, 3, 4, 5, 6),
                         (item1, item2) ->
-                                Double.valueOf(Math.sin(item1) * 1000).intValue()
-                                        - Double.valueOf(Math.sin(item2) * 1000).intValue());
+                                (int) (Math.sin(item1) * 1000)
+                                        - (int) (Math.sin(item2) * 1000));
         assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
         final List<Integer> resultObj =
                 new Underscore(asList(1, 2, 3, 4, 5, 6))
                         .sortWith(
                                 (Comparator<Integer>)
                                         (item1, item2) ->
-                                                Double.valueOf(Math.sin(item1) * 1000).intValue()
-                                                        - Double.valueOf(Math.sin(item2) * 1000)
-                                                                .intValue());
+                                                (int) (Math.sin(item1) * 1000)
+                                                        - (int) (Math.sin(item2) * 1000));
         assertEquals("[5, 4, 6, 3, 1, 2]", resultObj.toString());
         final List<Integer> resultChain =
                 Underscore.chain(asList(1, 2, 3, 4, 5, 6))
                         .sortWith(
                                 (Comparator<Integer>)
                                         (item1, item2) ->
-                                                Double.valueOf(Math.sin(item1) * 1000).intValue()
-                                                        - Double.valueOf(Math.sin(item2) * 1000)
-                                                                .intValue())
+                                                (int) (Math.sin(item1) * 1000)
+                                                        - (int) (Math.sin(item2) * 1000)
+                                                                )
                         .value();
         assertEquals("[5, 4, 6, 3, 1, 2]", resultChain.toString());
     }
@@ -1335,17 +1334,17 @@ class CollectionsTest {
         final List<Integer> result =
                 Underscore.sortBy(
                         asList(1, 2, 3, 4, 5, 6),
-                        item -> Double.valueOf(Math.sin(item) * 1000).intValue());
+                        item -> (int) (Math.sin(item) * 1000));
         assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
         final List<Integer> resultObj =
                 new Underscore(asList(1, 2, 3, 4, 5, 6))
                         .sortBy(
                                 (Function<Integer, Integer>)
-                                        item -> Double.valueOf(Math.sin(item) * 1000).intValue());
+                                        item -> (int) (Math.sin(item) * 1000));
         assertEquals("[5, 4, 6, 3, 1, 2]", resultObj.toString());
         final List<Integer> resultChain =
                 Underscore.chain(asList(1, 2, 3, 4, 5, 6))
-                        .sortBy(item -> Double.valueOf(Math.sin(item) * 1000).intValue())
+                        .sortBy(item -> (int) (Math.sin(item) * 1000))
                         .value();
         assertEquals("[5, 4, 6, 3, 1, 2]", resultChain.toString());
     }
