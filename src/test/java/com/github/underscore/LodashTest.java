@@ -411,9 +411,9 @@ class LodashTest {
         assertEquals(
                 "d",
                 U.<String>set(
-                                (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"),
-                                "a[0].b.c",
-                                "e"));
+                        (Map<String, Object>) U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"),
+                        "a[0].b.c",
+                        "e"));
         assertEquals(
                 "{b={c=d}}",
                 U.set(
@@ -615,24 +615,25 @@ class LodashTest {
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json");
         result.json();
         result.jsonMap();
-                assertEquals("{\n"
-                                + "    \"fruit\": \"Apple\",\n"
-                                + "    \"size\": \"Large\",\n"
-                                + "    \"color\": \"Red\"\n"
-                                + "}",
-                    result.text());
-                assertEquals("Apple",
-                        U.get((Map<String, Object>) result.json(), "fruit"));
+        assertEquals(
+                "{\n"
+                        + "    \"fruit\": \"Apple\",\n"
+                        + "    \"size\": \"Large\",\n"
+                        + "    \"color\": \"Red\"\n"
+                        + "}",
+                result.text());
+        assertEquals("Apple", U.get((Map<String, Object>) result.json(), "fruit"));
         U.Chain<?> resultChain =
                 U.chain(
                                 "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
                         .fetch();
-                assertEquals("{\n"
-                                + "    \"fruit\": \"Apple\",\n"
-                                + "    \"size\": \"Large\",\n"
-                                + "    \"color\": \"Red\"\n"
-                                + "}",
-                    resultChain.item());
+        assertEquals(
+                "{\n"
+                        + "    \"fruit\": \"Apple\",\n"
+                        + "    \"size\": \"Large\",\n"
+                        + "    \"color\": \"Red\"\n"
+                        + "}",
+                resultChain.item());
         U.chain(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
                 .fetch();
@@ -665,12 +666,13 @@ class LodashTest {
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
                         30000,
                         30000);
-                assertEquals("{\n"
-                                + "    \"fruit\": \"Apple\",\n"
-                                + "    \"size\": \"Large\",\n"
-                                + "    \"color\": \"Red\"\n"
-                                + "}",
-                    result.text());
+        assertEquals(
+                "{\n"
+                        + "    \"fruit\": \"Apple\",\n"
+                        + "    \"size\": \"Large\",\n"
+                        + "    \"color\": \"Red\"\n"
+                        + "}",
+                result.text());
     }
 
     @Test
@@ -730,7 +732,7 @@ class LodashTest {
                                 + "        \"fireBreath\": 10"
                                 + "    }"
                                 + "}");
-                assertEquals(403, result.getStatus());
+        assertEquals(403, result.getStatus());
         U.FetchResponse result2 =
                 U.fetch(
                         "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
@@ -760,13 +762,15 @@ class LodashTest {
                                         + "        \"fireBreath\": 10"
                                         + "    }"
                                         + "}");
-        assertEquals("<html>\n"
-                + "<head><title>301 Moved Permanently</title></head>\n"
-                + "<body>\n"
-                + "<center><h1>301 Moved Permanently</h1></center>\n"
-                + "<hr><center>cloudflare</center>\n"
-                + "</body>\n"
-                + "</html>\n", resultChain.item().replace("\r\n", "\n"));
+        assertEquals(
+                "<html>\n"
+                        + "<head><title>301 Moved Permanently</title></head>\n"
+                        + "<body>\n"
+                        + "<center><h1>301 Moved Permanently</h1></center>\n"
+                        + "<hr><center>cloudflare</center>\n"
+                        + "</body>\n"
+                        + "</html>\n",
+                resultChain.item().replace("\r\n", "\n"));
     }
 
     @Test
@@ -1029,15 +1033,15 @@ class LodashTest {
 
     @Test
     void xmpToJson5() {
-        assertEquals("{\n"
+        assertEquals(
+                "{\n"
                         + "  \"Comment\": {\n"
                         + "    \"-stringValue\": \"============================\",\n"
                         + "    \"-self-closing\": \"true\"\n"
                         + "  },\n"
                         + "  \"#omit-xml-declaration\": \"yes\"\n"
                         + "}",
-                U.xmlToJson(
-                        "<Comment stringValue=\"============================\"/>"));
+                U.xmlToJson("<Comment stringValue=\"============================\"/>"));
     }
 
     @Test
@@ -1054,15 +1058,13 @@ class LodashTest {
                         + "}",
                 U.xmlToJsonMinimum("<root><element>1</element><element>2</element><a/></root>"));
         assertEquals(
-                "[\n"
-                        + "  \"a\",\n"
-                        + "  \"b\"\n"
-                        + "]",
-                U.xmlToJsonMinimum("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                        + "<root>\n"
-                        + "  <element>a</element>\n"
-                        + "  <element>b</element>\n"
-                        + "</root>"));
+                "[\n" + "  \"a\",\n" + "  \"b\"\n" + "]",
+                U.xmlToJsonMinimum(
+                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                + "<root>\n"
+                                + "  <element>a</element>\n"
+                                + "  <element>b</element>\n"
+                                + "</root>"));
     }
 
     @Test
@@ -1357,13 +1359,13 @@ class LodashTest {
 
     @Test
     void jsonToXmlMinimum() {
-        assertEquals("<a></a>",
-                U.jsonToXmlMinimum("{\n  \"a\": {\n  }\n}"));
-        assertEquals("<a></a>",
+        assertEquals("<a></a>", U.jsonToXmlMinimum("{\n  \"a\": {\n  }\n}"));
+        assertEquals(
+                "<a></a>",
                 U.jsonToXmlMinimum("{\n  \"a\": {\n  }\n}", Xml.XmlStringBuilder.Step.TWO_SPACES));
-        assertEquals("<root empty-array=\"true\"></root>",
-                U.jsonToXmlMinimum("[]"));
-        assertEquals("<root>\n"
+        assertEquals("<root empty-array=\"true\"></root>", U.jsonToXmlMinimum("[]"));
+        assertEquals(
+                "<root>\n"
                         + "  <a>\n"
                         + "    <b>1</b>\n"
                         + "  </a>\n"

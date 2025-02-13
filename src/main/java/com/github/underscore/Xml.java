@@ -38,7 +38,14 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-@SuppressWarnings({"java:S107", "java:S1119", "java:S2583", "java:S3740", "java:S3776", "java:S4276"})
+@SuppressWarnings({
+    "java:S107",
+    "java:S1119",
+    "java:S2583",
+    "java:S3740",
+    "java:S3776",
+    "java:S4276"
+})
 public final class Xml {
     private Xml() {}
 
@@ -1887,15 +1894,13 @@ public final class Xml {
                 (object, namespaces) -> {
                     final String localString = String.valueOf(object);
                     final String result;
-                    String substring = localString.substring(
-                            Math.max(0, localString.indexOf(':') + 1));
+                    String substring =
+                            localString.substring(Math.max(0, localString.indexOf(':') + 1));
                     if (localString.startsWith("-")
                             && namespaces.contains(
                                     localString.substring(
                                             1, Math.max(1, localString.indexOf(':'))))) {
-                        result =
-                                "-"
-                                        + substring;
+                        result = "-" + substring;
                     } else if (namespaces.contains(
                             localString.substring(0, Math.max(0, localString.indexOf(':'))))) {
                         result = substring;

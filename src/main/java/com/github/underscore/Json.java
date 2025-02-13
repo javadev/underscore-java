@@ -83,7 +83,9 @@ public final class Json {
         }
 
         public JsonStringBuilder fillSpaces() {
-            builder.append(String.valueOf(identStep == Step.TABS ? '\t' : ' ').repeat(Math.max(0, indent)));
+            builder.append(
+                    String.valueOf(identStep == Step.TABS ? '\t' : ' ')
+                            .repeat(Math.max(0, indent)));
             return this;
         }
 
