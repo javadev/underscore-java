@@ -481,9 +481,7 @@ class UtilityTest {
 
     @Test
     void joinToString() {
-        assertEquals("[]", U.joinToString(List.of(), ",",
-                "[", "]", 3, "...", null));
-        assertEquals("[1,2,3]", U.joinToString(List.of(1, 2, 3), ",",
-                "[", "]", -1, "...", null));
+        assertEquals("[]", U.joinToString(List.of(), ",", "[", "]", 3, "...", null));
+        assertEquals("[1,2,3]", U.joinToString(List.of(1, 2, 3), ",", "[", "]", -1, "...", null));
     }
 }

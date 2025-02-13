@@ -1301,8 +1301,7 @@ class CollectionsTest {
                 Underscore.sortWith(
                         asList(1, 2, 3, 4, 5, 6),
                         (item1, item2) ->
-                                (int) (Math.sin(item1) * 1000)
-                                        - (int) (Math.sin(item2) * 1000));
+                                (int) (Math.sin(item1) * 1000) - (int) (Math.sin(item2) * 1000));
         assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
         final List<Integer> resultObj =
                 new Underscore(asList(1, 2, 3, 4, 5, 6))
@@ -1318,8 +1317,7 @@ class CollectionsTest {
                                 (Comparator<Integer>)
                                         (item1, item2) ->
                                                 (int) (Math.sin(item1) * 1000)
-                                                        - (int) (Math.sin(item2) * 1000)
-                                                                )
+                                                        - (int) (Math.sin(item2) * 1000))
                         .value();
         assertEquals("[5, 4, 6, 3, 1, 2]", resultChain.toString());
     }
@@ -1332,15 +1330,11 @@ class CollectionsTest {
     @SuppressWarnings("unchecked")
     void sortBy() {
         final List<Integer> result =
-                Underscore.sortBy(
-                        asList(1, 2, 3, 4, 5, 6),
-                        item -> (int) (Math.sin(item) * 1000));
+                Underscore.sortBy(asList(1, 2, 3, 4, 5, 6), item -> (int) (Math.sin(item) * 1000));
         assertEquals("[5, 4, 6, 3, 1, 2]", result.toString());
         final List<Integer> resultObj =
                 new Underscore(asList(1, 2, 3, 4, 5, 6))
-                        .sortBy(
-                                (Function<Integer, Integer>)
-                                        item -> (int) (Math.sin(item) * 1000));
+                        .sortBy((Function<Integer, Integer>) item -> (int) (Math.sin(item) * 1000));
         assertEquals("[5, 4, 6, 3, 1, 2]", resultObj.toString());
         final List<Integer> resultChain =
                 Underscore.chain(asList(1, 2, 3, 4, 5, 6))
@@ -1719,8 +1713,7 @@ class CollectionsTest {
                             }
 
                             @Override
-                            public void remove() {
-                            }
+                            public void remove() {}
                         };
         assertEquals(6, Underscore.size(iterable));
         assertEquals(5, Underscore.size(new Integer[] {5, 4, 3, 2, 1}));

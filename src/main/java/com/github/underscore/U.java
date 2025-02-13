@@ -98,16 +98,7 @@ public class U<T> extends Underscore<T> {
     private static final String YES = "yes";
     private static final java.util.regex.Pattern RE_WORDS =
             java.util.regex.Pattern.compile(
-                    UPPER
-                            + "+(?="
-                            + UPPER
-                            + LOWER
-                            + ")|"
-                            + UPPER
-                            + "?"
-                            + LOWER
-                            + "|"
-                            + UPPER
+                    UPPER + "+(?=" + UPPER + LOWER + ")|" + UPPER + "?" + LOWER + "|" + UPPER
                             + "+|\\d+");
 
     static {
@@ -2069,8 +2060,7 @@ public class U<T> extends Underscore<T> {
 
     public static void decompressGzip(final String sourceFileName, final String targetFileName)
             throws IOException {
-        try (GZIPInputStream gis =
-                new GZIPInputStream(new FileInputStream(sourceFileName))) {
+        try (GZIPInputStream gis = new GZIPInputStream(new FileInputStream(sourceFileName))) {
             Files.copy(gis, Paths.get(targetFileName));
         }
     }
@@ -2524,12 +2514,16 @@ public class U<T> extends Underscore<T> {
         return Underscore.join(iterable, separator);
     }
 
-    public static <T> String joinToString(final Iterable<T> iterable, final String separator,
-                                  final String prefix, final String postfix,
-                                  final int limit,
-                                  final String truncated,
-                                  final Function<T, String> transform) {
-        return Underscore.joinToString(iterable, separator, prefix, postfix, limit, truncated, transform);
+    public static <T> String joinToString(
+            final Iterable<T> iterable,
+            final String separator,
+            final String prefix,
+            final String postfix,
+            final int limit,
+            final String truncated,
+            final Function<T, String> transform) {
+        return Underscore.joinToString(
+                iterable, separator, prefix, postfix, limit, truncated, transform);
     }
 
     public static String toJson(Collection collection) {
@@ -2914,8 +2908,7 @@ public class U<T> extends Underscore<T> {
             } else {
                 newKey = entry.getKey();
             }
-            if (!entry.getKey().equals(SELF_CLOSING)
-                    && !entry.getKey().equals(OMIT_XML_DECL)) {
+            if (!entry.getKey().equals(SELF_CLOSING) && !entry.getKey().equals(OMIT_XML_DECL)) {
                 outMap.put(newKey, makeObject(entry.getValue()));
             }
         }
