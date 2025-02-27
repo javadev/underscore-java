@@ -389,9 +389,11 @@ XmlBuilder builder = XmlBuilder.create("Projects")
     .e("JetS3t").a("language", "Java").a("scm", "CVS")
         .e("Location").a("type", "URL")
             .t("https://jets3t.s3.amazonaws.com/index.html");
+System.out.println(builder.toXml(Xml.XmlStringBuilder.Step.TWO_SPACES));
+System.out.println(builder.toJson(Json.JsonStringBuilder.Step.TWO_SPACES));
 ```
 
-Generates the following XML document:
+Generates the following XML and JSON documents:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -403,6 +405,28 @@ Generates the following XML document:
         <Location type="URL">https://jets3t.s3.amazonaws.com/index.html</Location>
     </JetS3t>
 </Projects>
+```
+```json
+{
+  "Projects": {
+    "underscore-java": {
+      "-language": "Java",
+      "-scm": "SVN",
+      "Location": {
+        "-type": "URL",
+        "#text": "https://github.com/javadev/underscore-java/"
+      }
+    },
+    "JetS3t": {
+      "-language": "Java",
+      "-scm": "CVS",
+      "Location": {
+        "-type": "URL",
+        "#text": "https://jets3t.s3.amazonaws.com/index.html"
+      }
+    }
+  }
+}
 ```
 
 Underscore-java is a java port of [Underscore.js](https://underscorejs.org/).
