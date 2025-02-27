@@ -302,79 +302,6 @@ System.out.println(builder.toXml());
 </root>
 ```
 
-```java
-String inventory =
-    "{\n"
-        + "  \"inventory\": {\n"
-        + "    \"#comment\": \"Test is test comment\",\n"
-        + "    \"book\": [\n"
-        + "      {\n"
-        + "        \"-year\": \"2000\",\n"
-        + "        \"title\": \"Snow Crash\",\n"
-        + "        \"author\": \"Neal Stephenson\",\n"
-        + "        \"publisher\": \"Spectra\",\n"
-        + "        \"isbn\": \"0553380958\",\n"
-        + "        \"price\": \"14.95\"\n"
-        + "      },\n"
-        + "      {\n"
-        + "        \"-year\": \"2005\",\n"
-        + "        \"title\": \"Burning Tower\",\n"
-        + "        \"author\": [\n"
-        + "          \"Larry Niven\",\n"
-        + "          \"Jerry Pournelle\"\n"
-        + "        ],\n"
-        + "        \"publisher\": \"Pocket\",\n"
-        + "        \"isbn\": \"0743416910\",\n"
-        + "        \"price\": \"5.99\"\n"
-        + "      },\n"
-        + "      {\n"
-        + "        \"-year\": \"1995\",\n"
-        + "        \"title\": \"Zodiac\",\n"
-        + "        \"author\": \"Neal Stephenson\",\n"
-        + "        \"publisher\": \"Spectra\",\n"
-        + "        \"isbn\": \"0553573862\",\n"
-        + "        \"price\": \"7.50\"\n"
-        + "      }\n"
-        + "    ]\n"
-        + "  }\n"
-        + "}";
-String title = U.selectToken(U.fromJsonMap(inventory), "//book[@year>2001]/title/text()");
-// "Burning Tower"
-
-String json =
-    "{\n"
-        + "  \"Stores\": [\n"
-        + "    \"Lambton Quay\",\n"
-        + "    \"Willis Street\"\n"
-        + "  ],\n"
-        + "  \"Manufacturers\": [\n"
-        + "    {\n"
-        + "      \"Name\": \"Acme Co\",\n"
-        + "      \"Products\": [\n"
-        + "        {\n"
-        + "          \"Name\": \"Anvil\",\n"
-        + "          \"Price\": 50\n"
-        + "        }\n"
-        + "      ]\n"
-        + "    },\n"
-        + "    {\n"
-        + "      \"Name\": \"Contoso\",\n"
-        + "      \"Products\": [\n"
-        + "        {\n"
-        + "          \"Name\": \"Elbow Grease\",\n"
-        + "          \"Price\": 99.95\n"
-        + "        },\n"
-        + "        {\n"
-        + "          \"Name\": \"Headlight Fluid\",\n"
-        + "          \"Price\": 4\n"
-        + "        }\n"
-        + "      ]\n"
-        + "    }\n"
-        + "  ]\n"
-        + "}";
-List<String> names = U.selectTokens(U.fromJsonMap(json), "//Products[Price>=50]/Name/text()");
-// [Anvil, Elbow Grease]
-```
 Simplify XML document creation by structuring your code like the final document.
 
 This code:
@@ -389,9 +316,11 @@ XmlBuilder builder = XmlBuilder.create("Projects")
     .e("JetS3t").a("language", "Java").a("scm", "CVS")
         .e("Location").a("type", "URL")
             .t("https://jets3t.s3.amazonaws.com/index.html");
+System.out.println(builder.toXml(Xml.XmlStringBuilder.Step.TWO_SPACES));
+System.out.println(builder.toJson(Json.JsonStringBuilder.Step.TWO_SPACES));
 ```
 
-Generates the following XML document:
+Generates the following XML and JSON documents:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -403,6 +332,28 @@ Generates the following XML document:
         <Location type="URL">https://jets3t.s3.amazonaws.com/index.html</Location>
     </JetS3t>
 </Projects>
+```
+```json
+{
+  "Projects": {
+    "underscore-java": {
+      "-language": "Java",
+      "-scm": "SVN",
+      "Location": {
+        "-type": "URL",
+        "#text": "https://github.com/javadev/underscore-java/"
+      }
+    },
+    "JetS3t": {
+      "-language": "Java",
+      "-scm": "CVS",
+      "Location": {
+        "-type": "URL",
+        "#text": "https://jets3t.s3.amazonaws.com/index.html"
+      }
+    }
+  }
+}
 ```
 
 Underscore-java is a java port of [Underscore.js](https://underscorejs.org/).
