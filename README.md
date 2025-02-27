@@ -125,6 +125,45 @@ U.xmlToJson(
     //   "#omit-xml-declaration": "yes"
     // }
 
+U.xmlToJsonMinimum(
+    "<data>\n"
+        + "    <string>Example Text</string>\n"
+        + "    <integer>42</integer>\n"
+        + "    <float>3.14</float>\n"
+        + "    <boolean>true</boolean>\n"
+        + "    <date>2025-02-26</date>\n"
+        + "    <time>14:30:00</time>\n"
+        + "    <datetime>2025-02-26T14:30:00Z</datetime>\n"
+        + "    <array>Item 1</array>\n"
+        + "    <array>Item 2</array>\n"
+        + "    <object>\n"
+        + "        <key1>Value 1</key1>\n"
+        + "        <key2>Value 2</key2>\n"
+        + "    </object>\n"
+        + "    <null/>\n"
+        + "</data>\n",
+    Json.JsonStringBuilder.Step.TWO_SPACES);
+    // {
+    //   "data": {
+    //     "string": "Example Text",
+    //     "integer": "42",
+    //     "float": "3.14",
+    //     "boolean": "true",
+    //     "date": "2025-02-26",
+    //     "time": "14:30:00",
+    //     "datetime": "2025-02-26T14:30:00Z",
+    //     "array": [
+    //       "Item 1",
+    //       "Item 2"
+    //     ],
+    //     "object": {
+    //       "key1": "Value 1",
+    //       "key2": "Value 2"
+    //     },
+    //     "null": ""
+    //   }
+    // }
+
 U.jsonToXml(
     "{\n"
         + "  \"mydocument\": {\n"
@@ -152,6 +191,45 @@ U.jsonToXml(
     //      element as well
     //    </plus>
     // </mydocument>
+
+U.jsonToXmlMinimum(
+    "{\n"
+        + "  \"data\": {\n"
+        + "    \"string\": \"Example Text\",\n"
+        + "    \"integer\": \"42\",\n"
+        + "    \"float\": \"3.14\",\n"
+        + "    \"boolean\": \"true\",\n"
+        + "    \"date\": \"2025-02-26\",\n"
+        + "    \"time\": \"14:30:00\",\n"
+        + "    \"datetime\": \"2025-02-26T14:30:00Z\",\n"
+        + "    \"array\": [\n"
+        + "      \"Item 1\",\n"
+        + "      \"Item 2\"\n"
+        + "    ],\n"
+        + "    \"object\": {\n"
+        + "      \"key1\": \"Value 1\",\n"
+        + "      \"key2\": \"Value 2\"\n"
+        + "    },\n"
+        + "    \"null\": \"\"\n"
+        + "  }\n"
+        + "}",
+    Xml.XmlStringBuilder.Step.TWO_SPACES);
+    // <data>
+    //   <string>Example Text</string>
+    //   <integer>42</integer>
+    //   <float>3.14</float>
+    //   <boolean>true</boolean>
+    //   <date>2025-02-26</date>
+    //   <time>14:30:00</time>
+    //   <datetime>2025-02-26T14:30:00Z</datetime>
+    //   <array>Item 1</array>
+    //   <array>Item 2</array>
+    //   <object>
+    //     <key1>Value 1</key1>
+    //     <key2>Value 2</key2>
+    //   </object>
+    //   <null string="true"/>
+    // </data>
 
 U.Builder builder = U.objectBuilder()
     .add("firstName", "John")
