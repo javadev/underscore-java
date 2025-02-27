@@ -134,10 +134,8 @@ U.xmlToJsonMinimum(
         + "    <date>2025-02-26</date>\n"
         + "    <time>14:30:00</time>\n"
         + "    <datetime>2025-02-26T14:30:00Z</datetime>\n"
-        + "    <array>\n"
-        + "        <item>Item 1</item>\n"
-        + "        <item>Item 2</item>\n"
-        + "    </array>\n"
+        + "    <array>Item 1</array>\n"
+        + "    <array>Item 2</array>\n"
         + "    <object>\n"
         + "        <key1>Value 1</key1>\n"
         + "        <key2>Value 2</key2>\n"
@@ -154,12 +152,10 @@ U.xmlToJsonMinimum(
     //     "date": "2025-02-26",
     //     "time": "14:30:00",
     //     "datetime": "2025-02-26T14:30:00Z",
-    //     "array": {
-    //       "item": [
-    //         "Item 1",
-    //         "Item 2"
-    //       ]
-    //     },
+    //     "array": [
+    //       "Item 1",
+    //       "Item 2"
+    //     ],
     //     "object": {
     //       "key1": "Value 1",
     //       "key2": "Value 2"
@@ -197,7 +193,7 @@ U.jsonToXml(
     // </mydocument>
 
 U.jsonToXmlMinimum(
-    "{\n" +
+    "{\n"
         + "  \"data\": {\n"
         + "    \"string\": \"Example Text\",\n"
         + "    \"integer\": \"42\",\n"
@@ -206,12 +202,10 @@ U.jsonToXmlMinimum(
         + "    \"date\": \"2025-02-26\",\n"
         + "    \"time\": \"14:30:00\",\n"
         + "    \"datetime\": \"2025-02-26T14:30:00Z\",\n"
-        + "    \"array\": {\n"
-        + "      \"item\": [\n"
-        + "        \"Item 1\",\n"
-        + "        \"Item 2\"\n"
-        + "      ]\n"
-        + "    },\n"
+        + "    \"array\": [\n"
+        + "      \"Item 1\",\n"
+        + "      \"Item 2\"\n"
+        + "    ],\n"
         + "    \"object\": {\n"
         + "      \"key1\": \"Value 1\",\n"
         + "      \"key2\": \"Value 2\"\n"
@@ -228,10 +222,8 @@ U.jsonToXmlMinimum(
     //   <date>2025-02-26</date>
     //   <time>14:30:00</time>
     //   <datetime>2025-02-26T14:30:00Z</datetime>
-    //   <array>
-    //     <item>Item 1</item>
-    //     <item>Item 2</item>
-    //   </array>
+    //   <array>Item 1</array>
+    //   <array>Item 2</array>
     //   <object>
     //     <key1>Value 1</key1>
     //     <key2>Value 2</key2>
