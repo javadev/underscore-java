@@ -22,7 +22,7 @@ underscore-java
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=javadev_underscore-java&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=javadev_underscore-java)
 [![Build Status](https://dev.azure.com/javadevazure/underscore-java/_apis/build/status/javadev.underscore-java?branchName=main)](https://dev.azure.com/javadevazure/underscore-java/_build/latest?definitionId=1&branchName=main)
 [![Hits-of-Code](https://hitsofcode.com/github/javadev/underscore-java?branch=main)](https://hitsofcode.com/github/javadev/underscore-java/view?branch=main)
-[![codebeat badge](https://codebeat.co/badges/3c32993b-056e-4e34-a4b6-7e7792c6c123)](https://codebeat.co/projects/github-com-javadev-underscore-java-main)
+[![codebeat badge](https://codebeat.co/badges/1060a230-7634-4ae1-94bf-bd2d659bb9c3)](https://codebeat.co/projects/github-com-javadev-underscore-java-main)
 ![Java Version](https://img.shields.io/badge/java-%3E%3D%2011-success)
 [![](https://img.shields.io/github/stars/javadev/underscore-java?style=flat-square)](https://github.com/javadev/underscore-java)
 [![](https://img.shields.io/github/forks/javadev/underscore-java?style=flat-square)](https://github.com/javadev/underscore-java/fork)
