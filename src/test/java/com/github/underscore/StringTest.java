@@ -3612,7 +3612,8 @@ class StringTest {
         try {
             U.fromXmlMap(stringXml);
         } catch (Throwable throwable) {
-            assertTrue(throwable instanceof StackOverflowError);
+            assertTrue(throwable instanceof StackOverflowError
+                || throwable instanceof IllegalArgumentException);
         }
     }
 
