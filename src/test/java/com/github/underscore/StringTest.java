@@ -3612,6 +3612,7 @@ class StringTest {
         try {
             U.fromXmlMap(stringXml);
         } catch (Throwable throwable) {
+            System.out.println("!!! - " + throwable);
             assertTrue(throwable instanceof StackOverflowError);
         }
     }
