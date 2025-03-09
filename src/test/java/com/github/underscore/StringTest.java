@@ -3613,7 +3613,7 @@ class StringTest {
             U.fromXmlMap(stringXml);
         } catch (Throwable throwable) {
             assertTrue(throwable instanceof StackOverflowError
-                || throwable instanceof org.xml.sax.SAXParseException);
+                || throwable instanceof IllegalArgumentException);
         }
     }
 
