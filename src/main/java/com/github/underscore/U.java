@@ -2798,6 +2798,48 @@ public class U<T> extends Underscore<T> {
         return xmlOrJsonToJson(xmlOrJson, Json.JsonStringBuilder.Step.TWO_SPACES);
     }
 
+    public static String mergeXmlsOrJsonsToJson(List<String> xmlsOrJsons, Json.JsonStringBuilder.Step identStep) {
+        Map<String, Object> resultJsonMap = new LinkedHashMap<>();
+        for (String xmlOrJsonToJson : xmlsOrJsons) {
+            TextType textType = getTextType(xmlOrJsonToJson);
+            final Map<String, Object> jsonOrXmlMap;
+            if (textType == TextType.JSON) {
+                jsonOrXmlMap = fromJsonMap(xmlOrJsonToJson);
+            } else if (textType == TextType.XML) {
+                jsonOrXmlMap = fromXmlMap(xmlOrJsonToJson);
+            } else {
+                continue;
+            }
+            resultJsonMap = U.update(resultJsonMap, jsonOrXmlMap);
+        }
+        return resultJsonMap.isEmpty() ? "" : Json.toJson(resultJsonMap, identStep);
+    }
+
+    public static String mergeXmlsOrJsonsToJson(List<String> xmlsOrJsons) {
+        return mergeXmlsOrJsonsToJson(xmlsOrJsons, Json.JsonStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static String mergeXmlsOrJsonsToXml(List<String> xmlsOrJsons, Xml.XmlStringBuilder.Step identStep) {
+        Map<String, Object> resultXmlMap = new LinkedHashMap<>();
+        for (String xmlOrJsonToXml : xmlsOrJsons) {
+            TextType textType = getTextType(xmlOrJsonToXml);
+            final Map<String, Object> jsonOrXmlMap;
+            if (textType == TextType.JSON) {
+                jsonOrXmlMap = fromJsonMap(xmlOrJsonToXml);
+            } else if (textType == TextType.XML) {
+                jsonOrXmlMap = fromXmlMap(xmlOrJsonToXml);
+            } else {
+                continue;
+            }
+            resultXmlMap = U.update(resultXmlMap, jsonOrXmlMap);
+        }
+        return resultXmlMap.isEmpty() ? "" : Xml.toXml(resultXmlMap, identStep);
+    }
+
+    public static String mergeXmlsOrJsonsToXml(List<String> xmlsOrJsons) {
+        return mergeXmlsOrJsonsToXml(xmlsOrJsons, Xml.XmlStringBuilder.Step.TWO_SPACES);
+    }
+
     @SuppressWarnings("unchecked")
     private static String getJsonString(Json.JsonStringBuilder.Step identStep, Object object) {
         final String result;

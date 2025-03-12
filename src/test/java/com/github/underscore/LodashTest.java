@@ -1107,6 +1107,66 @@ class LodashTest {
     }
 
     @Test
+    void mergeXmlsOrJsonsToJson() {
+        assertEquals(
+                "{\n"
+                        + "  \"a\": {\n"
+                        + "    \"-self-closing\": \"true\"\n"
+                        + "  },\n"
+                        + "  \"#omit-xml-declaration\": \"yes\"\n"
+                        + "}",
+                U.mergeXmlsOrJsonsToJson(List.of("<a/>")));
+        assertEquals(
+                "{\n"
+                        + "  \"a\": {\n"
+                        + "    \"-self-closing\": \"true\"\n"
+                        + "  },\n"
+                        + "  \"#omit-xml-declaration\": \"yes\",\n"
+                        + "  \"b\": {\n"
+                        + "    \"-self-closing\": \"true\"\n"
+                        + "  }\n"
+                        + "}",
+                U.mergeXmlsOrJsonsToJson(List.of("<a/>", "<b/>")));
+        assertEquals(
+                "{\n"
+                        + "  \"value\": [\n"
+                        + "  ]\n"
+                        + "}",
+                U.mergeXmlsOrJsonsToJson(
+                        List.of("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                + "<root empty-array=\"true\"></root>")));
+        assertEquals("{\n  \"a\": 1\n}", U.mergeXmlsOrJsonsToJson(List.of("{\"a\":1}")));
+        assertEquals("{\n"
+                + "  \"value\": [\n"
+                + "  ]\n"
+                + "}", U.mergeXmlsOrJsonsToJson(List.of("[]")));
+        assertEquals("", U.mergeXmlsOrJsonsToJson(List.of("")));
+    }
+
+    @Test
+    void mergeXmlsOrJsonsToXml() {
+        assertEquals("<a/>", U.mergeXmlsOrJsonsToXml(List.of("<a/>")));
+        assertEquals("<root>\n"
+                + "  <a/>\n"
+                + "  <b/>\n"
+                + "</root>", U.mergeXmlsOrJsonsToXml(List.of("<a/>", "<b/>")));
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<value empty-array=\"true\"></value>",
+                U.mergeXmlsOrJsonsToXml(
+                        List.of("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                + "<root empty-array=\"true\"></root>")));
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a number=\"true\">1</a>",
+                U.mergeXmlsOrJsonsToXml(List.of("{\"a\":1}")));
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<value empty-array=\"true\"></value>",
+                U.mergeXmlsOrJsonsToXml(List.of("[]")));
+        assertEquals("", U.mergeXmlsOrJsonsToXml(List.of("")));
+    }
+
+    @Test
     void removeMapKey() {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("-self-closing", "false");
