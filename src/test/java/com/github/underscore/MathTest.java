@@ -378,9 +378,7 @@ class MathTest {
                 new U<>(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median();
         assertEquals("0.0", resultObj.toString());
         final Double resultChain =
-                U.chain(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5))
-                        .median()
-                        .item();
+                U.chain(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median().item();
         assertEquals("0.0", resultChain.toString());
         final Double result2 = U.median(asList((int) 0, (int) 0, (int) 1, (int) 2, (int) 5));
         assertEquals("1.0", result2.toString());

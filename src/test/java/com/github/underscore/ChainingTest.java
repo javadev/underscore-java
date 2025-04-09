@@ -161,10 +161,8 @@ class ChainingTest {
         final String youngest =
                 new Underscore<>(stooges)
                         .chain()
-                        .sortBy(
-                                item -> (Integer) item.get("age"))
-                        .map(
-                                item -> item.get("name") + " is " + item.get("age"))
+                        .sortBy(item -> (Integer) item.get("age"))
+                        .map(item -> item.get("name") + " is " + item.get("age"))
                         .first()
                         .item()
                         .toString();
@@ -442,7 +440,7 @@ class ChainingTest {
                                                                 "yearsPlayed",
                                                                 (Integer) item.get("end")
                                                                         - (Integer)
-                                                                        item.get("begin")
+                                                                                item.get("begin")
                                                                         + 1);
                                                     }
                                                 })

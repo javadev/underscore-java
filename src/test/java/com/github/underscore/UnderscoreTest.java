@@ -101,7 +101,8 @@ class UnderscoreTest {
         assertEquals(
                 "some-words-example", Underscore.join(asList("some", "words", "example"), "-"));
         assertEquals(
-                "some-words-example", new Underscore<>(asList("some", "words", "example")).join("-"));
+                "some-words-example",
+                new Underscore<>(asList("some", "words", "example")).join("-"));
         assertEquals(
                 "some-words-example",
                 Underscore.join(new String[] {"some", "words", "example"}, "-"));
@@ -162,7 +163,8 @@ class UnderscoreTest {
         assertEquals(
                 "[a, b, c, 0, 2]", Underscore.push(asList("a", "b", "c"), "0", "2").toString());
         assertEquals(
-                "[a, b, c, 0, 2]", new Underscore<>(asList("a", "b", "c")).push("0", "2").toString());
+                "[a, b, c, 0, 2]",
+                new Underscore<>(asList("a", "b", "c")).push("0", "2").toString());
         assertEquals(
                 "[a, b, c, 0, 2]",
                 Underscore.chain(asList("a", "b", "c")).push("0", "2").value().toString());

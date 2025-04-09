@@ -116,9 +116,7 @@ class CollectionsTest {
         Underscore.forEachIndexed(asList(1, 2, 3), (index, item) -> result.add(item));
         assertEquals("[1, 2, 3]", result.toString());
         final List<Integer> resultObj = new ArrayList<>();
-        new Underscore<>(asList(1, 2, 3))
-                .forEachIndexed(
-                        (index, item) -> resultObj.add(item));
+        new Underscore<>(asList(1, 2, 3)).forEachIndexed((index, item) -> resultObj.add(item));
         assertEquals("[1, 2, 3]", resultObj.toString());
     }
 
@@ -274,9 +272,7 @@ class CollectionsTest {
         List<Integer> result = Underscore.collect(asList(1, 2, 3), item -> item * 3);
         assertEquals("[3, 6, 9]", result.toString());
         Set<Integer> resultSet =
-                Underscore.collect(
-                        new LinkedHashSet<>(asList(1, 2, 3)),
-                        item -> item * 3);
+                Underscore.collect(new LinkedHashSet<>(asList(1, 2, 3)), item -> item * 3);
         assertEquals("[3, 6, 9]", resultSet.toString());
     }
 
@@ -518,8 +514,7 @@ class CollectionsTest {
         assertEquals("[1, 3, 5]", resultObject.toString());
         final Set<Integer> resultSet =
                 Underscore.filterFalse(
-                        new LinkedHashSet<>(asList(1, 2, 3, 4, 5, 6)),
-                        item -> item % 2 == 0);
+                        new LinkedHashSet<>(asList(1, 2, 3, 4, 5, 6)), item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", resultSet.toString());
     }
 
@@ -552,8 +547,7 @@ class CollectionsTest {
         assertEquals("[2, 4, 6]", result.toString());
         final Set<Integer> resultSet =
                 Underscore.select(
-                        new LinkedHashSet<>(asList(1, 2, 3, 4, 5, 6)),
-                        item -> item % 2 == 0);
+                        new LinkedHashSet<>(asList(1, 2, 3, 4, 5, 6)), item -> item % 2 == 0);
         assertEquals("[2, 4, 6]", resultSet.toString());
     }
 
@@ -572,8 +566,7 @@ class CollectionsTest {
         assertEquals("[1, 3, 5]", resultObject.toString());
         final Set<Integer> resultSet =
                 Underscore.reject(
-                        new LinkedHashSet<>(asList(1, 2, 3, 4, 5, 6)),
-                        item -> item % 2 == 0);
+                        new LinkedHashSet<>(asList(1, 2, 3, 4, 5, 6)), item -> item % 2 == 0);
         assertEquals("[1, 3, 5]", resultSet.toString());
     }
 
@@ -603,13 +596,11 @@ class CollectionsTest {
     void every() {
         final boolean result1 = Underscore.every(asList(1, 2, 3, 4), item -> item % 2 == 0);
         final boolean result1obj =
-                new Underscore<>(asList(1, 2, 3, 4))
-                        .every(item -> item % 2 == 0);
+                new Underscore<>(asList(1, 2, 3, 4)).every(item -> item % 2 == 0);
         final boolean result1chain =
                 Underscore.chain(asList(1, 2, 3, 4)).every(item -> item % 2 == 0).item();
         final boolean result2 = Underscore.every(asList(1, 2, 3, 4), item -> item < 5);
-        final boolean result2obj =
-                new Underscore<>(asList(1, 2, 3, 4)).every(item -> item < 5);
+        final boolean result2obj = new Underscore<>(asList(1, 2, 3, 4)).every(item -> item < 5);
         final boolean result2chain =
                 Underscore.chain(asList(1, 2, 3, 4)).every(item -> item < 5).item();
         assertFalse(result1);
@@ -628,11 +619,9 @@ class CollectionsTest {
     @SuppressWarnings("unchecked")
     void all() {
         final boolean result1 = Underscore.all(asList(1, 2, 3, 4), item -> item % 2 == 0);
-        final boolean result1obj =
-                new Underscore<>(asList(1, 2, 3, 4)).all(item -> item % 2 == 0);
+        final boolean result1obj = new Underscore<>(asList(1, 2, 3, 4)).all(item -> item % 2 == 0);
         final boolean result2 = Underscore.all(asList(1, 2, 3, 4), item -> item < 5);
-        final boolean result2obj =
-                new Underscore<>(asList(1, 2, 3, 4)).all(item -> item < 5);
+        final boolean result2obj = new Underscore<>(asList(1, 2, 3, 4)).all(item -> item < 5);
         assertFalse(result1);
         assertFalse(result1obj);
         assertTrue(result2);
@@ -647,11 +636,9 @@ class CollectionsTest {
     @SuppressWarnings("unchecked")
     void any() {
         final boolean result1 = Underscore.any(asList(1, 2, 3, 4), item -> item % 2 == 0);
-        final boolean result1obj =
-                new Underscore<>(asList(1, 2, 3, 4)).any(item -> item % 2 == 0);
+        final boolean result1obj = new Underscore<>(asList(1, 2, 3, 4)).any(item -> item % 2 == 0);
         final boolean result2 = Underscore.any(asList(1, 2, 3, 4), item -> item == 5);
-        final boolean result2obj =
-                new Underscore<>(asList(1, 2, 3, 4)).any(item -> item == 5);
+        final boolean result2obj = new Underscore<>(asList(1, 2, 3, 4)).any(item -> item == 5);
         assertTrue(result1);
         assertTrue(result1obj);
         assertFalse(result2);
@@ -666,13 +653,11 @@ class CollectionsTest {
     @SuppressWarnings("unchecked")
     void some() {
         final boolean result1 = Underscore.some(asList(1, 2, 3, 4), item -> item % 2 == 0);
-        final boolean result1obj =
-                new Underscore<>(asList(1, 2, 3, 4)).some(item -> item % 2 == 0);
+        final boolean result1obj = new Underscore<>(asList(1, 2, 3, 4)).some(item -> item % 2 == 0);
         final boolean result1chain =
                 Underscore.chain(asList(1, 2, 3, 4)).some(item -> item % 2 == 0).item();
         final boolean result2 = Underscore.some(asList(1, 2, 3, 4), item -> item == 5);
-        final boolean result2obj =
-                new Underscore<>(asList(1, 2, 3, 4)).some(item -> item == 5);
+        final boolean result2obj = new Underscore<>(asList(1, 2, 3, 4)).some(item -> item == 5);
         final boolean result2chain =
                 Underscore.chain(asList(1, 2, 3, 4)).some(item -> item == 5).item();
         assertTrue(result1);
@@ -700,14 +685,11 @@ class CollectionsTest {
     @SuppressWarnings("unchecked")
     void count() {
         final int result1 = Underscore.count(asList(1, 2, 3, 4), item -> item % 2 == 0);
-        final int result1obj =
-                new Underscore<>(asList(1, 2, 3, 4))
-                        .count(item -> item % 2 == 0);
+        final int result1obj = new Underscore<>(asList(1, 2, 3, 4)).count(item -> item % 2 == 0);
         final int result1chain =
                 Underscore.chain(asList(1, 2, 3, 4)).count(item -> item % 2 == 0).item();
         final int result2 = Underscore.count(asList(1, 2, 3, 4), item -> item < 5);
-        final int result2obj =
-                new Underscore<>(asList(1, 2, 3, 4)).count(item -> item < 5);
+        final int result2obj = new Underscore<>(asList(1, 2, 3, 4)).count(item -> item < 5);
         final int result2chain =
                 Underscore.chain(asList(1, 2, 3, 4)).count(item -> item < 5).item();
         assertEquals(2, result1);
@@ -795,7 +777,8 @@ class CollectionsTest {
     @SuppressWarnings("unchecked")
     void invoke() {
         assertEquals(asList("foo", "bar"), Underscore.invoke(asList(" foo ", "  bar"), "trim"));
-        assertEquals(asList("foo", "bar"), new Underscore<>(asList(" foo ", "  bar")).invoke("trim"));
+        assertEquals(
+                asList("foo", "bar"), new Underscore<>(asList(" foo ", "  bar")).invoke("trim"));
         assertEquals(
                 asList("foo", "bar"),
                 Underscore.chain(asList(" foo ", "  bar")).invoke("trim").value());
@@ -1412,8 +1395,7 @@ class CollectionsTest {
                 Underscore.groupBy(asList(1.3, 2.1, 2.4), Math::floor);
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", result.toString());
         final Map<Double, List<Double>> resultObj =
-                new Underscore<>(asList(1.3, 2.1, 2.4))
-                        .groupBy(Math::floor);
+                new Underscore<>(asList(1.3, 2.1, 2.4)).groupBy(Math::floor);
         assertEquals("{1.0=[1.3], 2.0=[2.1, 2.4]}", resultObj.toString());
         final Map<Double, List<Double>> resultChain =
                 Underscore.chain(asList(1.3, 2.1, 2.4)).groupBy(Math::floor).item();
@@ -1431,8 +1413,7 @@ class CollectionsTest {
                 Underscore.associateBy(asList(1.3, 2.1, 2.4), Math::floor);
         assertEquals("{1.0=1.3, 2.0=2.1}", result.toString());
         final Map<Double, Double> resultObj =
-                new Underscore<>(asList(1.3, 2.1, 2.4))
-                        .associateBy(Math::floor);
+                new Underscore<>(asList(1.3, 2.1, 2.4)).associateBy(Math::floor);
         assertEquals("{1.0=1.3, 2.0=2.1}", resultObj.toString());
         final Map<Double, Double> resultChain =
                 Underscore.chain(asList(1.3, 2.1, 2.4)).associateBy(Math::floor).item();
@@ -1450,10 +1431,7 @@ class CollectionsTest {
                 Underscore.groupBy(asList(1.3, 2.1, 2.4), Math::floor, Double::sum);
         assertEquals("{1.0=Optional[1.3], 2.0=Optional[4.5]}", result.toString());
         final Map<Double, Optional<Double>> resultObj =
-                new Underscore<>(asList(1.3, 2.1, 2.4))
-                        .groupBy(
-                                Math::floor,
-                                Double::sum);
+                new Underscore<>(asList(1.3, 2.1, 2.4)).groupBy(Math::floor, Double::sum);
         assertEquals("{1.0=Optional[1.3], 2.0=Optional[4.5]}", resultObj.toString());
         final Map<Double, Optional<Double>> resultChain =
                 Underscore.chain(asList(1.3, 2.1, 2.4)).groupBy(Math::floor, Double::sum).item();
@@ -1601,8 +1579,7 @@ class CollectionsTest {
         assertTrue(resultObj >= 1 && resultObj <= 6);
         final Set<Integer> resultList = Underscore.sample(asList(1, 2, 3, 4, 5, 6), 3);
         assertEquals(3, resultList.size());
-        final Integer resultChain =
-                Underscore.chain(asList(1, 2, 3, 4, 5, 6)).sample().item();
+        final Integer resultChain = Underscore.chain(asList(1, 2, 3, 4, 5, 6)).sample().item();
         assertTrue(resultChain >= 1 && resultChain <= 6);
         final List<Integer> resultListChain =
                 Underscore.chain(asList(1, 2, 3, 4, 5, 6)).sample(3).value();

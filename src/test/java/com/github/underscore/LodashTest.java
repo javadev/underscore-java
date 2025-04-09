@@ -145,9 +145,7 @@ class LodashTest {
     @Test
     void dropRightWhile() {
         assertEquals("[1, 2]", U.dropRightWhile(asList(1, 2, 3), n -> n > 2).toString());
-        assertEquals(
-                "[1, 2]",
-                new U<>(asList(1, 2, 3)).dropRightWhile(n -> n > 2).toString());
+        assertEquals("[1, 2]", new U<>(asList(1, 2, 3)).dropRightWhile(n -> n > 2).toString());
         assertEquals(
                 "[1, 2]", U.chain(asList(1, 2, 3)).dropRightWhile(n -> n > 2).value().toString());
     }
@@ -394,11 +392,7 @@ class LodashTest {
     @SuppressWarnings("unchecked")
     @Test
     void get() {
-        assertEquals(
-                "d",
-                U.<String>get(
-                        U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"),
-                        "a[0].b.c"));
+        assertEquals("d", U.<String>get(U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.c"));
     }
 
     /*
@@ -409,18 +403,10 @@ class LodashTest {
     @Test
     void set() {
         assertEquals(
-                "d",
-                U.<String>set(
-                        U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"),
-                        "a[0].b.c",
-                        "e"));
+                "d", U.<String>set(U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.c", "e"));
         assertEquals(
                 "{b={c=d}}",
-                U.set(
-                                U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"),
-                                "a[0]",
-                                "e")
-                        .toString());
+                U.set(U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0]", "e").toString());
         Map<String, Object> map = new LinkedHashMap<>();
         Map<String, Object> map2 = new LinkedHashMap<>();
         Map<String, Object> map3 = new LinkedHashMap<>();
@@ -463,14 +449,8 @@ class LodashTest {
     @SuppressWarnings("unchecked")
     @Test
     void getNotFound() {
-        assertNull(
-                U.<String>get(
-                        U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"),
-                        "a[0].b.d"));
-        assertNull(
-                U.<String>get(
-                        U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"),
-                        "a[0].d.c"));
+        assertNull(U.<String>get(U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].b.d"));
+        assertNull(U.<String>get(U.fromJson("{\"a\":[{\"b\":{\"c\":\"d\"}}]}"), "a[0].d.c"));
     }
 
     @Test
@@ -1129,34 +1109,31 @@ class LodashTest {
                         + "}",
                 U.mergeXmlsOrJsonsToJson(List.of("<a/>", "<b/>")));
         assertEquals(
-                "{\n"
-                        + "  \"value\": [\n"
-                        + "  ]\n"
-                        + "}",
+                "{\n" + "  \"value\": [\n" + "  ]\n" + "}",
                 U.mergeXmlsOrJsonsToJson(
-                        List.of("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                                + "<root empty-array=\"true\"></root>")));
+                        List.of(
+                                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                        + "<root empty-array=\"true\"></root>")));
         assertEquals("{\n  \"a\": 1\n}", U.mergeXmlsOrJsonsToJson(List.of("{\"a\":1}")));
-        assertEquals("{\n"
-                + "  \"value\": [\n"
-                + "  ]\n"
-                + "}", U.mergeXmlsOrJsonsToJson(List.of("[]")));
+        assertEquals(
+                "{\n" + "  \"value\": [\n" + "  ]\n" + "}",
+                U.mergeXmlsOrJsonsToJson(List.of("[]")));
         assertEquals("", U.mergeXmlsOrJsonsToJson(List.of("")));
     }
 
     @Test
     void mergeXmlsOrJsonsToXml() {
         assertEquals("<a/>", U.mergeXmlsOrJsonsToXml(List.of("<a/>")));
-        assertEquals("<root>\n"
-                + "  <a/>\n"
-                + "  <b/>\n"
-                + "</root>", U.mergeXmlsOrJsonsToXml(List.of("<a/>", "<b/>")));
+        assertEquals(
+                "<root>\n" + "  <a/>\n" + "  <b/>\n" + "</root>",
+                U.mergeXmlsOrJsonsToXml(List.of("<a/>", "<b/>")));
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                         + "<value empty-array=\"true\"></value>",
                 U.mergeXmlsOrJsonsToXml(
-                        List.of("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                                + "<root empty-array=\"true\"></root>")));
+                        List.of(
+                                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                        + "<root empty-array=\"true\"></root>")));
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a number=\"true\">1</a>",
                 U.mergeXmlsOrJsonsToXml(List.of("{\"a\":1}")));
@@ -1702,39 +1679,30 @@ class LodashTest {
     @Test
     @SuppressWarnings("unchecked")
     void removeMinusesAndConvertNumbers() {
-        Map<String, Object> result =
-                U.removeMinusesAndConvertNumbers(U.fromXml("<a/>"));
+        Map<String, Object> result = U.removeMinusesAndConvertNumbers(U.fromXml("<a/>"));
         assertEquals("{a={}}", result.toString());
-        Map<String, Object> result2 =
-                U.removeMinusesAndConvertNumbers(U.fromXml("<a b=\"c\"/>"));
+        Map<String, Object> result2 = U.removeMinusesAndConvertNumbers(U.fromXml("<a b=\"c\"/>"));
         assertEquals("{a={b=c}}", result2.toString());
         Map<String, Object> result3 =
-                U.removeMinusesAndConvertNumbers(
-                        U.fromXml("<a><b/><b/></a>"));
+                U.removeMinusesAndConvertNumbers(U.fromXml("<a><b/><b/></a>"));
         assertEquals("{a={b=[{}, {}]}}", result3.toString());
         Map<String, Object> result4 =
-                U.removeMinusesAndConvertNumbers(
-                        U.fromXml("<a><b c=\"1\"/></a>"));
+                U.removeMinusesAndConvertNumbers(U.fromXml("<a><b c=\"1\"/></a>"));
         assertEquals("{a={b={c=1}}}", result4.toString());
         Map<String, Object> result5 =
-                U.removeMinusesAndConvertNumbers(
-                        U.fromXml("<a><b c=\"-1e1\"/></a>"));
+                U.removeMinusesAndConvertNumbers(U.fromXml("<a><b c=\"-1e1\"/></a>"));
         assertEquals("{a={b={c=-10.0}}}", result5.toString());
         Map<String, Object> result6 =
-                U.removeMinusesAndConvertNumbers(
-                        U.fromXml("<a><b c=\"-1E1\"/></a>"));
+                U.removeMinusesAndConvertNumbers(U.fromXml("<a><b c=\"-1E1\"/></a>"));
         assertEquals("{a={b={c=-10.0}}}", result6.toString());
         Map<String, Object> result7 =
-                U.removeMinusesAndConvertNumbers(
-                        U.fromXml("<a><b c=\"1.a\"/></a>"));
+                U.removeMinusesAndConvertNumbers(U.fromXml("<a><b c=\"1.a\"/></a>"));
         assertEquals("{a={b={c=1.a}}}", result7.toString());
         Map<String, Object> result8 =
-                U.removeMinusesAndConvertNumbers(
-                        U.fromXml("<a><b c=\"1.-\"/></a>"));
+                U.removeMinusesAndConvertNumbers(U.fromXml("<a><b c=\"1.-\"/></a>"));
         assertEquals("{a={b={c=1.-}}}", result8.toString());
         Map<String, Object> result9 =
-                U.removeMinusesAndConvertNumbers(
-                        U.fromXml("<a><b c=\"+1ee\"/></a>"));
+                U.removeMinusesAndConvertNumbers(U.fromXml("<a><b c=\"+1ee\"/></a>"));
         assertEquals("{a={b={c=+1ee}}}", result9.toString());
         Map<String, Object> map = new LinkedHashMap<>();
         List<Object> list = new ArrayList<>();
@@ -1749,8 +1717,7 @@ class LodashTest {
     void replaceFirstLevel() {
         Map<String, Object> result = U.replaceFirstLevel(U.fromXml("<a/>"));
         assertEquals("{}", result.toString());
-        Map<String, Object> result2 =
-                U.replaceFirstLevel(U.fromXml("<a><b>c</b></a>"));
+        Map<String, Object> result2 = U.replaceFirstLevel(U.fromXml("<a><b>c</b></a>"));
         assertEquals("{b=c}", result2.toString());
         String result3 = U.xmlToJson("<a><b>c</b></a>", U.XmlToJsonMode.REMOVE_FIRST_LEVEL);
         assertEquals("{\n  \"b\": \"c\"\n}", result3);
@@ -2140,8 +2107,7 @@ class LodashTest {
                         + "  ]"
                         + "}";
 
-        List<Map<String, Object>> fromExcelData =
-                U.get(U.fromJson(json), "from_excel");
+        List<Map<String, Object>> fromExcelData = U.get(U.fromJson(json), "from_excel");
         assertEquals(
                 "[{solution=Fisrt, num=1}, {solution=Second, num=2}, {solution=third, num=3}, "
                         + "{solution=fourth, num=4}, {solution=fifth, num=5}]",
@@ -2197,9 +2163,7 @@ class LodashTest {
                         + "   </soapenv:Body>\n"
                         + "</soapenv:Envelope>";
         Map<String, Object> jsonData =
-                U.get(
-                        U.fromXmlWithoutNamespaces(xmlData),
-                        "Envelope.Body.getRoles");
+                U.get(U.fromXmlWithoutNamespaces(xmlData), "Envelope.Body.getRoles");
         assertEquals("{getRolesRequest={Type=ABC}}", jsonData.toString());
     }
 
