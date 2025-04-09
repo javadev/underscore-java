@@ -56,24 +56,24 @@ class ChainingTest {
     @Test
     void chain() {
         final List<Map<String, Object>> stooges =
-                new ArrayList<Map<String, Object>>() {
+                new ArrayList<>() {
                     {
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "curly");
                                         put("age", 25);
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "moe");
                                         put("age", 21);
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "larry");
                                         put("age", 23);
@@ -94,24 +94,24 @@ class ChainingTest {
     @Test
     void chainSet() {
         final Set<Map<String, Object>> stooges =
-                new HashSet<Map<String, Object>>() {
+                new HashSet<>() {
                     {
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "curly");
                                         put("age", 25);
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "moe");
                                         put("age", 21);
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "larry");
                                         put("age", 23);
@@ -133,24 +133,24 @@ class ChainingTest {
     @SuppressWarnings("unchecked")
     void chainObj() {
         final Set<Map<String, Object>> stooges =
-                new HashSet<Map<String, Object>>() {
+                new HashSet<>() {
                     {
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "curly");
                                         put("age", 25);
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "moe");
                                         put("age", 21);
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "larry");
                                         put("age", 23);
@@ -159,42 +159,40 @@ class ChainingTest {
                     }
                 };
         final String youngest =
-                new Underscore(stooges)
+                new Underscore<>(stooges)
                         .chain()
                         .sortBy(
-                                (Function<Map<String, Object>, Integer>)
-                                        item -> (Integer) item.get("age"))
+                                item -> (Integer) item.get("age"))
                         .map(
-                                (Function<Map<String, Object>, String>)
-                                        item -> item.get("name") + " is " + item.get("age"))
+                                item -> item.get("name") + " is " + item.get("age"))
                         .first()
                         .item()
                         .toString();
         assertEquals("moe is 21", youngest);
-        new Underscore(stooges).of();
+        new Underscore<>(stooges).of();
     }
 
     @Test
     void chainArray() {
         final List<Map<String, Object>> stooges =
-                new ArrayList<Map<String, Object>>() {
+                new ArrayList<>() {
                     {
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "curly");
                                         put("age", 25);
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "moe");
                                         put("age", 21);
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "larry");
                                         put("age", 23);
@@ -236,31 +234,31 @@ class ChainingTest {
     @SuppressWarnings("unchecked")
     void chain2() {
         final List<Map<String, Object>> lyrics =
-                new ArrayList<Map<String, Object>>() {
+                new ArrayList<>() {
                     {
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("line", 1);
                                         put("words", "I'm a lumberjack and I'm okay");
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("line", 2);
                                         put("words", "I sleep all night and I work all day");
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("line", 3);
                                         put("words", "He's a lumberjack and he's okay");
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("line", 4);
                                         put("words", "He sleeps all night and he works all day");
@@ -314,31 +312,31 @@ class ChainingTest {
     @SuppressWarnings("unchecked")
     void chain3() {
         final List<Map<String, Object>> lyrics =
-                new ArrayList<Map<String, Object>>() {
+                new ArrayList<>() {
                     {
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("line", 1);
                                         put("words", "I'm a lumberjack and I'm okay");
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("line", 2);
                                         put("words", "I sleep all night and I work all day");
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("line", 3);
                                         put("words", "He's a lumberjack and he's okay");
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("line", 4);
                                         put("words", "He sleeps all night and he works all day");
@@ -396,10 +394,10 @@ class ChainingTest {
     @Test
     void chain4() {
         final List<Map<String, Object>> doctors =
-                new ArrayList<Map<String, Object>>() {
+                new ArrayList<>() {
                     {
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("number", 1);
                                         put("actor", "William Hartnell");
@@ -408,7 +406,7 @@ class ChainingTest {
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("number", 9);
                                         put("actor", "Christopher Eccleston");
@@ -417,7 +415,7 @@ class ChainingTest {
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("number", 10);
                                         put("actor", "David Tennant");
@@ -434,7 +432,7 @@ class ChainingTest {
                         .map(
                                 (Function<Map<String, Object>, Map<String, Object>>)
                                         item ->
-                                                new LinkedHashMap<String, Object>() {
+                                                new LinkedHashMap<>() {
                                                     {
                                                         put(
                                                                 "doctorNumber",
@@ -444,7 +442,7 @@ class ChainingTest {
                                                                 "yearsPlayed",
                                                                 (Integer) item.get("end")
                                                                         - (Integer)
-                                                                                item.get("begin")
+                                                                        item.get("begin")
                                                                         + 1);
                                                     }
                                                 })
@@ -470,10 +468,10 @@ class ChainingTest {
     @Test
     void chain5() {
         final List<Map<String, Object>> doctors =
-                new ArrayList<Map<String, Object>>() {
+                new ArrayList<>() {
                     {
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("number", 1);
                                         put("actor", "William Hartnell");
@@ -482,7 +480,7 @@ class ChainingTest {
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("number", 9);
                                         put("actor", "Christopher Eccleston");
@@ -491,7 +489,7 @@ class ChainingTest {
                                     }
                                 });
                         add(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("number", 10);
                                         put("actor", "David Tennant");

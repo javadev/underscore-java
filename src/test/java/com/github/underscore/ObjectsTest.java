@@ -26,6 +26,7 @@ package com.github.underscore;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -59,7 +60,7 @@ class ObjectsTest {
     void keys() {
         Set<String> result =
                 Underscore.keys(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("one", 1);
                                 put("two", 2);
@@ -95,7 +96,7 @@ class ObjectsTest {
     void pairs() {
         List<Map.Entry<String, Integer>> result =
                 Underscore.pairs(
-                        new LinkedHashMap<String, Integer>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("one", 1);
                                 put("two", 2);
@@ -113,7 +114,7 @@ class ObjectsTest {
     void invert() {
         List<Map.Entry<String, String>> result =
                 Underscore.invert(
-                        new LinkedHashMap<String, String>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("Moe", "Moses");
                                 put("Larry", "Louis");
@@ -155,7 +156,7 @@ class ObjectsTest {
     void pick() {
         final List<Map.Entry<String, Object>> result =
                 Underscore.pick(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                                 put("age", 50);
@@ -167,7 +168,7 @@ class ObjectsTest {
         assertEquals("[name=moe, age=50]", result.toString());
         final List<Map.Entry<String, Object>> result2 =
                 Underscore.pick(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                                 put("age", 50);
@@ -190,7 +191,7 @@ class ObjectsTest {
     void omit() {
         final List<Map.Entry<String, Object>> result =
                 Underscore.omit(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                                 put("age", 50);
@@ -201,7 +202,7 @@ class ObjectsTest {
         assertEquals("[name=moe, age=50]", result.toString());
         final List<Map.Entry<String, Object>> result2 =
                 Underscore.omit(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                                 put("age", 50);
@@ -220,7 +221,7 @@ class ObjectsTest {
     @Test
     void defaults() {
         Map<String, String> iceCream =
-                new LinkedHashMap<String, String>() {
+                new LinkedHashMap<>() {
                     {
                         put("flavor", "chocolate");
                     }
@@ -228,7 +229,7 @@ class ObjectsTest {
         Map<String, String> result =
                 Underscore.defaults(
                         iceCream,
-                        new LinkedHashMap<String, String>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("flavor", "vanilla");
                                 put("sprinkles", "lots");
@@ -303,20 +304,20 @@ class ObjectsTest {
     @Test
     void isEqual() {
         Map<String, Object> stooge =
-                new LinkedHashMap<String, Object>() {
+                new LinkedHashMap<>() {
                     {
                         put("name", "moe");
                         put("luckyNumbers", asList(13, 27, 34));
                     }
                 };
         Map<String, Object> clone =
-                new LinkedHashMap<String, Object>() {
+                new LinkedHashMap<>() {
                     {
                         put("name", "moe");
                         put("luckyNumbers", asList(13, 27, 34));
                     }
                 };
-        assertFalse(stooge == clone);
+        assertNotSame(stooge, clone);
         assertTrue(Underscore.isEqual(stooge, clone));
         assertTrue(Underscore.isEqual(null, null));
         assertFalse(Underscore.isEqual(stooge, null));
@@ -329,16 +330,16 @@ class ObjectsTest {
     @Test
     @SuppressWarnings("unchecked")
     void isEmpty() {
-        assertTrue(Underscore.isEmpty((List) null));
+        assertTrue(Underscore.isEmpty((List<Object>) null));
         assertTrue(Underscore.isEmpty(new ArrayList<String>()));
-        assertTrue(new Underscore((List) null).isEmpty());
-        assertTrue(new Underscore(new ArrayList<String>()).isEmpty());
-        assertTrue(Underscore.chain((List) null).isEmpty());
+        assertTrue(new Underscore<>((List<Object>) null).isEmpty());
+        assertTrue(new Underscore<>(new ArrayList<String>()).isEmpty());
+        assertTrue(Underscore.chain((List<Object>) null).isEmpty());
         assertTrue(Underscore.chain(new ArrayList<String>()).isEmpty());
         assertFalse(Underscore.isEmpty(Collections.singletonList("")));
-        assertFalse(new Underscore(Collections.singletonList("")).isEmpty());
+        assertFalse(new Underscore<>(Collections.singletonList("")).isEmpty());
         assertFalse(Underscore.chain(Collections.singletonList("")).isEmpty());
-        assertTrue(Underscore.isEmpty((Map) null));
+        assertTrue(Underscore.isEmpty((Map<String, Object>) null));
         assertTrue(Underscore.isEmpty(new HashMap<String, String>()));
         assertFalse(
                 Underscore.isEmpty(
@@ -352,16 +353,16 @@ class ObjectsTest {
     @Test
     @SuppressWarnings("unchecked")
     void isNotEmpty() {
-        assertFalse(Underscore.isNotEmpty((List) null));
+        assertFalse(Underscore.isNotEmpty((List<Object>) null));
         assertFalse(Underscore.isNotEmpty(new ArrayList<String>()));
-        assertFalse(new Underscore((List) null).isNotEmpty());
-        assertFalse(new Underscore(new ArrayList<String>()).isNotEmpty());
-        assertFalse(Underscore.chain((List) null).isNotEmpty());
+        assertFalse(new Underscore<>((List<Object>) null).isNotEmpty());
+        assertFalse(new Underscore<>(new ArrayList<String>()).isNotEmpty());
+        assertFalse(Underscore.chain((List<Object>) null).isNotEmpty());
         assertFalse(Underscore.chain(new ArrayList<String>()).isNotEmpty());
         assertTrue(Underscore.isNotEmpty(Collections.singletonList("")));
-        assertTrue(new Underscore(Collections.singletonList("")).isNotEmpty());
+        assertTrue(new Underscore<>(Collections.singletonList("")).isNotEmpty());
         assertTrue(Underscore.chain(Collections.singletonList("")).isNotEmpty());
-        assertFalse(Underscore.isNotEmpty((Map) null));
+        assertFalse(Underscore.isNotEmpty((Map<String, Object>) null));
         assertFalse(Underscore.isNotEmpty(new HashMap<String, String>()));
         assertTrue(
                 Underscore.isNotEmpty(
@@ -540,7 +541,7 @@ class ObjectsTest {
     @Test
     void isMatch() {
         Map<String, Object> stooge =
-                new LinkedHashMap<String, Object>() {
+                new LinkedHashMap<>() {
                     {
                         put("name", "moe");
                         put("age", 32);
@@ -549,13 +550,13 @@ class ObjectsTest {
         assertTrue(
                 Underscore.isMatch(
                         stooge,
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("age", 32);
                             }
                         }));
         Map<String, Object> stooge2 =
-                new LinkedHashMap<String, Object>() {
+                new LinkedHashMap<>() {
                     {
                         put("name", "moe");
                         put("age", 33);
@@ -564,13 +565,13 @@ class ObjectsTest {
         assertFalse(
                 Underscore.isMatch(
                         stooge2,
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("age", 32);
                             }
                         }));
         Map<String, Object> stooge3 =
-                new LinkedHashMap<String, Object>() {
+                new LinkedHashMap<>() {
                     {
                         put("name", "moe");
                     }
@@ -578,7 +579,7 @@ class ObjectsTest {
         assertFalse(
                 Underscore.isMatch(
                         stooge3,
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("age", 32);
                             }
@@ -593,29 +594,29 @@ class ObjectsTest {
     @SuppressWarnings("unchecked")
     void matcher() {
         List<Map<String, Object>> list =
-                Arrays.<Map<String, Object>>asList(
-                        new LinkedHashMap<String, Object>() {
+                Arrays.asList(
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                                 put("selected", true);
                                 put("visible", true);
                             }
                         },
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "larry");
                                 put("selected", true);
                                 put("visible", false);
                             }
                         },
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "curly");
                             }
                         });
         Predicate<Map<String, Object>> ready =
                 Underscore.matcher(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("selected", true);
                                 put("visible", true);
@@ -671,7 +672,7 @@ class ObjectsTest {
                                         put("name", "moe");
                                     }
                                 },
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("age", 50);
                                     }
@@ -689,7 +690,7 @@ class ObjectsTest {
     void mapObject() {
         List<Map.Entry<String, Integer>> result =
                 Underscore.mapObject(
-                        new LinkedHashMap<String, Integer>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("start", 5);
                                 put("end", 12);

@@ -104,7 +104,7 @@ class FunctionsTest {
         assertEquals(55, new FibonacciFuncion1().apply(10).intValue());
         Function<Integer, Integer> memoizeFunction =
                 Underscore.memoize(
-                        new Function<Integer, Integer>() {
+                        new Function<>() {
                             public Integer apply(final Integer n) {
                                 return n < 2 ? n : apply(n - 1) + apply(n - 2);
                             }
@@ -294,7 +294,7 @@ class FunctionsTest {
         final List<Integer> notes = asList(1, 2, 3);
         final Supplier<Integer> renderNotes = Underscore.after(notes.size(), () -> 4);
         final List<Integer> result = new ArrayList<>();
-        Underscore.<Integer>each(
+        Underscore.each(
                 notes,
                 item -> {
                     result.add(item);
@@ -318,7 +318,7 @@ class FunctionsTest {
         final List<Integer> notes = asList(1, 2, 3);
         final Supplier<Integer> renderNotes = Underscore.before(notes.size() - 1, () -> 4);
         final List<Integer> result = new ArrayList<>();
-        Underscore.<Integer>each(
+        Underscore.each(
                 notes,
                 item -> {
                     result.add(item);
@@ -339,20 +339,20 @@ class FunctionsTest {
     @SuppressWarnings("unchecked")
     void iteratee() {
         List<Map<String, Object>> stooges =
-                Arrays.<Map<String, Object>>asList(
-                        new LinkedHashMap<String, Object>() {
+                Arrays.asList(
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "curly");
                                 put("age", 25);
                             }
                         },
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                                 put("age", 21);
                             }
                         },
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "larry");
                                 put("age", 23);
@@ -387,7 +387,7 @@ class FunctionsTest {
                     counter[0]++;
                     return null;
                 };
-        java.util.concurrent.ScheduledFuture future = Underscore.setTimeout(incr, 20);
+        java.util.concurrent.ScheduledFuture<Void> future = Underscore.setTimeout(incr, 20);
         Underscore.clearTimeout(future);
         Underscore.clearTimeout(null);
         await().atLeast(40, TimeUnit.MILLISECONDS)
