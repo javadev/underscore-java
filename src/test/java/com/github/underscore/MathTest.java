@@ -375,13 +375,10 @@ class MathTest {
         final Double result = U.median(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5));
         assertEquals("0.0", result.toString());
         final Double resultObj =
-                new U(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median();
+                new U<>(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median();
         assertEquals("0.0", resultObj.toString());
         final Double resultChain =
-                (Double)
-                        U.chain(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5))
-                                .median()
-                                .item();
+                U.chain(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median().item();
         assertEquals("0.0", resultChain.toString());
         final Double result2 = U.median(asList((int) 0, (int) 0, (int) 1, (int) 2, (int) 5));
         assertEquals("1.0", result2.toString());
@@ -450,7 +447,7 @@ class MathTest {
                         + " [orange, orange, orange]]",
                 result.toString());
         List<List<String>> result2 =
-                new U(asList("apple", "orange")).createPermutationWithRepetition(3);
+                new U<>(asList("apple", "orange")).createPermutationWithRepetition(3);
         assertEquals(
                 "[[apple, apple, apple],"
                         + " [orange, apple, apple],"
@@ -477,10 +474,10 @@ class MathTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    void main() {
+    void testMain() {
         U.main(new String[] {});
-        assertNull(new U("").value());
-        new U(Collections.emptyList()).chain();
+        assertNull(new U<>("").value());
+        new U<>(Collections.emptyList()).chain();
         U.chain(new HashSet<String>());
         U.chain(new String[] {});
     }

@@ -53,7 +53,7 @@ class UtilityTest {
     @Test
     void identity() {
         Map<String, String> object =
-                new LinkedHashMap<String, String>() {
+                new LinkedHashMap<>() {
                     {
                         put("name", "moe");
                     }
@@ -69,7 +69,7 @@ class UtilityTest {
     @Test
     void constant() {
         Map<String, String> object =
-                new LinkedHashMap<String, String>() {
+                new LinkedHashMap<>() {
                     {
                         put("name", "moe");
                     }
@@ -85,7 +85,7 @@ class UtilityTest {
     @Test
     void property() {
         Map<String, Object> stooge =
-                new LinkedHashMap<String, Object>() {
+                new LinkedHashMap<>() {
                     {
                         put("name", "moe");
                     }
@@ -101,7 +101,7 @@ class UtilityTest {
     @Test
     void propertyOf() {
         Map<String, String> stooge =
-                new LinkedHashMap<String, String>() {
+                new LinkedHashMap<>() {
                     {
                         put("name", "moe");
                     }
@@ -195,9 +195,9 @@ class UtilityTest {
                 string ->
                         String.valueOf(string.charAt(0)).toUpperCase()
                                 + string.substring(1).toLowerCase());
-        assertEquals("Fabio", new Underscore("fabio").call("capitalize").get());
-        assertFalse(new Underscore("fabio").call("capitalize2").isPresent());
-        assertFalse(new Underscore(Collections.singletonList(1)).call("capitalize2").isPresent());
+        assertEquals("Fabio", new Underscore<>("fabio").call("capitalize").get());
+        assertFalse(new Underscore<>("fabio").call("capitalize2").isPresent());
+        assertFalse(new Underscore<>(Collections.singletonList(1)).call("capitalize2").isPresent());
     }
 
     /*
@@ -234,7 +234,7 @@ class UtilityTest {
         assertEquals(
                 "hello: moe",
                 compiled.apply(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                             }
@@ -248,7 +248,7 @@ class UtilityTest {
         assertEquals(
                 "hello: moe, hello2: moe",
                 compiled.apply(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                             }
@@ -262,7 +262,7 @@ class UtilityTest {
         assertEquals(
                 "hello: moe, hello2: moe2",
                 compiled.apply(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                                 put("name2", "moe2");
@@ -273,13 +273,13 @@ class UtilityTest {
     @Test
     void template4() {
         Underscore.templateSettings(
-                new HashMap<String, String>() {
+                new HashMap<>() {
                     {
                         put("interpolate", "");
                     }
                 });
         Underscore.templateSettings(
-                new HashMap<String, String>() {
+                new HashMap<>() {
                     {
                         put("interpolate", "\\{\\{=([\\s\\S]+?)\\}\\}");
                     }
@@ -289,13 +289,13 @@ class UtilityTest {
         assertEquals(
                 "hello: moe",
                 compiled.apply(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                             }
                         }));
         Underscore.templateSettings(
-                new HashMap<String, String>() {
+                new HashMap<>() {
                     {
                         put("interpolate", "<%=([\\s\\S]+?)%>");
                     }
@@ -314,7 +314,7 @@ class UtilityTest {
         assertEquals(
                 "<b>&lt;script&gt;</b>",
                 template.apply(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("value", "<script>");
                             }
@@ -328,7 +328,7 @@ class UtilityTest {
         assertEquals(
                 "hello: moe, <b>&lt;script&gt;</b>",
                 template.apply(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                                 put("value", "<script>");
@@ -343,7 +343,7 @@ class UtilityTest {
         assertEquals(
                 "hello: moe, <b>&lt;script&gt;</b>",
                 template.apply(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "moe");
                                 put("value", "<script>");
@@ -358,7 +358,7 @@ class UtilityTest {
         assertEquals(
                 "hello: $moe$, <b>&lt;script&gt;</b>",
                 template.apply(
-                        new LinkedHashMap<String, Object>() {
+                        new LinkedHashMap<>() {
                             {
                                 put("name", "$moe$");
                                 put("value", "<script>");
@@ -372,7 +372,7 @@ class UtilityTest {
                 Underscore.template("hello: <%= name %>");
         assertTrue(
                 compiled.check(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "moe");
                                     }
@@ -381,7 +381,7 @@ class UtilityTest {
         assertEquals(
                 "name2",
                 compiled.check(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name2", "moe");
                                     }
@@ -396,7 +396,7 @@ class UtilityTest {
         assertEquals(
                 "name2",
                 compiled.check(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "moe");
                                     }
@@ -408,7 +408,7 @@ class UtilityTest {
                 "name2",
                 compiled2
                         .check(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "moe");
                                     }
@@ -420,7 +420,7 @@ class UtilityTest {
                 "name2",
                 compiled3
                         .check(
-                                new LinkedHashMap<String, Object>() {
+                                new LinkedHashMap<>() {
                                     {
                                         put("name", "moe");
                                     }
@@ -458,7 +458,7 @@ class UtilityTest {
     @Test
     void result() {
         Map<String, Object> object =
-                new LinkedHashMap<String, Object>() {
+                new LinkedHashMap<>() {
                     {
                         put("cheese", "crumpets");
                         put("stuff", (Supplier<String>) () -> "nonsense");

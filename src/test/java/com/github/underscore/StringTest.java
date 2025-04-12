@@ -26,6 +26,7 @@ package com.github.underscore;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -530,7 +531,7 @@ class StringTest {
                                     }
                                 })));
         assertEquals("[\n  null\n]", U.toJson(Arrays.asList(new String[] {null})));
-        assertEquals("null", U.toJson((Collection) null));
+        assertEquals("null", U.toJson((Collection<Object>) null));
         class Test {
             public String toString() {
                 return "test";
@@ -1566,7 +1567,7 @@ class StringTest {
                 U.toXml(testMap));
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>null</root>",
-                U.toXml((Map) null));
+                U.toXml((Map<String, Object>) null));
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<item empty-array=\"true\">"
                         + "</item>",
@@ -3574,7 +3575,7 @@ class StringTest {
         try {
             U.fromJsonMap(stringJson, 1000);
         } catch (Throwable throwable) {
-            assertTrue(throwable instanceof Json.ParseException);
+            assertInstanceOf(Json.ParseException.class, throwable);
         }
     }
 
@@ -3586,7 +3587,7 @@ class StringTest {
         try {
             U.fromJsonMap(stringJson);
         } catch (Throwable throwable) {
-            assertTrue(throwable instanceof StackOverflowError);
+            assertInstanceOf(StackOverflowError.class, throwable);
         }
     }
 
@@ -3612,8 +3613,9 @@ class StringTest {
         try {
             U.fromXmlMap(stringXml);
         } catch (Throwable throwable) {
-            assertTrue(throwable instanceof StackOverflowError
-                || throwable instanceof IllegalArgumentException);
+            assertTrue(
+                    throwable instanceof StackOverflowError
+                            || throwable instanceof IllegalArgumentException);
         }
     }
 

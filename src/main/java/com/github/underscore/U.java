@@ -2798,7 +2798,8 @@ public class U<T> extends Underscore<T> {
         return xmlOrJsonToJson(xmlOrJson, Json.JsonStringBuilder.Step.TWO_SPACES);
     }
 
-    public static String mergeXmlsOrJsonsToJson(List<String> xmlsOrJsons, Json.JsonStringBuilder.Step identStep) {
+    public static String mergeXmlsOrJsonsToJson(
+            List<String> xmlsOrJsons, Json.JsonStringBuilder.Step identStep) {
         Map<String, Object> resultJsonMap = new LinkedHashMap<>();
         for (String xmlOrJsonToJson : xmlsOrJsons) {
             TextType textType = getTextType(xmlOrJsonToJson);
@@ -2819,7 +2820,8 @@ public class U<T> extends Underscore<T> {
         return mergeXmlsOrJsonsToJson(xmlsOrJsons, Json.JsonStringBuilder.Step.TWO_SPACES);
     }
 
-    public static String mergeXmlsOrJsonsToXml(List<String> xmlsOrJsons, Xml.XmlStringBuilder.Step identStep) {
+    public static String mergeXmlsOrJsonsToXml(
+            List<String> xmlsOrJsons, Xml.XmlStringBuilder.Step identStep) {
         Map<String, Object> resultXmlMap = new LinkedHashMap<>();
         for (String xmlOrJsonToXml : xmlsOrJsons) {
             TextType textType = getTextType(xmlOrJsonToXml);
