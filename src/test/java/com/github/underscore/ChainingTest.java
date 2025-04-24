@@ -164,8 +164,7 @@ class ChainingTest {
                         .sortBy(item -> (Integer) item.get("age"))
                         .map(item -> item.get("name") + " is " + item.get("age"))
                         .first()
-                        .item()
-                        .toString();
+                        .item();
         assertEquals("moe is 21", youngest);
         new Underscore<>(stooges).of();
     }

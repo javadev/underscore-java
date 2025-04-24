@@ -178,7 +178,7 @@ class UnderscoreTest {
     @Test
     void pop() {
         assertEquals("c", Underscore.pop(asList("a", "b", "c")).getKey());
-        assertEquals("c", new Underscore<>(asList("a", "b", "c")).pop().getKey().toString());
+        assertEquals("c", new Underscore<>(asList("a", "b", "c")).pop().getKey());
         assertEquals("c", Underscore.chain(asList("a", "b", "c")).pop().item().getKey());
     }
 
@@ -190,7 +190,7 @@ class UnderscoreTest {
     @Test
     void shift() {
         assertEquals("a", Underscore.shift(asList("a", "b", "c")).getKey());
-        assertEquals("a", new Underscore<>(asList("a", "b", "c")).shift().getKey().toString());
+        assertEquals("a", new Underscore<>(asList("a", "b", "c")).shift().getKey());
         assertEquals("a", Underscore.chain(asList("a", "b", "c")).shift().item().getKey());
     }
 
