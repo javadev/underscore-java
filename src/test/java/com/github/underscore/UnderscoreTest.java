@@ -886,7 +886,8 @@ class UnderscoreTest {
 
     @Test
     void testAlmostBomButNotEnoughBytes() {
-        byte[] input = new byte[] {-17, -69}; // only 2 bytes, not enough for UTF-8 BOM
+        // only 2 bytes, not enough for UTF-8 BOM
+        byte[] input = new byte[] {-17, -69};
         assertArrayEquals(input, U.removeBom(input), "Arrays with too few BOM bytes should be unchanged");
     }
 
@@ -898,7 +899,8 @@ class UnderscoreTest {
         input = new byte[] {-2, 0, 1};
         assertArrayEquals(input, U.removeBom(input), "Array starting with -2,0 is not a BOM, should be unchanged");
 
-        input = new byte[] {-17, -69, 0}; // 3 bytes but third is not -65
+        // 3 bytes but third is not -65
+        input = new byte[] {-17, -69, 0};
         assertArrayEquals(input, U.removeBom(input), "Array with -17,-69,<not -65> is not a BOM");
     }
 
