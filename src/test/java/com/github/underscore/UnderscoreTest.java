@@ -847,46 +847,59 @@ class UnderscoreTest {
     }
 
     @Test
-    void testRemoveBom() {
-        // Test UTF-8 BOM
-        byte[] utf8Bom = new byte[]{(byte)-17, (byte)-69, (byte)-65, 'a', 'b', 'c'};
-        assertArrayEquals(
-                new byte[]{'a', 'b', 'c'},
-                U.removeBom(utf8Bom),
-                "Should remove UTF-8 BOM (EF BB BF) and keep content"
-        );
+    void testRemoveUtf8Bom() {
+        // UTF-8 BOM: 0xEF,0xBB,0xBF == -17, -69, -65
+        byte[] withBom = new byte[] {-17, -69, -65, 1, 2, 3};
+        byte[] expected = new byte[] {1, 2, 3};
+        assertArrayEquals(expected, U.removeBom(withBom), "UTF-8 BOM should be removed");
+    }
 
-        // Test UTF-16 LE BOM
-        byte[] utf16LeBom = new byte[]{(byte)-1, (byte)-2, 'a', 'b'};
-        assertArrayEquals(
-                new byte[]{'a', 'b'},
-                U.removeBom(utf16LeBom),
-                "Should remove UTF-16 LE BOM (FF FE) and keep content"
-        );
+    @Test
+    void testRemoveUtf16BeBom() {
+        // UTF-16BE BOM: 0xFE,0xFF == -2, -1
+        byte[] withBom = new byte[] {-2, -1, 4, 5};
+        byte[] expected = new byte[] {4, 5};
+        assertArrayEquals(expected, U.removeBom(withBom), "UTF-16BE BOM should be removed");
+    }
 
-        // Test UTF-16 BE BOM
-        byte[] utf16BeBom = new byte[]{(byte)-2, (byte)-1, 'a', 'b'};
-        assertArrayEquals(
-                new byte[]{'a', 'b'},
-                U.removeBom(utf16BeBom),
-                "Should remove UTF-16 BE BOM (FE FF) and keep content"
-        );
+    @Test
+    void testRemoveUtf16LeBom() {
+        // UTF-16LE BOM: 0xFF,0xFE == -1, -2
+        byte[] withBom = new byte[] {-1, -2, 9};
+        byte[] expected = new byte[] {9};
+        assertArrayEquals(expected, U.removeBom(withBom), "UTF-16LE BOM should be removed");
+    }
 
-        // Test no BOM
-        byte[] noBom = new byte[]{'a', 'b', 'c'};
-        assertArrayEquals(
-                noBom,
-                U.removeBom(noBom),
-                "Should return original array when no BOM is present"
-        );
+    @Test
+    void testNotShortBytesNoBom() {
+        // Less than 2 bytes (not possible to have BOM)
+        byte[] input = new byte[] {42};
+        assertArrayEquals(input, U.removeBom(input), "Short arrays with no BOM should be unchanged");
+    }
 
-        // Test empty array
-        byte[] empty = new byte[]{};
-        assertArrayEquals(
-                empty,
-                U.removeBom(empty),
-                "Should handle empty byte array correctly"
-        );
+    @Test
+    void testNoBomPresent() {
+        // No BOM present
+        byte[] input = new byte[] {3, 5, 0, -1, -7};
+        assertArrayEquals(input, U.removeBom(input), "Arrays without BOM should be unchanged");
+    }
+
+    @Test
+    void testAlmostBomButNotEnoughBytes() {
+        byte[] input = new byte[] {-17, -69}; // only 2 bytes, not enough for UTF-8 BOM
+        assertArrayEquals(input, U.removeBom(input), "Arrays with too few BOM bytes should be unchanged");
+    }
+
+    @Test
+    void testPrefixSimilarButNotABom() {
+        byte[] input = new byte[] {-1, 0, 1};
+        assertArrayEquals(input, U.removeBom(input), "Array starting with -1,0 is not a BOM, should be unchanged");
+
+        input = new byte[] {-2, 0, 1};
+        assertArrayEquals(input, U.removeBom(input), "Array starting with -2,0 is not a BOM, should be unchanged");
+
+        input = new byte[] {-17, -69, 0}; // 3 bytes but third is not -65
+        assertArrayEquals(input, U.removeBom(input), "Array with -17,-69,<not -65> is not a BOM");
     }
 
     @Test
