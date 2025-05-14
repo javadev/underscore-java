@@ -2781,6 +2781,91 @@ public class U<T> extends Underscore<T> {
         return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, mode);
     }
 
+    public static void fileXmlToJson(String xmlFileName, String jsonFileName, Json.JsonStringBuilder.Step identStep)
+            throws IOException {
+        final byte[] bytes = Files.readAllBytes(Paths.get(xmlFileName));
+        String xmlText = new String(removeBom(bytes), detectEncoding(bytes));
+        Files.write(Paths.get(jsonFileName), formatString(xmlToJson(xmlText, identStep),
+                System.lineSeparator()).getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static void fileXmlToJson(String xmlFileName, String jsonFileName) throws IOException {
+        fileXmlToJson(xmlFileName, jsonFileName, Json.JsonStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static byte[] removeBom(byte[] bytes) {
+        if ((bytes.length >= 3) && (bytes[0] == -17) && (bytes[1] == -69) && (bytes[2] == -65)) {
+            return Arrays.copyOfRange(bytes, 3, bytes.length);
+        }
+        if ((bytes.length >= 2) && (bytes[0] == -1) && (bytes[1] == -2)) {
+            return Arrays.copyOfRange(bytes, 2, bytes.length);
+        }
+        if ((bytes.length >= 2) && (bytes[0] == -2) && (bytes[1] == -1)) {
+            return Arrays.copyOfRange(bytes, 2, bytes.length);
+        }
+        return bytes;
+    }
+
+    public static String detectEncoding(byte[] buffer) {
+        if (buffer.length < 4) {
+            return "UTF8";
+        }
+        String encoding = null;
+        int n = ((buffer[0] & 0xFF) << 24)
+                | ((buffer[1] & 0xFF) << 16)
+                | ((buffer[2] & 0xFF) << 8)
+                | (buffer[3] & 0xFF);
+        switch (n) {
+            case 0x0000FEFF:
+            case 0x0000003C:
+                encoding = "UTF_32BE";
+                break;
+            case 0x003C003F:
+                encoding = "UnicodeBigUnmarked";
+                break;
+            case 0xFFFE0000:
+                encoding = "UTF_32LE";
+                break;
+            case 0x3C000000:
+                encoding = "UTF_32LE";
+                break;
+            // <?
+            case 0x3C003F00:
+                encoding = "UnicodeLittleUnmarked";
+                break;
+            // <?xm
+            case 0x3C3F786D:
+                encoding = "UTF8";
+                break;
+            default:
+                if ((n >>> 8) == 0xEFBBBF) {
+                    encoding = "UTF8";
+                    break;
+                }
+                if ((n >>> 24) == 0x3C) {
+                    break;
+                }
+                switch (n >>> 16) {
+                    case 0xFFFE:
+                        encoding = "UnicodeLittleUnmarked";
+                        break;
+                    case 0xFEFF:
+                        encoding = "UnicodeBigUnmarked";
+                        break;
+                    default:
+                        break;
+                }
+        }
+        return encoding == null ? "UTF8" : encoding;
+    }
+
+    public static String formatString(String data, String lineSeparator) {
+        if ("\n".equals(lineSeparator)) {
+            return data;
+        }
+        return data.replace("\n", lineSeparator);
+    }
+
     public static String xmlOrJsonToJson(String xmlOrJson, Json.JsonStringBuilder.Step identStep) {
         TextType textType = getTextType(xmlOrJson);
         final String result;
