@@ -911,54 +911,91 @@ class UnderscoreTest {
     }
 
     @Test
-    void testDetectEncoding() {
-        // Test UTF-32BE
-        byte[] utf32be = new byte[]{0x00, 0x00, (byte)0xFE, (byte)0xFF, 'a'};
-        assertEquals(
-                "UTF_32BE",
-                U.detectEncoding(utf32be),
-                "Should detect UTF-32BE encoding from BOM"
-        );
+    void testLengthLessThan4() {
+        byte[] buf0 = {};
+        byte[] buf1 = {1};
+        byte[] buf3 = {1, 2, 3};
+        assertEquals("UTF8", U.detectEncoding(buf0), "Should return UTF8 for empty array");
+        assertEquals("UTF8", U.detectEncoding(buf1), "Should return UTF8 for buffer length 1");
+        assertEquals("UTF8", U.detectEncoding(buf3), "Should return UTF8 for buffer length 3");
+    }
 
-        // Test UTF-32LE
-        byte[] utf32le = new byte[]{(byte)0xFF, (byte)0xFE, 0x00, 0x00, 'a'};
-        assertEquals(
-                "UTF_32LE",
-                U.detectEncoding(utf32le),
-                "Should detect UTF-32LE encoding from BOM"
-        );
+    @Test
+    void testCase_0x0000FEFF() {
+        byte[] buf = {(byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF};
+        assertEquals("UTF_32BE", U.detectEncoding(buf), "Should return UTF_32BE for BOM 0x0000FEFF");
+    }
 
-        // Test Unicode Big Unmarked
-        byte[] unicodeBig = new byte[]{0x00, 0x3C, 0x00, 0x3F};
-        assertEquals(
-                "UnicodeBigUnmarked",
-                U.detectEncoding(unicodeBig),
-                "Should detect Unicode Big Unmarked encoding"
-        );
+    @Test
+    void testCase_0x0000003C() {
+        byte[] buf = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x3C};
+        assertEquals("UTF_32BE", U.detectEncoding(buf), "Should return UTF_32BE for 0x0000003C");
+    }
 
-        // Test UTF-8 XML declaration
-        byte[] utf8Xml = new byte[]{0x3C, 0x3F, 0x78, 0x6D};
-        assertEquals(
-                "UTF8",
-                U.detectEncoding(utf8Xml),
-                "Should detect UTF-8 encoding from XML declaration"
-        );
+    @Test
+    void testCase_0x003C003F() {
+        byte[] buf = {(byte) 0x00, (byte) 0x3C, (byte) 0x00, (byte) 0x3F};
+        assertEquals("UnicodeBigUnmarked", U.detectEncoding(buf), "Should return UnicodeBigUnmarked for 0x003C003F");
+    }
 
-        // Test UTF-8 with BOM
-        byte[] utf8Bom = new byte[]{(byte)0xEF, (byte)0xBB, (byte)0xBF, 'a'};
-        assertEquals(
-                "UTF8",
-                U.detectEncoding(utf8Bom),
-                "Should detect UTF-8 encoding from BOM"
-        );
+    @Test
+    void testCase_0xFFFE0000() {
+        byte[] buf = {(byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x00};
+        assertEquals("UTF_32LE", U.detectEncoding(buf), "Should return UTF_32LE for BOM 0xFFFE0000");
+    }
 
-        // Test small buffer
-        byte[] small = new byte[]{0x3C, 0x3F};
-        assertEquals(
-                "UTF8",
-                U.detectEncoding(small),
-                "Should default to UTF-8 for buffers smaller than 4 bytes"
-        );
+    @Test
+    void testCase_0x3C000000() {
+        byte[] buf = {(byte) 0x3C, (byte) 0x00, (byte) 0x00, (byte) 0x00};
+        assertEquals("UTF_32LE", U.detectEncoding(buf), "Should return UTF_32LE for 0x3C000000");
+    }
+
+    @Test
+    void testCase_0x3C003F00() {
+        byte[] buf = {(byte) 0x3C, (byte) 0x00, (byte) 0x3F, (byte) 0x00};
+        assertEquals("UnicodeLittleUnmarked", U.detectEncoding(buf), "Should return UnicodeLittleUnmarked for 0x3C003F00");
+    }
+
+    @Test
+    void testCase_0x3C3F786D() {
+        byte[] buf = {(byte) 0x3C, (byte) 0x3F, (byte) 0x78, (byte) 0x6D};
+        assertEquals("UTF8", U.detectEncoding(buf), "Should return UTF8 for 0x3C3F786D");
+    }
+
+    @Test
+    void testEfBbBf_UTF8() {
+        // 0xEFBBBF??, so n >>> 8 == 0xEFBBBF
+        // Let's set: [0xEF, 0xBB, 0xBF, 0x42] (0x42 is arbitrary)
+        byte[] buf = {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF, (byte) 0x42};
+        assertEquals("UTF8", U.detectEncoding(buf), "Should return UTF8 for buffer with UTF-8 BOM");
+    }
+
+    @Test
+    void test_nShift24_0x3C() {
+        // (n >>> 24) == 0x3C, but not matching any above case
+        byte[] buf = {(byte) 0x3C, 1, 2, 3};
+        assertEquals("UTF8", U.detectEncoding(buf), "Should return UTF8 when (n >>> 24) == 0x3C and no previous case matches");
+    }
+
+    @Test
+    void test_nShift16_0xFFFE() {
+        // (n >>> 16) == 0xFFFE (UnicodeLittleUnmarked branch)
+        byte[] buf = {(byte) 0xFF, (byte) 0xFE, (byte) 0x21, (byte) 0x22};
+        assertEquals("UnicodeLittleUnmarked", U.detectEncoding(buf), "Should return UnicodeLittleUnmarked when (n >> 16) == 0xFFFE");
+    }
+
+    @Test
+    void test_nShift16_0xFEFF() {
+        // (n >>> 16) == 0xFEFF (UnicodeBigUnmarked branch)
+        byte[] buf = {(byte) 0xFE, (byte) 0xFF, (byte) 0x99, (byte) 0x88};
+        assertEquals("UnicodeBigUnmarked", U.detectEncoding(buf), "Should return UnicodeBigUnmarked when (n >> 16) == 0xFEFF");
+    }
+
+    @Test
+    void testDefaultCase() {
+        // Random data, not matching any case nor any shift checks. Should default to UTF8
+        byte[] buf = {(byte) 0x01, (byte) 0x23, (byte) 0x45, (byte) 0x67};
+        assertEquals("UTF8", U.detectEncoding(buf), "Should default to UTF8 for unknown byte patterns");
     }
 
     @Test
