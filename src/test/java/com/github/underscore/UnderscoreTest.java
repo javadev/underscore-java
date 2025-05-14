@@ -923,43 +923,50 @@ class UnderscoreTest {
     @Test
     void testCase_0x0000FEFF() {
         byte[] buf = {(byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF};
-        assertEquals("UTF_32BE", U.detectEncoding(buf), "Should return UTF_32BE for BOM 0x0000FEFF");
+        assertEquals("UTF_32BE", U.detectEncoding(buf),
+                "Should return UTF_32BE for BOM 0x0000FEFF");
     }
 
     @Test
     void testCase_0x0000003C() {
         byte[] buf = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x3C};
-        assertEquals("UTF_32BE", U.detectEncoding(buf), "Should return UTF_32BE for 0x0000003C");
+        assertEquals("UTF_32BE", U.detectEncoding(buf),
+                "Should return UTF_32BE for 0x0000003C");
     }
 
     @Test
     void testCase_0x003C003F() {
         byte[] buf = {(byte) 0x00, (byte) 0x3C, (byte) 0x00, (byte) 0x3F};
-        assertEquals("UnicodeBigUnmarked", U.detectEncoding(buf), "Should return UnicodeBigUnmarked for 0x003C003F");
+        assertEquals("UnicodeBigUnmarked", U.detectEncoding(buf),
+                "Should return UnicodeBigUnmarked for 0x003C003F");
     }
 
     @Test
     void testCase_0xFFFE0000() {
         byte[] buf = {(byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x00};
-        assertEquals("UTF_32LE", U.detectEncoding(buf), "Should return UTF_32LE for BOM 0xFFFE0000");
+        assertEquals("UTF_32LE", U.detectEncoding(buf),
+                "Should return UTF_32LE for BOM 0xFFFE0000");
     }
 
     @Test
     void testCase_0x3C000000() {
         byte[] buf = {(byte) 0x3C, (byte) 0x00, (byte) 0x00, (byte) 0x00};
-        assertEquals("UTF_32LE", U.detectEncoding(buf), "Should return UTF_32LE for 0x3C000000");
+        assertEquals("UTF_32LE", U.detectEncoding(buf),
+                "Should return UTF_32LE for 0x3C000000");
     }
 
     @Test
     void testCase_0x3C003F00() {
         byte[] buf = {(byte) 0x3C, (byte) 0x00, (byte) 0x3F, (byte) 0x00};
-        assertEquals("UnicodeLittleUnmarked", U.detectEncoding(buf), "Should return UnicodeLittleUnmarked for 0x3C003F00");
+        assertEquals("UnicodeLittleUnmarked", U.detectEncoding(buf),
+                "Should return UnicodeLittleUnmarked for 0x3C003F00");
     }
 
     @Test
     void testCase_0x3C3F786D() {
         byte[] buf = {(byte) 0x3C, (byte) 0x3F, (byte) 0x78, (byte) 0x6D};
-        assertEquals("UTF8", U.detectEncoding(buf), "Should return UTF8 for 0x3C3F786D");
+        assertEquals("UTF8", U.detectEncoding(buf),
+                "Should return UTF8 for 0x3C3F786D");
     }
 
     @Test
@@ -967,28 +974,32 @@ class UnderscoreTest {
         // 0xEFBBBF??, so n >>> 8 == 0xEFBBBF
         // Let's set: [0xEF, 0xBB, 0xBF, 0x42] (0x42 is arbitrary)
         byte[] buf = {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF, (byte) 0x42};
-        assertEquals("UTF8", U.detectEncoding(buf), "Should return UTF8 for buffer with UTF-8 BOM");
+        assertEquals("UTF8", U.detectEncoding(buf),
+                "Should return UTF8 for buffer with UTF-8 BOM");
     }
 
     @Test
     void test_nShift24_0x3C() {
         // (n >>> 24) == 0x3C, but not matching any above case
         byte[] buf = {(byte) 0x3C, 1, 2, 3};
-        assertEquals("UTF8", U.detectEncoding(buf), "Should return UTF8 when (n >>> 24) == 0x3C and no previous case matches");
+        assertEquals("UTF8", U.detectEncoding(buf),
+                "Should return UTF8 when (n >>> 24) == 0x3C and no previous case matches");
     }
 
     @Test
     void test_nShift16_0xFFFE() {
         // (n >>> 16) == 0xFFFE (UnicodeLittleUnmarked branch)
         byte[] buf = {(byte) 0xFF, (byte) 0xFE, (byte) 0x21, (byte) 0x22};
-        assertEquals("UnicodeLittleUnmarked", U.detectEncoding(buf), "Should return UnicodeLittleUnmarked when (n >> 16) == 0xFFFE");
+        assertEquals("UnicodeLittleUnmarked", U.detectEncoding(buf),
+                "Should return UnicodeLittleUnmarked when (n >> 16) == 0xFFFE");
     }
 
     @Test
     void test_nShift16_0xFEFF() {
         // (n >>> 16) == 0xFEFF (UnicodeBigUnmarked branch)
         byte[] buf = {(byte) 0xFE, (byte) 0xFF, (byte) 0x99, (byte) 0x88};
-        assertEquals("UnicodeBigUnmarked", U.detectEncoding(buf), "Should return UnicodeBigUnmarked when (n >> 16) == 0xFEFF");
+        assertEquals("UnicodeBigUnmarked", U.detectEncoding(buf),
+                "Should return UnicodeBigUnmarked when (n >> 16) == 0xFEFF");
     }
 
     @Test
