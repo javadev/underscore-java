@@ -895,13 +895,19 @@ class UnderscoreTest {
     void testPrefixSimilarButNotABom() {
         byte[] input = new byte[] {-1, 0, 1};
         assertArrayEquals(input, U.removeBom(input), "Array starting with -1,0 is not a BOM, should be unchanged");
-
         input = new byte[] {-2, 0, 1};
         assertArrayEquals(input, U.removeBom(input), "Array starting with -2,0 is not a BOM, should be unchanged");
-
         // 3 bytes but third is not -65
         input = new byte[] {-17, -69, 0};
         assertArrayEquals(input, U.removeBom(input), "Array with -17,-69,<not -65> is not a BOM");
+        input = new byte[] { -17, -69 };
+        assertArrayEquals(input, U.removeBom(input), "Should not remove BOM for length < 3");
+        input = new byte[] { 0, -69, -65, 33 };
+        assertArrayEquals(input, U.removeBom(input), "Should not remove BOM if first byte is not -17");
+        input = new byte[] { -17, 0, -65, 13 };
+        assertArrayEquals(input, U.removeBom(input), "Should not remove BOM if second byte is not -69");
+        input = new byte[] { -17, -69, 0, 14 };
+        assertArrayEquals(input, U.removeBom(input), "Should not remove BOM if third byte is not -65");
     }
 
     @Test
