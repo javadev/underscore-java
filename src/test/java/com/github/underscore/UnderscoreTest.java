@@ -1121,7 +1121,6 @@ class UnderscoreTest {
         Exception exception = assertThrows(Exception.class, () -> {
             U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
         }, "Should throw exception for invalid XML.");
-
         String msg = exception.getMessage();
         assertNotNull(msg, "Exception message for invalid XML should not be null.");
     }
