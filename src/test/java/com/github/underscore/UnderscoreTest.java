@@ -37,6 +37,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -1083,5 +1087,53 @@ class UnderscoreTest {
                 () -> U.fileXmlToJson(nonExistentXml.toString(), outputJson.toString()),
                 "Should throw IOException when input file doesn't exist"
         );
+    }
+
+    @Test
+    void testStreamXmlToJson_validXml_writesJson() throws IOException {
+        String xml = "<root><name>Test</name></root>";
+        InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
+        ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
+        U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
+        String jsonOutput = jsonStream.toString("UTF-8");
+        assertTrue(jsonOutput.contains("name"), "JSON output should contain 'name' field.");
+        assertTrue(jsonOutput.contains("Test"), "JSON output should contain 'Test' value.");
+        assertTrue(jsonOutput.startsWith("{"), "JSON output should start with '{'.");
+        assertTrue(jsonOutput.endsWith("}"), "JSON output should end with '}'.");
+    }
+
+    @Test
+    void testStreamXmlToJson_emptyInput_producesEmptyOrError() {
+        InputStream xmlStream = new ByteArrayInputStream(new byte[0]);
+        ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
+        Exception exception = assertThrows(Exception.class, () -> {
+            U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
+        }, "Should throw exception for empty input.");
+        String msg = exception.getMessage();
+        assertNotNull(msg, "Exception message should not be null.");
+    }
+
+    @Test
+    void testStreamXmlToJson_invalidXml_throwsException() {
+        // missing closing tag
+        String invalidXml = "<root><name>Test</name>";
+        InputStream xmlStream = new ByteArrayInputStream(invalidXml.getBytes());
+        ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
+        Exception exception = assertThrows(Exception.class, () -> {
+            U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
+        }, "Should throw exception for invalid XML.");
+
+        String msg = exception.getMessage();
+        assertNotNull(msg, "Exception message for invalid XML should not be null.");
+    }
+
+    @Test
+    void testStreamXmlToJson_withIndentSteps_producesIndentedJson() throws IOException {
+        String xml = "<root><field>value</field></root>";
+        InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
+        ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
+        U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.FOUR_SPACES);
+        String jsonOutput = jsonStream.toString("UTF-8");
+        assertTrue(jsonOutput.contains("    "), "JSON output should be indented with four spaces.");
     }
 }

@@ -25,7 +25,9 @@ package com.github.underscore;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -2791,6 +2793,16 @@ public class U<T> extends Underscore<T> {
 
     public static void fileXmlToJson(String xmlFileName, String jsonFileName) throws IOException {
         fileXmlToJson(xmlFileName, jsonFileName, Json.JsonStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static void streamXmlToJson(InputStream xmlInputStream, OutputStream jsonOutputStream,
+        Json.JsonStringBuilder.Step indentStep) throws IOException {
+        byte[] bytes = xmlInputStream.readAllBytes();
+        String encoding = detectEncoding(bytes);
+        String xmlText = new String(removeBom(bytes), encoding);
+        String jsonText = xmlToJson(xmlText, indentStep);
+        String formattedJson = formatString(jsonText, System.lineSeparator());
+        jsonOutputStream.write(formattedJson.getBytes(StandardCharsets.UTF_8));
     }
 
     public static byte[] removeBom(byte[] bytes) {
