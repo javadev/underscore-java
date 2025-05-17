@@ -1094,7 +1094,7 @@ class UnderscoreTest {
         String xml = "<root><name>Test</name></root>";
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
-        U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
+        U.streamXmlToJson(xmlStream, jsonStream);
         String jsonOutput = jsonStream.toString("UTF-8");
         assertTrue(jsonOutput.contains("name"), "JSON output should contain 'name' field.");
         assertTrue(jsonOutput.contains("Test"), "JSON output should contain 'Test' value.");

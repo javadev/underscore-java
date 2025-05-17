@@ -2805,6 +2805,10 @@ public class U<T> extends Underscore<T> {
         jsonOutputStream.write(formattedJson.getBytes(StandardCharsets.UTF_8));
     }
 
+    public static void streamXmlToJson(InputStream xmlInputStream, OutputStream jsonOutputStream) throws IOException {
+        streamXmlToJson(xmlInputStream, jsonOutputStream, Json.JsonStringBuilder.Step.TWO_SPACES);
+    }
+
     public static byte[] removeBom(byte[] bytes) {
         if ((bytes.length >= 3) && (bytes[0] == -17) && (bytes[1] == -69) && (bytes[2] == -65)) {
             return Arrays.copyOfRange(bytes, 3, bytes.length);
