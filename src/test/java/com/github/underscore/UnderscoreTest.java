@@ -1103,7 +1103,7 @@ class UnderscoreTest {
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
         U.streamXmlToJson(xmlStream, jsonStream);
-        String jsonOutput = jsonStream.toString("UTF-8");
+        String jsonOutput = jsonStream.toString(StandardCharsets.UTF_8);
         assertTrue(jsonOutput.contains("name"), "JSON output should contain 'name' field.");
         assertTrue(jsonOutput.contains("Test"), "JSON output should contain 'Test' value.");
         assertTrue(jsonOutput.startsWith("{"), "JSON output should start with '{'.");
@@ -1117,10 +1117,11 @@ class UnderscoreTest {
         Exception exception =
                 assertThrows(
                         Exception.class,
-                        () -> {
-                            U.streamXmlToJson(
-                                    xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
-                        },
+                        () ->
+                                U.streamXmlToJson(
+                                        xmlStream,
+                                        jsonStream,
+                                        Json.JsonStringBuilder.Step.TWO_SPACES),
                         "Should throw exception for empty input.");
         String msg = exception.getMessage();
         assertNotNull(msg, "Exception message should not be null.");
@@ -1135,10 +1136,11 @@ class UnderscoreTest {
         Exception exception =
                 assertThrows(
                         Exception.class,
-                        () -> {
-                            U.streamXmlToJson(
-                                    xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
-                        },
+                        () ->
+                                U.streamXmlToJson(
+                                        xmlStream,
+                                        jsonStream,
+                                        Json.JsonStringBuilder.Step.TWO_SPACES),
                         "Should throw exception for invalid XML.");
         String msg = exception.getMessage();
         assertNotNull(msg, "Exception message for invalid XML should not be null.");
@@ -1150,7 +1152,7 @@ class UnderscoreTest {
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
         U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.FOUR_SPACES);
-        String jsonOutput = jsonStream.toString("UTF-8");
+        String jsonOutput = jsonStream.toString(StandardCharsets.UTF_8);
         assertTrue(jsonOutput.contains("    "), "JSON output should be indented with four spaces.");
     }
 
@@ -1160,8 +1162,6 @@ class UnderscoreTest {
         Path jsonFile = tempDir.resolve("in.json");
         Path xmlFile = tempDir.resolve("out.xml");
         String encoding = "UTF-16";
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("#encoding", encoding);
         // Write json
         String jsonText = "{\"#encoding\":\"" + encoding + "\"}";
         Files.write(jsonFile, jsonText.getBytes(StandardCharsets.UTF_8));
