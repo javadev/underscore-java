@@ -2882,12 +2882,10 @@ public class U<T> extends Underscore<T> {
                 encoding = "UnicodeBigUnmarked";
                 break;
             case 0xFFFE0000:
-                encoding = "UTF_32LE";
-                break;
             case 0x3C000000:
                 encoding = "UTF_32LE";
                 break;
-                // <?
+            // <?
             case 0x3C003F00:
                 encoding = "UnicodeLittleUnmarked";
                 break;
