@@ -35,6 +35,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2814,6 +2815,40 @@ public class U<T> extends Underscore<T> {
     public static void streamXmlToJson(InputStream xmlInputStream, OutputStream jsonOutputStream)
             throws IOException {
         streamXmlToJson(xmlInputStream, jsonOutputStream, Json.JsonStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static void fileJsonToXml(
+            String jsonFileName, String xmlFileName, Xml.XmlStringBuilder.Step identStep)
+            throws IOException {
+        final byte[] bytes = Files.readAllBytes(Paths.get(jsonFileName));
+        String jsonText = new String(removeBom(bytes), detectEncoding(bytes));
+        Object result = U.fromJson(jsonText);
+        Path xmlFilePath = Paths.get(xmlFileName);
+        String lineSeparator = System.lineSeparator();
+        if (result instanceof Map) {
+            if (((Map) result).containsKey("#encoding")) {
+                String encoding = String.valueOf(((Map) result).get("#encoding"));
+                Files.write(
+                        xmlFilePath,
+                        formatString(Xml.toXml((Map) result, identStep), lineSeparator)
+                                .getBytes(encoding));
+            } else {
+                Files.write(
+                        xmlFilePath,
+                        formatString(Xml.toXml((Map) result, identStep), lineSeparator)
+                                .getBytes(StandardCharsets.UTF_8));
+            }
+        } else {
+            Files.write(
+                    xmlFilePath,
+                    formatString(Xml.toXml((List) result, identStep), lineSeparator)
+                            .getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
+    public static void fileJsonToXml(
+            String jsonFileName, String xmlFileName) throws IOException {
+        fileJsonToXml(jsonFileName, xmlFileName, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
     public static byte[] removeBom(byte[] bytes) {

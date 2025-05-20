@@ -1153,4 +1153,61 @@ class UnderscoreTest {
         String jsonOutput = jsonStream.toString("UTF-8");
         assertTrue(jsonOutput.contains("    "), "JSON output should be indented with four spaces.");
     }
+
+    @Test
+    void testMapWithEncodingKey(@TempDir Path tempDir) throws IOException {
+        // Arrange
+        Path jsonFile = tempDir.resolve("in.json");
+        Path xmlFile = tempDir.resolve("out.xml");
+        String encoding = "UTF-16";
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("#encoding", encoding);
+        // Write json
+        String jsonText = "{\"#encoding\":\"" + encoding + "\"}";
+        Files.write(jsonFile, jsonText.getBytes(StandardCharsets.UTF_8));
+        // Act
+        U.fileJsonToXml(jsonFile.toString(), xmlFile.toString());
+        // Assert
+        byte[] xmlBytes = Files.readAllBytes(xmlFile);
+        String xmlStr = new String(xmlBytes, encoding);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-16\"?>" + System.lineSeparator()
+                + "<root></root>", xmlStr, "Should write XML with provided encoding when #encoding key present");
+    }
+
+    @Test
+    void testMapWithoutEncodingKey(@TempDir Path tempDir) throws IOException {
+        // Arrange
+        Path jsonFile = tempDir.resolve("in.json");
+        Path xmlFile = tempDir.resolve("out.xml");
+        Map<String, Object> map = new LinkedHashMap<>();
+        String jsonText = "{}";
+        Files.write(jsonFile, jsonText.getBytes(StandardCharsets.UTF_8));
+        // Act
+        U.fileJsonToXml(jsonFile.toString(), xmlFile.toString(), Xml.XmlStringBuilder.Step.TWO_SPACES);
+        // Assert
+        byte[] xmlBytes = Files.readAllBytes(xmlFile);
+        String xmlStr = new String(xmlBytes, StandardCharsets.UTF_8);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator()
+                + "<root></root>", xmlStr, "Should write XML using UTF-8 when #encoding key not present");
+    }
+
+    @Test
+    void testListResult(@TempDir Path tempDir) throws IOException {
+        // Arrange
+        Path jsonFile = tempDir.resolve("in.json");
+        Path xmlFile = tempDir.resolve("out.xml");
+        Files.write(jsonFile, "[1,2,3]".getBytes(StandardCharsets.UTF_8));
+        // Act
+        U.fileJsonToXml(jsonFile.toString(), xmlFile.toString(), Xml.XmlStringBuilder.Step.TWO_SPACES);
+        // Assert
+        byte[] xmlBytes = Files.readAllBytes(xmlFile);
+        String xmlStr = new String(xmlBytes, StandardCharsets.UTF_8);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator()
+                + "<root>" + System.lineSeparator()
+                + "  <element number=\"true\">1</element>" + System.lineSeparator()
+                + "  <element number=\"true\">2</element>" + System.lineSeparator()
+                + "  <element number=\"true\">3</element>" + System.lineSeparator()
+                + "</root>", xmlStr,
+                "Should write XML using UTF-8 when result is a List");
+    }
 }
