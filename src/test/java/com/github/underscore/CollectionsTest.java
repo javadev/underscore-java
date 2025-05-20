@@ -1677,8 +1677,7 @@ class CollectionsTest {
                             }
 
                             @Override
-                            public void remove() {
-                            }
+                            public void remove() {}
                         };
         assertEquals(6, Underscore.size(iterable));
         assertEquals(5, Underscore.size(new Integer[] {5, 4, 3, 2, 1}));

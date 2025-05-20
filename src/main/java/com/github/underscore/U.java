@@ -25,8 +25,8 @@ package com.github.underscore;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -2783,20 +2783,26 @@ public class U<T> extends Underscore<T> {
         return xmlToJson(xml, Json.JsonStringBuilder.Step.TWO_SPACES, mode);
     }
 
-    public static void fileXmlToJson(String xmlFileName, String jsonFileName, Json.JsonStringBuilder.Step identStep)
+    public static void fileXmlToJson(
+            String xmlFileName, String jsonFileName, Json.JsonStringBuilder.Step identStep)
             throws IOException {
         final byte[] bytes = Files.readAllBytes(Paths.get(xmlFileName));
         String xmlText = new String(removeBom(bytes), detectEncoding(bytes));
-        Files.write(Paths.get(jsonFileName), formatString(xmlToJson(xmlText, identStep),
-                System.lineSeparator()).getBytes(StandardCharsets.UTF_8));
+        Files.write(
+                Paths.get(jsonFileName),
+                formatString(xmlToJson(xmlText, identStep), System.lineSeparator())
+                        .getBytes(StandardCharsets.UTF_8));
     }
 
     public static void fileXmlToJson(String xmlFileName, String jsonFileName) throws IOException {
         fileXmlToJson(xmlFileName, jsonFileName, Json.JsonStringBuilder.Step.TWO_SPACES);
     }
 
-    public static void streamXmlToJson(InputStream xmlInputStream, OutputStream jsonOutputStream,
-        Json.JsonStringBuilder.Step indentStep) throws IOException {
+    public static void streamXmlToJson(
+            InputStream xmlInputStream,
+            OutputStream jsonOutputStream,
+            Json.JsonStringBuilder.Step indentStep)
+            throws IOException {
         byte[] bytes = xmlInputStream.readAllBytes();
         String encoding = detectEncoding(bytes);
         String xmlText = new String(removeBom(bytes), encoding);
@@ -2805,7 +2811,8 @@ public class U<T> extends Underscore<T> {
         jsonOutputStream.write(formattedJson.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static void streamXmlToJson(InputStream xmlInputStream, OutputStream jsonOutputStream) throws IOException {
+    public static void streamXmlToJson(InputStream xmlInputStream, OutputStream jsonOutputStream)
+            throws IOException {
         streamXmlToJson(xmlInputStream, jsonOutputStream, Json.JsonStringBuilder.Step.TWO_SPACES);
     }
 
@@ -2827,10 +2834,11 @@ public class U<T> extends Underscore<T> {
             return "UTF8";
         }
         String encoding = null;
-        int n = ((buffer[0] & 0xFF) << 24)
-                | ((buffer[1] & 0xFF) << 16)
-                | ((buffer[2] & 0xFF) << 8)
-                | (buffer[3] & 0xFF);
+        int n =
+                ((buffer[0] & 0xFF) << 24)
+                        | ((buffer[1] & 0xFF) << 16)
+                        | ((buffer[2] & 0xFF) << 8)
+                        | (buffer[3] & 0xFF);
         switch (n) {
             case 0x0000FEFF:
             case 0x0000003C:
@@ -2845,11 +2853,11 @@ public class U<T> extends Underscore<T> {
             case 0x3C000000:
                 encoding = "UTF_32LE";
                 break;
-            // <?
+                // <?
             case 0x3C003F00:
                 encoding = "UnicodeLittleUnmarked";
                 break;
-            // <?xm
+                // <?xm
             case 0x3C3F786D:
                 encoding = "UTF8";
                 break;
