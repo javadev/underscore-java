@@ -1179,7 +1179,6 @@ class UnderscoreTest {
         // Arrange
         Path jsonFile = tempDir.resolve("in.json");
         Path xmlFile = tempDir.resolve("out.xml");
-        Map<String, Object> map = new LinkedHashMap<>();
         String jsonText = "{}";
         Files.write(jsonFile, jsonText.getBytes(StandardCharsets.UTF_8));
         // Act
