@@ -39,8 +39,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -877,7 +877,8 @@ class UnderscoreTest {
     void testNotShortBytesNoBom() {
         // Less than 2 bytes (not possible to have BOM)
         byte[] input = new byte[] {42};
-        assertArrayEquals(input, U.removeBom(input), "Short arrays with no BOM should be unchanged");
+        assertArrayEquals(
+                input, U.removeBom(input), "Short arrays with no BOM should be unchanged");
     }
 
     @Test
@@ -891,26 +892,36 @@ class UnderscoreTest {
     void testAlmostBomButNotEnoughBytes() {
         // only 2 bytes, not enough for UTF-8 BOM
         byte[] input = new byte[] {-17, -69};
-        assertArrayEquals(input, U.removeBom(input), "Arrays with too few BOM bytes should be unchanged");
+        assertArrayEquals(
+                input, U.removeBom(input), "Arrays with too few BOM bytes should be unchanged");
     }
 
     @Test
     void testPrefixSimilarButNotABom() {
         byte[] input = new byte[] {-1, 0, 1};
-        assertArrayEquals(input, U.removeBom(input), "Array starting with -1,0 is not a BOM, should be unchanged");
+        assertArrayEquals(
+                input,
+                U.removeBom(input),
+                "Array starting with -1,0 is not a BOM, should be unchanged");
         input = new byte[] {-2, 0, 1};
-        assertArrayEquals(input, U.removeBom(input), "Array starting with -2,0 is not a BOM, should be unchanged");
+        assertArrayEquals(
+                input,
+                U.removeBom(input),
+                "Array starting with -2,0 is not a BOM, should be unchanged");
         // 3 bytes but third is not -65
         input = new byte[] {-17, -69, 0};
         assertArrayEquals(input, U.removeBom(input), "Array with -17,-69,<not -65> is not a BOM");
-        input = new byte[] { -17, -69 };
+        input = new byte[] {-17, -69};
         assertArrayEquals(input, U.removeBom(input), "Should not remove BOM for length < 3");
-        input = new byte[] { 0, -69, -65, 33 };
-        assertArrayEquals(input, U.removeBom(input), "Should not remove BOM if first byte is not -17");
-        input = new byte[] { -17, 0, -65, 13 };
-        assertArrayEquals(input, U.removeBom(input), "Should not remove BOM if second byte is not -69");
-        input = new byte[] { -17, -69, 0, 14 };
-        assertArrayEquals(input, U.removeBom(input), "Should not remove BOM if third byte is not -65");
+        input = new byte[] {0, -69, -65, 33};
+        assertArrayEquals(
+                input, U.removeBom(input), "Should not remove BOM if first byte is not -17");
+        input = new byte[] {-17, 0, -65, 13};
+        assertArrayEquals(
+                input, U.removeBom(input), "Should not remove BOM if second byte is not -69");
+        input = new byte[] {-17, -69, 0, 14};
+        assertArrayEquals(
+                input, U.removeBom(input), "Should not remove BOM if third byte is not -65");
     }
 
     @Test
@@ -926,50 +937,51 @@ class UnderscoreTest {
     @Test
     void testCase_0x0000FEFF() {
         byte[] buf = {(byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF};
-        assertEquals("UTF_32BE", U.detectEncoding(buf),
-                "Should return UTF_32BE for BOM 0x0000FEFF");
+        assertEquals(
+                "UTF_32BE", U.detectEncoding(buf), "Should return UTF_32BE for BOM 0x0000FEFF");
     }
 
     @Test
     void testCase_0x0000003C() {
         byte[] buf = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x3C};
-        assertEquals("UTF_32BE", U.detectEncoding(buf),
-                "Should return UTF_32BE for 0x0000003C");
+        assertEquals("UTF_32BE", U.detectEncoding(buf), "Should return UTF_32BE for 0x0000003C");
     }
 
     @Test
     void testCase_0x003C003F() {
         byte[] buf = {(byte) 0x00, (byte) 0x3C, (byte) 0x00, (byte) 0x3F};
-        assertEquals("UnicodeBigUnmarked", U.detectEncoding(buf),
+        assertEquals(
+                "UnicodeBigUnmarked",
+                U.detectEncoding(buf),
                 "Should return UnicodeBigUnmarked for 0x003C003F");
     }
 
     @Test
     void testCase_0xFFFE0000() {
         byte[] buf = {(byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x00};
-        assertEquals("UTF_32LE", U.detectEncoding(buf),
-                "Should return UTF_32LE for BOM 0xFFFE0000");
+        assertEquals(
+                "UTF_32LE", U.detectEncoding(buf), "Should return UTF_32LE for BOM 0xFFFE0000");
     }
 
     @Test
     void testCase_0x3C000000() {
         byte[] buf = {(byte) 0x3C, (byte) 0x00, (byte) 0x00, (byte) 0x00};
-        assertEquals("UTF_32LE", U.detectEncoding(buf),
-                "Should return UTF_32LE for 0x3C000000");
+        assertEquals("UTF_32LE", U.detectEncoding(buf), "Should return UTF_32LE for 0x3C000000");
     }
 
     @Test
     void testCase_0x3C003F00() {
         byte[] buf = {(byte) 0x3C, (byte) 0x00, (byte) 0x3F, (byte) 0x00};
-        assertEquals("UnicodeLittleUnmarked", U.detectEncoding(buf),
+        assertEquals(
+                "UnicodeLittleUnmarked",
+                U.detectEncoding(buf),
                 "Should return UnicodeLittleUnmarked for 0x3C003F00");
     }
 
     @Test
     void testCase_0x3C3F786D() {
         byte[] buf = {(byte) 0x3C, (byte) 0x3F, (byte) 0x78, (byte) 0x6D};
-        assertEquals("UTF8", U.detectEncoding(buf),
-                "Should return UTF8 for 0x3C3F786D");
+        assertEquals("UTF8", U.detectEncoding(buf), "Should return UTF8 for 0x3C3F786D");
     }
 
     @Test
@@ -977,15 +989,16 @@ class UnderscoreTest {
         // 0xEFBBBF??, so n >>> 8 == 0xEFBBBF
         // Let's set: [0xEF, 0xBB, 0xBF, 0x42] (0x42 is arbitrary)
         byte[] buf = {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF, (byte) 0x42};
-        assertEquals("UTF8", U.detectEncoding(buf),
-                "Should return UTF8 for buffer with UTF-8 BOM");
+        assertEquals("UTF8", U.detectEncoding(buf), "Should return UTF8 for buffer with UTF-8 BOM");
     }
 
     @Test
     void test_nShift24_0x3C() {
         // (n >>> 24) == 0x3C, but not matching any above case
         byte[] buf = {(byte) 0x3C, 1, 2, 3};
-        assertEquals("UTF8", U.detectEncoding(buf),
+        assertEquals(
+                "UTF8",
+                U.detectEncoding(buf),
                 "Should return UTF8 when (n >>> 24) == 0x3C and no previous case matches");
     }
 
@@ -993,7 +1006,9 @@ class UnderscoreTest {
     void test_nShift16_0xFFFE() {
         // (n >>> 16) == 0xFFFE (UnicodeLittleUnmarked branch)
         byte[] buf = {(byte) 0xFF, (byte) 0xFE, (byte) 0x21, (byte) 0x22};
-        assertEquals("UnicodeLittleUnmarked", U.detectEncoding(buf),
+        assertEquals(
+                "UnicodeLittleUnmarked",
+                U.detectEncoding(buf),
                 "Should return UnicodeLittleUnmarked when (n >> 16) == 0xFFFE");
     }
 
@@ -1001,7 +1016,9 @@ class UnderscoreTest {
     void test_nShift16_0xFEFF() {
         // (n >>> 16) == 0xFEFF (UnicodeBigUnmarked branch)
         byte[] buf = {(byte) 0xFE, (byte) 0xFF, (byte) 0x99, (byte) 0x88};
-        assertEquals("UnicodeBigUnmarked", U.detectEncoding(buf),
+        assertEquals(
+                "UnicodeBigUnmarked",
+                U.detectEncoding(buf),
                 "Should return UnicodeBigUnmarked when (n >> 16) == 0xFEFF");
     }
 
@@ -1009,7 +1026,8 @@ class UnderscoreTest {
     void testDefaultCase() {
         // Random data, not matching any case nor any shift checks. Should default to UTF8
         byte[] buf = {(byte) 0x01, (byte) 0x23, (byte) 0x45, (byte) 0x67};
-        assertEquals("UTF8", U.detectEncoding(buf), "Should default to UTF8 for unknown byte patterns");
+        assertEquals(
+                "UTF8", U.detectEncoding(buf), "Should default to UTF8 for unknown byte patterns");
     }
 
     @Test
@@ -1019,8 +1037,7 @@ class UnderscoreTest {
         assertEquals(
                 input1,
                 U.formatString(input1, "\n"),
-                "Should not modify string when line separator is already \\n"
-        );
+                "Should not modify string when line separator is already \\n");
 
         // Test with different line separator
         String input2 = "line1\nline2\nline3";
@@ -1028,22 +1045,17 @@ class UnderscoreTest {
         assertEquals(
                 expected2,
                 U.formatString(input2, "\r\n"),
-                "Should replace \\n with specified line separator"
-        );
+                "Should replace \\n with specified line separator");
 
         // Test with empty string
-        assertTrue(
-                U.formatString("", "\n").isEmpty(),
-                "Should handle empty string correctly"
-        );
+        assertTrue(U.formatString("", "\n").isEmpty(), "Should handle empty string correctly");
 
         // Test with no line breaks
         String noBreaks = "text without breaks";
         assertEquals(
                 noBreaks,
                 U.formatString(noBreaks, "\r\n"),
-                "Should not modify string without line breaks"
-        );
+                "Should not modify string without line breaks");
     }
 
     @Test
@@ -1059,21 +1071,19 @@ class UnderscoreTest {
         // Test file conversion
         assertDoesNotThrow(
                 () -> U.fileXmlToJson(xmlPath.toString(), jsonPath.toString()),
-                "File conversion should not throw exceptions"
-        );
+                "File conversion should not throw exceptions");
 
         // Verify the JSON file
-        assertTrue(
-                Files.exists(jsonPath),
-                "JSON file should be created"
-        );
+        assertTrue(Files.exists(jsonPath), "JSON file should be created");
 
         String jsonContent = Files.readString(jsonPath);
-        assertAll("JSON file content verification",
+        assertAll(
+                "JSON file content verification",
                 () -> assertNotNull(jsonContent, "JSON content should not be null"),
-                () -> assertTrue(jsonContent.contains("\"item\": \"value\""),
-                        "JSON should contain converted XML content")
-        );
+                () ->
+                        assertTrue(
+                                jsonContent.contains("\"item\": \"value\""),
+                                "JSON should contain converted XML content"));
     }
 
     @Test
@@ -1084,8 +1094,7 @@ class UnderscoreTest {
         assertThrows(
                 IOException.class,
                 () -> U.fileXmlToJson(nonExistentXml.toString(), outputJson.toString()),
-                "Should throw IOException when input file doesn't exist"
-        );
+                "Should throw IOException when input file doesn't exist");
     }
 
     @Test
@@ -1105,9 +1114,14 @@ class UnderscoreTest {
     void testStreamXmlToJson_emptyInput_producesEmptyOrError() {
         InputStream xmlStream = new ByteArrayInputStream(new byte[0]);
         ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
-        Exception exception = assertThrows(Exception.class, () -> {
-            U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
-        }, "Should throw exception for empty input.");
+        Exception exception =
+                assertThrows(
+                        Exception.class,
+                        () -> {
+                            U.streamXmlToJson(
+                                    xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
+                        },
+                        "Should throw exception for empty input.");
         String msg = exception.getMessage();
         assertNotNull(msg, "Exception message should not be null.");
     }
@@ -1118,9 +1132,14 @@ class UnderscoreTest {
         String invalidXml = "<root><name>Test</name>";
         InputStream xmlStream = new ByteArrayInputStream(invalidXml.getBytes());
         ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
-        Exception exception = assertThrows(Exception.class, () -> {
-            U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
-        }, "Should throw exception for invalid XML.");
+        Exception exception =
+                assertThrows(
+                        Exception.class,
+                        () -> {
+                            U.streamXmlToJson(
+                                    xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
+                        },
+                        "Should throw exception for invalid XML.");
         String msg = exception.getMessage();
         assertNotNull(msg, "Exception message for invalid XML should not be null.");
     }
