@@ -1170,8 +1170,12 @@ class UnderscoreTest {
         // Assert
         byte[] xmlBytes = Files.readAllBytes(xmlFile);
         String xmlStr = new String(xmlBytes, encoding);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-16\"?>" + System.lineSeparator()
-                + "<root></root>", xmlStr, "Should write XML with provided encoding when #encoding key present");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-16\"?>"
+                        + System.lineSeparator()
+                        + "<root></root>",
+                xmlStr,
+                "Should write XML with provided encoding when #encoding key present");
     }
 
     @Test
@@ -1182,12 +1186,17 @@ class UnderscoreTest {
         String jsonText = "{}";
         Files.write(jsonFile, jsonText.getBytes(StandardCharsets.UTF_8));
         // Act
-        U.fileJsonToXml(jsonFile.toString(), xmlFile.toString(), Xml.XmlStringBuilder.Step.TWO_SPACES);
+        U.fileJsonToXml(
+                jsonFile.toString(), xmlFile.toString(), Xml.XmlStringBuilder.Step.TWO_SPACES);
         // Assert
         byte[] xmlBytes = Files.readAllBytes(xmlFile);
         String xmlStr = new String(xmlBytes, StandardCharsets.UTF_8);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator()
-                + "<root></root>", xmlStr, "Should write XML using UTF-8 when #encoding key not present");
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                        + System.lineSeparator()
+                        + "<root></root>",
+                xmlStr,
+                "Should write XML using UTF-8 when #encoding key not present");
     }
 
     @Test
@@ -1197,16 +1206,24 @@ class UnderscoreTest {
         Path xmlFile = tempDir.resolve("out.xml");
         Files.write(jsonFile, "[1,2,3]".getBytes(StandardCharsets.UTF_8));
         // Act
-        U.fileJsonToXml(jsonFile.toString(), xmlFile.toString(), Xml.XmlStringBuilder.Step.TWO_SPACES);
+        U.fileJsonToXml(
+                jsonFile.toString(), xmlFile.toString(), Xml.XmlStringBuilder.Step.TWO_SPACES);
         // Assert
         byte[] xmlBytes = Files.readAllBytes(xmlFile);
         String xmlStr = new String(xmlBytes, StandardCharsets.UTF_8);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator()
-                + "<root>" + System.lineSeparator()
-                + "  <element number=\"true\">1</element>" + System.lineSeparator()
-                + "  <element number=\"true\">2</element>" + System.lineSeparator()
-                + "  <element number=\"true\">3</element>" + System.lineSeparator()
-                + "</root>", xmlStr,
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                        + System.lineSeparator()
+                        + "<root>"
+                        + System.lineSeparator()
+                        + "  <element number=\"true\">1</element>"
+                        + System.lineSeparator()
+                        + "  <element number=\"true\">2</element>"
+                        + System.lineSeparator()
+                        + "  <element number=\"true\">3</element>"
+                        + System.lineSeparator()
+                        + "</root>",
+                xmlStr,
                 "Should write XML using UTF-8 when result is a List");
     }
 }
