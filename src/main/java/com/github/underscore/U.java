@@ -103,6 +103,7 @@ public class U<T> extends Underscore<T> {
             java.util.regex.Pattern.compile(
                     UPPER + "+(?=" + UPPER + LOWER + ")|" + UPPER + "?" + LOWER + "|" + UPPER
                             + "+|\\d+");
+    private static final String ENCODING = "#encoding";
 
     static {
         String[] deburredLetters =
@@ -2826,8 +2827,8 @@ public class U<T> extends Underscore<T> {
         Path xmlFilePath = Paths.get(xmlFileName);
         String lineSeparator = System.lineSeparator();
         if (result instanceof Map) {
-            if (((Map) result).containsKey("#encoding")) {
-                String encoding = String.valueOf(((Map) result).get("#encoding"));
+            if (((Map) result).containsKey(ENCODING)) {
+                String encoding = String.valueOf(((Map) result).get(ENCODING));
                 Files.write(
                         xmlFilePath,
                         formatString(Xml.toXml((Map) result, identStep), lineSeparator)
@@ -2862,8 +2863,8 @@ public class U<T> extends Underscore<T> {
         String xml;
         if (jsonObject instanceof Map) {
             xml = formatString(Xml.toXml((Map<?, ?>) jsonObject, identStep), lineSeparator);
-            if (((Map) jsonObject).containsKey("#encoding")) {
-                String encoding = String.valueOf(((Map) jsonObject).get("#encoding"));
+            if (((Map) jsonObject).containsKey(ENCODING)) {
+                String encoding = String.valueOf(((Map) jsonObject).get(ENCODING));
                 xmlOutputStream.write(xml.getBytes(encoding));
             } else {
                 xmlOutputStream.write(xml.getBytes(StandardCharsets.UTF_8));
