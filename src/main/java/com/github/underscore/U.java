@@ -2874,6 +2874,10 @@ public class U<T> extends Underscore<T> {
         }
     }
 
+    public static void streamJsonToXml(InputStream jsonInputStream, OutputStream xmlOutputStream) throws IOException {
+        streamJsonToXml(jsonInputStream, xmlOutputStream, Xml.XmlStringBuilder.Step.TWO_SPACES);
+    }
+
     public static byte[] removeBom(byte[] bytes) {
         if ((bytes.length >= 3) && (bytes[0] == -17) && (bytes[1] == -69) && (bytes[2] == -65)) {
             return Arrays.copyOfRange(bytes, 3, bytes.length);

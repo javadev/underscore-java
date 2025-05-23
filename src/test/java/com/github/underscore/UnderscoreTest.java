@@ -1233,7 +1233,7 @@ class UnderscoreTest {
         ByteArrayInputStream inputStream =
                 new ByteArrayInputStream(inputJson.getBytes(StandardCharsets.UTF_8));
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        U.streamJsonToXml(inputStream, outputStream, Xml.XmlStringBuilder.Step.TWO_SPACES);
+        U.streamJsonToXml(inputStream, outputStream);
         String expectedXml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                         + System.lineSeparator()
