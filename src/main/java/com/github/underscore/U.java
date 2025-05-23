@@ -2850,6 +2850,30 @@ public class U<T> extends Underscore<T> {
         fileJsonToXml(jsonFileName, xmlFileName, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
+    public static void streamJsonToXml(
+            InputStream jsonInputStream,
+            OutputStream xmlOutputStream,
+            Xml.XmlStringBuilder.Step identStep)
+            throws IOException {
+        byte[] bytes = jsonInputStream.readAllBytes();
+        String jsonText = new String(removeBom(bytes), detectEncoding(bytes));
+        Object jsonObject = U.fromJson(jsonText);
+        String lineSeparator = System.lineSeparator();
+        String xml;
+        if (jsonObject instanceof Map) {
+            xml = formatString(Xml.toXml((Map<?, ?>) jsonObject, identStep), lineSeparator);
+            if (((Map) jsonObject).containsKey("#encoding")) {
+                String encoding = String.valueOf(((Map) jsonObject).get("#encoding"));
+                xmlOutputStream.write(xml.getBytes(encoding));
+            } else {
+                xmlOutputStream.write(xml.getBytes(StandardCharsets.UTF_8));
+            }
+        } else {
+            xml = formatString(Xml.toXml((List<?>) jsonObject, identStep), lineSeparator);
+            xmlOutputStream.write(xml.getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
     public static byte[] removeBom(byte[] bytes) {
         if ((bytes.length >= 3) && (bytes[0] == -17) && (bytes[1] == -69) && (bytes[2] == -65)) {
             return Arrays.copyOfRange(bytes, 3, bytes.length);
