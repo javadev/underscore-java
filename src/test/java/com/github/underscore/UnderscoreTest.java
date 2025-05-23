@@ -1226,4 +1226,86 @@ class UnderscoreTest {
                 xmlStr,
                 "Should write XML using UTF-8 when result is a List");
     }
+
+    @Test
+    void testStreamJsonToXml_ObjectMap_DefaultEncoding() throws Exception {
+        String inputJson = "{\"root\":\"value\"}";
+        ByteArrayInputStream inputStream =
+                new ByteArrayInputStream(inputJson.getBytes(StandardCharsets.UTF_8));
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        U.streamJsonToXml(inputStream, outputStream);
+        String expectedXml =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                        + System.lineSeparator()
+                        + "<root>value</root>";
+        String actualXml = outputStream.toString(StandardCharsets.UTF_8);
+        assertEquals(
+                expectedXml,
+                actualXml,
+                "XML output should match expected XML for simple JSON object with default encoding");
+    }
+
+    @Test
+    void testStreamJsonToXml_ObjectMap_CustomEncoding() throws Exception {
+        String inputJson = "{\"root\":\"value\",\"#encoding\":\"UTF-16\"}";
+        ByteArrayInputStream inputStream =
+                new ByteArrayInputStream(inputJson.getBytes(StandardCharsets.UTF_8));
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        U.streamJsonToXml(inputStream, outputStream, Xml.XmlStringBuilder.Step.TWO_SPACES);
+        String expectedXml =
+                "<?xml version=\"1.0\" encoding=\"UTF-16\"?>"
+                        + System.lineSeparator()
+                        + "<root>value</root>";
+        String actualXml = outputStream.toString(StandardCharsets.UTF_16);
+        assertEquals(
+                expectedXml,
+                actualXml,
+                "XML output should match expected XML for simple JSON object with default encoding");
+    }
+
+    @Test
+    void testStreamJsonToXml_List() throws Exception {
+        String inputJson = "[{\"item\":42}]";
+        ByteArrayInputStream inputStream =
+                new ByteArrayInputStream(inputJson.getBytes(StandardCharsets.UTF_8));
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        U.streamJsonToXml(inputStream, outputStream, Xml.XmlStringBuilder.Step.TWO_SPACES);
+        String expectedXml =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                        + System.lineSeparator()
+                        + "<root>"
+                        + System.lineSeparator()
+                        + "  <element array=\"true\">"
+                        + System.lineSeparator()
+                        + "    <item number=\"true\">42</item>"
+                        + System.lineSeparator()
+                        + "  </element>"
+                        + System.lineSeparator()
+                        + "</root>";
+        String actualXml = outputStream.toString(StandardCharsets.UTF_8);
+        assertEquals(
+                expectedXml,
+                actualXml,
+                "XML output should match expected XML for JSON array root with default encoding");
+    }
+
+    @Test
+    void testStreamJsonToXml_InvalidJson_ThrowsException() {
+        String inputJson = "invalid";
+        ByteArrayInputStream inputStream =
+                new ByteArrayInputStream(inputJson.getBytes(StandardCharsets.UTF_8));
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Exception exception =
+                assertThrows(
+                        Json.ParseException.class,
+                        () ->
+                                U.streamJsonToXml(
+                                        inputStream,
+                                        outputStream,
+                                        Xml.XmlStringBuilder.Step.TWO_SPACES));
+        String actualMessage = exception.getMessage();
+        assertTrue(
+                actualMessage.contains("Expected value"),
+                "Should throw exception if JSON is invalid");
+    }
 }
