@@ -1103,7 +1103,7 @@ class UnderscoreTest {
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
         U.streamXmlToJson(xmlStream, jsonStream);
-        String jsonOutput = jsonStream.toString("UTF-8");
+        String jsonOutput = jsonStream.toString(StandardCharsets.UTF_8);
         assertTrue(jsonOutput.contains("name"), "JSON output should contain 'name' field.");
         assertTrue(jsonOutput.contains("Test"), "JSON output should contain 'Test' value.");
         assertTrue(jsonOutput.startsWith("{"), "JSON output should start with '{'.");
@@ -1117,10 +1117,11 @@ class UnderscoreTest {
         Exception exception =
                 assertThrows(
                         Exception.class,
-                        () -> {
-                            U.streamXmlToJson(
-                                    xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
-                        },
+                        () ->
+                                U.streamXmlToJson(
+                                        xmlStream,
+                                        jsonStream,
+                                        Json.JsonStringBuilder.Step.TWO_SPACES),
                         "Should throw exception for empty input.");
         String msg = exception.getMessage();
         assertNotNull(msg, "Exception message should not be null.");
@@ -1135,10 +1136,11 @@ class UnderscoreTest {
         Exception exception =
                 assertThrows(
                         Exception.class,
-                        () -> {
-                            U.streamXmlToJson(
-                                    xmlStream, jsonStream, Json.JsonStringBuilder.Step.TWO_SPACES);
-                        },
+                        () ->
+                                U.streamXmlToJson(
+                                        xmlStream,
+                                        jsonStream,
+                                        Json.JsonStringBuilder.Step.TWO_SPACES),
                         "Should throw exception for invalid XML.");
         String msg = exception.getMessage();
         assertNotNull(msg, "Exception message for invalid XML should not be null.");
@@ -1150,7 +1152,78 @@ class UnderscoreTest {
         InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
         ByteArrayOutputStream jsonStream = new ByteArrayOutputStream();
         U.streamXmlToJson(xmlStream, jsonStream, Json.JsonStringBuilder.Step.FOUR_SPACES);
-        String jsonOutput = jsonStream.toString("UTF-8");
+        String jsonOutput = jsonStream.toString(StandardCharsets.UTF_8);
         assertTrue(jsonOutput.contains("    "), "JSON output should be indented with four spaces.");
+    }
+
+    @Test
+    void testMapWithEncodingKey(@TempDir Path tempDir) throws IOException {
+        // Arrange
+        Path jsonFile = tempDir.resolve("in.json");
+        Path xmlFile = tempDir.resolve("out.xml");
+        String encoding = "UTF-16";
+        // Write json
+        String jsonText = "{\"#encoding\":\"" + encoding + "\"}";
+        Files.write(jsonFile, jsonText.getBytes(StandardCharsets.UTF_8));
+        // Act
+        U.fileJsonToXml(jsonFile.toString(), xmlFile.toString());
+        // Assert
+        byte[] xmlBytes = Files.readAllBytes(xmlFile);
+        String xmlStr = new String(xmlBytes, encoding);
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-16\"?>"
+                        + System.lineSeparator()
+                        + "<root></root>",
+                xmlStr,
+                "Should write XML with provided encoding when #encoding key present");
+    }
+
+    @Test
+    void testMapWithoutEncodingKey(@TempDir Path tempDir) throws IOException {
+        // Arrange
+        Path jsonFile = tempDir.resolve("in.json");
+        Path xmlFile = tempDir.resolve("out.xml");
+        String jsonText = "{}";
+        Files.write(jsonFile, jsonText.getBytes(StandardCharsets.UTF_8));
+        // Act
+        U.fileJsonToXml(
+                jsonFile.toString(), xmlFile.toString(), Xml.XmlStringBuilder.Step.TWO_SPACES);
+        // Assert
+        byte[] xmlBytes = Files.readAllBytes(xmlFile);
+        String xmlStr = new String(xmlBytes, StandardCharsets.UTF_8);
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                        + System.lineSeparator()
+                        + "<root></root>",
+                xmlStr,
+                "Should write XML using UTF-8 when #encoding key not present");
+    }
+
+    @Test
+    void testListResult(@TempDir Path tempDir) throws IOException {
+        // Arrange
+        Path jsonFile = tempDir.resolve("in.json");
+        Path xmlFile = tempDir.resolve("out.xml");
+        Files.write(jsonFile, "[1,2,3]".getBytes(StandardCharsets.UTF_8));
+        // Act
+        U.fileJsonToXml(
+                jsonFile.toString(), xmlFile.toString(), Xml.XmlStringBuilder.Step.TWO_SPACES);
+        // Assert
+        byte[] xmlBytes = Files.readAllBytes(xmlFile);
+        String xmlStr = new String(xmlBytes, StandardCharsets.UTF_8);
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                        + System.lineSeparator()
+                        + "<root>"
+                        + System.lineSeparator()
+                        + "  <element number=\"true\">1</element>"
+                        + System.lineSeparator()
+                        + "  <element number=\"true\">2</element>"
+                        + System.lineSeparator()
+                        + "  <element number=\"true\">3</element>"
+                        + System.lineSeparator()
+                        + "</root>",
+                xmlStr,
+                "Should write XML using UTF-8 when result is a List");
     }
 }
