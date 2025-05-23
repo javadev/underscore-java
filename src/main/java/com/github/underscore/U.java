@@ -2874,7 +2874,8 @@ public class U<T> extends Underscore<T> {
         }
     }
 
-    public static void streamJsonToXml(InputStream jsonInputStream, OutputStream xmlOutputStream) throws IOException {
+    public static void streamJsonToXml(InputStream jsonInputStream, OutputStream xmlOutputStream)
+            throws IOException {
         streamJsonToXml(jsonInputStream, xmlOutputStream, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
