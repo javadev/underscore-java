@@ -3,7 +3,7 @@
 underscore-java 
 ===============
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.javadev/underscore.svg)](https://central.sonatype.com/artifact/com.github.javadev/underscore/1.113)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.javadev/underscore.svg)](https://central.sonatype.com/artifact/com.github.javadev/underscore/1.114)
 [![MIT License](http://img.shields.io/badge/license-MIT-green.svg)](https://github.com/javadev/underscore-java/blob/main/LICENSE)
 [![Java CI](https://github.com/javadev/underscore-java/actions/workflows/maven.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/maven.yml)
 [![CodeQL](https://github.com/javadev/underscore-java/actions/workflows/codeql.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/codeql.yml)
@@ -43,7 +43,7 @@ To configure your Maven project, add the following code to your pom.xml file:
   <dependency>
     <groupId>com.github.javadev</groupId>
     <artifactId>underscore</artifactId>
-    <version>1.113</version>
+    <version>1.114</version>
   </dependency>
   ...
 </dependencies>
@@ -52,7 +52,7 @@ To configure your Maven project, add the following code to your pom.xml file:
 Gradle configuration:
 
 ```groovy
-implementation 'com.github.javadev:underscore:1.113'
+implementation 'com.github.javadev:underscore:1.114'
 ```
 
 ### Usage
