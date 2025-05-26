@@ -103,6 +103,7 @@ public class U<T> extends Underscore<T> {
             java.util.regex.Pattern.compile(
                     UPPER + "+(?=" + UPPER + LOWER + ")|" + UPPER + "?" + LOWER + "|" + UPPER
                             + "+|\\d+");
+    private static final String ENCODING = "#encoding";
 
     static {
         String[] deburredLetters =
@@ -2826,8 +2827,8 @@ public class U<T> extends Underscore<T> {
         Path xmlFilePath = Paths.get(xmlFileName);
         String lineSeparator = System.lineSeparator();
         if (result instanceof Map) {
-            if (((Map) result).containsKey("#encoding")) {
-                String encoding = String.valueOf(((Map) result).get("#encoding"));
+            if (((Map) result).containsKey(ENCODING)) {
+                String encoding = String.valueOf(((Map) result).get(ENCODING));
                 Files.write(
                         xmlFilePath,
                         formatString(Xml.toXml((Map) result, identStep), lineSeparator)
@@ -2848,6 +2849,35 @@ public class U<T> extends Underscore<T> {
 
     public static void fileJsonToXml(String jsonFileName, String xmlFileName) throws IOException {
         fileJsonToXml(jsonFileName, xmlFileName, Xml.XmlStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static void streamJsonToXml(
+            InputStream jsonInputStream,
+            OutputStream xmlOutputStream,
+            Xml.XmlStringBuilder.Step identStep)
+            throws IOException {
+        byte[] bytes = jsonInputStream.readAllBytes();
+        String jsonText = new String(removeBom(bytes), detectEncoding(bytes));
+        Object jsonObject = U.fromJson(jsonText);
+        String lineSeparator = System.lineSeparator();
+        String xml;
+        if (jsonObject instanceof Map) {
+            xml = formatString(Xml.toXml((Map<?, ?>) jsonObject, identStep), lineSeparator);
+            if (((Map) jsonObject).containsKey(ENCODING)) {
+                String encoding = String.valueOf(((Map) jsonObject).get(ENCODING));
+                xmlOutputStream.write(xml.getBytes(encoding));
+            } else {
+                xmlOutputStream.write(xml.getBytes(StandardCharsets.UTF_8));
+            }
+        } else {
+            xml = formatString(Xml.toXml((List<?>) jsonObject, identStep), lineSeparator);
+            xmlOutputStream.write(xml.getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
+    public static void streamJsonToXml(InputStream jsonInputStream, OutputStream xmlOutputStream)
+            throws IOException {
+        streamJsonToXml(jsonInputStream, xmlOutputStream, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
     public static byte[] removeBom(byte[] bytes) {
