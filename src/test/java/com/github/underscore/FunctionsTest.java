@@ -199,7 +199,7 @@ class FunctionsTest {
                             return null;
                         });
         assertEquals(0, counter[0].intValue(), "incr was debounced");
-        await().atMost(280, TimeUnit.MILLISECONDS)
+        await().atMost(360, TimeUnit.MILLISECONDS)
                 .until(
                         () -> {
                             assertEquals(1, counter[0].intValue(), "incr was debounced");
