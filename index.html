@@ -381,13 +381,8 @@ U.pluck(asList(new Person(&quot;moe&quot;, 40), new Person(&quot;larry&quot;, 50
 is passed, it will be used
  on each value to generate the criterion by which the
 value is ranked.<br></p><pre>U.max(asList(10, 5, 100, 2, 1000));
-// 100
-U.max(asList(10, 5, 100, 2, 1000),
-        new Function&lt;Integer, Integer&gt;() {
-    public Integer apply(Integer item) {
-        return -item;
-    }
-});
+// 1000
+U.max(asList(10, 5, 100, 2, 1000), item -> -item);
 // 2
 </pre><p></p>
 
@@ -397,12 +392,7 @@ iterator is passed, it will be used
  on each value to generate the criterion
 by which the value is ranked.<br></p><pre>U.min(asList(10, 5, 100, 2, 1000));
 // 2
-U.min(asList(10, 5, 100, 2, 1000),
-        new Function&lt;Integer, Integer&gt;() {
-    public Integer apply(Integer item) {
-        return -item;
-    }
-});
+U.min(asList(10, 5, 100, 2, 1000), item -> -item);
 // 1000
 </pre><p></p>
 
@@ -413,11 +403,7 @@ ranked in ascending order by the results
  of running each value through
 iterator. Iterator may also be the string
  name of the object key to sort by.<br></p><pre>U.sortBy(asList(1, 2, 3, 4, 5, 6),
-        new Function&lt;Integer, Integer&gt;() {
-        public Integer apply(Integer item) {
-            return Double.valueOf(Math.sin(item) * 1000).intValue();
-        }
-    });<br>=&gt; [5, 4, 6, 3, 1, 2]</pre><p></p>
+        item -> Double.valueOf(Math.sin(item) * 1000).intValue());<br>=&gt; [5, 4, 6, 3, 1, 2]</pre><p></p>
 
 <p id="groupBy"><b class="header">groupBy</b> <code>U.groupBy(collection,
 iterator)</code><br>Splits
@@ -426,12 +412,7 @@ result of running each value
  through iterator. If iterator is a string instead
 of a function, groups
  by the property named by iterator on each of the
-values.<br></p><pre>U.groupBy(asList(1.3, 2.1, 2.4),
-        new Function&lt;Double, Double&gt;() {
-        public Double apply(Double num) {
-            return Math.floor(num);
-        }
-    });<br>=&gt; {1.0=[1.3], 2.0=[2.1, 2.4]}</pre><p></p>
+values.<br></p><pre>U.groupBy(asList(1.3, 2.1, 2.4), , Math::floor);<br>=&gt; {1.0=[1.3], 2.0=[2.1, 2.4]}</pre><p></p>
 
 <p id="countBy"><b class="header">countBy</b> <code>U.countBy(collection,
 iterator)</code><br>Sorts
@@ -453,11 +434,7 @@ group.<br></p><pre>class Person {
 }
 final Map&lt;String, Integer&gt; result =
 U.countBy(asList(new Person(&quot;moe&quot;, 40), new Person(&quot;moe&quot;, 50), new Person(&quot;curly&quot;, 60)),
-    new Function&lt;Person, String&gt;() {
-    public String apply(Person person) {
-        return person.name;
-    }
-});<br>=&gt; {moe=2, curly=1}</pre><p></p>
+    person -> person.name);<br>=&gt; {moe=2, curly=1}</pre><p></p>
 
 <p id="sortedIndex"><b class="header">sortedIndex</b>
 <code>U.sortedIndex(collection, value, [iterator])</code><br>Uses
