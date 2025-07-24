@@ -770,7 +770,7 @@ public final class Json {
         private String endCapture() {
             int end = current == -1 ? index : index - 1;
             String captured;
-            if (captureBuffer.length() > 0) {
+            if (!captureBuffer.isEmpty()) {
                 captureBuffer.append(json, captureStart, end);
                 captured = captureBuffer.toString();
                 captureBuffer.setLength(0);
