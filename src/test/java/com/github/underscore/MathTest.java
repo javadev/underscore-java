@@ -62,7 +62,7 @@ class MathTest {
         assertEquals("2.0", result2.toString());
         final Double result3 = U.average(asList((float) 1, (float) 2, (float) 3));
         assertEquals("2.0", result3.toString());
-        final Double result4 = U.average(asList((int) 1, (int) 2, (int) 3));
+        final Double result4 = U.average(asList(1, 2, 3));
         assertEquals("2.0", result4.toString());
         final Double result5 = U.average(asList((long) 1, (long) 2, (long) 3));
         assertEquals("2.0", result5.toString());
@@ -88,13 +88,13 @@ class MathTest {
 
     @Test
     void average3() {
-        final Double result10 = U.average(asList(1, (Integer) null));
+        final Double result10 = U.average(asList(1, null));
         assertEquals("0.5", result10.toString());
-        final Double result11 = U.average(asList((double) 0.2, (double) 0.1, Math.PI));
+        final Double result11 = U.average(asList(0.2, 0.1, Math.PI));
         assertEquals(Double.valueOf((0.2 + 0.1 + Math.PI) / 3).toString(), result11.toString());
-        final Double result12 = U.average(asList((double) 0, (double) 14, (double) 0.2));
+        final Double result12 = U.average(asList((double) 0, (double) 14, 0.2));
         assertEquals(Double.valueOf((0 + 14 + 0.2) / 3), result12);
-        final Double result13 = U.average(asList((int) -1, (int) -2, (int) -3));
+        final Double result13 = U.average(asList(-1, -2, -3));
         assertEquals("-2.0", result13.toString());
         final Double result14 = U.average(new Integer[] {1, 2, 3});
         assertEquals("2.0", result14.toString());
@@ -174,7 +174,7 @@ class MathTest {
         assertEquals("3.0", result41.toString());
         final Double result42 = U.average(Long.valueOf(2), Long.valueOf(4));
         assertEquals("3.0", result42.toString());
-        final Double result43 = U.average(new Integer[] {(Integer) null});
+        final Double result43 = U.average(new Integer[] {null});
         assertNull(result43);
     }
 
@@ -200,7 +200,7 @@ class MathTest {
         assertEquals("6.0", result2.toString());
         final Float result3 = U.sum(asList((float) 1, (float) 2, (float) 3));
         assertEquals("6.0", result3.toString());
-        final Integer result4 = U.sum(asList((int) 1, (int) 2, (int) 3));
+        final Integer result4 = U.sum(asList(1, 2, 3));
         assertEquals("6", result4.toString());
         final Long result5 = U.sum(asList((long) 1, (long) 2, (long) 3));
         assertEquals("6", result5.toString());
@@ -212,18 +212,18 @@ class MathTest {
         final BigInteger result8 =
                 U.sum(asList(BigInteger.valueOf(1), BigInteger.valueOf(2), BigInteger.valueOf(3)));
         assertEquals("6", result8.toString());
-        final Integer result9 = U.sum(Collections.singletonList((Integer) null));
+        final Integer result9 = U.sum(Collections.singletonList(null));
         assertNull(result9);
-        final Integer result10 = U.sum(asList(1, (Integer) null));
+        final Integer result10 = U.sum(asList(1, null));
         assertEquals("1", result10.toString());
-        final Double result11 = U.sum(asList((double) 0.2, (double) 0.1, Math.PI));
+        final Double result11 = U.sum(asList(0.2, 0.1, Math.PI));
         assertEquals(Double.valueOf(0.2 + 0.1 + Math.PI).toString(), result11.toString());
-        final Double result12 = U.sum(asList((double) 0, (double) 14, (double) 0.2));
+        final Double result12 = U.sum(asList((double) 0, (double) 14, 0.2));
         assertEquals("14.2", result12.toString());
-        final Integer result13 = U.sum(asList((int) -1, (int) -2, (int) -3));
+        final Integer result13 = U.sum(asList(-1, -2, -3));
         assertEquals("-6", result13.toString());
         final Integer resultChain =
-                (Integer) U.chain(asList((int) 1, (int) 2, (int) 3)).sum().item();
+                (Integer) U.chain(asList(1, 2, 3)).sum().item();
         assertEquals("6", resultChain.toString());
         final Integer result14 = U.sum(new Integer[] {1, 2, 3});
         assertEquals("6", result14.toString());
@@ -250,9 +250,9 @@ class MathTest {
         final Integer result21 = U.sum(new Integer[] {1, 2, null});
         assertEquals("3", result21.toString());
         final Integer resultChainFunc =
-                (Integer) U.chain(asList((int) 1, (int) 2, (int) 3)).sum(item -> item * 2).item();
+                U.chain(asList(1, 2, 3)).sum(item -> item * 2).item();
         assertEquals("12", resultChainFunc.toString());
-        final Number resultObj = new U(asList((int) 1, (int) 2, (int) 3)).sum();
+        final Number resultObj = new U(asList(1, 2, 3)).sum();
         assertEquals("6", resultObj.toString());
         final Number resultObjFunc =
                 new U(asList((byte) 1, (byte) 2, (byte) 3))
@@ -296,7 +296,7 @@ class MathTest {
     void subtract() {
         assertEquals("-1", U.subtract((byte) 1, (byte) 2).toString());
         assertEquals("-1", U.subtract((short) 1, (short) 2).toString());
-        assertEquals("-1", U.subtract((int) 1, (int) 2).toString());
+        assertEquals("-1", U.subtract(1, 2).toString());
         assertEquals("-1", U.subtract((long) 1, (long) 2).toString());
         assertEquals("-1.0", U.subtract((float) 1, (float) 2).toString());
         assertEquals("-1.0", U.subtract((double) 1, (double) 2).toString());
@@ -308,9 +308,9 @@ class MathTest {
         assertEquals("-1.0", U.subtract(1d, 2d).toString());
         assertEquals("-1", U.subtract(BigDecimal.valueOf(1), BigDecimal.valueOf(2)).toString());
         assertEquals("-1", U.subtract(BigInteger.valueOf(1), BigInteger.valueOf(2)).toString());
-        assertEquals("-1", U.subtract((Number) 1, (Number) 2).toString());
-        assertEquals("-4", U.subtract((int) 1, (int) 2, (int) 3).toString());
-        assertEquals("1", U.subtract((int) 1).toString());
+        assertEquals("-1", U.subtract(1, (Number) 2).toString());
+        assertEquals("-4", U.subtract(1, 2, 3).toString());
+        assertEquals("1", U.subtract(1).toString());
         assertEquals((Object) null, U.subtract());
     }
 
@@ -346,12 +346,12 @@ class MathTest {
     @SuppressWarnings("unchecked")
     @Test
     void mean() {
-        final Double result = U.mean(asList((double) 0, (double) 0.5, (double) 1));
+        final Double result = U.mean(asList((double) 0, 0.5, (double) 1));
         assertEquals("0.5", result.toString());
-        final Double resultObj = new U(asList((double) 0, (double) 0.5, (double) 1)).mean();
+        final Double resultObj = new U(asList((double) 0, 0.5, (double) 1)).mean();
         assertEquals("0.5", resultObj.toString());
         final Double resultChain =
-                (Double) U.chain(asList((double) 0, (double) 0.5, (double) 1)).mean().item();
+                U.chain(asList((double) 0, 0.5, (double) 1)).mean().item();
         assertEquals("0.5", resultChain.toString());
         final Double result2 = U.mean(asList((long) 0, (long) 1, (long) 2));
         assertEquals("1.0", result2.toString());
@@ -372,20 +372,20 @@ class MathTest {
     @SuppressWarnings("unchecked")
     @Test
     void median() {
-        final Double result = U.median(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5));
+        final Double result = U.median(asList(0, 0, 0, 0, 5));
         assertEquals("0.0", result.toString());
         final Double resultObj =
-                new U<>(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median();
+                new U<>(asList(0, 0, 0, 0, 5)).median();
         assertEquals("0.0", resultObj.toString());
         final Double resultChain =
-                U.chain(asList((int) 0, (int) 0, (int) 0, (int) 0, (int) 5)).median().item();
+                U.chain(asList(0, 0, 0, 0, 5)).median().item();
         assertEquals("0.0", resultChain.toString());
-        final Double result2 = U.median(asList((int) 0, (int) 0, (int) 1, (int) 2, (int) 5));
+        final Double result2 = U.median(asList(0, 0, 1, 2, 5));
         assertEquals("1.0", result2.toString());
-        final Double result3 = U.median(asList((int) 0, (int) 0, (int) 1, (int) 2));
+        final Double result3 = U.median(asList(0, 0, 1, 2));
         assertEquals("0.5", result3.toString());
         final Double result4 =
-                U.median(asList((int) 0, (int) 0, (int) 1, (int) 2, (int) 3, (int) 4));
+                U.median(asList(0, 0, 1, 2, 3, 4));
         assertEquals("1.5", result4.toString());
     }
 

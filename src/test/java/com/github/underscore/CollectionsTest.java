@@ -1066,8 +1066,8 @@ class CollectionsTest {
                 Underscore.where(
                                 listOfPlays2,
                                 asList(
-                                        Map.<String, Object>entry("getAuthor", "Shakespeare"),
-                                        Map.<String, Object>entry("author2", "Shakespeare"),
+                                        Map.entry("getAuthor", "Shakespeare"),
+                                        Map.entry("author2", "Shakespeare"),
                                         Map.<String, Object>entry("year", 1611)))
                         .toString());
     }
@@ -1095,7 +1095,7 @@ class CollectionsTest {
             }
         }
         List<Book> listOfPlays =
-                new ArrayList<Book>() {
+                new ArrayList<>() {
                     {
                         add(new Book("Cymbeline2", "Shakespeare", 1614));
                         add(new Book("Cymbeline", "Shakespeare", 1611));
@@ -1107,7 +1107,7 @@ class CollectionsTest {
                 Underscore.findWhere(
                                 listOfPlays,
                                 asList(
-                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.entry("author", "Shakespeare"),
                                         Map.<String, Object>entry("year", 1611)))
                         .get()
                         .toString());
@@ -1116,7 +1116,7 @@ class CollectionsTest {
                 new Underscore<>(listOfPlays)
                         .findWhere(
                                 asList(
-                                        Map.<String, Object>entry("author", "Shakespeare"),
+                                        Map.entry("author", "Shakespeare"),
                                         Map.<String, Object>entry("year", 1611)))
                         .get()
                         .toString());
@@ -1160,7 +1160,7 @@ class CollectionsTest {
             }
         }
         List<Book2> listOfPlays2 =
-                new ArrayList<Book2>() {
+                new ArrayList<>() {
                     {
                         add(new Book2("Cymbeline2", "Shakespeare", 1614));
                         add(new Book2("Cymbeline", "Shakespeare", 1611));
@@ -1344,13 +1344,12 @@ class CollectionsTest {
                                         put("age", 50);
                                     }
                                 },
-                                (Map<String, Comparable>)
-                                        new LinkedHashMap<String, Comparable>() {
-                                            {
-                                                put("name", "curly");
-                                                put("age", 60);
-                                            }
-                                        }),
+                                new LinkedHashMap<>() {
+                                    {
+                                        put("name", "curly");
+                                        put("age", 60);
+                                    }
+                                }),
                         "name");
         assertEquals(
                 "[{name=curly, age=60}, {name=larry, age=50}, {name=moe, age=40}]",

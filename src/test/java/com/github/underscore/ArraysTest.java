@@ -318,7 +318,7 @@ class ArraysTest {
     @Test
     void cycle() {
         assertEquals("[]", Underscore.cycle(Underscore.range(5), 0).toString());
-        assertEquals("[]", Underscore.cycle(new ArrayList<Object>(), 5).toString());
+        assertEquals("[]", Underscore.cycle(new ArrayList<>(), 5).toString());
         assertEquals("[4, 3, 2, 1, 0]", Underscore.cycle(Underscore.range(5), -1).toString());
         assertEquals(
                 "[0, 1, 2, 0, 1, 2, 0, 1, 2]", Underscore.cycle(Underscore.range(3), 3).toString());
@@ -370,8 +370,8 @@ class ArraysTest {
         assertEquals(
                 "[0, 500, 1, 500, 2, 500, 3]",
                 Underscore.interpose(Underscore.range(4), 500).toString());
-        assertEquals("[]", Underscore.interpose(new ArrayList<Integer>(), 500).toString());
-        assertEquals("[]", Underscore.interpose(new ArrayList<Object>(), null).toString());
+        assertEquals("[]", Underscore.interpose(new ArrayList<>(), 500).toString());
+        assertEquals("[]", Underscore.interpose(new ArrayList<>(), null).toString());
         assertEquals(
                 "[0, 1, 2, 3]",
                 Underscore.interpose(Underscore.newArrayList(Underscore.range(4)), null)
@@ -384,7 +384,7 @@ class ArraysTest {
         assertEquals("[a, b]", new Underscore<>(singletonList("a, b")).interpose(null).toString());
         assertEquals("[a]", Underscore.chain(singletonList("a")).interpose("interpose").toString());
         assertEquals(
-                "[]", Underscore.chain(new ArrayList<Object>()).interpose("interpose").toString());
+                "[]", Underscore.chain(new ArrayList<>()).interpose("interpose").toString());
         assertEquals(
                 "[a, b, c]", Underscore.chain(asList("a", "b", "c")).interpose(null).toString());
         assertEquals(
@@ -771,7 +771,7 @@ class ArraysTest {
             }
         }
         final int result =
-                Underscore.<Person>sortedIndex(
+                Underscore.sortedIndex(
                         asList(
                                 new Person("moe", 40),
                                 new Person("moe", 50),
@@ -780,7 +780,7 @@ class ArraysTest {
                         "age");
         assertEquals(1, result);
         final int result2 =
-                Underscore.<Person>sortedIndex(
+                Underscore.sortedIndex(
                         asList(
                                 new Person("moe", 40),
                                 new Person("moe", 50),
@@ -789,7 +789,7 @@ class ArraysTest {
                         "age");
         assertEquals(-1, result2);
         final int resultArray =
-                Underscore.<Person>sortedIndex(
+                Underscore.sortedIndex(
                         new Person[] {
                             new Person("moe", 40), new Person("moe", 50), new Person("curly", 60)
                         },

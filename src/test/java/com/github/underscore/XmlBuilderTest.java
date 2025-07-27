@@ -25,6 +25,7 @@ package com.github.underscore;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -115,7 +116,7 @@ class XmlBuilderTest {
     @Test
     void getDocument() {
         XmlBuilder xmlBuilder = new XmlBuilder(null);
-        assertTrue(xmlBuilder.getDocument() instanceof Document);
+        assertInstanceOf(Document.class, xmlBuilder.getDocument());
     }
 
     @Test
