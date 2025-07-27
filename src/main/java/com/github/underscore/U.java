@@ -23,20 +23,15 @@
  */
 package com.github.underscore;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -2849,6 +2844,39 @@ public class U<T> extends Underscore<T> {
 
     public static void fileJsonToXml(String jsonFileName, String xmlFileName) throws IOException {
         fileJsonToXml(jsonFileName, xmlFileName, Xml.XmlStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static void jsonFolderToXml(
+            String jsonFileFolder, String xmlFileFolder, Xml.XmlStringBuilder.Step identStep)
+            throws IOException {
+        Path sourceRoot = Paths.get(jsonFileFolder);
+        Path targetRoot = Paths.get(xmlFileFolder);
+        Files.walkFileTree(sourceRoot, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+                covertJsonToXml(path, sourceRoot, targetRoot, identStep);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+
+    public static void jsonFolderToXml(String jsonFileFolder, String xmlFileFolder) throws IOException {
+        jsonFolderToXml(jsonFileFolder, xmlFileFolder, Xml.XmlStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static void covertJsonToXml(Path path, Path sourceRoot, Path targetRoot,
+                                       Xml.XmlStringBuilder.Step identStep) throws IOException {
+        Path relativePath = sourceRoot.relativize(path);
+        String fileName = relativePath.getFileName().toString();
+        String xmlFileName;
+        if (fileName.endsWith(".json")) {
+            xmlFileName = fileName.substring(0, fileName.length() - 5) + ".xml";
+        } else {
+            return;
+        }
+        Path targetPath = targetRoot.resolve(relativePath).getParent().resolve(xmlFileName);
+        Files.createDirectories(targetPath.getParent());
+        fileJsonToXml(path.toAbsolutePath().toString(), targetPath.toString(), identStep);
     }
 
     public static void streamJsonToXml(

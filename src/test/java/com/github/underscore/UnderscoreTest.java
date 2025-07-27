@@ -1200,6 +1200,28 @@ class UnderscoreTest {
     }
 
     @Test
+    void testJsonFolderToXml(@TempDir Path tempDir) throws IOException {
+        // Arrange
+        Path jsonFile = tempDir.resolve("in.json");
+        Path xmlFile = tempDir.resolve("in.xml");
+        String jsonText = "{}";
+        Files.write(jsonFile, jsonText.getBytes(StandardCharsets.UTF_8));
+        Files.write(xmlFile, jsonText.getBytes(StandardCharsets.UTF_8));
+        // Act
+        U.jsonFolderToXml(
+                jsonFile.getParent().toString(), xmlFile.getParent().toString());
+        // Assert
+        byte[] xmlBytes = Files.readAllBytes(xmlFile);
+        String xmlStr = new String(xmlBytes, StandardCharsets.UTF_8);
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                        + System.lineSeparator()
+                        + "<root></root>",
+                xmlStr,
+                "Should write XML using UTF-8 when #encoding key not present");
+    }
+
+    @Test
     void testListResult(@TempDir Path tempDir) throws IOException {
         // Arrange
         Path jsonFile = tempDir.resolve("in.json");
