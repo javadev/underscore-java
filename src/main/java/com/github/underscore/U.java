@@ -2855,10 +2855,10 @@ public class U<T> extends Underscore<T> {
     }
 
     public static void jsonFolderToXml(
-            String jsonFileFolder, String xmlFileFolder, Xml.XmlStringBuilder.Step identStep)
+            String jsonFolder, String xmlFolder, Xml.XmlStringBuilder.Step identStep)
             throws IOException {
-        Path sourceRoot = Paths.get(jsonFileFolder);
-        Path targetRoot = Paths.get(xmlFileFolder);
+        Path sourceRoot = Paths.get(jsonFolder);
+        Path targetRoot = Paths.get(xmlFolder);
         Files.walkFileTree(sourceRoot, new SimpleFileVisitor<>() {
             @Override
             public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
@@ -2868,8 +2868,8 @@ public class U<T> extends Underscore<T> {
         });
     }
 
-    public static void jsonFolderToXml(String jsonFileFolder, String xmlFileFolder) throws IOException {
-        jsonFolderToXml(jsonFileFolder, xmlFileFolder, Xml.XmlStringBuilder.Step.TWO_SPACES);
+    public static void jsonFolderToXml(String jsonFolder, String xmlFolder) throws IOException {
+        jsonFolderToXml(jsonFolder, xmlFolder, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
     public static void covertJsonToXml(Path path, Path sourceRoot, Path targetRoot,
