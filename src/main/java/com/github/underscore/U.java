@@ -34,9 +34,12 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -2849,6 +2852,39 @@ public class U<T> extends Underscore<T> {
 
     public static void fileJsonToXml(String jsonFileName, String xmlFileName) throws IOException {
         fileJsonToXml(jsonFileName, xmlFileName, Xml.XmlStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static void jsonFolderToXml(
+            String jsonFolder, String xmlFolder, Xml.XmlStringBuilder.Step identStep)
+            throws IOException {
+        Path sourceRoot = Paths.get(jsonFolder);
+        Path targetRoot = Paths.get(xmlFolder);
+        Files.walkFileTree(sourceRoot, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+                covertJsonToXml(path, sourceRoot, targetRoot, identStep);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+
+    public static void jsonFolderToXml(String jsonFolder, String xmlFolder) throws IOException {
+        jsonFolderToXml(jsonFolder, xmlFolder, Xml.XmlStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static void covertJsonToXml(Path path, Path sourceRoot, Path targetRoot,
+                                       Xml.XmlStringBuilder.Step identStep) throws IOException {
+        Path relativePath = sourceRoot.relativize(path);
+        String fileName = relativePath.getFileName().toString();
+        String xmlFileName;
+        if (fileName.endsWith(".json")) {
+            xmlFileName = fileName.substring(0, fileName.length() - 5) + ".xml";
+        } else {
+            return;
+        }
+        Path targetPath = targetRoot.resolve(relativePath).getParent().resolve(xmlFileName);
+        Files.createDirectories(targetPath.getParent());
+        fileJsonToXml(path.toAbsolutePath().toString(), targetPath.toString(), identStep);
     }
 
     public static void streamJsonToXml(
