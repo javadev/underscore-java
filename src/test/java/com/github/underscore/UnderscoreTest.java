@@ -410,7 +410,7 @@ class UnderscoreTest {
     */
     @Test
     void set() {
-        Map.Entry<Integer, List<Integer>> result = Underscore.<Integer>set(asList(1, 2, 3), 1, 100);
+        Map.Entry<Integer, List<Integer>> result = Underscore.set(asList(1, 2, 3), 1, 100);
         assertEquals(2, result.getKey().intValue());
         assertEquals(100, Underscore.<Integer>get(result.getValue(), 1).intValue());
         Map.Entry<Integer, List<Integer>> result2 = new Underscore<>(asList(1, 2, 3)).set(2, 200);
@@ -473,7 +473,7 @@ class UnderscoreTest {
         final int[] array = new int[] {1, 2, 3, 4, 5, 6};
         Iterable<Integer> iterable =
                 () ->
-                        new Iterator<Integer>() {
+                        new Iterator<>() {
                             private int index;
 
                             public boolean hasNext() {
@@ -496,7 +496,7 @@ class UnderscoreTest {
     @Test
     void iterate() {
         Iterable<long[]> iterable =
-                Underscore.<long[]>iterate(
+                Underscore.iterate(
                         new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
         iterable.iterator().remove();
         assertTrue(iterable.iterator().hasNext());
@@ -507,13 +507,13 @@ class UnderscoreTest {
     @Test
     void iterateChain() {
         Iterable<long[]> iterable =
-                Underscore.<long[]>iterate(
+                Underscore.iterate(
                         new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
         assertEquals(1L, Underscore.chain(iterable, 5).first().item()[0]);
         Underscore.of(iterable, 5);
         class MyIterable<T> implements Iterable<T> {
             public Iterator<T> iterator() {
-                return new Iterator<T>() {
+                return new Iterator<>() {
                     @Override
                     public boolean hasNext() {
                         return false;
@@ -558,7 +558,7 @@ class UnderscoreTest {
         assertEquals("Optional[1]", Optional.ofNullable(1).toString());
         assertEquals("1", Optional.<Integer>empty().orElse(1).toString());
         assertEquals("1", Optional.of(1).orElse(2).toString());
-        assertEquals(null, Optional.empty().orElse(null));
+        assertNull(Optional.empty().orElse(null));
         assertEquals("1", Optional.of(1).orElse(null).toString());
         assertFalse(Optional.<Integer>empty().map(arg -> "" + arg).isPresent());
         assertTrue(Optional.<Integer>empty().map(arg -> "" + arg).isEmpty());
@@ -774,23 +774,22 @@ class UnderscoreTest {
             "They all want you to play I watch the birds of prey"
         };
         List<Map<String, Object>> result =
-                (List<Map<String, Object>>)
-                        Underscore.chain(asList(strings))
-                                .map(
-                                        item -> {
-                                            Map<String, Object> resultItem = new LinkedHashMap<>();
-                                            resultItem.put("string", item);
-                                            resultItem.put(
-                                                    "longestWord",
-                                                    Underscore.chain(asList(item.split("\\s+")))
-                                                            .map(String::length)
-                                                            .max()
-                                                            .item());
-                                            return resultItem;
-                                        })
-                                .sortBy(item -> -((Integer) item.get("longestWord")))
-                                .limit(5)
-                                .value();
+                Underscore.chain(asList(strings))
+                        .map(
+                                item -> {
+                                    Map<String, Object> resultItem = new LinkedHashMap<>();
+                                    resultItem.put("string", item);
+                                    resultItem.put(
+                                            "longestWord",
+                                            Underscore.chain(asList(item.split("\\s+")))
+                                                    .map(String::length)
+                                                    .max()
+                                                    .item());
+                                    return resultItem;
+                                })
+                        .sortBy(item -> -((Integer) item.get("longestWord")))
+                        .limit(5)
+                        .value();
         assertEquals(
                 "[{string=Aliens are watching up in the sky, longestWord=8}, "
                         + "{string=Sound boy proceed to blast into the galaxy, longestWord=7}, "

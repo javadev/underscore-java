@@ -26,6 +26,7 @@ package com.github.underscore;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -474,9 +475,7 @@ class UtilityTest {
         assertEquals(
                 "result1",
                 Underscore.result(asList("result1", "result2"), item -> item.equals("result1")));
-        assertEquals(
-                null,
-                Underscore.result(asList("result1", "result2"), item -> item.equals("result3")));
+        assertNull(Underscore.result(asList("result1", "result2"), item -> item.equals("result3")));
     }
 
     @Test
