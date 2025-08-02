@@ -2887,6 +2887,39 @@ public class U<T> extends Underscore<T> {
         fileJsonToXml(path.toAbsolutePath().toString(), targetPath.toString(), identStep);
     }
 
+    public static void xmlFolderToJson(
+            String xmlFolder, String jsonFolder, Json.JsonStringBuilder.Step identStep)
+            throws IOException {
+        Path sourceRoot = Paths.get(xmlFolder);
+        Path targetRoot = Paths.get(jsonFolder);
+        Files.walkFileTree(sourceRoot, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+                covertXmlToJson(path, sourceRoot, targetRoot, identStep);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+
+    public static void xmlFolderToJson(String xmlFolder, String jsonFolder) throws IOException {
+        xmlFolderToJson(xmlFolder, jsonFolder, Json.JsonStringBuilder.Step.TWO_SPACES);
+    }
+
+    public static void covertXmlToJson(Path path, Path sourceRoot, Path targetRoot,
+                                       Json.JsonStringBuilder.Step identStep) throws IOException {
+        Path relativePath = sourceRoot.relativize(path);
+        String fileName = relativePath.getFileName().toString();
+        String xmlFileName;
+        if (fileName.endsWith(".xml")) {
+            xmlFileName = fileName.substring(0, fileName.length() - 4) + ".json";
+        } else {
+            return;
+        }
+        Path targetPath = targetRoot.resolve(relativePath).getParent().resolve(xmlFileName);
+        Files.createDirectories(targetPath.getParent());
+        fileXmlToJson(path.toAbsolutePath().toString(), targetPath.toString(), identStep);
+    }
+
     public static void streamJsonToXml(
             InputStream jsonInputStream,
             OutputStream xmlOutputStream,
