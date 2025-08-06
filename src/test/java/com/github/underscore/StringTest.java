@@ -23,7 +23,6 @@
  */
 package com.github.underscore;
 
-import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -31,8 +30,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static java.util.Arrays.asList;
+
 import com.github.underscore.Json.JsonStringBuilder;
 import com.github.underscore.Xml.XmlStringBuilder;
+
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,7 +48,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -1477,12 +1480,7 @@ class StringTest {
 
         builder = new XmlStringBuilder();
         Xml.XmlArray.writeXml(
-                new Object[] {"Hello"},
-                null,
-                builder,
-                false,
-                Collections.emptySet(),
-                ARRAY_TRUE);
+                new Object[] {"Hello"}, null, builder, false, Collections.emptySet(), ARRAY_TRUE);
         assertEquals(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element>Hello</element>\n</root>",
                 builder.toString());
