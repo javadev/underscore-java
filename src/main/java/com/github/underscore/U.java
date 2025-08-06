@@ -23,8 +23,6 @@
  */
 package com.github.underscore;
 
-import org.w3c.dom.NodeList;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -65,10 +63,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
-
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.NodeList;
 
 @SuppressWarnings({
     "java:S135",
@@ -2861,25 +2859,21 @@ public class U<T> extends Underscore<T> {
             throws IOException {
         Path sourceRoot = Paths.get(jsonFolder);
         Path targetRoot = Paths.get(xmlFolder);
-        Files.walkFileTree(
-                sourceRoot,
-                new SimpleFileVisitor<>() {
-                    @Override
-                    public FileVisitResult visitFile(Path path, BasicFileAttributes attrs)
-                            throws IOException {
-                        covertJsonToXml(path, sourceRoot, targetRoot, identStep);
-                        return FileVisitResult.CONTINUE;
-                    }
-                });
+        Files.walkFileTree(sourceRoot, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+                covertJsonToXml(path, sourceRoot, targetRoot, identStep);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 
     public static void jsonFolderToXml(String jsonFolder, String xmlFolder) throws IOException {
         jsonFolderToXml(jsonFolder, xmlFolder, Xml.XmlStringBuilder.Step.TWO_SPACES);
     }
 
-    public static void covertJsonToXml(
-            Path path, Path sourceRoot, Path targetRoot, Xml.XmlStringBuilder.Step identStep)
-            throws IOException {
+    public static void covertJsonToXml(Path path, Path sourceRoot, Path targetRoot,
+                                       Xml.XmlStringBuilder.Step identStep) throws IOException {
         Path relativePath = sourceRoot.relativize(path);
         String fileName = relativePath.getFileName().toString();
         String xmlFileName;
@@ -2898,25 +2892,21 @@ public class U<T> extends Underscore<T> {
             throws IOException {
         Path sourceRoot = Paths.get(xmlFolder);
         Path targetRoot = Paths.get(jsonFolder);
-        Files.walkFileTree(
-                sourceRoot,
-                new SimpleFileVisitor<>() {
-                    @Override
-                    public FileVisitResult visitFile(Path path, BasicFileAttributes attrs)
-                            throws IOException {
-                        covertXmlToJson(path, sourceRoot, targetRoot, identStep);
-                        return FileVisitResult.CONTINUE;
-                    }
-                });
+        Files.walkFileTree(sourceRoot, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+                covertXmlToJson(path, sourceRoot, targetRoot, identStep);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 
     public static void xmlFolderToJson(String xmlFolder, String jsonFolder) throws IOException {
         xmlFolderToJson(xmlFolder, jsonFolder, Json.JsonStringBuilder.Step.TWO_SPACES);
     }
 
-    public static void covertXmlToJson(
-            Path path, Path sourceRoot, Path targetRoot, Json.JsonStringBuilder.Step identStep)
-            throws IOException {
+    public static void covertXmlToJson(Path path, Path sourceRoot, Path targetRoot,
+                                       Json.JsonStringBuilder.Step identStep) throws IOException {
         Path relativePath = sourceRoot.relativize(path);
         String fileName = relativePath.getFileName().toString();
         String xmlFileName;
@@ -2994,11 +2984,11 @@ public class U<T> extends Underscore<T> {
             case 0x3C000000:
                 encoding = "UTF_32LE";
                 break;
-            // <?
+                // <?
             case 0x3C003F00:
                 encoding = "UnicodeLittleUnmarked";
                 break;
-            // <?xm
+                // <?xm
             case 0x3C3F786D:
                 encoding = "UTF8";
                 break;

@@ -23,16 +23,13 @@
  */
 package com.github.underscore;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import static java.util.Arrays.asList;
-
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +42,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -374,7 +372,6 @@ class ObjectsTest {
                             }
                         }));
     }
-
     /*
     _.isObject({});
     => true

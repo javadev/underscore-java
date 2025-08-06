@@ -23,6 +23,8 @@
  */
 package com.github.underscore;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -34,12 +36,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -58,6 +54,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Underscore library unit test.
@@ -498,7 +496,8 @@ class UnderscoreTest {
     @Test
     void iterate() {
         Iterable<long[]> iterable =
-                Underscore.iterate(new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
+                Underscore.iterate(
+                        new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
         iterable.iterator().remove();
         assertTrue(iterable.iterator().hasNext());
         assertArrayEquals(new long[] {1, 1}, iterable.iterator().next());
@@ -508,7 +507,8 @@ class UnderscoreTest {
     @Test
     void iterateChain() {
         Iterable<long[]> iterable =
-                Underscore.iterate(new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
+                Underscore.iterate(
+                        new long[] {1, 1}, arg -> new long[] {arg[1], arg[0] + arg[1]});
         assertEquals(1L, Underscore.chain(iterable, 5).first().item()[0]);
         Underscore.of(iterable, 5);
         class MyIterable<T> implements Iterable<T> {
@@ -1207,7 +1207,8 @@ class UnderscoreTest {
         Files.write(jsonFile, jsonText.getBytes(StandardCharsets.UTF_8));
         Files.write(xmlFile, jsonText.getBytes(StandardCharsets.UTF_8));
         // Act
-        U.jsonFolderToXml(jsonFile.getParent().toString(), xmlFile.getParent().toString());
+        U.jsonFolderToXml(
+                jsonFile.getParent().toString(), xmlFile.getParent().toString());
         // Assert
         byte[] xmlBytes = Files.readAllBytes(xmlFile);
         String xmlStr = new String(xmlBytes, StandardCharsets.UTF_8);
@@ -1228,20 +1229,18 @@ class UnderscoreTest {
         Files.write(xmlFile, xmlText.getBytes(StandardCharsets.UTF_8));
         Files.write(jsonFile, xmlText.getBytes(StandardCharsets.UTF_8));
         // Act
-        U.xmlFolderToJson(xmlFile.getParent().toString(), jsonFile.getParent().toString());
+        U.xmlFolderToJson(
+                xmlFile.getParent().toString(), jsonFile.getParent().toString());
         // Assert
         byte[] jsonBytes = Files.readAllBytes(jsonFile);
         String jsonStr = new String(jsonBytes, StandardCharsets.UTF_8);
-        assertEquals(
-                "{"
-                        + System.lineSeparator()
-                        + "  \"a\": \"1\","
-                        + System.lineSeparator()
-                        + "  \"#omit-xml-declaration\": \"yes\""
-                        + System.lineSeparator()
-                        + "}",
-                jsonStr,
-                "Should write JSON using UTF-8");
+        assertEquals("{"
+            + System.lineSeparator()
+            + "  \"a\": \"1\","
+            + System.lineSeparator()
+            + "  \"#omit-xml-declaration\": \"yes\""
+            + System.lineSeparator()
+            + "}", jsonStr, "Should write JSON using UTF-8");
     }
 
     @Test
