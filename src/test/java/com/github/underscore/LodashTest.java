@@ -742,7 +742,15 @@ class LodashTest {
                                         + "        \"fireBreath\": 10"
                                         + "    }"
                                         + "}");
-        assertTrue(resultChain.item().length() >= 0);
+        assertEquals(
+                "<html>\n"
+                        + "<head><title>301 Moved Permanently</title></head>\n"
+                        + "<body>\n"
+                        + "<center><h1>301 Moved Permanently</h1></center>\n"
+                        + "<hr><center>cloudflare</center>\n"
+                        + "</body>\n"
+                        + "</html>\n",
+                resultChain.item().replace("\r\n", "\n"));
     }
 
     @Test
