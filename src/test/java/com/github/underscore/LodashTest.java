@@ -687,15 +687,14 @@ class LodashTest {
 
     @Test
     void fetchGetHttps() {
-        U.FetchResponse result = U.fetch("https://api.lob.com/v1/addresses");
+        U.FetchResponse result =
+            U.fetch("https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json");
         assertEquals(
                 "{\n"
-                        + "    \"error\": {\n"
-                        + "        \"message\": \"Missing authentication\",\n"
-                        + "        \"status_code\": 401,\n"
-                        + "        \"code\": \"unauthorized\"\n"
-                        + "    }\n"
-                        + "}",
+                    + "    \"fruit\": \"Apple\",\n"
+                    + "    \"size\": \"Large\",\n"
+                    + "    \"color\": \"Red\"\n"
+                    + "}",
                 result.text());
     }
 
