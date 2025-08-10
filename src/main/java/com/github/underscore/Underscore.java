@@ -52,6 +52,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Underscore-java is a java port of Underscore.js.
@@ -99,24 +101,24 @@ public class Underscore<T> {
         ESCAPES.put('`', "&#x60;");
     }
 
-    public Underscore(final Iterable<T> iterable) {
+    public Underscore(final @NonNull Iterable<T> iterable) {
         this.iterable = iterable;
         this.string = Optional.empty();
     }
 
-    public Underscore(final String string) {
+    public Underscore(final @NonNull String string) {
         this.iterable = null;
         this.string = Optional.of(string);
     }
 
     private static void setTemplateKey(
-            final Map<String, String> templateSettings, final String key) {
+            final @NonNull Map<String, String> templateSettings, final @NonNull String key) {
         if (templateSettings.containsKey(key) && templateSettings.get(key).contains(ALL_SYMBOLS)) {
             TEMPLATE_SETTINGS.put(key, templateSettings.get(key));
         }
     }
 
-    public static void templateSettings(final Map<String, String> templateSettings) {
+    public static void templateSettings(final @NonNull Map<String, String> templateSettings) {
         setTemplateKey(templateSettings, EVALUATE);
         setTemplateKey(templateSettings, INTERPOLATE);
         setTemplateKey(templateSettings, ESCAPE);
@@ -125,12 +127,12 @@ public class Underscore<T> {
     private static final class WherePredicate<E, T> implements Predicate<E> {
         private final List<Map.Entry<String, T>> properties;
 
-        private WherePredicate(List<Map.Entry<String, T>> properties) {
+        private WherePredicate(@NonNull List<Map.Entry<String, T>> properties) {
             this.properties = properties;
         }
 
         @Override
-        public boolean test(final E elem) {
+        public boolean test(final @NonNull E elem) {
             for (Map.Entry<String, T> prop : properties) {
                 try {
                     if (!elem.getClass()
@@ -290,14 +292,14 @@ public class Underscore<T> {
     /*
      * Documented, #each
      */
-    public static <T> void each(final Iterable<T> iterable, final Consumer<? super T> func) {
+    public static <T> void each(final @NonNull Iterable<T> iterable, final @NonNull Consumer<? super T> func) {
         for (T element : iterable) {
             func.accept(element);
         }
     }
 
     public static <T> void eachIndexed(
-            final Iterable<T> iterable, final BiConsumer<Integer, ? super T> func) {
+            final @NonNull Iterable<T> iterable, final @NonNull BiConsumer<Integer, ? super T> func) {
         int index = 0;
         for (T element : iterable) {
             func.accept(index, element);
@@ -305,48 +307,48 @@ public class Underscore<T> {
         }
     }
 
-    public void each(final Consumer<? super T> func) {
+    public void each(final @NonNull Consumer<? super T> func) {
         each(iterable, func);
     }
 
-    public static <T> void eachRight(final Iterable<T> iterable, final Consumer<? super T> func) {
+    public static <T> void eachRight(final @NonNull Iterable<T> iterable, @NonNull final Consumer<? super T> func) {
         each(reverse(iterable), func);
     }
 
-    public void eachRight(final Consumer<? super T> func) {
+    public void eachRight(final @NonNull Consumer<? super T> func) {
         eachRight(iterable, func);
     }
 
-    public static <T> void forEach(final Iterable<T> iterable, final Consumer<? super T> func) {
+    public static <T> void forEach(final @NonNull Iterable<T> iterable, final @NonNull Consumer<? super T> func) {
         each(iterable, func);
     }
 
     public static <T> void forEachIndexed(
-            final Iterable<T> iterable, final BiConsumer<Integer, ? super T> func) {
+            final @NonNull Iterable<T> iterable, final @NonNull BiConsumer<Integer, ? super T> func) {
         eachIndexed(iterable, func);
     }
 
-    public void forEach(final Consumer<? super T> func) {
+    public void forEach(final @NonNull Consumer<? super T> func) {
         each(iterable, func);
     }
 
-    public void forEachIndexed(final BiConsumer<Integer, ? super T> func) {
+    public void forEachIndexed(final @NonNull BiConsumer<Integer, ? super T> func) {
         eachIndexed(iterable, func);
     }
 
     public static <T> void forEachRight(
-            final Iterable<T> iterable, final Consumer<? super T> func) {
+            final @NonNull Iterable<T> iterable, final @NonNull Consumer<? super T> func) {
         eachRight(iterable, func);
     }
 
-    public void forEachRight(final Consumer<? super T> func) {
+    public void forEachRight(final @NonNull Consumer<? super T> func) {
         eachRight(iterable, func);
     }
 
     /*
      * Documented, #map
      */
-    public static <T, E> List<T> map(final List<E> list, final Function<? super E, T> func) {
+    public static <T, E> List<T> map(final @NonNull List<E> list, final @NonNull Function<? super E, T> func) {
         final List<T> transformed = newArrayListWithExpectedSize(list.size());
         for (E element : list) {
             transformed.add(func.apply(element));
@@ -355,7 +357,7 @@ public class Underscore<T> {
     }
 
     public static <T, E> List<T> mapMulti(
-            final List<E> list, final BiConsumer<? super E, ? super Consumer<T>> mapper) {
+            final @NonNull List<E> list, final @NonNull BiConsumer<? super E, ? super Consumer<T>> mapper) {
         final List<T> transformed = newArrayListWithExpectedSize(list.size());
         for (E element : list) {
             Consumer<T> value = transformed::add;
@@ -364,11 +366,11 @@ public class Underscore<T> {
         return transformed;
     }
 
-    public <F> List<F> map(final Function<? super T, F> func) {
+    public <F> List<F> map(final @NonNull Function<? super T, F> func) {
         return map(newArrayList(iterable), func);
     }
 
-    public static <T> List<T> map(final int[] array, final Function<? super Integer, T> func) {
+    public static <T> List<T> map(final @NonNull int[] array, final @NonNull Function<? super Integer, T> func) {
         final List<T> transformed = newArrayListWithExpectedSize(array.length);
         for (int element : array) {
             transformed.add(func.apply(element));
@@ -376,7 +378,7 @@ public class Underscore<T> {
         return transformed;
     }
 
-    public static <T, E> Set<T> map(final Set<E> set, final Function<? super E, T> func) {
+    public static <T, E> Set<T> map(final @NonNull Set<E> set, final @NonNull Function<? super E, T> func) {
         final Set<T> transformed = newLinkedHashSetWithExpectedSize(set.size());
         for (E element : set) {
             transformed.add(func.apply(element));
@@ -385,7 +387,7 @@ public class Underscore<T> {
     }
 
     public static <T, E> List<T> mapIndexed(
-            final List<E> list, final BiFunction<Integer, ? super E, T> func) {
+            final @NonNull List<E> list, final @NonNull BiFunction<Integer, ? super E, T> func) {
         final List<T> transformed = newArrayListWithExpectedSize(list.size());
         int index = 0;
         for (E element : list) {
@@ -396,7 +398,7 @@ public class Underscore<T> {
     }
 
     public static <T> List<T> replace(
-            final Iterable<T> iter, final Predicate<T> pred, final T value) {
+            final @NonNull Iterable<T> iter, final @Nullable Predicate<T> pred, final @Nullable T value) {
         List<T> list = newArrayList(iter);
         if (pred == null) {
             return list;
@@ -410,12 +412,12 @@ public class Underscore<T> {
         return list;
     }
 
-    public List<T> replace(final Predicate<T> pred, final T value) {
+    public List<T> replace(final @Nullable Predicate<T> pred, final @Nullable T value) {
         return replace(value(), pred, value);
     }
 
     public static <T> List<T> replaceIndexed(
-            final Iterable<T> iter, final PredicateIndexed<T> pred, final T value) {
+            final @NonNull Iterable<T> iter, final @Nullable PredicateIndexed<T> pred, final @Nullable T value) {
         List<T> list = newArrayList(iter);
         if (pred == null) {
             return list;
@@ -431,19 +433,19 @@ public class Underscore<T> {
         return list;
     }
 
-    public List<T> replaceIndexed(final PredicateIndexed<T> pred, final T value) {
+    public List<T> replaceIndexed(final @Nullable PredicateIndexed<T> pred, final @Nullable T value) {
         return replaceIndexed(value(), pred, value);
     }
 
-    public <F> List<F> mapIndexed(final BiFunction<Integer, ? super T, F> func) {
+    public <F> List<F> mapIndexed(final @NonNull BiFunction<@NonNull Integer, ? super T, F> func) {
         return mapIndexed(newArrayList(iterable), func);
     }
 
-    public static <T, E> List<T> collect(final List<E> list, final Function<? super E, T> func) {
+    public static <T, E> List<T> collect(final @NonNull List<E> list, final @NonNull Function<? super E, T> func) {
         return map(list, func);
     }
 
-    public static <T, E> Set<T> collect(final Set<E> set, final Function<? super E, T> func) {
+    public static <T, E> Set<T> collect(final @NonNull Set<E> set, final @NonNull Function<? super E, T> func) {
         return map(set, func);
     }
 
@@ -451,7 +453,8 @@ public class Underscore<T> {
      * Documented, #reduce
      */
     public static <T, E> E reduce(
-            final Iterable<T> iterable, final BiFunction<E, T, E> func, final E zeroElem) {
+            final @NonNull Iterable<T> iterable, final @NonNull BiFunction<@NonNull E, T, E> func,
+            final @NonNull E zeroElem) {
         E accum = zeroElem;
         for (T element : iterable) {
             accum = func.apply(accum, element);
@@ -459,7 +462,7 @@ public class Underscore<T> {
         return accum;
     }
 
-    public static <T> Optional<T> reduce(final Iterable<T> iterable, final BinaryOperator<T> func) {
+    public static <T> Optional<T> reduce(final @NonNull Iterable<T> iterable, final @NonNull BinaryOperator<T> func) {
         boolean foundAny = false;
         T accum = null;
         for (T element : iterable) {
@@ -474,7 +477,8 @@ public class Underscore<T> {
     }
 
     public static <E> E reduce(
-            final int[] array, final BiFunction<E, ? super Integer, E> func, final E zeroElem) {
+            final @NonNull int[] array, final @NonNull BiFunction<E, ? super Integer, E> func,
+            final @NonNull E zeroElem) {
         E accum = zeroElem;
         for (int element : array) {
             accum = func.apply(accum, element);
@@ -483,7 +487,7 @@ public class Underscore<T> {
     }
 
     public static <T, E> E reduce(
-            final T[] array, final BiFunction<E, T, E> func, final E zeroElem) {
+            final @NonNull T[] array, final @NonNull BiFunction<E, T, E> func, final @NonNull E zeroElem) {
         E accum = zeroElem;
         for (T element : array) {
             accum = func.apply(accum, element);
