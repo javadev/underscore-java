@@ -23,11 +23,14 @@
  */
 package com.github.underscore;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -383,8 +385,7 @@ class ArraysTest {
         assertEquals("[a]", new Underscore<>(singletonList("a")).interpose("interpose").toString());
         assertEquals("[a, b]", new Underscore<>(singletonList("a, b")).interpose(null).toString());
         assertEquals("[a]", Underscore.chain(singletonList("a")).interpose("interpose").toString());
-        assertEquals(
-                "[]", Underscore.chain(new ArrayList<>()).interpose("interpose").toString());
+        assertEquals("[]", Underscore.chain(new ArrayList<>()).interpose("interpose").toString());
         assertEquals(
                 "[a, b, c]", Underscore.chain(asList("a", "b", "c")).interpose(null).toString());
         assertEquals(
@@ -650,6 +651,7 @@ class ArraysTest {
                 new Underscore<>(Collections.<Integer>emptyList())
                         .lastOrNull(item -> item % 2 == 0));
     }
+
     /*
     _.compact([0, 1, false, 2, '', 3]);
     => [1, 2, 3]

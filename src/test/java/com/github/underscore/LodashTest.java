@@ -23,13 +23,16 @@
  */
 package com.github.underscore;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -45,7 +48,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -688,13 +690,14 @@ class LodashTest {
     @Test
     void fetchGetHttps() {
         U.FetchResponse result =
-            U.fetch("https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json");
+                U.fetch(
+                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json");
         assertEquals(
                 "{\n"
-                    + "    \"fruit\": \"Apple\",\n"
-                    + "    \"size\": \"Large\",\n"
-                    + "    \"color\": \"Red\"\n"
-                    + "}",
+                        + "    \"fruit\": \"Apple\",\n"
+                        + "    \"size\": \"Large\",\n"
+                        + "    \"color\": \"Red\"\n"
+                        + "}",
                 result.text());
     }
 
@@ -2009,10 +2012,7 @@ class LodashTest {
                         .toString());
         assertEquals(
                 "{name1=one, name2=two, 1=2}",
-                com.github
-                        .underscore
-                        .U
-                        .chain(
+                com.github.underscore.U.chain(
                                 new LinkedHashMap<>() {
                                     {
                                         put("name1", "one");
@@ -2024,10 +2024,7 @@ class LodashTest {
                         .toString());
         assertEquals(
                 "{name1=one, name2=two, 1=2}",
-                com.github
-                        .underscore
-                        .U
-                        .of(
+                com.github.underscore.U.of(
                                 new LinkedHashMap<>() {
                                     {
                                         put("name1", "one");
