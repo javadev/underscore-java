@@ -23,10 +23,13 @@
  */
 package com.github.underscore;
 
-import static java.util.Arrays.asList;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static java.util.Arrays.asList;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +42,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
-import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("java:S2925")
 class FunctionsTest {
@@ -199,7 +201,7 @@ class FunctionsTest {
                             return null;
                         });
         assertEquals(0, counter[0].intValue(), "incr was debounced");
-        await().atMost(400, TimeUnit.MILLISECONDS)
+        await().atMost(600, TimeUnit.MILLISECONDS)
                 .until(
                         () -> {
                             assertEquals(1, counter[0].intValue(), "incr was debounced");

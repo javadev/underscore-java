@@ -23,10 +23,13 @@
  */
 package com.github.underscore;
 
-import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static java.util.Arrays.asList;
+
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -35,7 +38,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
-import org.junit.jupiter.api.Test;
 
 /**
  * Underscore library unit test.
@@ -222,8 +224,7 @@ class MathTest {
         assertEquals("14.2", result12.toString());
         final Integer result13 = U.sum(asList(-1, -2, -3));
         assertEquals("-6", result13.toString());
-        final Integer resultChain =
-                (Integer) U.chain(asList(1, 2, 3)).sum().item();
+        final Integer resultChain = (Integer) U.chain(asList(1, 2, 3)).sum().item();
         assertEquals("6", resultChain.toString());
         final Integer result14 = U.sum(new Integer[] {1, 2, 3});
         assertEquals("6", result14.toString());
@@ -249,8 +250,7 @@ class MathTest {
         assertEquals("6", result20.toString());
         final Integer result21 = U.sum(new Integer[] {1, 2, null});
         assertEquals("3", result21.toString());
-        final Integer resultChainFunc =
-                U.chain(asList(1, 2, 3)).sum(item -> item * 2).item();
+        final Integer resultChainFunc = U.chain(asList(1, 2, 3)).sum(item -> item * 2).item();
         assertEquals("12", resultChainFunc.toString());
         final Number resultObj = new U(asList(1, 2, 3)).sum();
         assertEquals("6", resultObj.toString());
@@ -350,8 +350,7 @@ class MathTest {
         assertEquals("0.5", result.toString());
         final Double resultObj = new U(asList((double) 0, 0.5, (double) 1)).mean();
         assertEquals("0.5", resultObj.toString());
-        final Double resultChain =
-                U.chain(asList((double) 0, 0.5, (double) 1)).mean().item();
+        final Double resultChain = U.chain(asList((double) 0, 0.5, (double) 1)).mean().item();
         assertEquals("0.5", resultChain.toString());
         final Double result2 = U.mean(asList((long) 0, (long) 1, (long) 2));
         assertEquals("1.0", result2.toString());
@@ -374,18 +373,15 @@ class MathTest {
     void median() {
         final Double result = U.median(asList(0, 0, 0, 0, 5));
         assertEquals("0.0", result.toString());
-        final Double resultObj =
-                new U<>(asList(0, 0, 0, 0, 5)).median();
+        final Double resultObj = new U<>(asList(0, 0, 0, 0, 5)).median();
         assertEquals("0.0", resultObj.toString());
-        final Double resultChain =
-                U.chain(asList(0, 0, 0, 0, 5)).median().item();
+        final Double resultChain = U.chain(asList(0, 0, 0, 0, 5)).median().item();
         assertEquals("0.0", resultChain.toString());
         final Double result2 = U.median(asList(0, 0, 1, 2, 5));
         assertEquals("1.0", result2.toString());
         final Double result3 = U.median(asList(0, 0, 1, 2));
         assertEquals("0.5", result3.toString());
-        final Double result4 =
-                U.median(asList(0, 0, 1, 2, 3, 4));
+        final Double result4 = U.median(asList(0, 0, 1, 2, 3, 4));
         assertEquals("1.5", result4.toString());
     }
 

@@ -1800,7 +1800,8 @@ public final class Xml {
         private Document() {}
 
         public static org.w3c.dom.Document createDocument(final String xml)
-                throws java.io.IOException, javax.xml.parsers.ParserConfigurationException,
+                throws java.io.IOException,
+                        javax.xml.parsers.ParserConfigurationException,
                         org.xml.sax.SAXException {
             final javax.xml.parsers.DocumentBuilderFactory factory =
                     javax.xml.parsers.DocumentBuilderFactory.newInstance();
