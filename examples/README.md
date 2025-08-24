@@ -4,6 +4,6 @@ The examples for underscore-java
 Requirements
 ============
 
-Java 1.8 and later.
+Java 11 and later.
 
 Underscore-java examples.

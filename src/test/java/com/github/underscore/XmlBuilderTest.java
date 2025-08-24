@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright 2023-2025 Valentyn Kolesnikov
+ * Copyright 2023-2025 Valentyn Kolesnikov <0009-0003-9608-3364@orcid.org>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
