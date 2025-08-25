@@ -594,7 +594,8 @@ class LodashTest {
     void fetchGet() {
         U.FetchResponse result =
                 U.fetch(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json");
+                        "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                + "main/src/test/resources/example.json");
         result.json();
         result.jsonMap();
         assertEquals(
@@ -607,7 +608,8 @@ class LodashTest {
         assertEquals("Apple", U.get((Map<String, Object>) result.json(), "fruit"));
         U.Chain<?> resultChain =
                 U.chain(
-                                "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
+                                "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                        + "main/src/test/resources/example.json")
                         .fetch();
         assertEquals(
                 "{\n"
@@ -626,7 +628,8 @@ class LodashTest {
         try {
             long result =
                     U.downloadUrl(
-                            "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                            "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                    + "main/src/test/resources/example.json",
                             "test.json");
             assertEquals(65, result);
         } catch (javax.net.ssl.SSLHandshakeException ignored) {
@@ -646,7 +649,8 @@ class LodashTest {
     void fetchGetWithTimeouts() {
         U.FetchResponse result =
                 U.fetch(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                        "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                + "main/src/test/resources/example.json",
                         30000,
                         30000);
         assertEquals(
@@ -706,7 +710,8 @@ class LodashTest {
     void fetchPut() {
         U.FetchResponse result =
                 U.fetch(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                        "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                + "main/src/test/resources/example.json",
                         "PUT",
                         "{"
                                 + "    \"dragon\": {"
@@ -719,7 +724,8 @@ class LodashTest {
         assertEquals(403, result.getStatus());
         U.FetchResponse result2 =
                 U.fetch(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                        "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                + "main/src/test/resources/example.json",
                         "PUT",
                         "{"
                                 + "    \"dragon\": {"
@@ -751,7 +757,7 @@ class LodashTest {
                         + "<head><title>301 Moved Permanently</title></head>\n"
                         + "<body>\n"
                         + "<center><h1>301 Moved Permanently</h1></center>\n"
-                        + "<hr><center>cloudflare</center>\n"
+                        + "<hr><center>nginx</center>\n"
                         + "</body>\n"
                         + "</html>\n",
                 resultChain.item().replace("\r\n", "\n"));
