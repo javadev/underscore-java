@@ -691,7 +691,8 @@ class LodashTest {
     void fetchGetHttps() {
         U.FetchResponse result =
                 U.fetch(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json");
+                        "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                        + "main/src/test/resources/example.json");
         assertEquals(
                 "{\n"
                         + "    \"fruit\": \"Apple\",\n"
