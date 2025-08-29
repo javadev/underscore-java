@@ -4,7 +4,7 @@
   <groupId>com.github.javadev</groupId>
   <artifactId>underscore</artifactId>
   <packaging>jar</packaging>
-  <version>1.116-SNAPSHOT</version>
+  <version>1.117-SNAPSHOT</version>
   <name>java port of Underscore.js</name>
   <description>The java port of Underscore.js</description>
   <url>https://github.com/javadev/underscore-java</url>
