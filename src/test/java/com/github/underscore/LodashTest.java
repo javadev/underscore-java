@@ -710,7 +710,8 @@ class LodashTest {
     void fetchPut() {
         U.FetchResponse result =
                 U.fetch(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                        "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                + "main/src/test/resources/example.json",
                         "PUT",
                         "{"
                                 + "    \"dragon\": {"
@@ -720,10 +721,11 @@ class LodashTest {
                                 + "        \"fireBreath\": 10"
                                 + "    }"
                                 + "}");
-        assertEquals(200, result.getStatus());
+        assertEquals(403, result.getStatus());
         U.FetchResponse result2 =
                 U.fetch(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                        "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                + "main/src/test/resources/example.json",
                         "PUT",
                         "{"
                                 + "    \"dragon\": {"
@@ -736,7 +738,7 @@ class LodashTest {
                         null,
                         null,
                         null);
-        assertEquals(200, result2.getStatus());
+        assertEquals(403, result2.getStatus());
         U.Chain<String> resultChain =
                 U.chain(
                                 "http://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
