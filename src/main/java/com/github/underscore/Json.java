@@ -32,7 +32,6 @@ import java.util.Map;
 
 @SuppressWarnings({"java:S3740", "java:S3776"})
 public final class Json {
-
     private static final int PARSE_MAX_DEPTH = 10_000;
 
     private Json() {}
