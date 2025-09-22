@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Base32 {
-
     private static final Base32 INSTANCE = new Base32();
     private final char[] digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef".toCharArray();
     private final int mask = digits.length - 1;
