@@ -9,7 +9,8 @@ jobs:
 
     steps:
 
-      - checkout
+      - checkout:
+          method: blobless
 
       - run: mvn dependency:go-offline
 
