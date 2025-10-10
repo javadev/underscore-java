@@ -6,9 +6,9 @@ environment:
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
-      if (!(Test-Path -Path "C:\maven\apache-maven-3.9.9" )) {
+      if (!(Test-Path -Path "C:\maven\apache-maven-3.9.11" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://archive.apache.org/dist/maven/maven-3/3.9.11/binaries/apache-maven-3.9.9-bin.zip',
+          'https://archive.apache.org/dist/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.zip',
           'C:\maven-bin.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
