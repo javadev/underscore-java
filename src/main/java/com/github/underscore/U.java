@@ -2246,7 +2246,7 @@ public class U<T> extends Underscore<T> {
             final java.io.ByteArrayOutputStream result = new java.io.ByteArrayOutputStream();
             final byte[] buffer = new byte[BUFFER_LENGTH_1024];
             int length;
-            while ((length = inputStream.read(buffer)) != -1) {
+            while ((length = readWithRetry(inputStream, buffer)) != -1) {
                 result.write(buffer, 0, length);
             }
             inputStream.close();
@@ -2258,6 +2258,18 @@ public class U<T> extends Underscore<T> {
         } catch (java.io.IOException | java.net.URISyntaxException ex) {
             throw new UnsupportedOperationException(ex);
         }
+    }
+
+    public static int readWithRetry(java.io.InputStream inputStream, byte[] buffer) throws java.io.IOException {
+        java.io.IOException lastException = null;
+        for (int attempt = 0; attempt < 2; attempt++) {
+            try {
+                return inputStream.read(buffer);
+            } catch (java.io.IOException ex) {
+                lastException = ex;
+            }
+        }
+        throw lastException;
     }
 
     public static class Fetch {

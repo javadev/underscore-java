@@ -763,6 +763,85 @@ class LodashTest {
                 resultChain.item().replace("\r\n", "\n"));
     }
 
+    static class TestInputStream extends java.io.InputStream {
+        private final int[] returnValues;
+        private final IOException[] exceptions;
+        private int callCount = 0;
+
+        public TestInputStream(int[] returnValues, IOException[] exceptions) {
+            this.returnValues = returnValues;
+            this.exceptions = exceptions;
+        }
+
+        @Override
+        public int read() {
+            return 0;
+        }
+
+        @Override
+        public int read(byte[] b) throws IOException {
+            int index = callCount++;
+            if (exceptions != null && index < exceptions.length && exceptions[index] != null) {
+                throw exceptions[index];
+            }
+            if (returnValues != null && index < returnValues.length) {
+                return returnValues[index];
+            }
+            return -1;
+        }
+    }
+
+    @Test
+    void testSuccessfulReadOnFirstAttempt() throws IOException {
+        java.io.InputStream inputStream = new TestInputStream(new int[]{100}, null);
+        byte[] buffer = new byte[1024];
+        int result = U.readWithRetry(inputStream, buffer);
+        assertEquals(100, result);
+    }
+
+    @Test
+    void testSuccessfulReadOnSecondAttempt() throws IOException {
+        java.io.InputStream inputStream = new TestInputStream(
+            new int[]{0, 50},
+            new IOException[]{new IOException("First failed"), null}
+        );
+        byte[] buffer = new byte[1024];
+        int result = U.readWithRetry(inputStream, buffer);
+        assertEquals(50, result);
+    }
+
+    @Test
+    void testBothAttemptsFailWithIOException() {
+        java.io.InputStream inputStream = new TestInputStream(
+            null,
+            new IOException[]{
+                new IOException("First attempt failed"),
+                new IOException("Second attempt failed")
+            }
+        );
+        byte[] buffer = new byte[1024];
+        IOException thrown = assertThrows(IOException.class, () -> {
+            U.readWithRetry(inputStream, buffer);
+        });
+        assertEquals("Second attempt failed", thrown.getMessage());
+    }
+
+    @Test
+    void testReadReturnsMinusOne() throws IOException {
+        java.io.InputStream inputStream = new TestInputStream(new int[]{-1}, null);
+        byte[] buffer = new byte[1024];
+        int result = U.readWithRetry(inputStream, buffer);
+        assertEquals(-1, result);
+    }
+
+    @Test
+    void testReadReturnsZero() throws IOException {
+        java.io.InputStream inputStream = new TestInputStream(new int[]{0}, null);
+        byte[] buffer = new byte[1024];
+        int result = U.readWithRetry(inputStream, buffer);
+        assertEquals(0, result);
+    }
+
     @Test
     void fetchWrongUrl() {
         assertThrows(IllegalArgumentException.class, () -> U.fetch("ttt"));
