@@ -619,7 +619,8 @@ class LodashTest {
                         + "}",
                 resultChain.item());
         U.chain(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
+                        "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                + "main/src/test/resources/example.json")
                 .fetch();
     }
 
@@ -666,7 +667,8 @@ class LodashTest {
     void fetchGetWithTimeoutsAndRetry() {
         U.FetchResponse result =
                 U.fetch(
-                        "https://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json",
+                        "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
+                                + "main/src/test/resources/example.json",
                         30000,
                         30000,
                         1,
