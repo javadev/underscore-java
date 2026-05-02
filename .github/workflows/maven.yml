@@ -17,7 +17,7 @@ jobs:
         java: [11, 17, 21, 23, 24, 25, 26]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v5
       with:
@@ -31,7 +31,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Set up JDK 21
@@ -41,7 +41,7 @@ jobs:
           java-version: 21
           cache: 'maven'
       - name: Cache SonarCloud packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
