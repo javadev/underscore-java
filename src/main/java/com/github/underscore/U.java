@@ -2260,7 +2260,8 @@ public class U<T> extends Underscore<T> {
         }
     }
 
-    public static int readWithRetry(java.io.InputStream inputStream, byte[] buffer) throws java.io.IOException {
+    public static int readWithRetry(java.io.InputStream inputStream, byte[] buffer)
+            throws java.io.IOException {
         java.io.IOException lastException = null;
         for (int attempt = 0; attempt < 2; attempt++) {
             try {
