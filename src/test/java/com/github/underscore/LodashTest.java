@@ -1114,6 +1114,24 @@ class LodashTest {
     }
 
     @Test
+    void xmpToJson6() {
+        assertEquals(
+                "{\n"
+                        + "  \"root\": {\n"
+                        + "    \"a\": 1\n"
+                        + "  },\n"
+                        + "  \"omit-xml-declaration\": \"yes\"\n"
+                        + "}",
+                U.xmlToJson("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root>\n"
+                        + "  <root>\n"
+                        + "    <a number=\"true\">1</a>\n"
+                        + "  </root>\n"
+                        + "  <omit-xml-declaration>yes</omit-xml-declaration>\n"
+                        + "</root>"));
+    }
+
+    @Test
     void xmlToJsonMinimum() {
         assertEquals(
                 "{\n"
