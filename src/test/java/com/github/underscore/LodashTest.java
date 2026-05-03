@@ -1129,6 +1129,21 @@ class LodashTest {
                         + "  </root>\n"
                         + "  <omit-xml-declaration>yes</omit-xml-declaration>\n"
                         + "</root>"));
+        assertEquals("{\n"
+                        + "  \"root\": [\n"
+                        + "    {\n"
+                        + "      \"a\": 1\n"
+                        + "    }\n"
+                        + "  ],\n"
+                        + "  \"omit-xml-declaration\": \"yes\"\n"
+                        + "}",
+                U.xmlToJson("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<root>\n"
+                        + "  <root array=\"true\">\n"
+                        + "    <a number=\"true\">1</a>\n"
+                        + "  </root>\n"
+                        + "  <omit-xml-declaration>yes</omit-xml-declaration>\n"
+                        + "</root>"));
     }
 
     @Test

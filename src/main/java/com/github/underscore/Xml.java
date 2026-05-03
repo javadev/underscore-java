@@ -1193,7 +1193,9 @@ public final class Xml {
                 || localMap2.size() != 1
                 || XmlValue.getMapKey(localMap2).startsWith("-")
                 || XmlValue.getMapValue(localMap2) instanceof List) {
-            if (ROOT.equals(XmlValue.getMapKey(localMap2))
+            if (localMap2 != null
+                    && localMap2.size() == 1
+                    && ROOT.equals(XmlValue.getMapKey(localMap2))
                     && XmlValue.getMapValue(localMap2) instanceof List) {
                 writeArray((List) XmlValue.getMapValue(localMap2), builder, arrayTrue);
             } else {
