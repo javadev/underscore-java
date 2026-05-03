@@ -698,7 +698,7 @@ class LodashTest {
         U.FetchResponse result =
                 U.fetch(
                         "https://raw.githubusercontent.com/javadev/underscore-java/refs/heads/"
-                        + "main/src/test/resources/example.json");
+                                + "main/src/test/resources/example.json");
         assertEquals(
                 "{\n"
                         + "    \"fruit\": \"Apple\",\n"
@@ -793,7 +793,7 @@ class LodashTest {
 
     @Test
     void testSuccessfulReadOnFirstAttempt() throws IOException {
-        java.io.InputStream inputStream = new TestInputStream(new int[]{100}, null);
+        java.io.InputStream inputStream = new TestInputStream(new int[] {100}, null);
         byte[] buffer = new byte[1024];
         int result = U.readWithRetry(inputStream, buffer);
         assertEquals(100, result);
@@ -801,10 +801,10 @@ class LodashTest {
 
     @Test
     void testSuccessfulReadOnSecondAttempt() throws IOException {
-        java.io.InputStream inputStream = new TestInputStream(
-            new int[]{0, 50},
-            new IOException[]{new IOException("First failed"), null}
-        );
+        java.io.InputStream inputStream =
+                new TestInputStream(
+                        new int[] {0, 50},
+                        new IOException[] {new IOException("First failed"), null});
         byte[] buffer = new byte[1024];
         int result = U.readWithRetry(inputStream, buffer);
         assertEquals(50, result);
@@ -812,23 +812,26 @@ class LodashTest {
 
     @Test
     void testBothAttemptsFailWithIOException() {
-        java.io.InputStream inputStream = new TestInputStream(
-            null,
-            new IOException[]{
-                new IOException("First attempt failed"),
-                new IOException("Second attempt failed")
-            }
-        );
+        java.io.InputStream inputStream =
+                new TestInputStream(
+                        null,
+                        new IOException[] {
+                            new IOException("First attempt failed"),
+                            new IOException("Second attempt failed")
+                        });
         byte[] buffer = new byte[1024];
-        IOException thrown = assertThrows(IOException.class, () -> {
-            U.readWithRetry(inputStream, buffer);
-        });
+        IOException thrown =
+                assertThrows(
+                        IOException.class,
+                        () -> {
+                            U.readWithRetry(inputStream, buffer);
+                        });
         assertEquals("Second attempt failed", thrown.getMessage());
     }
 
     @Test
     void testReadReturnsMinusOne() throws IOException {
-        java.io.InputStream inputStream = new TestInputStream(new int[]{-1}, null);
+        java.io.InputStream inputStream = new TestInputStream(new int[] {-1}, null);
         byte[] buffer = new byte[1024];
         int result = U.readWithRetry(inputStream, buffer);
         assertEquals(-1, result);
@@ -836,7 +839,7 @@ class LodashTest {
 
     @Test
     void testReadReturnsZero() throws IOException {
-        java.io.InputStream inputStream = new TestInputStream(new int[]{0}, null);
+        java.io.InputStream inputStream = new TestInputStream(new int[] {0}, null);
         byte[] buffer = new byte[1024];
         int result = U.readWithRetry(inputStream, buffer);
         assertEquals(0, result);
@@ -1122,14 +1125,16 @@ class LodashTest {
                         + "  },\n"
                         + "  \"omit-xml-declaration\": \"yes\"\n"
                         + "}",
-                U.xmlToJson("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                        + "<root>\n"
-                        + "  <root>\n"
-                        + "    <a number=\"true\">1</a>\n"
-                        + "  </root>\n"
-                        + "  <omit-xml-declaration>yes</omit-xml-declaration>\n"
-                        + "</root>"));
-        assertEquals("{\n"
+                U.xmlToJson(
+                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                + "<root>\n"
+                                + "  <root>\n"
+                                + "    <a number=\"true\">1</a>\n"
+                                + "  </root>\n"
+                                + "  <omit-xml-declaration>yes</omit-xml-declaration>\n"
+                                + "</root>"));
+        assertEquals(
+                "{\n"
                         + "  \"root\": [\n"
                         + "    {\n"
                         + "      \"a\": 1\n"
@@ -1137,13 +1142,14 @@ class LodashTest {
                         + "  ],\n"
                         + "  \"omit-xml-declaration\": \"yes\"\n"
                         + "}",
-                U.xmlToJson("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                        + "<root>\n"
-                        + "  <root array=\"true\">\n"
-                        + "    <a number=\"true\">1</a>\n"
-                        + "  </root>\n"
-                        + "  <omit-xml-declaration>yes</omit-xml-declaration>\n"
-                        + "</root>"));
+                U.xmlToJson(
+                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                + "<root>\n"
+                                + "  <root array=\"true\">\n"
+                                + "    <a number=\"true\">1</a>\n"
+                                + "  </root>\n"
+                                + "  <omit-xml-declaration>yes</omit-xml-declaration>\n"
+                                + "</root>"));
     }
 
     @Test
