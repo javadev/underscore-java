@@ -1281,6 +1281,7 @@ class StringTest {
         assertEquals(0, builder.charAt(0));
     }
 
+    @SuppressWarnings("java:S5976")
     @Test
     void translateBinary8() {
         StringBuilder builder = new StringBuilder();
@@ -1290,6 +1291,7 @@ class StringTest {
         assertEquals('\u1234', builder.charAt(0));
     }
 
+    @SuppressWarnings("java:S5976")
     @Test
     void translateBinary9() {
         StringBuilder builder = new StringBuilder();
@@ -1299,6 +1301,7 @@ class StringTest {
         assertEquals('\uFFFF', builder.charAt(0));
     }
 
+    @SuppressWarnings("java:S5976")
     @Test
     void translateBinary10() {
         StringBuilder builder = new StringBuilder();
