@@ -1600,6 +1600,16 @@ class StringTest {
                 U.toXml((List<Object>) U.fromJson("[\"Текст на русском\"]")));
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    void testXmlDecodeBinary() {
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element array=\"true\">"
+                        + "\\x0001Текст на русском</element>\n"
+                        + "</root>",
+                U.toXml((List<Object>) U.fromJson("[\"\\u0001Текст на русском\"]")));
+    }
+
     @Test
     void toXmlFromList() {
         final List<String> testList = new ArrayList<>();
