@@ -1197,14 +1197,14 @@ class StringTest {
         assertEquals("&#xD;", Xml.XmlValue.escape("\r"));
         assertEquals("\t", Xml.XmlValue.escape("\t"));
         assertEquals("/", Xml.XmlValue.escape("/"));
-        assertEquals("&#x0000;", Xml.XmlValue.escape("\u0000"));
-        assertEquals("&#x001F;", Xml.XmlValue.escape("\u001F"));
+        assertEquals("\\x0000;", Xml.XmlValue.escape("\u0000"));
+        assertEquals("\\x001F;", Xml.XmlValue.escape("\u001F"));
         assertEquals("\u0020", Xml.XmlValue.escape("\u0020"));
-        assertEquals("&#x007F;", Xml.XmlValue.escape("\u007F"));
-        assertEquals("&#x009F;", Xml.XmlValue.escape("\u009F"));
+        assertEquals("\\x007F;", Xml.XmlValue.escape("\u007F"));
+        assertEquals("\\x009F;", Xml.XmlValue.escape("\u009F"));
         assertEquals("\u00A0", Xml.XmlValue.escape("\u00A0"));
-        assertEquals("&#x2000;", Xml.XmlValue.escape("\u2000"));
-        assertEquals("&#x20FF;", Xml.XmlValue.escape("\u20FF"));
+        assertEquals("\\x2000;", Xml.XmlValue.escape("\u2000"));
+        assertEquals("\\x20FF;", Xml.XmlValue.escape("\u20FF"));
         assertEquals("\u2100", Xml.XmlValue.escape("\u2100"));
         assertEquals("\uFFFF", Xml.XmlValue.escape("\uFFFF"));
     }
@@ -1219,6 +1219,93 @@ class StringTest {
         assertEquals("<", Xml.XmlValue.unescape("&lt;"));
         assertEquals(">", Xml.XmlValue.unescape("&gt;"));
         assertEquals("&quot", Xml.XmlValue.unescape("&quot"));
+        assertEquals("\u20FF", Xml.XmlValue.unescape("\\x20FF"));
+        assertEquals("\u0000", Xml.XmlValue.unescape("\\x0000"));
+        assertEquals("\u001F", Xml.XmlValue.unescape("\\x001F"));
+    }
+
+    @Test
+    void translateBinary() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("\\x0041", 0, builder);
+        assertEquals(6, result);
+        assertEquals("A", builder.toString());
+    }
+
+    @Test
+    void translateBinary2() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("a\\x0041", 1, builder);
+        assertEquals(6, result);
+        assertEquals("A", builder.toString());
+    }
+
+    @Test
+    void translateBinary3() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("abc", 0, builder);
+        assertEquals(0, result);
+        assertEquals("", builder.toString());
+    }
+
+    @Test
+    void translateBinary4() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("\\u0041", 0, builder);
+        assertEquals(0, result);
+        assertEquals("", builder.toString());
+    }
+
+    @Test
+    void translateBinary5() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("\\x00G1", 0, builder);
+        assertEquals(0, result);
+        assertEquals("", builder.toString());
+    }
+
+    @Test
+    void translateBinary6() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("\\x041", 0, builder);
+        assertEquals(0, result);
+        assertEquals("", builder.toString());
+    }
+
+    @Test
+    void translateBinary7() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("\\x0000", 0, builder);
+        assertEquals(6, result);
+        assertEquals(1, builder.length());
+        assertEquals(0, builder.charAt(0));
+    }
+
+    @Test
+    void translateBinary8() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("\\x1234", 0, builder);
+        assertEquals(6, result);
+        assertEquals(1, builder.length());
+        assertEquals('\u1234', builder.charAt(0));
+    }
+
+    @Test
+    void translateBinary9() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("\\xFFFF", 0, builder);
+        assertEquals(6, result);
+        assertEquals(1, builder.length());
+        assertEquals('\uFFFF', builder.charAt(0));
+    }
+
+    @Test
+    void translateBinary10() {
+        StringBuilder builder = new StringBuilder();
+        int result = Xml.XmlValue.translateBinary("\\x00af", 0, builder);
+        assertEquals(6, result);
+        assertEquals(1, builder.length());
+        assertEquals('\u00AF', builder.charAt(0));
     }
 
     @Test

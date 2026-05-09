@@ -1045,7 +1045,7 @@ public final class Xml {
                                 || ch >= '\u007F' && ch <= '\u009F'
                                 || ch >= '\u2000' && ch <= '\u20FF') {
                             String ss = Integer.toHexString(ch);
-                            sb.append("&#x");
+                            sb.append("\\x");
                             sb.append("0".repeat(4 - ss.length()));
                             sb.append(ss.toUpperCase()).append(";");
                         } else {
@@ -1101,7 +1101,28 @@ public final class Xml {
                     }
                 }
             }
-            return 0;
+            return translateBinary(input, index, builder);
+        }
+
+        static int translateBinary(
+                final CharSequence input, final int index, final StringBuilder builder) {
+            final int length = input.length();
+            if (index + 5 >= length) {
+                return 0;
+            }
+            if (input.charAt(index) != '\\' || input.charAt(index + 1) != 'x') {
+                return 0;
+            }
+            int value = 0;
+            for (int i = index + 2; i < index + 6; i++) {
+                final int digit = Character.digit(input.charAt(i), 16);
+                if (digit < 0) {
+                    return 0;
+                }
+                value = (value << 4) | digit;
+            }
+            builder.append((char) value);
+            return 6;
         }
 
         public static String getMapKey(Object map) {
