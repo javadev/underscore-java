@@ -1197,14 +1197,14 @@ class StringTest {
         assertEquals("&#xD;", Xml.XmlValue.escape("\r"));
         assertEquals("\t", Xml.XmlValue.escape("\t"));
         assertEquals("/", Xml.XmlValue.escape("/"));
-        assertEquals("\\x0000;", Xml.XmlValue.escape("\u0000"));
-        assertEquals("\\x001F;", Xml.XmlValue.escape("\u001F"));
+        assertEquals("\\x0000", Xml.XmlValue.escape("\u0000"));
+        assertEquals("\\x001F", Xml.XmlValue.escape("\u001F"));
         assertEquals("\u0020", Xml.XmlValue.escape("\u0020"));
-        assertEquals("\\x007F;", Xml.XmlValue.escape("\u007F"));
-        assertEquals("\\x009F;", Xml.XmlValue.escape("\u009F"));
+        assertEquals("\\x007F", Xml.XmlValue.escape("\u007F"));
+        assertEquals("\\x009F", Xml.XmlValue.escape("\u009F"));
         assertEquals("\u00A0", Xml.XmlValue.escape("\u00A0"));
-        assertEquals("\\x2000;", Xml.XmlValue.escape("\u2000"));
-        assertEquals("\\x20FF;", Xml.XmlValue.escape("\u20FF"));
+        assertEquals("\\x2000", Xml.XmlValue.escape("\u2000"));
+        assertEquals("\\x20FF", Xml.XmlValue.escape("\u20FF"));
         assertEquals("\u2100", Xml.XmlValue.escape("\u2100"));
         assertEquals("\uFFFF", Xml.XmlValue.escape("\uFFFF"));
     }

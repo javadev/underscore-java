@@ -1047,7 +1047,7 @@ public final class Xml {
                             String ss = Integer.toHexString(ch);
                             sb.append("\\x");
                             sb.append("0".repeat(4 - ss.length()));
-                            sb.append(ss.toUpperCase()).append(";");
+                            sb.append(ss.toUpperCase());
                         } else {
                             sb.append(ch);
                         }
@@ -1304,7 +1304,7 @@ public final class Xml {
         } else {
             localValue = value;
         }
-        return localValue instanceof String && name.startsWith("-")
+        return localValue instanceof String && (name.startsWith("-") || ((String) localValue).contains("\\x"))
                 ? XmlValue.unescape((String) localValue)
                 : localValue;
     }
