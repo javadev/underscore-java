@@ -1153,6 +1153,14 @@ class LodashTest {
     }
 
     @Test
+    void xmlToJson7() {
+        assertEquals(
+                "{\n  \"debug\": \"\\u0001\"\n}",
+                U.xmlToJson(
+                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<debug>\\x0001</debug>"));
+    }
+
+    @Test
     void xmlToJsonMinimum() {
         assertEquals(
                 "{\n"

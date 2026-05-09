@@ -1304,7 +1304,8 @@ public final class Xml {
         } else {
             localValue = value;
         }
-        return localValue instanceof String && name.startsWith("-")
+        return localValue instanceof String
+                        && (name.startsWith("-") || ((String) localValue).contains("\\x"))
                 ? XmlValue.unescape((String) localValue)
                 : localValue;
     }
