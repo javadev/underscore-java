@@ -33,6 +33,8 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -1183,6 +1185,54 @@ class LodashTest {
                 IllegalArgumentException.class, () -> U.xmlToJson("<Comment stringValue=\"a'/>"));
         assertThrows(
                 IllegalArgumentException.class, () -> U.xmlToJson("<Comment stringValue='a\"/>"));
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @CsvSource(delimiter = '|', value = {
+        // input                  | expected (k=v,k=v)
+        "key=\"value\"            | key=value",
+        "key='value'              | key=value",
+        "a=\"1\" b='2'            | a=1,b=2",
+        "key=\"it's a value\"     | key=it's a value",
+        "key='say \"hi\"'         | key=say \"hi\"",
+        "key=\"a=b=c\"            | key=a=b=c",
+        "key=\"\"                 | key=",
+        "  key  =\"value\"        | key=value",
+        "data-id=\"5\"            | data-id=5",
+        "x==\"y\"                 | x=y",
+        "k=\"first\" k=\"second\" | k=second",
+    })
+    void parses(String input, String expected) {
+        assertEquals(parse(expected), Xml.parseAttributes(input));
+    }
+
+    @ParameterizedTest(name = "empty: \"{0}\"")
+    @CsvSource({
+        "''",
+        "\"orphan\"",
+        "lonekey",
+        "key=\"value",
+    })
+    void producesNothing(String input) {
+        assertTrue(Xml.parseAttributes(input).isEmpty());
+    }
+
+    @Test
+    void preservesInsertionOrder() {
+        assertEquals("[z, a, m]",
+            Xml.parseAttributes("z=\"1\" a=\"2\" m=\"3\"").keySet().toString());
+    }
+
+    // builds expected map from "k=v,k=v"
+    private static Map<String, String> parse(String s) {
+        Map<String, String> m = new LinkedHashMap<>();
+        if (s != null && !s.isEmpty()) {
+            for (String pair : s.split(",", -1)) {
+                int i = pair.indexOf('=');
+                m.put(pair.substring(0, i), pair.substring(i + 1));
+            }
+        }
+        return m;
     }
 
     @Test
