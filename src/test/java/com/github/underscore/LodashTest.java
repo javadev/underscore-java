@@ -1179,8 +1179,10 @@ class LodashTest {
                         + "  \"#omit-xml-declaration\": \"yes\"\n"
                         + "}",
                 U.xmlToJson("<Comment stringValue=\"a'\"/>"));
-        assertThrows(IllegalArgumentException.class, () -> U.xmlToJson("<Comment stringValue=\"a'/>"));
-        assertThrows(IllegalArgumentException.class, () -> U.xmlToJson("<Comment stringValue='a\"/>"));
+        assertThrows(
+                IllegalArgumentException.class, () -> U.xmlToJson("<Comment stringValue=\"a'/>"));
+        assertThrows(
+                IllegalArgumentException.class, () -> U.xmlToJson("<Comment stringValue='a\"/>"));
     }
 
     @Test
