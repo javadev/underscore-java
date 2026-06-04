@@ -1153,6 +1153,21 @@ class LodashTest {
     }
 
     @Test
+    void xmpToJson7() {
+        assertEquals(
+                "{\n"
+                        + "  \"Comment\": {\n"
+                        + "    \"-stringValue\": \"a\",\n"
+                        + "    \"-self-closing\": \"true\"\n"
+                        + "  },\n"
+                        + "  \"#omit-xml-declaration\": \"yes\"\n"
+                        + "}",
+                U.xmlToJson("<Comment stringValue='a'/>"));
+                assertThrows(IllegalArgumentException.class, () -> U.xmlToJson("<Comment stringValue=\"a'/>"));
+                assertThrows(IllegalArgumentException.class, () -> U.xmlToJson("<Comment stringValue='a\"/>"));
+    }
+
+    @Test
     void xmlToJsonMinimum() {
         assertEquals(
                 "{\n"
