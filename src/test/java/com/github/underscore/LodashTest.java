@@ -743,7 +743,7 @@ class LodashTest {
         assertEquals(404, result2.getStatus());
         U.Chain<String> resultChain =
                 U.chain(
-                                "https://www.w3schools.com/xml/note.xml")
+                                "http://www.w3schools.com/xml/note.xml")
                         .fetch(
                                 "PUT",
                                 "{"
