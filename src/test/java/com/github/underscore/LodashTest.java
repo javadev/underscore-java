@@ -743,7 +743,7 @@ class LodashTest {
         assertEquals(404, result2.getStatus());
         U.Chain<String> resultChain =
                 U.chain(
-                                "http://support.oneskyapp.com/hc/en-us/article_attachments/202761627/example_1.json")
+                                "https://www.w3schools.com/xml/note.xml")
                         .fetch(
                                 "PUT",
                                 "{"
@@ -754,15 +754,8 @@ class LodashTest {
                                         + "        \"fireBreath\": 10"
                                         + "    }"
                                         + "}");
-        assertEquals(
-                "<html>\n"
-                        + "<head><title>301 Moved Permanently</title></head>\n"
-                        + "<body>\n"
-                        + "<center><h1>301 Moved Permanently</h1></center>\n"
-                        + "<hr><center>nginx</center>\n"
-                        + "</body>\n"
-                        + "</html>\n",
-                resultChain.item().replace("\r\n", "\n"));
+        assertTrue(
+                resultChain.item().replace("\r\n", "\n").startsWith("\n<!DOCTYPE html>\n<html lang=\"en\">"));
     }
 
     static class TestInputStream extends java.io.InputStream {
