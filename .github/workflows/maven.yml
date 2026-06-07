@@ -55,7 +55,7 @@ jobs:
         run: mvn -B -f examples/pom.xml package
       - name: Build spring-boot
         run: mvn -B -f spring-boot-example/pom.xml package
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           files: target/site/jacoco/jacoco.xml
           name: codecov
