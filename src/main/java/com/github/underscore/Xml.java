@@ -1521,15 +1521,22 @@ public final class Xml {
         StringBuilder key = new StringBuilder();
         StringBuilder value = new StringBuilder();
         boolean inQuotes = false;
+        char quoteChar = 0;
         boolean expectingValue = false;
         for (char c : source.toCharArray()) {
-            if (c == '"') {
-                inQuotes = !inQuotes;
-                if (!inQuotes && expectingValue) {
-                    result.put(key.toString(), value.toString());
-                    key.setLength(0);
-                    value.setLength(0);
-                    expectingValue = false;
+            if ((c == '"' || c == '\'') && (!inQuotes || c == quoteChar)) {
+                if (!inQuotes) {
+                    inQuotes = true;
+                    quoteChar = c;
+                } else {
+                    inQuotes = false;
+                    quoteChar = 0;
+                    if (expectingValue) {
+                        result.put(key.toString(), value.toString());
+                        key.setLength(0);
+                        value.setLength(0);
+                        expectingValue = false;
+                    }
                 }
             } else if (c == '=' && !inQuotes) {
                 expectingValue = true;
