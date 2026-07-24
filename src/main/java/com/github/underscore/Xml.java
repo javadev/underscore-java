@@ -1673,7 +1673,7 @@ public final class Xml {
         final int index = objects.size();
         while (true) {
             final Map.Entry lastElement = (Map.Entry) map.entrySet().toArray()[lastIndex];
-            if (name.equals(String.valueOf(lastElement.getKey()))) {
+            if (String.valueOf(lastElement.getKey()).equals(name) {
                 break;
             }
             final Map<String, Object> item = new LinkedHashMap<>();
