@@ -46,6 +46,7 @@ import java.util.function.Supplier;
  *
  * @author Valentyn Kolesnikov
  */
+@SuppressWarnings("java:S8786")
 class UtilityTest {
 
     /*

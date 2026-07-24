@@ -65,7 +65,8 @@ import java.util.function.UnaryOperator;
     "java:S2272",
     "java:S2789",
     "java:S3740",
-    "java:S5852"
+    "java:S5852",
+    "java:S8786"
 })
 public class Underscore<T> {
     private static final Map<String, Function<String, String>> FUNCTIONS = new LinkedHashMap<>();
