@@ -64,7 +64,7 @@ import java.util.function.Predicate;
  *
  * @author Valentyn Kolesnikov
  */
-@SuppressWarnings({"java:S5785", "java:S5778"})
+@SuppressWarnings({"java:S5785", "java:S5778", "java:S8714"})
 class UnderscoreTest {
 
     @Test
