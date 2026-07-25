@@ -61,6 +61,7 @@ import java.util.function.UnaryOperator;
 @SuppressWarnings({
     "java:S106",
     "java:S2119",
+    "java:S2143",
     "java:S2189",
     "java:S2272",
     "java:S2789",
