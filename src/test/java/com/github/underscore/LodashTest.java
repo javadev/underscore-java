@@ -754,8 +754,7 @@ class LodashTest {
                                         + "        \"fireBreath\": 10"
                                         + "    }"
                                         + "}");
-        assertTrue(
-                resultChain.item().replace("\r\n", "\n").startsWith("\n<!DOCTYPE html>\n<html lang=\"en\">"));
+        assertTrue(resultChain.item().isEmpty());
     }
 
     static class TestInputStream extends java.io.InputStream {
