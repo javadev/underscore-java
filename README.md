@@ -8,7 +8,6 @@ underscore-java
 [![Java CI](https://github.com/javadev/underscore-java/actions/workflows/maven.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/maven.yml)
 [![CodeQL](https://github.com/javadev/underscore-java/actions/workflows/codeql.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/codeql.yml)
 [![Semgrep](https://github.com/javadev/underscore-java/actions/workflows/semgrep.yml/badge.svg)](https://github.com/javadev/underscore-java/actions/workflows/semgrep.yml)
-[![Scorecard supply-chain security](https://github.com/javadev/underscore-java/actions/workflows/scorecard.yml/badge.svg?branch=main)](https://github.com/javadev/underscore-java/actions/workflows/scorecard.yml)
 [![OSSAR](https://github.com/javadev/underscore-java/actions/workflows/ossar.yml/badge.svg?branch=main)](https://github.com/javadev/underscore-java/actions/workflows/ossar.yml)
 [![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7019/badge)](https://bestpractices.coreinfrastructure.org/projects/7019)
 [![Coverage Status](https://coveralls.io/repos/javadev/underscore-java/badge.svg?branch=main)](https://coveralls.io/r/javadev/underscore-java)
