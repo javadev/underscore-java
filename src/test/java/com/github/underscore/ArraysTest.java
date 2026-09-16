@@ -765,7 +765,7 @@ class ArraysTest {
             }
 
             public int compareTo(Person person) {
-                return person.age - this.age;
+                return Integer.compare(person.age, this.age);
             }
 
             public String toString() {

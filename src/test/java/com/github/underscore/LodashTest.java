@@ -742,8 +742,7 @@ class LodashTest {
                         null);
         assertEquals(404, result2.getStatus());
         U.Chain<String> resultChain =
-                U.chain(
-                                "http://www.w3schools.com/xml/note.xml")
+                U.chain("http://www.w3schools.com/xml/note.xml")
                         .fetch(
                                 "PUT",
                                 "{"
@@ -1180,20 +1179,22 @@ class LodashTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    @CsvSource(delimiter = '|', value = {
-        // input                  | expected (k=v,k=v)
-        "key=\"value\"            | key=value",
-        "key='value'              | key=value",
-        "a=\"1\" b='2'            | a=1,b=2",
-        "key=\"it's a value\"     | key=it's a value",
-        "key='say \"hi\"'         | key=say \"hi\"",
-        "key=\"a=b=c\"            | key=a=b=c",
-        "key=\"\"                 | key=",
-        "  key  =\"value\"        | key=value",
-        "data-id=\"5\"            | data-id=5",
-        "x==\"y\"                 | x=y",
-        "k=\"first\" k=\"second\" | k=second",
-    })
+    @CsvSource(
+            delimiter = '|',
+            value = {
+                // input                  | expected (k=v,k=v)
+                "key=\"value\"            | key=value",
+                "key='value'              | key=value",
+                "a=\"1\" b='2'            | a=1,b=2",
+                "key=\"it's a value\"     | key=it's a value",
+                "key='say \"hi\"'         | key=say \"hi\"",
+                "key=\"a=b=c\"            | key=a=b=c",
+                "key=\"\"                 | key=",
+                "  key  =\"value\"        | key=value",
+                "data-id=\"5\"            | data-id=5",
+                "x==\"y\"                 | x=y",
+                "k=\"first\" k=\"second\" | k=second",
+            })
     void parses(String input, String expected) {
         assertEquals(parse(expected), Xml.parseAttributes(input));
     }
@@ -1211,8 +1212,8 @@ class LodashTest {
 
     @Test
     void preservesInsertionOrder() {
-        assertEquals("[z, a, m]",
-            Xml.parseAttributes("z=\"1\" a=\"2\" m=\"3\"").keySet().toString());
+        assertEquals(
+                "[z, a, m]", Xml.parseAttributes("z=\"1\" a=\"2\" m=\"3\"").keySet().toString());
     }
 
     // builds expected map from "k=v,k=v"
