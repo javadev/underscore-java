@@ -25,8 +25,6 @@ underscore-java
 [![](https://img.shields.io/github/stars/javadev/underscore-java?style=flat-square)](https://github.com/javadev/underscore-java)
 [![](https://img.shields.io/github/forks/javadev/underscore-java?style=flat-square)](https://github.com/javadev/underscore-java/fork)
 
-[![Join the chat at https://gitter.im/javadev/underscore-java](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/javadev/underscore-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 Requirements
 ============
 
